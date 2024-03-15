@@ -14,12 +14,20 @@ spec:
     storage:
       files:
         - path: /etc/modprobe.d/sctp-blacklist.conf
+<<<<<<< HEAD
           mode: 420
+=======
+          mode: 0644
+>>>>>>> 1ac344c (Update load-sctp-module machineConfig to align with OCP-4.14)
           overwrite: true
           contents:
             source: data:,
         - path: /etc/modules-load.d/sctp-load.conf
+<<<<<<< HEAD
           mode: 420
+=======
+          mode: 0644
+>>>>>>> 1ac344c (Update load-sctp-module machineConfig to align with OCP-4.14)
           overwrite: true
           contents:
             source: data:,sctp
