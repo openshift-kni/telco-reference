@@ -37,3 +37,11 @@ spec:
 #       next-hop-address: 192.168.1.2
 #       next-hop-interface: ens8f0.169
 #       table-id: 254
+status:
+  conditions:
+  - status: "True"
+    type: Available
+  - status: "False"
+    type: Degraded
+  - status: "False"
+    type: Progressing
