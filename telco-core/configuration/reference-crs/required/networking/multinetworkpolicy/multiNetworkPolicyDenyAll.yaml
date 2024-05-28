@@ -3,11 +3,19 @@ kind: MultiNetworkPolicy
 metadata:
   name: deny-all
   annotations:
-    k8s.v1.cni.cncf.io/policy-for: $networkName
+    k8s.v1.cni.cncf.io/policy-for: {{- index .metadata.annotations "k8s.v1.cni.cncf.io/policy-for" }} # ?? #
 spec:
   podSelector:
-    matchLabels:    # Define which pods are affected by this policy 
+    matchLabels:    # Define which pods are affected by this policy
+      {{ range  .spec.podSelector.matchLabels }}
       $labelKey: $labelValue
+      {{ end }}
   policyTypes:
   - Ingress
+  {{- if .spec.ingress }}
+  {{- if ne (len .spec.ingress) 0 }}
+    Ingress list must be of size 0 to deny all ingress traffic
+  {{ else }}
   ingress: []       # Deny all ingress traffic
+  {{- end }}
+  {{- end }}

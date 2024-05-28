@@ -6,11 +6,14 @@ metadata:
     k8s.v1.cni.cncf.io/policy-for: $networkName
 spec:
   podSelector:
-    matchLabels:    # Define which pods are affected by this policy 
-      $labelKey: $labelValue
+    matchLabels:    # Define which pods are affected by this policy
+      {{ range $value := .images }}
+      #$labelKey: $labelValue
+      {{ $value }}
+      {{ end }}
   policyTypes:
   - Ingress
   ingress:
   - ports:
-    - protocol: TCP       # TCP,UDP,SCTP
-      port: $portNumber   # The port that needs to be reached
+    - protocol: {{ (index .spec.ingress 0).ports.(index .protocol 0) }} # TCP,UDP,SCTP
+      port: {{ (index .spec.ingress 0).ports.(index .port 0) }} # $portNumber   # The port that needs to be reached

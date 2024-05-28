@@ -3,12 +3,12 @@
 apiVersion: metallb.io/v1beta2
 kind: BGPPeer
 metadata:
-  name: $name
+  name: {{ .metadata.name }}
   namespace: metallb-system
 spec:
-  peerAddress: $ip # eg 192.168.1.2
-  peerASN: $peerasn # eg 64501
-  myASN: $myasn # eg 64500
-  routerID: $id # eg 10.10.10.10
+  peerAddress: {{ .spec.peerAddress }} #$ip # eg 192.168.1.2
+  peerASN: {{ .spec.peerASN }} #$peerasn # eg 64501
+  myASN: {{ .spec.myASN }} #$myasn # eg 64500
+  routerID: {{ .spec.routerID }} #$id # eg 10.10.10.10
   bfdProfile: bfdprofile
-  passwordSecret: {}
+  passwordSecret: {{ .spec.passwordSecret }}

@@ -5,7 +5,8 @@ kind: SriovNetworkNodePolicy
 metadata:
   name: $name
   namespace: openshift-sriov-network-operator
-spec:  {} # $spec
+spec: # $spec
+{{ .spec | toYaml | indent 2 }}
   # eg
   #deviceType: netdevice
   #nicSelector:

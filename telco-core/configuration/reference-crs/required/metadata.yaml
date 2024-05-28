@@ -1,0 +1,76 @@
+Parts:
+  - name: required-networking
+    Components:
+      - name: networking-root
+        type: Required
+        requiredTemplates:
+          - networking/Network.yaml
+          - networking/NMState.yaml
+          - networking/NMStateNS.yaml
+          - networking/NMStateOperGroup.yaml
+          - networking/NMStateSubscription.yaml
+          - networking/nodeNetworkConfigurationPolicy.yaml
+      - name: networking-metallb
+        type: Required
+        requiredTemplates:
+          - networking/metallb/addr-pool.yaml
+          - networking/metallb/bfd-profile.yaml
+          - networking/metallb/bgp-advr.yaml
+          - networking/metallb/bgp-peer.yaml
+          - networking/metallb/community.yaml
+          - networking/metallb/metallb.yaml
+          - networking/metallb/metallbNS.yaml
+          - networking/metallb/metallbOperGroup.yaml
+          - networking/metallb/metallbSubscription.yaml
+          - networking/metallb/service.yaml
+      - name: networking-multinetworkpolicy
+        type: Required
+        requiredTemplates:
+          - networking/multinetworkpolicy/multiNetworkPolicyAllowPortProtocol.yaml
+          - networking/multinetworkpolicy/multiNetworkPolicyDenyAll.yaml
+      - name: networking-sirov
+        type: Required
+        requiredTemplates:
+          - networking/sriov/sriovNetwork.yaml
+          - networking/sriov/sriovNetworkNodePolicy.yaml
+          - networking/sriov/SriovOperatorConfig.yaml
+          - networking/sriov/SriovSubscription.yaml
+          - networking/sriov/SriovSubscriptionNS.yaml
+          - networking/sriov/SriovSubscriptionOperGroup.yaml
+  - name: required-other
+    Components:
+      - name: scheduling
+        type: Required
+        requiredTemplates:
+          - other/catalog-source.yaml
+          - other/icsp.yaml
+          - other/operator-hub.yaml
+  - name: required-performance
+    Components:
+      - name: performance
+        type: Required
+        requiredTemplates:
+          - performance/PerformanceProfile.yaml
+  - name: required-scheduling
+    Components:
+      - name: scheduling
+        type: Required
+        requiredTemplates:
+          - scheduling/nrop.yaml
+          - scheduling/NROPSubscription.yaml
+          - scheduling/NROPSubscriptionNS.yaml
+          - scheduling/NROPSubscriptionOperGroup.yaml
+          - scheduling/sched.yaml
+          - scheduling/Scheduler.yaml
+  - name: required-storage
+    Components:
+      - name: storage-odf
+        type: Required
+        requiredTemplates: # no counts enforced
+          - storage/odf-external/01-rook-ceph-external-cluster-details.secret.yaml
+          - storage/odf-external/02-ocs-external-storagecluster.yaml
+          - storage/odf-external/odfNS.yaml
+          - storage/odf-external/odfOperGroup.yaml
+          - storage/odf-external/odfSubscription.yaml
+
+

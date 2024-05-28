@@ -1,0 +1,5 @@
+# Jetbrains
+.idea
+
+# macOS
+.DS_Store

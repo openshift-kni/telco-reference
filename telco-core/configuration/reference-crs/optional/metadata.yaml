@@ -1,0 +1,34 @@
+Parts:
+  - name: other
+    Components:
+      - name: other
+        type: Optional
+        requiredTemplates:
+          - other/control-plane-load-kernel-modules.yaml
+          - other/monitoring-config-cm.yaml
+          - other/sctp_module_mc.yaml
+          - other/worker-load-kernel-modules.yaml
+  - name: logging
+    Components:
+      - name: other
+        type: Optional
+        requiredTemplates:
+          - other/ClusterLogForwarder.yaml
+          - other/ClusterLogging.yaml
+          - other/ClusterLogNS.yaml
+          - other/ClusterLogOperGroup.yaml
+          - other/ClusterLogSubscription.yaml
+  - name: tuning
+    Components:
+      - name: other
+        type: Optional
+        requiredTemplates:
+          - tuning/control-plane-system-reserved.yaml
+          - tuning/pid-limits-cr.yaml
+  - name: networking
+    Components:
+      - name: other
+        type: Optional
+        requiredTemplates:
+          - networking/networkAttachmentDefinition.yaml
+          - networking/multus/tap_cni/mc_rootless_pods_selinux.yaml

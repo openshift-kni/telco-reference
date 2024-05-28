@@ -7,12 +7,14 @@ metadata:
   namespace: openshift-marketplace
 spec:
   displayName: Red Hat Disconnected Operators Catalog
-  image: $imageUrl
+  image: {{ .spec.image }} # $imageUrl
   publisher: Red Hat
   sourceType: grpc
-#  updateStrategy:
-#    registryPoll:
-#      interval: 1h
+  {{ if .specu.updateStrategy.}}
+  updateStrategy:
+    registryPoll:
+      interval: 1h
+  {{ end }}
 status:
     connectionState:
         lastObservedState: READY
