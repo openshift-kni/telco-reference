@@ -1,0 +1,192 @@
+Parts:
+  - name: required-networking
+    Components:
+      - name: networking-root
+        type: Required
+        requiredTemplates:
+          - path: required/networking/Network.yaml
+          - path: required/networking/NMState.yaml
+          - path: required/networking/NMStateNS.yaml
+          - path: required/networking/NMStateOperGroup.yaml
+          - path: required/networking/NMStateSubscription.yaml
+          - path: required/networking/nodeNetworkConfigurationPolicy.yaml
+      - name: networking-metallb
+        type: Required
+        requiredTemplates:
+          - path: required/networking/metallb/addr-pool.yaml
+          - path: required/networking/metallb/bfd-profile.yaml
+          - path: required/networking/metallb/bgp-advr.yaml
+          - path: required/networking/metallb/bgp-peer.yaml
+          - path: required/networking/metallb/community.yaml
+          - path: required/networking/metallb/metallb.yaml
+          - path: required/networking/metallb/metallbNS.yaml
+          - path: required/networking/metallb/metallbOperGroup.yaml
+          - path: required/networking/metallb/metallbSubscription.yaml
+          - path: required/networking/metallb/service.yaml
+      - name: networking-multinetworkpolicy
+        type: Required
+        requiredTemplates:
+          - path: required/networking/multinetworkpolicy/multiNetworkPolicyAllowPortProtocol.yaml
+          - path: required/networking/multinetworkpolicy/multiNetworkPolicyDenyAll.yaml
+      - name: networking-sirov
+        type: Required
+        requiredTemplates:
+          - path: required/networking/sriov/sriovNetwork.yaml
+          - path: required/networking/sriov/sriovNetworkNodePolicy.yaml
+          - path: required/networking/sriov/SriovOperatorConfig.yaml
+          - path: required/networking/sriov/SriovSubscription.yaml
+          - path: required/networking/sriov/SriovSubscriptionNS.yaml
+          - path: required/networking/sriov/SriovSubscriptionOperGroup.yaml
+  - name: required-other
+    Components:
+      - name: scheduling
+        type: Required
+        requiredTemplates:
+          - path: required/other/catalog-source.yaml
+          - path: required/other/icsp.yaml
+          - path: required/other/operator-hub.yaml
+  - name: required-performance
+    Components:
+      - name: performance
+        type: Required
+        requiredTemplates:
+          - path: required/performance/PerformanceProfile.yaml
+  - name: required-scheduling
+    Components:
+      - name: scheduling
+        type: Required
+        requiredTemplates:
+          - path: required/scheduling/nrop.yaml
+          - path: required/scheduling/NROPSubscription.yaml
+          - path: required/scheduling/NROPSubscriptionNS.yaml
+          - path: required/scheduling/NROPSubscriptionOperGroup.yaml
+          - path: required/scheduling/sched.yaml
+          - path: required/scheduling/Scheduler.yaml
+  - name: required-storage
+    Components:
+      - name: storage-odf
+        type: Required
+        requiredTemplates: # no counts enforced
+          - path: required/storage/odf-external/01-rook-ceph-external-cluster-details.secret.yaml
+          - path: required/storage/odf-external/02-ocs-external-storagecluster.yaml
+          - path: required/storage/odf-external/odfNS.yaml
+          - path: required/storage/odf-external/odfOperGroup.yaml
+          - path: required/storage/odf-external/odfSubscription.yaml
+  - name: other
+    Components:
+      - name: other
+        type: Optional
+        requiredTemplates:
+          - path: optional/other/control-plane-load-kernel-modules.yaml
+          - path: optional/other/monitoring-config-cm.yaml
+          - path: optional/other/sctp_module_mc.yaml
+          - path: optional/other/worker-load-kernel-modules.yaml
+  - name: logging
+    Components:
+      - name: logging
+        type: Optional
+        requiredTemplates:
+          - path: optional/logging/ClusterLogForwarder.yaml
+          - path: optional/logging/ClusterLogging.yaml
+          - path: optional/logging/ClusterLogNS.yaml
+          - path: optional/logging/ClusterLogOperGroup.yaml
+          - path: optional/logging/ClusterLogSubscription.yaml
+  - name: tuning
+    Components:
+      - name: other
+        type: Optional
+        requiredTemplates:
+          - path: optional/tuning/control-plane-system-reserved.yaml
+          - path: optional/tuning/pid-limits-cr.yaml
+  - name: networking
+    Components:
+      - name: other
+        type: Optional
+        requiredTemplates:
+          - path: optional/networking/networkAttachmentDefinition.yaml
+          - path: optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
+
+# TODO: Currently we will see diffs because of olm.operatorgroup.uid/{UUID}. CNF-13468
+fieldsToOmit:
+  - - "metadata"
+    - "annotations"
+    - "kubernetes.io/metadata.name"
+  - - "metadata"
+    - "annotations"
+    - "openshift.io/sa.scc.uid-range"
+  - - "metadata"
+    - "annotations"
+    - "kubernetes.io/metadata.name"
+  - - "metadata"
+    - "annotations"
+    - "openshift.io/sa.scc.mcs"
+  - - "metadata"
+    - "annotations"
+    - "openshift.io/sa.scc.supplemental-groups"
+  - - "metadata"
+    - "labels"
+    - "kubernetes.io/metadata.name"
+  - - "metadata"
+    - "labels"
+    - "olm.operatorgroup.uid"
+  - - "metadata"
+    - "labels"
+    - "pod-security.kubernetes.io"
+  - - "metadata"
+    - "labels"
+    - "security.openshift.io/scc.podSecurityLabelSync"
+  - - "metadata"
+    - "resourceVersion"
+  - - "metadata"
+    - "uid"
+  - - "spec"
+    - "finalizers"
+  - - "metadata"
+    - "creationTimestamp"
+  - - "metadata"
+    - "pod-security.kubernetes.io"
+  - - "metadata"
+    - "generation"
+  - - "status" # TODO:  We need to check status in Subscription and CatalogSource. CNF-13521
+  - - "metadata"
+    - "finalizers"
+  - - "metadata"
+    - "annotations"
+    - "ran.openshift.io/ztp-gitops-generated"
+  - - "spec"
+    - "ownerReferences"
+  - - "metadata"
+    - "ownerReferences"
+  - - "metadata"
+    - "annotations"
+    - "include.release.openshift.io/ibm-cloud-managed"
+  - - "metadata"
+    - "annotations"
+    - "include.release.openshift.io/self-managed-high-availability"
+  - - "metadata"
+    - "annotations"
+    - "include.release.openshift.io/single-node-developer"
+  - - "metadata"
+    - "annotations"
+    - "release.openshift.io/create-only"
+  - - "metadata"
+    - "labels"
+    - "lca.openshift.io/target-ocp-version"
+  - - "metadata"
+    - "labels"
+    - "pod-security.kubernetes.io/audit"
+  - - "metadata"
+    - "labels"
+    - "pod-security.kubernetes.io/audit-version"
+  - - "metadata"
+    - "labels"
+    - "pod-security.kubernetes.io/warn"
+  - - "metadata"
+    - "labels"
+    - "pod-security.kubernetes.io/warn-version"
+  - - "metadata"
+    - "annotations"
+    - "capability.openshift.io/name"
+  - - "metadata"
+    - "annotations"
+    - "olm.providedAPIs"

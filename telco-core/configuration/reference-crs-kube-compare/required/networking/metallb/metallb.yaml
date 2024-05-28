@@ -1,0 +1,14 @@
+# required
+# count: 1
+apiVersion: metallb.io/v1beta1
+kind: MetalLB
+metadata:
+  name: metallb
+  namespace: metallb-system
+spec:
+{{ if .spec.nodeSelector }}
+  nodeSelector:
+{{ .spec.nodeSelector | toYaml | indent 4 }}
+  #nodeSelector:
+  #  node-role.kubernetes.io/worker: ""
+{{ end }}

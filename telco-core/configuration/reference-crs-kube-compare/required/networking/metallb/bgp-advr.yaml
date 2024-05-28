@@ -1,0 +1,27 @@
+# required
+# count: 1-N
+apiVersion: metallb.io/v1beta1
+kind: BGPAdvertisement
+metadata:
+  name: {{ .metadata.name }} # eg bgpadvertisement-1
+  namespace: metallb-system
+spec:
+{{ if .spec.ipAddressPools }}
+  ipAddressPools:
+{{ .spec.ipAddressPools | toYaml | indent 2}}
+{{ end }}
+{{ if .spec.peers }}
+  peers:
+{{ .spec.peers | toYaml | indent 2}}
+{{ end }}
+{{ if .spec.communities }}
+  communities:
+{{ .spec.communities | toYaml | indent 2 }}
+{{ end }}
+  #communities: [ $communities ]
+  # Note correlation with address pool.
+  # eg:
+#    - 65535:65282
+  aggregationLength: 32
+  aggregationLengthV6: 128
+  localPref: 100
