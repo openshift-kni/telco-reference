@@ -3,14 +3,19 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: $name # eg addresspool3
+  name: {{ .metadata.name }} # eg addresspool3
   namespace: metallb-system
+{{ if .metadata.annotations }}
   annotations:
-    metallb.universe.tf/address-pool: $name # eg addresspool3
+    metallb.universe.tf/address-pool: {{ index .metadata.annotations "metallb.univers.tf/address-pool" }} # eg addresspool3
+{{ end }}
 spec:
   ##############
   # Expected variation in this configuration
-  addresses: [ $pools ]
+{{ if .spec.addresses }}
+  addresses:
+{{ .spec.addresses | toYaml | indent 2}}
+{{ end }}
   #- 3.3.3.0/24
   autoAssign: true
   ##############

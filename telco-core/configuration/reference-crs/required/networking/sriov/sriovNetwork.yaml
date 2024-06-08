@@ -3,10 +3,11 @@
 apiVersion: sriovnetwork.openshift.io/v1
 kind: SriovNetwork
 metadata:
-  name: $name # eg sriov-network-abcd
+  name: {{ .metadata.name }} # eg sriov-network-abcd
   namespace: openshift-sriov-network-operator
 spec:
-  capabilities: "$capabilities" # eg '{"mac": true, "ips": true}'
-  ipam: "$ipam" # eg '{ "type": "host-local", "subnet": "10.3.38.0/24" }'
-  networkNamespace: $nns # eg cni-test
-  resourceName: $resource # eg resourceTest
+{{ .spec | toYaml | indent 2 }}
+#  capabilities: "$capabilities" # eg '{"mac": true, "ips": true}'
+#  ipam: "$ipam" # eg '{ "type": "host-local", "subnet": "10.3.38.0/24" }'
+#  networkNamespace: $nns # eg cni-test
+#  resourceName: $resource # eg resourceTest

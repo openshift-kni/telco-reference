@@ -6,5 +6,9 @@ metadata:
   name: metallb
   namespace: metallb-system
 spec:
+{{ if .spec.nodeSelector }}
   nodeSelector:
-    node-role.kubernetes.io/worker: ""
+{{ .spec.nodeSelector | toYaml | indent 4 }}
+  #nodeSelector:
+  #  node-role.kubernetes.io/worker: ""
+{{ end }}

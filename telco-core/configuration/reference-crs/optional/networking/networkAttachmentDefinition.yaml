@@ -3,12 +3,13 @@
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
-  name: $name
-  namespace: $ns
+  name: {{ .metadata.name }} #$name
+  namespace: {{ .metadata.namespace }} #$ns
 spec:
+{{ if .spec.nodeSelector }}
   nodeSelector:
-    kubernetes.io/hostname: $nodeName
-  config: $config
+{{ .spec.nodeSelector | toYaml | indent 4 }}
+  config: {{ .spec.config }} #$config
   #eg
   #config: '{
   #  "cniVersion": "0.3.1",

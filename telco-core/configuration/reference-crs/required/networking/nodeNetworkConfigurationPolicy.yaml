@@ -3,12 +3,15 @@
 apiVersion: nmstate.io/v1
 kind: NodeNetworkConfigurationPolicy
 metadata:
- name: nmstate-config-1
+  name: nmstate-config-1
 spec:
- nodeSelector:
-   kubernetes.io/hostname: $nodeName
- desiredState:
-   interfaces: [ $ifaces ]
+{{ if .spec.nodeSelector }}
+  nodeSelector:
+    kubernetes.io/hostname: {{ index .spec.nodeSelector "kubernetes.io/hostname" }}
+{{ end }}
+  desiredState:
+    interfaces:
+{{ if .spec.desiredState }}{{ .spec.desiredState | toYaml | indent 4 }}{{ end }}
 #   - name: ens8f0.169
 #     type: vlan
 #     state: up
@@ -30,18 +33,13 @@ spec:
 #     ethernet:
 #       sr-iov:
 #         total-vfs: 5
-   routes:
-     config: [ $routes ]
+{{- if .spec.desiredState.routes.config -}}
+    routes:
+      config: #[ $routes ]
+{{ .spec.desiredState.routes.config | toYaml | indent 6 }}
+{{- end -}}
 #     - destination: 172.16.0.0/24
 #       metric: 150
 #       next-hop-address: 192.168.1.2
 #       next-hop-interface: ens8f0.169
 #       table-id: 254
-status:
-  conditions:
-  - status: "True"
-    type: Available
-  - status: "False"
-    type: Degraded
-  - status: "False"
-    type: Progressing

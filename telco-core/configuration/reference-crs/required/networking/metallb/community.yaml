@@ -5,4 +5,4 @@ metadata:
   name: bgpcommunity
   namespace: metallb-system
 spec:
-  communities: [ $comm ]
+  communities: {{ .spec.communities | toYaml | indent 4 }}
