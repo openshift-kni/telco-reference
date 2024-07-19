@@ -1,0 +1,20 @@
+apiVersion: k8s.cni.cncf.io/v1beta1
+kind: MultiNetworkPolicy
+metadata:
+  name: allow-port-and-protocol
+  annotations:
+    {{ if .metadata.annotations }}
+    k8s.v1.cni.cncf.io/policy-for: {{ index .metadata.annotations "k8s.v1.cni.cncf.io/policy-for" }}
+    {{ end }}
+spec:
+  podSelector:
+    matchLabels:    # Define which pods are affected by this policy
+      {{ .spec.podSelector.matchLabels | toYaml | indent 6}}
+  policyTypes:
+  - Ingress
+  ingress:
+    - ports:
+        {{ if  .spec.ingress }}
+        - protocol: {{ if index (index .spec.ingress 0).ports 0 }}{{ index (index .spec.ingress 0).ports 0 "protocol" }}{{ else }}nil{{ end }}
+          port:  {{ if index (index .spec.ingress 0).ports 0 }}{{ index (index .spec.ingress 0).ports 0 "port" }}{{ else }}nil{{ end }}
+        {{ end }}
