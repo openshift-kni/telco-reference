@@ -1,0 +1,12 @@
+apiVersion: metallb.io/v1beta2
+kind: BGPPeer
+metadata:
+  name: {{ .metadata.name }}
+  namespace: metallb-system
+spec:
+  peerAddress: {{ .spec.peerAddress }}
+  peerASN: {{ .spec.peerASN }}
+  myASN: {{ .spec.myASN }}
+  routerID: {{ .spec.routerID }}
+  bfdProfile: {{ .spec.bfdProfile }}
+  passwordSecret: {{ .spec.passwordSecret | toJson }}

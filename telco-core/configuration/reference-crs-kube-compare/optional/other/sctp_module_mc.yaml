@@ -1,0 +1,33 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: {{ index (or .metadata.labels dict)  "machineconfiguration.openshift.io/role" }}
+  name: load-sctp-module
+spec:
+  config:
+    ignition:
+      version: 2.2.0
+    storage:
+      files:
+        - contents:
+            source: data:,
+            verification: {}
+          filesystem: root
+          mode: 420
+          path: /etc/modprobe.d/sctp-blacklist.conf
+        - contents:
+            {{- $scpContents := "" -}}
+            {{ range $file := (or .spec.config.storage.files list) -}}
+            {{ if eq $file.path "/etc/modules-load.d/sctp-load.conf" -}}
+            {{ $scpContents = $file.contents.source }}
+            {{ end -}}
+            {{ end -}}
+            {{ if eq $scpContents "data:text/plain;charset=utf-8,sctp" -}}
+            source: data:text/plain;charset=utf-8,sctp
+            {{- else -}}
+            source: data:text/plain;charset=utf-8;base64,c2N0cA==
+            {{- end }}
+          filesystem: root
+          mode: 420
+          path: /etc/modules-load.d/sctp-load.conf

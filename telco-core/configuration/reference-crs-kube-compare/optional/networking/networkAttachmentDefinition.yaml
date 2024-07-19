@@ -1,0 +1,13 @@
+# optional
+# copies: 0-N
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: {{ .metadata.name }}
+  namespace: {{ .metadata.namespace }}
+spec:
+  {{ if .spec.nodeSelector }}
+  nodeSelector:
+    {{ .spec.nodeSelector | toYaml | indent 4 }}
+  {{ end }}
+  config: {{ .spec.config | toJson }}

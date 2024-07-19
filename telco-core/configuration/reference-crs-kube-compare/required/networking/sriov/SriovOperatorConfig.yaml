@@ -1,0 +1,15 @@
+# required
+# count: 1
+---
+apiVersion: sriovnetwork.openshift.io/v1
+kind: SriovOperatorConfig
+metadata:
+  name: default
+  namespace: openshift-sriov-network-operator
+spec:
+  configDaemonNodeSelector:
+    {{ range $key, $val := .spec.configDaemonNodeSelector -}}
+    {{ $key }}: {{ quote $val}}
+    {{- end }}
+  enableInjector: true
+  enableOperatorWebhook: true
