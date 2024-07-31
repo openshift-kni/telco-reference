@@ -6,5 +6,6 @@ metadata:
   name: metallb
   namespace: metallb-system
 spec:
+  bgpBackend: frr-k8s
   nodeSelector:
     node-role.kubernetes.io/worker: ""
