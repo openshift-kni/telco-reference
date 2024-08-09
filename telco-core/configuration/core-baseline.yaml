@@ -36,6 +36,8 @@ policies:
       - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
         patches:
         - spec:
+            # ClusterLogging 6.0 uses a new configuration API.
+            channel: stable-5.9
             installPlanApproval: Manual
       - path: reference-crs/required/networking/sriov/SriovSubscriptionNS.yaml
       - path: reference-crs/required/networking/sriov/SriovSubscriptionOperGroup.yaml
