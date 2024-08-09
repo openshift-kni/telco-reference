@@ -5,10 +5,9 @@ kind: NodeNetworkConfigurationPolicy
 metadata:
  name: nmstate-config-1
 spec:
- nodeSelector:
-   kubernetes.io/hostname: $nodeName
+ nodeSelector: {}
  desiredState:
-   interfaces: [ $ifaces ]
+   interfaces: []
 #   - name: ens8f0.169
 #     type: vlan
 #     state: up
@@ -31,7 +30,7 @@ spec:
 #       sr-iov:
 #         total-vfs: 5
    routes:
-     config: [ $routes ]
+     config: []
 #     - destination: 172.16.0.0/24
 #       metric: 150
 #       next-hop-address: 192.168.1.2

@@ -27,8 +27,8 @@ spec:
     # 32GB per numa node
     - count: $count # eg 64
       size: 1G
-  machineConfigPoolSelector: {}
-    #pools.operator.machineconfiguration.openshift.io/worker: ''
+  #machineConfigPoolSelector: {}
+  #  pools.operator.machineconfiguration.openshift.io/worker: ''
   nodeSelector: {}
     #node-role.kubernetes.io/worker: ""
   workloadHints:
