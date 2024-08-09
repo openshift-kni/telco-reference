@@ -1,0 +1,12 @@
+
+resources:
+  - ns.yaml
+  - regional.yaml
+  - hw-types.yaml
+  #- cluster-1.yaml
+
+generators:
+  - core-baseline.yaml
+  - core-overlay.yaml
+  - core-upgrade.yaml
+
