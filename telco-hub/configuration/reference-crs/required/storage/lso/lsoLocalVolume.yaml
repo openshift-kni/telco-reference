@@ -16,4 +16,4 @@ spec:
       forceWipeDevicesAndDestroyAllData: false 
       volumeMode: Block 
       devicePaths: 
-        -  dev/disk/by-id/wwn
+        -  dev/disk/by-path/pci-xxx
