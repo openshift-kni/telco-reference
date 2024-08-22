@@ -1,20 +1,20 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: core-baseline-16
+  name: core-baseline-17
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
     clusterSelectors:
       common: "core"
-      version: "4.16"
+      version: "4.17"
   remediationAction: "inform"
   #policyAnnotations:
   #  ran.openshift.io/ztp-deploy-wave: "1"
 policies:
   # Base cluster configuration
-  - name: core-cluster-config-4.16
+  - name: core-cluster-config-4.17
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "1"
     manifests:
@@ -22,12 +22,12 @@ policies:
       - path: reference-crs/required/other/catalog-source.yaml
         patches:
         - spec:
-            image: registry.redhat.io/redhat/redhat-operator-index:v4.16
+            image: registry.redhat.io/redhat/redhat-operator-index:v4.17
       - path: reference-crs/required/scheduling/Scheduler.yaml
 
 
   # Core cluster OLM operators
-  - name: core-operator-subs-4.16
+  - name: core-operator-subs-4.17
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "5"
     manifests:
@@ -51,7 +51,7 @@ policies:
         patches:
         - spec:
             installPlanApproval: Manual
-            channel: stable-4.16
+            channel: stable-4.17
       - path: reference-crs/required/networking/metallb/metallbNS.yaml
       - path: reference-crs/required/networking/metallb/metallbOperGroup.yaml
       - path: reference-crs/required/networking/metallb/metallbSubscription.yaml
@@ -73,7 +73,7 @@ policies:
 
 
   # Operator configuration
-  - name: core-operator-config-4.16
+  - name: core-operator-config-4.17
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "7"
     manifests:
