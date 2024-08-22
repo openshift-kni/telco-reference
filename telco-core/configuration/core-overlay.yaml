@@ -1,20 +1,20 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: core-overlay-16
+  name: core-overlay-17
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
     clusterSelectors:
       common: "core"
-      version: "4.16"
+      version: "4.17"
   remediationAction: "inform"
   #policyAnnotations:
   #  ran.openshift.io/ztp-deploy-wave: "1"
 policies:
   # Baseline configuration with custom overlay content
-  - name: core-overlay-base-4.16
+  - name: core-overlay-base-4.17
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "2"
     manifests:
@@ -62,7 +62,7 @@ policies:
                   - "10.8.34.230:9999"
 
   # Custom networking, operator and cluster configuration
-  - name: core-overlay-config-4.16
+  - name: core-overlay-config-4.17
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "8"
     manifests:
