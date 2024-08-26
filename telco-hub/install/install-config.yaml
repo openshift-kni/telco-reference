@@ -1,0 +1,33 @@
+apiVersion: v1
+metadata:
+  name: myhub  # your hub name
+baseDomain: exemple.com  # domain name
+compute:
+  - architecture: amd64
+    hyperthreading: Enabled
+    name: worker
+    replicas: 0
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  replicas: 3
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  serviceNetwork:
+  - 172.30.0.0/16
+  machineNetwork:
+  - cidr:  192.168.24.1/25   # put your machine network CIDR
+  networkType: OVNKubernetes
+platform:
+  baremetal:
+    apiVips:
+      - 192.168.24.5 # your apivip IP
+      
+    ingressVips:
+      - 192.168.24.6  # your ingressVIP IP
+      
+pullSecret:  # your pull secret 
+sshKey:  # your ssh key 
