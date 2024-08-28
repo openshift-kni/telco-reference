@@ -59,7 +59,7 @@ policies:
                   timeout: "30s"
                   apiVersion: "v1"
                   staticConfigs:
-                  - "10.8.34.230:9999"
+                  - "10.11.12.14:9999"
 
   # Custom networking, operator and cluster configuration
   - name: core-overlay-config-4.17
@@ -182,7 +182,7 @@ policies:
 #            name: peer1
 #          spec:
 #            # Dummy address for now. One of our node ips
-#            peerAddress: 10.8.34.36
+#            peerAddress: 1.2.3.9
 #            peerASN: 64501
 #            myASN: 64500
 #            routerID: 10.10.10.10
@@ -208,7 +208,7 @@ policies:
 #            selector:
 #              app: lbapp
 #            # Dummy IP for now. Borrow cnfdf03 api IP
-#            loadBalancerIP: 10.8.34.53
+#            loadBalancerIP: 1.2.3.5
 
 
       - path: reference-crs/required/networking/sriov/sriovNetworkNodePolicy.yaml
