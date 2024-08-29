@@ -10,5 +10,3 @@ spec:
   source: redhat-operators-disconnected
   sourceNamespace: openshift-marketplace
   installPlanApproval: Automatic
-status:
-  state: AtLatestKnown
