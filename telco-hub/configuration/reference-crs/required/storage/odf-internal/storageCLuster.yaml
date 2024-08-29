@@ -31,9 +31,9 @@ spec:
    replica: 3
    resources:
      limits:
-       cpu: "2"
-       memory: "5Gi"
+       cpu: "3"
+       memory: "8Gi"
      requests:
-       cpu: "2"
-       memory: "5Gi"
+       cpu: "3"
+       memory: "8Gi"
 
