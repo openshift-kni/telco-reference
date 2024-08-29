@@ -1,0 +1,20 @@
+# required
+# count: 1..N
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: redhat-operators-disconnected
+  namespace: openshift-marketplace
+spec:
+  displayName: Red Hat Disconnected Operators Catalog
+  image: {{ .spec.image }} # $imageUrl
+  publisher: Red Hat
+  sourceType: grpc
+  {{ if .spec.updateStrategy }}
+  updateStrategy:
+    registryPoll:
+      interval: 1h
+  {{ end }}
+status:
+    connectionState:
+        lastObservedState: READY
