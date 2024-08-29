@@ -14,12 +14,12 @@ hosts:
         name: eno12409np1
     networkConfig:
       interfaces:
-      - name: infra-bond.46
+      - name: infra-bond.56
         type: vlan
         state: up
         vlan:
           base-iface: infra-bond
-          id: 46
+          id: 56
         ipv4:
           enabled: true
           address: 
@@ -64,7 +64,7 @@ hosts:
         name: eno12409np1
     networkConfig:
       interfaces:
-      - name: infra-bond.46
+      - name: infra-bond.56
         type: vlan
         state: up
         vlan:
