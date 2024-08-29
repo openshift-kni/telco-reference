@@ -5,7 +5,7 @@ metadata:
 rendezvousIP: 192.168.56.25 # one of the master IP 
 hosts:
 
-  - hostname: master-0
+  - hostname: control-0
     role: master
     interfaces:
       - macAddress: 94:6d:ae:db:0b:64
@@ -55,7 +55,7 @@ hosts:
           server:
             - 192.168.56.11     
 
-  - hostname: master-1
+  - hostname: controle-1
     role: master
     interfaces:
       - macAddress: 94:6d:ae:da:dd:aa
@@ -110,7 +110,7 @@ hosts:
             - 192.168.56.11
             
 
-  - hostname: master-2
+  - hostname: control-2
     role: master
     interfaces:
       - macAddress: 94:6d:ae:da:dc:d8
