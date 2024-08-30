@@ -1,0 +1,92 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: telco-core-upgrade-17
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      common: "core"
+      upgrade-version-4-17: ""
+  remediationAction: "inform"
+policies:
+  - name: core-upgrade-prep-17
+    manifests:
+      # Update catalogsource to point to latest versions
+      - path: reference-crs/required/other/catalog-source.yaml
+        patches:
+        - spec:
+            image: registry.redhat.io/redhat/redhat-operator-index:v4.17
+        - status:
+            connectionState:
+              lastObservedState: READY
+      # Provide the required acknowledgement of the upgrade. This
+      # assumes that the verification has been done during planning
+      # lab/certification phase of project
+      #- path: reference-crs/optional/other/upgrade-ack.yaml
+      #  patches:
+      #  - data:
+      #      ack-4.15-kube-1.29-api-removals-in-4.16: "true"
+      - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
+        patches:
+        - spec:
+            channel: stable-4.17
+            installPlanApproval: Manual
+      #- path: customer/mcp-worker-1.yaml
+      #  patches:
+      #  - spec:
+      #      paused: true
+      #- path: customer/mcp-worker-2.yaml
+      #  patches:
+      #  - spec:
+      #      paused: true
+      #- path: customer/mcp-worker-3.yaml
+      #  patches:
+      #  - spec:
+      #      paused: true
+  - name: core-upgrade-ocp-17
+    manifests:
+      - path: reference-crs/optional/other/ClusterVersion.yaml
+        patches:
+        - spec:
+            channel: stable-4.17
+            desiredUpdate:
+              # Replace version, image and status below with desired version
+              version: 4.17.0-rc.0
+              image: quay.io/openshift-release-dev/ocp-release@sha256:58c9cdeddb33100ee29441e374467592cbd39c3fc56552c57bf2a183a85025f3
+              force: true
+        - status:
+            history:
+            - version: 4.17.0-rc.0
+              state: "Completed"
+  - name: core-upgrade-olm-17
+    manifests:
+      - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
+        patches:
+        - metadata:
+            annotations:
+              noop-for-triggering-noncompliance: "17"
+        - spec:
+            installPlanApproval: Manual
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/networking/sriov/SriovSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
+        patches:
+        - spec:
+            channel: stable-4.17
+            installPlanApproval: Manual
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/networking/NMStateSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+        - status:
+            state: AtLatestKnown

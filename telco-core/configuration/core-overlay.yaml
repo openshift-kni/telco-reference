@@ -1,0 +1,243 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: core-overlay-17
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      common: "core"
+      version: "4.17"
+  remediationAction: "inform"
+  #policyAnnotations:
+  #  ran.openshift.io/ztp-deploy-wave: "1"
+policies:
+  # Baseline configuration with custom overlay content
+  - name: core-overlay-base-4.17
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "2"
+    manifests:
+      # ICSP/IDMS/ITMS content will be entirely custom, thus including that in this policy
+      - path: reference-crs/required/other/icsp.yaml
+        patches:
+        - spec:
+            repositoryDigestMirrors:
+            - mirrors:
+              - example.com/sample-path
+              source: nomatch.io/sample-path
+      - path: reference-crs/optional/other/sctp_module_mc.yaml
+      - path: reference-crs/optional/other/worker-load-kernel-modules.yaml
+      - path: reference-crs/optional/other/control-plane-load-kernel-modules.yaml
+      - path: reference-crs/optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
+      - path: reference-crs/optional/other/monitoring-config-cm.yaml
+        complianceType: musthave
+        patches:
+        - data:
+            # The config is a single string value in this map and default
+            # content must be copied here in order to add custom content
+            # (additionalAlertmanagerConfigs)
+            config.yaml: |
+              alertmanagerMain:
+                volumeClaimTemplate:
+                  spec:
+                    storageClassName: ocs-external-storagecluster-ceph-rbd
+                    resources:
+                      requests:
+                        storage: 20Gi
+              prometheusK8s:
+                retention: 15d
+                volumeClaimTemplate:
+                  spec:
+                    storageClassName: ocs-external-storagecluster-ceph-rbd
+                    resources:
+                      requests:
+                        storage: 100Gi
+                additionalAlertmanagerConfigs:
+                - scheme: "http"
+                  pathPrefix: "/"
+                  timeout: "30s"
+                  apiVersion: "v1"
+                  staticConfigs:
+                  - "10.11.12.14:9999"
+
+  # Custom networking, operator and cluster configuration
+  - name: core-overlay-config-4.17
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "8"
+    manifests:
+      # Set auto sizing of control plane nodes
+      - path: reference-crs/optional/tuning/control-plane-system-reserved.yaml
+
+      # Multus networks
+      - path: reference-crs/required/networking/Network.yaml
+        patches:
+        - spec:
+            additionalNetworks: []
+      #- path: reference-crs/optional/networking/networkAttachmentDefinition.yaml
+
+      # Numa aware scheduler, binding to mcp
+      - path: reference-crs/required/scheduling/nrop.yaml
+        patches:
+        - spec:
+            nodeGroups:
+            - config:
+                # Periodic is the default setting
+                infoRefreshMode: Periodic
+              machineConfigPoolSelector:
+                matchLabels:
+                  # This label must match the pool(s) you want to run NUMA-aligned workloads
+                  machineconfiguration.openshift.io/role: worker-2
+
+      # MCP PerformanceProfiles
+      - path: reference-crs/required/performance/PerformanceProfile.yaml
+        patches:
+        - metadata:
+            name: worker-profile-1
+          spec:
+            cpu:
+              reserved: '{{hub fromConfigMap "" "hw-types" "role-worker-1-reserved" | toLiteral hub}}'
+              isolated: '{{hub fromConfigMap "" "hw-types" "role-worker-1-isolated" | toLiteral hub}}'
+            hugepages:
+              pages:
+              - count: '{{hub fromConfigMap "" "hw-types" "role-worker-1-hugepg-cnt" | toInt hub}}'
+                size: 1G
+            nodeSelector:
+              node-role.kubernetes.io/worker-1: ""
+
+      - path: reference-crs/required/performance/PerformanceProfile.yaml
+        patches:
+        - metadata:
+            name: worker-profile-2
+          spec:
+            cpu:
+              reserved: '{{hub fromConfigMap "" "hw-types" "role-worker-2-reserved" | toLiteral hub}}'
+              isolated: '{{hub fromConfigMap "" "hw-types" "role-worker-2-isolated" | toLiteral hub}}'
+            hugepages:
+              pages:
+              - count: '{{hub fromConfigMap "" "hw-types" "role-worker-2-hugepg-cnt" | toInt hub}}'
+                size: 1G
+            nodeSelector:
+              node-role.kubernetes.io/worker-2: ""
+
+      - path: reference-crs/required/performance/PerformanceProfile.yaml
+        patches:
+        - metadata:
+            name: worker-profile-3
+          spec:
+            cpu:
+              reserved: '{{hub fromConfigMap "" "hw-types" "role-worker-3-reserved" | toLiteral hub}}'
+              isolated: '{{hub fromConfigMap "" "hw-types" "role-worker-3-isolated" | toLiteral hub}}'
+            hugepages:
+              pages:
+              - count: '{{hub fromConfigMap "" "hw-types" "role-worker-3-hugepg-cnt" | toInt hub}}'
+                size: 1G
+            nodeSelector:
+              node-role.kubernetes.io/worker-3: ""
+
+      # Cluster Logging
+      - path: reference-crs/optional/logging/ClusterLogForwarder.yaml
+        patches:
+        - spec:
+            outputs:
+            - type: "kafka"
+              name: kafka-open
+              url: '{{hub fromConfigMap "" "regional" (printf "%s-log-url" (index .ManagedClusterLabels "region")) | toLiteral hub}}'
+            pipelines:
+            - name: all-to-default
+              inputRefs:
+              - infrastructure
+              - audit
+              labels:
+                sitename: '{{hub fromConfigMap "" .ManagedClusterName "logging-name" | toLiteral hub}}'
+                siteuuid: '{{hub fromConfigMap "" .ManagedClusterName "logging-uuid" | toLiteral hub}}'
+                label3: 'other data'
+              outputRefs:
+              - kafka-open
+
+      # Metal LB
+      - path: reference-crs/required/networking/metallb/metallb.yaml
+        patches:
+        - spec:
+            nodeSelector:
+              node-role.kubernetes.io/worker: ""
+
+#      - path: reference-crs/required/networking/metallb/bfd-profile.yaml
+#      - path: reference-crs/required/networking/metallb/addr-pool.yaml
+#        patches:
+#        - metadata:
+#            name: pool1
+#            annotations:
+#              metallb.universe.tf/address-pool: pool1
+#          spec:
+#            addresses:
+#            - 1.2.3.0/24
+#            #bgpAdvertisements:
+#            #- aggregationLength: 32
+#            #  communities:
+#            #  - 65535:65282
+#      - path: reference-crs/required/networking/metallb/bgp-peer.yaml
+#        patches:
+#        - metadata:
+#            name: peer1
+#          spec:
+#            # Dummy address for now. One of our node ips
+#            peerAddress: 1.2.3.9
+#            peerASN: 64501
+#            myASN: 64500
+#            routerID: 10.10.10.10
+#      - path: reference-crs/required/networking/metallb/bgp-advr.yaml
+#        patches:
+#        - metadata:
+#            name: bgpadv-1
+#          spec:
+#            ipAddressPools:
+#            - pool1
+#            peers:
+#            - peer1
+#            communities:
+#            - 65535:65282
+#      - path: reference-crs/required/networking/metallb/service.yaml
+#        patches:
+#        - metadata:
+#            name: svc1
+#            namespace: default
+#            annotations:
+#              metallb.universe.tf/address-pool: pool1
+#          spec:
+#            selector:
+#              app: lbapp
+#            # Dummy IP for now. Borrow cnfdf03 api IP
+#            loadBalancerIP: 1.2.3.5
+
+
+      - path: reference-crs/required/networking/sriov/sriovNetworkNodePolicy.yaml
+        patches:
+        - metadata:
+            name: test-signaling-snnp
+          spec:
+            deviceType: netdevice
+            nicSelector:
+              pfNames:
+                - '{{hub fromConfigMap "" "hw-types" "nic-config-type-1-sriov-dev1" | toLiteral hub}}'
+                - '{{hub fromConfigMap "" "hw-types" "nic-config-type-1-sriov-dev2" | toLiteral hub}}'
+            nodeSelector:
+              nic-config: "type-1"
+            numVfs: '{{hub fromConfigMap "" "hw-types" "nic-config-type-1-sriov-numvf" | toInt hub}}'
+            priority: 99
+            # excludeTopology: true
+            resourceName: testSignaling
+      - path: reference-crs/required/networking/sriov/sriovNetwork.yaml
+        patches:
+        - metadata:
+            name: sriov-network-signal-1
+          spec:
+            capabilities: "{}"
+            ipam: '{}'
+            networkNamespace: signal-1
+            resourceName: testSignaling
+
+#reference-crs/required/networking/nodeNetworkConfigurationPolicy.yaml
+#./storage/odf-external/01-rook-ceph-external-cluster-details.secret.yaml
+#./storage/odf-external/02-ocs-external-storagecluster.yaml
+

@@ -1,0 +1,100 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: core-baseline-17
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      common: "core"
+      version: "4.17"
+  remediationAction: "inform"
+  #policyAnnotations:
+  #  ran.openshift.io/ztp-deploy-wave: "1"
+policies:
+  # Base cluster configuration
+  - name: core-cluster-config-4.17
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "1"
+    manifests:
+      - path: reference-crs/required/other/operator-hub.yaml
+      - path: reference-crs/required/other/catalog-source.yaml
+        patches:
+        - spec:
+            image: registry.redhat.io/redhat/redhat-operator-index:v4.17
+      - path: reference-crs/required/scheduling/Scheduler.yaml
+
+
+  # Core cluster OLM operators
+  - name: core-operator-subs-4.17
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "5"
+    manifests:
+      - path: reference-crs/optional/logging/ClusterLogNS.yaml
+      - path: reference-crs/optional/logging/ClusterLogOperGroup.yaml
+      - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
+        patches:
+        - spec:
+            # ClusterLogging 6.0 uses a new configuration API.
+            channel: stable-5.9
+            installPlanApproval: Manual
+      - path: reference-crs/required/networking/sriov/SriovSubscriptionNS.yaml
+      - path: reference-crs/required/networking/sriov/SriovSubscriptionOperGroup.yaml
+      - path: reference-crs/required/networking/sriov/SriovSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+      - path: reference-crs/required/storage/odf-external/odfNS.yaml
+      - path: reference-crs/required/storage/odf-external/odfOperGroup.yaml
+      - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+            channel: stable-4.17
+      - path: reference-crs/required/networking/metallb/metallbNS.yaml
+      - path: reference-crs/required/networking/metallb/metallbOperGroup.yaml
+      - path: reference-crs/required/networking/metallb/metallbSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+      - path: reference-crs/required/scheduling/NROPSubscriptionNS.yaml
+      - path: reference-crs/required/scheduling/NROPSubscriptionOperGroup.yaml
+      - path: reference-crs/required/scheduling/NROPSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+      - path: reference-crs/required/networking/NMStateNS.yaml
+      - path: reference-crs/required/networking/NMStateOperGroup.yaml
+      - path: reference-crs/required/networking/NMStateSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+
+
+  # Operator configuration
+  - name: core-operator-config-4.17
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "7"
+    manifests:
+      - path: reference-crs/optional/logging/ClusterLogging.yaml
+        patches:
+        - spec:
+            logStore:
+              type: lokistack
+              lokistack:
+                name: logging-loki
+
+      - path: reference-crs/required/networking/sriov/SriovOperatorConfig.yaml
+        patches:
+        - spec:
+            # Required for mellanox plugins running with secureboot enabled.
+            # Firmware MUST be pre-configured
+            disablePlugins:
+            - mellanox
+
+      - path: reference-crs/required/networking/NMState.yaml
+
+      # Scheduling
+      - path: reference-crs/required/scheduling/sched.yaml
+
