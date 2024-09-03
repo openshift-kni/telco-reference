@@ -3,10 +3,22 @@ kind: AgentServiceConfig
 metadata:
   name: agent
 spec:
-  osImages:
-  - openshiftVersion: "4.17"
-  - openshiftVersion: "4.16"
-  - openshiftVersion: "4.15"
+  databaseStorage:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 20Gi
+  filesystemStorage:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 20Gi
+  imageStorage:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 100Gi
 
-
-    
