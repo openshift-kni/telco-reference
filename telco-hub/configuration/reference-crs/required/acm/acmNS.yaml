@@ -1,7 +1,14 @@
+---
 apiVersion: v1
 kind: Namespace
 metadata:
   labels:
     openshift.io/cluster-monitoring: "true"
   name: open-cluster-management
-
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    openshift.io/cluster-monitoring: "true"
+  name: open-cluster-management-observability
