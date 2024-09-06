@@ -10,6 +10,6 @@ spec:
   name: sriov-network-operator
   source: redhat-operators-disconnected
   sourceNamespace: openshift-marketplace
-  installPlanApproval: Automatic
+  installPlanApproval: Manual
 status:
   state: AtLatestKnown

@@ -10,4 +10,4 @@ spec:
   name: sriov-network-operator
   source: {{ .spec.source }}
   sourceNamespace: openshift-marketplace
-  installPlanApproval: Automatic
+  installPlanApproval: Manual
