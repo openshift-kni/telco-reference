@@ -8,7 +8,7 @@ metadata:
   namespace: openshift-sriov-network-operator
 spec:
   configDaemonNodeSelector:
-    {{ range $key, $val := .spec.configDaemonNodeSelector -}}
+    {{ range $key, $val := .spec.configDaemonNodeSelector }}
     {{ $key }}: {{ quote $val}}
     {{- end }}
   enableInjector: true
