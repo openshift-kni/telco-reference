@@ -1,23 +1,23 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: telco-core-upgrade-17
+  name: telco-core-upgrade-18
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
     clusterSelectors:
       common: "core"
-      upgrade-version-4-17: ""
+      upgrade-version-4-18: ""
   remediationAction: "inform"
 policies:
-  - name: core-upgrade-prep-17
+  - name: core-upgrade-prep-18
     manifests:
       # Update catalogsource to point to latest versions
       - path: reference-crs/required/other/catalog-source.yaml
         patches:
         - spec:
-            image: registry.redhat.io/redhat/redhat-operator-index:v4.17
+            image: registry.redhat.io/redhat/redhat-operator-index:v4.18
         - status:
             connectionState:
               lastObservedState: READY
@@ -31,7 +31,7 @@ policies:
       - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
         patches:
         - spec:
-            channel: stable-4.17
+            channel: stable-4.18
             installPlanApproval: Manual
       #- path: customer/mcp-worker-1.yaml
       #  patches:
@@ -45,28 +45,28 @@ policies:
       #  patches:
       #  - spec:
       #      paused: true
-  - name: core-upgrade-ocp-17
+  - name: core-upgrade-ocp-18
     manifests:
       - path: reference-crs/optional/other/ClusterVersion.yaml
         patches:
         - spec:
-            channel: stable-4.17
+            channel: stable-4.18
             desiredUpdate:
               # Replace version, image and status below with desired version
-              version: 4.17.0-rc.0
+              version: 4.18.0-rc.0
               image: quay.io/openshift-release-dev/ocp-release@sha256:58c9cdeddb33100ee29441e374467592cbd39c3fc56552c57bf2a183a85025f3
               force: true
         - status:
             history:
-            - version: 4.17.0-rc.0
+            - version: 4.18.0-rc.0
               state: "Completed"
-  - name: core-upgrade-olm-17
+  - name: core-upgrade-olm-18
     manifests:
       - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
         patches:
         - metadata:
             annotations:
-              noop-for-triggering-noncompliance: "17"
+              noop-for-triggering-noncompliance: "18"
         - spec:
             installPlanApproval: Manual
         - status:
@@ -80,7 +80,7 @@ policies:
       - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
         patches:
         - spec:
-            channel: stable-4.17
+            channel: stable-4.18
             installPlanApproval: Manual
         - status:
             state: AtLatestKnown
