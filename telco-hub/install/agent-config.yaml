@@ -55,7 +55,7 @@ hosts:
           server:
             - 192.168.56.11     
 
-  - hostname: controle-1
+  - hostname: control-1
     role: master
     interfaces:
       - macAddress: 94:6d:ae:da:dd:aa
