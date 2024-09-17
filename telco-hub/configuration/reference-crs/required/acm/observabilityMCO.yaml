@@ -3,6 +3,10 @@ kind: MultiClusterObservability
 metadata:
   name: observability
   annotations:
+    # avoids MultiClusterHub Observability to own/manage the
+    # spoke clusters configuration about AlertManager forwards.
+    # ZTP Policies will be in charge of configuring it
+    # https://issues.redhat.com/browse/CNF-13398
     mco-disable-alerting: "true"
 spec:
   advanced:
