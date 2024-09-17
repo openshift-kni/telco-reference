@@ -1,7 +1,8 @@
-Some previous configured components:
-   * ACM requires storage configured in order to use the AgentServiceConfig
-   * MCO requires a pull-secret imported on the NS `open-cluster-management-observability` as a Secret.
-   * MCO requires an S3 compatible bucket storage with the connectivity info as:
+
+# Previous configured components
+
+   * ACM requires ODF configured in order to create the storage for the AgentServiceConfig. Two PVs will be created/required.
+   * MCO requires an S3 compatible bucket storage. The connection to the storage is contained into a Secret, created on the NS `open-cluster-management-observability`. Example:
 
 ```yaml
 apiVersion: v1
@@ -14,9 +15,24 @@ stringData:
   thanos.yaml: |
     type: s3
     config:
-      bucket:  ""
-      endpoint: ""
+      bucket:  "my-bucket-observability-67016e5a-a558-5fc15ee0075c"
+      endpoint: "rook-ceph-rgw-ocs-storagecluster-cephobjectstore.openshift-storage.svc"
       insecure: true
-      access_key: ""
-      secret_key: ""
+      access_key: "F37GAMG8...........6NU"
+      secret_key: "OylYlj5Y...........iFtTcwoBPF9EdEqSMUF0"
+```
+   * MCO requires a pull-secret imported on the Namespace `open-cluster-management-observability` as a Secret. Example:
+  
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    cluster.open-cluster-management.io/backup: ""
+  name: multiclusterhub-operator-pull-secret
+  namespace: open-cluster-management-observability
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: 
+  <REDACTED>
 ```
