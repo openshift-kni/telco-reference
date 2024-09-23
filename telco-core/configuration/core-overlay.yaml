@@ -142,16 +142,22 @@ policies:
             outputs:
             - type: "kafka"
               name: kafka-open
-              url: '{{hub fromConfigMap "" "regional" (printf "%s-log-url" (index .ManagedClusterLabels "region")) | toLiteral hub}}'
-            pipelines:
-            - name: all-to-default
-              inputRefs:
-              - infrastructure
-              - audit
-              labels:
+              kafka:
+                url: '{{hub fromConfigMap "" "regional" (printf "%s-log-url" (index .ManagedClusterLabels "region")) | toLiteral hub}}'
+            filters:
+            - name: custom-labels
+              type: openshiftLabels
+              openshiftLabels:
                 sitename: '{{hub fromConfigMap "" .ManagedClusterName "logging-name" | toLiteral hub}}'
                 siteuuid: '{{hub fromConfigMap "" .ManagedClusterName "logging-uuid" | toLiteral hub}}'
                 label3: 'other data'
+            pipelines:
+            - name: all-to-default
+              inputRefs:
+              - audit
+              - infrastructure
+              filterRefs:
+              - custom-labels
               outputRefs:
               - kafka-open
 
