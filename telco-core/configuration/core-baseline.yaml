@@ -32,9 +32,20 @@ policies:
       - path: reference-crs/optional/logging/ClusterLogNS.yaml
       - path: reference-crs/optional/logging/ClusterLogOperGroup.yaml
       - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
+      - path: reference-crs/optional/logging/ClusterLogOperatorStatus.yaml
         patches:
-        - spec:
-            installPlanApproval: Manual
+        - status:
+            components:
+              refs:
+              - kind: ClusterServiceVersion
+                namespace: openshift-logging
+                # Update with specific target version
+                name: cluster-logging.v6.0.0
+                conditions:
+                  - type: Succeeded
+                    status: "True"
+                    reason: InstallSucceeded
+
       - path: reference-crs/required/networking/sriov/SriovSubscriptionNS.yaml
       - path: reference-crs/required/networking/sriov/SriovSubscriptionOperGroup.yaml
       - path: reference-crs/required/networking/sriov/SriovSubscription.yaml

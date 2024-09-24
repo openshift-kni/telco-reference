@@ -1,7 +1,0 @@
-# This CR is no longer used in Cluster Logging 6.0. It remains in the reference to support removal via policy.
-apiVersion: logging.openshift.io/v1
-kind: ClusterLogForwarder
-metadata:
-  name: instance
-  namespace: openshift-logging
-spec: {}
