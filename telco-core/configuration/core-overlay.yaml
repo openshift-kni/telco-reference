@@ -30,36 +30,6 @@ policies:
       - path: reference-crs/optional/other/worker-load-kernel-modules.yaml
       - path: reference-crs/optional/other/control-plane-load-kernel-modules.yaml
       - path: reference-crs/optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
-      - path: reference-crs/optional/other/monitoring-config-cm.yaml
-        complianceType: musthave
-        patches:
-        - data:
-            # The config is a single string value in this map and default
-            # content must be copied here in order to add custom content
-            # (additionalAlertmanagerConfigs)
-            config.yaml: |
-              alertmanagerMain:
-                volumeClaimTemplate:
-                  spec:
-                    storageClassName: ocs-external-storagecluster-ceph-rbd
-                    resources:
-                      requests:
-                        storage: 20Gi
-              prometheusK8s:
-                retention: 15d
-                volumeClaimTemplate:
-                  spec:
-                    storageClassName: ocs-external-storagecluster-ceph-rbd
-                    resources:
-                      requests:
-                        storage: 100Gi
-                additionalAlertmanagerConfigs:
-                - scheme: "http"
-                  pathPrefix: "/"
-                  timeout: "30s"
-                  apiVersion: "v1"
-                  staticConfigs:
-                  - "10.11.12.14:9999"
 
   # Custom networking, operator and cluster configuration
   - name: core-overlay-config-4.18
@@ -243,7 +213,50 @@ policies:
             networkNamespace: signal-1
             resourceName: testSignaling
 
-#reference-crs/required/networking/nodeNetworkConfigurationPolicy.yaml
-#./storage/odf-external/01-rook-ceph-external-cluster-details.secret.yaml
-#./storage/odf-external/02-ocs-external-storagecluster.yaml
+      #
+      # Configure ODF
+      #
+      - path: reference-crs/required/storage/odf-external/01-rook-ceph-external-cluster-details.secret.yaml
+        patches:
+          - data:
+              # encoded content has been made generic
+              external_cluster_details: eyJuYW1lIjoicm9vay1jZXBoLW1vbi1lbmRwb2ludHMiLCJraW5kIjoiQ29uZmlnTWFwIiwiZGF0YSI6eyJkYXRhIjoiY2VwaG5vZGUxPTEuMi4zLjQ6Njc4OSIsIm1heE1vbklkIjoiMCIsIm1hcHBpbmciOiJ7fSJ9fSx7Im5hbWUiOiJyb29rLWNlcGgtbW9uIiwia2luZCI6IlNlY3JldCIsImRhdGEiOnsiYWRtaW4tc2VjcmV0IjoiYWRtaW4tc2VjcmV0IiwiZnNpZCI6IjExMTExMTExLTExMTEtMTExMS0xMTExLTExMTExMTExMTExMSIsIm1vbi1zZWNyZXQiOiJtb24tc2VjcmV0In19LHsibmFtZSI6InJvb2stY2VwaC1vcGVyYXRvci1jcmVkcyIsImtpbmQiOiJTZWNyZXQiLCJkYXRhIjp7InVzZXJJRCI6ImNsaWVudC5oZWFsdGhjaGVja2VyIiwidXNlcktleSI6ImMyVmpjbVYwIn19LHsibmFtZSI6Im1vbml0b3JpbmctZW5kcG9pbnQiLCJraW5kIjoiQ2VwaENsdXN0ZXIiLCJkYXRhIjp7Ik1vbml0b3JpbmdFbmRwb2ludCI6IjEuMi4zLjQsMS4yLjMuMywxLjIuMy4yIiwiTW9uaXRvcmluZ1BvcnQiOiI5MjgzIn19LHsibmFtZSI6ImNlcGgtcmJkIiwia2luZCI6IlN0b3JhZ2VDbGFzcyIsImRhdGEiOnsicG9vbCI6Im9kZl9wb29sIn19LHsibmFtZSI6InJvb2stY3NpLXJiZC1ub2RlIiwia2luZCI6IlNlY3JldCIsImRhdGEiOnsidXNlcklEIjoiY3NpLXJiZC1ub2RlIiwidXNlcktleSI6IiJ9fSx7Im5hbWUiOiJyb29rLWNzaS1yYmQtcHJvdmlzaW9uZXIiLCJraW5kIjoiU2VjcmV0IiwiZGF0YSI6eyJ1c2VySUQiOiJjc2ktcmJkLXByb3Zpc2lvbmVyIiwidXNlcktleSI6ImMyVmpjbVYwIn19LHsibmFtZSI6InJvb2stY3NpLWNlcGhmcy1wcm92aXNpb25lciIsImtpbmQiOiJTZWNyZXQiLCJkYXRhIjp7ImFkbWluSUQiOiJjc2ktY2VwaGZzLXByb3Zpc2lvbmVyIiwiYWRtaW5LZXkiOiIifX0seyJuYW1lIjoicm9vay1jc2ktY2VwaGZzLW5vZGUiLCJraW5kIjoiU2VjcmV0IiwiZGF0YSI6eyJhZG1pbklEIjoiY3NpLWNlcGhmcy1ub2RlIiwiYWRtaW5LZXkiOiJjMlZqY21WMCJ9fSx7Im5hbWUiOiJjZXBoZnMiLCJraW5kIjoiU3RvcmFnZUNsYXNzIiwiZGF0YSI6eyJmc05hbWUiOiJjZXBoZnMiLCJwb29sIjoibWFuaWxhX2RhdGEifX0K
 
+      - path: reference-crs/required/storage/odf-external/02-ocs-external-storagecluster.yaml
+
+#reference-crs/required/networking/nodeNetworkConfigurationPolicy.yaml
+
+  - name: config-monitoring-4.18
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "10"
+    manifests:
+      - path: reference-crs/optional/other/monitoring-config-cm.yaml
+        complianceType: musthave
+        patches:
+        - data:
+            # The config is a single string value in this map and default
+            # content must be copied here in order to add custom content
+            # (additionalAlertmanagerConfigs)
+            config.yaml: |
+              alertmanagerMain:
+                volumeClaimTemplate:
+                  spec:
+                    storageClassName: ocs-external-storagecluster-ceph-rbd
+                    resources:
+                      requests:
+                        storage: 20Gi
+              prometheusK8s:
+                retention: 15d
+                volumeClaimTemplate:
+                  spec:
+                    storageClassName: ocs-external-storagecluster-ceph-rbd
+                    resources:
+                      requests:
+                        storage: 100Gi
+                additionalAlertmanagerConfigs:
+                - scheme: "http"
+                  pathPrefix: "/"
+                  timeout: "30s"
+                  apiVersion: "v1"
+                  staticConfigs:
+                  - "10.11.12.14:9999"
