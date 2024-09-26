@@ -145,12 +145,13 @@ fieldsToOmit:
       - pathToKey: metadata.labels."kubernetes.io/metadata.name"
       - pathToKey: metadata.labels."pod-security.kubernetes.io"
         isPrefix: true
+      - pathToKey: metadata.labels."operators.coreos.com/"
+        isPrefix: true
       - pathToKey: metadata.labels."security.openshift.io/scc.podSecurityLabelSync"
       - pathToKey: metadata.resourceVersion
       - pathToKey: metadata.uid
       - pathToKey: spec.finalizers
       - pathToKey: metadata.creationTimestamp
-      - pathToKey: metadata."pod-security.kubernetes.io"
       - pathToKey: metadata.generation
       - pathToKey: status # TODO:  We need to check status in Subscription and CatalogSource. CNF-13521
       - pathToKey: metadata.finalizers
