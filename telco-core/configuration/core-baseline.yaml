@@ -36,8 +36,6 @@ policies:
       - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
         patches:
         - spec:
-            # ClusterLogging 6.0 uses a new configuration API.
-            channel: stable-5.9
             installPlanApproval: Manual
       - path: reference-crs/required/networking/sriov/SriovSubscriptionNS.yaml
       - path: reference-crs/required/networking/sriov/SriovSubscriptionOperGroup.yaml
@@ -77,13 +75,9 @@ policies:
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "7"
     manifests:
-      - path: reference-crs/optional/logging/ClusterLogging.yaml
-        patches:
-        - spec:
-            logStore:
-              type: lokistack
-              lokistack:
-                name: logging-loki
+      - path: reference-crs/optional/logging/ClusterLogServiceAccount.yaml
+      - path: reference-crs/optional/logging/ClusterLogServiceAccountAuditBinding.yaml
+      - path: reference-crs/optional/logging/ClusterLogServiceAccountInfrastructureBinding.yaml
 
       - path: reference-crs/required/networking/sriov/SriovOperatorConfig.yaml
         patches:

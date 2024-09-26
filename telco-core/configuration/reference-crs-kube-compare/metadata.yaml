@@ -107,12 +107,14 @@ Parts:
         type: Optional
         requiredTemplates:
           - path: optional/logging/ClusterLogForwarder.yaml
-          - path: optional/logging/ClusterLogging.yaml
           - path: optional/logging/ClusterLogNS.yaml
           - path: optional/logging/ClusterLogOperGroup.yaml
             config:
               ignore-unspecified-fields: true
           - path: optional/logging/ClusterLogSubscription.yaml
+          - path: optional/logging/ClusterLogServiceAccount.yaml
+          - path: optional/logging/ClusterLogServiceAccountAuditBinding.yaml
+          - path: optional/logging/ClusterLogServiceAccountInfrastructureBinding.yaml
   - name: tuning
     Components:
       - name: other
