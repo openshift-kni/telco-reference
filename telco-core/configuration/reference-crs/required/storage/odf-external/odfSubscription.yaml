@@ -14,4 +14,3 @@ spec:
   installPlanApproval: Automatic
 status:
   state: AtLatestKnown
-
