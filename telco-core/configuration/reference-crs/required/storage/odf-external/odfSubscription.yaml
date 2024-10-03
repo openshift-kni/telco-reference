@@ -14,4 +14,3 @@ spec:
   installPlanApproval: Manual
 status:
   state: AtLatestKnown
-
