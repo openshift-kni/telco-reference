@@ -17,8 +17,8 @@ spec:
   clusterImageSetNameRef: "openshift-v4.17.1"
   sshPublicKey: "ssh-ed25519 AAAA...."
   # Optionally; This can be used to configure desired BIOS setting on all hosts in this site:
-  #biosConfigRef:
-  #  filePath: "example-hw.profile"
+  # biosConfigRef:
+  #   filePath: "example-hw.profile"
   clusters:
   - clusterName: "example-standard"
     networkType: "OVNKubernetes"
