@@ -1,0 +1,26 @@
+# Custom configuration for yamllint used to verify content in this
+# repository.
+
+extends: default
+
+rules:
+  # Allow for whitespace in [] lists for readability, eg [ value, value ]
+  brackets:
+    max-spaces-inside: 1
+
+  # Allow for one line of whitespace in yaml files to improve readability
+  empty-lines:
+    max: 1
+
+  # Allow for some variation on indentation. Enforce consistency
+  # throughout the file.
+  indentation:
+    spaces: consistent
+    # In some cases it is helpful to indent a top level list with long
+    # entries but allow aligned lists inside
+    indent-sequences: whatever
+
+  # Unfortunately we have base64 encoded content and templated lines
+  # which are quite long.
+  line-length:
+    max: 2000
