@@ -1,5 +1,6 @@
 # required
 # count: 1..N
+---
 apiVersion: operators.coreos.com/v1alpha1
 kind: CatalogSource
 metadata:
@@ -14,5 +15,5 @@ spec:
 #    registryPoll:
 #      interval: 1h
 status:
-    connectionState:
-        lastObservedState: READY
+  connectionState:
+    lastObservedState: READY
