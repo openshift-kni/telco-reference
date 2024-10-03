@@ -7,7 +7,7 @@ metadata:
   name: $name
   namespace: openshift-sriov-network-operator
 spec: {}
-  maxUnavailable: $maxUnavailable
-  nodeSelector:
-    matchLabels:
-      node-role.kubernetes.io/worker: ""
+  # maxUnavailable: $maxUnavailable
+  # nodeSelector:
+  #   matchLabels:
+  #     node-role.kubernetes.io/worker: ""
