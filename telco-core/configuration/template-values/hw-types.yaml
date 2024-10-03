@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -19,4 +20,3 @@ data:
   nic-config-type-1-sriov-dev1: ens1f0
   nic-config-type-1-sriov-dev2: eno1np0
   nic-config-type-1-sriov-numvf: "8"
-
