@@ -1,3 +1,4 @@
+---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
@@ -10,8 +11,6 @@ policyDefaults:
       common: "core"
       version: "4.18"
   remediationAction: "inform"
-  #policyAnnotations:
-  #  ran.openshift.io/ztp-deploy-wave: "1"
 policies:
   # Baseline configuration with custom overlay content
   - name: core-overlay-base-4.18
@@ -44,7 +43,7 @@ policies:
         patches:
         - spec:
             additionalNetworks: []
-      #- path: reference-crs/optional/networking/networkAttachmentDefinition.yaml
+      # - path: reference-crs/optional/networking/networkAttachmentDefinition.yaml
 
       # Numa aware scheduler, binding to mcp
       - path: reference-crs/required/scheduling/nrop.yaml
@@ -138,54 +137,53 @@ policies:
             nodeSelector:
               node-role.kubernetes.io/worker: ""
 
-#      - path: reference-crs/required/networking/metallb/bfd-profile.yaml
-#      - path: reference-crs/required/networking/metallb/addr-pool.yaml
-#        patches:
-#        - metadata:
-#            name: pool1
-#            annotations:
-#              metallb.universe.tf/address-pool: pool1
-#          spec:
-#            addresses:
-#            - 1.2.3.0/24
-#            #bgpAdvertisements:
-#            #- aggregationLength: 32
-#            #  communities:
-#            #  - 65535:65282
-#      - path: reference-crs/required/networking/metallb/bgp-peer.yaml
-#        patches:
-#        - metadata:
-#            name: peer1
-#          spec:
-#            # Dummy address for now. One of our node ips
-#            peerAddress: 1.2.3.9
-#            peerASN: 64501
-#            myASN: 64500
-#            routerID: 10.10.10.10
-#      - path: reference-crs/required/networking/metallb/bgp-advr.yaml
-#        patches:
-#        - metadata:
-#            name: bgpadv-1
-#          spec:
-#            ipAddressPools:
-#            - pool1
-#            peers:
-#            - peer1
-#            communities:
-#            - 65535:65282
-#      - path: reference-crs/required/networking/metallb/service.yaml
-#        patches:
-#        - metadata:
-#            name: svc1
-#            namespace: default
-#            annotations:
-#              metallb.universe.tf/address-pool: pool1
-#          spec:
-#            selector:
-#              app: lbapp
-#            # Dummy IP for now. Borrow cnfdf03 api IP
-#            loadBalancerIP: 1.2.3.5
-
+      # - path: reference-crs/required/networking/metallb/bfd-profile.yaml
+      # - path: reference-crs/required/networking/metallb/addr-pool.yaml
+      #   patches:
+      #   - metadata:
+      #       name: pool1
+      #       annotations:
+      #         metallb.universe.tf/address-pool: pool1
+      #     spec:
+      #       addresses:
+      #       - 1.2.3.0/24
+      #       #bgpAdvertisements:
+      #       #- aggregationLength: 32
+      #       #  communities:
+      #       #  - 65535:65282
+      # - path: reference-crs/required/networking/metallb/bgp-peer.yaml
+      #   patches:
+      #   - metadata:
+      #       name: peer1
+      #     spec:
+      #       # Dummy address for now. One of our node ips
+      #       peerAddress: 1.2.3.9
+      #       peerASN: 64501
+      #       myASN: 64500
+      #       routerID: 10.10.10.10
+      # - path: reference-crs/required/networking/metallb/bgp-advr.yaml
+      #   patches:
+      #   - metadata:
+      #       name: bgpadv-1
+      #     spec:
+      #       ipAddressPools:
+      #       - pool1
+      #       peers:
+      #       - peer1
+      #       communities:
+      #       - 65535:65282
+      # - path: reference-crs/required/networking/metallb/service.yaml
+      #   patches:
+      #   - metadata:
+      #       name: svc1
+      #       namespace: default
+      #       annotations:
+      #         metallb.universe.tf/address-pool: pool1
+      #     spec:
+      #       selector:
+      #         app: lbapp
+      #       # Dummy IP for now. Borrow cnfdf03 api IP
+      #       loadBalancerIP: 1.2.3.5
 
       - path: reference-crs/required/networking/sriov/sriovNetworkNodePolicy.yaml
         patches:
@@ -224,7 +222,7 @@ policies:
 
       - path: reference-crs/required/storage/odf-external/02-ocs-external-storagecluster.yaml
 
-#reference-crs/required/networking/nodeNetworkConfigurationPolicy.yaml
+  # reference-crs/required/networking/nodeNetworkConfigurationPolicy.yaml
 
   - name: config-monitoring-4.18
     policyAnnotations:

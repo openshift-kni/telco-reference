@@ -1,3 +1,4 @@
+---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
@@ -10,8 +11,6 @@ policyDefaults:
       common: "core"
       version: "4.18"
   remediationAction: "inform"
-  #policyAnnotations:
-  #  ran.openshift.io/ztp-deploy-wave: "1"
 policies:
   # Base cluster configuration
   - name: core-cluster-config-4.18
@@ -24,7 +23,6 @@ policies:
         - spec:
             image: registry.redhat.io/redhat/redhat-operator-index:v4.18
       - path: reference-crs/required/scheduling/Scheduler.yaml
-
 
   # Core cluster OLM operators
   - name: core-operator-subs-4.18
@@ -69,7 +67,6 @@ policies:
         - spec:
             installPlanApproval: Manual
 
-
   # Operator configuration
   - name: core-operator-config-4.18
     policyAnnotations:
@@ -91,4 +88,3 @@ policies:
 
       # Scheduling
       - path: reference-crs/required/scheduling/sched.yaml
-
