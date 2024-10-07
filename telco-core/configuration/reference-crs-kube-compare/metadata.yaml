@@ -144,6 +144,7 @@ fieldsToOmit:
       - pathToKey: metadata.annotations."nmstate.io/webhook-mutating-timestamp"
       - pathToKey: metadata.labels."kubernetes.io/metadata.name"
       - pathToKey: metadata.labels."pod-security.kubernetes.io"
+        isPrefix: true
       - pathToKey: metadata.labels."security.openshift.io/scc.podSecurityLabelSync"
       - pathToKey: metadata.resourceVersion
       - pathToKey: metadata.uid
@@ -161,11 +162,6 @@ fieldsToOmit:
       - pathToKey: metadata.annotations."include.release.openshift.io/single-node-developer"
       - pathToKey: metadata.annotations."release.openshift.io/create-only"
       - pathToKey: metadata.labels."lca.openshift.io/target-ocp-version"
-      - pathToKey: metadata.labels."pod-security.kubernetes.io/audit"
-      - pathToKey: metadata.labels."pod-security.kubernetes.io/audit-version"
-      - pathToKey: metadata.labels."pod-security.kubernetes.io/warn"
-      - pathToKey: metadata.labels."pod-security.kubernetes.io/warn-version"
-      - pathToKey: metadata.labels."pod-security.kubernetes.io/enforce"
       - pathToKey: metadata.annotations."capability.openshift.io/name"
       - pathToKey: metadata.annotations."olm.providedAPIs"
       - pathToKey: metadata.labels."olm.operatorgroup.uid"
