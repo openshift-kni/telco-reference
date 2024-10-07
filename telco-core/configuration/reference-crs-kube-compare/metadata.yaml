@@ -171,3 +171,4 @@ fieldsToOmit:
       - pathToKey: metadata.labels."olm.operatorgroup.uid"
         isPrefix: true
       - pathToKey: metadata.annotations."nmstate.io/webhook-mutating-timestamp"
+      - pathToKey: metadata.annotations."operator.sriovnetwork.openshift.io/last-network-namespace"
