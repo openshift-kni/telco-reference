@@ -13,12 +13,12 @@ spec:
     storage:
       files:
         - path: /etc/modprobe.d/sctp-blacklist.conf
-          mode: 0644
+          mode: 420
           overwrite: true
           contents:
             source: data:,
         - path: /etc/modules-load.d/sctp-load.conf
-          mode: 0644
+          mode: 420
           overwrite: true
           contents:
             source: data:,sctp
