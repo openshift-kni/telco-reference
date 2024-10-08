@@ -1,5 +1,6 @@
 # optional
 # copies: 0-N
+---
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
@@ -9,15 +10,15 @@ spec:
   nodeSelector:
     kubernetes.io/hostname: $nodeName
   config: $config
-  #eg
-  #config: '{
-  #  "cniVersion": "0.3.1",
-  #  "name": "external-169",
-  #  "type": "vlan",
-  #  "master": "ens8f0",
-  #  "mode": "bridge",
-  #  "vlanid": 169,
-  #  "ipam": {
-  #    "type": "static",
-  #  }
-  #}'
+  # eg
+  # config: '{
+  #   "cniVersion": "0.3.1",
+  #   "name": "external-169",
+  #   "type": "vlan",
+  #   "master": "ens8f0",
+  #   "mode": "bridge",
+  #   "vlanid": 169,
+  #   "ipam": {
+  #     "type": "static",
+  #   }
+  # }'
