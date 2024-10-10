@@ -258,3 +258,12 @@ policies:
                   apiVersion: "v1"
                   staticConfigs:
                   - "10.11.12.14:9999"
+
+  # When upgrading from Cluster Logging 5.x to 6.0 the old API CRs
+  # need to be removed AFTER the new logging is set up. This policy
+  # removes those CRs.
+  - name: core-overlay-cleanup-4.16
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "9"
+    manifests:
+      - path: "reference-crs/optional/logging/ClusterLogging5Cleanup.yaml"
