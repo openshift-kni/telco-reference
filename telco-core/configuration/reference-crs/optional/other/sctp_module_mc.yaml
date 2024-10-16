@@ -23,4 +23,3 @@ spec:
           overwrite: true
           contents:
             source: data:,sctp
-
