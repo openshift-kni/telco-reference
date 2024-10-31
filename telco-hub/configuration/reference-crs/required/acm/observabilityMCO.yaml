@@ -1,0 +1,31 @@
+apiVersion: observability.open-cluster-management.io/v1beta2
+kind: MultiClusterObservability
+metadata:
+  name: observability
+  annotations:
+    # avoids MultiClusterHub Observability to own/manage the
+    # spoke clusters configuration about AlertManager forwards.
+    # ZTP Policies will be in charge of configuring it
+    # https://issues.redhat.com/browse/CNF-13398
+    mco-disable-alerting: "true"
+spec:
+  advanced:
+    retentionConfig:
+      blockDuration: 2h
+      deleteDelay: 48h
+      retentionInLocal: 3d
+      retentionResolutionRaw: 3d
+  enableDownsampling: false
+  observabilityAddonSpec:
+    enableMetrics: true
+    interval: 300
+  storageConfig:
+    alertmanagerStorageSize: 10Gi
+    compactStorageSize: 100Gi
+    metricObjectStorage:
+      key: thanos.yaml
+      name: thanos-object-storage
+    receiveStorageSize: 25Gi
+    ruleStorageSize: 10Gi
+    storeStorageSize: 25Gi
+

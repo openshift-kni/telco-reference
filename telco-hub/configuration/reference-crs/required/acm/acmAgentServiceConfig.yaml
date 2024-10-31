@@ -1,0 +1,40 @@
+apiVersion: agent-install.openshift.io/v1beta1
+kind: AgentServiceConfig
+metadata:
+  name: agent
+spec:
+  databaseStorage:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 20Gi
+  filesystemStorage:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 20Gi
+  imageStorage:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 100Gi
+  osImages:
+  - cpuArchitecture: x86_64
+    openshiftVersion: "4.14"
+    rootFSUrl: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.14/latest/rhcos-live-rootfs.x86_64.img
+    url: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.14/latest/rhcos-live.x86_64.iso
+    version: 4.14-latest
+  - cpuArchitecture: x86_64
+    openshiftVersion: "4.15"
+    rootFSUrl: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.15/latest/rhcos-live-rootfs.x86_64.img
+    url: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.15/latest/rhcos-live.x86_64.iso
+    version: 4.15-latest
+  - cpuArchitecture: x86_64
+    openshiftVersion: "4.16"
+    rootFSUrl: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.16/latest/rhcos-live-rootfs.x86_64.img
+    url: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.16/latest/rhcos-live.x86_64.iso
+    version: 4.16-latest
+
