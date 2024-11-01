@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 metadata:
   name: myhub  # your hub name
@@ -19,15 +20,15 @@ networking:
   serviceNetwork:
   - 172.30.0.0/16
   machineNetwork:
-  - cidr:  192.168.56.1/25   # put your machine network CIDR
+  - cidr: 192.168.56.1/25  # put your machine network CIDR
   networkType: OVNKubernetes
 platform:
   baremetal:
     apiVips:
-      - 192.168.56.5 # your apivip IP
-      
+      - 192.168.56.5  # your apivip IP
+
     ingressVips:
       - 192.168.56.6  # your ingressVIP IP
-      
-pullSecret:  # your pull secret 
-sshKey:  # your ssh key 
+
+pullSecret:  # your pull secret
+sshKey:  # your ssh key

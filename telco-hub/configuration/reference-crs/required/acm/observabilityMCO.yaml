@@ -1,3 +1,4 @@
+---
 apiVersion: observability.open-cluster-management.io/v1beta2
 kind: MultiClusterObservability
 metadata:
@@ -28,4 +29,3 @@ spec:
     receiveStorageSize: 25Gi
     ruleStorageSize: 10Gi
     storeStorageSize: 25Gi
-

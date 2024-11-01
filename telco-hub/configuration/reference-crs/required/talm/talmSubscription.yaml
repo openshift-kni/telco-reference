@@ -1,3 +1,4 @@
+---
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
@@ -9,4 +10,3 @@ spec:
   name: topology-aware-lifecycle-manager
   source: redhat-operators-disconnected
   sourceNamespace: openshift-marketplace
-

@@ -9,5 +9,6 @@ lintCheck:
 	yamllint -c .yamllint.yaml telco-core/configuration/reference-crs
 	yamllint -c .yamllint.yaml telco-core/configuration/template-values
 	yamllint -c .yamllint.yaml telco-core/install/
+	yamllint -c .yamllint.yaml telco-hub/
 
 ci-validate: lintCheck
