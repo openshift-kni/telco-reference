@@ -2,11 +2,11 @@
 
   1 - Create the `acmNS.yaml` `acmOperGroup.yaml` `acmSubscription.yaml`
   
-  2 - Approve the created InstallPlan on `open-cluster-management`
+  2 - If Subscription was set to Manual installPlanApproval, approve the created InstallPlan on `open-cluster-management`
   
   3 - Create the `acmMCH.yaml`
   
-  4 - Approve the created InstallPlan on `multicluster-engine`
+  4 - If Subscription was set to Manual installPlanApproval, approve the created InstallPlan on `multicluster-engine`
   
   5 - Apply the `acmProvisioning.yaml` ?
   
