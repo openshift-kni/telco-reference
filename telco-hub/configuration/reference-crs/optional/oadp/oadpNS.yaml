@@ -1,0 +1,8 @@
+---
+# OADP is intended to be deployed on the Hub cluster for Backup and restore mechanism
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openshift-adp
+  labels:
+    kubernetes.io/metadata.name: openshift-adp
