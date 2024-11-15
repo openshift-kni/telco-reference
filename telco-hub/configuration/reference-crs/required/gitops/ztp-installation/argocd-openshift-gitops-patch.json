@@ -40,7 +40,7 @@
             }
           ],
           "terminationMessagePolicy": "File",
-          "image": "registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.16.2"
+          "image": "registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.17.0"
         },
         {
           "args": [
@@ -50,7 +50,7 @@
           "command": [
             "/bin/bash"
           ],
-          "image": "registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:v2.10",
+          "image": "registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:v2.11",
           "name": "policy-generator-install",
           "imagePullPolicy": "Always",
           "volumeMounts": [

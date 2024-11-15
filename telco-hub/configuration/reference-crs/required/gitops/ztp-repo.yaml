@@ -6,11 +6,17 @@ metadata:
   labels:
     argocd.argoproj.io/secret-type: repository
 stringData:
+  # use following for ssh repo access
   url: git@gitlab.example.com:namespace/repo.git
   insecure: "false"
-  name: ztp
-  project: default
   sshPrivateKey: |
     -----BEGIN OPENSSH PRIVATE KEY-----
     INSERT PRIVATE KEY
     -----END OPENSSH PRIVATE KEY-----
+  # uncomment and use following for https repo access
+  # url: https://gitlab.example.com/namespace/repo
+  # insecure: "false"
+  # password: password
+  # username: username
+  # forceHttpBasicAuth: "true"
+  # more examples: https://argo-cd.readthedocs.io/en/stable/operator-manual/argocd-repositories-yaml/
