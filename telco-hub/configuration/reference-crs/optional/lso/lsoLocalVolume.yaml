@@ -17,4 +17,4 @@ spec:
       forceWipeDevicesAndDestroyAllData: true
       volumeMode: Block
       devicePaths: 
-        -  /dev/disk/by-path/pci-xxx    # your by-path or by-id path  
+        -  /dev/disk/by-path/pci-xxx
