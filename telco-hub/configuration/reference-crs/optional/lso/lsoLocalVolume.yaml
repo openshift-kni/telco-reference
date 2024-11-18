@@ -16,5 +16,5 @@ spec:
     - storageClassName: "local-sc"
       forceWipeDevicesAndDestroyAllData: true
       volumeMode: Block
-      devicePaths: 
+      devicePaths:
         - /dev/disk/by-path/pci-xxx
