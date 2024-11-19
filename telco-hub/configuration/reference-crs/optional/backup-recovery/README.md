@@ -101,7 +101,7 @@ spec:
           profile: default
           region: us-east-1
           s3ForcePathStyle: 'true'
-          s3Url: 'https://s3-openshift-storage.apps.hubcluster-1.hubcluster-1.lab.eng.cert.redhat.com'
+          s3Url: # your S3 endpoint
           insecureSkipTLSVerify: "true"
         credential:
           key: cloud
