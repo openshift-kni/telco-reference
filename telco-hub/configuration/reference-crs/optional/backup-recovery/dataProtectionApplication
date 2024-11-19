@@ -1,6 +1,6 @@
 kind: DataProtectionApplication
 metadata:
-  name: hubbackup
+  name: hub-backup
   namespace: open-cluster-management-backup
 spec:
   backupLocations:
