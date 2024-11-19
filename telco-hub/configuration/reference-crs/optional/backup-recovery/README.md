@@ -171,6 +171,78 @@ oc get backupstoragelocation  -n open-cluster-management-backup hubtest-1 -o jso
 
 ```
 
+### Before creating the backup ensure that all BMH are labeled correctly to avoid issue when restoration is done
+
+```yaml
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  name: bmh-cluster-activation-label
+  annotations:
+    policy.open-cluster-management.io/description: Policy used to add the cluster.open-cluster-management.io/backup=cluster-activation label to all BareMetalHost resources
+spec:
+  disabled: false
+  policy-templates:
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: set-bmh-backup-label
+        spec:
+          object-templates-raw: |
+            {{- /* Set cluster-activation label on all BMH resources */ -}}
+            {{- $infra_label := "infraenvs.agent-install.openshift.io" }}
+            {{- range $bmh := (lookup "metal3.io/v1alpha1" "BareMetalHost" "" "" $infra_label).items }}
+                - complianceType: musthave
+                  objectDefinition:
+                    kind: BareMetalHost
+                    apiVersion: metal3.io/v1alpha1
+                    metadata:
+                      name: {{ $bmh.metadata.name }}
+                      namespace: {{ $bmh.metadata.namespace }}
+                      labels:
+                        cluster.open-cluster-management.io/backup: cluster-activation
+            {{- end }}
+          remediationAction: enforce
+          severity: high
+---
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  name: bmh-cluster-activation-label-pr
+spec:
+  predicates:
+    - requiredClusterSelector:
+        labelSelector:
+          matchExpressions:
+            - key: name
+              operator: In
+              values:
+                - local-cluster
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PlacementBinding
+metadata:
+  name: bmh-cluster-activation-label-binding
+placementRef:
+  name: bmh-cluster-activation-label-pr
+  apiGroup: cluster.open-cluster-management.io
+  kind: Placement
+subjects:
+  - name: bmh-cluster-activation-label
+    apiGroup: policy.open-cluster-management.io
+    kind: Policy
+---
+apiVersion: cluster.open-cluster-management.io/v1beta2
+kind: ManagedClusterSetBinding
+metadata:
+  name: default
+  namespace: default
+spec:
+  clusterSet: default
+```
+
 #### create the backup job to schedule the backup
 
 ```yaml
