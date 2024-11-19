@@ -1,0 +1,8 @@
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: BackupSchedule
+metadata:
+  name: schedule-drtest
+  namespace: open-cluster-management-backup
+spec:
+  veleroSchedule: "*/5 * * * *" #backup set every 5 mns
+  veleroTtl: 1h
