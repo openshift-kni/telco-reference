@@ -1,6 +1,6 @@
 # Installation instructions
 
-### 1 - Apply the `gitopsNS.yaml` `gitopsOperGroup.yaml` `gitopsSubscription.yaml`.  
+###### 1 - Apply the `gitopsNS.yaml` `gitopsOperGroup.yaml` `gitopsSubscription.yaml`.  
 
 ### 2 - Approve the created InstallPlan on `openshift-gitops`.  
 
