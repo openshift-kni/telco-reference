@@ -10,8 +10,9 @@ The purpose of this procedure is to show how to backup the Hub cluster CRs and  
 * An S3 Bucket ideally you want an s3 endpoint that is external to the hub The purpose of this s3 bucket is to be used as a backup storage location
 for the multicluster-engine deployment of OADP. 
 
+### Backup Process
 
-#### 2-  Create OBC  and get the secret Information 
+#### 1-  Create OBC  and get the secret Information 
 
 ```yaml
 apiVersion: objectbucket.io/v1alpha1
@@ -35,8 +36,8 @@ backup   Opaque   2      45m
 [root@rack1-jumphost 20241112-13:25:01]$ oc get secret -n default backup -o yaml
 apiVersion: v1
 data:
-  AWS_ACCESS_KEY_ID: Sk90bGpXSHdodEJISE5OdVp5NUw=
-  AWS_SECRET_ACCESS_KEY: SlFhcUw2eHRDSGkva0Jwd3hNZVo2emdITU9pT0F1MjFpbjhwMnpnQQ==
+  AWS_ACCESS_KEY_ID: xxxxxxxxxxxxx
+  AWS_SECRET_ACCESS_KEY: xxxxxxxxx
 kind: Secret
 metadata:
   creationTimestamp: "2024-11-12T17:39:47Z"
@@ -63,13 +64,13 @@ type: Opaque
 
 ##### decode the key Id and the AW secret access key to create the velero secret 
 
-#### 3 Create velero secret
+#### 2- Create velero secret
 
 ```bash
 $ cat credentials-velero 
 [default]
-aws_access_key_id=JOtljWHwhtBHHNNuZy5L
-aws_secret_access_key=JQaqL6xtCHi/kBpwxMeZ6zgHMOiOAu21in8p2zgA
+aws_access_key_id=xxxxxxxxxxxxxxx
+aws_secret_access_key=xxxxxxxxxxxxxx
 ```
 
 
@@ -78,7 +79,14 @@ oc create secret generic cloud-credentials -n open-cluster-management-backup --f
 
 ```
 
-####4 create the dataprotection application backup
+#### 3- Get the  s3 route for your bucket. it  can be retrieved with the step below:
+
+```bash
+  oc get routes -n openshift-storage | grep s3 | awk {'print $2'}
+
+```
+
+#### 4-  Create the dataprotection application backup
 
 ```yaml
 apiVersion: oadp.openshift.io/v1alpha1
