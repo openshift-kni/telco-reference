@@ -92,7 +92,7 @@ oc create secret generic cloud-credentials -n open-cluster-management-backup --f
 apiVersion: oadp.openshift.io/v1alpha1
 kind: DataProtectionApplication
 metadata:
-  name: hubtest
+  name: hub-backup
   namespace: open-cluster-management-backup
 spec:
   backupLocations:
