@@ -275,3 +275,20 @@ open-cluster-management-backup   acm-resources-generic-schedule-20241112183617  
 open-cluster-management-backup   acm-resources-schedule-20241112183617           80s
 open-cluster-management-backup   acm-validation-policy-schedule-20241112183617   80s
 ```
+
+## To restore  a HUB cluster below ressource can be used
+```yaml
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Restore
+metadata:
+  name: restore-acm-bmh
+  namespace: open-cluster-management-backup
+spec:
+  cleanupBeforeRestore: CleanupRestored
+  veleroManagedClustersBackupName: latest
+  veleroCredentialsBackupName: latest
+  veleroResourcesBackupName: latest
+  restoreStatus:
+    includedResources: 
+      - BareMetalHosts 
+```
