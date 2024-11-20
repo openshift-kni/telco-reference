@@ -7,7 +7,7 @@ The purpose of this procedure is to show how to backup the Hub cluster CRs and  
 ### Prerequisites 
 
 * OADP operator enabled through the MulticlusterHub CR ( RHACM)
-* An S3 Bucket ideally you want an s3 endpoint that is external to the hub The purpose of this s3 bucket is to be used as a backup storage location
+* An S3 Bucket ideally you want an s3 endpoint that is external to the hub. The purpose of this s3 bucket is to be used as a backup storage location
 for the multicluster-engine deployment of OADP. 
 
 ### Backup Process
