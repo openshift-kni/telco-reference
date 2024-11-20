@@ -252,8 +252,8 @@ metadata:
   name: schedule-drtest
   namespace: open-cluster-management-backup
 spec:
-  veleroSchedule: "*/5 * * * *"
-  veleroTtl: 1h
+  veleroSchedule: "0 */2 * * *"
+  veleroTtl: 120h
 
 ```
 
