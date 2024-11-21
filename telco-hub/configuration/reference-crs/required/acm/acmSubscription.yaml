@@ -5,7 +5,7 @@ metadata:
   name: open-cluster-management-subscription
   namespace: open-cluster-management
 spec:
-  channel: release-2.11
+  channel: release-2.12
   installPlanApproval: Manual
   name: advanced-cluster-management
   source: redhat-operators-disconnected
