@@ -10,11 +10,18 @@ metadata:
     # https://issues.redhat.com/browse/CNF-13398
     mco-disable-alerting: "true"
 spec:
+    # based on the data provided by acm-capacity tool
+    # https://github.com/stolostron/capacity-planning/blob/main/calculation/ObsSizingTemplate-Rev1.ipynb
+    # for an scenario with:
+    # 3500SNOs, 125 pods and 5 Namespaces (apart from Openshift NS)
+    # storage retention 365 days
+    # downsampling disabled
+    # default MCO Addon configuration samples_per_hour, pv_retention_hrs.
   advanced:
     retentionConfig:
       blockDuration: 2h
       deleteDelay: 48h
-      retentionInLocal: 3d
+      retentionInLocal: 24h
       retentionResolutionRaw: 3d
   enableDownsampling: false
   observabilityAddonSpec:
@@ -24,8 +31,10 @@ spec:
     alertmanagerStorageSize: 10Gi
     compactStorageSize: 100Gi
     metricObjectStorage:
+    # buckets storage should provide a capacity
+    # of at least 2.5TB
       key: thanos.yaml
       name: thanos-object-storage
-    receiveStorageSize: 25Gi
-    ruleStorageSize: 10Gi
-    storeStorageSize: 25Gi
+    receiveStorageSize: 10Gi
+    ruleStorageSize: 30Gi
+    storeStorageSize: 100Gi
