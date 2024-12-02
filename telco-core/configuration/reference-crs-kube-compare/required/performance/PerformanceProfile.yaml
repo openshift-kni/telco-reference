@@ -31,18 +31,18 @@ spec:
           node: {{ .node }}
           {{- end }}
         {{- end }}
-{{- if .spec.machineConfigPoolSelector }}
+  {{- if hasKey .spec "machineConfigPoolSelector" }}
   machineConfigPoolSelector:
-{{ .spec.machineConfigPoolSelector | toYaml | indent 4 }}
+    {{- .spec.machineConfigPoolSelector | toYaml | nindent 4 }}
 #    # For SNO: machineconfiguration.openshift.io/role: 'master'
 #    pools.operator.machineconfiguration.openshift.io/worker: ''
-{{- end }}
-{{- if .spec.nodeSelector }}
+  {{- end }}
+  {{- if hasKey .spec "nodeSelector" }}
   nodeSelector:
-{{ .spec.nodeSelector | toYaml | indent 4 }}
+    {{- .spec.nodeSelector | toYaml | nindent 4 }}
 #    # For SNO: node-role.kubernetes.io/master: ""
 #    node-role.kubernetes.io/worker: ""
-{{- end }}
+  {{- end }}
   workloadHints:
     realTime: false
     highPowerConsumption: false
@@ -52,7 +52,7 @@ spec:
   numa:
     # All guaranteed QoS containers get resources from a single NUMA node
     topologyPolicy: "single-numa-node"
-  {{ if hasKey  .spec.net "userLevelNetworking" -}}
+  {{- if hasKey .spec.net "userLevelNetworking" }}
   net:
     userLevelNetworking: false
   {{- end }}
