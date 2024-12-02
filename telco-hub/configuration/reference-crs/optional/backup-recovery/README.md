@@ -143,11 +143,10 @@ $ oc apply -f backupSchedule.yaml
 
 #### check the backup 
 
-````bash
+```bash
 oc get backupschedules.cluster.open-cluster-management.io 
 NAME              PHASE     MESSAGE
 schedule-drtest   Enabled   Velero schedules are enabled
-
  
 ```
 ```bash
