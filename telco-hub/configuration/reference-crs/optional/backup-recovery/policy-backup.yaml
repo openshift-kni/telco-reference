@@ -66,6 +66,6 @@ apiVersion: cluster.open-cluster-management.io/v1beta2
 kind: ManagedClusterSetBinding
 metadata:
   name: default
-  namespace: namespace: open-cluster-management-backup
+  namespace: open-cluster-management-backup
 spec:
   clusterSet: default

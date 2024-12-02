@@ -14,15 +14,9 @@ for the multicluster-engine deployment of OADP.
 
 #### 1-  Create OBC  and get the secret Information 
 
-```yaml
-apiVersion: objectbucket.io/v1alpha1
-kind: ObjectBucketClaim
-metadata:
-  name: backup
-  namespace: default
-spec:
-  generateBucketName: backup
-  storageClassName: openshift-storage.noobaa.io
+```bash
+$ oc apply -f objectBucketClaim.yaml
+
 ```
 ```bash
 
@@ -33,7 +27,8 @@ oc get obc
 $ oc get secret -n default
 NAME     TYPE     DATA   AGE
 backup   Opaque   2      45m
-[root@rack1-jumphost 20241112-13:25:01]$ oc get secret -n default backup -o yaml
+$ oc get secret -n default backup -o yaml
+
 apiVersion: v1
 data:
   AWS_ACCESS_KEY_ID: xxxxxxxxxxxxx
@@ -73,61 +68,22 @@ aws_access_key_id=xxxxxxxxxxxxxxx
 aws_secret_access_key=xxxxxxxxxxxxxx
 ```
 
-
 ```bash
 oc create secret generic cloud-credentials -n open-cluster-management-backup --from-file cloud=credentials-velero
 
 ```
-
 #### 3- Get the  s3 route for your bucket. it  can be retrieved with the step below:
 
 ```bash
   oc get routes -n openshift-storage | grep s3 | awk {'print $2'}
 
 ```
-
 #### 4-  Create the dataprotection application backup
 
-```yaml
-apiVersion: oadp.openshift.io/v1alpha1
-kind: DataProtectionApplication
-metadata:
-  name: hub-backup
-  namespace: open-cluster-management-backup
-spec:
-  backupLocations:
-    - velero:
-        config:
-          profile: default
-          region: us-east-1
-          s3ForcePathStyle: 'true'
-          s3Url: # your S3 endpoint
-          insecureSkipTLSVerify: "true"
-        credential:
-          key: cloud
-          name: cloud-credentials
-        default: true
-        objectStorage:
-          bucket: backup-05a35399-bc56-46ac-99bc-a50dd0ad8a1e
-          prefix: velero
-        provider: aws
-  configuration:
-    restic:
-      enable: true
-    velero:
-      defaultPlugins:
-        - openshift
-        - aws
-        - kubevirt
-  snapshotLocations:
-    - velero:
-        config:
-          profile: default
-          region: minio
-        provider: aws
-
+```bash
+$ oc apply -f dataProtectionApplication.yaml
+       
 ```
-
 ## validation 
 #### Confirm the health of the DPA by checking if the status of the DPA resource is ‘Reconciled’
 
@@ -171,90 +127,18 @@ oc get backupstoragelocation  -n open-cluster-management-backup hubtest-1 -o jso
 
 ```
 
-### Before creating the backup ensure that all BMH are labeled correctly to avoid issue when restoration is done
+### Before creating the backup ensure that all BMH are labeled correctly to avoid issue when restoration is done. Below Policy can help achieve that.
 
-```yaml
----
-apiVersion: policy.open-cluster-management.io/v1
-kind: Policy
-metadata:
-  name: bmh-cluster-activation-label
-  annotations:
-    policy.open-cluster-management.io/description: Policy used to add the cluster.open-cluster-management.io/backup=cluster-activation label to all BareMetalHost resources
-spec:
-  disabled: false
-  policy-templates:
-    - objectDefinition:
-        apiVersion: policy.open-cluster-management.io/v1
-        kind: ConfigurationPolicy
-        metadata:
-          name: set-bmh-backup-label
-        spec:
-          object-templates-raw: |
-            {{- /* Set cluster-activation label on all BMH resources */ -}}
-            {{- $infra_label := "infraenvs.agent-install.openshift.io" }}
-            {{- range $bmh := (lookup "metal3.io/v1alpha1" "BareMetalHost" "" "" $infra_label).items }}
-                - complianceType: musthave
-                  objectDefinition:
-                    kind: BareMetalHost
-                    apiVersion: metal3.io/v1alpha1
-                    metadata:
-                      name: {{ $bmh.metadata.name }}
-                      namespace: {{ $bmh.metadata.namespace }}
-                      labels:
-                        cluster.open-cluster-management.io/backup: cluster-activation
-            {{- end }}
-          remediationAction: enforce
-          severity: high
----
-apiVersion: cluster.open-cluster-management.io/v1beta1
-kind: Placement
-metadata:
-  name: bmh-cluster-activation-label-pr
-spec:
-  predicates:
-    - requiredClusterSelector:
-        labelSelector:
-          matchExpressions:
-            - key: name
-              operator: In
-              values:
-                - local-cluster
----
-apiVersion: policy.open-cluster-management.io/v1
-kind: PlacementBinding
-metadata:
-  name: bmh-cluster-activation-label-binding
-placementRef:
-  name: bmh-cluster-activation-label-pr
-  apiGroup: cluster.open-cluster-management.io
-  kind: Placement
-subjects:
-  - name: bmh-cluster-activation-label
-    apiGroup: policy.open-cluster-management.io
-    kind: Policy
----
-apiVersion: cluster.open-cluster-management.io/v1beta2
-kind: ManagedClusterSetBinding
-metadata:
-  name: default
-  namespace: default
-spec:
-  clusterSet: default
+```bash
+
+$ oc apply -f policy-backup.yaml
+
 ```
 
 #### create the backup job to schedule the backup
 
-```yaml
-apiVersion: cluster.open-cluster-management.io/v1beta1
-kind: BackupSchedule
-metadata:
-  name: schedule-drtest
-  namespace: open-cluster-management-backup
-spec:
-  veleroSchedule: "0 */2 * * *"
-  veleroTtl: 120h
-
+```bash
+$ oc apply -f backupSchedule.yaml
 ```
 
 #### check the backup 
@@ -277,18 +161,6 @@ open-cluster-management-backup   acm-validation-policy-schedule-20241112183617  
 ```
 
 ## To restore  a HUB cluster below ressource can be used
-```yaml
-apiVersion: cluster.open-cluster-management.io/v1beta1
-kind: Restore
-metadata:
-  name: restore-acm-bmh
-  namespace: open-cluster-management-backup
-spec:
-  cleanupBeforeRestore: CleanupRestored
-  veleroManagedClustersBackupName: latest
-  veleroCredentialsBackupName: latest
-  veleroResourcesBackupName: latest
-  restoreStatus:
-    includedResources: 
-      - BareMetalHosts 
+```bash
+$ oc apply -f backupSchedule.yaml
 ```

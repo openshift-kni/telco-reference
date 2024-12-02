@@ -5,5 +5,5 @@ metadata:
   name: schedule-drtest
   namespace: open-cluster-management-backup
 spec:
-  veleroSchedule: "0 */2 * * *" #backup set every 5 mns
+  veleroSchedule: "0 */2 * * *" #backup set every 2 hours 
   veleroTtl: 120h
