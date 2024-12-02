@@ -6,7 +6,7 @@ metadata:
   namespace: openshift-operators
 spec:
   channel: stable
-  installPlanApproval: Manual
+  installPlanApproval: Automatic
   name: topology-aware-lifecycle-manager
   source: redhat-operators-disconnected
   sourceNamespace: openshift-marketplace
