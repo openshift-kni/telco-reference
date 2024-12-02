@@ -1,0 +1,35 @@
+kind: DataProtectionApplication
+metadata:
+  name: hub-backup
+  namespace: open-cluster-management-backup
+spec:
+  backupLocations:
+    - velero:
+        config:
+          profile: default
+          region: us-east-1
+          s3ForcePathStyle: 'true'
+          s3Url: # your S3 end point 
+          insecureSkipTLSVerify: "true"
+        credential:
+          key: cloud
+          name: cloud-credentials
+        default: true
+        objectStorage:
+          bucket: #your bucket name
+          prefix: velero
+        provider: aws
+  configuration:
+    restic:
+      enable: true
+    velero:
+      defaultPlugins:
+        - openshift
+        - aws
+        - kubevirt
+  snapshotLocations:
+    - velero:
+        config:
+          profile: default #your velero secret profile name
+          region: minio
+        provider: aws
