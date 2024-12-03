@@ -1,0 +1,22 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfigPool
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: workload-1-worker-mcp
+  name: workload-1-worker-mcp
+spec:
+  machineConfigSelector:
+    matchExpressions:
+    - key: machineconfiguration.openshift.io/role
+      operator: In
+      values:
+      - workload-1-worker-mcp
+      - worker
+  # installation paused
+  # installation will be done at the end of ZTP
+  paused: true
+  # increase speed of installation
+  maxUnavailable: 100%
+  nodeSelector:
+    matchLabels:
+      node-role.kubernetes.io/workload-1-worker-mcp: ""

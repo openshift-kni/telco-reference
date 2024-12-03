@@ -1,0 +1,67 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: core-customer-policies
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      common: "core"
+      version: "4.18"
+  remediationAction: "inform"
+  policyAnnotations:
+    ran.openshift.io/ztp-deploy-wave: "1"
+policies:
+  # Customer baseline configuration
+  - name: custom-performance-profile
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "8"
+    manifests:
+      # set PerformanceProfiles for MCPs
+      - path: ../reference-crs/required/performance/PerformanceProfile.yaml
+        patches:
+        - metadata:
+            name: pao-workload-1-profile
+          spec:
+            cpu: 
+              reserved: 3-31,34-63,67-95,98-127
+              isolated: 0,1,2,32,33,64,65,66,96,97  
+            hugepages:
+              pages:
+              - count: 24
+                size: 1G
+                count: 14000
+                size: 2M
+            nodeSelector:
+              node-role.kubernetes.io/workload-worker-1-mcp: ""
+
+      - path: ../reference-crs/required/performance/PerformanceProfile.yaml
+        patches:
+        - metadata:
+            name: pao-workload-2-profile
+          spec:
+            cpu: 
+              reserved: 3-31,34-63,67-95,98-127
+              isolated: 0,1,2,32,33,64,65,66,96,97  
+            hugepages:
+              pages:
+              - count: 64
+                size: 1G
+            nodeSelector:
+              node-role.kubernetes.io/workload-worker-2-mcp: ""
+      
+      - path: ../reference-crs/required/performance/PerformanceProfile.yaml
+        patches:
+        - metadata:
+            name: pao-workload-3-profile
+          spec:
+            cpu: 
+              reserved: 3-31,34-63,67-95,98-127
+              isolated: 0,1,2,32,33,64,65,66,96,97  
+            hugepages:
+              pages:
+              - count: 64
+                size: 1G
+            nodeSelector:
+              node-role.kubernetes.io/workload-worker-3-mcp: ""
