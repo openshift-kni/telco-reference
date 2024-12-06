@@ -1,3 +1,4 @@
+---
 kind: DataProtectionApplication
 metadata:
   name: hub-backup
@@ -9,7 +10,7 @@ spec:
           profile: default
           region: us-east-1
           s3ForcePathStyle: 'true'
-          s3Url: # your S3 end point 
+          s3Url: #your S3 end point 
           insecureSkipTLSVerify: "true"
         credential:
           key: cloud

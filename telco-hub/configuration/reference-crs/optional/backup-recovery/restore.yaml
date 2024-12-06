@@ -10,5 +10,5 @@ spec:
   veleroCredentialsBackupName: latest
   veleroResourcesBackupName: latest
   restoreStatus:
-    includedResources: 
+    includedResources:
       - BareMetalHosts
