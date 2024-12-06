@@ -2,7 +2,7 @@
 
 ###Purpose 
 
-The purpose of this procedure is to show how to backup the Hub cluster CRs and  Recover in case of failure. It can either be in an active-passive Architecture or just a simple hub. 
+The purpose of this procedure is to show how to backup the Hub cluster CRs and Recover in case of failure. It can either be in an active-passive Architecture or just a simple hub. 
 
 ### Prerequisites 
 
@@ -12,21 +12,14 @@ for the multicluster-engine deployment of OADP.
 
 ### Backup Process
 
-#### 1-  Create OBC  and get the secret Information 
+#### 1-Create OBC and get the secret Information 
 
 ```bash
 $ oc apply -f objectBucketClaim.yaml
 
 ```
-```bash
-
-oc get obc
-```
 
 ```yaml
-$ oc get secret -n default
-NAME     TYPE     DATA   AGE
-backup   Opaque   2      45m
 $ oc get secret -n open-cluster-management-backup backup -o yaml
 
 apiVersion: v1
