@@ -1,6 +1,6 @@
-# Backup and Recovery process CR are documented here
+#Backup and Recovery process CR are documented here
 
-### Purpose 
+###Purpose 
 
 The purpose of this procedure is to show how to backup the Hub cluster CRs and  Recover in case of failure. It can either be in an active-passive Architecture or just a simple hub. 
 
@@ -27,7 +27,7 @@ oc get obc
 $ oc get secret -n default
 NAME     TYPE     DATA   AGE
 backup   Opaque   2      45m
-$ oc get secret -n default backup -o yaml
+$ oc get secret -n open-cluster-management-backup backup -o yaml
 
 apiVersion: v1
 data:
@@ -43,16 +43,7 @@ metadata:
     bucket-provisioner: openshift-storage.noobaa.io-obc
     noobaa-domain: openshift-storage.noobaa.io
   name: backup
-  namespace: default
-  ownerReferences:
-  - apiVersion: objectbucket.io/v1alpha1
-    blockOwnerDeletion: true
-    controller: true
-    kind: ObjectBucketClaim
-    name: backup
-    uid: d5569ae9-5d57-4abd-99cd-f7f328c358c9
-  resourceVersion: "227605111"
-  uid: 73aebe24-1751-4fdd-a5f2-7a10be369892
+  namespace: open-cluster-management-backup
 type: Opaque
 
 ```
@@ -82,35 +73,6 @@ oc create secret generic cloud-credentials -n open-cluster-management-backup --f
 
 ```bash
 $ oc apply -f dataProtectionApplication.yaml
-       
-```
-## validation 
-#### Confirm the health of the DPA by checking if the status of the DPA resource is ‘Reconciled’
-
-```bash
-oc get dpa -A -o yaml
-apiVersion: v1
-items:
-- apiVersion: oadp.openshift.io/v1alpha1
-  kind: DataProtectionApplication
-  metadata:
-    annotations:
-      kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"oadp.openshift.io/v1alpha1","kind":"DataProtectionApplication","metadata":{"annotations":{},"name":"hubtest","namespace":"open-cluster-management-backup"},"spec":{"backupLocations":[{"velero":{"config":{"insecureSkipTLSVerify":"true","profile":"default","region":"us-east-1","s3ForcePathStyle":"true","s3Url":"https://s3-openshift-storage.apps.hubcluster-1.hubcluster-1.lab.eng.cert.redhat.com"},"credential":{"key":"cloud","name":"cloud-credentials"},"default":true,"objectStorage":{"bucket":"backup-05a35399-bc56-46ac-99bc-a50dd0ad8a1e","prefix":"velero"},"provider":"aws"}}],"configuration":{"restic":{"enable":true},"velero":{"defaultPlugins":["openshift","aws","kubevirt"]}},"snapshotLocations":[{"velero":{"config":{"profile":"default","region":"minio"},"provider":"aws"}}]}}
-    creationTimestamp: "2024-11-12T18:04:28Z"
-
-.........
-.........
-  status:
-    conditions:
-    - lastTransitionTime: "2024-11-12T18:04:28Z"
-      message: Reconcile complete
-      reason: Complete
-      status: "True"
-      type: Reconciled
-kind: List
-metadata:
-
 ```
 
 #### Ensure the S3 bucket is reachable by checking the BackupStorageLocation resource is in
