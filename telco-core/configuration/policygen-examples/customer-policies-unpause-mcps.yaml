@@ -1,0 +1,72 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: core-customer-policies
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      common: "core"
+      version: "4.18"
+  remediationAction: "inform"
+  policyAnnotations:
+    ran.openshift.io/ztp-deploy-wave: "1"
+policies:
+  # Customer baseline configuration
+  - name: custom-mcp-unpause
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "200"
+    manifests:
+      # The MCPs should be added as extra manifests at installation time. Their
+      # inclusion here will reset the pause to false, allowing the MCPs to update
+      - path: mcps/machineconfigpool-worker-1.yaml
+        patches:
+        - spec:
+            paused: false
+          status:
+            conditions:
+            - type: Updated
+              status: "True"
+            - type: Updating
+              status: "False" 
+
+      - path: mcps/machineconfigpool-worker-2.yaml
+        patches:
+        - spec:
+            paused: false
+          status:
+            conditions:
+            - type: Updated
+              status: "True"
+            - type: Updating
+              status: "False"
+
+      - path: mcps/machineconfigpool-worker-3.yaml
+        patches:
+        - spec:
+            paused: false
+          status:
+            conditions:
+            - type: Updated
+              status: "True"
+            - type: Updating
+              status: "False"
+
+  - name: core-custom-mcp-set-maxavailable
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "201"
+    manifests:
+      # This sets the desired maxUnavailable on the customMCPs
+      - path: mcps/machineconfigpool-worker-1.yaml
+        patches:
+        - spec:
+            maxUnavailable: 1
+      - path: mcps/machineconfigpool-worker-2.yaml
+        patches:
+        - spec:
+            maxUnavailable: 1
+      - path: mcps/machineconfigpool-worker-3.yaml
+        patches:
+        - spec:
+            maxUnavailable: 1
