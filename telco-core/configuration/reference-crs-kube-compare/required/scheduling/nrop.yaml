@@ -6,15 +6,19 @@ metadata:
   name: numaresourcesoperator
 spec:
   nodeGroups:
-  - config:
-      # Periodic is the default setting
-      infoRefreshMode: Periodic
-{{ if .spec.nodeGroups }}
-{{ if (index .spec.nodeGroups 0).machineConfigPoolSelector }}
-    machineConfigPoolSelector:
-{{ (index .spec.nodeGroups 0).machineConfigPoolSelector | toYaml | indent 6 }}
+  {{- if .spec.nodeGroups }}
+    {{- range .spec.nodeGroups }}
+    - config:
+        # Periodic is the default setting
+        infoRefreshMode: Periodic
+      {{- if .machineConfigPoolSelector }}
+      machineConfigPoolSelector:
+        {{- .machineConfigPoolSelector | toYaml | nindent 8 }}
+      {{- end }}
 #      matchLabels:
 #        # This label must match the pool(s) you want to run NUMA-aligned workloads
 #        pools.operator.machineconfiguration.openshift.io/worker: ""
-{{ end }}
-{{ end }}
+    {{- end }}
+  {{- else }}
+    []
+  {{- end }}
