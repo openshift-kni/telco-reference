@@ -13,5 +13,10 @@ spec:
 {{ .spec.addresses | toYaml | indent 2}}
 {{ end }}
   #- 3.3.3.0/24
-  autoAssign: true
+  autoAssign: false
+{{ if .spec.serviceAllocation.namespaces }}
+  serviceAllocation:
+    namespaces:
+{{ .spec.serviceAllocation.namespaces | toYaml | indent 4}}
+{{ end }}
   ##############
