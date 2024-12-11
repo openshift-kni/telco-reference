@@ -1,0 +1,12 @@
+# required
+# count: 1
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: numaresources-operator
+  namespace: openshift-numaresources
+spec:
+  channel: "{{ .spec.channel }}"
+  name: numaresources-operator
+  source: {{ if .spec.source }} {{ .spec.source }} {{ else }} "redhat-operators-disconnected " {{ end }}
+  sourceNamespace: {{ if .spec.sourceNamespace }} {{ .spec.sourceNamespace }} {{ else }} "openshift-marketplace" {{ end }}
