@@ -1,0 +1,20 @@
+# required: yes
+# count: 1
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: odf-operator
+  namespace: openshift-storage
+spec:
+  {{- if and (.spec.channel) (hasPrefix "stable" .spec.channel) }}
+  channel: {{ .spec.channel }}
+  {{- else }}
+  channel: "stable-.*"
+  {{- end }}
+  name: odf-operator
+  source: redhat-operators-disconnected
+  sourceNamespace: openshift-marketplace
+  installPlanApproval: Manual
+status:
+  state: AtLatestKnown
