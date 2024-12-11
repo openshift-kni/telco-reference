@@ -11,4 +11,8 @@ lintCheck:
 	yamllint -c .yamllint.yaml telco-core/install/
 	yamllint -c .yamllint.yaml telco-hub/
 
-ci-validate: lintCheck
+ci-validate: lintCheck check-reference
+
+.PHONY: check-reference
+check-reference:
+	$(MAKE) -C ./telco-core/configuration check

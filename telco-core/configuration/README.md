@@ -1,7 +1,7 @@
 # Reference configuration
 
 ## Structure
-This directory contains three key components of the reference configuration
+This directory contains four key components of the reference configuration
  - The `reference-crs` tree contains the baseline configuration CRs which make
    up the Core reference configuration. These are further separated into
    optional vs required configuration.
@@ -12,6 +12,9 @@ This directory contains three key components of the reference configuration
    specific patches to the policy wrapped CRs.
  - The `template-values` directory holds ConfigMaps which provide values used in
    the ACM Policies. See the "Templating" section below for more details.
+ - The `reference-crs-kube-compare` tree contains the template copy of the
+   baseline configuration for use by the
+   [cluster-compare tool](https://github.com/openshift/kube-compare).
 
 ## Reference CRs
 
@@ -43,3 +46,20 @@ cluster is deployed.
 `<clusterName>` -- Values which are cluster specific. One ConfigMap per cluster
 is needed. The ConfigMap name is the cluster name eg cluster-1234
  - Current set of keys are fixed values
+
+# Contributing
+
+Given that the `reference-crs` and `reference-crs-kube-compare` versions of the
+baseline configuration must be kept in sync, there is a github CI check than
+enforces this.  Running `make check` in this directory locally is equivalent to
+the CI.
+
+If `make check` detects differences, you should take one of the following actions:
+
+- Edit the `reference-crs` CRs or `reference-crs-kube-compare` templates so the
+  templates match the corresponding CRs.
+- For missing files, add the missing file to either the `reference-crs`
+  directory, or the `reference-crs-kube-compare` directory and metadata.yaml
+  - Alternatively, add the filename to the
+    `reference-crs-kube-compare/compare_ignore`, but only if the CR in
+    `reference-crs` should not be checked by the cluster-compare tool.
