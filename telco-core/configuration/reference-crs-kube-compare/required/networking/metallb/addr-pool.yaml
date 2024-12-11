@@ -3,8 +3,10 @@ kind: IPAddressPool
 metadata:
   name: {{ .metadata.name }} # eg addresspool3
   namespace: metallb-system
+  {{- if and (.metadata.annotations) (ne (index .metadata.annotations "k8s.v1.cni.cncf.io/policy-for") nil) }}
   annotations:
     metallb.universe.tf/address-pool: {{ .metadata.name }} # eg addresspool3
+  {{- end }}
 spec:
   ##############
   # Expected variation in this configuration
