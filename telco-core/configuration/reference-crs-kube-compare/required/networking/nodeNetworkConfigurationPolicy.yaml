@@ -5,13 +5,15 @@ kind: NodeNetworkConfigurationPolicy
 metadata:
   name: {{ .metadata.name }}
 spec:
-{{ if .spec.nodeSelector }}
+  {{- if (hasKey .spec "nodeSelector") }}
   nodeSelector:
-    kubernetes.io/hostname: {{ index .spec.nodeSelector "kubernetes.io/hostname" }}
-{{ end }}
+    {{- .spec.nodeSelector | toYaml | nindent 4 }}
+  {{- end }}
   desiredState:
+  {{- if (hasKey .spec.desiredState "interfaces") }}
     interfaces:
-{{ if .spec.desiredState }}{{ .spec.desiredState | toYaml | indent 4 }}{{ end }}
+      {{- .spec.desiredState.interfaces | toYaml | nindent 6 }}
+  {{- end }}
 #   - name: ens8f0.169
 #     type: vlan
 #     state: up
@@ -33,11 +35,13 @@ spec:
 #     ethernet:
 #       sr-iov:
 #         total-vfs: 5
-{{- if .spec.desiredState.routes.config -}}
+    {{- if .spec.desiredState.routes }}
     routes:
-      config: #[ $routes ]
-{{ .spec.desiredState.routes.config | toYaml | indent 6 }}
-{{- end }}
+      {{- if (hasKey .spec.desiredState.routes "config") }}
+      config:
+        {{- .spec.desiredState.routes.config | toYaml | nindent 8 }}
+      {{- end }}
+    {{- end }}
 #     - destination: 172.16.0.0/24
 #       metric: 150
 #       next-hop-address: 192.168.1.2
