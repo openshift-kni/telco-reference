@@ -8,6 +8,6 @@ spec:
   name: cluster-logging
   source: {{ .spec.source }}
   sourceNamespace: openshift-marketplace
-  installPlanApproval: Automatic
+  installPlanApproval: Manual
 status:
   state: AtLatestKnown

@@ -1,16 +1,31 @@
-Parts:
-  - name: required-networking
-    Components:
+apiVersion: v2
+parts:
+  - name: version-check
+    description: |-
+      A mismatch here means you may be using the wrong reference.
+      This reference was designed for OpenShift 4.17.
+    components:
+      - name: version-check
+        allOf:
+          - path: ReferenceVersionCheck.yaml
+            config:
+              ignore-unspecified-fields: true
+              fieldsToOmitRefs:
+                - allowStatusCheck
+  - name: networking
+    description: |-
+      https://docs.openshift.com/container-platform/4.17/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-networking_core-ref-design-components
+    components:
       - name: networking-root
-        type: Required
-        requiredTemplates:
+        allOf:
           - path: required/networking/Network.yaml
             config:
               ignore-unspecified-fields: true
           - path: required/networking/nodeNetworkConfigurationPolicy.yaml
       - name: networking-nmsate
-        type: Optional
-        requiredTemplates:
+        description: |-
+          https://docs.openshift.com/container-platform/4.17/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-nmstate-operator_core-ref-design-components
+        allOrNoneOf:
           - path: required/networking/NMState.yaml
           - path: required/networking/NMStateNS.yaml
           - path: required/networking/NMStateOperGroup.yaml
@@ -18,8 +33,9 @@ Parts:
               ignore-unspecified-fields: true
           - path: required/networking/NMStateSubscription.yaml
       - name: networking-metallb
-        type: Optional
-        requiredTemplates:
+        description: |-
+          https://docs.openshift.com/container-platform/4.17/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-load-balancer_core-ref-design-components
+        allOf:
           - path: required/networking/metallb/addr-pool.yaml
           - path: required/networking/metallb/bfd-profile.yaml
           - path: required/networking/metallb/bgp-advr.yaml
@@ -32,14 +48,19 @@ Parts:
               ignore-unspecified-fields: true
           - path: required/networking/metallb/metallbSubscription.yaml
       - name: networking-multinetworkpolicy
-        type: Optional
-        requiredTemplates:
+        description: |-
+          https://docs.openshift.com/container-platform/4.17/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-sriov_core-ref-design-components
+        allOf:
           - path: required/networking/multinetworkpolicy/multiNetworkPolicyAllowPortProtocol.yaml
-        optionalTemplates:
+      - name: networking-multinetworkpolicy-denyall
+        description: |-
+          https://docs.openshift.com/container-platform/4.17/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-sriov_core-ref-design-components
+        anyOf:
           - path: required/networking/multinetworkpolicy/multiNetworkPolicyDenyAll.yaml
       - name: networking-sriov
-        type: Required
-        requiredTemplates:
+        description: |-
+          https://docs.openshift.com/container-platform/4.17/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-sriov_core-ref-design-components
+        allOf:
           - path: required/networking/sriov/sriovNetwork.yaml
           - path: required/networking/sriov/sriovNetworkNodePolicy.yaml
           - path: required/networking/sriov/SriovOperatorConfig.yaml
@@ -50,25 +71,32 @@ Parts:
           - path: required/networking/sriov/SriovSubscriptionOperGroup.yaml
             config:
               ignore-unspecified-fields: true
+      - name: optional-networking
+        anyOf:
+          - path: optional/networking/networkAttachmentDefinition.yaml
+          - path: optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
   - name: required-other
-    Components:
-      - name: scheduling
-        type: Required
-        requiredTemplates:
+    components:
+      - name: disconnected-registry
+        description: |-
+          https://docs.openshift.com/container-platform/4.17/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-disconnected-environment_core-ref-design-components
+        allOf:
           - path: required/other/catalog-source.yaml
           - path: required/other/icsp.yaml
           - path: required/other/operator-hub.yaml
   - name: required-performance
-    Components:
+    description: |-
+      https://docs.openshift.com/container-platform/4.17/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-cpu-partitioning-performance-tune_core-ref-design-components
+    components:
       - name: performance
-        type: Required
-        requiredTemplates:
+        allOf:
           - path: required/performance/PerformanceProfile.yaml
   - name: required-scheduling
-    Components:
+    components:
       - name: scheduling
-        type: Required
-        requiredTemplates:
+        description: |-
+          https://docs.openshift.com/container-platform/4.17/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-scheduling_core-ref-design-components
+        allOf:
           - path: required/scheduling/nrop.yaml
           - path: required/scheduling/NROPSubscription.yaml
           - path: required/scheduling/NROPSubscriptionNS.yaml
@@ -78,10 +106,11 @@ Parts:
           - path: required/scheduling/sched.yaml
           - path: required/scheduling/Scheduler.yaml
   - name: required-storage
-    Components:
+    components:
       - name: storage-odf
-        type: Required
-        requiredTemplates:
+        description: |-
+          https://docs.openshift.com/container-platform/4.17/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-rh-storage_core-ref-design-components
+        allOf:
           - path: required/storage/odf-external/01-rook-ceph-external-cluster-details.secret.yaml
           - path: required/storage/odf-external/02-ocs-external-storagecluster.yaml
             config:
@@ -92,48 +121,52 @@ Parts:
               ignore-unspecified-fields: true
           - path: required/storage/odf-external/odfSubscription.yaml
   - name: other
-    Components:
+    description: |-
+      https://docs.openshift.com/container-platform/4.17/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-crs.html#node-configuration-crs_ran-core-ref-design-crs
+    components:
       - name: other
-        type: Optional
-        requiredTemplates:
+        anyOf:
           - path: optional/other/control-plane-load-kernel-modules.yaml
           - path: optional/other/monitoring-config-cm.yaml
           - path: optional/other/worker-load-kernel-modules.yaml
-        optionalTemplates:
           - path: optional/other/sctp_module_mc.yaml
   - name: logging
-    Components:
+    description: |-
+      https://docs.openshift.com/container-platform/4.17/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-crs.html#other-crs_ran-core-ref-design-crs
+    components:
       - name: logging
-        type: Optional
-        requiredTemplates:
+        allOrNoneOf:
           - path: optional/logging/ClusterLogForwarder.yaml
           - path: optional/logging/ClusterLogNS.yaml
           - path: optional/logging/ClusterLogOperGroup.yaml
             config:
               ignore-unspecified-fields: true
           - path: optional/logging/ClusterLogSubscription.yaml
-          - path: optional/logging/ClusterLogServiceAccount.yaml
           - path: optional/logging/ClusterLogServiceAccountAuditBinding.yaml
           - path: optional/logging/ClusterLogServiceAccountInfrastructureBinding.yaml
   - name: tuning
-    Components:
+    description: |-
+      https://docs.openshift.com/container-platform/4.17/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-cpu-partitioning-performance-tune_core-ref-design-components
+    components:
       - name: other
-        type: Optional
-        requiredTemplates:
+        anyOf:
           - path: optional/tuning/control-plane-system-reserved.yaml
-  - name: networking
-    Components:
-      - name: other
-        type: Optional
-        requiredTemplates:
-          # The net-attach-def is only for convenience. There is no validated content.
-          #- path: optional/networking/networkAttachmentDefinition.yaml
-          - path: optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
+      - name: kdump-configuration
+        allOf:
+          - path: optional/other/kdump-master.yaml
+          - path: optional/other/kdump-worker.yaml
+      - name: mount-namespace-configuration
+        allOf:
+          - path: optional/other/mount_namespace_config_master.yaml
+          - path: optional/other/mount_namespace_config_worker.yaml
+
+templateFunctionFiles:
+  - version_match.tmpl
 
 fieldsToOmit:
-  defaultOmitRef: fields
+  defaultOmitRef: all
   items:
-    fields:
+    defaults:
       - pathToKey: metadata.annotations."kubernetes.io/metadata.name"
       - pathToKey: metadata.annotations."openshift.io/sa.scc.uid-range"
       - pathToKey: metadata.annotations."kubernetes.io/metadata.name"
@@ -145,14 +178,14 @@ fieldsToOmit:
       - pathToKey: metadata.labels."kubernetes.io/metadata.name"
       - pathToKey: metadata.labels."pod-security.kubernetes.io"
         isPrefix: true
+      - pathToKey: metadata.labels."operators.coreos.com/"
+        isPrefix: true
       - pathToKey: metadata.labels."security.openshift.io/scc.podSecurityLabelSync"
       - pathToKey: metadata.resourceVersion
       - pathToKey: metadata.uid
       - pathToKey: spec.finalizers
       - pathToKey: metadata.creationTimestamp
-      - pathToKey: metadata."pod-security.kubernetes.io"
       - pathToKey: metadata.generation
-      - pathToKey: status # TODO:  We need to check status in Subscription and CatalogSource. CNF-13521
       - pathToKey: metadata.finalizers
       - pathToKey: metadata.annotations."ran.openshift.io/ztp-gitops-generated"
       - pathToKey: spec.ownerReferences
@@ -167,3 +200,11 @@ fieldsToOmit:
       - pathToKey: metadata.labels."olm.operatorgroup.uid"
         isPrefix: true
       - pathToKey: metadata.annotations."nmstate.io/webhook-mutating-timestamp"
+      - pathToKey: metadata.annotations."operator.sriovnetwork.openshift.io/last-network-namespace"
+      - pathToKey: metadata.annotations."workload.openshift.io/allowed"
+      - pathToKey: spec.installPlanApproval
+    allowStatusCheck:
+      - include: defaults
+    all:
+      - include: defaults
+      - pathToKey: status
