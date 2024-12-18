@@ -1,0 +1,11 @@
+apiVersion: nmstate.io/v1
+kind: NMState
+metadata:
+  name: nmstate
+
+{{- if  eq (len (or .spec dict )) 0 }}
+spec: {}
+{{- else -}}
+spec:
+{{ .spec | toYaml | indent 2 }}
+{{ end }}
