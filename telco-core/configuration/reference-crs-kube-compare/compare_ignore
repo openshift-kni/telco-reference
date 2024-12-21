@@ -1,0 +1,18 @@
+# Internal files for cluster-compare, not real CRs
+metadata.yaml
+comparison-overrides.yaml
+
+# Used in the reference only for version compliance checks
+ReferenceVersionCheck.yaml
+
+# Utility objects used to migrate from CLO5->CLO6
+ClusterLogging5Cleanup.yaml
+ClusterLogOperatorStatus.yaml
+
+# Utility objects to wait for and acknowledge cluster ugprades
+ClusterVersion.yaml
+upgrade-ack.yaml
+
+# Deprecated CRs, no longer in the reference-crs examples:
+optional/networking/sriov/SriovNetworkPoolConfig.yaml
+required/networking/metallb/service.yaml

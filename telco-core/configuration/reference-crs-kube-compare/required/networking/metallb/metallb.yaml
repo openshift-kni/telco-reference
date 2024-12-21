@@ -3,10 +3,12 @@ kind: MetalLB
 metadata:
   name: metallb
   namespace: metallb-system
+{{- if .spec }}
 spec:
-{{ if .spec.nodeSelector }}
+  {{- if .spec.nodeSelector }}
   nodeSelector:
-{{ .spec.nodeSelector | toYaml | indent 4 }}
+    {{- .spec.nodeSelector | toYaml | nindent 4 }}
+  {{- end }}
   #nodeSelector:
   #  node-role.kubernetes.io/worker: ""
-{{ end }}
+{{- end }}
