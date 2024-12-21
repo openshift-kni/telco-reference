@@ -9,3 +9,4 @@ generators:
   - core-baseline.yaml
   - core-overlay.yaml
   - core-upgrade.yaml
+  - core-finish.yaml
