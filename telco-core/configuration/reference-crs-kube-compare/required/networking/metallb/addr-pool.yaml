@@ -3,8 +3,6 @@ kind: IPAddressPool
 metadata:
   name: {{ .metadata.name }} # eg addresspool3
   namespace: metallb-system
-  annotations:
-    metallb.universe.tf/address-pool: {{ .metadata.name }} # eg addresspool3
 spec:
   ##############
   # Expected variation in this configuration
