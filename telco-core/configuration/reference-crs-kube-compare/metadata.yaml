@@ -5,49 +5,95 @@ Parts:
         type: Required
         requiredTemplates:
           - path: required/networking/Network.yaml
+            description: |-
+              Configures the default cluster network, specifying OVN Kubernetes settings like routing via the host. It also allows the definition of additional networks, including custom CNI configurations, and enables the use of MultiNetworkPolicy CRs for network policies across multiple networks.
             config:
               ignore-unspecified-fields: true
           - path: required/networking/nodeNetworkConfigurationPolicy.yaml
+            description: |-
+              Manages node-level network configuration policies, specifying the eventual state for VLAN or SR-IOV configurations.
       - name: networking-nmsate
         type: Optional
         requiredTemplates:
           - path: required/networking/NMState.yaml
+            description: |-
+              Defines an NMState resource that is used by the NMState Operator to manage node network configurations.
           - path: required/networking/NMStateNS.yaml
+            description: |-
+              Creates the NMState Operator namespace.
           - path: required/networking/NMStateOperGroup.yaml
+            description: |-
+              Creates the Operator group in the openshift-nmstate namespace, allowing the NMState Operator to watch and manage resources.
             config:
               ignore-unspecified-fields: true
           - path: required/networking/NMStateSubscription.yaml
+            description: |-
+              Creates a subscription for the NMState Operator, managed through OLM.
       - name: networking-metallb
         type: Optional
         requiredTemplates:
           - path: required/networking/metallb/addr-pool.yaml
+            description: |-
+              Configures MetalLB to manage a pool of IP addresses with auto-assign enabled for dynamic allocation of IPs from the specified range.
           - path: required/networking/metallb/bfd-profile.yaml
+            description: |-
+              Configures bidirectional forwarding detection (BFD) with customized intervals, detection multiplier, and modes for quicker network fault detection and load balancing failover.
           - path: required/networking/metallb/bgp-advr.yaml
+            description: |-
+              Defines a BGP advertisement resource for MetalLB, specifying how an IP address pool is advertised to BGP peers. This enables fine-grained control over traffic routing and announcements.
           - path: required/networking/metallb/bgp-peer.yaml
+            description: |-
+              Defines a BGP peer in MetalLB, representing a BGP neighbor for dynamic routing.
           - path: required/networking/metallb/community.yaml
+            description: |-
+              Defines a MetalLB community, which groups one or more BGP communities under a named resource. Communities can be applied to BGP advertisements to control routing policies and change traffic routing.
           - path: required/networking/metallb/metallb.yaml
+            description: |-
+              Deploys and configures MetalLB in the specified namespace, initializing it for handling load balancer services.
           - path: required/networking/metallb/metallbNS.yaml
+            description: |-
+              Creates the metallb-system namespace that is required for deploying MetalLB. The openshift.io/cluster-monitoring label enables cluster monitoring.
           - path: required/networking/metallb/metallbOperGroup.yaml
+            description: |-
+              Creates the Operator group in the metallb-system namespace, allowing the MetalLB operator to watch and manage resources.
             config:
               ignore-unspecified-fields: true
           - path: required/networking/metallb/metallbSubscription.yaml
+            description: |-
+              Creates an Operator subscription to install and manage the MetalLB Operator in the metallb-system namespace.
       - name: networking-multinetworkpolicy
         type: Optional
         requiredTemplates:
           - path: required/networking/multinetworkpolicy/multiNetworkPolicyAllowPortProtocol.yaml
+            description: |-
+              Controls ingress traffic for the specified secondary network allowing network traffic to reach pods that match specific labels.
         optionalTemplates:
           - path: required/networking/multinetworkpolicy/multiNetworkPolicyDenyAll.yaml
+            description: |-
+              Prevents ingress traffic from reaching pods that match specific labels in the specified network.
       - name: networking-sriov
         type: Required
         requiredTemplates:
           - path: required/networking/sriov/sriovNetwork.yaml
+            description: |-
+              Defines an SR-IOV network specifying network capabilities, IP address management (ipam), and the associated network namespace and resource.
           - path: required/networking/sriov/sriovNetworkNodePolicy.yaml
+            description: |-
+              Configures network policies for SR-IOV devices on specific nodes, including customization of device selection, VF allocation (numVfs), node-specific settings (nodeSelector), and priorities.
           - path: required/networking/sriov/SriovOperatorConfig.yaml
+            description: |-
+              Configures various settings for the SR-IOV Operator, including enabling the injector and Operator webhook, disabling pod draining, and defining the node selector for the configuration daemon.
             config:
               ignore-unspecified-fields: true
           - path: required/networking/sriov/SriovSubscription.yaml
+            description: |-
+              Creates a subscription for the SR-IOV Network Operator, managed through OLM.
           - path: required/networking/sriov/SriovSubscriptionNS.yaml
+            description: |-
+              Creates the SR-IOV Network Operator subscription namespace.
           - path: required/networking/sriov/SriovSubscriptionOperGroup.yaml
+            description: |-
+              Creates the Operator group for the SR-IOV Network Operator, allowing it to watch and manage resources in the target namespace.
             config:
               ignore-unspecified-fields: true
   - name: required-other
@@ -56,79 +102,137 @@ Parts:
         type: Required
         requiredTemplates:
           - path: required/other/catalog-source.yaml
+            description: |-
+              Defines a Red Hat Operator catalog source for the OperatorHub for disconnected environments.
           - path: required/other/icsp.yaml
+            description: |-
+              Defines an ImageContentSourcePolicy resource to manage the mirroring of container image repositories in disconnected environments.
           - path: required/other/operator-hub.yaml
+            description: |-
+              Disables all default sources in the OperatorHub, preventing the automatic inclusion of non-approved Operator sources.
   - name: required-performance
     Components:
       - name: performance
         type: Required
         requiredTemplates:
           - path: required/performance/PerformanceProfile.yaml
+            description: |-
+              Optimizes node and pod configurations for high-performance workloads.
   - name: required-scheduling
     Components:
       - name: scheduling
         type: Required
         requiredTemplates:
           - path: required/scheduling/nrop.yaml
+            description: |-
+              Enables the NUMA Resources Operator, aligning workloads with specific NUMA node configurations.
           - path: required/scheduling/NROPSubscription.yaml
+            description: |-
+              Creates a subscription for the NUMA Resources Operator, managed through OLM.
           - path: required/scheduling/NROPSubscriptionNS.yaml
+            description: |-
+              Creates the NUMA Resources Operator subscription namespace.
           - path: required/scheduling/NROPSubscriptionOperGroup.yaml
+            description: |-
+              Creates the Operator group in the numaresources-operator namespace, allowing the NUMA Resources Operator to watch and manage resources.
             config:
               ignore-unspecified-fields: true
           - path: required/scheduling/sched.yaml
+            description: |-
+              Configures a topology-aware scheduler in the cluster that can handle NUMA aware scheduling of pods across nodes.
           - path: required/scheduling/Scheduler.yaml
+            description: |-
+              Configures control plane nodes as non-schedulable for workloads.
   - name: required-storage
     Components:
       - name: storage-odf
         type: Required
         requiredTemplates:
           - path: required/storage/odf-external/01-rook-ceph-external-cluster-details.secret.yaml
+            description: |-
+              Defines a Secret resource containing base64-encoded configuration data for an external Ceph cluster in the openshift-storage namespace.
           - path: required/storage/odf-external/02-ocs-external-storagecluster.yaml
+            description: |-
+              Defines an OpenShift Container Storage (OCS) storage resource which configures the cluster to use an external storage back end.
             config:
               ignore-unspecified-fields: true
           - path: required/storage/odf-external/odfNS.yaml
+            description: |-
+              Creates the monitored openshift-storage namespace for the OpenShift Data Foundation Operator.
           - path: required/storage/odf-external/odfOperGroup.yaml
+            description: |-
+              Creates the Operator group in the openshift-storage namespace, allowing the OpenShift Data Foundation Operator to watch and manage resources.
             config:
               ignore-unspecified-fields: true
           - path: required/storage/odf-external/odfSubscription.yaml
+            description: |-
+              Creates the OpenShift Data Foundation Operator subscription, managed through OLM.
   - name: other
     Components:
       - name: other
         type: Optional
         requiredTemplates:
           - path: optional/other/control-plane-load-kernel-modules.yaml
+            description: |-
+              Configures the kernel modules for control plane nodes.
           - path: optional/other/monitoring-config-cm.yaml
+            description: |-
+              Configures cluster monitoring including defining Prometheus data retention and persistent storage configurations for Prometheus and Alertmanager.
           - path: optional/other/worker-load-kernel-modules.yaml
+            description: |-
+              Configures kernel modules for worker nodes.
         optionalTemplates:
           - path: optional/other/sctp_module_mc.yaml
+            description: |-
+              Loads the SCTP kernel module in worker nodes.
   - name: logging
     Components:
       - name: logging
         type: Optional
         requiredTemplates:
           - path: optional/logging/ClusterLogForwarder.yaml
+            description: |-
+              Configures a log forwarding instance with the specified service account and verifies that the configuration is valid.
           - path: optional/logging/ClusterLogNS.yaml
+            description: |-
+              Configures the cluster logging namespace.
           - path: optional/logging/ClusterLogOperGroup.yaml
+            description: |-
+              Creates the Operator group in the openshift-logging namespace, allowing the Cluster Logging Operator to watch and manage resources.
             config:
               ignore-unspecified-fields: true
           - path: optional/logging/ClusterLogSubscription.yaml
+            description: |-
+              Creates a subscription resource for the Cluster Logging Operator with manual approval for install plans.
           - path: optional/logging/ClusterLogServiceAccount.yaml
+            description: |-
+              Configures the cluster logging service account.
           - path: optional/logging/ClusterLogServiceAccountAuditBinding.yaml
+            description: |-
+              Grants the collect-audit-logs cluster role to the logs collector service account.
           - path: optional/logging/ClusterLogServiceAccountInfrastructureBinding.yaml
+            description: |-
+              Allows the collector service account to collect logs from infrastructure resources.
   - name: tuning
     Components:
       - name: other
         type: Optional
         requiredTemplates:
           - path: optional/tuning/control-plane-system-reserved.yaml
+            description: |-
+              Enables auto-sizing for master nodes, allowing the kubelet to adjust resource reservations automatically.
   - name: networking
     Components:
       - name: other
         type: Optional
         requiredTemplates:
           # The net-attach-def is only for convenience. There is no validated content.
-          #- path: optional/networking/networkAttachmentDefinition.yaml
+          # - path: optional/networking/networkAttachmentDefinition.yaml
+          #   description: |-
+          #     Defines secondary network interfaces for pods on named nodes, enabling advanced networking configurations such as configuring custom VLANs for pods.
           - path: optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
+            description: |-
+              Configure SELinux settings on worker nodes.
 
 fieldsToOmit:
   defaultOmitRef: fields
