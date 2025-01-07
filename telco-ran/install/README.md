@@ -1,7 +1,8 @@
 # Installation artifacts
 Note: This repository is a work in progress and might be subject to structural change.
 
-This directory contains example CRs for installation of a Telco RAN cluster
+## Structure
+This directory contains a folder `siteconfig` with example CRs for installation of a Telco RAN cluster
 using [Multi Cluster
 Engine (MCE)](https://github.com/stolostron/deploy/tree/master/multiclusterengine). The
 CRs contained here are examples and must be tuned/configured to your particular
