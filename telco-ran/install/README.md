@@ -1,4 +1,5 @@
 # Installation artifacts
+Note: This repository is a work in progress and might be subject to structural change.
 
 This directory contains example CRs for installation of a Telco RAN cluster
 using [Multi Cluster
