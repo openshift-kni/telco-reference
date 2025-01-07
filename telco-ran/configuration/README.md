@@ -5,8 +5,7 @@ This directory contains three components of the reference configuration
  - The `source-crs` tree contains the baseline configuration CRs which make
    up the RAN reference configuration.
  - The `kube-compare-reference` tree contains the RAN reference configuration with templating required for kube-compare tool.
- - The `policygentemplates` tree root yaml files support application and ongoing management
-   of the reference configuration using PolicyGenTemplate. These yaml serve as manifests which define how CRs from the
+ - The `policygentemplates` tree root yamls serve as manifests which define how CRs from the
    source-crs tree are grouped into policies and apply certain use case
    specific patches to the policy wrapped CRs.
  - The `hub-side-templating` subdirectory holds ConfigMaps which provide values used in
