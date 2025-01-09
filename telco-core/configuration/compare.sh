@@ -143,9 +143,15 @@ if [[ ! -d $RENDERDIR ]]; then
     usage
     exit 1
 fi
+IGNORE=$3
+if [[ ! -f $IGNORE ]]; then
+    echo "No such ignorefile $IGNORE"
+    usage
+    exit 1
+fi
 
 if [[ $DOSYNC == 1 ]]; then
-    sync_cr "$RENDERDIR" "$SOURCEDIR" compare_ignore
+    sync_cr "$RENDERDIR" "$SOURCEDIR" "$IGNORE"
 else
-    compare_cr "$RENDERDIR" "$SOURCEDIR" compare_ignore
+    compare_cr "$RENDERDIR" "$SOURCEDIR" "$IGNORE"
 fi

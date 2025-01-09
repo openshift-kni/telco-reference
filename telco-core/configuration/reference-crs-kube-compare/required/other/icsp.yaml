@@ -5,11 +5,7 @@ kind: ImageContentSourcePolicy
 metadata:
   name: {{ .metadata.name }}
 spec:
-#  repositoryDigestMirrors: # []
-{{ if .spec.repositoryDigestMirrors }}
-  repositoryDigestMirrors: # []
-#    - $mirrors
-{{ .spec.repositoryDigestMirrors | toYaml | indent 2 }}
-{{end}}
-
-
+  {{- if hasKey .spec "repositoryDigestMirrors" }}
+  repositoryDigestMirrors:
+    {{- .spec.repositoryDigestMirrors | toYaml | nindent 4 }}
+  {{- end }}
