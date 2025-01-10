@@ -1,0 +1,7 @@
+- apiVersion: config.openshift.io/v1
+  kind: ClusterVersion
+  name: version
+  patch: '{"status":null}'
+  reason: The ClusterVersion in reference-crs should not be corellated to ReferenceVersionCheck
+  templatePath: ReferenceVersionCheck.yaml
+  type: mergepatch

@@ -1,0 +1,9 @@
+---
+apiVersion: metallb.io/v1beta1
+kind: Community
+metadata:
+  name: {{ .metadata.name }}
+  namespace: metallb-system
+spec:
+  communities:
+{{ .spec.communities | toYaml | indent 4 }}

@@ -1,0 +1,26 @@
+apiVersion: observability.openshift.io/v1
+kind: ClusterLogForwarder
+metadata:
+  name: instance
+  namespace: openshift-logging
+spec:
+  {{- if .spec.outputs }}
+  outputs:
+  - name: {{ (index .spec.outputs 0).name }}
+    type: kafka
+    kafka:
+      url: {{ (index .spec.outputs 0).kafka.url }}
+  {{- end }}
+  {{- if .spec.filters }}
+  filters:
+    {{- .spec.filters | toYaml | nindent 2 }}
+  {{- end }}
+  {{- if .spec.pipelines }}
+  pipelines:
+    {{- .spec.pipelines | toYaml | nindent 2 }}
+  {{- end }}
+  serviceAccount:
+    name: {{ .spec.serviceAccount.name }}
+  {{- if .spec.managementState }}
+  managementState: {{ .spec.managementState }}
+  {{- end }}
