@@ -4,18 +4,22 @@ metadata:
   name: {{ .metadata.name }} # eg bgpadvertisement-1
   namespace: metallb-system
 spec:
-{{ if .spec.ipAddressPools }}
+  {{- if .spec.ipAddressPools }}
   ipAddressPools:
-{{ .spec.ipAddressPools | toYaml | indent 2}}
-{{ end }}
-{{ if .spec.peers }}
+    {{- .spec.ipAddressPools | toYaml | nindent 4 }}
+  {{- end }}
+  {{- if .spec.nodeSelectors }}
+  nodeSelectors:
+    {{- .spec.nodeSelectors | toYaml | nindent 4 }}
+  {{- end }}
+  {{- if .spec.peers }}
   peers:
-{{ .spec.peers | toYaml | indent 2}}
-{{ end }}
-{{ if .spec.communities }}
+    {{- .spec.peers | toYaml | nindent 4 }}
+  {{- end }}
+  {{- if .spec.communities }}
   communities:
-{{ .spec.communities | toYaml | indent 2 }}
-{{ end }}
+    {{- .spec.communities | toYaml | nindent 4 }}
+  {{- end }}
   #communities: [ $communities ]
   # Note correlation with address pool.
   # eg:
