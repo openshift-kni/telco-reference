@@ -26,6 +26,7 @@ policies:
               - example.com/sample-path
               source: nomatch.io/sample-path
       - path: reference-crs/optional/other/sctp_module_mc.yaml
+        complianceType: mustonlyhave
       - path: reference-crs/optional/other/worker-load-kernel-modules.yaml
       - path: reference-crs/optional/other/control-plane-load-kernel-modules.yaml
       - path: reference-crs/optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
