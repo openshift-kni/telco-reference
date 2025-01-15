@@ -1,0 +1,65 @@
+---
+apiVersion: v1
+metadata:
+  name: hub  # replace with your hub name
+baseDomain: example.com  # replace with your domain name
+compute:
+- architecture: amd64
+  hyperthreading: Enabled
+  name: worker
+  replicas: 0
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  replicas: 3
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  machineNetwork:
+  - cidr: 192.168.125.0/24  # replace with your machine network CIDR
+  networkType: OVNKubernetes
+  serviceNetwork:
+  - 172.30.0.0/16
+# Replace the fields below with your network details
+platform:
+  baremetal:
+    provisioningNetwork: "Disabled"
+    apiVIPs:
+    - 192.168.125.10
+    ingressVIPs:
+    - 192.168.125.11
+    hosts:
+    - bootMACAddress: aa:aa:aa:aa:01:01
+      name: hub-ctl-0
+      role: master
+    - bootMACAddress: aa:aa:aa:aa:01:02
+      name: hub-ctl-1
+      role: master
+    - bootMACAddress: aa:aa:aa:aa:01:03
+      name: hub-ctl-2
+      role: master
+bootstrapInPlace:
+  installationDisk: /dev/vda
+# Replace <registry.example.com:8443> with the mirror registry's address.
+imageContentSources:
+- mirrors:
+  - <registry.example.com:8443>/openshift-release-dev/ocp-release
+  source: quay.io/openshift-release-dev/ocp-release
+- mirrors:
+  - <registry.example.com:8443>/openshift-release-dev/ocp-v4.0-art-dev
+  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+# Add the mirror registry SSL certificate chain up to the CA itself.
+additionalTrustBundle: |
+  -----BEGIN CERTIFICATE-----
+  MIID7jCCAtagAwXXX...
+  -----END CERTIFICATE-----
+  -----BEGIN CERTIFICATE-----
+  MIIDvTCCAqWgAwIBAgIUcXQpXXX...
+  -----END CERTIFICATE-----
+# Add the mirror registry credentials to the pull secret.
+pullSecret: '{"auths":{"<registry.example.com:8443>":{"auth": "aW5pdDo0R1XXXXXjdCbUoweUNuMWI1OTZBMmhkcEhjMw==","email": "user@redhat.com"},...}}}'
+# Add the SSH public key to connect to the OCP nodes
+sshKey: |
+  ssh-rsa AAAAB3NzaC1yc2EA...

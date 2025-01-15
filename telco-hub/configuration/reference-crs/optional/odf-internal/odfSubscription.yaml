@@ -7,6 +7,6 @@ metadata:
 spec:
   channel: "stable-4.17"
   name: odf-operator
-  source: redhat-operators-disconnected
+  source: cs-redhat-operator-index-v4-17
   sourceNamespace: openshift-marketplace
   installPlanApproval: Automatic

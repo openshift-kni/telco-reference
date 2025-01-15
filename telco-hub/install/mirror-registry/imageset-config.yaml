@@ -1,0 +1,64 @@
+---
+kind: ImageSetConfiguration
+apiVersion: mirror.openshift.io/v2alpha1
+mirror:
+  platform:
+    channels:
+    - name: stable-4.17
+      type: ocp
+      minVersion: 4.17.1
+      maxVersion: 4.17.1
+  operators:
+  - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.17
+    packages:
+    - name: advanced-cluster-management
+      channels:
+      - name: release-2.12
+    - name: multicluster-engine
+      channels:
+      - name: stable-2.7
+    - name: topology-aware-lifecycle-manager
+      channels:
+      - name: stable
+    - name: local-storage-operator
+      channels:
+      - name: stable
+    - name: odf-operator
+      channels:
+      - name: stable-4.17
+    - name: odf-csi-addons-operator
+      channels:
+      - name: stable-4.17
+    - name: ocs-client-operator
+      channels:
+      - name: stable-4.17
+    - name: cephcsi-operator
+      channels:
+      - name: stable-4.17
+    - name: odf-prometheus-operator
+      channels:
+      - name: stable-4.17
+    - name: odf-multicluster-orchestrator
+      channels:
+      - name: stable-4.17
+    - name: ocs-operator
+      channels:
+      - name: stable-4.17
+    - name: rook-ceph-operator
+      channels:
+      - name: stable-4.17
+    - name: mcg-operator
+      channels:
+      - name: stable-4.17
+    - name: odr-hub-operator
+      channels:
+      - name: stable-4.17
+    - name: odr-cluster-operator
+      channels:
+      - name: stable-4.17
+    - name: recipe
+      channels:
+      - name: stable-4.17
+  additionalImages:
+  - name: registry.redhat.io/ubi8/ubi:latest
+  helm: {}
