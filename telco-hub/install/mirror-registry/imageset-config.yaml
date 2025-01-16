@@ -10,6 +10,7 @@ mirror:
       maxVersion: 4.17.1
   operators:
   - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.17
+    targetCatalog: openshift-marketplace/redhat-operators-disconnected
     packages:
     - name: advanced-cluster-management
       channels:
