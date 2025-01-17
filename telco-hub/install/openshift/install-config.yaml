@@ -35,17 +35,17 @@ platform:
       name: hub-ctl-0
       role: master
       rootDeviceHints:
-         deviceName: "/dev/disk/by-path/pci-xxx"
+        deviceName: "/dev/disk/by-path/pci-xxx"
     - bootMACAddress: aa:aa:aa:aa:01:02
       name: hub-ctl-1
       role: master
       rootDeviceHints:
-         deviceName: "/dev/disk/by-path/pci-xxx"
+        deviceName: "/dev/disk/by-path/pci-xxx"
     - bootMACAddress: aa:aa:aa:aa:01:03
       name: hub-ctl-2
       role: master
       rootDeviceHints:
-         deviceName: "/dev/disk/by-path/pci-xxx"
+        deviceName: "/dev/disk/by-path/pci-xxx"
 # Replace <registry.example.com:8443> with the mirror registry's address.
 imageDigestSources:
 - mirrors:
