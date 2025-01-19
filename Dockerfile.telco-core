@@ -1,4 +1,6 @@
-FROM registry.access.redhat.com/ubi9/ubi-minimal
+ARG RHEL_VERSION=9.4
+
+FROM registry.redhat.io/ubi9/ubi-minimal:${RHEL_VERSION}
 
 COPY ./telco-core /usr/share/telco-core-rds
 
@@ -8,3 +10,15 @@ RUN microdnf install -y tar && \
 USER 65532:65532
 ENTRYPOINT ["/bin/bash"]
 CMD ["-c", "tar -cf - --directory /usr/share telco-core-rds | base64 -w0"]
+
+LABEL com.redhat.component="openshift-telco-core-rds-container" \
+    name="openshift4/openshift-telco-core-rds-rhel9" \
+    summary="Telco Core RDS manifests" \
+    io.openshift.expose-services="" \
+    io.openshift.tags="" \
+    io.k8s.display-name="openshift-telco-core-rds" \
+    maintainer="cnf-devel@redhat.com" \
+    description="Telco Core RDS manifests" \
+    io.openshift.maintainer.component="Telco Core RDS" \
+    io.openshift.maintainer.product="OpenShift Container Platform" \
+    io.k8s.description="Telco Core RDS manifests"
