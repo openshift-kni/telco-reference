@@ -37,6 +37,6 @@ spec:
     receiveStorageSize: 10Gi
     ruleStorageSize: 30Gi
     storeStorageSize: 100Gi
-    # A part from this storage settings, the `metricObjectStorage`
-    # points to an Objet Storage. Here it cannot be configured its
-    # capacity. Consider an extra reservation of about 101Gi
+    # In addition to these storage settings, the `metricObjectStorage`
+    # points to an Object Storage. Under the reference configuration, 
+    # scale and retention the estimated object storage is about 101Gi
