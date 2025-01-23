@@ -11,5 +11,8 @@ spec:
   # Expected variation in this configuration
   addresses: [ $pools ]
   # - 3.3.3.0/24
-  autoAssign: true
+  autoAssign: false
   ##############
+  serviceAllocation:
+    namespaces: [ $namespaces ]
+    # - app-ns-one
