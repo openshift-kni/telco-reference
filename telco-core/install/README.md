@@ -10,33 +10,32 @@ general pattern shown here is recommended.
 
 The contents of this directory fall into 3 categories. Each of these are
 described in more detail in the following sections:
- - example-standard.yaml -- A SiteConfig CR which defines the cluster
- - extra-manifests -- Additional reference CRs to apply to the cluster during
-   installation
- - custom-manifests -- Additional custom/user specific CRs to apply to the
-   cluster during installation
+
+- example-standard.yaml -- A SiteConfig CR which defines the cluster
+- extra-manifests -- Additional reference CRs to apply to the cluster during installation
+- custom-manifests -- Additional custom/user specific CRs to apply to the cluster during installation
 
 ## SiteConfig CRs
+
 The example-standard.yaml file contains a SiteConfig CR which defines the
 topology and specific attributes of a cluster. This CR may be rendered into MCE
 installation CRs using the [SiteGen
 utility](https://github.com/openshift-kni/cnf-features-deploy/tree/master/ztp/siteconfig-generator). The
 SiteConfig defines:
- - cluster identity -- name, FQDN, API/ingress VIPs, etc
- - cluster topology -- number of control plane and nodes, node labels for
-   allocation to Machine Config Pools, etc
- - clsuter networking -- per-node network interface details, cluster networking
-   attributes, etc
- - node attributes -- ignition config may be provided to partition disks per
-   node
 
+- cluster identity -- name, FQDN, API/ingress VIPs, etc
+- cluster topology -- number of control plane and nodes, node labels for allocation to Machine Config Pools, etc
+- cludter networking -- per-node network interface details, cluster networking attributes, etc
+- node attributes -- ignition config may be provided to partition disks per node
 
 ## extra-manifests
+
 The CRs in extra-manifests are exact copies of some CRs from the
 ../configuration tree. These CRs will be applied during installation to
 accelerate the time to cluster-ready.
 
 ## custom-manifests
+
 These CRs are an additional set of CRs which you want to apply to the cluster
 during installation. The CRs here are treated in the same way as the
 extra-manifests directory but are separated to make it easier to update the set
