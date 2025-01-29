@@ -16,3 +16,4 @@
     - The `bucket` and the `endpoint` can be obtained from the ConfigMap that the OBC automatically creates in its namespace. Use the fields `BUCKET_NAME` (without any protocol or port specification) and `BUCKET_HOST` respectively.
     - The `access_key` and the `secret_key` can be obtained from the Secret that the OBC creates automatically in its namespace. Use the fields `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` respectively. This two fields are encoded in base64 in the OBC Secret but must be decoded in the Thanos Secret (use `echo -n "<string>" | base64 -d` to decode it).
 12. Create the `observabilityMCO.yaml`.
+13. When all the installation is done. Apply the `acmPerfSearch.yaml` .This will configure Search CR called `search-v2-operator` considering different performance and scale optimizations.
