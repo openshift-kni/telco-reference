@@ -154,7 +154,7 @@ spec:
         - name: name
           value: init
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-init@sha256:4c6712db9419461b8c8a39523c012cb0dc061fb58563bb9170b3777d74f54659
+          value: quay.io/konflux-ci/tekton-catalog/task-init:0.2@sha256:4c6712db9419461b8c8a39523c012cb0dc061fb58563bb9170b3777d74f54659
         - name: kind
           value: task
         resolver: bundles
@@ -196,7 +196,7 @@ spec:
         - name: name
           value: prefetch-dependencies
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-prefetch-dependencies@sha256:aa91d0b6b5a52bb9a61bb52b9ab9e726c268ebf0bf0f444164041d3e90ac4168
+          value: quay.io/konflux-ci/tekton-catalog/task-prefetch-dependencies:0.1@sha256:20f76c14b756c745e315334dd0437cf4f6004763e2d23b27cf0f8e896fe2207c
         - name: kind
           value: task
         resolver: bundles
@@ -240,7 +240,7 @@ spec:
         - name: name
           value: buildah
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-buildah:0.3@sha256:78aeb24909d89fe334e5cd2f27e3b367694f2e634671a0286e485f97cb97b66f
+          value: quay.io/konflux-ci/tekton-catalog/task-buildah:0.3@sha256:9362d1e20b74c946c6c787ee2c82f202d7d131f06fccf55436b70feed295a757
         - name: kind
           value: task
         resolver: bundles
@@ -385,7 +385,7 @@ spec:
         - name: name
           value: sast-snyk-check
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-sast-snyk-check:0.3@sha256:166f40b52f28dc896d520f9a6c882a6ff59a8d0945fc7280984cf41293d03eac
+          value: quay.io/konflux-ci/tekton-catalog/task-sast-snyk-check:0.3@sha256:30cc34ccf6ca34e7f0951fd508fe4436d07388e7244baab77baf4ef9bdcefff4
         - name: kind
           value: task
         resolver: bundles
@@ -421,10 +421,27 @@ spec:
         - "false"
     - name: sast-coverity-check
       params:
-      - name: image-digest
-        value: $(tasks.build-image-index.results.IMAGE_DIGEST)
       - name: image-url
         value: $(tasks.build-image-index.results.IMAGE_URL)
+      - name: IMAGE
+        value: $(params.output-image)
+      - name: DOCKERFILE
+        value: $(params.dockerfile)
+      - name: CONTEXT
+        value: $(params.path-context)
+      - name: HERMETIC
+        value: $(params.hermetic)
+      - name: PREFETCH_INPUT
+        value: $(params.prefetch-input)
+      - name: IMAGE_EXPIRES_AFTER
+        value: $(params.image-expires-after)
+      - name: COMMIT_SHA
+        value: $(tasks.clone-repository.results.commit)
+      - name: BUILD_ARGS
+        value:
+        - $(params.build-args[*])
+      - name: BUILD_ARGS_FILE
+        value: $(params.build-args-file)
       runAfter:
       - coverity-availability-check
       taskRef:
@@ -432,7 +449,7 @@ spec:
         - name: name
           value: sast-coverity-check
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-sast-coverity-check:0.1@sha256:e9ddb2a19884a6624b0bb1ed417ca6aa7ca5a87a982d1398bd8d214564aace63
+          value: quay.io/konflux-ci/tekton-catalog/task-sast-coverity-check:0.2@sha256:97e4ba1ff49288194c74ddc1a42a9c4512c93d1f9e446a08b20aa90cfe4266ac
         - name: kind
           value: task
         resolver: bundles
@@ -446,14 +463,9 @@ spec:
         values:
         - success
       workspaces:
-      - name: workspace
+      - name: source
         workspace: workspace
     - name: coverity-availability-check
-      params:
-      - name: image-digest
-        value: $(tasks.build-image-index.results.IMAGE_DIGEST)
-      - name: image-url
-        value: $(tasks.build-image-index.results.IMAGE_URL)
       runAfter:
       - build-image-index
       taskRef:
@@ -461,7 +473,7 @@ spec:
         - name: name
           value: coverity-availability-check
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-coverity-availability-check:0.1@sha256:c1f04de55be6f914cf113dc9df8b748d0da8042ef76d684ea3dcb53f575e251b
+          value: quay.io/konflux-ci/tekton-catalog/task-coverity-availability-check-oci-ta:0.2@sha256:8653d290298593e4db9457ab00d9160738c31c384b7615ee30626ccab6f96ed8
         - name: kind
           value: task
         resolver: bundles
@@ -470,9 +482,6 @@ spec:
         operator: in
         values:
         - "false"
-      workspaces:
-      - name: workspace
-        workspace: workspace
     - name: sast-shell-check
       params:
       - name: image-digest
@@ -532,7 +541,7 @@ spec:
         - name: name
           value: apply-tags
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-apply-tags@sha256:fa7aa88ffe01eeeaa07c8720b27e50e27f6f136ef33595efaa16a0eb4598ea02
+          value: quay.io/konflux-ci/tekton-catalog/task-apply-tags:0.1@sha256:fa7aa88ffe01eeeaa07c8720b27e50e27f6f136ef33595efaa16a0eb4598ea02
         - name: kind
           value: task
         resolver: bundles
@@ -553,7 +562,7 @@ spec:
         - name: name
           value: push-dockerfile
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-push-dockerfile@sha256:389dc0f7bb175b9ca04e79ee67352fedd62fff8b1d196029534cd5638c73a0fc
+          value: quay.io/konflux-ci/tekton-catalog/task-push-dockerfile:0.1@sha256:389dc0f7bb175b9ca04e79ee67352fedd62fff8b1d196029534cd5638c73a0fc
         - name: kind
           value: task
         resolver: bundles
