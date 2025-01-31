@@ -1,4 +1,7 @@
 
+IMAGE_NAME ?= telco-reference
+
+CONTAINER_TOOL ?= podman
 
 # Basic lint checking
 lintCheck:
@@ -10,6 +13,24 @@ lintCheck:
 	yamllint -c .yamllint.yaml telco-core/configuration/template-values
 	yamllint -c .yamllint.yaml telco-core/install/
 	yamllint -c .yamllint.yaml telco-hub/
+
+# markdownlint rules, following: https://github.com/openshift/enhancements/blob/master/Makefile
+.PHONY: markdownlint-image
+markdownlint-image:  ## Build local container markdownlint-image
+	$(CONTAINER_TOOL) image build -f ./hack/Dockerfile.markdownlint --tag $(IMAGE_NAME)-markdownlint:latest ./hack
+
+.PHONY: markdownlint-image-clean
+markdownlint-image-clean:  ## Remove locally cached markdownlint-image
+	$(CONTAINER_TOOL) image rm $(IMAGE_NAME)-markdownlint:latest
+
+markdownlint: markdownlint-image  ## run the markdown linter
+	$(CONTAINER_TOOL) run \
+		--rm=true \
+		--env RUN_LOCAL=true \
+		--env VALIDATE_MARKDOWN=true \
+		--env PULL_BASE_SHA=$(PULL_BASE_SHA) \
+		-v $$(pwd):/workdir:Z \
+		$(IMAGE_NAME)-markdownlint:latest
 
 ci-validate: lintCheck check-reference
 
