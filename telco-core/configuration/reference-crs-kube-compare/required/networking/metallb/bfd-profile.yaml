@@ -12,7 +12,9 @@ spec:
   echoInterval: {{ if .spec.echoInterval }} {{ .spec.echoInterval }} {{ else }} "50ms" {{ end }} # default 50ms
   {{ end }}
   detectMultiplier: {{ if .spec.detectMultiplier }} {{ .spec.detectMultiplier }} {{ else }} "3" {{ end }} # default 3
-  echoMode: true
+  {{- if .spec.echoMode }}
+  echoMode: {{ .spec.echoMode }}
+  {{- end }}
   passiveMode: true
   minimumTtl: {{ if .spec.minimumTtl }} {{ .spec.minimumTtl }} {{ else }} "254" {{ end }} # default 254
   #
