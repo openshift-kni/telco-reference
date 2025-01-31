@@ -16,3 +16,9 @@ upgrade-ack.yaml
 # Deprecated CRs, no longer in the reference-crs examples:
 optional/networking/sriov/SriovNetworkPoolConfig.yaml
 required/networking/metallb/service.yaml
+
+# These are examples only. Customer will provide their own 
+# based on cluster topology and desired MCP partitioning.
+custom-manifests/mcp-worker-1.yaml
+custom-manifests/mcp-worker-2.yaml
+custom-manifests/mcp-worker-3.yaml
