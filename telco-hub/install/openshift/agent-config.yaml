@@ -4,22 +4,83 @@ kind: AgentConfig
 metadata:
   name: hub  # need to match the same name put in install-config
 rendezvousIP: 192.168.125.20  # one of the master IP
+# Replace the fields below with your network details
 hosts:
   - hostname: hub-ctl-0
     role: master
     interfaces:
-      - macAddress: aa:aa:aa:aa:01:01
+      - name: ens3
+        macAddress: aa:aa:aa:aa:01:01
+    networkConfig:
+      interfaces:
+        - name: ens3
+          mac-address: aa:aa:aa:aa:01:01
+          ipv4:
+            enabled: true
+            dhcp: true
+          ipv6:
+            enabled: true
+            dhcp: false
+            address:
+              - ip: fd01::20
+                prefix-length: 64
+      routes:
+        config:
+          - destination: ::/0
+            next-hop-address: fd01::1
+            next-hop-interface: ens3
+            table-id: 254
     rootDeviceHints:
       deviceName: "/dev/disk/by-path/pci-0000:00:07.0"
   - hostname: hub-ctl-1
     role: master
     interfaces:
-      - macAddress: aa:aa:aa:aa:01:02
+      - name: ens3
+        macAddress: aa:aa:aa:aa:01:02
+    networkConfig:
+      interfaces:
+        - name: ens3
+          mac-address: aa:aa:aa:aa:01:02
+          ipv4:
+            enabled: true
+            dhcp: true
+          ipv6:
+            enabled: true
+            dhcp: false
+            address:
+              - ip: fd01::21
+                prefix-length: 64
+      routes:
+        config:
+          - destination: ::/0
+            next-hop-address: fd01::1
+            next-hop-interface: ens3
+            table-id: 254
     rootDeviceHints:
       deviceName: "/dev/disk/by-path/pci-0000:00:07.0"
   - hostname: hub-ctl-2
     role: master
     interfaces:
-      - macAddress: aa:aa:aa:aa:01:03
+      - name: ens3
+        macAddress: aa:aa:aa:aa:01:03
+    networkConfig:
+      interfaces:
+        - name: ens3
+          mac-address: aa:aa:aa:aa:01:03
+          ipv4:
+            enabled: true
+            dhcp: true
+          ipv6:
+            enabled: true
+            dhcp: false
+            address:
+              - ip: fd01::22
+                prefix-length: 64
+      routes:
+        config:
+          - destination: ::/0
+            next-hop-address: fd01::1
+            next-hop-interface: ens3
+            table-id: 254
     rootDeviceHints:
       deviceName: "/dev/disk/by-path/pci-0000:00:07.0"
