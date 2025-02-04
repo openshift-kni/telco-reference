@@ -17,19 +17,25 @@ networking:
   clusterNetwork:
   - cidr: 10.128.0.0/14
     hostPrefix: 23
+  - cidr: fd02::/48
+    hostPrefix: 64
   machineNetwork:
   - cidr: 192.168.125.0/24  # replace with your machine network CIDR
+  - cidr: fd01::/64
   networkType: OVNKubernetes
   serviceNetwork:
   - 172.30.0.0/16
+  - fd03::/112
 # Replace the fields below with your network details
 platform:
   baremetal:
     provisioningNetwork: "Disabled"
     apiVIPs:
     - 192.168.125.10
+    - fd01::10
     ingressVIPs:
     - 192.168.125.11
+    - fd01::11
 # Replace <registry.example.com:8443> with the mirror registry's address.
 imageDigestSources:
 - mirrors:
