@@ -34,18 +34,18 @@ policies:
         - spec:
             channel: stable-4.18
             installPlanApproval: Manual
-      # - path: customer/mcp-worker-1.yaml
-      #   patches:
-      #   - spec:
-      #       paused: true
-      # - path: customer/mcp-worker-2.yaml
-      #   patches:
-      #   - spec:
-      #       paused: true
-      # - path: customer/mcp-worker-3.yaml
-      #   patches:
-      #   - spec:
-      #       paused: true
+      - path: reference-crs/custom-manifests/mcp-worker-1.yaml
+        patches:
+        - spec:
+            paused: true
+      - path: reference-crs/custom-manifests/mcp-worker-2.yaml
+        patches:
+        - spec:
+            paused: true
+      - path: reference-crs/custom-manifests/mcp-worker-3.yaml
+        patches:
+        - spec:
+            paused: true
   - name: core-upgrade-ocp-18
     manifests:
       - path: reference-crs/optional/other/ClusterVersion.yaml
