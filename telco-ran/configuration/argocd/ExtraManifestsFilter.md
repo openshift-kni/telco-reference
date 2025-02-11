@@ -1,4 +1,5 @@
 # Ability to include or exclude CRs at install time
+
 Assisted Installer allows CRs to be applied to SNOs at install time. The applied CRs may include Machine Configs from RAN Far Edge (e.g to enable Workload Partitioning) or CRs defined by the users themselves. More details [here](https://github.com/openshift/assisted-service/blob/c183b5182bfed15e42745e9f7fd3bd4f21184bde/docs/hive-integration/README.md#creating-additional-manifests).
 
 With this feature, via SiteConfig, users can now have control over this process and can perform actions such as removing all or some of the CRs provided at `extraManifests.searchPaths`
@@ -15,13 +16,13 @@ With this feature, via SiteConfig, users can now have control over this process 
           - CR1
           - CR3
 ```
+
 ## Use Cases
 
 We continue to support `extraManifestPath` which only accepts a user provided GIT repository path where custom extra manifests are residing. But we strongly recommend the user to adopt the new variable `extraManifests.searchPaths` which:
-  * allows to list multiple directory paths on the same GIT repository.  
-  * allows same named CR files in different directories and latter directory/filename takes precedence
 
-
+* allows to list multiple directory paths on the same GIT repository.  
+* allows same named CR files in different directories and latter directory/filename takes precedence
 
 Variable scenarios are briefly explained in the below table on filtering.
 
@@ -33,10 +34,9 @@ Variable scenarios are briefly explained in the below table on filtering.
           searchPaths:
             - sno-extra-manifest/
             - custom-manifests/
-          filter:			
+          filter:   
     ```
 
-  
 * Those path conatins below files:
 
   ```bash
@@ -82,7 +82,6 @@ Variable scenarios are briefly explained in the below table on filtering.
   </td>
 </tr>
 
-
 <tr>
   <td>
   <pre>
@@ -91,7 +90,7 @@ Variable scenarios are briefly explained in the below table on filtering.
       extraManifests:
         searchPaths:
           - sno-extra-manifest/
-          - custom-manifests/	
+          - custom-manifests/ 
         filter:
           inclusionDefault: exclude
   </pre>
@@ -109,12 +108,12 @@ Variable scenarios are briefly explained in the below table on filtering.
     extraManifests:
     searchPaths:
       - sno-extra-manifest/
-      - custom-manifests/	
+      - custom-manifests/ 
     filter:
       inclusionDefault: exclude
       include:
         - C.yaml
-        - D.yaml                  
+        - D.yaml
   ]
   </pre>
   </td>
@@ -123,7 +122,6 @@ Variable scenarios are briefly explained in the below table on filtering.
   included files: [C.yaml D.yaml] <--C.yaml picked from <b>custom-manifests</b> path
   </td>
 </tr>
-
 
 <tr>
   <td>
@@ -138,7 +136,7 @@ Variable scenarios are briefly explained in the below table on filtering.
       inclusionDefault: include
       exclude:
         - C.yaml
-        - D.yaml                                 
+        - D.yaml
   ]
   </pre>
   </td>
@@ -149,4 +147,3 @@ Variable scenarios are briefly explained in the below table on filtering.
 </tr>
 
 </table>
-         

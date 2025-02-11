@@ -11,12 +11,12 @@ Power configurations are mainly set using the `workloadHints` object in the Perf
 In order to use the power saving mode, it is required that C-states and OS-controlled P-states are enabled through BIOS/firmware settings. Different vendors use varying naming for their BIOS settings, but here are some guidelines:
 
 - enable C-states:
-    - often referred to as “monitor/mwait” instructions or “C states” (or both)
-    - there may also be options to enable/disable specific C-states (e.g. C1E, C6)
-    - users may want to enable all C-states or just a subset
+  - often referred to as “monitor/mwait” instructions or “C states” (or both)
+  - there may also be options to enable/disable specific C-states (e.g. C1E, C6)
+  - users may want to enable all C-states or just a subset
 - enable OS-controlled P-states:
-    - this can be called “CPU power management” or “hardware P-state control”
-    - the key is to choose the option(s) that allow the OS to control P-states
+  - this can be called “CPU power management” or “hardware P-state control”
+  - the key is to choose the option(s) that allow the OS to control P-states
 
 ## Power modes
 
@@ -83,7 +83,7 @@ The tuned performance-patch can be used to confine the maximum cpu frequency. Th
 
 More information pertaining to the Power saving configuration can be found in the official [OpenShift docs](https://docs.openshift.com/container-platform/4.12/scalability_and_performance/cnf-low-latency-tuning.html#node-tuning-operator-pod-power-saving-config_cnf-master).
 
-####  [Optional: Power saving mode](#optional-power-saving-mode)
+#### [Optional: Power saving mode](#optional-power-saving-mode)
 
 For critical workloads that require the highest performance and lowest latency, each such pod can be annotated to disable C-states and the cpufreq governor set to `performance` as shown below:
 
@@ -98,8 +98,8 @@ It is worthwhile to note the following:
 
 - These annotations are likely to be used with the other high performance cri-o annotation described [here](https://docs.openshift.com/container-platform/4.12/scalability_and_performance/cnf-low-latency-tuning.html#node-tuning-operator-pod-power-saving-config_cnf-master).
 - These annotations have the same restrictions as the other high performance cri-o annotations:
-    - The pod must use the performance-&lt;profile-name&gt; runtime class.
-    - The pod must have a [QoS Class of guaranteed](https://kubernetes.io/docs/tasks/configure-pod-container/quality-service-pod/#create-a-pod-that-gets-assigned-a-qos-class-of-guaranteed) (i.e. uses whole CPUs).
+  - The pod must use the performance-&lt;profile-name&gt; runtime class.
+  - The pod must have a [QoS Class of guaranteed](https://kubernetes.io/docs/tasks/configure-pod-container/quality-service-pod/#create-a-pod-that-gets-assigned-a-qos-class-of-guaranteed) (i.e. uses whole CPUs).
 
 ## Migrating from one mode to another
 

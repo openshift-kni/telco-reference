@@ -1,15 +1,17 @@
 # Enable and Verify for Secure Boot for SNO
 
-## Enabling Secure Boot 
+## Enabling Secure Boot
 
- - Configure `SiteConfig` with `UEFIScureBoot` for `bootMode`. E.g part of yaml below 
+- Configure `SiteConfig` with `UEFIScureBoot` for `bootMode`. E.g part of yaml below
+
    ```yaml
     nodes:
     - hostName: "myhost"
       bootMode: "UEFISecureBoot"
    ```
 
-- This value should now be available in the Hub (cluster w/ ACM) cluster's appropriate BareMetalHost (bmh) CR. e.g part of the yaml below 
+- This value should now be available in the Hub (cluster w/ ACM) cluster's appropriate BareMetalHost (bmh) CR. e.g part of the yaml below
+
   ```yaml
   spec:
     bootMode: UEFISecureBoot
@@ -20,6 +22,7 @@
 1. log into the node
 
     - With `oc`
+
       ```shell
       oc debug node/myhost.rh.com
       
@@ -27,14 +30,16 @@
       sh-4.4#  chroot /host
       ```
   
-    - **With `ssh` command** 
+    - **With `ssh` command**
+
        ```shell
        ssh -i key core@myhost.rh.com # key: private key associated with the node
        ```
   
-2. Once logged into the node there are a couple of ways to verify. 
+2. Once logged into the node there are a couple of ways to verify.
 
     - **With `journalctl`**
+
       ```shell
       sh-4.4# journalctl -g secureboot
       -- Logs begin at Wed 2022-03-23 17:14:14 UTC, end at Fri 2022-03-25 16:46:26 UTC. --
@@ -48,6 +53,7 @@
       ```
 
     - **With `mokutil`**
+
       ```shell
       mokutil --sb-state
       SecureBoot enabled
@@ -62,7 +68,7 @@ mokutil --sb-state
 EFI variables are not supported on this system
 ```
 
-There are multiple ways to enable kernel access to the EFI variables that are required by `mokutil`: 
+There are multiple ways to enable kernel access to the EFI variables that are required by `mokutil`:
 
 - Update to the latest set of source-cr
 
@@ -74,6 +80,7 @@ There are multiple ways to enable kernel access to the EFI variables that are re
       - ...
       - "efi=runtime"
   ```
+
 - Use SiteConfig's `sno-extra-manifest` feature.
 
   1. Create MachineConfig CR `99-efi-runtime-path-kargs.yaml`
@@ -89,6 +96,7 @@ There are multiple ways to enable kernel access to the EFI variables that are re
      kernelArguments:
      - "efi=runtime"
   ```
+
   2. Include the `MC` with your `SiteConfig` as part of extra manifest. E.g part of the CR below
   
      ```yaml
@@ -97,7 +105,7 @@ There are multiple ways to enable kernel access to the EFI variables that are re
        extraManifestPath: myhost/sno-extra-manifest/
      ```
 
-     File dir may look like below 
+     File dir may look like below
 
      ```shell
      ➜ tree .
@@ -111,5 +119,6 @@ There are multiple ways to enable kernel access to the EFI variables that are re
 
      ```
 
-##More info on Secure Boot
+## More info on Secure Boot
+
 - [Blog](https://cloud.redhat.com/blog/validating-secure-boot-functionality-in-a-sno-for-openshift-4.9)

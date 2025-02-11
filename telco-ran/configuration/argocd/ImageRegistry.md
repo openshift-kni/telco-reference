@@ -1,11 +1,11 @@
 Installation
 -
+
 1. Use SiteConfig to generate a MachineConfig for disk partitioning. Make sure to modify the values in the MC appropriately as it is dependent on the underlying disk.
 
    It is important to use persistent naming for device, especially if you have more than one disk as names like `/dev/sda` and `/dev/sdb` may switch at every reboot. You can use `rootDeviceHints` to choose the bootable device and then use the same device for further partitioning, in this case, for Image registry. More info on persistent naming [here](https://wiki.archlinux.org/title/persistent_block_device_naming#Persistent_naming_methods).
 
-   *by-path* is used below. 
-
+   *by-path* is used below.
 
     ```yaml
     nodes:
@@ -18,8 +18,9 @@ Installation
           size: 102500 # min value 100gig for image registry
           start: 344844 # 25000 min value, otherwise root partition is too small. Recommended startMiB (Disk - sizeMiB - some buffer), if startMiB + sizeMiB  exceeds disk size, installation will fail
     ```
-   
+
 3. Use PGT to apply the following to create the pv and pvc and patch imageregistry config as part of normal day-2 operation. Select the appropriate PGT for each source-cr and refer to `wave` doc for more help. Below is as example if you would like to test it at the site level.
+
    ```yaml
    sourceFiles:
       # storage class
@@ -67,16 +68,20 @@ Installation
 
 Verify/Debug
 -
+
 - Check the CRD `Config` of group `imageregistry.operator.openshift.io`'s instance `cluster` is not reporting any error
 - Within a few minutes after the installation process is complete you should see the pvc filling up.
 - Check "registry*" pod is up correctly under `openshift-image-registry` namespace
 - From inside the node:
   - Successful login to the registry with podman:
+
      ```
      oc login -u kubeadmin -p <password_from_install_log> https://api-int.<cluster_name>.<base_domain>:6443
      podman login -u kubeadmin -p $(oc whoami -t) image-registry.openshift-image-registry.svc:5000
      ```
+
   - Check for disk partitioning:
+
     ```
     [core@mysno ~]$ lsblk
     NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
@@ -89,7 +94,6 @@ Verify/Debug
     sdb      8:16   0 446.6G  0 disk
     sr0     11:0    1   104M  0 rom
     ```
-
 
 Additional Resources
 -
