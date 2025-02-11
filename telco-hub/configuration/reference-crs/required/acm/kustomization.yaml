@@ -15,5 +15,3 @@ resources:
   - thanosSecret.yaml
   - observabilitySecret.yaml
   - observabilityMCO.yaml
-generatorOptions:
-  disableNameSuffixHash: true

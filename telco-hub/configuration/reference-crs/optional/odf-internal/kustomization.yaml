@@ -6,5 +6,3 @@ resources:
   - odfOperatorGroup.yaml
   - odfSubscription.yaml
   - storageCluster.yaml
-generatorOptions:
-  disableNameSuffixHash: true
