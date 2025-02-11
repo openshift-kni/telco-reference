@@ -18,4 +18,5 @@ If you have questions or comments on this reference configuration
 please reach out to one of the owners of this project.
 
 ## Authors and acknowledgment
+
 Many thanks to those who have contributed to this reference configuration.
