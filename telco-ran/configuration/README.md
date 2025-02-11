@@ -1,5 +1,4 @@
 # Reference configuration
-Note: This repository is a work in progress and might be subject to structural change.
 
 ## Structure
 This directory contains three components of the reference configuration
