@@ -4,6 +4,8 @@ kind: MultiClusterObservability
 metadata:
   name: observability
   annotations:
+    argocd.argoproj.io/sync-wave: "10"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
     # avoids MultiClusterHub Observability to own/manage the
     # spoke clusters configuration about AlertManager forwards.
     # ZTP Policies will be in charge of configuring it
