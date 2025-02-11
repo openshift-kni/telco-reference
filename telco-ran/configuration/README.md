@@ -8,4 +8,5 @@ This directory contains three components of the reference configuration
  - The `kube-compare-reference` tree contains the RAN reference configuration CRs with templating required for kube-compare tool.
  - The `policygentemplates` tree has the reference manifests which define how CRs from the
    source-crs tree are patched with use-case specific patches and grouped into policies in order to generate policies which apply the reference configuration to one or more clusters.
- - The `hub-side-templating` subdirectory holds ConfigMaps and Templates which provide values used in PGTs with hub side templating.
+ - The `policygentemplates/hub-side-templating` subdirectory holds ConfigMaps and Templates which provide values used in PGTs with hub side templating.
+ - The `image-based-upgrades` contain examples pertaining to image based upgrades.
