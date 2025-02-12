@@ -1,0 +1,32 @@
+---
+apiVersion: ocs.openshift.io/v1
+kind: StorageCluster
+metadata:
+  name: ocs-storagecluster
+  namespace: openshift-storage
+spec:
+  manageNodes: false
+  {{- if .spec.resources }}
+  resources:
+    {{- .spec.resources | toYaml | nindent 4 }}
+  {{- end }}
+  monDataDirHostPath: /var/lib/rook
+  storageDeviceSets:
+  {{- range .spec.storageDeviceSets }}
+  - count: {{ .count }}  # <-- Modify count to desired value. For each set of 3 disks increment the count by 1.
+    dataPVCTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ .dataPVCTemplate.spec.resources.requests.storage }}  # <-- This should be changed as per storage size. Minimum 100 GiB and Maximum 4 TiB
+        storageClassName: {{ .dataPVCTemplate.spec.storageClassName }}  # match this with the storage block created at the LSO step
+        volumeMode: Block
+    name: ocs-deviceset
+    placement: {}
+    portable: false
+    replica: 3
+    resources:
+      {{- .resources | toYaml | nindent 6 }}
+  {{- end }}

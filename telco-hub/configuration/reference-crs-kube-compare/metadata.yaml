@@ -1,0 +1,111 @@
+apiVersion: v2
+parts:
+  - name: version-check
+    description: |-
+      A mismatch here means you may be using the wrong reference.
+      This reference was designed for OpenShift 4.17.
+    components:
+      - name: version-check
+        allOf:
+          - path: ReferenceVersionCheck.yaml
+            config:
+              ignore-unspecified-fields: true
+              fieldsToOmitRefs:
+                - allowStatusCheck
+  - name: required-storage
+    description: |-
+      TODO: Link to Hub RDS storage section when published
+    components:
+      - name: local-storage-operator
+        allOf:
+          - path: required/lso/lsoNS.yaml
+          - path: required/lso/lsoOperatorGroup.yaml
+          - path: required/lso/lsoSubscription.yaml
+          - path: required/lso/lsoLocalVolume.yaml
+      - name: odf-internal-operator
+        allOf:
+          - path: required/odf-internal/odfNS.yaml
+          - path: required/odf-internal/odfOperatorGroup.yaml
+          - path: required/odf-internal/odfSubscription.yaml
+          - path: required/odf-internal/storageCluster.yaml
+            config:
+              ignore-unspecified-fields: true
+  - name: required-talm
+    description: |-
+      TODO: Link to Hub RDS TALM section when published
+    components:
+      - name: talm-operator
+        allOf:
+          - path: required/talm/talmSubscription.yaml
+  - name: required-acm
+    description: |-
+      TODO: Link to Hub RDS ACM section when published
+    components:
+      - name: acm-operator
+        allOf:
+          - path: required/acm/acmNS.yaml
+          - path: required/acm/acmOperGroup.yaml
+          - path: required/acm/acmSubscription.yaml
+          - path: required/acm/acmMCH.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: required/acm/acmProvisioning.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: required/acm/acmMirrorRegistryCM.yaml
+          - path: required/acm/acmAgentServiceConfig.yaml
+  - name: optional-logging
+    description: |-
+      TODO: Link to Hub RDS logging section when published
+    components:
+      - name: cluster-logging-operator
+        allOf:
+          - path: optional/logging/clusterLogNS.yaml
+          - path: optional/logging/clusterLogOperGroup.yaml
+          - path: optional/logging/clusterLogSubscription.yaml
+  - name: optional-quay
+    description: |-
+      TODO: Link to Hub RDS Quay section when published
+    components:
+      - name: quay-operator
+        allOf:
+          - path: optional/quay/quayNS.yaml
+          - path: optional/quay/quayOperatorGroup.yaml
+          - path: optional/quay/quaySubscription.yaml
+
+templateFunctionFiles:
+  - version_match.tmpl
+
+fieldsToOmit:
+  defaultOmitRef: all
+  items:
+    defaults:
+      - pathToKey: metadata.annotations."kubectl.kubernetes.io/last-applied-configuration"
+      - pathToKey: metadata.annotations."openshift.io/sa.scc.uid-range"
+      - pathToKey: metadata.annotations."openshift.io/sa.scc.mcs"
+      - pathToKey: metadata.annotations."openshift.io/sa.scc.supplemental-groups"
+      - pathToKey: metadata.annotations."olm.providedAPIs"
+      - pathToKey: metadata.labels."kubernetes.io/metadata.name"
+      - pathToKey: metadata.labels."security.openshift.io/scc.podSecurityLabelSync"
+      - pathToKey: metadata.labels."operators.coreos.com/local-storage-operator.openshift-local-storage"
+      - pathToKey: metadata.labels."operators.coreos.com/odf-operator.openshift-storage"
+      - pathToKey: metadata.labels."operators.coreos.com/topology-aware-lifecycle-manager.openshift-operators"
+      - pathToKey: metadata.labels."operators.coreos.com/advanced-cluster-management.open-cluster-management"
+      - pathToKey: metadata.labels."agent-install.openshift.io/watch"
+      - pathToKey: metadata.labels."cluster.open-cluster-management.io/backup"
+      - pathToKey: metadata.labels."pod-security.kubernetes.io"
+        isPrefix: true
+      - pathToKey: metadata.labels."olm.operatorgroup.uid"
+        isPrefix: true
+      - pathToKey: metadata.creationTimestamp
+      - pathToKey: metadata.finalizers
+      - pathToKey: metadata.generation
+      - pathToKey: metadata.resourceVersion
+      - pathToKey: metadata.uid
+      - pathToKey: metadata.ownerReferences
+      - pathToKey: spec.finalizers
+    allowStatusCheck:
+      - include: defatuls
+    all:
+      - include: defaults
+      - pathToKey: status

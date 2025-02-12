@@ -1,0 +1,12 @@
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: quay-operator
+  namespace: quay-enterprise
+spec:
+  sourceNamespace: openshift-marketplace
+  source: {{ .spec.source }}
+  channel: stable-3.12  # should match latest version
+  installPlanApproval: Automatic
+  name: quay-operator

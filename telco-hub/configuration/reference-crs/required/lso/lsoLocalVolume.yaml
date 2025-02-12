@@ -8,6 +8,8 @@ metadata:
     argocd.argoproj.io/sync-wave: "2"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
+  logLevel: Normal
+  managementState: Managed
   nodeSelector:
     nodeSelectorTerms:
     - matchExpressions:
