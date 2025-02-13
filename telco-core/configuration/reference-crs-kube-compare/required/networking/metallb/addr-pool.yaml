@@ -11,5 +11,7 @@ spec:
 {{ .spec.addresses | toYaml | indent 2}}
 {{ end }}
   #- 3.3.3.0/24
-  autoAssign: true
+{{ if .spec.autoAssign }}
+  autoAssign: {{ .spec.autoAssign }}
+{{ end }}
   ##############
