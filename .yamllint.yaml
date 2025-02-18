@@ -24,3 +24,9 @@ rules:
   # which are quite long.
   line-length:
     max: 2000
+
+# Skip the yamls augmented with golang templating as they are not
+# expected to be legal yaml.
+ignore:
+  - telco-core/configuration/reference-crs-kube-compare/
+  - telco-hub/configuration/reference-crs-kube-compare/
