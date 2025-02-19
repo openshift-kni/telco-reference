@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: hub-rds-argocd
+rules:
+  - apiGroups:
+      - "siteconfig.open-cluster-management.io"
+    resources:
+      - "clusterinstances"
+    verbs:
+      - "create"
+      - "patch"
