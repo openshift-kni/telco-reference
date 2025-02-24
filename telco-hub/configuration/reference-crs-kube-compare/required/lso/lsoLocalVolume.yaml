@@ -1,0 +1,21 @@
+---
+apiVersion: "local.storage.openshift.io/v1"
+kind: "LocalVolume"
+metadata:
+  name: {{ .metadata.name }}
+  namespace: "openshift-local-storage"
+spec:
+  logLevel: Normal
+  managementState: Managed
+  {{- if .spec.nodeSelector }}
+  nodeSelector:
+    {{- .spec.nodeSelector | toYaml | nindent 4 }}
+  {{- end }}
+  storageClassDevices:
+    {{- range .spec.storageClassDevices }}
+    - storageClassName: {{ .storageClassName }}
+      forceWipeDevicesAndDestroyAllData: true
+      volumeMode: Block
+      devicePaths:
+        {{- .devicePaths | toYaml | nindent 8 }}
+    {{- end}}

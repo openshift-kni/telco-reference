@@ -3,8 +3,6 @@ apiVersion: operator.open-cluster-management.io/v1
 kind: MultiClusterHub
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "4"
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
     installer.open-cluster-management.io/mce-subscription-spec: '{"installPlanApproval": "Automatic"}'
   name: multiclusterhub
   namespace: open-cluster-management
