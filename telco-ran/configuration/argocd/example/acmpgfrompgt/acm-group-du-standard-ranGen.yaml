@@ -1,0 +1,61 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+    name: group-du-standard-latest
+placementBindingDefaults:
+    name: group-du-standard-latest-placement-binding
+policyDefaults:
+    namespace: ztp-group
+    placement:
+        labelSelector:
+            matchExpressions:
+                - key: du-profile
+                  operator: In
+                  values:
+                    - latest
+                - key: group-du-standard
+                  operator: Exists
+    remediationAction: inform
+    severity: low
+    namespaceSelector:
+        exclude:
+            - kube-*
+        include:
+            - '*'
+    evaluationInterval:
+        compliant: 10m
+        noncompliant: 10s
+policies:
+    - name: group-du-standard-latest-config-policy
+      policyAnnotations:
+        ran.openshift.io/ztp-deploy-wave: ""
+      manifests:
+        - path: source-crs/PtpOperatorConfig-MCP-worker.yaml
+        - path: source-crs/PtpConfigSlave-MCP-worker.yaml
+          patches:
+            - metadata:
+                name: du-ptp-slave
+              spec:
+                profile:
+                    - interface: ens5f0
+                      name: slave
+                      phc2sysOpts: -a -r -n 24
+                      ptp4lOpts: -2 -s --summary_interval -4
+          openapi:
+            path: schema.openapi
+        - path: source-crs/SriovOperatorConfig-MCP-worker.yaml
+        - path: source-crs/PerformanceProfile-MCP-worker.yaml
+          patches:
+            - spec:
+                cpu:
+                    isolated: 2-19,22-39
+                    reserved: 0-1,20-21
+                hugepages:
+                    defaultHugepagesSize: 1G
+                    pages:
+                        - count: 32
+                          size: 1G
+        - path: source-crs/TunedPerformancePatch-MCP-worker.yaml
+        - path: source-crs/optional-extra-manifest/enable-crun-master.yaml
+        - path: source-crs/optional-extra-manifest/enable-crun-worker.yaml
