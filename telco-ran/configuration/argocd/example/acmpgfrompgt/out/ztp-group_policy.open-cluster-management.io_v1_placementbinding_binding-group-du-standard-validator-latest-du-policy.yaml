@@ -1,0 +1,13 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PlacementBinding
+metadata:
+  name: binding-group-du-standard-validator-latest-du-policy
+  namespace: ztp-group
+placementRef:
+  apiGroup: cluster.open-cluster-management.io
+  kind: Placement
+  name: placement-group-du-standard-validator-latest-du-policy
+subjects:
+- apiGroup: policy.open-cluster-management.io
+  kind: Policy
+  name: group-du-standard-validator-latest-du-policy

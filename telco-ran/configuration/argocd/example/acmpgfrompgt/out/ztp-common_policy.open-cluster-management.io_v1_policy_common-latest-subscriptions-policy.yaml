@@ -1,0 +1,337 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  annotations:
+    policy.open-cluster-management.io/categories: CM Configuration Management
+    policy.open-cluster-management.io/controls: CM-2 Baseline Configuration
+    policy.open-cluster-management.io/description: ""
+    policy.open-cluster-management.io/standards: NIST SP 800-53
+    ran.openshift.io/ztp-deploy-wave: "2"
+  name: common-latest-subscriptions-policy
+  namespace: ztp-common
+spec:
+  disabled: false
+  policy-templates:
+  - objectDefinition:
+      apiVersion: policy.open-cluster-management.io/v1
+      kind: ConfigurationPolicy
+      metadata:
+        name: common-latest-subscriptions-policy
+      spec:
+        evaluationInterval:
+          compliant: 10m
+          noncompliant: 10s
+        namespaceSelector:
+          exclude:
+          - kube-*
+          include:
+          - '*'
+        object-templates:
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: v1
+            kind: Namespace
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+                workload.openshift.io/allowed: management
+              name: openshift-sriov-network-operator
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: operators.coreos.com/v1
+            kind: OperatorGroup
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+              name: sriov-network-operators
+              namespace: openshift-sriov-network-operator
+            spec:
+              targetNamespaces:
+              - openshift-sriov-network-operator
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: operators.coreos.com/v1alpha1
+            kind: Subscription
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+              name: sriov-network-operator-subscription
+              namespace: openshift-sriov-network-operator
+            spec:
+              channel: stable
+              installPlanApproval: Manual
+              name: sriov-network-operator
+              source: redhat-operators-disconnected
+              sourceNamespace: openshift-marketplace
+            status:
+              state: AtLatestKnown
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: operators.coreos.com/v1
+            kind: Operator
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+              name: sriov-network-operator.openshift-sriov-network-operator
+            status:
+              components:
+                refs:
+                - conditions:
+                  - status: "False"
+                    type: CatalogSourcesUnhealthy
+                  kind: Subscription
+                  namespace: openshift-sriov-network-operator
+                - conditions:
+                  - status: "True"
+                    type: Installed
+                  kind: InstallPlan
+                  namespace: openshift-sriov-network-operator
+                - conditions:
+                  - reason: InstallSucceeded
+                    status: "True"
+                    type: Succeeded
+                  kind: ClusterServiceVersion
+                  namespace: openshift-sriov-network-operator
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: v1
+            kind: Namespace
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+                workload.openshift.io/allowed: management
+              labels:
+                openshift.io/cluster-monitoring: "true"
+              name: openshift-ptp
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: operators.coreos.com/v1
+            kind: OperatorGroup
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+              name: ptp-operators
+              namespace: openshift-ptp
+            spec:
+              targetNamespaces:
+              - openshift-ptp
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: operators.coreos.com/v1alpha1
+            kind: Subscription
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+              name: ptp-operator-subscription
+              namespace: openshift-ptp
+            spec:
+              channel: stable
+              installPlanApproval: Manual
+              name: ptp-operator
+              source: redhat-operators-disconnected
+              sourceNamespace: openshift-marketplace
+            status:
+              state: AtLatestKnown
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: operators.coreos.com/v1
+            kind: Operator
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+              name: ptp-operator.openshift-ptp
+            status:
+              components:
+                refs:
+                - conditions:
+                  - status: "False"
+                    type: CatalogSourcesUnhealthy
+                  kind: Subscription
+                  namespace: openshift-ptp
+                - conditions:
+                  - status: "True"
+                    type: Installed
+                  kind: InstallPlan
+                  namespace: openshift-ptp
+                - conditions:
+                  - reason: InstallSucceeded
+                    status: "True"
+                    type: Succeeded
+                  kind: ClusterServiceVersion
+                  namespace: openshift-ptp
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: v1
+            kind: Namespace
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+                workload.openshift.io/allowed: management
+              labels:
+                openshift.io/cluster-monitoring: "true"
+              name: openshift-logging
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: operators.coreos.com/v1
+            kind: OperatorGroup
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+              name: cluster-logging
+              namespace: openshift-logging
+            spec:
+              targetNamespaces:
+              - openshift-logging
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: operators.coreos.com/v1alpha1
+            kind: Subscription
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+              name: cluster-logging
+              namespace: openshift-logging
+            spec:
+              channel: stable-6.1
+              installPlanApproval: Manual
+              name: cluster-logging
+              source: redhat-operators-disconnected
+              sourceNamespace: openshift-marketplace
+            status:
+              state: AtLatestKnown
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: operators.coreos.com/v1
+            kind: Operator
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+              name: cluster-logging.openshift-logging
+            status:
+              components:
+                refs:
+                - conditions:
+                  - status: "False"
+                    type: CatalogSourcesUnhealthy
+                  kind: Subscription
+                  namespace: openshift-logging
+                - conditions:
+                  - status: "True"
+                    type: Installed
+                  kind: InstallPlan
+                  namespace: openshift-logging
+                - conditions:
+                  - reason: InstallSucceeded
+                    status: "True"
+                    type: Succeeded
+                  kind: ClusterServiceVersion
+                  namespace: openshift-logging
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: v1
+            kind: ServiceAccount
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+              name: collector
+              namespace: openshift-logging
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: ClusterRoleBinding
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+              name: logcollector-audit-logs-binding
+            roleRef:
+              apiGroup: rbac.authorization.k8s.io
+              kind: ClusterRole
+              name: collect-audit-logs
+            subjects:
+            - kind: ServiceAccount
+              name: collector
+              namespace: openshift-logging
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: ClusterRoleBinding
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+              name: logcollector-infrastructure-logs-binding
+            roleRef:
+              apiGroup: rbac.authorization.k8s.io
+              kind: ClusterRole
+              name: collect-infrastructure-logs
+            subjects:
+            - kind: ServiceAccount
+              name: collector
+              namespace: openshift-logging
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: v1
+            kind: Namespace
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+                workload.openshift.io/allowed: management
+              name: openshift-local-storage
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: operators.coreos.com/v1
+            kind: OperatorGroup
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+              name: openshift-local-storage
+              namespace: openshift-local-storage
+            spec:
+              targetNamespaces:
+              - openshift-local-storage
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: operators.coreos.com/v1alpha1
+            kind: Subscription
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+              name: local-storage-operator
+              namespace: openshift-local-storage
+            spec:
+              channel: stable
+              installPlanApproval: Manual
+              name: local-storage-operator
+              source: redhat-operators-disconnected
+              sourceNamespace: openshift-marketplace
+            status:
+              state: AtLatestKnown
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: operators.coreos.com/v1
+            kind: Operator
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "2"
+              name: local-storage-operator.openshift-local-storage
+            status:
+              components:
+                refs:
+                - conditions:
+                  - status: "False"
+                    type: CatalogSourcesUnhealthy
+                  kind: Subscription
+                  namespace: openshift-local-storage
+                - conditions:
+                  - status: "True"
+                    type: Installed
+                  kind: InstallPlan
+                  namespace: openshift-local-storage
+                - conditions:
+                  - reason: InstallSucceeded
+                    status: "True"
+                    type: Succeeded
+                  kind: ClusterServiceVersion
+                  namespace: openshift-local-storage
+        remediationAction: inform
+        severity: low
+  remediationAction: inform
