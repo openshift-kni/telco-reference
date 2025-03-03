@@ -3,6 +3,8 @@ kind: AppProject
 metadata:
   name: ztp-app-project
   namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "100"
 spec:
   clusterResourceWhitelist:
   - group: 'hive.openshift.io'

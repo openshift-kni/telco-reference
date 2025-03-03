@@ -1,0 +1,77 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: hub-rds-argocd
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-ocm-cluster-manager-admin: "true"
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - '*'
+- apiGroups:
+  - local.storage.openshift.io
+  resources:
+  - localvolumes
+  verbs:
+  - '*'
+- apiGroups:
+  - ocs.openshift.io
+  resources:
+  - storageclusters
+  verbs:
+  - '*'
+- apiGroups:
+  - objectbucket.io
+  resources:
+  - objectbucketclaims
+  verbs:
+  - '*'
+- apiGroups:
+  - operator.open-cluster-management.io
+  resources:
+  - multiclusterhubs
+  verbs:
+  - '*'
+- apiGroups:
+  - metal3.io
+  resources:
+  - provisionings
+  verbs:
+  - '*'
+- apiGroups:
+  - agent-install.openshift.io
+  resources:
+  - agentserviceconfigs
+  verbs:
+  - '*'
+- apiGroups:
+  - search.open-cluster-management.io
+  resources:
+  - searches
+  verbs:
+  - '*'
+- apiGroups:
+  - observability.open-cluster-management.io
+  resources:
+  - multiclusterobservabilities
+  verbs:
+  - '*'
+- apiGroups:
+  - policy.open-cluster-management.io
+  resources:
+  - policies
+  - placementbindings
+  verbs:
+  - '*'
+- apiGroups:
+  - cluster.open-cluster-management.io
+  resources:
+  - managedclustersetbindings
+  - managedclustersets/bind
+  - managedclustersets/join
+  - placements
+  verbs:
+  - '*'

@@ -1,13 +1,11 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: gitops-policy
-  annotations:
-    argocd.argoproj.io/sync-wave: "100"
+  name: gitops-hub-rds-binding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: open-cluster-management:cluster-manager-admin
+  name: hub-rds-argocd
 subjects:
 - kind: ServiceAccount
   name: openshift-gitops-argocd-application-controller

@@ -6,3 +6,7 @@ resources:
   - required/odf-internal/
   - required/acm/
   - required/talm/
+  # Include this content if you want to include the argocd
+  # configuration and apps for gitops ztp management of cluster
+  # installation and configuration
+  # - required/gitops/ztp-installation
