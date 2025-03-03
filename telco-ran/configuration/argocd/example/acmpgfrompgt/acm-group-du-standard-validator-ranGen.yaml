@@ -1,0 +1,38 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+    name: group-du-standard-validator-latest
+placementBindingDefaults:
+    name: group-du-standard-validator-latest-placement-binding
+policyDefaults:
+    namespace: ztp-group
+    placement:
+        labelSelector:
+            matchExpressions:
+                - key: du-profile
+                  operator: In
+                  values:
+                    - latest
+                - key: group-du-standard
+                  operator: Exists
+                - key: ztp-done
+                  operator: DoesNotExist
+    remediationAction: inform
+    severity: low
+    namespaceSelector:
+        exclude:
+            - kube-*
+        include:
+            - '*'
+    evaluationInterval:
+        compliant: 10m
+        noncompliant: 10s
+policies:
+    - name: group-du-standard-validator-latest-du-policy
+      policyAnnotations:
+        ran.openshift.io/ztp-deploy-wave: "10000"
+      evaluationInterval:
+        compliant: 5s
+      manifests:
+        - path: source-crs/validatorCRs/informDuValidator-MCP-worker.yaml
