@@ -8,18 +8,21 @@ metadata:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   databaseStorage:
+    storageClassName: ocs-storagecluster-cephfs
     accessModes:
       - ReadWriteOnce
     resources:
       requests:
         storage: 20Gi
   filesystemStorage:
+    storageClassName: ocs-storagecluster-cephfs
     accessModes:
       - ReadWriteOnce
     resources:
       requests:
         storage: 20Gi
   imageStorage:
+    storageClassName: ocs-storagecluster-cephfs
     accessModes:
       - ReadWriteOnce
     resources:

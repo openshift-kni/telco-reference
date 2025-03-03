@@ -5,7 +5,8 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "4"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-    installer.open-cluster-management.io/mce-subscription-spec: '{"installPlanApproval": "Automatic"}'
+    installer.open-cluster-management.io/mce-subscription-spec: '{"source": "redhat-operators-disconnected", "installPlanApproval": "Automatic"}'
+    installer.open-cluster-management.io/oadp-subscription-spec: '{"source": "redhat-operators-disconnected", "installPlanApproval": "Automatic"}'
   name: multiclusterhub
   namespace: open-cluster-management
 spec:
@@ -38,4 +39,6 @@ spec:
       name: volsync
     - enabled: true
       name: cluster-backup
+    - enabled: true
+      name: siteconfig
   separateCertificateManagement: false
