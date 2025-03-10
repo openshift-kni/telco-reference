@@ -6,9 +6,6 @@ Please see [here](https://github.com/openshift/kube-compare/blob/main/docs/image
 
 Required and Optional RDS are structured based on internal document "4.16 Telco Engineering RAN Reference Design Specification"
 
-> [!CAUTION]
-> We are in development and some APIs may change over time. There are a few TOODs that are mentioned in the metadata.yaml that may trigger unwanted diffs.
-
 ## Developer Notes
 
 The reference must be kept in-sync with ../source-crs
