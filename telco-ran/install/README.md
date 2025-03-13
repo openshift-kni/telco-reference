@@ -1,5 +1,5 @@
 # Installation artifacts
-Note: This repository is a work in progress and might be subject to structural change.
+Note: This method is deprecated in favor of the ClusterInstance CR from the [siteconfig operator](https://github.com/stolostron/siteconfig).
 
 ## Structure
 This directory contains a folder `siteconfig` with example CRs for installation of a Telco RAN cluster
