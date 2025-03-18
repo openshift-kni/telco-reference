@@ -10,14 +10,14 @@ spec:
           profile: default
           region: us-east-1
           s3ForcePathStyle: 'true'
-          s3Url: #your S3 end point
+          s3Url:  # your S3 end point
           insecureSkipTLSVerify: "true"
         credential:
           key: cloud
           name: cloud-credentials
         default: true
         objectStorage:
-          bucket: #your bucket name
+          bucket:  # your bucket name
           prefix: velero
         provider: aws
   configuration:
@@ -31,6 +31,6 @@ spec:
   snapshotLocations:
     - velero:
         config:
-          profile: default #your velero secret profile name
+          profile: default  # your velero secret profile name
           region: minio
         provider: aws
