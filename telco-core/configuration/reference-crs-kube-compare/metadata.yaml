@@ -163,6 +163,7 @@ parts:
 
 templateFunctionFiles:
   - version_match.tmpl
+  - unordered_list.tmpl
 
 fieldsToOmit:
   defaultOmitRef: all

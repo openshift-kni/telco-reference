@@ -9,6 +9,11 @@ metadata:
     kubeletconfig.experimental: |
       {"allowedUnsafeSysctls":["net.ipv6.conf.all.accept_ra"]}
 spec:
+  additionalKernelArgs:
+    {{- template "unorderedList" (list .spec.additionalKernelArgs (list
+      "module_blacklist=irdma"
+      ) (list
+      ) ) }}
   cpu:
     # node0 CPUs: 0-17,36-53
     # node1 CPUs: 18-34,54-71
