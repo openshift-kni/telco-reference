@@ -1,0 +1,13 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PlacementBinding
+metadata:
+  name: binding-group-du-sno-clo5-cleanup
+  namespace: ztp-group
+placementRef:
+  apiGroup: apps.open-cluster-management.io
+  kind: PlacementRule
+  name: placementrule-group-du-sno-clo5-cleanup
+subjects:
+- apiGroup: policy.open-cluster-management.io
+  kind: Policy
+  name: group-du-sno-clo5-cleanup

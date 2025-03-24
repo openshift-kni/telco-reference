@@ -1,0 +1,83 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  annotations:
+    policy.open-cluster-management.io/categories: CM Configuration Management
+    policy.open-cluster-management.io/controls: CM-2 Baseline Configuration
+    policy.open-cluster-management.io/description: ""
+    policy.open-cluster-management.io/standards: NIST SP 800-53
+    ran.openshift.io/ztp-deploy-wave: "1"
+  name: common-latest-config-policy
+  namespace: ztp-common
+spec:
+  disabled: false
+  policy-templates:
+  - objectDefinition:
+      apiVersion: policy.open-cluster-management.io/v1
+      kind: ConfigurationPolicy
+      metadata:
+        name: common-latest-config-policy
+      spec:
+        evaluationInterval:
+          compliant: 10m
+          noncompliant: 10s
+        namespaceSelector:
+          exclude:
+          - kube-*
+          include:
+          - '*'
+        object-templates:
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: v1
+            data:
+              config.yaml: |
+                alertmanagerMain:
+                  enabled: false
+                telemeterClient:
+                  enabled: false
+                prometheusK8s:
+                   retention: 24h
+            kind: ConfigMap
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "1"
+              name: cluster-monitoring-config
+              namespace: openshift-monitoring
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: operators.coreos.com/v1alpha1
+            kind: CatalogSource
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "1"
+                target.workload.openshift.io/management: '{"effect": "PreferredDuringScheduling"}'
+              name: redhat-operators-disconnected
+              namespace: openshift-marketplace
+            spec:
+              displayName: disconnected-redhat-operators
+              image: registry.example.com:5000/disconnected-redhat-operators/disconnected-redhat-operator-index:v4.9
+              publisher: Red Hat
+              sourceType: grpc
+              updateStrategy:
+                registryPoll:
+                  interval: 1h
+            status:
+              connectionState:
+                lastObservedState: READY
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: operator.openshift.io/v1alpha1
+            kind: ImageContentSourcePolicy
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "1"
+              name: disconnected-internal-icsp
+            spec:
+              repositoryDigestMirrors:
+              - mirrors:
+                - registry.example.com:5000
+                source: registry.redhat.io
+        remediationAction: inform
+        severity: low
+  remediationAction: inform

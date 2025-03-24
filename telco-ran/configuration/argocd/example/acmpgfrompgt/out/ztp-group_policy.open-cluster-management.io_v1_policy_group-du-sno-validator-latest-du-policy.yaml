@@ -1,0 +1,71 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  annotations:
+    policy.open-cluster-management.io/categories: CM Configuration Management
+    policy.open-cluster-management.io/controls: CM-2 Baseline Configuration
+    policy.open-cluster-management.io/description: ""
+    policy.open-cluster-management.io/standards: NIST SP 800-53
+    ran.openshift.io/ztp-deploy-wave: "10000"
+  name: group-du-sno-validator-latest-du-policy
+  namespace: ztp-group
+spec:
+  disabled: false
+  policy-templates:
+  - objectDefinition:
+      apiVersion: policy.open-cluster-management.io/v1
+      kind: ConfigurationPolicy
+      metadata:
+        name: group-du-sno-validator-latest-du-policy
+      spec:
+        evaluationInterval:
+          compliant: 5s
+          noncompliant: 10s
+        namespaceSelector:
+          exclude:
+          - kube-*
+          include:
+          - '*'
+        object-templates:
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: machineconfiguration.openshift.io/v1
+            kind: MachineConfigPool
+            metadata:
+              annotations:
+                ran.openshift.io/ztp-deploy-wave: "10000"
+              name: master
+            status:
+              conditions:
+              - status: "True"
+                type: Updated
+              - status: "False"
+                type: Updating
+              configuration:
+                source:
+                - apiVersion: machineconfiguration.openshift.io/v1
+                  kind: MachineConfig
+                  name: 50-performance-openshift-node-performance-profile
+                - apiVersion: machineconfiguration.openshift.io/v1
+                  kind: MachineConfig
+                  name: 50-nto-master
+              degradedMachineCount: 0
+              unavailableMachineCount: 0
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: sriovnetwork.openshift.io/v1
+            kind: SriovNetworkNodeState
+            metadata:
+              namespace: openshift-sriov-network-operator
+            status:
+              syncStatus: Succeeded
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: apps/v1
+            kind: DaemonSet
+            metadata:
+              name: linuxptp-daemon
+              namespace: openshift-ptp
+        remediationAction: inform
+        severity: low
+  remediationAction: inform

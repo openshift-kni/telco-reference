@@ -1,0 +1,13 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PlacementBinding
+metadata:
+  name: binding-common-latest-subscriptions-policy
+  namespace: ztp-common
+placementRef:
+  apiGroup: cluster.open-cluster-management.io
+  kind: Placement
+  name: placement-common-latest-subscriptions-policy
+subjects:
+- apiGroup: policy.open-cluster-management.io
+  kind: Policy
+  name: common-latest-subscriptions-policy
