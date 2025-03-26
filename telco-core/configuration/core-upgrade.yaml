@@ -13,6 +13,11 @@ policyDefaults:
   remediationAction: "inform"
 policies:
   - name: core-upgrade-prep-18
+    policyAnnotations:
+      # Updates to the catalogsource take a few seconds to propagate
+      # to the status. The soak seconds gives time for that
+      # propagation to occur
+      ran.openshift.io/soak-seconds: "30"
     manifests:
       # Update catalogsource to point to latest versions
       - path: reference-crs/required/other/catalog-source.yaml
@@ -86,6 +91,18 @@ policies:
         - status:
             state: AtLatestKnown
       - path: reference-crs/required/networking/NMStateSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/networking/metallb/metallbSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/scheduling/NROPSubscription.yaml
         patches:
         - spec:
             installPlanApproval: Manual
