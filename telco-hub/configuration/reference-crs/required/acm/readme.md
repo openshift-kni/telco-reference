@@ -1,4 +1,4 @@
-# Installation instructions
+# ACM installation instructions
 
 1. Create the `acmNS.yaml` `acmOperGroup.yaml` `acmSubscription.yaml`.
 2. If Subscription was set to Manual installPlanApproval, approve the created InstallPlan on `open-cluster-management`
@@ -26,3 +26,5 @@
       Thanos secret.
 12. Create the `observabilityMCO.yaml`.
 13. When all the installation is done. Apply the `acmPerfSearch.yaml` .This will configure Search CR called `search-v2-operator` considering different performance and scale optimizations.
+
+Back to [Hub Cluster Setup](../../../../README.md).
