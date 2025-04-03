@@ -1,14 +1,29 @@
 ---
-# It is not expected that this kustomization will be used directly. Most deployments will create an overlay with custom values for environment specific values (eg URL for gitops, disks for LSO, etc). The overlay will include the resources listed here as bases.
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  # comment the optional components when not using them
   - optional/lso/
   - optional/odf-internal/
+  # everything under required is mandatory
   - required/gitops/
   - required/acm/
   - required/talm/
-  # Include this content if you want to include the argocd
+  # but, include this content if you want to include the argocd
   # configuration and apps for gitops ztp management of cluster
   # installation and configuration
   # - required/gitops/ztp-installation
+
+# following the different overlays to patch
+# the different configurations. In case you are not using some of the
+# optional components, comment the proper patches
+#
+patches:
+  # if you use LocalStorage operator, edit and configure the patch
+  - target:
+      group: local.storage.openshift.io
+      version: v1
+      kind: LocalVolume
+      name: local-disks
+    path: overlays/local-storage-disks-patch.yaml
+
