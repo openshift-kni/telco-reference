@@ -1,0 +1,7 @@
+apiVersion: config.openshift.io/v1
+kind: ImageDigestMirrorSet
+metadata:
+  name: fec-disconnected-idms
+spec:
+  # imageDigestMirrors:
+  # - $mirrors
