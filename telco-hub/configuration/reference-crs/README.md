@@ -72,7 +72,47 @@ application.argoproj.io/hub-config created
 
 The ArgoCD application will be created on your cluster. Note that at this point the ArgoCD application is also being managed via gitops and any changes to the application should be done in git as well.
 
-Before starting to sync, the application has to be configured about other components, using other different overlays. 
+Before starting to sync, the application has to be configured about other components, using other different overlays. The `telco-hub/configuration/reference-crs/kustomization.yaml` includes, not only, all the manifest to be installed, but also, the different overlays. Comment the optional manifests you dont need to use, and do the same for the different overlays.
+
+```yaml
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # comment the optional components when not using them
+  - optional/lso/
+  - optional/odf-internal/
+  # everything under required is mandatory
+  - required/gitops/
+  - required/acm/
+  - required/talm/
+  # but, include this content if you want to include the argocd
+  # configuration and apps for gitops ztp management of cluster
+  # installation and configuration
+  # - required/gitops/ztp-installation
+
+# following the different overlays to patch
+# the different configurations. In case you are not using some of the
+# optional components, comment the proper patches
+#
+patches:
+  # if you use LocalStorage operator, edit and configure the patch
+  - target:
+      group: local.storage.openshift.io
+      version: v1
+      kind: LocalVolume
+      name: local-disks
+    path: overlays/local-storage-disks-patch.yaml
+
+```
+
+### (Optional) Configure the LocalStorage overlay
+
+Edit the file `overlays/loca-storage-disks-patch.yaml` to use the disks you want to be used for the LocalStorage operator. Example:
+
+```
+
+```
 
 ### Expected overlay configuration
 The Hub reference configuration needs some environment/cluster
