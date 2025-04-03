@@ -5,9 +5,15 @@ resources:
   - app-project.yaml
   - argocd-application.yaml
   - argocd-ssh-known-hosts-cm.yaml
-  - clusterrole.yaml
-  - clusterrolebinding.yaml
-  - gitopsNS.yaml
-  - gitopsOperatorGroup.yaml
-  - gitopsSubscription.yaml
   - ztp-repo.yaml
+
+patches:
+  # to patch the ArgoCD "hub-config" application
+  # to contain the proper pointer to the
+  # telco-hub RDS Manifests
+  - target:
+      group: argoproj.io/v1alpha1
+      version: v1alpha1
+      kind: Application
+      name: hub-config
+    path: overlays/init_installation_app.yaml
