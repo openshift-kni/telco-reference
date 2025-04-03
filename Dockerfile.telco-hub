@@ -1,0 +1,24 @@
+ARG RHEL_VERSION=9.5
+
+FROM registry.redhat.io/ubi9/ubi-minimal:${RHEL_VERSION}
+
+COPY ./telco-hub /usr/share/telco-hub-rds
+
+RUN microdnf install -y tar && \
+    microdnf clean -y all
+
+USER 65532:65532
+ENTRYPOINT ["/bin/bash"]
+CMD ["-c", "tar -cf - --directory /usr/share telco-hub-rds | base64 -w0"]
+
+LABEL com.redhat.component="openshift-telco-hub-rds-container" \
+    name="openshift4/openshift-telco-hub-rds-rhel9" \
+    summary="Telco Hub RDS manifests" \
+    io.openshift.expose-services="" \
+    io.openshift.tags="" \
+    io.k8s.display-name="openshift-telco-hub-rds" \
+    maintainer="cnf-devel@redhat.com" \
+    description="Telco Hub RDS manifests" \
+    io.openshift.maintainer.component="Telco Hub RDS" \
+    io.openshift.maintainer.product="OpenShift Container Platform" \
+    io.k8s.description="Telco Hub RDS manifests"
