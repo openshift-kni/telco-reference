@@ -1,0 +1,6 @@
+- op: replace
+  path: "/spec/source"
+  value:
+    - repoURL: "telco-hub/configuration/reference-crs"
+      path: "https://github.com/jgato/telco-reference.git"
+      targetRevision: "improve-automatization-overlays"
