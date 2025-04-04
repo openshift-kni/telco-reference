@@ -3,8 +3,8 @@ kind: ImageDigestMirrorSet
 metadata:
     name: {{ .metadata.name }}
 spec:
-  #  imageDigestMirrors:
-  #  - $mirrors
+  # imageDigestMirrors:
+  # - $mirrors
   {{- if .spec.imageDigestMirrors }}
   repositoryDigestMirrors:
     {{- .spec.imageDigestMirrors | toYaml | nindent 2 }}
