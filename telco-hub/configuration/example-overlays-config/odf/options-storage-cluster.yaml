@@ -1,0 +1,9 @@
+# patching ODF StorageCluster
+
+- op: replace
+  path: /spec/storageDeviceSets/0/dataPVCTemplate/spec/resources/requests/storage
+  value: "600Gi"
+
+- op: replace
+  path: /spec/storageDeviceSets/0/dataPVCTemplate/spec/storageClassName
+  value: "local-sc"
