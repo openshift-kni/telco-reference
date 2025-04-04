@@ -9,11 +9,11 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: default
   project: infra
-  syncPolicy:
-    automated:
-      allowEmpty: true
-      selfHeal: true
-      prune: true
+#  syncPolicy:
+#    automated:
+#      allowEmpty: true
+#      selfHeal: true
+#      prune: true
   source:
     path: telco-hub/configuration/reference-crs
     repoURL: 'https://github.com/openshift-kni/telco-reference.git'

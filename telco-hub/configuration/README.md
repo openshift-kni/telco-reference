@@ -95,8 +95,26 @@ patches:
 Edit the file `example-overlays-config/lso/local-storage-disks-patch.yaml` to use the disks you want to be used for the LocalStorage operator. Example:
 
 ```
+# patching mco StorageClass
+
+- op: replace
+  path: /spec/storageConfig/storageClass
+  value: "ocs-storagecluster-cephfs" #filesystem StorageClass
+```
+
+
+### Configure the MCO Storage
+
+Edit the file `example-overlays-config/acm/storage-mco-patch.yaml` to select an StorageClass of kind FileSystem. Example:
 
 ```
+# patching mco StorageClass
+
+- op: replace
+  path: /spec/storageConfig/storageClass
+  value: "ocs-storagecluster-cephfs" #filesystem StorageClass
+```
+
 
 ## Create the `hub-config` ArgoCD Application 
 
