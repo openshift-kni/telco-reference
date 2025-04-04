@@ -120,7 +120,43 @@ Edit the file `example-overlays-config/acm/storage-mco-patch.yaml` to select an 
 Edit the file `options-agentserviceconfig-patch.yaml` to configure the different storage classes, for the different services. If connected environment enable removal of the custom registry, and set the RHCOS images to the official repository. Example:
 
 ```yaml
+# patching mco StorageClass
 
+- op: replace
+  path: /spec/databaseStorage/storageClassName
+  value: "ocs-storagecluster-cephfs" #filesystem StorageClass
+
+- op: replace
+  path: /spec/filesystemStorage/storageClassName
+  value: "ocs-storagecluster-cephfs" #filesystem StorageClass
+
+- op: replace
+  path: /spec/imageStorage/storageClassName
+  value: "ocs-storagecluster-cephfs" #filesystem StorageClass
+
+# comment the following sections if disconnected environment
+
+- op: remove
+  path: /spec/mirrorRegistryRef
+
+- op: replace
+  path: "/spec/osImages"
+  value:
+    - cpuArchitecture: x86_64
+      openshiftVersion: "4.16"
+      rootFSUrl: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.16/latest/rhcos-live-rootfs.x86_64.img
+      url: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.16/latest/rhcos-live.x86_64.iso
+      version: 416.94.202411261619-0
+    - cpuArchitecture: "x86_64"
+      openshiftVersion: "4.17"
+      rootFSUrl: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.17/latest/rhcos-live-rootfs.x86_64.img
+      url: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.17/latest/rhcos-live.x86_64.iso
+      version: "417.94.202409121747-0"
+    - cpuArchitecture: x86_64
+      openshiftVersion: "4.18"
+      rootFSUrl: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.18/latest/rhcos-live-rootfs.x86_64.img
+      url: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.18/latest/rhcos-live.x86_64.iso
+      version: 418.94.202502100215-0
 ```
 
 ## Create the `hub-config` ArgoCD Application 
