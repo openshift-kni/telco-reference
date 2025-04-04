@@ -90,18 +90,36 @@ patches:
     path: example-overlays-config/lso/local-storage-disks-patch.yaml
 ```
 
-### (Optional) Configure the LocalStorage overlay
+### (Optional) Configure the LocalStorage 
 
 Edit the file `example-overlays-config/lso/local-storage-disks-patch.yaml` to use the disks you want to be used for the LocalStorage operator. Example:
 
 ```
-# patching mco StorageClass
+# patching ODF StorageCluster
 
 - op: replace
-  path: /spec/storageConfig/storageClass
-  value: "ocs-storagecluster-cephfs" #filesystem StorageClass
+  path: /spec/storageDeviceSets/0/dataPVCTemplate/spec/resources/requests/storage
+  value: "600Gi"
+
+- op: replace
+  path: /spec/storageDeviceSets/0/dataPVCTemplate/spec/storageClassName
+  value: "local-sc"
 ```
 
+### (Optional) Configure ODF 
+Edit the file `example-overlays-config/odf/options-storage-cluster.yaml` to configure the storage backend for ODF. Example:
+
+```yaml
+# patching ODF StorageCluster
+
+- op: replace
+  path: /spec/storageDeviceSets/0/dataPVCTemplate/spec/resources/requests
+  value: "400Gi"
+
+- op: replace
+  path: /spec/storageDeviceSets/0/dataPVCTemplate/spec/resources/storageClassName
+  value: "local-sc"
+```
 
 ### Configure the MCO Storage
 
