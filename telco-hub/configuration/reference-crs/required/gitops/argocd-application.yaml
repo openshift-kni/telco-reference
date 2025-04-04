@@ -15,6 +15,6 @@ spec:
 #      selfHeal: true
 #      prune: true
   source:
-    path: telco-hub/configuration/reference-crs
-    repoURL: 'https://github.com/openshift-kni/telco-reference.git'
-    targetRevision: main
+    path: "telco-hub/configuration"
+    repoURL : "https://github.com/jgato/telco-reference.git"
+    targetRevision: "improve-automatization-overlays"

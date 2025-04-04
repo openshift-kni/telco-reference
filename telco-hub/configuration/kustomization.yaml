@@ -21,6 +21,15 @@ resources:
 # optional components, comment the proper patches
 #
 patches:
+  # keeps the hub-config ArgoCD app compliant with the
+  # overlay configuration
+  - target:
+      group: argoproj.io/v1alpha1
+      version: v1alpha1
+      kind: Application
+      name: hub-config
+    path: example-overlays-config/gitops/hub-config-repo.yaml
+
   # if you use LocalStorage operator, edit and configure the patch
   - target:
       group: local.storage.openshift.io
@@ -45,3 +54,5 @@ patches:
       kind: AgentServiceConfig
       name: agent
     path: example-overlays-config/acm/options-agentserviceconfig-patch.yaml
+
+
