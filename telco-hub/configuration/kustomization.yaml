@@ -29,3 +29,11 @@ patches:
       name: local-disks
     path: example-overlays-config/lso/local-storage-disks-patch.yaml
 
+  # configure storage for MCO, it can difer depending on your configured
+  # storage
+  - target:
+      group: observability.open-cluster-management.io
+      version: v1beta2
+      kind: MultiClusterObservability
+      name: observability
+    path: example-overlays-config/acm/storage-mco-patch.yaml
