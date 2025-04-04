@@ -7,6 +7,6 @@ metadata:
 spec:
   sourceNamespace: openshift-marketplace
   source: redhat-operators-disconnected
-  channel: stable-3.12  # should match latest version
+  channel: stable-3.14  # should match latest version
   installPlanApproval: Automatic
   name: quay-operator
