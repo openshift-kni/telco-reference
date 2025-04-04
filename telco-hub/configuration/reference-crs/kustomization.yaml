@@ -13,17 +13,3 @@ resources:
   # configuration and apps for gitops ztp management of cluster
   # installation and configuration
   # - required/gitops/ztp-installation
-
-# following the different overlays to patch
-# the different configurations. In case you are not using some of the
-# optional components, comment the proper patches
-#
-patches:
-  # if you use LocalStorage operator, edit and configure the patch
-  - target:
-      group: local.storage.openshift.io
-      version: v1
-      kind: LocalVolume
-      name: local-disks
-    path: overlays/local-storage-disks-patch.yaml
-
