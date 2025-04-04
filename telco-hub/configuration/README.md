@@ -107,7 +107,7 @@ Edit the file `example-overlays-config/lso/local-storage-disks-patch.yaml` to us
 
 Edit the file `example-overlays-config/acm/storage-mco-patch.yaml` to select an StorageClass of kind FileSystem. Example:
 
-```
+```yaml
 # patching mco StorageClass
 
 - op: replace
@@ -115,6 +115,13 @@ Edit the file `example-overlays-config/acm/storage-mco-patch.yaml` to select an 
   value: "ocs-storagecluster-cephfs" #filesystem StorageClass
 ```
 
+### Configure AgentServiceConfig options
+
+Edit the file `options-agentserviceconfig-patch.yaml` to configure the different storage classes, for the different services. If connected environment enable removal of the custom registry, and set the RHCOS images to the official repository. Example:
+
+```yaml
+
+```
 
 ## Create the `hub-config` ArgoCD Application 
 

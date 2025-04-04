@@ -37,3 +37,11 @@ patches:
       kind: MultiClusterObservability
       name: observability
     path: example-overlays-config/acm/storage-mco-patch.yaml
+
+  # configure AgentServiceConfig storage and OSImages
+  - target:
+      group: agent-install.openshift.io
+      version: v1beta1
+      kind: AgentServiceConfig
+      name: agent
+    path: example-overlays-config/acm/options-agentserviceconfig-patch.yaml
