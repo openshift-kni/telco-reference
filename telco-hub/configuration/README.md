@@ -29,7 +29,7 @@ oc apply -f reference-crs/required/gitops/clusterrole.yaml \
 Wait the operator to be installed:
 
 ```bash
-> oc -n openshift-gitops-operator get subscriptions openshift-gitops-operator  -o jsonpath='{.status.state}'
+> oc -n openshift-gitops-operator get subscriptions.operators.coreos.com openshift-gitops-operator -o jsonpath='{.status.state}'
 
 AtLatestKnown
 
@@ -58,20 +58,23 @@ At this point, in general, you will fork this repo to tune the different kustomi
 
 ```yaml
 ---
+# kustomization file including different overays over the
+# reference crs
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   # comment the optional components when not using them
-  - optional/lso/
-  - optional/odf-internal/
+  - reference-crs/optional/lso/
+  - reference-crs/optional/odf-internal/
   # everything under required is mandatory
-  - required/gitops/
-  - required/acm/
-  - required/talm/
+  - reference-crs/required/gitops/
+  - reference-crs/required/acm/
+  - reference-crs/required/talm/
   # but, include this content if you want to include the argocd
   # configuration and apps for gitops ztp management of cluster
   # installation and configuration
-  # - required/gitops/ztp-installation
+  # - reference-crs/required/gitops/ztp-installation
 
 # following the different overlays to patch
 # the different configurations. In case you are not using some of the
@@ -84,13 +87,12 @@ patches:
       version: v1
       kind: LocalVolume
       name: local-disks
-    path: overlays/local-storage-disks-patch.yaml
-
+    path: example-overlays-config/lso/local-storage-disks-patch.yaml
 ```
 
 ### (Optional) Configure the LocalStorage overlay
 
-Edit the file `overlays/loca-storage-disks-patch.yaml` to use the disks you want to be used for the LocalStorage operator. Example:
+Edit the file `example-overlays-config/lso/local-storage-disks-patch.yaml` to use the disks you want to be used for the LocalStorage operator. Example:
 
 ```
 
@@ -98,7 +100,9 @@ Edit the file `overlays/loca-storage-disks-patch.yaml` to use the disks you want
 
 ## Create the `hub-config` ArgoCD Application 
 
-Having ArgoCD ready, it is time to install the ArgoCD Application that will trigger the deployment of the telco hub. You have to edit the gitops patch overlay to configure it properly. By default, it directly points to the upstream repository:
+Having ArgoCD ready and the git repository with all the overlays configured. It is time to install the ArgoCD Application that will trigger the deployment of the telco hub. 
+
+You have to edit the gitops patch overlay to configure it properly. By default, it directly points to the upstream repository:
 
 ```yaml
 > cat required/gitops/overlays/init_installation_app.yaml 
@@ -110,7 +114,7 @@ Having ArgoCD ready, it is time to install the ArgoCD Application that will trig
       targetRevision: "main"
 ```
 
-Make any necessary change. In general, you will point to a forked repository where you have tuned your own overlay layer. Example:
+Make any necessary change. In general, you will point to the forked repository where you have been tuning your own overlay layer. Example:
 
 ```yaml
 - op: replace

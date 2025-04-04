@@ -1,0 +1,10 @@
+kind: "LocalVolume"
+metadata:
+  name: "local-disks"
+  namespace: "openshift-local-storage"
+spec:
+  storageClassDevices:
+    - storageClassName: "local-sc"
+      devicePaths:
+        - /dev/nvme1n1
+
