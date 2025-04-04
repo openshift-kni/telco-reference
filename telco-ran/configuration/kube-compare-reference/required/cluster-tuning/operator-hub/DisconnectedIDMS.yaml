@@ -1,0 +1,11 @@
+apiVersion: config.openshift.io/v1
+kind: ImageDigestMirrorSet
+metadata:
+    name: {{ .metadata.name }}
+spec:
+#    imageDigestMirrors:
+#    - $mirrors
+  {{- if .spec.imageDigestMirrors }}
+  repositoryDigestMirrors:
+    {{- .spec.imageDigestMirrors | toYaml | nindent 2 }}
+  {{- end }}
