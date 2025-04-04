@@ -1,0 +1,12 @@
+# optional
+# count: 0-N
+---
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: $name
+  namespace: $namespace
+spec:
+  config: '{ "type": "bond", "cniVersion": "0.3.1", "name": "$name", "mode": "active-backup",
+    "failOverMac": 1, "linksInContainer": true, "miimon": "100", "mtu": $mtu, "links":
+    [ {"name": "$net1"}, {"name": "$net2"} ], "ipam": $ipam }'
