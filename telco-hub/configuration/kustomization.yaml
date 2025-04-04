@@ -38,6 +38,14 @@ patches:
       name: local-disks
     path: example-overlays-config/lso/local-storage-disks-patch.yaml
 
+  # if you use ODF, edit and configure storage settings
+  - target:
+      group: ocs.openshift.io
+      version: v1
+      kind: StorageCluster
+      name: ocs-storagecluster
+    path: example-overlays-config/odf/options-storage-cluster.yaml
+
   # configure storage for MCO, it can difer depending on your configured
   # storage
   - target:
