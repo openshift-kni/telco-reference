@@ -10,9 +10,13 @@ The full telco hub configuration can be applied using an ArgoCD application poin
 * All files/directories in this tree are available in a git repository along with any necessary kustomize overlay for your environment.
 * Configured and existing Openshift CatalogSources for `redhat-operators-disconnected` and `certified-operators-disconnected`.
 
-## Installation
+## Init phase (prepare ArgoCD)
 
-First of all, the telco hub is deployed using ArgoCD, so we have to install ArgoCD (Openshift-gitops operator). You can do it on your own, or using the existing manifests on:
+ArgoCD is one of the main key components of the Telco Hub. At the same time, we can deploy the Telco Hub using ArgoCD (recommended procedure). Therefore, to have a Telco Hub with ArgoCD, first, we have to have ArgoCD to create the Telco Hub. This is the init phase.
+
+In this init phase we will install ArgoCD with the existing `reference-crs` for gitops. But, you could provide ArgoCD differently, or maybe, you already have ArgoCD in your cluster. 
+
+In case you want to proceed with the existing `reference-crs` for gitops (recommended): 
 
 ```bash
 oc apply -f reference-crs/required/gitops/clusterrole.yaml \
@@ -46,33 +50,11 @@ openshift-gitops-repo-server-6ccffb9695-pc8bj                 1/1     Running   
 openshift-gitops-server-845d6798-9c5tv                        1/1     Running   0          35s
 ```
 
-Having ArgoCD ready, it is time to install the ArgoCD Application that will manage the deployment of the telco hub. You have to edit the gitops patch overlay to configure it properly. By default, it directly points to the upstream repository:
+## Tune your own overlay layer
 
-```yaml
-> cat required/gitops/overlays/init_installation_app.yaml 
-- op: replace
-  path: "/spec/source"
-  value:
-    - repoURL: "telco-hub/configuration/reference-crs"
-      path: "https://github.com/openshift-kni/telco-reference.git"
-      targetRevision: "main"
-```
+Before creating the Telco Hub ArgoCD Application, you have to select the different optional component, and configure all of them. This is done using the different available kustomize patches. 
 
-Make any necessary change and build the application. Make sure your KUBECONFIG env var is correcty set for your hub cluster and
-run this command:
-
-```
-> kustomize build referenc-crs/required/gitops/ | oc apply -f -
-configmap/argocd-ssh-known-hosts-cm configured
-secret/ztp-repo created
-appproject.argoproj.io/infra created
-application.argoproj.io/hub-config created
-```
-
-
-The ArgoCD application will be created on your cluster. Note that at this point the ArgoCD application is also being managed via gitops and any changes to the application should be done in git as well.
-
-Before starting to sync, the application has to be configured about other components, using other different overlays. The `telco-hub/configuration/reference-crs/kustomization.yaml` includes, not only, all the manifest to be installed, but also, the different overlays. Comment the optional manifests you dont need to use, and do the same for the different overlays.
+At this point, in general, you will fork this repo to tune the different kustomize patches and to select the optional components. There exists a `kustomize.yaml` with all the information:
 
 ```yaml
 ---
@@ -113,6 +95,46 @@ Edit the file `overlays/loca-storage-disks-patch.yaml` to use the disks you want
 ```
 
 ```
+
+## Create the `hub-config` ArgoCD Application 
+
+Having ArgoCD ready, it is time to install the ArgoCD Application that will trigger the deployment of the telco hub. You have to edit the gitops patch overlay to configure it properly. By default, it directly points to the upstream repository:
+
+```yaml
+> cat required/gitops/overlays/init_installation_app.yaml 
+- op: replace
+  path: "/spec/source"
+  value:
+    - repoURL: "telco-hub/configuration/reference-crs"
+      path: "https://github.com/openshift-kni/telco-reference.git"
+      targetRevision: "main"
+```
+
+Make any necessary change. In general, you will point to a forked repository where you have tuned your own overlay layer. Example:
+
+```yaml
+- op: replace
+  path: "/spec/source"
+  value:
+    - repoURL: "telco-hub/configuration/reference-crs"
+      path: "https://github.com/jgato/telco-reference.git"
+      targetRevision: "improve-automatization-overlays"
+```
+
+Make sure your KUBECONFIG env var is correcty set for your hub cluster, and run the following command:
+
+```
+> kustomize build reference-crs/required/gitops/ | oc apply -f -
+configmap/argocd-ssh-known-hosts-cm configured
+secret/ztp-repo created
+appproject.argoproj.io/infra created
+application.argoproj.io/hub-config created
+```
+
+
+The ArgoCD application will be created on your cluster. Note that at this point the ArgoCD application is also being managed via gitops and any changes to the application should be done in git as well.
+
+
 
 ### Expected overlay configuration
 The Hub reference configuration needs some environment/cluster
