@@ -30,6 +30,7 @@ policies:
       - path: reference-crs/optional/other/worker-load-kernel-modules.yaml
       - path: reference-crs/optional/other/control-plane-load-kernel-modules.yaml
       - path: reference-crs/optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
+      - path: reference-crs/optional/networking/multus/bond_cni/bond_sriov.yaml
 
   # Custom networking, operator and cluster configuration
   - name: core-overlay-config-4.18
