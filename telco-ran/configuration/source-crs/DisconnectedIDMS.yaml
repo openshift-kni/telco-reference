@@ -2,6 +2,8 @@ apiVersion: config.openshift.io/v1
 kind: ImageDigestMirrorSet
 metadata:
   name: fec-disconnected-idms
+  annotations:
+      ran.openshift.io/ztp-deploy-wave: "1"
 spec:
   # imageDigestMirrors:
   # - $mirrors

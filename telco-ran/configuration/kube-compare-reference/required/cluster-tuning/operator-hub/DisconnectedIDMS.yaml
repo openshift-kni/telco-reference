@@ -1,11 +1,13 @@
 apiVersion: config.openshift.io/v1
 kind: ImageDigestMirrorSet
 metadata:
-    name: {{ .metadata.name }}
+  name: {{ .metadata.name }}
+  annotations:
+      ran.openshift.io/ztp-deploy-wave: "1"
 spec:
-#    imageDigestMirrors:
-#    - $mirrors
+  # imageDigestMirrors:
+  # - $mirrors
   {{- if .spec.imageDigestMirrors }}
-  repositoryDigestMirrors:
+  imageDigestMirrors:
     {{- .spec.imageDigestMirrors | toYaml | nindent 2 }}
   {{- end }}
