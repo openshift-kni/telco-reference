@@ -9,7 +9,7 @@ spec:
 apiVersion: policy.open-cluster-management.io/v1
 kind: Policy
 metadata:
-  name: copy-config-secrets
+  name: copy-platform-route-managed-secrets
   namespace: openshift-config
 spec:
   disabled: false
@@ -18,7 +18,7 @@ spec:
         apiVersion: policy.open-cluster-management.io/v1
         kind: ConfigurationPolicy
         metadata:
-          name: copy-config-secrets
+          name: copy-platform-route-managed-secrets
         spec:
           # The object templates are copying the following secrets from their respective namespaces to 'openshift-config':
           # - openshift-oauth-apiserver/serving-cert --> oauth-apiserver-serving-cert
@@ -75,7 +75,7 @@ spec:
 apiVersion: cluster.open-cluster-management.io/v1beta1
 kind: Placement
 metadata:
-  name: copy-config-secrets-placement
+  name: copy-platform-route-managed-secrets-placement
   namespace: openshift-config
 spec:
   clusterSets:
@@ -89,13 +89,13 @@ spec:
 apiVersion: policy.open-cluster-management.io/v1
 kind: PlacementBinding
 metadata:
-  name: copy-config-secrets-placement
+  name: copy-platform-route-managed-secrets-placement
   namespace: openshift-config
 placementRef:
-  name: copy-config-secrets-placement
+  name: copy-platform-route-managed-secrets-placement
   apiGroup: cluster.open-cluster-management.io
   kind: Placement
 subjects:
-  - name: copy-config-secrets
+  - name: copy-platform-route-managed-secrets
     apiGroup: policy.open-cluster-management.io
     kind: Policy
