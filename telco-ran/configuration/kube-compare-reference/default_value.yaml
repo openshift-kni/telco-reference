@@ -240,9 +240,9 @@ required_cluster_tuning_operator_hub_DefaultCatsrc:
   spec:
     displayName: default-cat-source
     image: $imageUrl
-required_cluster_tuning_operator_hub_DisconnectedICSP:
+required_cluster_tuning_operator_hub_DisconnectedIDMS:
 - metadata:
-    name: disconnected-internal-icsp
+    name: fec-disconnected-idms
   spec: {}
 required_lca_LcaSubscription:
 - spec:
