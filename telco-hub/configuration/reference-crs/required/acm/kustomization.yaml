@@ -13,5 +13,6 @@ resources:
   - observabilityNS.yaml
   - observabilityOBC.yaml
   - thanosSecret.yaml
-  - observabilitySecret.yaml
+#  - observabilitySecret.yaml
+  - pull-secret-copy.yaml
   - observabilityMCO.yaml
