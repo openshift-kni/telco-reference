@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: multus-bond-cni
+  namespace: ztp-core-policies
+data:
+  nad-name: test-name
+  nad-mtu: "1500"
+  nad-link1-name: name1
+  nad-link2-name: name2
+  nad-ipam: '{"type": "static"}''

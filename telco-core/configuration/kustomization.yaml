@@ -3,6 +3,7 @@ resources:
   - ns.yaml
   - template-values/regional.yaml
   - template-values/hw-types.yaml
+  - template-values/multus-bond-cni.yaml
   # - cluster-1.yaml
 
 generators:
