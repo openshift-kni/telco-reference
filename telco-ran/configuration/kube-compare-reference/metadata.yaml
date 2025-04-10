@@ -39,7 +39,7 @@ parts:
           - path: required/cluster-tuning/monitoring-configuration/ReduceMonitoringFootprint.yaml
           - path: required/cluster-tuning/operator-hub/DefaultCatsrc.yaml
           - path: required/cluster-tuning/09-openshift-marketplace-ns.yaml
-          - path: required/cluster-tuning/operator-hub/DisconnectedIDMS.yaml
+          - path: required/cluster-tuning/operator-hub/DisconnectedICSP.yaml
       - name: optional-cluster-tuning
         anyOf:
           - path: required/cluster-tuning/operator-hub/OperatorHub.yaml
@@ -222,6 +222,24 @@ parts:
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
           - path: optional/ptp-config/PtpConfigDualCardGmWpc.yaml
+            config:
+              perField:
+                - pathToKey: spec.profile.0.phc2sysOpts
+                  inlineDiffFunc: capturegroups
+                - pathToKey: spec.profile.0.ts2phcConf
+                  inlineDiffFunc: capturegroups
+                - pathToKey: spec.profile.0.ptp4lConf
+                  inlineDiffFunc: capturegroups
+          - path: optional/ptp-config/PtpConfigDualFollower.yaml
+            config:
+              perField:
+                - pathToKey: spec.profile.0.phc2sysOpts
+                  inlineDiffFunc: capturegroups
+                - pathToKey: spec.profile.0.ts2phcConf
+                  inlineDiffFunc: capturegroups
+                - pathToKey: spec.profile.0.ptp4lConf
+                  inlineDiffFunc: capturegroups          
+          - path: optional/ptp-config/PtpConfigThreeCardGmWpc.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
