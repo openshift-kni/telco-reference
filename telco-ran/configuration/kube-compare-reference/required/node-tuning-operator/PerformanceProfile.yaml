@@ -3,7 +3,7 @@ kind: PerformanceProfile
 metadata:
   # if you change this name make sure the 'include' line in TunedPerformancePatch.yaml
   # matches this name: include=openshift-node-performance-${PerformanceProfile.metadata.name}
-  # Also in file 'validatorCRs/informDuValidator.yaml': 
+  # Also in file 'validatorCRs/informDuValidator.yaml':
   # name: 50-performance-${PerformanceProfile.metadata.name}
   name: openshift-node-performance-profile
   annotations:
@@ -12,15 +12,26 @@ metadata:
 spec:
   additionalKernelArgs:
     {{- template "unorderedList" (list .spec.additionalKernelArgs (list
-      "efi=runtime" 
-      "module_blacklist=irdma" 
-      "rcupdate.rcu_normal_after_boot=0" 
-      "vfio_pci.disable_idle_d3=1" 
+      "efi=runtime"
+      "module_blacklist=irdma"
+      "rcupdate.rcu_normal_after_boot=0"
+      ) (list
+      "vfio_pci.disable_idle_d3=1"
       "vfio_pci.enable_sriov=1"
     )) }}
   cpu:
     isolated: {{ .spec.cpu.isolated }}
     reserved: {{ .spec.cpu.reserved }}
+  # hardwareTuning allows maximum CPU frequencies to be set for reserved and isolated CPUs
+  #hardwareTuning:
+  #  isolatedCpuFreq: <max frequency in kHz>
+  #  reservedCpuFreq: <max frequency in kHz>
+  {{- if .spec.hardwareTuning }}
+  {{- /* Require both isolatedCpuFreq and reservedCpuFreq are set (if this section is present), but allow any value */}}
+  hardwareTuning:
+    isolatedCpuFreq: {{ .spec.hardwareTuning.isolatedCpuFreq | default "Required - Must be a positive integer" }}
+    reservedCpuFreq: {{ .spec.hardwareTuning.reservedCpuFreq | default "Required - Must be a positive integer" }}
+  {{- end }}
   hugepages:
     defaultHugepagesSize: {{ .spec.hugepages.defaultHugepagesSize }}
     pages:
@@ -31,6 +42,9 @@ spec:
         node: {{ .node }}
         {{- end }}
       {{- end }}
+  {{- if .spec.kernelPageSize }}
+  kernelPageSize: {{ .spec.kernelPageSize }}
+  {{- end }}
   machineConfigPoolSelector:
     {{ template "matchNodeSelector" (list .spec.machineConfigPoolSelector "pools.operator.machineconfiguration.openshift.io" ) }}
   {{- if .spec.nodeSelector }}
@@ -49,4 +63,4 @@ spec:
     # The configuration below is set for a low latency, performance mode.
     realTime: true
     highPowerConsumption: false
-    perPodPowerManagement: false
+    perPodPowerManagement: {{ .spec.workloadHints.perPodPowerManagement }}
