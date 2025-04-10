@@ -15,3 +15,4 @@ resources:
   - thanosSecret.yaml
   - observabilitySecret.yaml
   - observabilityMCO.yaml
+  - pull-secret-openshift-config-copy.yaml
