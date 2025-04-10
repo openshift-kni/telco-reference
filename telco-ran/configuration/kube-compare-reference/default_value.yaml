@@ -75,6 +75,68 @@ optional_ptp_config_PtpConfigDualCardGmWpc:
   captureGroup_defaults:
     priority2: 128
     domainNumber: 24
+optional_ptp_config_PtpConfigDualFollower:
+- spec:
+    profile:
+    - ptpClockThreshold:
+        holdOverTimeout: 65
+        maxOffsetThreshold: 100
+        minOffsetThreshold: -100
+    recommend:
+    - match:
+      - nodeLabel: "node-role.kubernetes.io/$mcp"
+  captureGroup_defaults:
+    priority2: 128
+    domainNumber: 24
+    iface1: $iface1
+    iface2: $iface2 
+optional_ptp_config_PtpConfigThreeCardGmWpc:
+- spec:
+    profile:
+    - plugins:
+        e810:
+          settings:
+            LocalMaxHoldoverOffSet: 1500
+            LocalHoldoverTimeout: 14400
+            MaxInSpecOffset: 1500
+          pins:
+            $iface_timeTx1:
+              SMA1: 2 1
+              SMA2: 2 2
+              U.FL1: 0 1
+              U.FL2: 0 2
+            $iface_timeTx2:
+              SMA1: 1 1
+              SMA2: 0 2
+              U.FL1: 0 1
+              U.FL2: 0 2
+            $iface_timeTx3:
+              SMA1: 1 1
+              SMA2: 0 2
+              U.FL1: 0 1
+              U.FL2: 0 2
+      ptpClockThreshold:
+        holdOverTimeout: 5
+        maxOffsetThreshold: 100
+        minOffsetThreshold: -100
+    recommend:
+    - match:
+      - nodeLabel: "node-role.kubernetes.io/$mcp"
+  captureGroup_defaults:
+    priority2: 128
+    domainNumber: 24
+    iface_timeTx1: $iface_timeTx1
+    iface_timeTx1_1: $iface_timeTx1_1
+    iface_timeTx1_2: $iface_timeTx1_2
+    iface_timeTx1_3: $iface_timeTx1_3
+    iface_timeTx2: $iface_timeTx2
+    iface_timeTx2_1: $iface_timeTx2_1
+    iface_timeTx2_2: $iface_timeTx2_2
+    iface_timeTx2_3: $iface_timeTx2_3
+    iface_timeTx3: $iface_timeTx3
+    iface_timeTx3_1: $iface_timeTx3_1
+    iface_timeTx3_2: $iface_timeTx3_2
+    iface_timeTx3_3: $iface_timeTx3_3
 optional_ptp_config_PtpConfigForHA:
 - spec:
     profile:
@@ -177,9 +239,6 @@ optional_ptp_config_PtpOperatorConfigForEvent:
 - spec:
     daemonNodeSelector:
       node-role.kubernetes.io/$mcp: ""
-    ptpEventConfig:
-      apiVersion: $event_api_version
-      transportHost: "http://ptp-event-publisher-service-NODE_NAME.openshift-ptp.svc.cluster.local:9043"
 optional_sriov_fec_operator_AcceleratorsSubscription:
 - spec:
     source: certified-operators
@@ -278,6 +337,8 @@ required_node_tuning_operator_PerformanceProfile:
       node-role.kubernetes.io/$mcp: ""
     realTimeKernel:
       enabled: true
+    workloadHints:
+      perPodPowerManagement: false
 required_ptp_operator_PtpSubscription:
 - spec:
     source: redhat-operators-disconnected
