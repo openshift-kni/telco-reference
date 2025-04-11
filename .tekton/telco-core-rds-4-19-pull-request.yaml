@@ -481,7 +481,7 @@ spec:
         - name: name
           value: coverity-availability-check
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-coverity-availability-check:0.2@sha256:0b35292eed661c5e3ca307c0ba7f594d17555db2a1da567903b0b47697fa23ed
+          value: quay.io/konflux-ci/tekton-catalog/task-coverity-availability-check:0.2@sha256:aeb4ecc32ed4012686ab370b3417902082b894a9b1e27aa4f6e35a301c50f4cb
         - name: kind
           value: task
         resolver: bundles
@@ -590,7 +590,7 @@ spec:
         - name: name
           value: rpms-signature-scan
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-rpms-signature-scan:0.2@sha256:c232f24b85aadd8f077881c6fbf7f569a2eeae9319ff042bfd8062da22d93b7e
+          value: quay.io/konflux-ci/tekton-catalog/task-rpms-signature-scan:0.2@sha256:998b5466417c324aea94d3e8b302c558aeb13f746976d89a4ff85f1b84a42c2b
         - name: kind
           value: task
         resolver: bundles
