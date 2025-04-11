@@ -216,25 +216,3 @@ application.argoproj.io/hub-config created
 
 
 The ArgoCD application will be created on your cluster. Note that at this point the ArgoCD application is also being managed via gitops and any changes to the application should be done in git as well.
-
-
-
-### Expected overlay configuration
-The Hub reference configuration needs some environment/cluster
-specific content. This is done using kustomize overlay to provide that
-content. The following list highlights typical areas where overlay may
-be needed:
-* ACM
-  * Observability secret
-  * MultiClusterObservability storage configuration (sizes, StorageClass)
-  * AgentServiceConfig -- StorageClass, osImages
-  * Provisioning -- disableVirtualMediaTLS if required
-* GitOps
-  * argocd-application -- Repository access, path, etc
-  * argocd TLS certs
-* LSO
-  * LocalVolume -- StorageClass and devices
-* ODF
-  * StorageCluster -- storage device set specifications (StorageClass, count, size)
-* GitOps ZTP
-  * Applications -- Repository access, path, etc
