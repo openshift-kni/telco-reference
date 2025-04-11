@@ -145,3 +145,13 @@ includes the statically generated Policy) or PolicyGenerator.
 ### Other
 
 The pgt2acmpg supports converting Policy Gen Templates to ACM Policy Generator templates. More details can be found at [link](https://github.com/openshift-kni/cnf-features-deploy/ztp/tools/pgt2acmpg/blob/main/README.md)
+
+## Controlled reboot of a fleet of clusters
+
+Users are able to make tuning changes by applying tuned configurations on a running system. When the tuning change is done, the tuned process rollbacks all the configurations and reapplies them. In some cases, latency sensitive applications can't tolerate the removal/re-apply of the tuned profile. By adding the `tuned.openshift.io/deferred` annotation to the [`Tuned`](https://github.com/openshift/cluster-node-tuning-operator/blob/main/manifests/20-tuned.crd.yaml) CR, application of the configuration can be deferred to the maintenance window. After rebooting the node the deferred tuning configuration will be applied to the node.
+
+PolicyGenerator `acm-example-reboot.yaml` can be used to reboot clusters. The policy generated contains a `MachineConfig` which will trigger a reboot when reconciled and a `MachineConfigPool` (MCP) validator which verifies that the MCP is successfully updated. These policies can be rolled out using `CGU` to desired clusters. In case of multi-node clusters the `MCP` should match the `Tuned.spec.recommended`. Note that all the nodes belonging to the `MCP` at the time of rolling out the policy will be rebooted.
+
+When there are multiple config changes, all the config changes can be deferred and the reboot policy can be used to do a single reboot instead of rebooting for every config change. In this case, all the configuration changes can be put inside a `CGU` where the reboot policy is the last item in the `CGU`'s `spec.managedPolicies`. 
+
+Note that if there are other `MachineConfig` changes which will trigger a reboot of nodes in the MCP the examples given here are not required. The other changes remain sufficient to cause the reboot. Similarly, the MCP pause feature may also further defer the reboot of nodes regardless of the use of these policies.
