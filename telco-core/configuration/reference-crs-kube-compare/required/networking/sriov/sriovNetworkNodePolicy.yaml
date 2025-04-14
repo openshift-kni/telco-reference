@@ -6,7 +6,7 @@ metadata:
   name: {{ .metadata.name  }}
   namespace: openshift-sriov-network-operator
 spec: # $spec
-{{ .spec | toYaml | indent 2 }}
+{{ .spec | default dict | toYaml | indent 2 }}
   # eg
   #deviceType: netdevice
   #nicSelector:
