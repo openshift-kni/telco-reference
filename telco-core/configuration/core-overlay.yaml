@@ -18,10 +18,10 @@ policies:
       ran.openshift.io/ztp-deploy-wave: "2"
     manifests:
       # ICSP/IDMS/ITMS content will be entirely custom, thus including that in this policy
-      - path: reference-crs/required/other/icsp.yaml
+      - path: reference-crs/required/other/idms.yaml
         patches:
         - spec:
-            repositoryDigestMirrors:
+            imageDigestMirrors:
             - mirrors:
               - example.com/sample-path
               source: nomatch.io/sample-path
