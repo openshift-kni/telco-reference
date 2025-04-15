@@ -8,9 +8,9 @@
 6. Create the `acmAgentServiceConfig.yaml` (Two PVs are required, so ODF must be configured prior to this step).
 7. The `multicluster-engine` enables the `cluster-proxy-addon` feature by default. Apply the following patch to disable it: `oc patch multiclusterengines.multicluster.openshift.io multiclusterengine --type=merge --patch-file ./disable-cluster-proxy-addon.json`.
 8. Create the `observabilityNS.yaml`.
-9. The pull-secret multiclusterhub-operator-pull-secret will be automatically created by the ACM policy in pull-secret-copy.yaml.
-    - If secret multiclusterhub-operator-pull-secret exists in open-cluster-management, then copy it to ns open-cluster-management-observability.
-    - If the previous command returns an empty value, then copy secret pull-secret from ns openshift-config.
+9. Create the pull-secret. There are two methods to create the pull-secret:
+    - The pull-secret multiclusterhub-operator-pull-secret can be automatically created by the ACM policy in pull-secret-copy.yaml. If secret multiclusterhub-operator-pull-secret exists in open-cluster-management, the policy copy it to ns open-cluster-management-observability. If the previous command returns an empty value, then copy secret pull-secret from ns openshift-config.
+    - If you want to use your own pull-secret, you may update the value of .dockerconfigjson in observabilitySecret.yaml.
 10. Create the `observabilityOBC.yaml`.
 11. The Thanos secret will be automatically created by the ACM Policy
     in `thanosSecret.yaml`.
