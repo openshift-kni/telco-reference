@@ -3,7 +3,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: oauth-service-certificate
-  namespace: cert-manager-operator
+  namespace: openshift-authentication
 spec:
   commonName: selfsigned-ca.dns.name
   isCA: false
