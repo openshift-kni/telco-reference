@@ -6,7 +6,7 @@ metadata:
   name: odf-ready-validation
   namespace: hub-policies
   annotations:
-    argocd.argoproj.io/sync-wave: "4" # right after StorageCluster cretion
+    argocd.argoproj.io/sync-wave: "-1" # right after StorageCluster cretion
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
     policy.open-cluster-management.io/description: Policy used ensure ODF installation is ready
 spec:
