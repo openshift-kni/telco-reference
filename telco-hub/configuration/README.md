@@ -181,7 +181,7 @@ Edit the file `options-agentserviceconfig-patch.yaml` to configure the different
 
 Having ArgoCD ready and the git repository with all the overlays configured. It is time to install the ArgoCD Application that will trigger the deployment of the telco hub. 
 
-You have to edit the gitops patch overlay to configure it properly. By default, it directly points to the upstream repository:
+You have to edit the gitops patch overlay (`example-overlays-config/gitops/init-argocd-app.yaml`) to configure it properly. By default, it directly points to the upstream repository:
 
 ```yaml
 > cat required/gitops/overlays/init_installation_app.yaml 
@@ -204,10 +204,10 @@ Make any necessary change. In general, you will point to the forked repository w
       targetRevision: "improve-automatization-overlays"
 ```
 
-Make sure your KUBECONFIG env var is correcty set for your hub cluster, and run the following command:
-
+Now, we use the `example-overlays-config/gitops/init-argocd-app.yaml` to init the ArgoCD application, pointing to the git repository with all the overlays configured:
+	
 ```
-> kustomize build reference-crs/required/gitops/ | oc apply -f -
+> kustomize build example-overlays-config/gitops/ | oc apply -f -
 configmap/argocd-ssh-known-hosts-cm configured
 secret/ztp-repo created
 appproject.argoproj.io/infra created
