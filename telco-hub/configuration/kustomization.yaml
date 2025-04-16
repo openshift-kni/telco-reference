@@ -28,7 +28,7 @@ patches:
       version: v1alpha1
       kind: Application
       name: hub-config
-    path: example-overlays-config/gitops/hub-config-repo.yaml
+    path: example-overlays-config/gitops/init-argocd-app.yaml
 
   # if you use LocalStorage operator, edit and configure the patch
   - target:
