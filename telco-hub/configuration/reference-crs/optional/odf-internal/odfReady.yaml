@@ -6,7 +6,11 @@ metadata:
   name: odf-ready-validation
   namespace: hub-policies
   annotations:
-    argocd.argoproj.io/sync-wave: "-1" # right after StorageCluster cretion
+    # we do a validation of odf after StorageCluster creation
+    # but after MCH on ACM is created.
+    # MCH components like Observability and AgentServiceConfig
+    # come later and needs ODF ready
+    argocd.argoproj.io/sync-wave: "5" 
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
     policy.open-cluster-management.io/description: Policy used ensure ODF installation is ready
 spec:
@@ -36,6 +40,9 @@ spec:
 apiVersion: cluster.open-cluster-management.io/v1beta1
 kind: Placement
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "5" 
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   name: odf-ready-pl
   namespace: hub-policies
 spec:
@@ -51,6 +58,9 @@ spec:
 apiVersion: policy.open-cluster-management.io/v1
 kind: PlacementBinding
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   name: odf-ready-binding
   namespace: hub-policies
 placementRef:
@@ -61,11 +71,3 @@ subjects:
   - name: odf-ready-validation
     apiGroup: policy.open-cluster-management.io
     kind: Policy
----
-apiVersion: cluster.open-cluster-management.io/v1beta2
-kind: ManagedClusterSetBinding
-metadata:
-  name: global
-  namespace: openshift-storage
-spec:
-  clusterSet: global
