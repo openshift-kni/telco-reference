@@ -13,6 +13,7 @@ lintCheck:
 	yamllint -c .yamllint.yaml telco-core/configuration/template-values
 	yamllint -c .yamllint.yaml telco-core/install/
 	yamllint -c .yamllint.yaml telco-hub/
+
 # markdownlint rules, following: https://github.com/openshift/enhancements/blob/master/Makefile
 .PHONY: markdownlint-image
 markdownlint-image:  ## Build local container markdownlint-image
