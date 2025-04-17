@@ -1,23 +1,3 @@
-# .PHONY: check
-# check: compare_crs missing_crs
-
-
-# .PHONY: compare_crs
-# compare_crs:
-# 	@CLUSTER_COMPARE=$$(command -v kubectl-cluster_compare); \
-# 	if [[ -z $${CLUSTER_COMPARE} ]]; then \
-# 		echo "kubectl-cluster_compare tool isn't installed; please download it from https://github.com/openshift/kube-compare"; \
-# 		exit 1; \
-# 	fi; \
-# 	# $${CLUSTER_COMPARE} -r ./kube-compare-reference/metadata.yaml -f ./source-crs -R -p ./kube-compare-reference/compare_ignore
-
-
-# .PHONY: missing_crs
-# missing_crs:
-# 	./kube-compare-reference/compare.sh source-crs source-crs-kube-compare compare_ignore
-
-
-####
 
 .PHONY: ci-job checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference
 
