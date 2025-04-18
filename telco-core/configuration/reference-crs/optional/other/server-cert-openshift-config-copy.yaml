@@ -1,0 +1,101 @@
+apiVersion: cluster.open-cluster-management.io/v1beta2
+kind: ManagedClusterSetBinding
+metadata:
+  name: global
+  namespace: openshift-config
+spec:
+  clusterSet: global
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  name: copy-platform-route-managed-secrets
+  namespace: openshift-config
+spec:
+  disabled: false
+  policy-templates:
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: copy-platform-route-managed-secrets
+        spec:
+          # The object templates are copying the following secrets from their respective namespaces to 'openshift-config':
+          # - openshift-oauth-apiserver/serving-cert --> oauth-apiserver-serving-cert
+          # - openshift-apiserver/serving-cert --> apiserver-serving-cert
+          # - openshift-console/console-serving-cert --> console-serving-cert
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: v1
+                data:
+                  tls.crt: '{{ fromSecret "openshift-oauth-apiserver" "serving-cert" "tls.crt" }}'
+                  tls.key: '{{ fromSecret "openshift-oauth-apiserver" "serving-cert" "tls.key" }}'
+                kind: Secret
+                metadata:
+                  name: oauth-apiserver-serving-cert
+                  namespace: openshift-config
+                type: kubernetes.io/tls
+              pruneObjectBehavior: DeleteIfCreated
+              remediationAction: enforce
+              severity: low
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: v1
+                data:
+                  tls.crt: '{{ fromSecret "openshift-apiserver" "serving-cert" "tls.crt" }}'
+                  tls.key: '{{ fromSecret "openshift-apiserver" "serving-cert" "tls.key" }}'
+                kind: Secret
+                metadata:
+                  name: apiserver-serving-cert
+                  namespace: openshift-config
+                type: kubernetes.io/tls
+              pruneObjectBehavior: DeleteIfCreated
+              remediationAction: enforce
+              severity: low
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: v1
+                data:
+                  tls.crt: '{{ fromSecret "openshift-console" "console-serving-cert" "tls.crt" }}'
+                  tls.key: '{{ fromSecret "openshift-console" "console-serving-cert" "tls.key" }}'
+                kind: Secret
+                metadata:
+                  name: console-serving-cert
+                  namespace: openshift-config
+                type: kubernetes.io/tls
+              pruneObjectBehavior: DeleteIfCreated
+              remediationAction: enforce
+              severity: low
+          pruneObjectBehavior: None
+          remediationAction: enforce
+          severity: low
+  remediationAction: enforce
+---
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  name: copy-platform-route-managed-secrets-placement
+  namespace: openshift-config
+spec:
+  clusterSets:
+    - global
+  tolerations:
+    - key: cluster.open-cluster-management.io/unreachable
+      operator: Exists
+    - key: cluster.open-cluster-management.io/unavailable
+      operator: Exists
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PlacementBinding
+metadata:
+  name: copy-platform-route-managed-secrets-placement
+  namespace: openshift-config
+placementRef:
+  name: copy-platform-route-managed-secrets-placement
+  apiGroup: cluster.open-cluster-management.io
+  kind: Placement
+subjects:
+  - name: copy-platform-route-managed-secrets
+    apiGroup: policy.open-cluster-management.io
+    kind: Policy
