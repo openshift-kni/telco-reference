@@ -1,0 +1,6 @@
+packages: [tar] 
+contentOrigin:
+  repofiles: ["./ubi.repo"] 
+arches: [x86_64] 
+context:
+  containerfile: Dockerfile.telco-core
