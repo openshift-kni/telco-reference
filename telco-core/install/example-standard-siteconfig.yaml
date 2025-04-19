@@ -14,7 +14,7 @@ spec:
   baseDomain: example.com
   pullSecretRef:
     name: "assisted-deployment-pull-secret"
-  clusterImageSetNameRef: "openshift-v4.17.1"
+  clusterImageSetNameRef: "openshift-v4.19"
   sshPublicKey: "ssh-ed25519 AAAA...."
   # Optionally; This can be used to configure desired BIOS setting on all hosts in this site:
   # biosConfigRef:
@@ -30,7 +30,7 @@ spec:
         - custom-manifests
     clusterLabels:
       common: "core"
-      version: "4.17"
+      version: "4.19"
       region: "zone-1"
     clusterNetwork:
       - cidr: 10.128.0.0/14
