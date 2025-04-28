@@ -22,3 +22,6 @@ required/networking/metallb/service.yaml
 custom-manifests/mcp-worker-1.yaml
 custom-manifests/mcp-worker-2.yaml
 custom-manifests/mcp-worker-3.yaml
+
+# Certificate Copying CRs
+optional/other/server-cert-openshift-config-copy.yaml
