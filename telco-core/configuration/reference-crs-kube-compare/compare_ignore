@@ -17,7 +17,7 @@ upgrade-ack.yaml
 optional/networking/sriov/SriovNetworkPoolConfig.yaml
 required/networking/metallb/service.yaml
 
-# These are examples only. Customer will provide their own 
+# These are examples only. Customer will provide their own
 # based on cluster topology and desired MCP partitioning.
 custom-manifests/mcp-worker-1.yaml
 custom-manifests/mcp-worker-2.yaml
@@ -25,3 +25,6 @@ custom-manifests/mcp-worker-3.yaml
 
 # Certificate Copying CRs
 optional/other/server-cert-openshift-config-copy.yaml
+
+# This is an object-template-raw used only to validate subscription state
+custom-manifests/subscription-validator.yaml

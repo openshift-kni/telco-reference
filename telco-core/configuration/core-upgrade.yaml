@@ -108,3 +108,13 @@ policies:
             installPlanApproval: Manual
         - status:
             state: AtLatestKnown
+
+  # Ensure that all subscriptions are at the latest known, including
+  # subscriptions automatically created by OLM on behalf of higher
+  # level operators.
+  - name: core-upgrade-validate-18
+    policyAnnotations:
+      # Ensure that propagation to OLM created operators has time to propagate
+      ran.openshift.io/soak-seconds: "30"
+    manifests:
+      - path: reference-crs/custom-manifests/subscription-validator.yaml
