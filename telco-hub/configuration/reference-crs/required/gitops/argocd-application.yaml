@@ -9,11 +9,11 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: default
   project: infra
-#  syncPolicy:
-#    automated:
-#      allowEmpty: true
-#      selfHeal: true
-#      prune: true
+  syncPolicy:
+    automated:
+      allowEmpty: true
+      selfHeal: true
+      prune: true
   source:
     path: "telco-hub/configuration"
     repoURL : "https://github.com/jgato/telco-reference.git"
