@@ -58,7 +58,7 @@ At this point, in general, you will fork this repo to tune the different kustomi
 
 ```yaml
 ---
-# kustomization file including different overays over the
+# kustomization file including different overlays over the
 # reference crs
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
