@@ -4,7 +4,7 @@ The full telco hub configuration can be applied using an ArgoCD application poin
 
 ## Pre-requisites
 * An OpenShift cluster with the gitops-operator (ArgoCD) installed
-  * Note that the reference configuration includes a ClusterRole for ArgoCD which grants the necessary permissions for installing the remainder of the reference. This updates the currently running      ArgoCD application to allow it to complete the full synchronization.
+  * Note that the reference configuration includes a ClusterRole for ArgoCD which grants the necessary permissions for installing the remainder of the reference. This updates the currently running ArgoCD application to allow it to complete the full synchronization.
 * If ODF will be used in "internal" mode, nodes with available storage for ODF must be labeled
   `cluster.ocs.openshift.io/openshift-storage=`
 * All files/directories in this tree are available in a git repository along with any necessary kustomize overlay for your environment.
