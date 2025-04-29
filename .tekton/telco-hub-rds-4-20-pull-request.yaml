@@ -34,6 +34,10 @@ spec:
     value: telco-hub/Dockerfile.telco-hub
   - name: build-source-image
     value: "true"
+  - name: prefetch-input
+    value: '{"type": "rpm", "path": "."}'
+  - name: hermetic
+    value: "true"
   pipelineRef:
     name: build-pipeline
   taskRunTemplate:
