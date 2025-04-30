@@ -4,63 +4,25 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # comment the optional components when not using them
-  - reference-crs/optional/lso/
-  - reference-crs/optional/odf-internal/
-  # everything under required is mandatory
-  - reference-crs/required/gitops/
-  - reference-crs/required/acm/
+  # following the different overlays to patch
+  # the different configurations. In case you are not using some of the
+  # optional components, comment the proper patches
+  #
+
+  # if you use LocalStorage operator, edit and configure the patch
+  - example-overlays-config/lso/
+
+  # if you use ODF, edit and configure storage settings
+  - example-overlays-config/odf/
+
+  # other not optional overlays
+  - example-overlays-config/gitops/
+  - example-overlays-config/acm/
+
+  # mandatory resources not managed by any overlay
   - reference-crs/required/talm/
-  # but, include this content if you want to include the argocd
+
+  # include this content if you want to include the argocd
   # configuration and apps for gitops ztp management of cluster
   # installation and configuration
   # - reference-crs/required/gitops/ztp-installation
-
-# following the different overlays to patch
-# the different configurations. In case you are not using some of the
-# optional components, comment the proper patches
-#
-patches:
-  # keeps the hub-config ArgoCD app compliant with the
-  # overlay configuration
-  - target:
-      group: argoproj.io/v1alpha1
-      version: v1alpha1
-      kind: Application
-      name: hub-config
-    path: example-overlays-config/gitops/init-argocd-app.yaml
-
-  # if you use LocalStorage operator, edit and configure the patch
-  - target:
-      group: local.storage.openshift.io
-      version: v1
-      kind: LocalVolume
-      name: local-disks
-    path: example-overlays-config/lso/local-storage-disks-patch.yaml
-
-  # if you use ODF, edit and configure storage settings
-  - target:
-      group: ocs.openshift.io
-      version: v1
-      kind: StorageCluster
-      name: ocs-storagecluster
-    path: example-overlays-config/odf/options-storage-cluster.yaml
-
-  # configure storage for MCO, it can difer depending on your configured
-  # storage
-  - target:
-      group: observability.open-cluster-management.io
-      version: v1beta2
-      kind: MultiClusterObservability
-      name: observability
-    path: example-overlays-config/acm/storage-mco-patch.yaml
-
-  # configure AgentServiceConfig storage and OSImages
-  - target:
-      group: agent-install.openshift.io
-      version: v1beta1
-      kind: AgentServiceConfig
-      name: agent
-    path: example-overlays-config/acm/options-agentserviceconfig-patch.yaml
-
-
