@@ -1,0 +1,24 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../reference-crs/required/acm/
+  
+patches:
+  # configure storage for MCO, it can difer depending on your configured
+  # storage
+  - target:
+      group: observability.open-cluster-management.io
+      version: v1beta2
+      kind: MultiClusterObservability
+      name: observability
+    path: storage-mco-patch.yaml
+
+  # configure AgentServiceConfig storage and OSImages
+  - target:
+      group: agent-install.openshift.io
+      version: v1beta1
+      kind: AgentServiceConfig
+      name: agent
+    path: options-agentserviceconfig-patch.yaml
