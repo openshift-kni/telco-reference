@@ -7,16 +7,22 @@ HELM_PKG := helm-linux-amd64.tar.gz
 check: metadata_lint compare
 
 kubectl-cluster_compare:
-	@echo "Downloading $@"
-	curl -sL $(CLUSTER_COMPARE_DOWNLOAD_URL) -o $@.tgz
-	tar zxvf $@.tgz $@
-	rm -f $@.tgz
+	@CLUSTER_COMPARE=$$(command -v kubectl-cluster_compare); \
+	if [[ -z $${CLUSTER_COMPARE} ]]; then \
+		@echo "kubectl-cluster_compare tool isn't installed; Downloading $@"
+		curl -sL $(CLUSTER_COMPARE_DOWNLOAD_URL) -o $@.tgz
+		tar zxvf $@.tgz $@
+		rm -f $@.tgz
+	fi; \
 
 helm-convert:
-	@echo "Downloading $@"
-	curl -sL $(HELM_CONVERT_DOWNLOAD_URL) -o $@.tgz
-	tar zxvf $@.tgz $@
-	rm -f $@.tgz
+	@HELM_CONVERT=$$(command -v helm-convert); \
+	if [[ -z $${HELM_CONVERT} ]]; then \
+		@echo "helm-convert isn't installed; Downloading $@"
+		curl -sL $(HELM_CONVERT_DOWNLOAD_URL) -o $@.tgz
+		tar zxvf $@.tgz $@
+		rm -f $@.tgz
+	fi; \
 
 .PHONY: metadata_lint
 metadata_lint: kubectl-cluster_compare
