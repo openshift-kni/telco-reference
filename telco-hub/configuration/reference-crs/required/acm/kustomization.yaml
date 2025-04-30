@@ -16,4 +16,3 @@ resources:
 #  - observabilitySecret.yaml
   - pull-secret-copy.yaml
   - observabilityMCO.yaml
-  - pull-secret-openshift-config-copy.yaml
