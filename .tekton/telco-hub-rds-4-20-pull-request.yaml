@@ -20,7 +20,7 @@ metadata:
 spec:
   params:
   - name: hermetic
-    value: true
+    value: "true"
   - name: git-url
     value: '{{source_url}}'
   - name: revision
