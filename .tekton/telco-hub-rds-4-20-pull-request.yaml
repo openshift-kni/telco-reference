@@ -19,6 +19,8 @@ metadata:
   namespace: telco-5g-tenant
 spec:
   params:
+  - name: hermetic
+    value: true
   - name: git-url
     value: '{{source_url}}'
   - name: revision
