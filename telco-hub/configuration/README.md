@@ -14,7 +14,7 @@ The full telco hub configuration can be applied using an ArgoCD application poin
 
 ArgoCD is one of the main key components of the Telco Hub. At the same time, we can deploy the Telco Hub using ArgoCD (recommended procedure). Therefore, to have a Telco Hub with ArgoCD, first, we have to have ArgoCD to create the Telco Hub. This is the init phase.
 
-In this init phase we will install ArgoCD with the existing `reference-crs` for gitops. But, you could provide ArgoCD differently, or maybe, you already have ArgoCD in your cluster. 
+In this init phase we will install ArgoCD with the existing `reference-crs` for gitops, basically using the Openshift GitOps operator. But, you could provide ArgoCD differently, or maybe, you already have ArgoCD in your cluster. 
 
 In case you want to proceed with the existing `reference-crs` for gitops (recommended): 
 
