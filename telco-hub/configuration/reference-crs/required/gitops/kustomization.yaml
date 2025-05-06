@@ -6,3 +6,8 @@ resources:
   - argocd-application.yaml
   - argocd-ssh-known-hosts-cm.yaml
   - ztp-repo.yaml
+  - clusterrole.yaml
+  - clusterrolebinding.yaml
+  - gitopsNS.yaml
+  - gitopsOperatorGroup.yaml
+  - gitopsSubscription.yaml
