@@ -38,7 +38,6 @@ policies:
         patches:
         - spec:
             channel: stable-4.18
-            installPlanApproval: Manual
       - path: reference-crs/custom-manifests/mcp-worker-1.yaml
         patches:
         - spec:
@@ -73,38 +72,37 @@ policies:
         - metadata:
             annotations:
               noop-for-triggering-noncompliance: "18"
-        - spec:
-            installPlanApproval: Manual
         - status:
             state: AtLatestKnown
       - path: reference-crs/required/networking/sriov/SriovSubscription.yaml
         patches:
-        - spec:
-            installPlanApproval: Manual
         - status:
             state: AtLatestKnown
       - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
         patches:
         - spec:
             channel: stable-4.18
-            installPlanApproval: Manual
         - status:
             state: AtLatestKnown
       - path: reference-crs/required/networking/NMStateSubscription.yaml
         patches:
-        - spec:
-            installPlanApproval: Manual
         - status:
             state: AtLatestKnown
       - path: reference-crs/required/networking/metallb/metallbSubscription.yaml
         patches:
-        - spec:
-            installPlanApproval: Manual
         - status:
             state: AtLatestKnown
       - path: reference-crs/required/scheduling/NROPSubscription.yaml
         patches:
-        - spec:
-            installPlanApproval: Manual
         - status:
             state: AtLatestKnown
+
+  # Ensure that all subscriptions are at the latest known, including
+  # subscriptions automatically created by OLM on behalf of higher
+  # level operators.
+  - name: core-upgrade-validate-18
+    policyAnnotations:
+      # Ensure that propagation to OLM created operators has time to propagate
+      ran.openshift.io/soak-seconds: "30"
+    manifests:
+      - path: reference-crs/custom-manifests/subscription-validator.yaml
