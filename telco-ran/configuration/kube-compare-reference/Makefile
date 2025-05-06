@@ -1,3 +1,5 @@
+CLUSTER_COMPARE_DOWNLOAD_URL := $(shell curl -s https://api.github.com/repos/openshift/kube-compare/releases/latest | jq -r '.assets[] | select(.name? | match("kube-compare_linux_amd64")) | .browser_download_url')
+HELM_CONVERT_DOWNLOAD_URL := $(shell curl -s https://api.github.com/repos/openshift/kube-compare/releases/latest | jq -r '.assets[] | select(.name? | match("kube-compare_addon_tools_linux_amd64")) | .browser_download_url')
 HELM_URL := https://get.helm.sh/helm-v3.16.1-linux-amd64.tar.gz
 HELM_PKG := helm-linux-amd64.tar.gz
 
@@ -8,24 +10,18 @@ kubectl-cluster_compare:
 	@CLUSTER_COMPARE=$$(command -v kubectl-cluster_compare); \
 	if [[ -z $${CLUSTER_COMPARE} ]]; then \
 		@echo "kubectl-cluster_compare tool isn't installed; Downloading $@"
-		CLUSTER_COMPARE_DOWNLOAD_URL := $(shell curl -s https://api.github.com/repos/openshift/kube-compare/releases/latest | jq -r '.assets[] | select(.name? | match("kube-compare_linux_amd64")) | .browser_download_url')
 		curl -sL $(CLUSTER_COMPARE_DOWNLOAD_URL) -o $@.tgz
 		tar zxvf $@.tgz $@
 		rm -f $@.tgz
-	else \
-		@echo "kubectl-cluster_compare tool was not downloaded"
 	fi; \
 
 helm-convert:
 	@HELM_CONVERT=$$(command -v helm-convert); \
 	if [[ -z $${HELM_CONVERT} ]]; then \
 		@echo "helm-convert isn't installed; Downloading $@"
-		HELM_CONVERT_DOWNLOAD_URL := $(shell curl -s https://api.github.com/repos/openshift/kube-compare/releases/latest | jq -r '.assets[] | select(.name? | match("kube-compare_addon_tools_linux_amd64")) | .browser_download_url')
 		curl -sL $(HELM_CONVERT_DOWNLOAD_URL) -o $@.tgz
 		tar zxvf $@.tgz $@
 		rm -f $@.tgz
-	else \
-		@echo "helm-convert was not downloaded"
 	fi; \
 
 .PHONY: metadata_lint
