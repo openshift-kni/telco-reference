@@ -9,7 +9,7 @@ policyDefaults:
   placement:
     clusterSelectors:
       common: "core"
-      version: "4.18"
+      version: "4.19"
   remediationAction: "inform"
 policies:
   # unpause baseline configuration
