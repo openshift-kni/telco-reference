@@ -13,7 +13,7 @@ kubectl-cluster_compare:
 		tar zxvf $@.tgz $@
 		rm -f $@.tgz
 	else \
-		@echo "kubectl-cluster_compare tool could not be installed"
+		@echo "kubectl-cluster_compare tool was not downloaded"
 	fi; \
 
 helm-convert:
@@ -25,7 +25,7 @@ helm-convert:
 		tar zxvf $@.tgz $@
 		rm -f $@.tgz
 	else \
-		@echo "helm-convert could not be installed"
+		@echo "helm-convert was not downloaded"
 	fi; \
 
 .PHONY: metadata_lint
