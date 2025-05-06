@@ -10,7 +10,7 @@ metadata:
     # but after MCH on ACM is created.
     # MCH components like Observability and AgentServiceConfig
     # come later and needs ODF ready
-    argocd.argoproj.io/sync-wave: "5" 
+    argocd.argoproj.io/sync-wave: "5"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
     policy.open-cluster-management.io/description: Policy used ensure ODF installation is ready
 spec:
@@ -41,7 +41,7 @@ apiVersion: cluster.open-cluster-management.io/v1beta1
 kind: Placement
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "5" 
+    argocd.argoproj.io/sync-wave: "5"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   name: odf-ready-pl
   namespace: hub-policies

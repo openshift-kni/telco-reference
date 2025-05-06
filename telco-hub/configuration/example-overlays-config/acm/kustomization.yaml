@@ -4,7 +4,7 @@ kind: Kustomization
 
 resources:
   - ../../reference-crs/required/acm/
-  
+
 patches:
   # configure storage for MCO, it can difer depending on your configured
   # storage

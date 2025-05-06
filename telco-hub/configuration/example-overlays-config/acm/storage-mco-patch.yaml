@@ -1,5 +1,6 @@
+---
 # patching mco StorageClass
 
 - op: replace
   path: /spec/storageConfig/storageClass
-  value: "ocs-storagecluster-cephfs" #filesystem StorageClass
+  value: "ocs-storagecluster-cephfs"  # filesystem StorageClass
