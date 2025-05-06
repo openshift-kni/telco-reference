@@ -4,11 +4,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # following the different overlays to patch
-  # the different configurations. In case you are not using some of the
-  # optional components, comment the proper patches
-  #
-
   # if you use LocalStorage operator, edit and configure the patch
   - example-overlays-config/lso/
 

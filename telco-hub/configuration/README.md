@@ -52,43 +52,36 @@ openshift-gitops-server-845d6798-9c5tv                        1/1     Running   
 
 ## Tune your own overlay layer
 
-Before creating the Telco Hub ArgoCD Application, you have to select the different optional component, and configure all of them. This is done using the different available kustomize patches. 
+Before creating the Telco Hub ArgoCD Application, you have to select the different optional component, and configure all of them.
 
-At this point, in general, you will fork this repo to tune the different kustomize patches and to select the optional components. There exists a `kustomize.yaml` with all the information:
+At this point, in general, you will fork this repo to tune the different kustomize patches and to select the optional components. There exists a root `kustomize.yaml` with all the information:
 
 ```yaml
----
-# kustomization file including different overlays over the
+# kustomization file including different overays over the
 # reference crs
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # comment the optional components when not using them
-  - reference-crs/optional/lso/
-  - reference-crs/optional/odf-internal/
-  # everything under required is mandatory
-  - reference-crs/required/gitops/
-  - reference-crs/required/acm/
+  # if you use LocalStorage operator, edit and configure the patch
+  - example-overlays-config/lso/
+
+  # if you use ODF, edit and configure storage settings
+  - example-overlays-config/odf/
+
+  # other not optional overlays
+  - example-overlays-config/gitops/
+  - example-overlays-config/acm/
+
+  # mandatory resources not managed by any overlay
   - reference-crs/required/talm/
-  # but, include this content if you want to include the argocd
+
+  # include this content if you want to include the argocd
   # configuration and apps for gitops ztp management of cluster
   # installation and configuration
   # - reference-crs/required/gitops/ztp-installation
-
-# following the different overlays to patch
-# the different configurations. In case you are not using some of the
-# optional components, comment the proper patches
-#
-patches:
-  # if you use LocalStorage operator, edit and configure the patch
-  - target:
-      group: local.storage.openshift.io
-      version: v1
-      kind: LocalVolume
-      name: local-disks
-    path: example-overlays-config/lso/local-storage-disks-patch.yaml
 ```
+Comment/uncomment the different optional components. For any of these directories, there could be optional configurations that needs to be set depending on your needs. The following sections describe the different options to configure.
 
 ### (Optional) Configure the LocalStorage 
 
@@ -177,14 +170,12 @@ Edit the file `options-agentserviceconfig-patch.yaml` to configure the different
       version: 418.94.202502100215-0
 ```
 
-## Create the `hub-config` ArgoCD Application 
-
-Having ArgoCD ready and the git repository with all the overlays configured. It is time to install the ArgoCD Application that will trigger the deployment of the telco hub. 
+### Configure the `hub-config` ArgoCD Application
 
 You have to edit the gitops patch overlay (`example-overlays-config/gitops/init-argocd-app.yaml`) to configure it properly. By default, it directly points to the upstream repository:
 
 ```yaml
-> cat required/gitops/overlays/init_installation_app.yaml 
+> cat required/gitops/overlays/init_installation_app.yaml
 - op: replace
   path: "/spec/source"
   value:
@@ -204,9 +195,11 @@ Make any necessary change. In general, you will point to the forked repository w
       targetRevision: "improve-automatization-overlays"
 ```
 
-Now, we use the `example-overlays-config/gitops/init-argocd-app.yaml` to init the ArgoCD application, pointing to the git repository with all the overlays configured:
-	
-```
+## Create the `hub-config` ArgoCD Application
+
+Having ArgoCD ready and the git repository with all the overlays configured. It is time to install the ArgoCD Application that will trigger the deployment of the telco hub.
+
+```bash
 > kustomize build example-overlays-config/gitops/ | oc apply -f -
 configmap/argocd-ssh-known-hosts-cm configured
 secret/ztp-repo created
@@ -215,4 +208,4 @@ application.argoproj.io/hub-config created
 ```
 
 
-The ArgoCD application will be created on your cluster. Note that at this point the ArgoCD application is also being managed via gitops and any changes to the application should be done in git as well.
+The ArgoCD application will be created on your cluster and will start installing and configuring all the needed Telco Hub components. Note that at this point the ArgoCD application is also being managed via gitops and any changes to the application should be done in git as well.

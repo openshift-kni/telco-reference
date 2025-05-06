@@ -12,11 +12,8 @@
   path: /spec/imageStorage/storageClassName
   value: "ocs-storagecluster-cephfs" #filesystem StorageClass
 
-# comment the following sections if disconnected environment
-
-- op: remove
-  path: /spec/mirrorRegistryRef
-
+# Configure the osImages urls.
+# When disconnected, the urls should point to a mirrored registry.
 - op: replace
   path: "/spec/osImages"
   value:
@@ -35,3 +32,12 @@
       rootFSUrl: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.18/latest/rhcos-live-rootfs.x86_64.img
       url: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.18/latest/rhcos-live.x86_64.iso
       version: 418.94.202502100215-0
+
+# when disconnected, the spoke clusters will need to use also a mirrored registry.
+# [ToDo] To test, implement and include and example how to customize this registry
+
+# when connected enviroment (or until we close the previous ToDo) we dont need
+# the spokes to use a mirrored registry. So, AgentServiceConfig dont need to configure the registry.
+# [ToDo] The next remove should be commented by default, because disconnected is the default.
+- op: remove
+  path: /spec/mirrorRegistryRef
