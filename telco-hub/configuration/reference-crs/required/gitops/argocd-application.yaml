@@ -16,5 +16,5 @@ spec:
       prune: true
   source:
     path: "telco-hub/configuration"
-    repoURL : "https://github.com/jgato/telco-reference.git"
+    repoURL: "https://github.com/jgato/telco-reference.git"
     targetRevision: "improve-automatization-overlays"

@@ -1,19 +1,20 @@
+---
 # patching mco StorageClass
 
 - op: replace
   path: /spec/databaseStorage/storageClassName
-  value: "ocs-storagecluster-cephfs" #filesystem StorageClass
+  value: "ocs-storagecluster-cephfs"  # filesystem StorageClass
 
 - op: replace
   path: /spec/filesystemStorage/storageClassName
-  value: "ocs-storagecluster-cephfs" #filesystem StorageClass
+  value: "ocs-storagecluster-cephfs"  # filesystem StorageClass
 
 - op: replace
   path: /spec/imageStorage/storageClassName
-  value: "ocs-storagecluster-cephfs" #filesystem StorageClass
+  value: "ocs-storagecluster-cephfs"  # filesystem StorageClass
 
-# Configure the osImages urls.
-# When disconnected, the urls should point to a mirrored registry.
+  # Configure the osImages urls.
+  # When disconnected, the urls should point to a mirrored registry.
 - op: replace
   path: "/spec/osImages"
   value:

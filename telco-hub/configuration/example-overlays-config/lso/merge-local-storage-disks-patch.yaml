@@ -1,3 +1,4 @@
+---
 kind: "LocalVolume"
 metadata:
   name: "local-disks"
@@ -7,4 +8,3 @@ spec:
     - storageClassName: "local-sc"
       devicePaths:
         - /dev/nvme1n1
-
