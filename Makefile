@@ -34,7 +34,9 @@ markdownlint: markdownlint-image  ## run the markdown linter
 
 ci-validate: lintCheck check-reference
 
-.PHONY: check-reference
+.PHONY: check-reference check-reference-ran
 check-reference:
 	$(MAKE) -C ./telco-core/configuration check
-	$(MAKE) -C ./telco-ran/configuration check-reference
+
+check-reference-ran:
+	$(MAKE) -C ./telco-ran/configuration/kube-compare-reference compare
