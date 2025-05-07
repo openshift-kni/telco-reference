@@ -32,11 +32,12 @@ markdownlint: markdownlint-image  ## run the markdown linter
 		-v $$(pwd):/workdir:Z \
 		$(IMAGE_NAME)-markdownlint:latest
 
-ci-validate: lintCheck check-reference
+ci-validate: lintCheck check-reference check-reference-ran
 
-.PHONY: check-reference check-reference-ran
+.PHONY: check-reference
 check-reference:
 	$(MAKE) -C ./telco-core/configuration check
 
+.PHONY: check-reference-ran
 check-reference-ran:
-	$(MAKE) -C ./telco-ran/configuration/kube-compare-reference compare
+	$(MAKE) -C ./telco-ran/configuration check
