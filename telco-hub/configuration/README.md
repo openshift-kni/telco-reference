@@ -10,13 +10,13 @@ The full telco hub configuration can be applied using an ArgoCD application poin
 * All files/directories in this tree are available in a git repository along with any necessary kustomize overlay for your environment.
 * Configured and existing Openshift CatalogSources for `redhat-operators-disconnected` and `certified-operators-disconnected`.
 
-## Init phase (prepare ArgoCD)
+## Init phase (install ArgoCD or Openshift GitOps)
 
-ArgoCD is one of the main key components of the Telco Hub. At the same time, we can deploy the Telco Hub using ArgoCD (recommended procedure). Therefore, to have a Telco Hub with ArgoCD, first, we have to have ArgoCD to create the Telco Hub. This is the init phase.
+This phase can be considered optional, in case you already have ArgoCD or Openshift GitOps running on your cluster.
 
-In this init phase we will install ArgoCD with the existing `reference-crs` for gitops, basically using the Openshift GitOps operator. But, you could provide ArgoCD differently, or maybe, you already have ArgoCD in your cluster. 
+ArgoCD is one of the main key components of the Telco Hub, because is in charge of managing deployment and configuration of the infrastructure managed by the Telco Hub, using a GitOps methodology. But, at the same time, we can deploy the Telco Hub using ArgoCD (recommended procedure). Therefore, to have a Telco Hub with ArgoCD, first, we have to have ArgoCD to create the Telco Hub. This is the init phase, and it is optional if you already fulfilled this requirement.
 
-In case you want to proceed with the existing `reference-crs` for gitops (recommended): 
+In this init phase we can install ArgoCD with the existing `reference-crs` for GitOps, basically using the Openshift GitOps operator. In case you want to proceed the installation with the existing `reference-crs` for GitOps: 
 
 ```bash
 oc apply -f reference-crs/required/gitops/clusterrole.yaml \
@@ -54,7 +54,7 @@ openshift-gitops-server-845d6798-9c5tv                        1/1     Running   
 
 Before creating the Telco Hub ArgoCD Application, you have to select the different optional component, and configure all of them.
 
-At this point, in general, you will fork this repo to tune the different kustomize patches and to select the optional components. There exists a root `kustomize.yaml` with all the information:
+At this point, you will need to fork this repo to tune the different kustomize patches and to select the optional components. There exists a root `kustomize.yaml` with all the information:
 
 ```yaml
 # kustomization file including different overays over the
@@ -114,7 +114,7 @@ Edit the file `example-overlays-config/odf/options-storage-cluster.yaml` to conf
   value: "local-sc"
 ```
 
-### Configure the MCO Storage
+### Configure the MultiClusterObservability Storage
 
 Edit the file `example-overlays-config/acm/storage-mco-patch.yaml` to select an StorageClass of kind FileSystem. Example:
 
@@ -123,51 +123,55 @@ Edit the file `example-overlays-config/acm/storage-mco-patch.yaml` to select an 
 
 - op: replace
   path: /spec/storageConfig/storageClass
-  value: "ocs-storagecluster-cephfs" #filesystem StorageClass
+  value: "ocs-storagecluster-cephfs" # filesystem StorageClass
 ```
 
 ### Configure AgentServiceConfig options
 
-Edit the file `options-agentserviceconfig-patch.yaml` to configure the different storage classes, for the different services. If connected environment enable removal of the custom registry, and set the RHCOS images to the official repository. Example:
-
+Edit the file `options-agentserviceconfig-patch.yaml` to configure the different storage classes, for the different services. Set the RHCOS images to the proper repository, in case of disconnected, the one you are providing, in case of connected, you can use the Red Hat official ones. Also, if connected environment enable removal of the custom registry, because the spokes dont need to be feed with an internal registry.
 ```yaml
 # patching mco StorageClass
 
 - op: replace
   path: /spec/databaseStorage/storageClassName
-  value: "ocs-storagecluster-cephfs" #filesystem StorageClass
+  value: "ocs-storagecluster-cephfs"  # filesystem StorageClass
 
 - op: replace
   path: /spec/filesystemStorage/storageClassName
-  value: "ocs-storagecluster-cephfs" #filesystem StorageClass
+  value: "ocs-storagecluster-cephfs"  # filesystem StorageClass
 
 - op: replace
   path: /spec/imageStorage/storageClassName
-  value: "ocs-storagecluster-cephfs" #filesystem StorageClass
+  value: "ocs-storagecluster-cephfs"  # filesystem StorageClass
 
-# comment the following sections if disconnected environment
-
-- op: remove
-  path: /spec/mirrorRegistryRef
-
+  # Configure the osImages urls.
+  # When disconnected, the urls should point to a mirrored registry.
 - op: replace
   path: "/spec/osImages"
   value:
     - cpuArchitecture: x86_64
       openshiftVersion: "4.16"
-      rootFSUrl: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.16/latest/rhcos-live-rootfs.x86_64.img
-      url: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.16/latest/rhcos-live.x86_64.iso
+      rootFSUrl: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.16/latest/rhcos-live-rootfs.x86_64.img
+      url: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.16/latest/rhcos-live.x86_64.iso
       version: 416.94.202411261619-0
     - cpuArchitecture: "x86_64"
       openshiftVersion: "4.17"
-      rootFSUrl: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.17/latest/rhcos-live-rootfs.x86_64.img
-      url: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.17/latest/rhcos-live.x86_64.iso
+      rootFSUrl: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.17/latest/rhcos-live-rootfs.x86_64.img
+      url: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.17/latest/rhcos-live.x86_64.iso
       version: "417.94.202409121747-0"
     - cpuArchitecture: x86_64
       openshiftVersion: "4.18"
-      rootFSUrl: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.18/latest/rhcos-live-rootfs.x86_64.img
-      url: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.18/latest/rhcos-live.x86_64.iso
+      rootFSUrl: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.18/latest/rhcos-live-rootfs.x86_64.img
+      url: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.18/latest/rhcos-live.x86_64.iso
       version: 418.94.202502100215-0
+
+# when disconnected, the spoke clusters will need to use also a mirrored registry. That could be configured here:
+# https://issues.redhat.com/browse/CNF-17835
+
+# In case of connected enviroment we dont need neither to configure
+# nor use an internal registry on the spokes. So, uncomment below to remove it:
+# - op: remove
+#   path: /spec/mirrorRegistryRef
 ```
 
 ### Configure the `hub-config` ArgoCD Application
