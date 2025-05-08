@@ -3,5 +3,5 @@
   path: "/spec/source"
   value:
     - path: "telco-hub/configuration"
-      repoURL: "https://github.com/jgato/telco-reference.git"
+      repoURL: "https://repo.example.com/example/telco-reference.git"
       targetRevision: "improve-automatization-overlays"
