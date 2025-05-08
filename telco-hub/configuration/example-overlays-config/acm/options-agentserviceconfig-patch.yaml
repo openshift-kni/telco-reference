@@ -38,6 +38,6 @@
 # https://issues.redhat.com/browse/CNF-17835
 
 # In case of connected enviroment we dont need neither to configure
-# nor use the registry. So, uncomment below to remove it:
+# nor use an internal registry on the spokes. So, uncomment below to remove it:
 # - op: remove
 #   path: /spec/mirrorRegistryRef
