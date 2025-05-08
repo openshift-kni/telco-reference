@@ -1,0 +1,23 @@
+# optional
+# count: 0-N
+---
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: test-nad
+  namespace: openshift-sriov-network-operator
+spec:
+  config: |
+    {
+      "type": "bond",
+      "cniVersion": "0.3.1",
+      "name": "{{hub fromConfigMap "" "multus-bond-cni" (printf "%s-nad" .ManagedClusterName) "nad-name" hub}}",
+      "mode": "active-backup",
+      "failOverMac": 1,
+      "linksInContainer": true,
+      "miimon": "100",
+      "mtu": "{{hub fromConfigMap "" "multus-bond-cni" (printf "%s-nad" .ManagedClusterName) "nad-mtu" | toInt hub}}",
+      "links": [{"name": "{{hub fromConfigMap "" "multus-bond-cni" (printf "%s-nad" .ManagedClusterName) "nad-link1-name" hub}}"},{"name": "{{hub fromConfigMap "" "multus-bond-cni" (printf "%s-nad" .ManagedClusterName) "nad-link2-name" hub}}"}],
+      "ipam": "{{hub fromConfigMap "" "multus-bond-cni" (printf "%s-nad" .ManagedClusterName) "nad-ipam" hub}}"
+    }
+
