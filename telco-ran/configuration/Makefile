@@ -3,6 +3,7 @@
 
 ci-job: checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference
 
+check: check-reference
 
 checkExtraManifests:
 	$(MAKE) -C ./extra-manifests-builder check
@@ -42,4 +43,4 @@ checkZtpPaths:
 	$(MAKE) CUSTOM_RESOURCE=kube-compare-reference checkFilePath
 
 check-reference:
-	$(MAKE) -C ./kube-compare-reference check
+	$(MAKE) -C ./kube-compare-reference compare
