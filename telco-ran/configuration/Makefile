@@ -43,4 +43,4 @@ checkZtpPaths:
 	$(MAKE) CUSTOM_RESOURCE=kube-compare-reference checkFilePath
 
 check-reference:
-	$(MAKE) -C ./kube-compare-reference check
+	$(MAKE) -C ./kube-compare-reference compare
