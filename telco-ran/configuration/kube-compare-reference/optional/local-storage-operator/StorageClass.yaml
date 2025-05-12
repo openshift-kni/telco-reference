@@ -1,0 +1,8 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+  name: {{ .metadata.name }}
+provisioner: {{ template "mustMatchOneOf" (list .provisioner "kubernetes.io/no-provisioner" "topolvm.io") }}
+reclaimPolicy: Delete
