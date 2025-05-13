@@ -24,7 +24,7 @@ helm-convert:
 
 .PHONY: metadata_lint
 metadata_lint: kubectl-cluster_compare
-	@echo "Running kube-compare to ensure metadata.yaml is sane" \
+	@echo "Running kube-compare to ensure metadata.yaml is sane" 
 	@COMPARE_OUTPUT=$$(./kubectl-cluster_compare -r ./metadata.yaml -f /dev/null 2>&1); \
 	if grep -q 'an error occurred while parsing template' <<<"$${COMPARE_OUTPUT}"; then \
 		echo "Template parsing error"; \
