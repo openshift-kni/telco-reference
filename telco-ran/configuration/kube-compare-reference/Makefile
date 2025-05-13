@@ -48,10 +48,12 @@ convert: helm-convert helm
 	@./helm template renderedv1 ./Chartv1 --output-dir renderedv1
 
 helm:
-	@echo "Installing helm..."
-	curl -fsSL $(HELM_URL) -o $(HELM_PKG)
-	tar -zxvf $(HELM_PKG) linux-amd64/helm --strip-components 1
-	rm -f $(HELM_PKG)
+	@command -v helm > /dev/null 2>&1 || { \
+		@echo "Installing helm..." \
+		curl -fsSL $(HELM_URL) -o $(HELM_PKG) \
+		tar -zxvf $(HELM_PKG) linux-amd64/helm --strip-components 1 \
+		rm -f $(HELM_PKG) \
+	}
 
 
 .PHONY: compare
