@@ -43,9 +43,9 @@ clean:
 convert: helm-convert helm
 	@echo "Converting reference files to Helm Charts."
 	@rm -rf Chartv1 renderedv1
-	@./helm-convert -r ./metadata.yaml -n Chartv1 -v default_value.yaml
+	@helm-convert -r ./metadata.yaml -n Chartv1 -v default_value.yaml
 	@echo "Rendering Helm Charts to CR files."
-	@./helm template renderedv1 ./Chartv1 --output-dir renderedv1
+	@helm template renderedv1 ./Chartv1 --output-dir renderedv1
 
 helm:
 	@command -v helm > /dev/null 2>&1 || { \
