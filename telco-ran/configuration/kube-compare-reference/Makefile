@@ -49,10 +49,10 @@ convert: helm-convert helm
 
 helm:
 	@command -v helm > /dev/null 2>&1 || { \
-		@echo "Installing helm..." \
-		curl -fsSL $(HELM_URL) -o $(HELM_PKG) \
-		tar -zxvf $(HELM_PKG) linux-amd64/helm --strip-components 1 \
-		rm -f $(HELM_PKG) \
+		@echo "Installing helm..."; \
+		curl -fsSL $(HELM_URL) -o $(HELM_PKG); \
+		tar -zxvf $(HELM_PKG) linux-amd64/helm --strip-components 1; \
+		rm -f $(HELM_PKG); \
 	}
 
 
