@@ -2,6 +2,7 @@ CLUSTER_COMPARE_DOWNLOAD_URL := $(shell curl -s https://api.github.com/repos/ope
 HELM_CONVERT_DOWNLOAD_URL := $(shell curl -s https://api.github.com/repos/openshift/kube-compare/releases/latest | jq -r '.assets[] | select(.name? | match("kube-compare_addon_tools_linux_amd64")) | .browser_download_url')
 HELM_URL := https://get.helm.sh/helm-v3.16.1-linux-amd64.tar.gz
 HELM_PKG := helm-linux-amd64.tar.gz
+BIN_PATH := ~/.local/bin
 
 .PHONY: check
 check: metadata_lint compare
@@ -10,7 +11,7 @@ kubectl-cluster_compare:
 	@command -v kubectl-cluster_compare > /dev/null 2>&1 || { \
 		echo "kubectl-cluster_compare tool isn't installed; Downloading $@"; \
 		curl -sL $(CLUSTER_COMPARE_DOWNLOAD_URL) -o $@.tgz; \
-		tar zxvf $@.tgz $@; \
+		tar zxvf $@.tgz -C ${BIN_PATH} kubectl-cluster_compare; \
 		rm -f $@.tgz; \
 	}
 
@@ -18,7 +19,7 @@ helm-convert:
 	@command -v helm-convert > /dev/null 2>&1 || { \
 		echo "helm-convert isn't installed; Downloading $@"; \
 		curl -sL $(HELM_CONVERT_DOWNLOAD_URL) -o $@.tgz; \
-		tar zxvf $@.tgz $@; \
+		tar zxvf $@.tgz -C ${BIN_PATH} helm-convert; \
 		rm -f $@.tgz; \
 	}
 
@@ -51,7 +52,7 @@ helm:
 	@command -v helm > /dev/null 2>&1 || { \
 		echo "Installing helm..."; \
 		curl -fsSL $(HELM_URL) -o $(HELM_PKG); \
-		tar -zxvf $(HELM_PKG) linux-amd64/helm --strip-components 1; \
+		tar -zxvf $(HELM_PKG) -C ${BIN_PATH} linux-amd64/helm --strip-components 1; \
 		rm -f $(HELM_PKG); \
 	}
 
