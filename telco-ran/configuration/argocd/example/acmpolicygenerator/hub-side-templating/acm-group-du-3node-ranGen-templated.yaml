@@ -41,10 +41,14 @@ policies:
             name: du-ptp-slave
           spec:
             profile:
-                - interface: '{{hub fromConfigMap "" "group-hardware-types-configmap" (printf "%s-ptpcfgslave-profile-interface" (index .ManagedClusterLabels "hardware-type")) hub}}'
-                  name: slave
-                  phc2sysOpts: -a -r -n 24
-                  ptp4lOpts: -2 -s --summary_interval -4
+            - interface: '{{hub fromConfigMap "" "group-hardware-types-configmap" (printf "%s-ptpcfgslave-profile-interface" (index .ManagedClusterLabels "hardware-type")) hub}}'
+              name: slave
+              phc2sysOpts: -a -r -n 24
+              ptp4lOpts: -2 -s --summary_interval -4
+            recommend:
+            - match:
+              - nodeLabel: node-role.kubernetes.io/master
+              profile: slave
       openapi:
         path: schema.openapi
     - path: source-crs/SriovOperatorConfig-SetSelector.yaml
