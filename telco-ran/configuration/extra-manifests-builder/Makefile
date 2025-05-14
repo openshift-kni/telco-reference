@@ -1,7 +1,6 @@
 GOPATH  ?= $(HOME)/go
 GOBIN ?= $(GOPATH)/bin
 export MCMAKER := $(GOBIN)/mcmaker
-# export GOFLAGS ?= -mod=vendor
 
 DST := ../source-crs/extra-manifest
 CHK := .chk
