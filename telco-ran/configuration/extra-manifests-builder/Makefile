@@ -71,4 +71,4 @@ test:
 	exit $$failures
 
 $(MCMAKER):
-	go install github.com/lack/mcmaker
+	go install github.com/lack/mcmaker@latest
