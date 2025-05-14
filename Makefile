@@ -32,10 +32,10 @@ markdownlint: markdownlint-image  ## run the markdown linter
 		-v $$(pwd):/workdir:Z \
 		$(IMAGE_NAME)-markdownlint:latest
 
-ci-validate: lintCheck check-reference check-reference-ran
+ci-validate: lintCheck check-reference-core check-reference-ran
 
-.PHONY: check-reference
-check-reference:
+.PHONY: check-reference-core
+check-reference-core:
 	$(MAKE) -C ./telco-core/configuration check
 
 .PHONY: check-reference-ran
