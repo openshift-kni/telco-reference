@@ -1,22 +1,15 @@
-CLUSTER_COMPARE_DOWNLOAD_URL := $(shell curl -s https://api.github.com/repos/openshift/kube-compare/releases/latest | jq -r '.assets[] | select(.name? | match("kube-compare_linux_amd64")) | .browser_download_url')
-HELM_CONVERT_DOWNLOAD_URL := $(shell curl -s https://api.github.com/repos/openshift/kube-compare/releases/latest | jq -r '.assets[] | select(.name? | match("kube-compare_addon_tools_linux_amd64")) | .browser_download_url')
-HELM_URL := https://get.helm.sh/helm-v3.16.1-linux-amd64.tar.gz
-HELM_PKG := helm-linux-amd64.tar.gz
-
 .PHONY: check
 check: metadata_lint compare
 
 kubectl-cluster_compare:
-	@echo "Downloading $@"
-	curl -sL $(CLUSTER_COMPARE_DOWNLOAD_URL) -o $@.tgz
-	tar zxvf $@.tgz $@
-	rm -f $@.tgz
+	@command -v kubectl-cluster_compare > /dev/null 2>&1 || { \
+		echo "kubectl-cluster_compare tool isn't installed; please download it from https://github.com/openshift/kube-compare"; \
+	}
 
 helm-convert:
-	@echo "Downloading $@"
-	curl -sL $(HELM_CONVERT_DOWNLOAD_URL) -o $@.tgz
-	tar zxvf $@.tgz $@
-	rm -f $@.tgz
+	@command -v helm-convert > /dev/null 2>&1 || { \
+		echo "helm-convert isn't installed; please download and install it"; \
+	}
 
 .PHONY: metadata_lint
 metadata_lint: kubectl-cluster_compare
@@ -39,16 +32,14 @@ clean:
 convert: helm-convert helm
 	@echo "Converting reference files to Helm Charts."
 	@rm -rf Chartv1 renderedv1
-	@./helm-convert -r ./metadata.yaml -n Chartv1 -v default_value.yaml
+	@helm-convert -r ./metadata.yaml -n Chartv1 -v default_value.yaml
 	@echo "Rendering Helm Charts to CR files."
-	@./helm template renderedv1 ./Chartv1 --output-dir renderedv1
+	@helm template renderedv1 ./Chartv1 --output-dir renderedv1
 
 helm:
-	@echo "Installing helm..."
-	curl -fsSL $(HELM_URL) -o $(HELM_PKG)
-	tar -zxvf $(HELM_PKG) linux-amd64/helm --strip-components 1
-	rm -f $(HELM_PKG)
-
+	@command -v helm > /dev/null 2>&1 || { \
+		echo "helm isn't installed; please download and install it"; \
+	}
 
 .PHONY: compare
 compare: convert

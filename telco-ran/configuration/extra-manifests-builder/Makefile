@@ -1,7 +1,8 @@
 GOPATH  ?= $(HOME)/go
 GOBIN ?= $(GOPATH)/bin
 export MCMAKER := $(GOBIN)/mcmaker
-export GOFLAGS ?= -mod=vendor
+# Set this flag below if using custom go.mod
+# export GOFLAGS ?= -mod=vendor
 
 DST := ../source-crs/extra-manifest
 CHK := .chk
@@ -70,5 +71,6 @@ test:
 	done; \
 	exit $$failures
 
+# Setting mcmaker tag=latest for install in prow (no go.mod)
 $(MCMAKER):
-	go install github.com/lack/mcmaker
+	go install github.com/lack/mcmaker@latest

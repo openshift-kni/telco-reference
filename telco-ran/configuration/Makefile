@@ -1,8 +1,7 @@
 
-.PHONY: ci-job checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference
+.PHONY: check checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference
 
-ci-job: checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference
-
+check: checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference
 
 checkExtraManifests:
 	$(MAKE) -C ./extra-manifests-builder check
