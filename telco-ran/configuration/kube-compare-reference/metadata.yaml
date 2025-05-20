@@ -324,6 +324,7 @@ fieldsToOmit:
       - pathToKey: metadata.annotations."kubectl.kubernetes.io/last-applied-configuration"
       - pathToKey: metadata.annotations."ran.openshift.io/ztp-deploy-wave"
       - pathToKey: metadata.annotations."machineconfiguration.openshift.io/mc-name-suffix"
+      - pathToKey: metadata.annotations."security.openshift.io/MinimallySufficientPodSecurityStandard"
       - pathToKey: metadata.labels."kubernetes.io/metadata.name"
       - pathToKey: metadata.labels."olm.operatorgroup.uid"
       - pathToKey: metadata.labels."security.openshift.io/scc.podSecurityLabelSync"
