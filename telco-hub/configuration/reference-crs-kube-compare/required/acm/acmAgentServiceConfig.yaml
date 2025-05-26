@@ -5,18 +5,21 @@ metadata:
   name: agent
 spec:
   databaseStorage:
+    storageClassName: {{ .spec.databaseStorage.storageClassName }}
     accessModes:
       - ReadWriteOnce
     resources:
       requests:
         storage: 20Gi
   filesystemStorage:
+    storageClassName: {{ .spec.filesystemStorage.storageClassName }}
     accessModes:
       - ReadWriteOnce
     resources:
       requests:
         storage: 20Gi
   imageStorage:
+    storageClassName: {{ .spec.imageStorage.storageClassName }}
     accessModes:
       - ReadWriteOnce
     resources:

@@ -4,7 +4,7 @@ parts:
   - name: version-check
     description: |-
       A mismatch here means you may be using the wrong reference.
-      This reference was designed for OpenShift 4.17.
+      This reference was designed for OpenShift 4.18.
     components:
       - name: version-check
         allOf:
@@ -13,22 +13,22 @@ parts:
               ignore-unspecified-fields: true
               fieldsToOmitRefs:
                 - allowStatusCheck
-  - name: required-storage
+  - name: optional-storage
     description: |-
       TODO: Link to Hub RDS storage section when published
     components:
       - name: local-storage-operator
-        allOf:
-          - path: required/lso/lsoNS.yaml
-          - path: required/lso/lsoOperatorGroup.yaml
-          - path: required/lso/lsoSubscription.yaml
-          - path: required/lso/lsoLocalVolume.yaml
+        allOrNoneOf:
+          - path: optional/lso/lsoNS.yaml
+          - path: optional/lso/lsoOperatorGroup.yaml
+          - path: optional/lso/lsoSubscription.yaml
+          - path: optional/lso/lsoLocalVolume.yaml
       - name: odf-internal-operator
-        allOf:
-          - path: required/odf-internal/odfNS.yaml
-          - path: required/odf-internal/odfOperatorGroup.yaml
-          - path: required/odf-internal/odfSubscription.yaml
-          - path: required/odf-internal/storageCluster.yaml
+        allOrNoneOf:
+          - path: optional/odf-internal/odfNS.yaml
+          - path: optional/odf-internal/odfOperatorGroup.yaml
+          - path: optional/odf-internal/odfSubscription.yaml
+          - path: optional/odf-internal/storageCluster.yaml
             config:
               ignore-unspecified-fields: true
   - name: required-talm
@@ -60,7 +60,7 @@ parts:
       TODO: Link to Hub RDS logging section when published
     components:
       - name: cluster-logging-operator
-        allOf:
+        allOrNoneOf:
           - path: optional/logging/clusterLogNS.yaml
           - path: optional/logging/clusterLogOperGroup.yaml
           - path: optional/logging/clusterLogSubscription.yaml
@@ -69,7 +69,7 @@ parts:
       TODO: Link to Hub RDS Quay section when published
     components:
       - name: quay-operator
-        allOf:
+        allOrNoneOf:
           - path: optional/quay/quayNS.yaml
           - path: optional/quay/quayOperatorGroup.yaml
           - path: optional/quay/quaySubscription.yaml
@@ -86,6 +86,8 @@ fieldsToOmit:
       - pathToKey: metadata.annotations."openshift.io/sa.scc.mcs"
       - pathToKey: metadata.annotations."openshift.io/sa.scc.supplemental-groups"
       - pathToKey: metadata.annotations."olm.providedAPIs"
+      - pathToKey: metadata.annotations."argocd.argoproj.io"
+        isPrefix: true
       - pathToKey: metadata.labels."kubernetes.io/metadata.name"
       - pathToKey: metadata.labels."security.openshift.io/scc.podSecurityLabelSync"
       - pathToKey: metadata.labels."operators.coreos.com/local-storage-operator.openshift-local-storage"
@@ -98,6 +100,7 @@ fieldsToOmit:
         isPrefix: true
       - pathToKey: metadata.labels."olm.operatorgroup.uid"
         isPrefix: true
+      - pathToKey: metadata.labels."app.kubernetes.io/instance"
       - pathToKey: metadata.creationTimestamp
       - pathToKey: metadata.finalizers
       - pathToKey: metadata.generation
