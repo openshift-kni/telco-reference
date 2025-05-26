@@ -8,8 +8,11 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch
-      == "release-4.18"
+    pipelinesascode.tekton.dev/on-cel-expression: |
+      event == "pull_request" &&
+      target_branch == "release-4.18" &&
+      (".tekton/telco-core-4-18-pull-request.yaml".pathChanged() ||
+       "telco-core/***".pathChanged())
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: telco-core-rds-4-18
