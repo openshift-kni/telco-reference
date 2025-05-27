@@ -1,0 +1,17 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+spec:
+  config:
+    ignition:
+      version: 3.1.0
+    storage:
+      files:
+        - contents:
+            source: data:,-a%20always%2Cexit%20-F%20arch=b64%20-S%20adjtimex%20-k%20audit_time_rules%0A-a%20always%2Cexit%20-F%20arch=b32%20-S%20adjtimex%20-k%20audit_time_rules%0A
+          mode: 384
+          overwrite: true
+          path: /etc/audit/rules.d/75-syscall-adjtimex.rules
+metadata:
+  name: 75-rhcos4-e8-master-audit-rules-time-adjtimex
+  labels:
+    machineconfiguration.openshift.io/role: master
