@@ -1,0 +1,17 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+spec:
+  config:
+    ignition:
+      version: 3.1.0
+    storage:
+      files:
+        - contents:
+            source: data:,-a%20always%2Cexit%20-F%20arch%3Db32%20-S%20init_module%20-k%20module-change%0A-a%20always%2Cexit%20-F%20arch%3Db64%20-S%20init_module%20-k%20module-change%0A
+          mode: 384
+          overwrite: true
+          path: /etc/audit/rules.d/75-kernel-module-loading-init.rules
+metadata:
+  name: 75-rhcos4-e8-master-audit-rules-kernel-module-loading-init
+  labels:
+    machineconfiguration.openshift.io/role: master
