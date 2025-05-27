@@ -5,7 +5,17 @@ CONTAINER_TOOL ?= podman
 
 # Basic lint checking
 lintCheck:
-	yamllint .
+	# The configuration is done piece-wise in order to skip the
+	# kube-compare reference tree. Those yamls are augmented with
+	# golang templating and are not expected to be legal yaml.
+	yamllint -c .yamllint.yaml telco-core/configuration/*yaml
+	yamllint -c .yamllint.yaml telco-core/configuration/reference-crs
+	yamllint -c .yamllint.yaml telco-core/configuration/template-values
+	yamllint -c .yamllint.yaml telco-core/install/
+	yamllint -c .yamllint.yaml telco-hub/configuration/*yaml
+	yamllint -c .yamllint.yaml telco-hub/configuration/reference-crs
+	yamllint -c .yamllint.yaml telco-hub/configuration/example-overlays-config
+	yamllint -c .yamllint.yaml telco-hub/install/
 
 # markdownlint rules, following: https://github.com/openshift/enhancements/blob/master/Makefile
 .PHONY: markdownlint-image
