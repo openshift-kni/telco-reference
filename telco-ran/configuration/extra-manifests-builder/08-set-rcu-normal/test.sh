@@ -1,8 +1,8 @@
 #!/bin/bash
 
 fatal() {
-  echo "FATAL: $@"
-  exit 1
+	echo "FATAL: $@"
+	exit 1
 }
 
 echo "Testing import..."
@@ -12,10 +12,11 @@ rc=$?
 echo Ok
 
 test_within() {
-  local expected=$1; shift
-  within "$@"
-  rc=$?
-  [[ $rc -eq $expected ]] || fatal "within failed: Expected rc $expected != $rc"
+	local expected=$1
+	shift
+	within "$@"
+	rc=$?
+	[[ $rc -eq $expected ]] || fatal "within failed: Expected rc $expected != $rc"
 }
 
 # Trivial case: 0->0 = 0% change
@@ -91,11 +92,11 @@ test_within 0 102 100 2
 test_within 0 102 100 2%
 
 test_steadystate() {
-  local expected=$1
-  STEADY_STATE_THRESHOLD=$4
-  steadystate $2 $3
-  rc=$?
-  [[ $rc -eq $expected ]] || fatal "steadystate failed: Expected rc $expected != $rc"
+	local expected=$1
+	STEADY_STATE_THRESHOLD=$4
+	steadystate $2 $3
+	rc=$?
+	[[ $rc -eq $expected ]] || fatal "steadystate failed: Expected rc $expected != $rc"
 }
 
 # Test with minimum boundary
