@@ -12,7 +12,8 @@ rc=$?
 echo Ok
 
 test_within() {
-  local expected=$1; shift
+  local expected=$1
+  shift
   within "$@"
   rc=$?
   [[ $rc -eq $expected ]] || fatal "within failed: Expected rc $expected != $rc"

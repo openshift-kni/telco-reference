@@ -15,42 +15,42 @@ for tool in yq cat grep find; do
   fi
 done
 
-print_section(){
+print_section() {
   printf "\n###########################################################\n"
   printf "%s\n" "$1"
   printf "###########################################################\n\n"
 
 }
-print_subscriptions(){
+print_subscriptions() {
   print_section "Following a list of the different configured subscriptions"
 
-  find ./configuration/reference-crs/ -type f \( -name "*.yaml" -o -name "*.yml" \) \
-      | xargs cat - \
-      | yq -r 'select(.kind == "Subscription") | .metadata.name + " channel " + .spec.channel'
+  find ./configuration/reference-crs/ -type f \( -name "*.yaml" -o -name "*.yml" \) |
+    xargs cat - |
+    yq -r 'select(.kind == "Subscription") | .metadata.name + " channel " + .spec.channel'
 }
 
-print_argocd_ztp_image(){
+print_argocd_ztp_image() {
   print_section "ztp-site-generate version inside ArgoCD"
 
   grep -E 'ztp-site-generator|ztp-site-generate' ./configuration/reference-crs/required/gitops/addPluginsPolicy.yaml || true
 }
 
-print_disconnected_imageset_channels(){
+print_disconnected_imageset_channels() {
   print_section "Disconnected imageset platform channels"
 
   yq '.mirror.platform.channels' ./install/mirror-registry/imageset-config.yaml
 }
 
-print_disconnected_imageset_operators(){
+print_disconnected_imageset_operators() {
   print_section "Disconnected imageset version of operators"
 
   yq '.mirror.operators[].packages[] | .name + " " + .channels[].name' ./install/mirror-registry/imageset-config.yaml
 }
 
-print_agentservice_images(){
+print_agentservice_images() {
   print_section "AgentServiceConfig configured images"
 
-  yq '.spec.osImages[].openshiftVersion'  ./configuration/reference-crs/required/acm/acmAgentServiceConfig.yaml
+  yq '.spec.osImages[].openshiftVersion' ./configuration/reference-crs/required/acm/acmAgentServiceConfig.yaml
 }
 
 print_subscriptions
