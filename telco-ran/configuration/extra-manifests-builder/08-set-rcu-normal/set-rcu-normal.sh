@@ -32,25 +32,25 @@ STEADY_STATE_MINIMUM=${STEADY_STATE_MINIMUM:-0}
 within() {
   local last=$1 current=$2 threshold=$3
   local delta=0 pchange
-  delta=$(( current - last ))
+  delta=$((current - last))
   if [[ $current -eq $last ]]; then
     pchange=0
   elif [[ $last -eq 0 ]]; then
     pchange=1000000
   else
-    pchange=$(( ( "$delta" * 100) / last ))
+    pchange=$((("$delta" * 100) / last))
   fi
   echo -n "last:$last current:$current delta:$delta pchange:${pchange}%: "
   local absolute limit
   case $threshold in
-    *%)
-      absolute=${pchange##-} # absolute value
-      limit=${threshold%%%}
-      ;;
-    *)
-      absolute=${delta##-} # absolute value
-      limit=$threshold
-      ;;
+  *%)
+    absolute=${pchange##-} # absolute value
+    limit=${threshold%%%}
+    ;;
+  *)
+    absolute=${delta##-} # absolute value
+    limit=$threshold
+    ;;
   esac
   if [[ $absolute -le $limit ]]; then
     echo "within (+/-)$threshold"
@@ -99,7 +99,7 @@ waitForReady() {
 
 setRcuNormal() {
   echo "Setting rcu_normal to 1"
-  echo 1 > /sys/kernel/rcu_normal
+  echo 1 >/sys/kernel/rcu_normal
 }
 
 main() {
