@@ -40,7 +40,7 @@
             }
           ],
           "terminationMessagePolicy": "File",
-          "image": "quay.io/openshift-kni/ztp-site-generator:latest"
+          "image": "registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.18"
         },
         {
           "args": [
