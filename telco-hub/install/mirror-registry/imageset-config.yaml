@@ -4,20 +4,20 @@ apiVersion: mirror.openshift.io/v2alpha1
 mirror:
   platform:
     channels:
-    - name: stable-4.17
+    - name: stable-4.18
       type: ocp
-      minVersion: 4.17.1
-      maxVersion: 4.17.1
+      minVersion: 4.18.11
+      maxVersion: 4.18.11
   operators:
-  - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.17
+  - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.18
     targetCatalog: openshift-marketplace/redhat-operators-disconnected
     packages:
     - name: advanced-cluster-management
       channels:
-      - name: release-2.12
+      - name: release-2.13
     - name: multicluster-engine
       channels:
-      - name: stable-2.7
+      - name: stable-2.8
     - name: topology-aware-lifecycle-manager
       channels:
       - name: stable
@@ -26,40 +26,48 @@ mirror:
       - name: stable
     - name: odf-operator
       channels:
-      - name: stable-4.17
+      - name: stable-4.18
+    - name: odf-dependencies
+      channels:
+      - name: stable-4.18
     - name: odf-csi-addons-operator
       channels:
-      - name: stable-4.17
+      - name: stable-4.18
     - name: ocs-client-operator
       channels:
-      - name: stable-4.17
+      - name: stable-4.18
     - name: cephcsi-operator
       channels:
-      - name: stable-4.17
+      - name: stable-4.18
     - name: odf-prometheus-operator
       channels:
-      - name: stable-4.17
+      - name: stable-4.18
     - name: odf-multicluster-orchestrator
       channels:
-      - name: stable-4.17
+      - name: stable-4.18
     - name: ocs-operator
       channels:
-      - name: stable-4.17
+      - name: stable-4.18
     - name: rook-ceph-operator
       channels:
-      - name: stable-4.17
+      - name: stable-4.18
     - name: mcg-operator
       channels:
-      - name: stable-4.17
+      - name: stable-4.18
     - name: odr-hub-operator
       channels:
-      - name: stable-4.17
+      - name: stable-4.18
     - name: odr-cluster-operator
       channels:
-      - name: stable-4.17
+      - name: stable-4.18
     - name: recipe
       channels:
-      - name: stable-4.17
+      - name: stable-4.18
+    - name: openshift-gitops-operator
+      channels:
+      - name: gitops-1.15
+    - name: redhat-oadp-operator
+      channels:
+      - name: stable-1.4
   additionalImages:
   - name: registry.redhat.io/ubi8/ubi:latest
-  helm: {}
