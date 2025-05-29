@@ -71,3 +71,5 @@ mirror:
       - name: stable-1.4
   additionalImages:
   - name: registry.redhat.io/ubi8/ubi:latest
+  - name: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.18.0
+  - name: registry.redhat.io/rhel8/support-tools:8.9-7
