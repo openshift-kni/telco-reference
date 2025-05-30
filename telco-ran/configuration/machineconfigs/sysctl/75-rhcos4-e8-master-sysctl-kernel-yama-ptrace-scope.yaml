@@ -7,6 +7,7 @@ spec:
     storage:
       files:
         - contents:
+            # kernel.yama.ptrace_scope=1
             source: data:,kernel.yama.ptrace_scope%3D1%0A
           mode: 420
           overwrite: true
