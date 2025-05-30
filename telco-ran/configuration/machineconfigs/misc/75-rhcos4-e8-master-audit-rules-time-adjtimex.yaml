@@ -7,6 +7,8 @@ spec:
     storage:
       files:
         - contents:
+            # -a always,exit -F arch=b64 -S adjtimex -k audit_time_rules
+            # -a always,exit -F arch=b32 -S adjtimex -k audit_time_rules
             source: data:,-a%20always%2Cexit%20-F%20arch=b64%20-S%20adjtimex%20-k%20audit_time_rules%0A-a%20always%2Cexit%20-F%20arch=b32%20-S%20adjtimex%20-k%20audit_time_rules%0A
           mode: 384
           overwrite: true

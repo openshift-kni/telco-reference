@@ -7,6 +7,7 @@ spec:
     storage:
       files:
         - contents:
+            # -w /var/run/faillock -p wa -k logins
             source: data:,-w%20%2Fvar%2Frun%2Ffaillock%20-p%20wa%20-k%20logins%0A
           mode: 420
           overwrite: true
