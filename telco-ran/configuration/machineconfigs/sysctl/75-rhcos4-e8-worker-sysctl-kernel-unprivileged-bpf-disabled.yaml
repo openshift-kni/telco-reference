@@ -7,6 +7,7 @@ spec:
     storage:
       files:
         - contents:
+            # kernel.unprivileged_bpf_disabled=1
             source: data:,kernel.unprivileged_bpf_disabled%3D1%0A
           mode: 420
           overwrite: true
