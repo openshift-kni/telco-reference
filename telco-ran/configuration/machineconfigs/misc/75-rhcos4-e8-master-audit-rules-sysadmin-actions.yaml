@@ -7,6 +7,8 @@ spec:
     storage:
       files:
         - contents:
+            # -w /etc/sudoers.d/ -p wa -k actions
+            # -w /etc/sudoers -p wa -k actions
             source: data:,-w%20%2Fetc%2Fsudoers.d%2F%20-p%20wa%20-k%20actions%0A-w%20%2Fetc%2Fsudoers%20-p%20wa%20-k%20actions%0A
           mode: 384
           overwrite: true
