@@ -11,3 +11,29 @@ spec:
     {{ .spec.nodeSelector | toYaml | indent 4 }}
   {{ end }}
   config: {{ .spec.config | toJson }}
+{{- $configWarnings := list }}
+{{- if .spec.config }}
+  {{- if kindIs "string" .spec.config }}
+    {{- $config := fromJson .spec.config }}
+    {{- if and (eq $config.type "bond") }}
+      {{- if ne $config.mode "active-backup" }}
+        {{- $configWarnings = append $configWarnings (printf "Invalid mode: when type is 'bond', mode must be 'active-backup', but got '%s'" $config.mode) }}
+      {{- end }}
+      {{- if ne (int $config.linksInContainer) 1 }}
+        {{- $configWarnings = append $configWarnings (printf "Invalid linksInContainer: when type is 'bond', linksInContainer must be '1', but got '%s'" $config.linksInContainer) }}
+      {{- end }}
+      {{- if not (and $config.links (ge (len $config.links) 2)) }}
+        {{- $configWarnings = append $configWarnings (printf "Invalid links: when type is 'bond', links must have at least two interfaces, but got '%s'" $config.links) }}
+      {{- end }}
+      {{- if not (and $config.miimon (ge (int $config.miimon) 1)) }}
+        {{- $configWarnings = append $configWarnings (printf "Invalid miimon: when type is 'bond',  miimon must be positive, but got %d" (int $config.miimon)) }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- if $configWarnings }}
+  configWarnings:
+  {{- range $configWarnings }}
+    - {{ . | quote }}
+  {{- end }}
+{{- end }}
