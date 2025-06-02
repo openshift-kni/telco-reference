@@ -64,15 +64,6 @@ parts:
           - path: optional/logging/clusterLogNS.yaml
           - path: optional/logging/clusterLogOperGroup.yaml
           - path: optional/logging/clusterLogSubscription.yaml
-  - name: optional-quay
-    description: |-
-      TODO: Link to Hub RDS Quay section when published
-    components:
-      - name: quay-operator
-        allOrNoneOf:
-          - path: optional/quay/quayNS.yaml
-          - path: optional/quay/quayOperatorGroup.yaml
-          - path: optional/quay/quaySubscription.yaml
 
 templateFunctionFiles:
   - version_match.tmpl
@@ -88,6 +79,7 @@ fieldsToOmit:
       - pathToKey: metadata.annotations."olm.providedAPIs"
       - pathToKey: metadata.annotations."argocd.argoproj.io"
         isPrefix: true
+      - pathToKey: metadata.annotations."workload.openshift.io/allowed"
       - pathToKey: metadata.labels."kubernetes.io/metadata.name"
       - pathToKey: metadata.labels."security.openshift.io/scc.podSecurityLabelSync"
       - pathToKey: metadata.labels."operators.coreos.com/local-storage-operator.openshift-local-storage"

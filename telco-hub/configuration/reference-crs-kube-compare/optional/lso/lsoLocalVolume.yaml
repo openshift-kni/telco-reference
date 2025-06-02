@@ -15,7 +15,11 @@ spec:
     {{- range .spec.storageClassDevices }}
     - storageClassName: {{ .storageClassName }}
       forceWipeDevicesAndDestroyAllData: true
-      volumeMode: Block
+      {{- if or (eq .volumeMode "Block") (eq .volumeMode "Filesystem") }}
+      volumeMode: {{ .volumeMode }}
+      {{- else }}
+      volumeMode: must be 'Block' or 'Filesystem'
+      {{- end }}
       devicePaths:
         {{- .devicePaths | toYaml | nindent 8 }}
-    {{- end}}
+    {{- end }}

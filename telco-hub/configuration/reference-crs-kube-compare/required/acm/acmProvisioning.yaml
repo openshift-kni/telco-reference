@@ -7,4 +7,6 @@ spec:
   watchAllNamespaces: true
   # some servers do not support virtual media installations
   # when the image is served using the https protocol
-  # disableVirtualMediaTLS: true
+  {{- if .spec.disableVirtualMediaTLS }}
+  disableVirtualMediaTLS: true
+  {{- end }}
