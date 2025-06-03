@@ -1,0 +1,73 @@
+---
+# this policy will ensure ODF is ready
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  name: odf-ready-validation
+  namespace: hub-policies
+  annotations:
+    # we do a validation of odf after StorageCluster creation
+    # but after MCH on ACM is created.
+    # MCH components like Observability and AgentServiceConfig
+    # come later and needs ODF ready
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    policy.open-cluster-management.io/description: Policy used ensure ODF installation is ready
+spec:
+  remediationAction: inform  # we dont want to modify/create only validate the status
+  disabled: false
+  policy-templates:
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: odf-ready
+        spec:
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: batch/v1
+                kind: Job
+                metadata:
+                  namespace: openshift-storage
+                status:
+                  ready: 0
+                  succeeded: 1
+                  conditions:
+                  - status: "True"
+                    type: Complete
+---
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  name: odf-ready-pl
+  namespace: hub-policies
+spec:
+  predicates:
+    - requiredClusterSelector:
+        labelSelector:
+          matchExpressions:
+            - key: name
+              operator: In
+              values:
+                - local-cluster
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PlacementBinding
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  name: odf-ready-binding
+  namespace: hub-policies
+placementRef:
+  name: odf-ready-pl
+  apiGroup: cluster.open-cluster-management.io
+  kind: Placement
+subjects:
+  - name: odf-ready-validation
+    apiGroup: policy.open-cluster-management.io
+    kind: Policy

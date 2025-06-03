@@ -14,11 +14,7 @@ spec:
       allowEmpty: true
       selfHeal: true
       prune: true
-  syncOptions:
-  - CreateNamespace=true
-  - ServerSideApply=true
-  - Validate=false
   source:
-    path: telco-hub/configuration/reference-crs
-    repoURL: 'https://github.com/openshift-kni/telco-reference.git'
-    targetRevision: main
+    path: "telco-hub/configuration"
+    repoURL: "https://github.com/openshift-kni/telco-reference.git"
+    targetRevision: "main"

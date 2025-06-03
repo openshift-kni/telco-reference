@@ -5,7 +5,8 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "4"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-    installer.open-cluster-management.io/mce-subscription-spec: '{"installPlanApproval": "Automatic"}'
+    installer.open-cluster-management.io/mce-subscription-spec: '{"source": "redhat-operators-disconnected", "installPlanApproval": "Automatic"}'
+    installer.open-cluster-management.io/oadp-subscription-spec: '{"source": "redhat-operators-disconnected", "installPlanApproval": "Automatic"}'
   name: multiclusterhub
   namespace: open-cluster-management
 spec:
@@ -14,28 +15,57 @@ spec:
   ingress: {}
   overrides:
     components:
-    - enabled: true
+    - configOverrides: {}
+      enabled: true
       name: app-lifecycle
-    - enabled: true
+    - configOverrides: {}
+      enabled: true
       name: cluster-lifecycle
-    - enabled: true
+    - configOverrides: {}
+      enabled: true
       name: cluster-permission
-    - enabled: true
+    - configOverrides: {}
+      enabled: true
       name: console
-    - enabled: true
+    - configOverrides: {}
+      enabled: true
       name: grc
-    - enabled: true
+    - configOverrides: {}
+      enabled: true
       name: insights
-    - enabled: true
+    - configOverrides: {}
+      enabled: true
       name: multicluster-engine
-    - enabled: true
+    - configOverrides: {}
+      enabled: true
       name: multicluster-observability
-    - enabled: true
+    - configOverrides: {}
+      enabled: true
       name: search
-    - enabled: true
+    - configOverrides: {}
+      enabled: true
       name: submariner-addon
-    - enabled: true
+    - configOverrides: {}
+      enabled: true
       name: volsync
-    - enabled: true
+    - configOverrides: {}
+      enabled: true
       name: cluster-backup
+    - configOverrides: {}
+      enabled: true
+      name: siteconfig
+    - configOverrides: {}
+      enabled: false
+      name: edge-manager-preview
   separateCertificateManagement: false
+---
+apiVersion: cluster.open-cluster-management.io/v1beta2
+kind: ManagedClusterSetBinding
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  name: global
+  namespace: openshift-storage
+spec:
+  clusterSet: global

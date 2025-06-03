@@ -4,7 +4,7 @@ metadata:
   name: cluster-logging
   namespace: openshift-logging
 spec:
-  channel: "stable-6.0"
+  channel: "stable-6.2"
   name: cluster-logging
   source: {{ .spec.source }}
   sourceNamespace: openshift-marketplace
