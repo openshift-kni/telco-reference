@@ -46,11 +46,6 @@ parts:
             config:
               ignore-unspecified-fields: true
           - path: required/networking/metallb/metallbSubscription.yaml
-      - name: optional-networking-metallb
-        description: |-
-          https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-load-balancer_core-ref-design-components
-        anyOf:
-          - path: required/networking/metallb/community.yaml
       - name: networking-multinetworkpolicy
         description: |-
           https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-sriov_core-ref-design-components
@@ -79,6 +74,7 @@ parts:
         anyOf:
           - path: optional/networking/networkAttachmentDefinition.yaml
           - path: optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
+          - path: required/networking/metallb/community.yaml
   - name: required-other
     components:
       - name: disconnected-registry
