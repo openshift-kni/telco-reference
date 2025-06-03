@@ -6,7 +6,7 @@
 3. Generate the ABI ISO image with the following command:
 
    `openshift-install --dir ocp agent create image`
-4. Load the generated ISO into each node's local disk and proceed with the OpenShift installation. To follow the process use:
+4. Load the generated ISO into each node's local disk and proceed with the OpenShift installation. To monitor the process use:
 
    `openshift-install --dir ocp agent wait-for bootstrap-complete --log-level=info`
    `openshift-install --dir ocp agent wait-for install-complete`
@@ -30,6 +30,6 @@
    `oc get imagetagmirrorset`
    `oc get catalogsource -n openshift-marketplace`
 
-For for information see [Installing an OpenShit cluster with the Agent-based Installer](https://docs.openshift.com/container-platform/4.18/installing/installing_with_agent_based_installer/installing-with-agent-based-installer.html).
+For more information see [Installing an OpenShit cluster with the Agent-based Installer](https://docs.openshift.com/container-platform/4.18/installing/installing_with_agent_based_installer/installing-with-agent-based-installer.html).
 
 Back to [Hub Cluster Setup](../../README.md).

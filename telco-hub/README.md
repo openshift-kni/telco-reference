@@ -1,7 +1,7 @@
 # Telco Hub Cluster Setup
 
 The goal of this document is to provide a step-by-step guide on how to install and configure a Hub cluster that follows the
-specifications and recommendations of the Telco Hub Cluster RDS (TODO: missing link). Starting from a basic OpenShift cluster,
+specifications and recommendations of the [Telco Hub Cluster RDS](https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs). Starting from a basic OpenShift cluster,
 the different operators that make up a Hub cluster will be installed, all in a disconnected environment.
 
 The Yaml manifests used to install the OpenShift cluster and the required mirror registry can be found in the [install](install) folder
@@ -39,9 +39,9 @@ reference CRs to match your environment and needs.
 
 #### [GITOPS](configuration/reference-crs/required/gitops/readme.md)
 
-#### [LSO](configuration/reference-crs/required/lso/README.md)
+#### [LSO](configuration/reference-crs/optional/lso/README.md)
 
-#### [ODF](configuration/reference-crs/required/odf-internal/README.md)
+#### [ODF](configuration/reference-crs/optional/odf-internal/README.md)
 
 #### [ACM](configuration/reference-crs/required/acm/readme.md)
 
