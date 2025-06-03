@@ -1,0 +1,5 @@
+# Internal files for cluster-compare, not real CRs
+metadata.yaml
+
+# Used in the reference only for version compliance checks
+ReferenceVersionCheck.yaml
