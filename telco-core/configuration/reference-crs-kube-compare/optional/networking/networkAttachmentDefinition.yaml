@@ -11,3 +11,12 @@ spec:
     {{ .spec.nodeSelector | toYaml | indent 4 }}
   {{ end }}
   config: {{ .spec.config | toJson }}
+{{- if .spec.config }}
+  {{- if kindIs "string" .spec.config }}
+    {{- $config := fromJson .spec.config }}
+    {{- if eq $config.type "bond" }}
+      {{- doNotMatch "NAD of type 'bond', skipping" }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+

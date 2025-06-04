@@ -28,3 +28,6 @@ optional/other/server-cert-openshift-config-copy.yaml
 
 # This is an object-template-raw used only to validate subscription state
 custom-manifests/subscription-validator.yaml
+
+# TODO: add reference CR; only kube-compare for now
+optional/networking/multus/bond_cni/bond_sriov.yaml
