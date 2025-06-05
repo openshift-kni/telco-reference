@@ -22,6 +22,9 @@ generators:
 # This policy removes Cluster Logging operator 5.x artifacts after upgrading to 6.x
 - acm-group-du-clo5-cleanup.yaml
 
+# optional reboot policies. Used if a prior Tuned deferred change was applied and triggering of a reboot when this policiy is applied is needed.
+# - acm-example-reboot.yaml
+
 resources:
 - ns.yaml
 # The resources from below are only needed if policies from hub-side-templating are used.
