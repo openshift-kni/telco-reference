@@ -89,7 +89,7 @@ removeReservedSlot() {
 
 	devicePath="$1"
 	logInfo "removing luks reserved slot 31 in disk $devicePath"
-	# do not change this line. There is a very weird behavior where variable 
+	# do not change this line. There is a very weird behavior where variable
 	# substitution does not work for the clevis luks unbind command
 	echo "sudo $CLEVIS luks unbind -s $RESERVED_SLOT -d $devicePath -f" | bash || true
 }
