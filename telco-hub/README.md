@@ -1,24 +1,18 @@
-# Telco Hub Cluster Setup
+# telco-hub
 
-The goal of this document is to provide a step-by-step guide on how to install and configure a Hub cluster that follows the
-specifications and recommendations of the [Telco Hub Cluster RDS](https://docs.redhat.com/en/documentation/openshift_container_platform/4.19/html/scalability_and_performance/telco-hub-ref-design-specs). Starting from a basic OpenShift cluster,
-the different operators that make up a Hub cluster will be installed, all in a disconnected environment.
+## Description
 
-The Yaml manifests used to install the OpenShift cluster and the required mirror registry can be found in the [install](install) folder
-whereas the reference CRs for the day-2 operators are stored in the [configuration](configuration) folder. These manifests can be
-modified to suit your specific environment (i.e. ssh keys, pull-secret, resources config, etc.) prior to being applied to your cluster. In the recommended automated method this is done using kustomize.
+This directory contains reference configuration CRs and manifests related to the Telco Hub use models. The content is branched for each y-stream release of OpenShift.
 
-## Pre-requisites
+Click [here](./yaml_details.md) to view the details of each YAML file in this subdirectory.
 
-There are two components required prior to start the configuration of a Hub cluster, a basic OpenShift cluster and a mirror registry already loaded with
-all the container images that will be used for the OpenShift and the day-2 operators installation.
+## Contributing
 
-### OpenShift cluster
+If you would like to contribute content to this reference configuration please open a pull request and include a link to the associated feature development.
 
-The Telco Hub Cluster RDS recommends using the Agent-based Installer (ABI) to install the OpenShift cluster although any other installation method
-is acceptable as long as they reach the same end result. The instructions below show the OpenShift installation using the ABI method.
+## Support
 
-[OpenShift installation with the Agent-based Installer](install/openshift/README.md)
+If you have questions or comments on this reference configuration please reach out to one of the owners of this project.
 
 ### Mirror registry
 
@@ -55,4 +49,6 @@ They should be installed in the order presented here to ensure that the resource
 #### Backup and recovery
 
 [Backup and recovery process](configuration/reference-crs/optional/backup-recovery/README.md)
+## Authors and acknowledgment
 
+Many thanks to those who have contributed to this reference configuration.
