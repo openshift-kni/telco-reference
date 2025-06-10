@@ -13,7 +13,6 @@ spec:
   additionalKernelArgs:
     {{- $requiredArgs := list
       "efi=runtime"
-      "module_blacklist=irdma"
       "rcupdate.rcu_normal_after_boot=0"
     }}
     {{- $optionalArgs := list
@@ -22,6 +21,17 @@ spec:
     }}
     {{- if .spec.workloadHints.perPodPowerManagement }}
       {{- $optionalArgs = append $optionalArgs "cpufreq.default_governor=.*" }}
+    {{- end }}
+    {{- $requiredX86Args := list
+       "module_blacklist=irdma"
+    }}
+    {{- $optionalArmArgs := list
+       "iommu.passthrough=1"
+    }}
+    {{- if eq .spec.kernelPageSize "64k" }}
+      {{- $optionalArgs = concat $optionalArgs $optionalArmArgs }}
+    {{- else if ne .spec.kernelPageSize "64k"}}
+      {{- $requiredArgs = concat $requiredArgs $requiredX86Args }}
     {{- end }}
     {{- template "kernelArgList" (list .spec.additionalKernelArgs $requiredArgs $optionalArgs) }}
   cpu:

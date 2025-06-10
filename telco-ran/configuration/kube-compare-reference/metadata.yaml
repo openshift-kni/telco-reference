@@ -82,8 +82,6 @@ parts:
           - path: required/machine-config/sctp/03-sctp-machine-config-worker.yaml
           - path: required/machine-config/set-rcu-normal/08-set-rcu-normal-master.yaml
           - path: required/machine-config/set-rcu-normal/08-set-rcu-normal-worker.yaml
-          - path: required/machine-config/sriov-related-kernel-arguments/07-sriov-related-kernel-args-master.yaml
-          - path: required/machine-config/sriov-related-kernel-arguments/07-sriov-related-kernel-args-worker.yaml
           - path: required/machine-config/crun/enable-crun-master.yaml
           - path: required/machine-config/crun/enable-crun-worker.yaml
           - path: required/machine-config/kdump/06-kdump-master.yaml
@@ -92,6 +90,8 @@ parts:
         anyOf:
           - path: optional/machine-config/01-disk-encryption-pcr-rebind-master.yaml
           - path: optional/machine-config/01-disk-encryption-pcr-rebind-worker.yaml
+          - path: optional/machine-config/sriov-related-kernel-arguments/07-sriov-related-kernel-args-master.yaml
+          - path: optional/machine-config/sriov-related-kernel-arguments/07-sriov-related-kernel-args-worker.yaml
   - name: required-node-tuning-operator
     description: |-
       https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-node-tuning-operator_ran-ref-design-components
@@ -305,6 +305,14 @@ parts:
       - name: console-disable
         allOrNoneOf:
           - path: optional/console-disable/ConsoleOperatorDisable.yaml
+
+  - name: optional-node
+    description: |-
+      Template to enable fetching Node objects
+    components:
+      - name: node-template
+        allOrNoneOf:
+          - path: optional/node/node.yaml
 
 templateFunctionFiles:
   - validate_node_selector.tmpl

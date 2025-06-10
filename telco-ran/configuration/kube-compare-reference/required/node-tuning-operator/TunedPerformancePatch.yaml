@@ -1,3 +1,30 @@
+{{- $archTunedConfig := "" }}
+{{- $templateError := ""}}
+{{- $nodes := lookupCRs "v1" "Node" "" "" }}
+{{- if $nodes -}}
+  {{- $expectedArch := index (index $nodes 0).metadata.labels "kubernetes.io/arch" -}}
+  {{- range $index, $node := $nodes }}
+    {{- if gt (len $nodes) 1 }}
+      {{- $currentArch := index $node.metadata.labels "kubernetes.io/arch" -}}
+      {{- if ne $currentArch $expectedArch }}
+        {{- $templateError := printf "Error: Node at index %d has architecture '%s' which does not match the expected '%s'." $index $currentArch $expectedArch -}}
+      {{- end -}}
+    {{- end }}
+  {{- end }}
+  {{- if eq $expectedArch "arm64" }}
+    {{- $archTunedConfig = (list 
+      "[sysctl]"
+      "kernel.timer_migration=0"
+      ) | join "\n" }}
+  {{- else if eq $expectedArch "amd64" }}
+    {{- $archTunedConfig = (list
+      "[scheduler]"
+      "group.ice-ptp=0:f:10:*:ice-ptp.*"
+      "group.ice-gnss=0:f:10:*:ice-gnss.*"
+      "group.ice-dplls=0:f:10:*:ice-dplls.*"
+      ) | join "\n" }}
+  {{- end }}
+{{- end -}}
 apiVersion: tuned.openshift.io/v1
 kind: Tuned
 metadata:
@@ -17,19 +44,23 @@ spec:
       #   include=openshift-node-performance-${PerformanceProfile.metadata.name}
       # - When using the standard (non-realtime) kernel, remove the kernel.timer_migration override from
       #   the [sysctl] section and remove the entire section if it is empty.
+      # - The [scheduler] section with ice module options is not applicable to ARM RDS, that section can
+      #   safely be removed on ARM installations.
       data: |
         [main]
         summary=Configuration changes profile inherited from performance created tuned
         include=openshift-node-performance-openshift-node-performance-profile
-        [scheduler]
-        group.ice-ptp=0:f:10:*:ice-ptp.*
-        group.ice-gnss=0:f:10:*:ice-gnss.*
-        group.ice-dplls=0:f:10:*:ice-dplls.*
+        {{- if $archTunedConfig }}
+           {{- $archTunedConfig | nindent 8 }}
+        {{- end }}
         [service]
         service.stalld=start,enable
         service.chronyd=stop,disable
         {{- if $powersaveSysfs }}
           {{- $powersaveSysfs | nindent 8 }}
+        {{- end }}
+        {{- if $templateError }}
+          {{- $templateError | toYaml | nindent 8 }}
         {{- end }}
   recommend:
   {{- range .spec.recommend }}
