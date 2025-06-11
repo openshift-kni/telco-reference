@@ -4,14 +4,10 @@ kind: AppProject
 metadata:
   name: policy-app-project
   namespace: openshift-gitops
-  annotations:
-    argocd.argoproj.io/sync-wave: "100"
 spec:
   clusterResourceWhitelist:
   - group: ''
     kind: Namespace
-  - group: 'hive.openshift.io'
-    kind: ClusterImageSet
   destinations:
   - namespace: 'ztp*'
     server: '*'
