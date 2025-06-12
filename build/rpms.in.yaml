@@ -1,0 +1,29 @@
+contentOrigin:
+  repos:
+    - repoid: ubi-9-for-$basearch-baseos-rpms
+      baseurl: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/baseos/os
+      varsFromContainerfile: telco-core/Dockerfile.telco-core
+      sslverify: 1
+      gpgcheck: 1
+      gpgkey: /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+    - repoid: ubi-9-for-$basearch-appstream-rpms
+      baseurl: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/appstream/os
+      varsFromContainerfile: telco-core/Dockerfile.telco-core
+      sslverify: 1
+      gpgcheck: 1
+      gpgkey: /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+    - repoid: codeready-builder-for-ubi-9-$basearch-rpms
+      baseurl: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/codeready-builder/os
+      varsFromContainerfile: telco-core/Dockerfile.telco-core
+      sslverify: 1
+      gpgcheck: 1
+      gpgkey: /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
+packages:
+  - tar
+
+arches:
+  - x86_64
+
+context:
+  containerfile: telco-core/Dockerfile.telco-core
