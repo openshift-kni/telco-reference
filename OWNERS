@@ -1,14 +1,8 @@
-approvers:
-  - MarSik
-  - imiller0
-reviewers:
-  - MarSik
-  - yanirq
-  - ffromani
-  - imiller0
-  - lack
-  - SchSeba
-  - fedepaol
-  - yuvalk
-  - cgoncalves
-  
+# See the OWNERS docs at https://go.k8s.io/owners
+
+filters:
+  ".*":
+    reviewers:
+      - telco-reference-reviewers
+    approvers:
+      - telco-reference-approvers
