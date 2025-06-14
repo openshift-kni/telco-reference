@@ -13,4 +13,3 @@ echo "Manifests created from 'telco-ran/configuration/argocd/deployment/'"
 # some generated manifests are not needed
 echo " - Removing some manifests not needed: allow-acm-managedcluster-control.json, disable-cluster-proxy-addon.json, openshift-gitops-operator.yaml"
 rm ztp-installation/allow-acm-managedcluster-control.json ztp-installation/disable-cluster-proxy-addon.json ztp-installation/openshift-gitops-operator.yaml
-
