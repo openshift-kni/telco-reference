@@ -1,3 +1,4 @@
+---
 apiVersion: search.open-cluster-management.io/v1alpha1
 kind: Search
 metadata:
