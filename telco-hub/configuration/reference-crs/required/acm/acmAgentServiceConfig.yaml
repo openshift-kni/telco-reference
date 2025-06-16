@@ -5,23 +5,28 @@ metadata:
   name: agent
 spec:
   databaseStorage:
+    storageClassName:  # your-fs-storageclass-here
     accessModes:
       - ReadWriteOnce
     resources:
       requests:
         storage: 20Gi
   filesystemStorage:
+    storageClassName:  # your-fs-storageclass-here
     accessModes:
       - ReadWriteOnce
     resources:
       requests:
         storage: 20Gi
   imageStorage:
+    storageClassName:  # your-fs-storageclass-here
     accessModes:
       - ReadWriteOnce
     resources:
       requests:
         storage: 100Gi
+  mirrorRegistryRef:
+    name: mirror-registry-config
   osImages:
   # Replace <http-server-address:port> with the address of the local web server that stores the RHCOS images.
   # The images can be downloaded from "https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/".
