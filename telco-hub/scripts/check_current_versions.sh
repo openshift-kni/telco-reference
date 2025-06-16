@@ -32,7 +32,7 @@ print_subscriptions(){
 print_argocd_ztp_image(){
   print_section "ztp-site-generate version inside ArgoCD"
 
-  grep ztp-site-generator ./configuration/reference-crs/required/gitops/ztp-installation/argocd-openshift-gitops-patch.json || true
+  grep -E 'ztp-site-generator|ztp-site-generate' ./configuration/reference-crs/required/gitops/ztp-installation/argocd-openshift-gitops-patch.json || true
 }
 
 print_disconnected_imageset_channels(){
