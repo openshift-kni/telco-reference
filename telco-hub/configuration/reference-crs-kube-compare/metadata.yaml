@@ -14,16 +14,18 @@ parts:
               fieldsToOmitRefs:
                 - allowStatusCheck
   - name: optional-storage
-    description: |-
-      TODO: Link to Hub RDS storage section when published
     components:
       - name: local-storage-operator
+        description: |-
+          https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-local-storage-operator_telco-hub
         allOrNoneOf:
           - path: optional/lso/lsoNS.yaml
           - path: optional/lso/lsoOperatorGroup.yaml
           - path: optional/lso/lsoSubscription.yaml
           - path: optional/lso/lsoLocalVolume.yaml
       - name: odf-internal-operator
+        description: |-
+          https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-openshift-data-foundation_telco-hub
         allOrNoneOf:
           - path: optional/odf-internal/odfNS.yaml
           - path: optional/odf-internal/odfOperatorGroup.yaml
@@ -33,14 +35,14 @@ parts:
               ignore-unspecified-fields: true
   - name: required-talm
     description: |-
-      TODO: Link to Hub RDS TALM section when published
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-topology-aware-lifecycle-manager-talm_telco-hub
     components:
       - name: talm-operator
         allOf:
           - path: required/talm/talmSubscription.yaml
   - name: required-acm
     description: |-
-      TODO: Link to Hub RDS ACM section when published
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-red-hat-advanced-cluster-management-rhacm_telco-hub
     components:
       - name: acm-operator
         allOf:
@@ -55,9 +57,27 @@ parts:
               ignore-unspecified-fields: true
           - path: required/acm/acmMirrorRegistryCM.yaml
           - path: required/acm/acmAgentServiceConfig.yaml
+          - path: required/acm/observabilityMCO.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: required/acm/observabilityNS.yaml
+          - path: required/acm/observabilityOBC.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: required/acm/observabilitySecret.yaml
+          - path: required/acm/pull-secret-copy.yaml
+          - path: required/acm/thanosSecretNS.yaml
+          - path: required/acm/thanosSecretPolicy.yaml
+            config:
+              ignore-unspecified-fields: true
+              fieldsToOmitRefs:
+                - templates
+          - path: required/acm/thanosSecretPlacement.yaml
+          - path: required/acm/thanosSecretPlacementBinding.yaml
+          - path: required/acm/thanosSecretMCSB.yaml
   - name: optional-logging
     description: |-
-      TODO: Link to Hub RDS logging section when published
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-logging_telco-hub
     components:
       - name: cluster-logging-operator
         allOrNoneOf:
@@ -102,6 +122,8 @@ fieldsToOmit:
       - pathToKey: spec.finalizers
     allowStatusCheck:
       - include: defatuls
+    templates:
+      - pathToKey: spec.policy-templates
     all:
       - include: defaults
       - pathToKey: status
