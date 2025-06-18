@@ -4,20 +4,21 @@ metadata:
   annotations:
     build.appstudio.openshift.io/repo: https://github.com/openshift-kni/telco-reference?rev={{revision}}
     build.appstudio.redhat.com/commit_sha: '{{revision}}'
+    build.appstudio.redhat.com/pull_request_number: '{{pull_request_number}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
-    pipelinesascode.tekton.dev/cancel-in-progress: "false"
+    pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: |
-      event == "push" &&
+      event == "pull_request" &&
       target_branch == "release-4.19" &&
-      (".tekton/telco-core-rds-4-19-push.yaml".pathChanged() ||
-       "telco-core/***".pathChanged())
+      (".tekton/telco-hub-4-19-pull-request.yaml".pathChanged() ||
+       "telco-hub/***".pathChanged())
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: telco-core-rds-4-19
-    appstudio.openshift.io/component: telco-core-rds-4-19
+    appstudio.openshift.io/application: telco-hub-rds-4-19
+    appstudio.openshift.io/component: telco-hub-rds-4-19
     pipelines.appstudio.openshift.io/type: build
-  name: telco-core-rds-4-19-on-push
+  name: telco-hub-rds-4-19-on-pull-request
   namespace: telco-5g-tenant
 spec:
   params:
@@ -26,16 +27,18 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/telco-5g-tenant/telco-core-rds-4-19:{{revision}}
+    value: quay.io/redhat-user-workloads/telco-5g-tenant/telco-hub-rds-4-19:on-pr-{{revision}}
+  - name: image-expires-after
+    value: 5d
   - name: build-platforms
     value:
     - linux/x86_64
   - name: dockerfile
-    value: telco-core/Dockerfile.telco-core
+    value: telco-hub/Dockerfile.telco-hub
   - name: build-source-image
     value: "true"
   - name: prefetch-input
-    value: '{"type": "rpm", "path": "build/telco-core"}'
+    value: '{"type": "rpm", "path": "build/telco-hub"}'
   - name: hermetic
     value: "true"
   pipelineSpec:
@@ -617,7 +620,7 @@ spec:
     - name: netrc
       optional: true
   taskRunTemplate:
-    serviceAccountName: build-pipeline-telco-core-rds-4-19
+    serviceAccountName: build-pipeline-telco-hub-rds-4-19
   workspaces:
   - name: git-auth
     secret:
