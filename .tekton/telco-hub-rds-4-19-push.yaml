@@ -186,6 +186,8 @@ spec:
         workspace: git-auth
     - name: prefetch-dependencies
       params:
+      - name: dev-package-managers
+        value: "true"
       - name: input
         value: $(params.prefetch-input)
       - name: SOURCE_ARTIFACT
