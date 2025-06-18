@@ -8,7 +8,7 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "false"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: |
-      event == "pull_request" &&
+      event == "push" &&
       target_branch == "main" &&
       (".tekton/telco-core-rds-4-20-push.yaml".pathChanged() ||
        ".tekton/build-pipeline.yaml".pathChanged() ||
@@ -36,7 +36,7 @@ spec:
   - name: build-source-image
     value: "true"
   - name: prefetch-input
-    value: '{"type": "rpm", "path": "build"}'
+    value: '{"type": "rpm", "path": "build/telco-core"}'
   - name: hermetic
     value: "true"
   pipelineRef:
