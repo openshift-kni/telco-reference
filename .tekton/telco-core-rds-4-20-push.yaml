@@ -36,7 +36,7 @@ spec:
   - name: build-source-image
     value: "true"
   - name: prefetch-input
-    value: '{"type": "rpm", "path": "build/telco-core"}'
+    value: '{"type": "rpm", "path": "build"}'
   - name: hermetic
     value: "true"
   pipelineRef:
