@@ -1,4 +1,4 @@
-apiVersion: tekton.dev/v1
+ppiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
   annotations:
@@ -39,7 +39,7 @@ spec:
   - name: build-source-image
     value: "true"
   - name: prefetch-input
-    value: '{"type": "rpm", "path": "build"}'
+    value: '{"type": "rpm", "path": "build/telco-hub"}'
   - name: hermetic
     value: "true"
   pipelineRef:
