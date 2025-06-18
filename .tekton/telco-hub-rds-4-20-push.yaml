@@ -8,7 +8,7 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "false"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: |
-      event == "pull_request" &&
+      event == "push" &&
       target_branch == "main" &&
       (".tekton/telco-hub-rds-4-20-push.yaml".pathChanged() ||
        ".tekton/build-pipeline.yaml".pathChanged() ||
@@ -32,7 +32,7 @@ spec:
     value:
     - linux/x86_64
   - name: dockerfile
-    value: telco-hub/Dockerfile.hub-hub
+    value: telco-hub/Dockerfile.telco-hub
   - name: build-source-image
     value: "true"
   - name: prefetch-input
