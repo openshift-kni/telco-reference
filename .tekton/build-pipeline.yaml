@@ -65,7 +65,7 @@ spec:
       description: Build dependencies to be prefetched by Cachi2
       name: prefetch-input
       type: string
-    - default: "false"
+    - default: "true"
       description: Enable dev-package-manager within prefetching task
       name: dev-package-managers
       type: string
