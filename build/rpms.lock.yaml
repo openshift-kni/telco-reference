@@ -1,29 +1,15 @@
-contentOrigin:
-  repos:
-    - repoid: ubi-9-for-$basearch-baseos-rpms
-      baseurl: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/baseos/os
-      varsFromContainerfile: telco-core/Dockerfile.telco-core
-      sslverify: 1
-      gpgcheck: 1
-      gpgkey: /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
-    - repoid: ubi-9-for-$basearch-appstream-rpms
-      baseurl: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/appstream/os
-      varsFromContainerfile: telco-core/Dockerfile.telco-core
-      sslverify: 1
-      gpgcheck: 1
-      gpgkey: /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
-    - repoid: codeready-builder-for-ubi-9-$basearch-rpms
-      baseurl: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/codeready-builder/os
-      varsFromContainerfile: telco-core/Dockerfile.telco-core
-      sslverify: 1
-      gpgcheck: 1
-      gpgkey: /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
-
-packages:
-  - tar
-
+---
+lockfileVersion: 1
+lockfileVendor: redhat
 arches:
-  - x86_64
-
-context:
-  containerfile: telco-core/Dockerfile.telco-core
+- arch: x86_64
+  packages:
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/t/tar-1.34-7.el9.x86_64.rpm
+    repoid: ubi-9-for-x86_64-baseos-rpms
+    size: 910235
+    checksum: sha256:17f2e592a2c04c050b690afeb9042e02521a0b5ee3288dad837463f4acf542c3
+    name: tar
+    evr: 2:1.34-7.el9
+    sourcerpm: tar-1.34-7.el9.src.rpm
+  source: []
+  module_metadata: []
