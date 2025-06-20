@@ -12,7 +12,10 @@ lintCheck:
 	yamllint -c .yamllint.yaml telco-core/configuration/reference-crs
 	yamllint -c .yamllint.yaml telco-core/configuration/template-values
 	yamllint -c .yamllint.yaml telco-core/install/
-	yamllint -c .yamllint.yaml telco-hub/
+	yamllint -c .yamllint.yaml telco-hub/configuration/*yaml
+	yamllint -c .yamllint.yaml telco-hub/configuration/reference-crs
+	yamllint -c .yamllint.yaml telco-hub/configuration/example-overlays-config
+	yamllint -c .yamllint.yaml telco-hub/install/
 
 # markdownlint rules, following: https://github.com/openshift/enhancements/blob/master/Makefile
 .PHONY: markdownlint-image
