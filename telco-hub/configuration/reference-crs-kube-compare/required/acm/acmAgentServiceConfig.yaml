@@ -10,21 +10,21 @@ spec:
       - ReadWriteOnce
     resources:
       requests:
-        storage: 20Gi
+        storage: {{ .spec.databaseStorage.resources.requests.storage }}
   filesystemStorage:
     storageClassName: {{ .spec.filesystemStorage.storageClassName }}
     accessModes:
       - ReadWriteOnce
     resources:
       requests:
-        storage: 20Gi
+        storage: {{ .spec.filesystemStorage.resources.requests.storage }}
   imageStorage:
     storageClassName: {{ .spec.imageStorage.storageClassName }}
     accessModes:
       - ReadWriteOnce
     resources:
       requests:
-        storage: 100Gi
+        storage: {{ .spec.imageStorage.resources.requests.storage }}
   mirrorRegistryRef:
     name: mirror-registry-config
   {{- if .spec.osImages }}

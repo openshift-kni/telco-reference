@@ -65,7 +65,10 @@ parts:
             config:
               ignore-unspecified-fields: true
           - path: required/acm/observabilitySecret.yaml
-          - path: required/acm/pull-secret-copy.yaml
+          - path: required/acm/pullSecretPolicy.yaml
+          - path: required/acm/pullSecretPlacement.yaml
+          - path: required/acm/pullSecretPlacementBinding.yaml
+          - path: required/acm/pullSecretMCSB.yaml
           - path: required/acm/thanosSecretNS.yaml
           - path: required/acm/thanosSecretPolicy.yaml
             config:
@@ -121,7 +124,7 @@ fieldsToOmit:
       - pathToKey: metadata.ownerReferences
       - pathToKey: spec.finalizers
     allowStatusCheck:
-      - include: defatuls
+      - include: defaults
     templates:
       - pathToKey: spec.policy-templates
     all:
