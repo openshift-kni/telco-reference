@@ -1,0 +1,60 @@
+---
+apiVersion: operator.open-cluster-management.io/v1
+kind: MultiClusterHub
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    installer.open-cluster-management.io/mce-subscription-spec: '{"source": "redhat-operators-disconnected", "installPlanApproval": "Automatic"}'
+    installer.open-cluster-management.io/oadp-subscription-spec: '{"source": "redhat-operators-disconnected", "installPlanApproval": "Automatic"}'
+  name: multiclusterhub
+  namespace: open-cluster-management
+spec:
+  availabilityConfig: High
+  enableClusterBackup: false
+  ingress: {}
+  overrides:
+    components:
+    - configOverrides: {}
+      enabled: true
+      name: app-lifecycle
+    - configOverrides: {}
+      enabled: true
+      name: cluster-lifecycle
+    - configOverrides: {}
+      enabled: true
+      name: cluster-permission
+    - configOverrides: {}
+      enabled: true
+      name: console
+    - configOverrides: {}
+      enabled: true
+      name: grc
+    - configOverrides: {}
+      enabled: true
+      name: insights
+    - configOverrides: {}
+      enabled: true
+      name: multicluster-engine
+    - configOverrides: {}
+      enabled: true
+      name: multicluster-observability
+    - configOverrides: {}
+      enabled: true
+      name: search
+    - configOverrides: {}
+      enabled: true
+      name: submariner-addon
+    - configOverrides: {}
+      enabled: true
+      name: volsync
+    - configOverrides: {}
+      enabled: true
+      name: cluster-backup
+    - configOverrides: {}
+      enabled: true
+      name: siteconfig
+    - configOverrides: {}
+      enabled: false
+      name: edge-manager-preview
+  separateCertificateManagement: false
