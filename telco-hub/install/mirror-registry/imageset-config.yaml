@@ -4,12 +4,12 @@ apiVersion: mirror.openshift.io/v2alpha1
 mirror:
   platform:
     channels:
-    - name: stable-4.18
+    - name: stable-4.19
       type: ocp
-      minVersion: 4.18.11
-      maxVersion: 4.18.11
+      minVersion: 4.19.0
+      maxVersion: 4.19.0
   operators:
-  - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.18
+  - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.19
     targetCatalog: openshift-marketplace/redhat-operators-disconnected
     packages:
     - name: advanced-cluster-management
@@ -25,9 +25,6 @@ mirror:
       channels:
       - name: stable
     - name: odf-operator
-      channels:
-      - name: stable-4.18
-    - name: odf-dependencies
       channels:
       - name: stable-4.18
     - name: odf-csi-addons-operator
@@ -63,13 +60,7 @@ mirror:
     - name: recipe
       channels:
       - name: stable-4.18
-    - name: openshift-gitops-operator
-      channels:
-      - name: gitops-1.15
-    - name: redhat-oadp-operator
-      channels:
-      - name: stable-1.4
   additionalImages:
   - name: registry.redhat.io/ubi8/ubi:latest
-  - name: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.18.0
-  - name: registry.redhat.io/rhel8/support-tools:8.9-7
+  - name: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.19
+  helm: {}
