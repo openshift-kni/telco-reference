@@ -40,7 +40,7 @@
             }
           ],
           "terminationMessagePolicy": "File",
-          "image": "registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.18"
+          "image": "registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.19"
         },
         {
           "args": [

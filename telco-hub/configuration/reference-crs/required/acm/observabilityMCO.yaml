@@ -15,11 +15,10 @@ spec:
   # based on the data provided by acm-capacity tool
   # https://github.com/stolostron/capacity-planning/blob/main/calculation/ObsSizingTemplate-Rev1.ipynb
   # for an scenario with:
-  # 3500SNOs, 125 pods and 4 Namespaces (apart from Openshift NS)
-  # storage retention 15 days
+  # 3500SNOs, 125 pods and 5 Namespaces (apart from Openshift NS)
+  # storage retention 365 days
   # downsampling disabled
   # default MCO Addon configuration samples_per_hour, pv_retention_hrs.
-  # More on how to stimate: https://access.redhat.com/articles/7103886
   advanced:
     retentionConfig:
       blockDuration: 2h
@@ -35,6 +34,8 @@ spec:
     alertmanagerStorageSize: 10Gi
     compactStorageSize: 100Gi
     metricObjectStorage:
+      # buckets storage should provide a capacity
+      # of at least 2.5TB
       key: thanos.yaml
       name: thanos-object-storage
     receiveStorageSize: 10Gi
