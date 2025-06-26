@@ -1,0 +1,29 @@
+# See the OWNERS docs at https://go.k8s.io/owners
+aliases:
+  telco-reference-approvers:
+    - MarSik
+    - imiller0
+    - irinamihai
+    - lack
+  telco-reference-reviewers:
+    - MarSik
+    - yanirq
+    - ffromani
+    - imiller0
+    - irinamihai
+    - lack
+    - SchSeba
+    - fedepaol
+    - yuvalk
+    - cgoncalves
+    - sabbir-47
+  konflux-approvers:
+    - yanirq
+    - shajmakh
+    - fontivan
+    - rauhersu
+  konflux-reviewers:
+    - yanirq
+    - shajmakh
+    - fontivan
+    - rauhersu
