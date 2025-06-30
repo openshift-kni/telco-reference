@@ -9,3 +9,4 @@ metadata:
 spec: {}
   # nodeSelector:
   #   node-role.kubernetes.io/worker: ""
+  # loadBalancerClass: "metallb-class1"
