@@ -1,0 +1,22 @@
+# Combined from the following remediations for /etc/audit/rules.d/75-audit_rules_login_events_tallylog.rules (all roles):
+#   - rhcos4-e8-master-audit-rules-login-events-tallylog.yaml
+#   - rhcos4-e8-worker-audit-rules-login-events-tallylog.yaml
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+spec:
+  config:
+    ignition:
+      version: 3.1.0
+    storage:
+      files:
+        - contents:
+            # The following lines are the deduplicated, combined plaintext contents from all related MachineConfig remediations.
+            # -w /var/log/tallylog -p wa -k logins
+            source: data:,-w%20%2Fvar%2Flog%2Ftallylog%20-p%20wa%20-k%20logins%0A
+          mode: 384
+          overwrite: true
+          path: /etc/audit/rules.d/75-audit_rules_login_events_tallylog.rules
+metadata:
+  name: 75-audit_rules_login_events_tallylog-combo
+  labels:
+    machineconfiguration.openshift.io/role: worker

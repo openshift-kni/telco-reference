@@ -1,0 +1,23 @@
+# Combined from the following remediations for /etc/audit/rules.d/75-syscall-stime.rules (all roles):
+#   - rhcos4-e8-master-audit-rules-time-stime.yaml
+#   - rhcos4-e8-worker-audit-rules-time-stime.yaml
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+spec:
+  config:
+    ignition:
+      version: 3.1.0
+    storage:
+      files:
+        - contents:
+            # The following lines are the deduplicated, combined plaintext contents from all related MachineConfig remediations.
+            # -a always,exit -F arch=b32 -S stime -k audit_time_rules
+            # -a always,exit -F arch=b64 -S stime -k audit_time_rules
+            source: data:,-a%20always%2Cexit%20-F%20arch%3Db32%20-S%20stime%20-k%20audit_time_rules%0A-a%20always%2Cexit%20-F%20arch%3Db64%20-S%20stime%20-k%20audit_time_rules%0A
+          mode: 384
+          overwrite: true
+          path: /etc/audit/rules.d/75-syscall-stime.rules
+metadata:
+  name: 75-syscall-stime-combo
+  labels:
+    machineconfiguration.openshift.io/role: worker

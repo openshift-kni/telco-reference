@@ -1,0 +1,22 @@
+# Combined from the following remediations for /etc/sysctl.d/75-sysctl_net_core_bpf_jit_harden.conf (all roles):
+#   - rhcos4-e8-master-sysctl-net-core-bpf-jit-harden.yaml
+#   - rhcos4-e8-worker-sysctl-net-core-bpf-jit-harden.yaml
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+spec:
+  config:
+    ignition:
+      version: 3.1.0
+    storage:
+      files:
+        - contents:
+            # The following lines are the deduplicated, combined plaintext contents from all related MachineConfig remediations.
+            # net.core.bpf_jit_harden=2
+            source: data:,net.core.bpf_jit_harden%3D2%0A
+          mode: 384
+          overwrite: true
+          path: /etc/sysctl.d/75-sysctl_net_core_bpf_jit_harden.conf
+metadata:
+  name: 75-sysctl_net_core_bpf_jit_harden-combo
+  labels:
+    machineconfiguration.openshift.io/role: worker

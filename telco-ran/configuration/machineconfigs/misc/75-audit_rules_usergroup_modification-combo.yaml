@@ -1,0 +1,26 @@
+# Combined from the following remediations for /etc/audit/rules.d/75-audit_rules_usergroup_modification.rules (all roles):
+#   - rhcos4-e8-master-audit-rules-usergroup-modification.yaml
+#   - rhcos4-e8-worker-audit-rules-usergroup-modification.yaml
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+spec:
+  config:
+    ignition:
+      version: 3.1.0
+    storage:
+      files:
+        - contents:
+            # The following lines are the deduplicated, combined plaintext contents from all related MachineConfig remediations.
+            # -w /etc/group -p wa -k audit_rules_usergroup_modification
+            # -w /etc/gshadow -p wa -k audit_rules_usergroup_modification
+            # -w /etc/passwd -p wa -k audit_rules_usergroup_modification
+            # -w /etc/security/opasswd -p wa -k audit_rules_usergroup_modification
+            # -w /etc/shadow -p wa -k audit_rules_usergroup_modification
+            source: data:,-w%20%2Fetc%2Fgroup%20-p%20wa%20-k%20audit_rules_usergroup_modification%0A-w%20%2Fetc%2Fgshadow%20-p%20wa%20-k%20audit_rules_usergroup_modification%0A-w%20%2Fetc%2Fpasswd%20-p%20wa%20-k%20audit_rules_usergroup_modification%0A-w%20%2Fetc%2Fsecurity%2Fopasswd%20-p%20wa%20-k%20audit_rules_usergroup_modification%0A-w%20%2Fetc%2Fshadow%20-p%20wa%20-k%20audit_rules_usergroup_modification%0A
+          mode: 384
+          overwrite: true
+          path: /etc/audit/rules.d/75-audit_rules_usergroup_modification.rules
+metadata:
+  name: 75-audit_rules_usergroup_modification-combo
+  labels:
+    machineconfiguration.openshift.io/role: worker

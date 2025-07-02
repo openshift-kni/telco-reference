@@ -1,0 +1,23 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+spec:
+  config:
+    ignition:
+      version: 3.1.0
+    systemd:
+      units:
+        - contents: |
+            [Unit]
+            Before=kubelet.service
+            [Service]
+            Type=oneshot
+            ExecStart=update-crypto-policies --set DEFAULT:NO-SHA1
+            RemainAfterExit=yes
+            [Install]
+            WantedBy=multi-user.target
+          enabled: true
+          name: configure-crypto-policy.service
+metadata:
+  name: 75-rhcos4-e8-master-configure-crypto-policy
+  labels:
+    machineconfiguration.openshift.io/role: master
