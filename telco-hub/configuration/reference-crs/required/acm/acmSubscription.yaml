@@ -5,8 +5,8 @@ metadata:
   name: open-cluster-management-subscription
   namespace: open-cluster-management
 spec:
-  channel: release-2.12
-  installPlanApproval: Manual
+  channel: release-2.13
+  installPlanApproval: Automatic
   name: advanced-cluster-management
   source: redhat-operators-disconnected
   sourceNamespace: openshift-marketplace
