@@ -1,0 +1,22 @@
+# Combined from the following remediations for /etc/audit/rules.d/75-audit_rules_time_watch_localtime.rules (all roles):
+#   - rhcos4-e8-worker-audit-rules-time-watch-localtime.yaml
+#   - rhcos4-e8-master-audit-rules-time-watch-localtime.yaml
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+spec:
+  config:
+    ignition:
+      version: 3.1.0
+    storage:
+      files:
+        - contents:
+            # The following lines are the deduplicated, combined plaintext contents from all related MachineConfig remediations.
+            # -w /etc/localtime -p wa -k audit_time_rules
+            source: data:,-w%20%2Fetc%2Flocaltime%20-p%20wa%20-k%20audit_time_rules%0A
+          mode: 384
+          overwrite: true
+          path: /etc/audit/rules.d/75-audit_rules_time_watch_localtime.rules
+metadata:
+  name: 75-audit_rules_time_watch_localtime-combo
+  labels:
+    machineconfiguration.openshift.io/role: worker
