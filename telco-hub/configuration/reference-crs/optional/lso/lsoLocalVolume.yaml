@@ -2,7 +2,7 @@
 apiVersion: "local.storage.openshift.io/v1"
 kind: "LocalVolume"
 metadata:
-  name: "local-disks"
+  name: local-disks
   namespace: "openshift-local-storage"
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
@@ -13,12 +13,12 @@ spec:
   nodeSelector:
     nodeSelectorTerms:
     - matchExpressions:
-        - key: cluster.ocs.openshift.io/openshift-storage
-          operator: In
-          values:
-          - ""
+      - key: cluster.ocs.openshift.io/openshift-storage
+        operator: In
+        values:
+        - ""
   storageClassDevices:
-    - storageClassName: "local-sc"
+    - storageClassName: local-sc
       forceWipeDevicesAndDestroyAllData: true
       volumeMode: Block
       devicePaths:

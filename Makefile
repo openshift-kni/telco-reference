@@ -35,7 +35,7 @@ markdownlint: markdownlint-image  ## run the markdown linter
 		-v $$(pwd):/workdir:Z \
 		$(IMAGE_NAME)-markdownlint:latest
 
-ci-validate: lintCheck check-reference-core check-reference-ran
+ci-validate: lintCheck check-reference-core check-reference-ran check-reference-hub
 
 .PHONY: check-reference-core
 check-reference-core:
@@ -44,3 +44,7 @@ check-reference-core:
 .PHONY: check-reference-ran
 check-reference-ran:
 	$(MAKE) -C ./telco-ran/configuration check
+
+.PHONY: check-reference-hub
+check-reference-hub:
+	$(MAKE) -C ./telco-hub/configuration/reference-crs-kube-compare check

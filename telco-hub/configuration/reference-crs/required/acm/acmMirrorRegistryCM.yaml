@@ -10,7 +10,6 @@ metadata:
   labels:
     app: assisted-service
 data:
-  # Add the mirror registry SSL certificate chain up to the CA itself.
   ca-bundle.crt: |
     -----BEGIN CERTIFICATE-----
     MIID7jCCAtagAwXXX...
@@ -18,8 +17,6 @@ data:
     -----BEGIN CERTIFICATE-----
     MIIDvTCCAqWgAwXXX...
     -----END CERTIFICATE-----
-  # The registries.conf field has been populated using the registries.conf file found in "/etc/containers/registries.conf" on each node.
-  # Replace <registry.example.com:8443> with the mirror registry's address.
   registries.conf: |
     unqualified-search-registries = ["registry.access.redhat.com", "docker.io"]
     [[registry]]

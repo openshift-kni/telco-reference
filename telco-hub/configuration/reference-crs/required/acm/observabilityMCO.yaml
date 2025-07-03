@@ -31,7 +31,7 @@ spec:
     enableMetrics: true
     interval: 300
   storageConfig:
-    storageClass:  # your-fs-storageclass-here
+    storageClass: example-storage-class
     alertmanagerStorageSize: 10Gi
     compactStorageSize: 100Gi
     metricObjectStorage:

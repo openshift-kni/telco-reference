@@ -13,10 +13,10 @@ spec:
     mds:
       limits:
         cpu: "3"
-        memory: "8Gi"
+        memory: 8Gi
       requests:
         cpu: "3"
-        memory: "8Gi"
+        memory: 8Gi
   monDataDirHostPath: /var/lib/rook
   storageDeviceSets:
   - count: 1  # <-- Modify count to desired value. For each set of 3 disks increment the count by 1.
@@ -26,8 +26,8 @@ spec:
         - ReadWriteOnce
         resources:
           requests:
-            storage: "600Gi"  # <-- This should be changed as per storage size. Minimum 100 GiB and Maximum 4 TiB
-        storageClassName: "local-sc"  # match this with the storage block created at the LSO step
+            storage: 600Gi  # <-- This should be changed as per storage size. Minimum 100 GiB and Maximum 4 TiB
+        storageClassName: local-sc  # match this with the storage block created at the LSO step
         volumeMode: Block
     name: ocs-deviceset
     placement: {}
@@ -36,7 +36,7 @@ spec:
     resources:
       limits:
         cpu: "2"
-        memory: "5Gi"
+        memory: 5Gi
       requests:
         cpu: "2"
-        memory: "5Gi"
+        memory: 5Gi

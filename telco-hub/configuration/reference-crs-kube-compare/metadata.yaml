@@ -50,6 +50,7 @@ parts:
           - path: required/acm/acmOperGroup.yaml
           - path: required/acm/acmSubscription.yaml
           - path: required/acm/acmMCH.yaml
+          - path: required/acm/acmMCSB.yaml
             config:
               ignore-unspecified-fields: true
           - path: required/acm/acmProvisioning.yaml
@@ -102,7 +103,6 @@ fieldsToOmit:
       - pathToKey: metadata.annotations."olm.providedAPIs"
       - pathToKey: metadata.annotations."argocd.argoproj.io"
         isPrefix: true
-      - pathToKey: metadata.annotations."workload.openshift.io/allowed"
       - pathToKey: metadata.labels."kubernetes.io/metadata.name"
       - pathToKey: metadata.labels."security.openshift.io/scc.podSecurityLabelSync"
       - pathToKey: metadata.labels."operators.coreos.com/local-storage-operator.openshift-local-storage"

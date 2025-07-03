@@ -31,7 +31,7 @@ spec:
     enableMetrics: true
     interval: 300
   storageConfig:
-    storageClass:  {{ .spec.storageConfig.storageClass }}
+    storageClass: {{ .spec.storageConfig.storageClass }}
     alertmanagerStorageSize: 10Gi
     compactStorageSize: 100Gi
     metricObjectStorage:

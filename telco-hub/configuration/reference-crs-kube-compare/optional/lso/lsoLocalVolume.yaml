@@ -4,6 +4,9 @@ kind: "LocalVolume"
 metadata:
   name: {{ .metadata.name }}
   namespace: "openshift-local-storage"
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   logLevel: Normal
   managementState: Managed
