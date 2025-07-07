@@ -126,6 +126,11 @@ required_acm_observabilityMCO:
     availabilityConfig: Basic
     storageConfig:
       storageClass: example-storage-class
+      alertmanagerStorageSize: 10Gi
+      compactStorageSize: 100Gi
+      receiveStorageSize: 10Gi
+      ruleStorageSize: 30Gi
+      storeStorageSize: 100Gi
 
 required_acm_observabilityOBC:
 - spec:
