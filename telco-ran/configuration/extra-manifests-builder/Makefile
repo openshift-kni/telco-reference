@@ -12,7 +12,7 @@ GEN_TGTS := $(foreach role,master worker,$(patsubst %/,$(DST)/%-$(role).yaml,$(G
 CHK_TGTS := $(foreach role,master worker,$(patsubst %/,$(CHK)/%-$(role).diff,$(GEN_DIRS)))
 TESTS := $(wildcard */test.sh)
 
-.PHONY: all clean force cleanchk check test
+.PHONY: all clean force cleanchk check test lint
 
 all: test $(GEN_TGTS)
 
@@ -25,6 +25,10 @@ cleanchk:
 	rm -rf $(CHK)
 
 check: cleanchk $(CHK_TGTS) test
+
+lint:
+	@command -v shfmt >/dev/null 2>&1 || { echo >&2 "shfmt is not installed. Please install it to run lint."; exit 1; }
+	@find . -type f -name '*.sh' -print0 | xargs -0 shfmt -d
 
 define GENERATOR_TEMPLATE =
 $(1)/%-$(2).yaml: %/build.sh %/*

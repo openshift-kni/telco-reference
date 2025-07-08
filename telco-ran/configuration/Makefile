@@ -1,5 +1,4 @@
-
-.PHONY: check checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference
+.PHONY: check checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkFilePath
 
 check: checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference
 
@@ -7,14 +6,14 @@ checkExtraManifests:
 	$(MAKE) -C ./extra-manifests-builder check
 
 checkSourceCRsAnnotation:
-	for sourcefile in ./source-crs/*.yaml;do \
-		if [[ "$${sourcefile}" != *"MachineConfig"* && "$${sourcefile}" != *"/ConfigMapGeneric.yaml" ]];then \
-			if ! grep -qE "ran.openshift.io/ztp-deploy-wave" "$${sourcefile}";then \
-				echo "Error: missing annotation 'ran.openshift.io/ztp-deploy-wave' in $${sourcefile}"; \
+	for sourcefile in ./source-crs/*.yaml; do \
+		if [[ "$$sourcefile" != *"MachineConfig"* && "$$sourcefile" != */"ConfigMapGeneric.yaml" ]]; then \
+			if ! grep -qE "ran.openshift.io/ztp-deploy-wave" "$$sourcefile"; then \
+				echo "Error: missing annotation 'ran.openshift.io/ztp-deploy-wave' in $$sourcefile"; \
 				exit 1; \
 			fi; \
 		fi; \
-	done; \
+	done
 
 # ZTP_HOME is a temporary hard-coded path to site-generate container's ztp folder
 # Should remain consistent across upstream, midstream and CI script
@@ -22,13 +21,13 @@ ZTP_HOME=/home/ztp/
 checkFilePath:
 	@failures=0; \
 	for cr in $(shell find $(CUSTOM_RESOURCE) -type f); do \
-	  path_length=$$(echo -n ${ZTP_HOME}$$cr | wc -c); \
-	  if [ $$path_length -gt 255 ]; then \
-	    echo "File path too long: ${ZTP_HOME}$$cr (length: $$path_length)"; \
-		(( failures += 1 )); \
-	  else \
-	    echo "File path OK: ${ZTP_HOME}$$cr (length: $$path_length)"; \
-	  fi; \
+		path_length=$$(echo -n ${ZTP_HOME}$$cr | wc -c); \
+		if [ $$path_length -gt 255 ]; then \
+			echo "File path too long: ${ZTP_HOME}$$cr (length: $$path_length)"; \
+			(( failures += 1 )); \
+		else \
+			echo "File path OK: ${ZTP_HOME}$$cr (length: $$path_length)"; \
+		fi; \
 	done; \
 	exit $$failures
 
@@ -42,3 +41,7 @@ checkZtpPaths:
 
 check-reference:
 	$(MAKE) -C ./kube-compare-reference check
+
+lint:
+	@command -v shfmt >/dev/null 2>&1 || { echo >&2 "shfmt is not installed. Please install it to run lint."; exit 1; }
+	@find . -type f -name '*.sh' -print0 | xargs -0 shfmt -d
