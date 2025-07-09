@@ -46,5 +46,5 @@ spec:
   - cpuArchitecture: "x86_64"
     openshiftVersion: "4.19"
     rootFSUrl: http://<http-server-address:port>/rhcos-4.19.0-x86_64-live-rootfs.x86_64.img
-    url: http://<http-server-address:port>/rhcos-4.19.0-x86_64-live.x86_64.iso
+    url: http://<http-server-address:port>/rhcos-4.19.0-x86_64-live-iso.x86_64.iso
     version: "9.6.20250530-0"
