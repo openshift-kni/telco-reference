@@ -1,0 +1,132 @@
+- op: replace
+  path: /data/ca-bundle.crt
+  value: |
+    -----BEGIN CERTIFICATE-----
+    MIIDzTCCArWgAwIBAgkx...
+    -----END CERTIFICATE-----
+    -----BEGIN CERTIFICATE-----
+    MIIEGTCCAwGgAwIBAgIU...
+    -----END CERTIFICATE-----
+- op: replace
+  path: /data/registries.conf
+  value: |
+    unqualified-search-registries = ["registry.access.redhat.com", "docker.io"]
+    [[registry]]
+      prefix = ""
+      location = "quay.io/openshift-release-dev/ocp-release"
+
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/openshift/release-images"
+        pull-from-mirror = "digest-only"
+
+    [[registry]]
+      prefix = ""
+      location = "quay.io/openshift-release-dev/ocp-v4.0-art-dev"
+
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/openshift/release"
+        pull-from-mirror = "digest-only"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/multicluster-engine"
+
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/multicluster-engine"
+        pull-from-mirror = "digest-only"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/odf4"
+
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/odf4"
+        pull-from-mirror = "digest-only"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4"
+
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/openshift4"
+        pull-from-mirror = "digest-only"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2"
+
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/rhacm2"
+        pull-from-mirror = "digest-only"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhceph"
+
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/rhceph"
+        pull-from-mirror = "digest-only"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhel8"
+
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/rhel8"
+        pull-from-mirror = "digest-only"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhel9"
+
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/rhel9"
+        pull-from-mirror = "digest-only"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/ubi9"
+
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/ubi9"
+        pull-from-mirror = "tag-only"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/ubi8"
+
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/ubi8"
+        pull-from-mirror = "tag-only"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/oadp"
+
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/oadp"
+        pull-from-mirror = "digest-only"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift-gitops-1"
+
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/openshift-gitops-1"
+        pull-from-mirror = "digest-only"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rh-sso-7"
+
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/rh-sso-7"
+        pull-from-mirror = "digest-only"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift-logging"
+
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/openshift-logging"
+        pull-from-mirror = "digest-only"
