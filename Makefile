@@ -12,7 +12,10 @@ lintCheck:
 	yamllint -c .yamllint.yaml telco-core/configuration/reference-crs
 	yamllint -c .yamllint.yaml telco-core/configuration/template-values
 	yamllint -c .yamllint.yaml telco-core/install/
-	yamllint -c .yamllint.yaml telco-hub/
+	yamllint -c .yamllint.yaml telco-hub/configuration/*yaml
+	yamllint -c .yamllint.yaml telco-hub/configuration/reference-crs
+	yamllint -c .yamllint.yaml telco-hub/configuration/example-overlays-config
+	yamllint -c .yamllint.yaml telco-hub/install/
 
 # markdownlint rules, following: https://github.com/openshift/enhancements/blob/master/Makefile
 .PHONY: markdownlint-image
@@ -32,7 +35,7 @@ markdownlint: markdownlint-image  ## run the markdown linter
 		-v $$(pwd):/workdir:Z \
 		$(IMAGE_NAME)-markdownlint:latest
 
-ci-validate: lintCheck check-reference-core check-reference-ran
+ci-validate: lintCheck check-reference-core check-reference-ran check-reference-hub
 
 .PHONY: check-reference-core
 check-reference-core:
@@ -41,3 +44,7 @@ check-reference-core:
 .PHONY: check-reference-ran
 check-reference-ran:
 	$(MAKE) -C ./telco-ran/configuration check
+
+.PHONY: check-reference-hub
+check-reference-hub:
+	$(MAKE) -C ./telco-hub/configuration/reference-crs-kube-compare check

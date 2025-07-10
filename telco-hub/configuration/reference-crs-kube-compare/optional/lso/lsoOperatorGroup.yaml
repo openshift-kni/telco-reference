@@ -9,3 +9,6 @@ metadata:
 spec:
   targetNamespaces:
   - openshift-local-storage
+  {{- if .spec.upgradeStrategy }}
+  upgradeStrategy: Default
+  {{- end }}
