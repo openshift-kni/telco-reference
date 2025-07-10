@@ -19,6 +19,6 @@ spec:
   autoAssign: {{ .spec.autoAssign }}
 {{ end }}
 {{ if .spec.avoidBuggyIPs }}
-  avoidBuggyIps: {{ .spec.avoidBuggyIPs }}
+  avoidBuggyIPs: {{ .spec.avoidBuggyIPs }}
 {{ end }}
   ##############
