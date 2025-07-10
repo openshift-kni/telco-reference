@@ -24,10 +24,10 @@ spec:
     targetRevision: master
     # uncomment the below plugin if you will be adding the plugin binaries in the same repo->dir where
     # the sitconfig.yaml exist AND use the ../../hack/patch-argocd-dev.sh script to re-patch the deployment-repo-server
-  #    plugin:
-  #      name: kustomize-with-local-plugins
+    #    plugin:
+    #      name: kustomize-with-local-plugins
 
-  ignoreDifferences: # recommended way to allow ACM controller to manage its fields. alternative approach documented below (1)
+  ignoreDifferences:  # recommended way to allow ACM controller to manage its fields. alternative approach documented below (1)
     - group: cluster.open-cluster-management.io
       kind: ManagedCluster
       managedFieldsManagers:
