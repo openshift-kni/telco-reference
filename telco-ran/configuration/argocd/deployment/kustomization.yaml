@@ -1,3 +1,4 @@
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
@@ -5,6 +6,6 @@ resources:
   - app-project.yaml
   - policies-app-project.yaml
   - gitops-policy-rolebinding.yaml
-  - gitops-cluster-rolebinding.yaml
+  - gitops-cluster-clusterrole.yaml
   - clusters-app.yaml
   - policies-app.yaml

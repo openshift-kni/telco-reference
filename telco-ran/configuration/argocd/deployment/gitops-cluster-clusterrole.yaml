@@ -1,0 +1,41 @@
+# This ClusterRole provides minimal privileges for ArgoCD to manage ClusterInstance resources
+# following the principle of least privilege instead of using cluster-admin permissions.
+#
+# RBAC Permission Sources:
+# 1. Default ArgoCD ClusterRole (openshift-gitops-openshift-gitops-argocd-application-controller):
+#    - Grants full access to configmaps: configmaps [] [] [*]
+#    - Grants read-only access to all resources (including unknown CRDs) via wildcard: *.* [] [] [get list watch]
+#    - This covers ClusterInstance read operations, so we don't need to explicitly grant them here
+#
+# 2. ACM ClusterRole (open-cluster-management:cluster-manager-admin):
+#    - Grants full access to secrets: secrets [] [] [create get list watch update delete deletecollection patch]
+#    - Referenced via ClusterRoleBinding in gitops-policy-rolebinding.yaml
+#
+# 3. This custom ClusterRole (hub-rds-cluster-role):
+#    - Only grants write permissions for ClusterInstance (create, update, delete, patch)
+#    - Read permissions (get, list, watch) are already covered by the default ArgoCD wildcard rule
+#
+# The 'aggregate-to-ocm-cluster-manager-admin' label allows this role to be automatically
+# aggregated into the cluster-manager-admin role, providing a clean permission model.
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: hub-rds-cluster-role
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-ocm-cluster-manager-admin: "true"
+rules:
+# Write permissions for ClusterInstance resources used in ZTP (Zero Touch Provisioning)
+# Note: Read permissions (get, list, watch) are provided by the default ArgoCD wildcard rule
+- apiGroups:
+  - siteconfig.open-cluster-management.io
+  resources:
+  - clusterinstances
+  verbs:
+  - create
+  - get      # Included for explicitness, though covered by ArgoCD wildcard rule
+  - list     # Included for explicitness, though covered by ArgoCD wildcard rule
+  - watch    # Included for explicitness, though covered by ArgoCD wildcard rule
+  - update
+  - delete
+  - patch
