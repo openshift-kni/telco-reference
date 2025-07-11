@@ -77,3 +77,4 @@ extra-manifest/image-registry-partition-mc.yaml.tmpl
 
 # Exists in the reference only, to enforce version compatibility
 ClusterVersionOperator.yaml
+node.yaml
