@@ -18,11 +18,6 @@
 - op: replace
   path: "/spec/osImages"
   value:
-    - cpuArchitecture: x86_64
-      openshiftVersion: "4.16"
-      rootFSUrl: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.16/latest/rhcos-live-rootfs.x86_64.img
-      url: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.16/latest/rhcos-live.x86_64.iso
-      version: 416.94.202411261619-0
     - cpuArchitecture: "x86_64"
       openshiftVersion: "4.17"
       rootFSUrl: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.17/latest/rhcos-live-rootfs.x86_64.img
@@ -33,6 +28,11 @@
       rootFSUrl: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.18/latest/rhcos-live-rootfs.x86_64.img
       url: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.18/latest/rhcos-live.x86_64.iso
       version: 418.94.202502100215-0
+    - cpuArchitecture: x86_64
+      openshiftVersion: "4.19"
+      rootFSUrl: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.19/latest/rhcos-live-rootfs.x86_64.img
+      url: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.19/latest/rhcos-live-iso.x86_64.iso
+      version: 9.6.20250530-0
 
 # when disconnected, the spoke clusters will need to use also a mirrored registry. That could be configured here:
 # https://issues.redhat.com/browse/CNF-17835
