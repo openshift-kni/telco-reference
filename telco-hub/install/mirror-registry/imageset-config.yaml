@@ -7,7 +7,7 @@ mirror:
     - name: stable-4.19
       type: ocp
       minVersion: 4.19.0
-      maxVersion: 4.19.0
+      maxVersion: 4.19.2
   operators:
   - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.19
     targetCatalog: openshift-marketplace/redhat-operators-disconnected
@@ -18,6 +18,13 @@ mirror:
     - name: multicluster-engine
       channels:
       - name: stable-2.8
+    - name: openshift-gitops-operator
+      channels:
+      - name: latest
+      - name: gitops-1.16
+    - name: redhat-oadp-operator
+      channels:
+      - name: stable
     - name: topology-aware-lifecycle-manager
       channels:
       - name: stable
@@ -25,6 +32,9 @@ mirror:
       channels:
       - name: stable
     - name: odf-operator
+      channels:
+      - name: stable-4.18
+    - name: odf-dependencies
       channels:
       - name: stable-4.18
     - name: odf-csi-addons-operator
@@ -63,4 +73,5 @@ mirror:
   additionalImages:
   - name: registry.redhat.io/ubi8/ubi:latest
   - name: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.19
+  - name: registry.redhat.io/rhel8/support-tools:latest
   helm: {}
