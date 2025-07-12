@@ -6,6 +6,7 @@ resources:
   - acmOperGroup.yaml
   - acmSubscription.yaml
   - acmMCH.yaml
+  - acmMCE.yaml
   - acmAgentServiceConfig.yaml
   - acmMirrorRegistryCM.yaml
   - acmPerfSearch.yaml
