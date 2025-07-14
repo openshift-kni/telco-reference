@@ -76,3 +76,10 @@ rules:
   - placements
   verbs:
   - '*'
+- apiGroups:
+  - multicluster.openshift.io
+  resources:
+  - multiclusterengines
+  verbs:
+  - 'patch'
+  - 'get'
