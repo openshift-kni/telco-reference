@@ -12,3 +12,4 @@ resources:
   - gitopsNS.yaml
   - gitopsOperatorGroup.yaml
   - gitopsSubscription.yaml
+  - addPluginsPolicy.yaml
