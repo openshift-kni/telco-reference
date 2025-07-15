@@ -35,6 +35,8 @@ spec:
     alertmanagerStorageSize: {{ .spec.storageConfig.alertmanagerStorageSize }}
     compactStorageSize: {{ .spec.storageConfig.compactStorageSize }}
     metricObjectStorage:
+      # buckets storage should provide a capacity
+      # of at least 2.5TB
       key: thanos.yaml
       name: thanos-object-storage
     receiveStorageSize: {{ .spec.storageConfig.receiveStorageSize }}

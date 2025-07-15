@@ -50,6 +50,7 @@ parts:
           - path: required/acm/acmOperGroup.yaml
           - path: required/acm/acmSubscription.yaml
           - path: required/acm/acmMCH.yaml
+          - path: required/acm/acmMCE.yaml
           - path: required/acm/acmMCSB.yaml
             config:
               ignore-unspecified-fields: true

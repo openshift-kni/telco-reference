@@ -1,3 +1,4 @@
+---
 - op: replace
   path: /data/ca-bundle.crt
   value: |
