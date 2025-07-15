@@ -30,7 +30,7 @@ spec:
       kind: NMStateConfig
     - group: 'extensions.hive.openshift.io'
       kind: AgentClusterInstall
-    - group: extensions.hive.openshift.io
+    - group: 'extensions.hive.openshift.io'
       kind: ImageClusterInstall
     - group: 'hive.openshift.io'
       kind: ClusterDeployment
@@ -38,7 +38,7 @@ spec:
       kind: BareMetalHost
     - group: 'metal3.io'
       kind: HostFirmwareSettings
-    - group: metal3.io
+    - group: 'metal3.io'
       kind: DataImage
     - group: 'agent.open-cluster-management.io'
       kind: KlusterletAddonConfig
@@ -48,5 +48,7 @@ spec:
       kind: SiteConfig
     - group: 'siteconfig.open-cluster-management.io'
       kind: ClusterInstance
+    - group: 'redhatcop.redhat.io'
+      kind: VaultSecret
   sourceRepos:
     - '*'
