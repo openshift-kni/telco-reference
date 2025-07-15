@@ -12,3 +12,9 @@ patches:
       kind: Application
       name: hub-config
     path: init-argocd-app.yaml
+  - target:
+      group: ""
+      version: v1
+      kind: ConfigMap
+      name: argocd-tls-certs-cm
+    path: argocd-tls-certs-cm-patch.yaml
