@@ -2,18 +2,18 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: core-overlay-18
+  name: core-overlay-19
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
     clusterSelectors:
       common: "core"
-      version: "4.18"
+      version: "4.19"
   remediationAction: "inform"
 policies:
   # Baseline configuration with custom overlay content
-  - name: core-overlay-base-4.18
+  - name: core-overlay-base-4.19
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "2"
     manifests:
@@ -32,7 +32,7 @@ policies:
       - path: reference-crs/optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
 
   # Custom networking, operator and cluster configuration
-  - name: core-overlay-config-4.18
+  - name: core-overlay-config-4.19
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "8"
     manifests:
@@ -225,7 +225,7 @@ policies:
 
   # reference-crs/required/networking/nodeNetworkConfigurationPolicy.yaml
 
-  - name: config-monitoring-4.18
+  - name: config-monitoring-4.19
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "10"
     manifests:
@@ -259,12 +259,3 @@ policies:
                   apiVersion: "v1"
                   staticConfigs:
                   - "10.11.12.14:9999"
-
-  # When upgrading from Cluster Logging 5.x to 6.0 the old API CRs
-  # need to be removed AFTER the new logging is set up. This policy
-  # removes those CRs.
-  - name: core-overlay-cleanup-4.16
-    policyAnnotations:
-      ran.openshift.io/ztp-deploy-wave: "9"
-    manifests:
-      - path: "reference-crs/optional/logging/ClusterLogging5Cleanup.yaml"
