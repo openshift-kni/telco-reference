@@ -66,6 +66,6 @@ metadata:
     argocd.argoproj.io/sync-wave: "4"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   name: global
-  namespace: openshift-storage
+  namespace: open-cluster-management
 spec:
   clusterSet: global
