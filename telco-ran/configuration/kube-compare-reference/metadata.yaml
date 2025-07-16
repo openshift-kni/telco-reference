@@ -12,6 +12,7 @@ parts:
               ignore-unspecified-fields: true
               fieldsToOmitRefs:
                 - allowStatusCheck
+          - path: required/machine-config/cgroup-check.yaml
   - name: required-cluster-logging
     description: |-
       https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-logging_ran-ref-design-components
