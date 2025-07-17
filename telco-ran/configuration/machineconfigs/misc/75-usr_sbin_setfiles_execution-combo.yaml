@@ -1,0 +1,22 @@
+# Combined from the following remediations for /etc/audit/rules.d/75-usr_sbin_setfiles_execution.rules (all roles):
+#   - rhcos4-e8-master-audit-rules-execution-setfiles.yaml
+#   - rhcos4-e8-worker-audit-rules-execution-setfiles.yaml
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+spec:
+  config:
+    ignition:
+      version: 3.1.0
+    storage:
+      files:
+        - contents:
+            # The following lines are the deduplicated, combined plaintext contents from all related MachineConfig remediations.
+            # -a always,exit -F path=/usr/sbin/setfiles -F auid>=1000 -F auid!=unset -F key=privileged
+            source: data:,-a%20always%2Cexit%20-F%20path%3D%2Fusr%2Fsbin%2Fsetfiles%20-F%20auid%3E%3D1000%20-F%20auid%21%3Dunset%20-F%20key%3Dprivileged%0A
+          mode: 384
+          overwrite: true
+          path: /etc/audit/rules.d/75-usr_sbin_setfiles_execution.rules
+metadata:
+  name: 75-usr_sbin_setfiles_execution-combo
+  labels:
+    machineconfiguration.openshift.io/role: worker
