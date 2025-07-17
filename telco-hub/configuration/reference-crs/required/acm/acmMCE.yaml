@@ -1,0 +1,61 @@
+apiVersion: multicluster.openshift.io/v1
+kind: MultiClusterEngine
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  name: multiclusterengine
+spec:
+  availabilityConfig: High
+  overrides:
+    components:
+    - configOverrides: {}
+      enabled: true
+      name: local-cluster
+    - configOverrides: {}
+      enabled: true
+      name: assisted-service
+    - configOverrides: {}
+      enabled: true
+      name: cluster-lifecycle
+    - configOverrides: {}
+      enabled: true
+      name: cluster-manager
+    - configOverrides: {}
+      enabled: true
+      name: discovery
+    - configOverrides: {}
+      enabled: true
+      name: hive
+    - configOverrides: {}
+      enabled: true
+      name: server-foundation
+    - configOverrides: {}
+      enabled: true
+      name: cluster-proxy-addon
+    - configOverrides: {}
+      enabled: true
+      name: hypershift-local-hosting
+    - configOverrides: {}
+      enabled: true
+      name: hypershift
+    - configOverrides: {}
+      enabled: true
+      name: managedserviceaccount
+    - configOverrides: {}
+      enabled: false
+      name: cluster-api-preview
+    - configOverrides: {}
+      enabled: false
+      name: cluster-api-provider-aws-preview
+    - configOverrides: {}
+      enabled: true
+      name: image-based-install-operator
+    - configOverrides: {}
+      enabled: true
+      name: console-mce
+  targetNamespace: multicluster-engine
+  tolerations:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/infra
+    operator: Exists
