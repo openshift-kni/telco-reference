@@ -77,3 +77,6 @@ extra-manifest/image-registry-partition-mc.yaml.tmpl
 
 # Exists in the reference only, to enforce version compatibility
 ClusterVersionOperator.yaml
+
+# Reference only to ensure default has not been changed
+required/machine-config/cgroup-check.yaml

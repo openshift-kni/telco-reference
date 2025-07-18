@@ -12,6 +12,7 @@ parts:
               ignore-unspecified-fields: true
               fieldsToOmitRefs:
                 - allowStatusCheck
+          - path: required/machine-config/cgroup-check.yaml
   - name: networking
     description: |-
       https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-networking_core-ref-design-components
