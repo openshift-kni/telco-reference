@@ -10,4 +10,12 @@ metadata:
   labels:
     app: assisted-service
 data:
-  {{- .data | toYaml | nindent 2 | replace "  \n" "\n" }}
+{{- if .data }}
+  # Add the mirror registry SSL certificate chain up to the CA itself.
+  ca-bundle.crt: |
+{{ index .data "ca-bundle.crt" | trimSuffix "\n" | indent 4 }}
+  # The registries.conf field has been populated using the registries.conf file found in "/etc/containers/registries.conf" on each node.
+  # Replace <registry.example.com:8443> with the mirror registry's address.
+  registries.conf: |
+{{ index .data "registries.conf" | trimSuffix "\n" | indent 4 }}
+{{- end }}

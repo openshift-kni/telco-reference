@@ -4,7 +4,7 @@ parts:
   - name: version-check
     description: |-
       A mismatch here means you may be using the wrong reference.
-      This reference was designed for OpenShift 4.18.
+      This reference was designed for OpenShift 4.19.
     components:
       - name: version-check
         allOf:
@@ -102,6 +102,10 @@ fieldsToOmit:
       - pathToKey: metadata.annotations."olm.providedAPIs"
       - pathToKey: metadata.annotations."argocd.argoproj.io"
         isPrefix: true
+      - pathToKey: metadata.annotations."installer.multicluster.openshift.io"
+        isPrefix: true
+      - pathToKey: metadata.annotations."installer.open-cluster-management.io"
+        isPrefix: true
       - pathToKey: metadata.labels."kubernetes.io/metadata.name"
       - pathToKey: metadata.labels."security.openshift.io/scc.podSecurityLabelSync"
       - pathToKey: metadata.labels."operators.coreos.com/local-storage-operator.openshift-local-storage"
@@ -115,6 +119,9 @@ fieldsToOmit:
       - pathToKey: metadata.labels."olm.operatorgroup.uid"
         isPrefix: true
       - pathToKey: metadata.labels."app.kubernetes.io/instance"
+      - pathToKey: metadata.labels."installer.name"
+      - pathToKey: metadata.labels."installer.namespace"
+      - pathToKey: metadata.labels."multiclusterhubs.operator.open-cluster-management.io/managed-by"
       - pathToKey: metadata.creationTimestamp
       - pathToKey: metadata.finalizers
       - pathToKey: metadata.generation

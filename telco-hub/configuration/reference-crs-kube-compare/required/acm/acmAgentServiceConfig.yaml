@@ -31,12 +31,12 @@ spec:
   mirrorRegistryRef:
     name: mirror-registry-config
   osImages:
-    # Replace <http-server-address:port> with the address of the local web server that stores the RHCOS images.
-    # The images can be downloaded from "https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/".
-    {{- range .spec.osImages }}
-    - cpuArchitecture: {{ .cpuArchitecture | quote }}
-      openshiftVersion: {{ .openshiftVersion | quote }}
-      rootFSUrl: {{ .rootFSUrl }}
-      url: {{ .url }}
-      version: {{ .version | quote }}
-    {{- end }}
+  # Replace <http-server-address:port> with the address of the local web server that stores the RHCOS images.
+  # The images can be downloaded from "https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/".
+  {{- range .spec.osImages }}
+  - cpuArchitecture: {{ .cpuArchitecture | quote }}
+    openshiftVersion: {{ .openshiftVersion | quote }}
+    rootFSUrl: {{ .rootFSUrl }}
+    url: {{ .url }}
+    version: {{ .version | quote }}
+  {{- end }}

@@ -50,10 +50,10 @@ optional_lso_lsoLocalVolume:
     nodeSelector:
       nodeSelectorTerms:
       - matchExpressions:
-          - key: cluster.ocs.openshift.io/openshift-storage
-            operator: In
-            values:
-            - ""
+        - key: cluster.ocs.openshift.io/openshift-storage
+          operator: In
+          values:
+          - ""
     storageClassDevices:
     - storageClassName: "local-sc"
       forceWipeDevicesAndDestroyAllData: true
@@ -125,7 +125,7 @@ required_acm_observabilityMCO:
 - spec:
     availabilityConfig: Basic
     storageConfig:
-      storageClass: example-storage-class
+      storageClass: " # your-fs-storageclass-here"
       alertmanagerStorageSize: 10Gi
       compactStorageSize: 100Gi
       receiveStorageSize: 10Gi
@@ -143,21 +143,21 @@ required_acm_acmAgentServiceConfig:
       argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   spec:
     databaseStorage:
-      storageClassName: example-storage-class
+      storageClassName:  " # your-fs-storageclass-here"
       accessModes:
         - ReadWriteOnce
       resources:
         requests:
           storage: 20Gi
     filesystemStorage:
-      storageClassName: example-storage-class
+      storageClassName:  " # your-fs-storageclass-here"
       accessModes:
         - ReadWriteOnce
       resources:
         requests:
           storage: 20Gi
     imageStorage:
-      storageClassName: example-storage-class
+      storageClassName:  " # your-fs-storageclass-here"
       accessModes:
         - ReadWriteOnce
       resources:
@@ -201,98 +201,83 @@ required_acm_acmMirrorRegistryCM:
       [[registry]]
         prefix = ""
         location = "quay.io/openshift-release-dev"
-
         [[registry.mirror]]
           location = "<registry.example.com:8443>/openshift-release-dev"
           pull-from-mirror = "digest-only"
-
       [[registry]]
         prefix = ""
         location = "quay.io/openshift-release-dev/ocp-release"
-
         [[registry.mirror]]
           location = "<registry.example.com:8443>/openshift-release-dev/ocp-release"
           pull-from-mirror = "digest-only"
-
       [[registry]]
         prefix = ""
         location = "quay.io/openshift-release-dev/ocp-v4.0-art-dev"
-
         [[registry.mirror]]
           location = "<registry.example.com:8443>/openshift-release-dev/ocp-v4.0-art-dev"
           pull-from-mirror = "digest-only"
-
       [[registry]]
         prefix = ""
         location = "registry.redhat.io/multicluster-engine"
-
         [[registry.mirror]]
           location = "<registry.example.com:8443>/multicluster-engine"
           pull-from-mirror = "digest-only"
-
       [[registry]]
         prefix = ""
         location = "registry.redhat.io/odf4"
-
         [[registry.mirror]]
           location = "<registry.example.com:8443>/odf4"
           pull-from-mirror = "digest-only"
-
       [[registry]]
         prefix = ""
         location = "registry.redhat.io/openshift4"
-
         [[registry.mirror]]
           location = "<registry.example.com:8443>/openshift4"
           pull-from-mirror = "digest-only"
-
       [[registry]]
         prefix = ""
         location = "registry.redhat.io/rhacm2"
-
         [[registry.mirror]]
           location = "<registry.example.com:8443>/rhacm2"
           pull-from-mirror = "digest-only"
-
       [[registry]]
         prefix = ""
         location = "registry.redhat.io/rhceph"
-
         [[registry.mirror]]
           location = "<registry.example.com:8443>/rhceph"
           pull-from-mirror = "digest-only"
-
       [[registry]]
         prefix = ""
         location = "registry.redhat.io/rhel8"
-
         [[registry.mirror]]
           location = "<registry.example.com:8443>/rhel8"
           pull-from-mirror = "digest-only"
-
       [[registry]]
         prefix = ""
         location = "registry.redhat.io/rhel9"
-
         [[registry.mirror]]
           location = "<registry.example.com:8443>/rhel9"
           pull-from-mirror = "digest-only"
-
       [[registry]]
         prefix = ""
         location = "registry.redhat.io/ubi8"
-
         [[registry.mirror]]
           location = "<registry.example.com:8443>/ubi8"
           pull-from-mirror = "tag-only"
 
 required_acm_observabilitySecret:
 - data:
-    .dockerconfigjson: ''  # Value provided by user or by pull-secret-openshift-config-copy policy
+    # Value provided by user or by pull-secret-openshift-config-copy policy
+    .dockerconfigjson: ''
 
 required_talm_talmSubscription:
 - spec:
     source: redhat-operators-disconnected
+
+optional_logging_clusterLogNS:
+- metadata:
+    annotations:
+      workload.openshift.io/allowed: management
 
 optional_logging_clusterLogSubscription:
 - spec:
