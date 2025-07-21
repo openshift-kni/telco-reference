@@ -6,3 +6,4 @@ resources:
   - odfOperatorGroup.yaml
   - odfSubscription.yaml
   - storageCluster.yaml
+  - odfReady.yaml
