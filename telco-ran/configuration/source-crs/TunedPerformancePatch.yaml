@@ -13,6 +13,8 @@ spec:
       #   include=openshift-node-performance-${PerformanceProfile.metadata.name}
       # - When using the standard (non-realtime) kernel, remove the kernel.timer_migration override from
       #   the [sysctl] section and remove the entire section if it is empty.
+      # - The [scheduler] section with ice module options is not applicable to ARM RDS, that section can
+      #   safely be removed on ARM installations.
       data: |
         [main]
         summary=Configuration changes profile inherited from performance created tuned

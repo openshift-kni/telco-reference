@@ -378,3 +378,11 @@ required_sriov_operator_SriovOperatorConfigForSNO:
 required_sriov_operator_SriovSubscription:
 - spec:
     source: redhat-operators-disconnected
+global:
+  lookup_substitutions:
+    lookupCRs_v1_Node:
+      - metadata:
+          name: .name
+          labels:
+            kubernetes.io/arch: amd64
+        spec: .spec
