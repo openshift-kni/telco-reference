@@ -5,9 +5,11 @@ resources:
   - app-project.yaml
   - argocd-application.yaml
   - argocd-ssh-known-hosts-cm.yaml
+  - argocd-tls-certs-cm.yaml
+  - ztp-repo.yaml
   - clusterrole.yaml
   - clusterrolebinding.yaml
   - gitopsNS.yaml
   - gitopsOperatorGroup.yaml
   - gitopsSubscription.yaml
-  - ztp-repo.yaml
+  - addPluginsPolicy.yaml
