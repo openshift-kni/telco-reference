@@ -11,4 +11,8 @@ spec:
   {{- end }}
   #nodeSelector:
   #  node-role.kubernetes.io/worker: ""
+  {{- if .spec.loadBalancerClass }}
+  loadBalancerClass: {{- .spec.loadBalancerClass | toYaml | nindent 4 }}
+  {{- end }}
+  # loadBalancerClass: "metallb-class1"
 {{- end }}
