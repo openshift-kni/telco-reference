@@ -47,4 +47,4 @@ compare: convert
 
 .PHONY: sync
 sync: convert
-	@./compare.sh --sync "../reference-crs" renderedv1 
+	@./compare.sh --sync "../reference-crs" renderedv1

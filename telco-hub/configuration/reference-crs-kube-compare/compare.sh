@@ -172,4 +172,4 @@ if [[ $DOSYNC == 1 ]]; then
     sync_cr "$RENDERDIR" "$SOURCEDIR" compare_ignore
 else
     compare_cr "$RENDERDIR" "$SOURCEDIR" compare_ignore
-fi 
+fi
