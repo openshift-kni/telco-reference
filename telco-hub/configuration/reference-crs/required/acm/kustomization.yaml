@@ -6,6 +6,7 @@ resources:
   - acmOperGroup.yaml
   - acmSubscription.yaml
   - acmMCH.yaml
+  - acmMCSB.yaml
   - acmMCE.yaml
   - acmAgentServiceConfig.yaml
   - acmMirrorRegistryCM.yaml
@@ -13,7 +14,14 @@ resources:
   - acmProvisioning.yaml
   - observabilityNS.yaml
   - observabilityOBC.yaml
-  - thanosSecret.yaml
+  - thanosSecretPolicy.yaml
+  - thanosSecretPlacement.yaml
+  - thanosSecretPlacementBinding.yaml
+  - thanosSecretMCSB.yaml
   # - observabilitySecret.yaml
-  - pull-secret-copy.yaml
+  - pullSecretPolicy.yaml
+  - pullSecretPlacement.yaml
+  - pullSecretPlacementBinding.yaml
+  - pullSecretMCSB.yaml
+
   - observabilityMCO.yaml
