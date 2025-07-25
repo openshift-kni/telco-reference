@@ -1,0 +1,15 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../reference-crs/optional/logging/
+
+patches:
+  # Customize ClusterLogForwarder for hub-specific configuration
+  - target:
+      group: observability.openshift.io
+      version: v1
+      kind: ClusterLogForwarder
+      name: instance
+    path: cluster-log-forwarder-patch.yaml
