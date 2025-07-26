@@ -31,10 +31,12 @@ spec:
     enableMetrics: true
     interval: 300
   storageConfig:
-    storageClass: # your-fs-storageclass-here
+    storageClass:  # your-fs-storageclass-here
     alertmanagerStorageSize: 10Gi
     compactStorageSize: 100Gi
     metricObjectStorage:
+      # buckets storage should provide a capacity
+      # of at least 2.5TB
       key: thanos.yaml
       name: thanos-object-storage
     receiveStorageSize: 10Gi

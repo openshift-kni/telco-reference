@@ -58,3 +58,14 @@ spec:
       enabled: false
       name: edge-manager-preview
   separateCertificateManagement: false
+---
+apiVersion: cluster.open-cluster-management.io/v1beta2
+kind: ManagedClusterSetBinding
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  name: global
+  namespace: openshift-storage
+spec:
+  clusterSet: global
