@@ -1,4 +1,5 @@
 # Used in support of upgrades
+---
 apiVersion: config.openshift.io/v1
 kind: ClusterVersion
 metadata:
@@ -7,12 +8,12 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "100"
 spec:
   channel: stable-4.17
-  upstream: https://api.openshift.com/api/upgrades_info/v1/graph # default upstream.
+  upstream: https://api.openshift.com/api/upgrades_info/v1/graph  # default upstream.
 # add these changes using PG overlay to generate the policy to perform and verify platform upgrade.
 #  desiredUpdate:
 #    force: false
 #    version: $version
-#status:
-#  history:
-#    -  version: $version
-#       state: "Completed"
+# status:
+#   history:
+#     -  version: $version
+#        state: "Completed"

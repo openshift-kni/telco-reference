@@ -12,4 +12,3 @@ spec:
   labelSelector: {}
 status:
   phase: Ready
-

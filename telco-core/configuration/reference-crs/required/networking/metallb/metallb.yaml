@@ -1,10 +1,11 @@
 # required
 # count: 1
+---
 apiVersion: metallb.io/v1beta1
 kind: MetalLB
 metadata:
   name: metallb
   namespace: metallb-system
 spec: {}
-  #nodeSelector:
-  #  node-role.kubernetes.io/worker: ""
+  # nodeSelector:
+  #   node-role.kubernetes.io/worker: ""
