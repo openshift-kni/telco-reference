@@ -1,4 +1,4 @@
-# Installation instructions
+# GitOps installation instructions
 
 1. Apply the `gitopsNS.yaml` `gitopsOperGroup.yaml` `gitopsSubscription.yaml`.
 2. Approve the created InstallPlan on `openshift-gitops`.
@@ -9,3 +9,5 @@
 **Notice**: In both cases, you only need to modify the `path`, `repoURL` and `targetRevision`. For `repoURL`, you have created previously the proper credentials, to access by https or ssl.
 7. Apply the patch that will install ZTP inside ArgoCD: `oc patch argocd openshift-gitops -n openshift-gitops --type=merge --patch-file ztp-installation/argocd-openshift-gitops-patch.json`.
 8. Apply the different ZTP installation manifests:  `oc apply -k ztp-installation/`.
+
+Back to [Hub Cluster Setup](../../../../README.md).
