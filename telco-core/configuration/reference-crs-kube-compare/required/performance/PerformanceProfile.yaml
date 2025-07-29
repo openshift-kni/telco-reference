@@ -6,8 +6,22 @@ metadata:
   name: {{ .metadata.name }}
   annotations:
     # Some pods want the kernel stack to ignore IPv6 router Advertisement.
-    kubeletconfig.experimental: |
-      {"allowedUnsafeSysctls":["net.ipv6.conf.all.accept_ra"]}
+    {{- if .metadata }}
+      {{ $allowedSysctls := (list
+          "net.ipv6.conf.default.accept_ra"
+          "net.ipv6.conf.all.disable_ipv6"
+          "net.ipv6.conf.default.disable_ipv6"
+          "net.ipv4.conf.all.disable_policy"
+          "net.ipv4.conf.default.disable_policy"
+          "net.ipv6.conf.all.disable_policy"
+          "net.ipv6.conf.default.disable_policy"
+          "net.ipv4.conf.all.rp_filter"
+          "net.ipv4.conf.default.rp_filter"
+          "net.ipv6.conf.all.hop_limit"
+          "net.ipv6.conf.default.hop_limit"
+        ) }}
+      {{- template "kubeletconfigExperimentalSysctls" (list (index (.metadata.annotations | default dict) "kubeletconfig.experimental") (list "net.ipv6.conf.all.accept_ra")  $allowedSysctls) }}
+    {{- end }}
 spec:
   additionalKernelArgs:
     {{- template "unorderedList" (list .spec.additionalKernelArgs (list
