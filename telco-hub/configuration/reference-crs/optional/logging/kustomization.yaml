@@ -5,3 +5,7 @@ resources:
   - clusterLogNS.yaml
   - clusterLogOperGroup.yaml
   - clusterLogSubscription.yaml
+  - clusterLogServiceAccount.yaml
+  - clusterLogServiceAccountAuditBinding.yaml
+  - clusterLogServiceAccountInfrastructureBinding.yaml
+  - clusterLogForwarder.yaml
