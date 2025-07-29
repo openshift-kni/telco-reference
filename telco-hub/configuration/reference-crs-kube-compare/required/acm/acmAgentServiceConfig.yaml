@@ -1,0 +1,42 @@
+---
+apiVersion: agent-install.openshift.io/v1beta1
+kind: AgentServiceConfig
+metadata:
+  name: agent
+  annotations:
+    argocd.argoproj.io/sync-wave: "7"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  databaseStorage:
+    storageClassName: {{ .spec.databaseStorage.storageClassName }}
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: {{ .spec.databaseStorage.resources.requests.storage }}
+  filesystemStorage:
+    storageClassName: {{ .spec.filesystemStorage.storageClassName }}
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: {{ .spec.filesystemStorage.resources.requests.storage }}
+  imageStorage:
+    storageClassName: {{ .spec.imageStorage.storageClassName }}
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: {{ .spec.imageStorage.resources.requests.storage }}
+  mirrorRegistryRef:
+    name: mirror-registry-config
+  osImages:
+  # Replace <http-server-address:port> with the address of the local web server that stores the RHCOS images.
+  # The images can be downloaded from "https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/".
+  {{- range .spec.osImages }}
+  - cpuArchitecture: {{ .cpuArchitecture | quote }}
+    openshiftVersion: {{ .openshiftVersion | quote }}
+    rootFSUrl: {{ .rootFSUrl }}
+    url: {{ .url }}
+    version: {{ .version | quote }}
+  {{- end }}
