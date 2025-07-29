@@ -1,0 +1,19 @@
+---
+apiVersion: config.openshift.io/v1
+kind: ImageTagMirrorSet
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+    target.workload.openshift.io/management: '{"effect": "PreferredDuringScheduling"}'
+  name: itms-generic-0
+spec:
+  imageTagMirrors:
+  - mirrors:
+    - <registry.example.com:8443>/ubi8
+    source: registry.redhat.io/ubi8
+  - mirrors:
+    - <registry.example.com:8443>/openshift4
+    source: registry.redhat.io/openshift4
+  - mirrors:
+    - <registry.example.com:8443>/rhel8
+    source: registry.redhat.io/rhel8
