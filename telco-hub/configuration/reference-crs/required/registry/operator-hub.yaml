@@ -1,0 +1,9 @@
+---
+apiVersion: config.openshift.io/v1
+kind: OperatorHub
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+  name: cluster
+spec:
+  disableAllDefaultSources: true

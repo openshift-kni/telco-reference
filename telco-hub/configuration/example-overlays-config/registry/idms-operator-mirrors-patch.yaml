@@ -1,0 +1,34 @@
+---
+- op: replace
+  path: /spec/imageDigestMirrors
+  value:
+  - mirrors:
+    - <registry.example.com:8443>/oadp
+    source: registry.redhat.io/oadp
+  - mirrors:
+    - <registry.example.com:8443>/multicluster-engine
+    source: registry.redhat.io/multicluster-engine
+  - mirrors:
+    - <registry.example.com:8443>/rhel8
+    source: registry.redhat.io/rhel8
+  - mirrors:
+    - <registry.example.com:8443>/odf4
+    source: registry.redhat.io/odf4
+  - mirrors:
+    - <registry.example.com:8443>/rhel9
+    source: registry.redhat.io/rhel9
+  - mirrors:
+    - <registry.example.com:8443>/rhceph
+    source: registry.redhat.io/rhceph
+  - mirrors:
+    - <registry.example.com:8443>/openshift-gitops-1
+    source: registry.redhat.io/openshift-gitops-1
+  - mirrors:
+    - <registry.example.com:8443>/rh-sso-7
+    source: registry.redhat.io/rh-sso-7
+  - mirrors:
+    - <registry.example.com:8443>/rhacm2
+    source: registry.redhat.io/rhacm2
+  - mirrors:
+    - <registry.example.com:8443>/openshift4
+    source: registry.redhat.io/openshift4
