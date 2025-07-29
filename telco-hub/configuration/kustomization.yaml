@@ -13,6 +13,7 @@ resources:
   # other not optional overlays
   - example-overlays-config/gitops/
   - example-overlays-config/acm/
+  - example-overlays-config/registry/
 
   # mandatory resources not managed by any overlay
   - reference-crs/required/talm/
