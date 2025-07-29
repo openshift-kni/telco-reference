@@ -28,7 +28,9 @@ policies:
       - path: reference-crs/optional/other/sctp_module_mc.yaml
         complianceType: mustonlyhave
       - path: reference-crs/optional/other/worker-load-kernel-modules.yaml
+        complianceType: mustonlyhave
       - path: reference-crs/optional/other/control-plane-load-kernel-modules.yaml
+        complianceType: mustonlyhave
       - path: reference-crs/optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
 
   # Custom networking, operator and cluster configuration
