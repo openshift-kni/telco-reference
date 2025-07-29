@@ -1,22 +1,23 @@
 
 # Automated installation
-The full telco hub configuration can be applied using an ArgoCD application pointing to the kustomization.yaml in this directory.
+The full telco hub configuration can be applied, using Openshift gitops-operator pointing to the kustomization.yaml in this directory.
 
 ## Pre-requisites
 * An OpenShift cluster with the gitops-operator (ArgoCD) installed
-  * Note that the reference configuration includes a ClusterRole for ArgoCD which grants the necessary permissions for installing the remainder of the reference. This updates the currently running ArgoCD application to allow it to complete the full synchronization.
 * If ODF will be used in "internal" mode, nodes with available storage for ODF must be labeled
   `cluster.ocs.openshift.io/openshift-storage=`
 * All files/directories in this tree are available in a git repository along with any necessary kustomize overlay for your environment.
-* Configured and existing Openshift CatalogSources for `redhat-operators-disconnected` and `certified-operators-disconnected`.
+* Configured and existing Openshift CatalogSources for `redhat-operators-disconnected`.
 
-## Init phase (install ArgoCD or Openshift GitOps)
+## Init phase (install Openshift GitOps)
 
-This phase can be considered optional, in case you already have ArgoCD or Openshift GitOps running on your cluster.
+This phase can be considered optional, in case you already have ArgoCD deployed by the Openshift gitops-operator.
+> In the following lines, when we name ArgoCD, we mean: ArgoCD deployed from Red Hat Openshift gitops-operator. Using directly upstream ArgoCD should work, but, it has not been tested.
 
 ArgoCD is one of the main key components of the Telco Hub, because is in charge of managing deployment and configuration of the infrastructure managed by the Telco Hub, using a GitOps methodology. But, at the same time, we can deploy the Telco Hub using ArgoCD (recommended procedure). Therefore, to have a Telco Hub with ArgoCD, first, we have to have ArgoCD to create the Telco Hub. This is the init phase, and it is optional if you already fulfilled this requirement.
+> The following procedure deploys Openshift gitops-operator to have ArgoCD.
 
-In this init phase we can install ArgoCD with the existing `reference-crs` for GitOps, basically using the Openshift GitOps operator. In case you want to proceed the installation with the existing `reference-crs` for GitOps: 
+In this init phase we install ArgoCD with the existing `reference-crs` for GitOps. Basically using the Openshift GitOps operator:
 
 ```bash
 oc apply -f reference-crs/required/gitops/clusterrole.yaml \
