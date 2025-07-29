@@ -20,7 +20,18 @@ spec:
         overwrite: true
         path: /etc/modprobe.d/kernel-blacklist.conf
       - contents:
-          source: data:text/plain;charset=utf-8;base64,aXBfZ3JlCmlwNl90YWJsZXMKaXA2dF9SRUpFQ1QKaXA2dGFibGVfZmlsdGVyCmlwNnRhYmxlX21hbmdsZQppcHRhYmxlX2ZpbHRlcgppcHRhYmxlX21hbmdsZQppcHRhYmxlX25hdAp4dF9tdWx0aXBvcnQKeHRfb3duZXIKeHRfUkVESVJFQ1QKeHRfc3RhdGlzdGljCnh0X1RDUE1TUwo=
+          # Contents
+          # nf_tables
+          # nf_conntrack
+          # nft_ct
+          # nft_limit
+          # nft_log
+          # nft_nat
+          # nft_chain_nat
+          # nf_reject_ipv4
+          # nf_reject_ipv6
+          # nfnetlink_log
+          source: data:text/plain;charset=utf-8;base64,bmZfdGFibGVzCm5mX2Nvbm50cmFjawpuZnRfY3QKbmZ0X2xpbWl0Cm5mdF9sb2cKbmZ0X25hdApuZnRfY2hhaW5fbmF0Cm5mX3JlamVjdF9pcHY0Cm5mX3JlamVjdF9pcHY2Cm5mbmV0bGlua19sb2cKCg==
         mode: 420
         overwrite: true
         path: /etc/modules-load.d/kernel-load.conf
