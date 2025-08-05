@@ -1,0 +1,280 @@
+optional_odf_internal_storageCluster:
+- metadata:
+    annotations:
+      argocd.argoproj.io/sync-wave: "-2"
+      argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  spec:
+    manageNodes: false
+    resources:
+      mds:
+        limits:
+          cpu: "3"
+          memory: "8Gi"
+        requests:
+          cpu: "3"
+          memory: "8Gi"
+    storageDeviceSets:
+    - count: 1
+      dataPVCTemplate:
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: "600Gi"
+          storageClassName: "local-sc"
+          volumeMode: Block
+      name: ocs-deviceset
+      placement: {}
+      portable: false
+      replica: 3
+      resources:
+        limits:
+          cpu: "2"
+          memory: "5Gi"
+        requests:
+          cpu: "2"
+          memory: "5Gi"
+    monDataDirHostPath: /var/lib/rook
+
+optional_lso_lsoLocalVolume:
+- metadata:
+    name: "local-disks"
+    namespace: "openshift-local-storage"
+    annotations:
+      argocd.argoproj.io/sync-wave: "-3"
+      argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  spec:
+    logLevel: Normal
+    managementState: Managed
+    nodeSelector:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: cluster.ocs.openshift.io/openshift-storage
+          operator: In
+          values:
+          - ""
+    storageClassDevices:
+    - storageClassName: "local-sc"
+      forceWipeDevicesAndDestroyAllData: true
+      volumeMode: Block
+      devicePaths:
+      - /dev/disk/by-path/pci-xxx
+
+optional_lso_lsoNS:
+- metadata:
+    annotations:
+      argocd.argoproj.io/sync-wave: "-5"
+    labels:
+      openshift.io/cluster-monitoring: "true"
+
+optional_lso_lsoOperatorGroup:
+- metadata:
+    annotations:
+      argocd.argoproj.io/sync-wave: "-5"
+  spec:
+    targetNamespaces:
+    - openshift-local-storage
+
+optional_lso_lsoSubscription:
+- metadata:
+    annotations:
+      argocd.argoproj.io/sync-wave: "-5"
+  spec:
+    source: redhat-operators-disconnected
+
+optional_odf_internal_odfNS:
+- metadata:
+    annotations:
+      argocd.argoproj.io/sync-wave: "-5"
+      workload.openshift.io/allowed: management
+
+optional_odf_internal_odfOperatorGroup:
+- metadata:
+    annotations:
+      argocd.argoproj.io/sync-wave: "-5"
+  spec: {}
+
+optional_odf_internal_odfSubscription:
+- metadata:
+    annotations:
+      argocd.argoproj.io/sync-wave: "-5"
+  spec:
+    source: redhat-operators-disconnected
+
+# ACM defaults
+required_acm_acmSubscription:
+- spec:
+    source: redhat-operators-disconnected
+
+required_acm_acmProvisioning:
+- metadata:
+    annotations:
+      argocd.argoproj.io/sync-wave: "6"
+      argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  spec:
+    watchAllNamespaces: true
+    provisioningNetwork: Disabled
+    # disableVirtualMediaTLS: true
+
+required_acm_observabilityMCO:
+- spec:
+    availabilityConfig: Basic
+    storageConfig:
+      storageClass: " # your-fs-storageclass-here"
+      alertmanagerStorageSize: 10Gi
+      compactStorageSize: 100Gi
+      receiveStorageSize: 10Gi
+      ruleStorageSize: 30Gi
+      storeStorageSize: 100Gi
+
+required_acm_observabilityOBC:
+- spec:
+    storageClassName: example-storage-class
+
+required_acm_acmAgentServiceConfig:
+- metadata:
+    annotations:
+      argocd.argoproj.io/sync-wave: "7"
+      argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  spec:
+    databaseStorage:
+      storageClassName:  " # your-fs-storageclass-here"
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 20Gi
+    filesystemStorage:
+      storageClassName:  " # your-fs-storageclass-here"
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 20Gi
+    imageStorage:
+      storageClassName:  " # your-fs-storageclass-here"
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 100Gi
+    mirrorRegistryRef:
+      name: mirror-registry-config
+    osImages:
+    - cpuArchitecture: "x86_64"
+      openshiftVersion: "4.17"
+      rootFSUrl: http://<http-server-address:port>/rhcos-4.17.0-x86_64-live-rootfs.x86_64.img
+      url: http://<http-server-address:port>/rhcos-4.17.0-x86_64-live.x86_64.iso
+      version: "417.94.202409121747-0"
+    - cpuArchitecture: "x86_64"
+      openshiftVersion: "4.18"
+      rootFSUrl: http://<http-server-address:port>/rhcos-4.18.0-x86_64-live-rootfs.x86_64.img
+      url: http://<http-server-address:port>/rhcos-4.18.0-x86_64-live.x86_64.iso
+      version: "418.94.202502100215-0"
+    - cpuArchitecture: "x86_64"
+      openshiftVersion: "4.19"
+      rootFSUrl: http://<http-server-address:port>/rhcos-4.19.0-x86_64-live-rootfs.x86_64.img
+      url: http://<http-server-address:port>/rhcos-4.19.0-x86_64-live-iso.x86_64.iso
+      version: "9.6.20250530-0"
+    osImageVersion: {}
+
+required_acm_acmMirrorRegistryCM:
+- metadata:
+    annotations:
+      argocd.argoproj.io/sync-wave: "5"
+      argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  data:
+    ca-bundle.crt: |
+      -----BEGIN CERTIFICATE-----
+      MIID7jCCAtagAwXXX...
+      -----END CERTIFICATE-----
+      -----BEGIN CERTIFICATE-----
+      MIIDvTCCAqWgAwXXX...
+      -----END CERTIFICATE-----
+    registries.conf: |
+      unqualified-search-registries = ["registry.access.redhat.com", "docker.io"]
+      [[registry]]
+        prefix = ""
+        location = "quay.io/openshift-release-dev"
+        [[registry.mirror]]
+          location = "<registry.example.com:8443>/openshift-release-dev"
+          pull-from-mirror = "digest-only"
+      [[registry]]
+        prefix = ""
+        location = "quay.io/openshift-release-dev/ocp-release"
+        [[registry.mirror]]
+          location = "<registry.example.com:8443>/openshift-release-dev/ocp-release"
+          pull-from-mirror = "digest-only"
+      [[registry]]
+        prefix = ""
+        location = "quay.io/openshift-release-dev/ocp-v4.0-art-dev"
+        [[registry.mirror]]
+          location = "<registry.example.com:8443>/openshift-release-dev/ocp-v4.0-art-dev"
+          pull-from-mirror = "digest-only"
+      [[registry]]
+        prefix = ""
+        location = "registry.redhat.io/multicluster-engine"
+        [[registry.mirror]]
+          location = "<registry.example.com:8443>/multicluster-engine"
+          pull-from-mirror = "digest-only"
+      [[registry]]
+        prefix = ""
+        location = "registry.redhat.io/odf4"
+        [[registry.mirror]]
+          location = "<registry.example.com:8443>/odf4"
+          pull-from-mirror = "digest-only"
+      [[registry]]
+        prefix = ""
+        location = "registry.redhat.io/openshift4"
+        [[registry.mirror]]
+          location = "<registry.example.com:8443>/openshift4"
+          pull-from-mirror = "digest-only"
+      [[registry]]
+        prefix = ""
+        location = "registry.redhat.io/rhacm2"
+        [[registry.mirror]]
+          location = "<registry.example.com:8443>/rhacm2"
+          pull-from-mirror = "digest-only"
+      [[registry]]
+        prefix = ""
+        location = "registry.redhat.io/rhceph"
+        [[registry.mirror]]
+          location = "<registry.example.com:8443>/rhceph"
+          pull-from-mirror = "digest-only"
+      [[registry]]
+        prefix = ""
+        location = "registry.redhat.io/rhel8"
+        [[registry.mirror]]
+          location = "<registry.example.com:8443>/rhel8"
+          pull-from-mirror = "digest-only"
+      [[registry]]
+        prefix = ""
+        location = "registry.redhat.io/rhel9"
+        [[registry.mirror]]
+          location = "<registry.example.com:8443>/rhel9"
+          pull-from-mirror = "digest-only"
+      [[registry]]
+        prefix = ""
+        location = "registry.redhat.io/ubi8"
+        [[registry.mirror]]
+          location = "<registry.example.com:8443>/ubi8"
+          pull-from-mirror = "tag-only"
+
+required_acm_observabilitySecret:
+- data:
+    # Value provided by user or by pull-secret-openshift-config-copy policy
+    .dockerconfigjson: ''
+
+required_talm_talmSubscription:
+- spec:
+    source: redhat-operators-disconnected
+
+optional_logging_clusterLogNS:
+- metadata:
+    annotations:
+      workload.openshift.io/allowed: management
+
+optional_logging_clusterLogSubscription:
+- spec:
+    source: redhat-operators-disconnected 

@@ -1,0 +1,63 @@
+# Internal files for cluster-compare, not real CRs
+metadata.yaml
+
+# Used in the reference only for version compliance checks
+ReferenceVersionCheck.yaml
+
+# Not yet published in the RDS:
+optional/quay/quayNS.yaml
+optional/quay/quayOperatorGroup.yaml
+optional/quay/quaySubscription.yaml
+
+# Reference templates not implemented yet:
+optional/logging/clusterLogForwarder.yaml
+optional/logging/clusterLogServiceAccount.yaml
+optional/logging/clusterLogServiceAccountAuditBinding.yaml
+optional/logging/clusterLogServiceAccountInfrastructureBinding.yaml
+required/registry/catalog-source.yaml
+required/registry/idms-operator.yaml
+required/registry/idms-release.yaml
+required/registry/itms-generic.yaml
+required/registry/itms-release.yaml
+required/registry/operator-hub.yaml
+required/gitops/addPluginsPolicy.yaml
+required/gitops/app-project.yaml
+required/gitops/argocd-application.yaml
+required/gitops/argocd-ssh-known-hosts-cm.yaml
+required/gitops/argocd-tls-certs-cm.yaml
+required/gitops/clusterrolebinding.yaml
+required/gitops/clusterrole.yaml
+required/gitops/gitopsNS.yaml
+required/gitops/gitopsOperatorGroup.yaml
+required/gitops/gitopsSubscription.yaml
+required/gitops/kustomization.yaml
+required/gitops/ztp-installation/app-project.yaml
+required/gitops/ztp-installation/clusters-app.yaml
+required/gitops/ztp-installation/gitops-cluster-rolebinding.yaml
+required/gitops/ztp-installation/gitops-policy-rolebinding.yaml
+required/gitops/ztp-installation/kustomization.yaml
+required/gitops/ztp-installation/policies-app-project.yaml
+required/gitops/ztp-installation/policies-app.yaml
+required/gitops/ztp-repo.yaml
+optional/cert-manager/certManagerClusterIssuer.yaml
+optional/cert-manager/certManagerNS.yaml
+optional/cert-manager/certManagerOperatorgroup.yaml
+optional/cert-manager/certManagerSubscription.yaml
+optional/cert-manager/consoleCertificate.yaml
+optional/cert-manager/downloadsCertificate.yaml
+optional/cert-manager/oauthServiceCertificate.yaml
+optional/backup-recovery/backupSchedule.yaml
+optional/backup-recovery/dataProtectionApplication.yaml
+optional/backup-recovery/objectBucketClaim.yaml
+optional/backup-recovery/policy-backup.yaml
+optional/backup-recovery/restore.yaml
+optional/odf-internal/odfReady.yaml
+required/acm/acmPerfSearch.yaml
+required/acm/thanosSecretPolicy.yaml
+
+# ArgoCD files
+kustomization.yaml
+optional/lso/kustomization.yaml
+optional/odf-internal/kustomization.yaml
+required/talm/kustomization.yaml
+required/acm/kustomization.yaml

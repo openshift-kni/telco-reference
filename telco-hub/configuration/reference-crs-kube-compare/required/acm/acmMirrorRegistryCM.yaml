@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mirror-registry-config
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  namespace: multicluster-engine
+  labels:
+    app: assisted-service
+data:
+{{- if .data }}
+  # Add the mirror registry SSL certificate chain up to the CA itself.
+  ca-bundle.crt: |
+{{ index .data "ca-bundle.crt" | trimSuffix "\n" | indent 4 }}
+  # The registries.conf field has been populated using the registries.conf file found in "/etc/containers/registries.conf" on each node.
+  # Replace <registry.example.com:8443> with the mirror registry's address.
+  registries.conf: |
+{{ index .data "registries.conf" | trimSuffix "\n" | indent 4 }}
+{{- end }}
