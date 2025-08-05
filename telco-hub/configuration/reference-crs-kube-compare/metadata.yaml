@@ -51,9 +51,6 @@ parts:
           - path: required/acm/acmSubscription.yaml
           - path: required/acm/acmMCH.yaml
           - path: required/acm/acmMCE.yaml
-          - path: required/acm/acmMCSB.yaml
-            config:
-              ignore-unspecified-fields: true
           - path: required/acm/acmProvisioning.yaml
             config:
               ignore-unspecified-fields: true

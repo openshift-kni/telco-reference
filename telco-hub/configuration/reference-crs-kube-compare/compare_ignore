@@ -10,6 +10,16 @@ optional/quay/quayOperatorGroup.yaml
 optional/quay/quaySubscription.yaml
 
 # Reference templates not implemented yet:
+optional/logging/clusterLogForwarder.yaml
+optional/logging/clusterLogServiceAccount.yaml
+optional/logging/clusterLogServiceAccountAuditBinding.yaml
+optional/logging/clusterLogServiceAccountInfrastructureBinding.yaml
+required/registry/catalog-source.yaml
+required/registry/idms-operator.yaml
+required/registry/idms-release.yaml
+required/registry/itms-generic.yaml
+required/registry/itms-release.yaml
+required/registry/operator-hub.yaml
 required/gitops/addPluginsPolicy.yaml
 required/gitops/app-project.yaml
 required/gitops/argocd-application.yaml

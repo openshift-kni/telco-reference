@@ -107,10 +107,6 @@ required_acm_acmSubscription:
 - spec:
     source: redhat-operators-disconnected
 
-required_acm_acmMCH:
-- spec:
-    availabilityConfig: High
-
 required_acm_acmProvisioning:
 - metadata:
     annotations:

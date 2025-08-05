@@ -32,7 +32,7 @@ spec:
       enabled: true
       name: server-foundation
     - configOverrides: {}
-      enabled: true
+      enabled: false
       name: cluster-proxy-addon
     - configOverrides: {}
       enabled: true
