@@ -9,6 +9,23 @@ metadata:
   annotations:
     ran.openshift.io/ztp-deploy-wave: "10"
     ran.openshift.io/reference-configuration: "ran-du.redhat.com"
+    {{- if .metadata }}
+      {{ $allowedSysctls := (list
+          "net.ipv6.conf.all.accept_ra"
+          "net.ipv6.conf.default.accept_ra"
+          "net.ipv6.conf.all.disable_ipv6"
+          "net.ipv6.conf.default.disable_ipv6"
+          "net.ipv4.conf.all.disable_policy"
+          "net.ipv4.conf.default.disable_policy"
+          "net.ipv6.conf.all.disable_policy"
+          "net.ipv6.conf.default.disable_policy"
+          "net.ipv4.conf.all.rp_filter"
+          "net.ipv4.conf.default.rp_filter"
+          "net.ipv6.conf.all.hop_limit"
+          "net.ipv6.conf.default.hop_limit"
+        ) }}
+      {{- template "kubeletconfigExperimentalSysctls" (list (index (.metadata.annotations | default dict) "kubeletconfig.experimental") (list)  $allowedSysctls) }}
+    {{- end }}
 spec:
   additionalKernelArgs:
     {{- $requiredArgs := list
