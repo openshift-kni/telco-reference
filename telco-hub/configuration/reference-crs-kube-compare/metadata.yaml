@@ -75,6 +75,47 @@ parts:
                 - templates
           - path: required/acm/thanosSecretPlacement.yaml
           - path: required/acm/thanosSecretPlacementBinding.yaml
+  - name: required-gitops
+    description: |-
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-gitops-operator-and-ztp-plugins_telco-hub
+    components:
+      - name: gitops-operator
+        allOf:
+          - path: required/gitops/addPluginsPolicyNS.yaml
+          - path: required/gitops/addPluginsMCSB.yaml
+          - path: required/gitops/addPluginsPolicy.yaml
+            config:
+              ignore-unspecified-fields: true
+              fieldsToOmitRefs:
+                - templates
+          - path: required/gitops/addPluginsPolicyPlacement.yaml
+          - path: required/gitops/addPluginsPolicyPlacementBinding.yaml
+          - path: required/gitops/gitopsNS.yaml
+          - path: required/gitops/gitopsOperatorGroup.yaml
+          - path: required/gitops/gitopsSubscription.yaml
+          - path: required/gitops/app-project.yaml
+          - path: required/gitops/argocd-application.yaml
+          - path: required/gitops/clusterrole.yaml
+          - path: required/gitops/clusterrolebinding.yaml
+          - path: required/gitops/ztp-repo.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: required/gitops/argocd-tls-certs-cm.yaml
+          - path: required/gitops/argocd-ssh-known-hosts-cm.yaml
+  - name: required-registry
+    description: |-
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/disconnected_environments/mirroring-in-disconnected-environments
+    components:
+      - name: registry-config
+        allOf:
+          - path: required/registry/catalog-source.yaml
+          - path: required/registry/idms-operator.yaml
+          - path: required/registry/idms-release.yaml
+          - path: required/registry/itms-generic.yaml
+          - path: required/registry/itms-release.yaml
+          - path: required/registry/operator-hub.yaml
+            config:
+              ignore-unspecified-fields: true
   - name: optional-logging
     description: |-
       https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-logging_telco-hub
@@ -84,6 +125,10 @@ parts:
           - path: optional/logging/clusterLogNS.yaml
           - path: optional/logging/clusterLogOperGroup.yaml
           - path: optional/logging/clusterLogSubscription.yaml
+          - path: optional/logging/clusterLogForwarder.yaml
+          - path: optional/logging/clusterLogServiceAccount.yaml
+          - path: optional/logging/clusterLogServiceAccountAuditBinding.yaml
+          - path: optional/logging/clusterLogServiceAccountInfrastructureBinding.yaml
 
 templateFunctionFiles:
   - version_match.tmpl
@@ -110,13 +155,15 @@ fieldsToOmit:
       - pathToKey: metadata.labels."operators.coreos.com/odf-operator.openshift-storage"
       - pathToKey: metadata.labels."operators.coreos.com/topology-aware-lifecycle-manager.openshift-operators"
       - pathToKey: metadata.labels."operators.coreos.com/advanced-cluster-management.open-cluster-management"
+      - pathToKey: metadata.labels."operators.coreos.com/openshift-gitops-operator.openshift-gitops-operator"
       - pathToKey: metadata.labels."agent-install.openshift.io/watch"
       - pathToKey: metadata.labels."cluster.open-cluster-management.io/backup"
       - pathToKey: metadata.labels."pod-security.kubernetes.io"
         isPrefix: true
       - pathToKey: metadata.labels."olm.operatorgroup.uid"
         isPrefix: true
-      - pathToKey: metadata.labels."app.kubernetes.io/instance"
+      - pathToKey: metadata.labels."app.kubernetes.io"
+        isPrefix: true
       - pathToKey: metadata.labels."installer.name"
       - pathToKey: metadata.labels."installer.namespace"
       - pathToKey: metadata.labels."multiclusterhubs.operator.open-cluster-management.io/managed-by"

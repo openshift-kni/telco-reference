@@ -1,0 +1,20 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hub-config
+  namespace: openshift-gitops
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: default
+  project: infra
+  syncPolicy:
+    automated:
+      allowEmpty: true
+      selfHeal: true
+      prune: true
+  source:
+    path: {{ .spec.source.path | quote }}
+    repoURL: {{ .spec.source.repoURL | quote }}
+    targetRevision: {{ .spec.source.targetRevision | quote }}
