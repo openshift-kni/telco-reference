@@ -1,0 +1,49 @@
+---
+# ClusterLogForwarder for Telco Hub
+# Forwards audit and infrastructure logs to Kafka with hub-specific labeling
+apiVersion: observability.openshift.io/v1
+kind: ClusterLogForwarder
+metadata:
+  name: instance
+  namespace: openshift-logging
+  annotations:
+    # Deploy after cluster logging operator is ready
+    argocd.argoproj.io/sync-wave: "10"
+    # Ignore controller-managed status differences in ArgoCD
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
+spec:
+  # Filters add metadata labels to log records for identification
+  filters:
+  - name: telco-hub-labels
+    type: openshiftLabels
+    # Add these labels to all forwarded log records
+    openshiftLabels:
+      cluster-role: hub                # Identifies this as hub cluster logs
+      environment: production          # Environment designation
+      telco-component: management      # Component categorization
+
+  # Output destinations for log forwarding
+  outputs:
+  - name: hub-kafka-output
+    type: kafka
+    kafka:
+      # Kafka broker endpoint -> update for your environment!
+      url: {{ .kafka.url }}
+
+  # Pipelines define which logs go where with what processing
+  pipelines:
+  - name: telco-hub-logs
+    # Log types to forward (excludes application logs for hub)
+    inputRefs:
+    - audit           # OpenShift API audit logs
+    - infrastructure  # Container runtime and system logs
+    # Where to send the logs
+    outputRefs:
+    - hub-kafka-output
+    # Apply labeling filter to identify log source
+    filterRefs:
+    - telco-hub-labels
+
+  # Service account for log collection
+  serviceAccount:
+    name: collector
