@@ -4,6 +4,8 @@ kind: Restore
 metadata:
   name: restore-acm-bmh
   namespace: open-cluster-management-backup
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   cleanupBeforeRestore: CleanupRestored
   veleroManagedClustersBackupName: latest
