@@ -5,7 +5,7 @@ metadata:
   name: {{ .metadata.name | quote }}
   namespace: "openshift-local-storage"
   annotations:
-    argocd.argoproj.io/sync-wave: "-3"
+    argocd.argoproj.io/sync-wave: "-30"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   logLevel: Normal
