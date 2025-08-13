@@ -1,0 +1,4 @@
+# This directory contains CRs which are validated by the reference-crs-kube-compare but 
+# for which there are no corresponding CRs in the reference-crs. This occurs when the 
+# reference explicitly validates CRs which are either default or managed by controllers 
+# and not directly configured through the reference-crs.
