@@ -47,5 +47,7 @@ spec:
     kind: SiteConfig
   - group: 'siteconfig.open-cluster-management.io'
     kind: ClusterInstance
+  - group: 'redhatcop.redhat.io'
+    kind: VaultSecret
   sourceRepos:
   - '*'
