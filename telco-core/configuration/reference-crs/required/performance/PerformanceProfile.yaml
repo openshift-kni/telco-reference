@@ -1,5 +1,6 @@
 # required
 # count: 1
+---
 apiVersion: performance.openshift.io/v2
 kind: PerformanceProfile
 metadata:
@@ -16,8 +17,8 @@ spec:
     # we want to reserve the first Core of each NUMA socket
     #
     # no CPU left behind! all-cpus == isolated + reserved
-    isolated: $isolated # eg 1-17,19-35,37-53,55-71
-    reserved: $reserved # eg 0,18,36,54
+    isolated: $isolated  # eg 1-17,19-35,37-53,55-71
+    reserved: $reserved  # eg 0,18,36,54
   # Guaranteed QoS pods will disable IRQ balancing for cores allocated to the pod.
   # default value of globallyDisableIrqLoadBalancing is false
   globallyDisableIrqLoadBalancing: false
@@ -25,12 +26,12 @@ spec:
     defaultHugepagesSize: 1G
     pages:
     # 32GB per numa node
-    - count: $count # eg 64
+    - count: $count  # eg 64
       size: 1G
-  #machineConfigPoolSelector: {}
-  #  pools.operator.machineconfiguration.openshift.io/worker: ''
+  # machineConfigPoolSelector: {}
+  #   pools.operator.machineconfiguration.openshift.io/worker: ''
   nodeSelector: {}
-    #node-role.kubernetes.io/worker: ""
+    # node-role.kubernetes.io/worker: ""
   workloadHints:
     realTime: false
     highPowerConsumption: false
