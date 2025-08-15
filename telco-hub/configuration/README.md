@@ -213,3 +213,20 @@ application.argoproj.io/hub-config created
 
 
 The ArgoCD application will be created on your cluster and will start installing and configuring all the needed Telco Hub components. Note that at this point the ArgoCD application is also being managed via gitops and any changes to the application should be done in git as well.
+
+## Sync-Wave Ordering
+
+All resources in the `reference-crs` directory are configured with ArgoCD sync-wave annotations to ensure deterministic and reliable rollout. The deployment follows this sequence:
+
+1. **Registry Foundation** (sync-wave -50): Registry and catalog configurations
+2. **Namespaces** (sync-wave -45): All namespace definitions  
+3. **Namespaced Resources** (sync-wave -40): RBAC, ConfigMaps, OperatorGroups, Subscriptions
+4. **ArgoCD Resources** (sync-wave -35): AppProjects and Applications
+5. **Independent Custom Resources** (sync-wave -30): Core operators, infrastructure, and storage deployment
+6. **Policies and Validation** (sync-wave -25): ACM policies for configuration and infrastructure validation
+7. **Storage-Dependent Services** (sync-wave -10): Services requiring validated storage
+8. **ZTP Components** (sync-wave 100): Zero Touch Provisioning resources deployed last
+
+This ordering ensures all dependencies are properly resolved and aims at preventing race conditions during deployment.
+
+For detailed information about the sync-wave implementation, design principles, and complete file listings, see [SYNC-WAVES.md](SYNC-WAVES.md).

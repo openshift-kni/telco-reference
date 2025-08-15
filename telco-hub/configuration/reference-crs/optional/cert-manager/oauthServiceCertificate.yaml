@@ -5,6 +5,7 @@ metadata:
   name: oauth-service-certificate
   namespace: openshift-authentication
   annotations:
+    argocd.argoproj.io/sync-wave: "-30"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   commonName: selfsigned-ca.dns.name

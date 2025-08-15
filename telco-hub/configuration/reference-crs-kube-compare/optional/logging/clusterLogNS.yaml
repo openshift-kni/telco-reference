@@ -5,6 +5,7 @@ metadata:
   name: openshift-logging
 {{- if .metadata.annotations }}
   annotations:
+    argocd.argoproj.io/sync-wave: "-45"
 {{- range $key, $value := .metadata.annotations }}
     {{ $key }}: {{ $value }}
 {{- end }}

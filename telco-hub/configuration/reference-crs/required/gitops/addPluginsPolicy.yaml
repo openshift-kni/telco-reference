@@ -6,7 +6,7 @@ kind: Namespace
 metadata:
   name: hub-policies
   annotations:
-    argocd.argoproj.io/sync-wave: "10"
+    argocd.argoproj.io/sync-wave: "-45"
 ---
 apiVersion: cluster.open-cluster-management.io/v1beta2
 kind: ManagedClusterSetBinding
@@ -14,7 +14,7 @@ metadata:
   name: default
   namespace: hub-policies
   annotations:
-    argocd.argoproj.io/sync-wave: "10"
+    argocd.argoproj.io/sync-wave: "-25"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   clusterSet: default
@@ -27,7 +27,7 @@ metadata:
     policy.open-cluster-management.io/controls: CM-2 Baseline Configuration
     policy.open-cluster-management.io/description: ""
     policy.open-cluster-management.io/standards: NIST SP 800-53
-    argocd.argoproj.io/sync-wave: "10"
+    argocd.argoproj.io/sync-wave: "-25"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   name: ztp-argocd-plugins-installer
   namespace: hub-policies
@@ -110,7 +110,7 @@ metadata:
   name: ztp-argo-plugins-pl
   namespace: hub-policies
   annotations:
-    argocd.argoproj.io/sync-wave: "10"
+    argocd.argoproj.io/sync-wave: "-25"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   predicates:
@@ -128,7 +128,7 @@ metadata:
   name: ztp-argo-plugins-binding
   namespace: hub-policies
   annotations:
-    argocd.argoproj.io/sync-wave: "10"
+    argocd.argoproj.io/sync-wave: "-25"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 placementRef:
   name: ztp-argo-plugins-pl
