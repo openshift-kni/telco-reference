@@ -13,7 +13,7 @@ spec:
   sourceFiles:
     # The policy to propagate oadp configmap, the data field is overridden
     # through patches in the kustomization.yaml
-    - fileName: ConfigMapGeneric.yaml
+    - fileName: generic/ConfigMapGeneric.yaml
       policyName: "oadp-cm-policy"
       metadata:
         name: oadp-cm

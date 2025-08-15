@@ -72,7 +72,7 @@ There are multiple ways to enable kernel access to the EFI variables that are re
 
 - Update to the latest set of source-cr
 
-- Append `PerformanceProfile.yaml`'s  `additionalKernelArgs` from PGT
+- Append `node-tuning-operator/PerformanceProfile.yaml`'s  `additionalKernelArgs` from PGT
 
   ```yaml
   spec:

@@ -24,7 +24,7 @@ policies:
 # The policy to propagate oadp configmap
 - name: "group-ibu-oadp-cm-policy"
   manifests:
-  - path: source-crs/ConfigMapGeneric.yaml
+  - path: source-crs/generic/ConfigMapGeneric.yaml
     patches:
     - metadata:
         name: oadp-cm

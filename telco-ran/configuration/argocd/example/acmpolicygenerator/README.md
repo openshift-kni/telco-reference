@@ -94,7 +94,7 @@ must co-exist with the DU profile ACM PolicyGenerator as shown below as example
 ```
 ├── acmpolicygenerator
 │   ├── source-crs/
-│   │    ├── AcceleratorsNS.yaml
+│   │    ├── cluster-logging/
 │   │    ├── ...
 ├── acm-common-ranGen.yaml
 ├── acm-example-multinode-site.yaml
@@ -130,7 +130,7 @@ scenarios
 
 To avoid having two separate policies, one for upgrade and one for newly
 deployed clusters, the `acm-group-du-clo5-cleanup` policy includes
-`ClusterLogging5Cleanup.yaml` which is not a true "source CR". This file is an
+`cluster-logging/ClusterLogging5Cleanup.yaml` which is not a true "source CR". This file is an
 ACM Policy `object-template-raw` which enables us to query for existence of the
 CRD and, iff it exists, remove the old API CR and the CRD. This leverages the
 ACM PolicyGenerator support for source files containing object-template-raw

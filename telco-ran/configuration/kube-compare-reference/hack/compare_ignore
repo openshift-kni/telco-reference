@@ -1,53 +1,53 @@
 # Deprecated source-crs:
-HardwareEvent.yaml
-BareMetalEventRelaySubscriptionNS.yaml
-BareMetalEventRelaySubscriptionOperGroup.yaml
-BareMetalEventRelaySubscription.yaml
-extra-manifest/workload/03-workload-partitioning.yaml
-PaoSubscriptionCatalogSource.yaml
-PaoSubscriptionNS.yaml
-PaoSubscriptionOperGroup.yaml
-PaoSubscription.yaml
-PaoOperatorStatus.yaml
-AmqInstance.yaml
-AmqSubscriptionNS.yaml
-AmqSubscriptionOperGroup.yaml
-AmqSubscription.yaml
-AmqOperatorStatus.yaml
-ClusterLogCatSource.yaml
-PtpCatSource.yaml
-SriovCatSource.yaml
-StorageCatSource.yaml
-MachineConfigContainerMountNS.yaml
-StorageLocalVolume.yaml
-PtpConfigSlaveCvl.yaml
+deprecated/HardwareEvent.yaml
+deprecated/BareMetalEventRelaySubscriptionNS.yaml
+deprecated/BareMetalEventRelaySubscriptionOperGroup.yaml
+deprecated/BareMetalEventRelaySubscription.yaml
+deprecated/03-workload-partitioning.yaml
+deprecated/PaoSubscriptionCatalogSource.yaml
+deprecated/PaoSubscriptionNS.yaml
+deprecated/PaoSubscriptionOperGroup.yaml
+deprecated/PaoSubscription.yaml
+deprecated/PaoOperatorStatus.yaml
+deprecated/AmqInstance.yaml
+deprecated/AmqSubscriptionNS.yaml
+deprecated/AmqSubscriptionOperGroup.yaml
+deprecated/AmqSubscription.yaml
+deprecated/AmqOperatorStatus.yaml
+deprecated/ClusterLogCatSource.yaml
+deprecated/PtpCatSource.yaml
+deprecated/SriovCatSource.yaml
+deprecated/StorageCatSource.yaml
+deprecated/MachineConfigContainerMountNS.yaml
+deprecated/StorageLocalVolume.yaml
+deprecated/PtpConfigSlaveCvl.yaml
 
 # General-use source-cr templates, not part of the RDS:
-ConfigMapGeneric.yaml
-MachineConfigGeneric.yaml
+generic/ConfigMapGeneric.yaml
+generic/MachineConfigGeneric.yaml
 
 # Validator CRs
 validatorCRs/informDuValidatorMaster.yaml
 validatorCRs/informDuValidatorWorker.yaml
 validatorCRs/informDuValidator.yaml
-AcceleratorsOperatorStatus.yaml
-ClusterLogOperatorStatus.yaml
-LcaOperatorStatus.yaml
-LVMOperatorStatus.yaml
-NMStateOperatorStatus.yaml
-PtpOperatorStatus.yaml
-SriovOperatorStatus.yaml
-StorageOperatorStatus.yaml
+sriov-fec-operator/AcceleratorsOperatorStatus.yaml
+cluster-logging/ClusterLogOperatorStatus.yaml
+lca/LcaOperatorStatus.yaml
+storage/LVMOperatorStatus.yaml
+nmstate/NMStateOperatorStatus.yaml
+ptp-operator/PtpOperatorStatus.yaml
+sriov-operator/SriovOperatorStatus.yaml
+storage/StorageOperatorStatus.yaml
 
 # ClusterLogging 5->6 upgrade helper-policy
-ClusterLogging5Cleanup.yaml
+cluster-logging/ClusterLogging5Cleanup.yaml
 
 # Set-Selector variants
-PerformanceProfile-SetSelector.yaml
-PtpOperatorConfig-SetSelector.yaml
-SriovNetworkNodePolicy-SetSelector.yaml
-SriovOperatorConfig-SetSelector.yaml
-PtpOperatorConfigForEvent-SetSelector.yaml
+node-tuning-operator/PerformanceProfile-SetSelector.yaml
+ptp-operator/PtpOperatorConfig-SetSelector.yaml
+sriov-operator/SriovNetworkNodePolicy-SetSelector.yaml
+sriov-operator/SriovOperatorConfig-SetSelector.yaml
+ptp-operator/PtpOperatorConfigForEvent-SetSelector.yaml
 
 # IBU source-crs, intentionally excluded from the reference for now:
 ibu/ImageBasedUpgrade.yaml
@@ -55,20 +55,20 @@ ibu/PlatformBackupRestoreLvms.yaml
 ibu/PlatformBackupRestore.yaml
 ibu/ImageBasedUpgradeStatus.yaml
 ibu/PlatformBackupRestoreWithIBGU.yaml
-OadpBackupStorageLocationStatus.yaml
-OadpDataProtectionApplication.yaml
-OadpSecret.yaml
-OadpSubscriptionNS.yaml
-OadpSubscriptionOperGroup.yaml
-OadpSubscription.yaml
-OadpOperatorStatus.yaml
-ClusterVersion.yaml
-ImageSignature.yaml
-MachineConfigPool.yaml
-MachineConfigSctp.yaml
+data-protection/OadpBackupStorageLocationStatus.yaml
+data-protection/OadpDataProtectionApplication.yaml
+data-protection/OadpSecret.yaml
+data-protection/OadpSubscriptionNS.yaml
+data-protection/OadpSubscriptionOperGroup.yaml
+data-protection/OadpSubscription.yaml
+data-protection/OadpOperatorStatus.yaml
+ibu/ClusterVersion.yaml
+ibu/ImageSignature.yaml
+machine-config/MachineConfigPool.yaml
+machine-config/MachineConfigSctp.yaml
 
 # Reboot source-crs
-RebootMachineConfig.yaml
+machine-config/RebootMachineConfig.yaml
 validatorCRs/rebootMachineConfigPoolValidator.yaml
 
 # Not true CRs, but special site-config templates

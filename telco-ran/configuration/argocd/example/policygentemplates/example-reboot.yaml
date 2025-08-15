@@ -11,7 +11,7 @@ spec:
     compliant: watch
     noncompliant: watch
   sourceFiles:
-    - fileName: RebootMachineConfig.yaml
+    - fileName: machine-config/RebootMachineConfig.yaml
       complianceType: mustonlyhave
       policyName: "reboot"
       spec:
