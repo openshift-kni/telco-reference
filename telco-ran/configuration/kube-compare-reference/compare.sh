@@ -5,7 +5,12 @@ TEMPDIR=$(mktemp -d)
 trap cleanup EXIT
 
 cleanup() {
-  rm -rf "$TEMPDIR"
+  if [[ -z $COMPARE_NO_CLEANUP ]]; then
+    echo "Cleaning up temporary directory $TEMPDIR (To prevent auto-cleanup, set COMPARE_NO_CLEANUP=1)"
+    rm -rf "$TEMPDIR"
+  else
+    echo "Temporary directory not deleted: $TEMPDIR"
+  fi
 }
 
 filterout() {
