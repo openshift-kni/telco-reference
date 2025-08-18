@@ -8,6 +8,23 @@ function cleanup() {
   rm -rf "$TEMPDIR"
 }
 
+filterout() {
+  local source_file=$1
+  local rendered_file=$2
+  local filter_file=$3
+  local reason=$4
+
+  # Filter out files with a source-cr/reference match from the full list of potentiol source-crs/reference files
+  while IFS= read -r file; do
+    [[ ${file::1} != "#" ]] || continue # Skip any comment lines in the exclusionfile
+    [[ -n ${file} ]] || continue        # Skip empty lines
+    local fname=${file##*/}
+    echo "Filtering out $reason $fname ($file)"
+    sed -i "/$fname/d" "$source_file"
+    sed -i "/$fname/d" "$rendered_file"
+  done < <(cat "$filter_file")
+}
+
 function compare_cr {
   local rendered_dir=$1
   local source_dir=$2
@@ -46,12 +63,8 @@ function compare_cr {
   done < "$source_file"
 
   # Filter out files with a source-cr/reference match from the full list of potentiol source-crs/reference files
-  while IFS= read -r file; do
-    [[ ${file::1} != "#" ]] || continue # Skip any comment lines in the exclusionfile
-    [[ -n ${file} ]] || continue # Skip empty lines
-    sed -i "/${file##*/}/d" "$source_file"
-    sed -i "/${file##*/}/d" "$rendered_file"
-  done < <(cat "$same_file" "$exclusionfile")
+  filterout "$source_file" "$rendered_file" "$same_file" "found"
+  filterout "$source_file" "$rendered_file" "$exclusionfile" "excluded"
 
   if [[ -s "$source_file" || -s "$rendered_file" ]]; then
     [ -s "$source_file" ] && printf "\n\nThe following files exist in source-crs only, but not found in reference:\n" && cat "$source_file"
