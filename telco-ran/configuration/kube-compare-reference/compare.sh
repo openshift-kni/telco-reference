@@ -134,6 +134,21 @@ sync_cr() {
 
   local source rendered excluded found
   for rendered in "${renderedFiles[@]}"; do
+    local rendered_base=${rendered#*/templates/}
+    found=0
+    for excluded in "${excludedFiles[@]}"; do
+      if [ "${rendered##*/}" = "${excluded##*/}" ]; then
+        # Match found!
+        found=1
+        break
+      fi
+    done
+    if [[ $found == 1 ]]; then
+      # Do NOT use rendered file (it is excluded!)
+      echo "sync: Excluding rendered file $rendered_base"
+      continue
+    fi
+
     found=0
     for source in "${sourceFiles[@]}"; do
       if [ "${source##*/}" = "${rendered##*/}" ]; then
@@ -143,7 +158,6 @@ sync_cr() {
       fi
     done
     if [[ $found == 0 ]]; then
-      local rendered_base=${rendered#*/templates/}
       rendered_base=${rendered_base#optional/}
       rendered_base=${rendered_base#required/}
       source="$source_dir/${rendered_base}"
