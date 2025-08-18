@@ -76,8 +76,8 @@ extra-manifest/disk-encryption.yaml.tmpl
 extra-manifest/image-registry-partition-mc.yaml.tmpl
 
 # Exists in the reference only, to enforce version compatibility
-ClusterVersionOperator.yaml
+version-check/ClusterVersionOperator.yaml
 
 # Reference only to ensure default has not been changed
-required/machine-config/cgroup-check.yaml
-required/machine-config/container-runtime.yaml
+machine-config/cgroup-check.yaml
+machine-config/container-runtime.yaml
