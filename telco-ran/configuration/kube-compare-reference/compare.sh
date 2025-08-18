@@ -13,6 +13,39 @@ cleanup() {
   fi
 }
 
+check_requirement() {
+  local cmd=$1
+  local installer=$2
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    echo "$cmd isn't installed; please download and install it:"
+    echo "  $installer"
+    return 1
+  fi
+  return 0
+}
+
+check_requirements() {
+  local missing=0
+  check_requirement helm-convert \
+    "go install github.com/openshift/kube-compare/addon-tools/helm-convert@latest" ||
+    missing=1
+  check_requirement helm \
+    "curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash" ||
+    missing=1
+  return $missing
+}
+
+helmconvert() {
+  local metadata=$1
+  local values=$2
+  local rendered_dir=$3
+  local chart_dir="$TEMPDIR/chart"
+  echo "Converting reference files from $metadata with values $values to helm chart in $chart_dir"
+  helm-convert -r "$metadata" -n "$chart_dir" -v "$values" || return 1
+  echo "Rendering helm chart into $rendered_dir"
+  helm template rendered "$chart_dir" --output-dir "$rendered_dir" || return 1
+}
+
 filterout() {
   local source_file=$1
   local rendered_file=$2
@@ -143,7 +176,7 @@ sync_cr() {
 }
 
 usage() {
-  echo "$(basename "$0") [--sync] sourceDir renderDir"
+  echo "$(basename "$0") [--sync] sourceDir metadata.yaml default_value.yaml"
   echo
   echo "Compares the rendered reference-based CRs to the CRs in the compare directory"
 }
@@ -161,18 +194,35 @@ for arg in "$@"; do
     ;;
   esac
 done
+
 SOURCEDIR=$1
 if [[ ! -d $SOURCEDIR ]]; then
   echo "No such source directory $SOURCEDIR"
   usage
   exit 1
 fi
-RENDERDIR=$2
-if [[ ! -d $RENDERDIR ]]; then
-  echo "No such source directory $RENDERDIR"
+shift
+
+METADATA=$1
+if [[ ! -f $METADATA ]]; then
+  echo "No such metadata.yaml $METADATA"
   usage
   exit 1
 fi
+shift
+
+VALUES=$1
+if [[ ! -f $VALUES ]]; then
+  echo "No such default_value.yaml $VALUES"
+  usage
+  exit 1
+fi
+
+check_requirements || exit 1
+
+RENDERDIR=$TEMPDIR/rendered
+mkdir -p "$RENDERDIR"
+helmconvert "$METADATA" "$VALUES" "$RENDERDIR" || exit 1
 
 if [[ $DOSYNC == 1 ]]; then
   sync_cr "$RENDERDIR" "$SOURCEDIR" compare_ignore

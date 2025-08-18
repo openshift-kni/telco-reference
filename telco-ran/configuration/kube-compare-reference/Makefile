@@ -6,11 +6,6 @@ kubectl-cluster_compare:
 		echo "kubectl-cluster_compare tool isn't installed; please download it from https://github.com/openshift/kube-compare"; \
 	}
 
-helm-convert:
-	@command -v helm-convert > /dev/null 2>&1 || { \
-		echo "helm-convert isn't installed; please download and install it"; \
-	}
-
 .PHONY: metadata_lint
 metadata_lint: kubectl-cluster_compare
 	@echo "Running kube-compare to ensure metadata.yaml is sane"
@@ -23,28 +18,10 @@ metadata_lint: kubectl-cluster_compare
 	echo "Okay"; \
 	exit 0
 
-.PHONY: clean
-clean:
-	rm -rf kubectl-cluster_compare Chartv1 renderedv1 helm
-
-
-.PHONY: convert
-convert: helm-convert helm
-	@echo "Converting reference files to Helm Charts."
-	@rm -rf Chartv1 renderedv1
-	@helm-convert -r ./metadata.yaml -n Chartv1 -v default_value.yaml
-	@echo "Rendering Helm Charts to CR files."
-	@helm template renderedv1 ./Chartv1 --output-dir renderedv1
-
-helm:
-	@command -v helm > /dev/null 2>&1 || { \
-		echo "helm isn't installed; please download and install it"; \
-	}
-
 .PHONY: compare
-compare: convert
-	@./compare.sh "../source-crs" renderedv1
+compare:
+	@./compare.sh ../source-crs ./metadata.yaml ./default_value.yaml
 
 .PHONY: sync
-sync: convert
-	@./compare.sh --sync "../source-crs" renderedv1
+sync:
+	@./compare.sh --sync ../source-crs ./metadata.yaml ./default_value.yaml
