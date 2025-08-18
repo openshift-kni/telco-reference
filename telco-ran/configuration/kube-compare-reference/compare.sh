@@ -24,6 +24,7 @@ filterout() {
   done < <(cat "$filter_file")
 }
 
+SEPARATOR='**********************************************************************************'
 compare_cr() {
   local rendered_dir=$1
   local source_dir=$2
@@ -53,7 +54,7 @@ compare_cr() {
         # Check the differences
         if ! "$DIFF" -u "$source_cr" "$rendered"; then
           status=$((status || 1))
-          printf "\n\n**********************************************************************************\n\n"
+          printf "\n\n%s\n\n" "$SEPARATOR"
         fi
         # cleanup
         echo "$source_cr" >>"$same_file"
@@ -65,11 +66,15 @@ compare_cr() {
   filterout "$source_file" "$rendered_file" "$same_file" "found"
   filterout "$source_file" "$rendered_file" "$exclusionfile" "excluded"
 
+  echo "$SEPARATOR"
   if [[ -s "$source_file" || -s "$rendered_file" ]]; then
-    [ -s "$source_file" ] && printf "\n\nThe following files exist in source-crs only, but not found in reference:\n" && cat "$source_file"
+    [ -s "$source_file" ] && printf "\nThe following files exist in source-crs only, but not found in reference:\n" && cat "$source_file"
     [ -s "$rendered_file" ] && printf "\nThe following files exist in reference only, but not found in source-crs:\n" && cat "$rendered_file"
     status=1
+  else
+    echo " ✓ All cluster-compare reference files correlate 1:1 with $source_dir"
   fi
+  echo "$SEPARATOR"
 
   return $status
 }
