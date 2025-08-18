@@ -194,7 +194,7 @@ sync_cr() {
 }
 
 usage() {
-  echo "$(basename "$0") [--sync] sourceDir metadata.yaml default_value.yaml"
+  echo "$(basename "$0") [--sync] sourceDir metadata.yaml default_value.yaml compare_ignore"
   echo
   echo "Compares the rendered reference-based CRs to the CRs in the compare directory"
 }
@@ -235,6 +235,15 @@ if [[ ! -f $VALUES ]]; then
   usage
   exit 1
 fi
+shift
+
+COMPARE_IGNORE=$1
+if [[ ! -f $COMPARE_IGNORE ]]; then
+  echo "No such compare_ignore $COMPARE_IGNORE"
+  usage
+  exit 1
+fi
+shift
 
 check_requirements || exit 1
 
@@ -243,7 +252,7 @@ mkdir -p "$RENDERDIR"
 helmconvert "$METADATA" "$VALUES" "$RENDERDIR" || exit 1
 
 if [[ $DOSYNC == 1 ]]; then
-  sync_cr "$RENDERDIR" "$SOURCEDIR" compare_ignore
+  sync_cr "$RENDERDIR" "$SOURCEDIR" "$COMPARE_IGNORE"
 else
-  compare_cr "$RENDERDIR" "$SOURCEDIR" compare_ignore
+  compare_cr "$RENDERDIR" "$SOURCEDIR" "$COMPARE_IGNORE"
 fi
