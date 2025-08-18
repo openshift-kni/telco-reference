@@ -1,9 +1,11 @@
 #! /bin/bash
 
+TEMPDIR=$(mktemp -d)
+
 trap cleanup EXIT
 
 function cleanup() {
-  rm -rf source_file rendered_file same_file
+  rm -rf "$TEMPDIR"
 }
 
 function read_dir() {
@@ -24,6 +26,9 @@ function compare_cr {
   local source_dir=$2
   local exclusionfile=$3
   local status=0
+  local source_file="$TEMPDIR/source_file"
+  local rendered_file="$TEMPDIR/rendered_file"
+  local same_file="$TEMPDIR/same_file"
 
   local DIFF=${DIFF:-colordiff}
   if ! command -v "$DIFF" >/dev/null; then
@@ -31,8 +36,8 @@ function compare_cr {
     DIFF="diff"
   fi
 
-  read_dir "$rendered_dir" |grep yaml  > rendered_file
-  read_dir "$source_dir" |grep yaml  > source_file
+  read_dir "$rendered_dir" |grep yaml  > "$rendered_file"
+  read_dir "$source_dir" |grep yaml  > "$source_file"
 
   local source_cr rendered
   while IFS= read -r source_cr; do
@@ -48,22 +53,22 @@ function compare_cr {
             printf "\n\n**********************************************************************************\n\n"
         fi
         # cleanup
-        echo "$source_cr" >> same_file
+        echo "$source_cr" >> "$same_file"
       fi
-    done < rendered_file
-  done < source_file
+    done < "$rendered_file"
+  done < "$source_file"
 
   # Filter out files with a source-cr/reference match from the full list of potentiol source-crs/reference files
   while IFS= read -r file; do
     [[ ${file::1} != "#" ]] || continue # Skip any comment lines in the exclusionfile
     [[ -n ${file} ]] || continue # Skip empty lines
-    sed -i "/${file##*/}/d" source_file
-    sed -i "/${file##*/}/d" rendered_file
-  done < <(cat same_file "$exclusionfile")
+    sed -i "/${file##*/}/d" "$source_file"
+    sed -i "/${file##*/}/d" "$rendered_file"
+  done < <(cat "$same_file" "$exclusionfile")
 
-  if [[ -s source_file || -s rendered_file ]]; then
-    [ -s source_file ] && printf "\n\nThe following files exist in source-crs only, but not found in reference:\n" && cat source_file
-    [ -s rendered_file ] && printf "\nThe following files exist in reference only, but not found in source-crs:\n" && cat rendered_file
+  if [[ -s "$source_file" || -s "$rendered_file" ]]; then
+    [ -s "$source_file" ] && printf "\n\nThe following files exist in source-crs only, but not found in reference:\n" && cat "$source_file"
+    [ -s "$rendered_file" ] && printf "\nThe following files exist in reference only, but not found in source-crs:\n" && cat "$rendered_file"
     status=1
   fi
 
