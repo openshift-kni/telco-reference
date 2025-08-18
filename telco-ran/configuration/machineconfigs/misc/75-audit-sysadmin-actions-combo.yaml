@@ -1,0 +1,23 @@
+# Combined from the following remediations for /etc/audit/rules.d/75-audit-sysadmin-actions.rules (all roles):
+#   - rhcos4-e8-worker-audit-rules-sysadmin-actions.yaml
+#   - rhcos4-e8-master-audit-rules-sysadmin-actions.yaml
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+spec:
+  config:
+    ignition:
+      version: 3.1.0
+    storage:
+      files:
+        - contents:
+            # The following lines are the deduplicated, combined plaintext contents from all related MachineConfig remediations.
+            # -w /etc/sudoers -p wa -k actions
+            # -w /etc/sudoers.d/ -p wa -k actions
+            source: data:,-w%20%2Fetc%2Fsudoers%20-p%20wa%20-k%20actions%0A-w%20%2Fetc%2Fsudoers.d%2F%20-p%20wa%20-k%20actions%0A
+          mode: 384
+          overwrite: true
+          path: /etc/audit/rules.d/75-audit-sysadmin-actions.rules
+metadata:
+  name: 75-audit-sysadmin-actions-combo
+  labels:
+    machineconfiguration.openshift.io/role: worker
