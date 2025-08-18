@@ -8,19 +8,6 @@ function cleanup() {
   rm -rf "$TEMPDIR"
 }
 
-function read_dir() {
-  local dir=$1
-  local file
-
-  for file in "$dir"/*; do
-    if [ -d "$file" ]; then
-      read_dir "$file"
-    else
-      echo "$file"
-    fi
-  done
-}
-
 function compare_cr {
   local rendered_dir=$1
   local source_dir=$2
@@ -36,8 +23,8 @@ function compare_cr {
     DIFF="diff"
   fi
 
-  read_dir "$rendered_dir" |grep yaml  > "$rendered_file"
-  read_dir "$source_dir" |grep yaml  > "$source_file"
+  find "$rendered_dir" -name '*.yaml' >"$rendered_file"
+  find "$source_dir" -name '*.yaml' >"$source_file"
 
   local source_cr rendered
   while IFS= read -r source_cr; do
@@ -82,10 +69,10 @@ sync_cr() {
     local status=0
 
     local -a renderedFiles
-    readarray -t renderedFiles < <(read_dir "$rendered_dir" | grep yaml)
+    readarray -t renderedFiles < <(find "$rendered_dir" -name '*.yaml')
 
     local -a sourceFiles
-    readarray -t sourceFiles < <(read_dir "$source_dir" | grep yaml)
+    readarray -t sourceFiles < <(find "$source_dir" -name '*.yaml')
 
     local -a excludedFiles
     readarray -t excludedFiles < <(grep -v '^#' "$exclusionfile" | grep -v '^$')
