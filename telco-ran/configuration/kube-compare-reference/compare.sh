@@ -143,10 +143,14 @@ sync_cr() {
       fi
     done
     if [[ $found == 0 ]]; then
-      source="$source_dir/${rendered##*/}"
+      local rendered_base=${rendered#*/templates/}
+      rendered_base=${rendered_base#optional/}
+      rendered_base=${rendered_base#required/}
+      source="$source_dir/${rendered_base}"
     fi
 
     # Replace the CR with the rendered copy (minus the helm-rendered heading)
+    mkdir -p "$(dirname "$source")"
     tail -n +3 "$rendered" >"$source"
     git add "$source"
   done
