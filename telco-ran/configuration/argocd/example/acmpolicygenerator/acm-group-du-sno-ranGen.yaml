@@ -62,7 +62,7 @@ policies:
 #      - spec:
 #          daemonNodeSelector:
 #            node-role.kubernetes.io/worker: ""
-    - path: source-crs/ptp-config/PtpConfigSlave.yaml   # Change to PtpConfigSlaveCvl.yaml for ColumbiaVille NIC
+    - path: source-crs/ptp-config/PtpConfigSlave.yaml
       patches:
         - metadata:
             name: du-ptp-slave

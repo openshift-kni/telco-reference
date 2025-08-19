@@ -35,7 +35,7 @@ policies:
   policyAnnotations:
     ran.openshift.io/ztp-deploy-wave: "10"
   manifests:
-    - path: source-crs/ptp-config/PtpConfigSlave.yaml   # Change to PtpConfigSlaveCvl.yaml for ColumbiaVille NIC
+    - path: source-crs/ptp-config/PtpConfigSlave.yaml
       patches:
         - metadata:
             name: du-ptp-slave
