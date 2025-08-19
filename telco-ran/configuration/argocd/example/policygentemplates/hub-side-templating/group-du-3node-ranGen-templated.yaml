@@ -21,7 +21,7 @@ spec:
     #######################
     # group-du-3nc-cfg-pc #
     #######################
-    - fileName: ptp-config/PtpConfigSlave.yaml   # wave 10 # Change to ptp-config/PtpConfigSlaveCvl.yaml for ColumbiaVille NIC
+    - fileName: ptp-config/PtpConfigSlave.yaml
       policyName: "group-du-3nc-cfg-pc"
       metadata:
         name: "du-ptp-slave"

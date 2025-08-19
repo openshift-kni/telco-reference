@@ -145,7 +145,6 @@ policies:
             profile: performance-patch
     - path: source-crs/optional-extra-manifest/enable-crun-master.yaml
     - path: source-crs/optional-extra-manifest/enable-crun-worker.yaml
-#    - path: source-crs/deprecated/AmqInstance.yaml
 #    - path: source-crs/storage/StorageClass.yaml
 #      patches:
 #      - metadata:

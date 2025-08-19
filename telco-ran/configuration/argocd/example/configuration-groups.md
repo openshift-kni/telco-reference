@@ -8,13 +8,11 @@ Depending on the exact purpose and configuration for the spokes, some of the sou
 
 # PGT1 - configuration that can be common for most spoke clusters
 **The source CRs from below could lack group or site specific info and can have common configuration for all spokes**
-* deprecated/AmqInstance.yaml
 * cluster-logging/ClusterLogForwarder.yaml
     * spec.outputs
     * spec.pipelines
 * cluster-tuning/DisableOLMPprof.yaml
 * cluster-tuning/disabling-network-diagnostics/DisableSnoNetworkDiag.yaml (Cluster Network Operator)
-* HardwareEvent.yaml
 * image-registry/ImageRegistryConfig.yaml (Cluster Image Registry Operator)
 * image-registry/ImageRegistryPV.yaml
 * generic/MachineConfigGeneric.yaml
@@ -27,15 +25,11 @@ Depending on the exact purpose and configuration for the spokes, some of the sou
 
 
 # PGT2 - has configuration that can be common to sites with the same hardware(disks, NICs)/OS, mountpoints, etc
-* deprecated/AmqInstance.yaml
 * cluster-logging/ClusterLogForwarder.yaml
     * spec.outputs
     * spec.pipelines
 * cluster-tuning/disabling-network-diagnostics/DisableSnoNetworkDiag.yaml (Cluster Network Operator)
     > Note: If users want to configure things apart spec.disableNetworkDiagnostics
-* HardwareEvent.yaml
-     * spec.transportHost
-     * spec.logLevel
 * image-registry/ImageRegistryConfig.yaml (Image Registry Operator)
     > Note: Any of the spec fields can differ based on the spokes groups
 * image-registry/ImageRegistryPV.yaml

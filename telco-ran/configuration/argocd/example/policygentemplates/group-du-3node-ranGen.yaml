@@ -13,7 +13,7 @@ spec:
   # the Performance Profile needs to be set up to apply to the master MCP:
   mcp: "master"
   sourceFiles:
-    - fileName: ptp-config/PtpConfigSlave.yaml   # Change to ptp-config/PtpConfigSlaveCvl.yaml for ColumbiaVille NIC
+    - fileName: ptp-config/PtpConfigSlave.yaml
       policyName: "config-policy"
       metadata:
         name: "du-ptp-slave"

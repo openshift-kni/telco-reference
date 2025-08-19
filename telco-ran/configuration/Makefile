@@ -18,6 +18,7 @@ checkSourceCRsAnnotation:
 			*/validatorCRs/* | \
 			*/MachineConfig* | \
 			*/generic/* | \
+			*/deprecated/workload/* | \
 			*/ibu/* ) \
 				echo "skip"; \
 				continue \

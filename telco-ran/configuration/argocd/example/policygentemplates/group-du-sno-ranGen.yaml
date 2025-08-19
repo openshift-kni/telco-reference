@@ -46,7 +46,7 @@ spec:
     #     daemonNodeSelector:
     #       node-role.kubernetes.io/worker: ""
 
-    - fileName: ptp-config/PtpConfigSlave.yaml   # Change to ptp-config/PtpConfigSlaveCvl.yaml for ColumbiaVille NIC
+    - fileName: ptp-config/PtpConfigSlave.yaml
       policyName: "config-policy"
       metadata:
         name: "du-ptp-slave"
@@ -108,8 +108,6 @@ spec:
       policyName: "config-policy"
     - fileName: optional-extra-manifest/enable-crun-worker.yaml
       policyName: "config-policy"
-    # # AmqInstance is required if PTP and BMER operators use AMQP transport
-    # - fileName: deprecated/AmqInstance.yaml
 #    --- sources needed for image registry (check ImageRegistry.md for more details)----
 #    - fileName: storage/StorageClass.yaml
 #      policyName: "config-policy"

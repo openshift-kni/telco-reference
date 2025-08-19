@@ -1,9 +1,4 @@
 # Deprecated source-crs:
-deprecated/HardwareEvent.yaml
-deprecated/BareMetalEventRelaySubscriptionNS.yaml
-deprecated/BareMetalEventRelaySubscriptionOperGroup.yaml
-deprecated/BareMetalEventRelaySubscription.yaml
-deprecated/03-workload-partitioning.yaml
 deprecated/PaoSubscriptionCatalogSource.yaml
 deprecated/PaoSubscriptionNS.yaml
 deprecated/PaoSubscriptionOperGroup.yaml
@@ -21,6 +16,7 @@ deprecated/StorageCatSource.yaml
 deprecated/MachineConfigContainerMountNS.yaml
 deprecated/StorageLocalVolume.yaml
 deprecated/PtpConfigSlaveCvl.yaml
+deprecated/workload/03-workload-partitioning.yaml
 
 # General-use source-cr templates, not part of the RDS:
 generic/ConfigMapGeneric.yaml

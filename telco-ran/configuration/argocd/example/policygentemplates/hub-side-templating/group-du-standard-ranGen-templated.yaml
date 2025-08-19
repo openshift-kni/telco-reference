@@ -21,7 +21,7 @@ spec:
     ############################
     - fileName: ptp-operator/PtpOperatorConfig.yaml
       policyName: group-du-standard-cfg-pc
-    - fileName: ptp-config/PtpConfigSlave.yaml   # wave 10 # Change to ptp-config/PtpConfigSlaveCvl.yaml for ColumbiaVille NIC
+    - fileName: ptp-config/PtpConfigSlave.yaml
       policyName: group-du-standard-cfg-pc
       metadata:
         name: "du-ptp-slave"

@@ -35,7 +35,7 @@ spec:
     - fileName: cluster-tuning/DisableOLMPprof.yaml # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
     ###
-    - fileName: ptp-config/PtpConfigSlave.yaml    # wave 10 # Change to ptp-config/PtpConfigSlaveCvl.yaml for ColumbiaVille NIC
+    - fileName: ptp-config/PtpConfigSlave.yaml
       policyName: "gr-du-sno-cfg-pc-templated"
       metadata:
         name: "du-ptp-slave"
@@ -110,13 +110,6 @@ spec:
     - fileName: optional-extra-manifest/enable-crun-worker.yaml
       policyName: "gr-du-sno-cfg-pc-templated"
     ###
-#    # AmqInstance is required if PTP and BMER operators use AMQP transport
-#    - fileName: deprecated/AmqInstance.yaml # wave 100 - updated below to 10
-#      policyName: "gr-du-sno-cfg-pc-templated"
-#      metadata:
-#        annotations:
-#          ran.openshift.io/ztp-deploy-wave: "10"
-#
 #    # ---- START OF source CRs needed for image registry (check ImageRegistry.md for more details) ----
 #    - fileName: storage/StorageClass.yaml # wave 10
 #      policyName: "gr-du-sno-cfg-pc-templated"
