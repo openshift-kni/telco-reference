@@ -16,12 +16,11 @@ spec:
   # Filters add metadata labels to log records for identification
   filters:
   - name: telco-hub-labels
-    type: openshiftLabels
-    # Add these labels to all forwarded log records
     openshiftLabels:
-      cluster-role: hub                # Identifies this as hub cluster logs
-      environment: production          # Environment designation
-      telco-component: management      # Component categorization
+      cluster-role: hub
+      environment: production
+      telco-component: management
+    type: openshiftLabels
 
   # Output destinations for log forwarding
   outputs:

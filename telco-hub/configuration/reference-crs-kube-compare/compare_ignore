@@ -32,6 +32,7 @@ optional/backup-recovery/restore.yaml
 optional/odf-internal/odfReady.yaml
 required/acm/acmPerfSearch.yaml
 required/acm/thanosSecretPolicy.yaml
+required/gitops/addPluginsPolicy.yaml
 
 # ArgoCD files
 kustomization.yaml

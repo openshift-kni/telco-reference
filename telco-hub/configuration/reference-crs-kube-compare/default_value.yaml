@@ -282,6 +282,16 @@ optional_logging_clusterLogSubscription:
 optional_logging_clusterLogForwarder:
 - kafka:
     url: tcp://$kafka-server:9092/endpoint
+  spec:
+    filters:
+    - name: telco-hub-labels
+      type: openshiftLabels
+      openshiftLabels:
+        cluster-role: hub                # Identifies this as hub cluster logs
+        environment: production          # Environment designation
+        telco-component: management      # Component categorization
+  filterRefs:
+  - telco-hub-labels
 
 # GitOps defaults
 required_gitops_argocd_application:
