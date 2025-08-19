@@ -5,6 +5,7 @@ metadata:
   name: hub-backup
   namespace: open-cluster-management-backup
   annotations:
+    argocd.argoproj.io/sync-wave: "-30"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   backupLocations:
