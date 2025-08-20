@@ -19,9 +19,9 @@ Depending on the exact purpose and configuration for the spokes, some of the sou
 * machine-config/MachineConfigPool.yaml
 * machine-config/MachineConfigSctp.yaml
 * cluster-tuning/operator-hub/OperatorHub.yaml
-* storage/StorageClass.yaml
-* storage/StoragePV.yaml (Local Storage Operator)
-* storage/StoragePVC.yaml (Local Storage Operator)
+* storage-lso/StorageClass.yaml
+* storage-lso/StoragePV.yaml (Local Storage Operator)
+* storage-lso/StoragePVC.yaml (Local Storage Operator)
 
 
 # PGT2 - has configuration that can be common to sites with the same hardware(disks, NICs)/OS, mountpoints, etc
@@ -52,10 +52,10 @@ Depending on the exact purpose and configuration for the spokes, some of the sou
 * storage/StorageLocalVolume.yaml
     > Note: could be common to all spokes, depending on the exact disk configuration, but safer to have it per-site (Local Storage Operator)
     * spec.devicePaths
-* storage/StorageClass.yaml
-* local-storage-operator/StorageLVMCluster.yaml
-* storage/StoragePV.yaml
-* storage/StoragePVC.yaml
+* storage-lso/StorageClass.yaml
+* storage-lvm/StorageLVMCluster.yaml
+* storage-lso/StoragePV.yaml
+* storage-lso/StoragePVC.yaml
 
 # PGT3 - has config that is (can be) site specific
 * sriov-fec-operator/SriovFecClusterConfig.yaml

@@ -144,15 +144,15 @@ parts:
         oneOf:
           - path: sriov-operator/SriovOperatorConfig.yaml
           - path: sriov-operator/SriovOperatorConfigForSNO.yaml
-  - name: optional-local-storage-operator
+  - name: optional-storage-lso
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-local-storage-operator_ran-ref-design-components
+      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-storage-lso_ran-ref-design-components
     components:
-      - name: local-storage-operator
+      - name: storage-lso
         allOrNoneOf:
-          - path: local-storage-operator/StorageNS.yaml
-          - path: local-storage-operator/StorageOperGroup.yaml
-          - path: local-storage-operator/StorageSubscription.yaml
+          - path: storage-lso/StorageNS.yaml
+          - path: storage-lso/StorageOperGroup.yaml
+          - path: storage-lso/StorageSubscription.yaml
             config:
               ignore-unspecified-fields: true
   - name: optional-storage-lvm
@@ -161,30 +161,30 @@ parts:
     components:
       - name: storage-operator
         allOrNoneOf:
-          - path: storage/StorageLVMCluster.yaml
-          - path: storage/StorageLVMSubscription.yaml
+          - path: storage-lvm/StorageLVMCluster.yaml
+          - path: storage-lvm/StorageLVMSubscription.yaml
             config:
               ignore-unspecified-fields: true
-          - path: storage/StorageLVMSubscriptionNS.yaml
-          - path: storage/StorageLVMSubscriptionOperGroup.yaml
-          - path: storage/StoragePV.yaml
+          - path: storage-lvm/StorageLVMSubscriptionNS.yaml
+          - path: storage-lvm/StorageLVMSubscriptionOperGroup.yaml
+          - path: storage-lvm/StoragePV.yaml
   - name: optional-storage-config
     description: |-
       https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-lvms-operator_ran-ref-design-components
     components:
       - name: local-storage-config
         anyOf:
-          - path: storage/StoragePVC.yaml
+          - path: storage-lvm/StoragePVC.yaml
   - name: optional-storage
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-local-storage-operator_ran-ref-design-components
+      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-storage-lso_ran-ref-design-components
     components:
       - name: storage
         allOrNoneOf:
-          - path: local-storage-operator/StorageClass.yaml
+          - path: storage-lso/StorageClass.yaml
             config:
               ignore-unspecified-fields: true
-          - path: local-storage-operator/StorageLV.yaml
+          - path: storage-lso/StorageLV.yaml
             config:
               ignore-unspecified-fields: true
   - name: optional-sriov-fec-operator

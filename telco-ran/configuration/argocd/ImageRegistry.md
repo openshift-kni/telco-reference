@@ -24,14 +24,14 @@ Installation
    ```yaml
    sourceFiles:
       # storage class
-      - fileName: storage/StorageClass.yaml
+      - fileName: storage-lso/StorageClass.yaml
         policyName: "sc-for-image-registry"
         metadata:
           name: image-registry-sc
           annotations:
             ran.openshift.io/ztp-deploy-wave: "100" # remove this when moved to the right PGT (site/group/common)
      # persistent volume claim
-     - fileName: storage/StoragePVC.yaml
+     - fileName: storage-lso/StoragePVC.yaml
        policyName: "pvc-for-image-registry"
        metadata:
          name: image-registry-pvc

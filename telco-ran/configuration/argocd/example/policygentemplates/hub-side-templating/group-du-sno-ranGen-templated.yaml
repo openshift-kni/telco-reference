@@ -58,7 +58,7 @@ spec:
         configDaemonNodeSelector:
           node-role.kubernetes.io/worker: ""
     ###
-    - fileName: storage/StorageLV.yaml # wave 10
+    - fileName: storage-lso/StorageLV.yaml # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
       spec:
         storageClassDevices:
@@ -111,11 +111,11 @@ spec:
       policyName: "gr-du-sno-cfg-pc-templated"
     ###
 #    # ---- START OF source CRs needed for image registry (check ImageRegistry.md for more details) ----
-#    - fileName: storage/StorageClass.yaml # wave 10
+#    - fileName: storage-lso/StorageClass.yaml # wave 10
 #      policyName: "gr-du-sno-cfg-pc-templated"
 #      metadata:
 #        name: image-registry-sc # FIXED
-#    - fileName: storage/StoragePVC.yaml # wave 10
+#    - fileName: storage-lso/StoragePVC.yaml # wave 10
 #      policyName: "gr-du-sno-cfg-pc-templated"
 #      metadata:
 #        name: image-registry-pvc # FIXED

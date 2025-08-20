@@ -67,7 +67,7 @@ spec:
       spec:
         configDaemonNodeSelector:
           node-role.kubernetes.io/worker: ""
-    - fileName: storage/StorageLV.yaml
+    - fileName: storage-lso/StorageLV.yaml
       policyName: "config-policy"
       spec:
         storageClassDevices:
@@ -109,11 +109,11 @@ spec:
     - fileName: optional-extra-manifest/enable-crun-worker.yaml
       policyName: "config-policy"
 #    --- sources needed for image registry (check ImageRegistry.md for more details)----
-#    - fileName: storage/StorageClass.yaml
+#    - fileName: storage-lso/StorageClass.yaml
 #      policyName: "config-policy"
 #      metadata:
 #        name: image-registry-sc
-#    - fileName: storage/StoragePVC.yaml
+#    - fileName: storage-lso/StoragePVC.yaml
 #      policyName: "config-policy"
 #      metadata:
 #        name: image-registry-pvc

@@ -89,7 +89,7 @@ policies:
       - spec:
           configDaemonNodeSelector:
             node-role.kubernetes.io/worker: ""
-    - path: source-crs/storage/StorageLV.yaml
+    - path: source-crs/storage-lso/StorageLV.yaml
       patches:
       - spec:
           storageClassDevices:
@@ -145,11 +145,11 @@ policies:
             profile: performance-patch
     - path: source-crs/optional-extra-manifest/enable-crun-master.yaml
     - path: source-crs/optional-extra-manifest/enable-crun-worker.yaml
-#    - path: source-crs/storage/StorageClass.yaml
+#    - path: source-crs/storage-lso/StorageClass.yaml
 #      patches:
 #      - metadata:
 #          name: image-registry-sc # FIXED
-#    - path: source-crs/storage/StoragePVC.yaml # wave 10
+#    - path: source-crs/storage-lso/StoragePVC.yaml # wave 10
 #      patches:
 #      - metadata:
 #          name: image-registry-pvc # FIXED

@@ -41,13 +41,13 @@ spec:
       policyName: "subscriptions-policy"
     - fileName: cluster-logging/ClusterLogServiceAccountInfrastructureBinding.yaml
       policyName: "subscriptions-policy"
-    - fileName: storage/StorageNS.yaml
+    - fileName: storage-lso/StorageNS.yaml
       policyName: "subscriptions-policy"
-    - fileName: storage/StorageOperGroup.yaml
+    - fileName: storage-lso/StorageOperGroup.yaml
       policyName: "subscriptions-policy"
-    - fileName: storage/StorageSubscription.yaml
+    - fileName: storage-lso/StorageSubscription.yaml
       policyName: "subscriptions-policy"
-    - fileName: storage/StorageOperatorStatus.yaml
+    - fileName: storage-lso/StorageOperatorStatus.yaml
       policyName: "subscriptions-policy"
     #
     # LCA operator is used for orchestrating Image Based Upgrade for SNO

@@ -5,11 +5,11 @@ image_registry_ImageRegistryConfig:
       operatorLogLevel: null
       proxy: {}
       storage: {}
-local_storage_operator_StorageClass:
+storage_lso_StorageClass:
   - metadata:
       name: example-storage-class
     provisioner: kubernetes.io/no-provisioner
-local_storage_operator_StorageLV:
+storage_lso_StorageLV:
   - metadata:
       name: local-disks
     spec:
@@ -19,7 +19,7 @@ local_storage_operator_StorageLV:
           fsType: xfs
           storageClassName: "example-storage-class"
           volumeMode: Filesystem
-local_storage_operator_StorageSubscription:
+storage_lso_StorageSubscription:
   - spec:
       source: redhat-operators-disconnected
 ptp_config_PtpConfigBoundary:
@@ -260,19 +260,19 @@ sriov_fec_operator_SriovVrbClusterConfig:
         node-role.kubernetes.io/$mcp: ""
       physicalFunction:
         bbDevConfig: $bbDevConfig
-storage_StorageLVMCluster:
+storage_lvm_StorageLVMCluster:
   - spec: {}
-storage_StorageLVMSubscription:
+storage_lvm_StorageLVMSubscription:
   - spec:
       source: redhat-operators-disconnected
-storage_StoragePV:
+storage_lvm_StoragePV:
   - spec:
       nodeAffinity:
         required:
           nodeSelectorTerms:
             - matchExpressions:
                 - key: "node-role.kubernetes.io/$mcp"
-storage_StoragePVC:
+storage_lvm_StoragePVC:
   - spec: {}
 cluster_logging_ClusterLogForwarder:
   - spec:

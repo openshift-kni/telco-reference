@@ -29,11 +29,11 @@ validatorCRs/informDuValidator.yaml
 sriov-fec-operator/AcceleratorsOperatorStatus.yaml
 cluster-logging/ClusterLogOperatorStatus.yaml
 lca/LcaOperatorStatus.yaml
-storage/LVMOperatorStatus.yaml
+storage-lvm/LVMOperatorStatus.yaml
 nmstate/NMStateOperatorStatus.yaml
 ptp-operator/PtpOperatorStatus.yaml
 sriov-operator/SriovOperatorStatus.yaml
-storage/StorageOperatorStatus.yaml
+storage-lso/StorageOperatorStatus.yaml
 
 # ClusterLogging 5->6 upgrade helper-policy
 cluster-logging/ClusterLogging5Cleanup.yaml

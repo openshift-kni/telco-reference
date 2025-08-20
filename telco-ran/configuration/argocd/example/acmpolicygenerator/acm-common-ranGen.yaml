@@ -68,10 +68,10 @@ policies:
     - path: source-crs/sriov-operator/SriovSubscription.yaml
     - path: source-crs/sriov-operator/SriovOperatorStatus.yaml
     # Storage operator
-    - path: source-crs/storage/StorageNS.yaml
-    - path: source-crs/storage/StorageOperGroup.yaml
-    - path: source-crs/storage/StorageSubscription.yaml
-    - path: source-crs/storage/StorageOperatorStatus.yaml
+    - path: source-crs/storage-lso/StorageNS.yaml
+    - path: source-crs/storage-lso/StorageOperGroup.yaml
+    - path: source-crs/storage-lso/StorageSubscription.yaml
+    - path: source-crs/storage-lso/StorageOperatorStatus.yaml
     #
     # LCA operator is used for orchestrating Image Based Upgrade for SNO
     # - path: source-crs/lca/LcaSubscriptionNS.yaml
