@@ -8,7 +8,10 @@ The Yaml manifests used to install the OpenShift cluster and the required mirror
 whereas the reference CRs for the day-2 operators are stored in the [configuration](configuration) folder. These manifests need to be
 modified to suit your specific environment (i.e. ssh keys, pull-secret, resources config, etc.) before they can be applied.
 
-## Installation
+## Automated installation
+This is the recommended approach to install the Hub cluster. It uses the GitOps operator to deploy all the required components. See [Automated installation](configuration/README.md) for more information.
+
+## Manual installation
 
 There are two components required prior to start the configuration of a Hub cluster, a basic OpenShift cluster and a mirror registry already loaded with
 all the container images that will be used for the OpenShift and the day-2 operators installation.
