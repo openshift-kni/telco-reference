@@ -37,8 +37,8 @@ policies:
   policyAnnotations:
     ran.openshift.io/ztp-deploy-wave: "10"
   manifests:
-    - path: source-crs/DisableOLMPprof.yaml
-    - path: source-crs/ClusterLogForwarder.yaml
+    - path: source-crs/cluster-tuning/DisableOLMPprof.yaml
+    - path: source-crs/cluster-logging/ClusterLogForwarder.yaml
       patches:
       - spec:
           filters:
@@ -61,13 +61,13 @@ policies:
     ## attempt to change the daemonsetNodeSelector will result in ptp daemon
     ## restart and time synchronization loss.
     ## After complying with the policy, complianceType can be set to a safer "musthave"
-#    - path: source-crs/PtpOperatorConfigForEvent.yaml
+#    - path: source-crs/ptp-operator/PtpOperatorConfigForEvent.yaml
 #      complianceType: "mustonlyhave"
 #      patches:
 #      - spec:
 #          daemonNodeSelector:
 #            node-role.kubernetes.io/worker: ""
-    - path: source-crs/PtpConfigSlave.yaml
+    - path: source-crs/ptp-operator/configuration/PtpConfigSlave.yaml
       patches:
         - metadata:
             name: du-ptp-slave
@@ -83,13 +83,13 @@ policies:
               profile: slave
       openapi:
         path: schema.openapi
-    - path: source-crs/SriovOperatorConfig-SetSelector.yaml
+    - path: source-crs/sriov-operator/SriovOperatorConfig-SetSelector.yaml
       complianceType: musthave
       patches:
       - spec:
           configDaemonNodeSelector:
             node-role.kubernetes.io/worker: ""
-    - path: source-crs/StorageLV.yaml
+    - path: source-crs/storage-lso/StorageLV.yaml
       patches:
       - spec:
           storageClassDevices:
@@ -109,8 +109,8 @@ policies:
        ##   devicePaths:
        ##   - /dev/disk/by-partlabel/httpevent1
        ##   - /dev/disk/by-partlabel/httpevent2
-    - path: source-crs/DisableSnoNetworkDiag.yaml
-    - path: source-crs/PerformanceProfile-SetSelector.yaml
+    - path: source-crs/cluster-tuning/disabling-network-diagnostics/DisableSnoNetworkDiag.yaml
+    - path: source-crs/node-tuning-operator/PerformanceProfile-SetSelector.yaml
       patches:
       - metadata:
           name: openshift-node-performance-profile
@@ -135,7 +135,7 @@ policies:
             pools.operator.machineconfiguration.openshift.io/master: ""
           nodeSelector:
             node-role.kubernetes.io/master: ''
-    - path: source-crs/TunedPerformancePatch.yaml # wave 10
+    - path: source-crs/node-tuning-operator/TunedPerformancePatch.yaml # wave 10
       patches:
       - spec:
           recommend:
@@ -145,12 +145,11 @@ policies:
             profile: performance-patch
     - path: source-crs/optional-extra-manifest/enable-crun-master.yaml
     - path: source-crs/optional-extra-manifest/enable-crun-worker.yaml
-#    - path: source-crs/AmqInstance.yaml
-#    - path: source-crs/StorageClass.yaml
+#    - path: source-crs/storage-lso/StorageClass.yaml
 #      patches:
 #      - metadata:
 #          name: image-registry-sc # FIXED
-#    - path: source-crs/StoragePVC.yaml # wave 10
+#    - path: source-crs/storage-lso/StoragePVC.yaml # wave 10
 #      patches:
 #      - metadata:
 #          name: image-registry-pvc # FIXED
@@ -163,14 +162,14 @@ policies:
 #              storage: '{{hub fromConfigMap "" "group-zones-configmap" (printf "%s-storagepvc-storage" (index .ManagedClusterLabels "group-du-sno-zone")) hub}}'
 #          storageClassName: image-registry-sc # FIXED
 #          volumeMode: Filesystem # FIXED
-#    - path: source-crs/ImageRegistryPV.yaml
-#    - path: source-crs/ImageRegistryConfig.yaml
+#    - path: source-crs/image-registry/ImageRegistryPV.yaml
+#    - path: source-crs/image-registry/ImageRegistryConfig.yaml
 #      patches:
 #      - spec:
 #          storage:
 #            pvc:
 #              claim: "image-registry-pvc" # FIXED
-    - path: source-crs/SriovFecClusterConfig.yaml
+    - path: source-crs/sriov-fec-operator/SriovFecClusterConfig.yaml
       patches:
       - metadata:
           name: fec-config
@@ -187,14 +186,14 @@ policies:
   policyAnnotations:
     ran.openshift.io/ztp-deploy-wave: "10"
   manifests:
-    - path: source-crs/SriovNetwork.yaml # wave 100
+    - path: source-crs/sriov-operator/SriovNetwork.yaml # wave 100
       patches:
       - metadata:
           name: sriov-nw-du-fh # FIXED
         spec:
           resourceName: du_fh # FIXED
           vlan: '{{hub fromConfigMap "" "site-data-configmap" (printf "%s-sriov-network-vlan-1" .ManagedClusterName) | toInt hub}}'
-    - path: source-crs/SriovNetworkNodePolicy-SetSelector.yaml # wave 100
+    - path: source-crs/sriov-operator/SriovNetworkNodePolicy-SetSelector.yaml # wave 100
       patches:
       - metadata:
           name: sriov-nnp-du-fh
@@ -208,14 +207,14 @@ policies:
           resourceName: du_fh
           nodeSelector:
             node-role.kubernetes.io/master: ""
-    - path: source-crs/SriovNetwork.yaml # wave 100
+    - path: source-crs/sriov-operator/SriovNetwork.yaml # wave 100
       patches:
       - metadata:
           name: sriov-nw-du-mh # FIXED
         spec:
           resourceName: du_mh # FIXED
           vlan: '{{hub fromConfigMap "" "site-data-configmap" (printf "%s-sriov-network-vlan-2" .ManagedClusterName) | toInt hub}}'
-    - path: source-crs/SriovNetworkNodePolicy-SetSelector.yaml # wave 100
+    - path: source-crs/sriov-operator/SriovNetworkNodePolicy-SetSelector.yaml # wave 100
       patches:
       - metadata:
           name: sriov-nw-du-fh
@@ -230,7 +229,7 @@ policies:
           nodeSelector:
             node-role.kubernetes.io/master: ""
 #   --- sources needed for updating CRI-O workload-partitioning ----
-#    - path: source-crs/MachineConfigGeneric.yaml
+#    - path: source-crs/generic/MachineConfigGeneric.yaml
 #      complianceType: mustonlyhave # This is to update array entry as opposed to appending a new entry.
 #      patches:
 #      - metadata:
@@ -260,11 +259,11 @@ policies:
 #   policyAnnotations:
 #     ran.openshift.io/ztp-deploy-wave: "100"
 #   manifests:
-#     - path: source-crs/OadpSecret.yaml
+#     - path: source-crs/data-protection/OadpSecret.yaml
 #       patches:
 #       - data:
 #           cloud: W2RlZmF1bHRdCmF3c19hY2Nlc3Nfa2V5X2lkPVdicktaSFpFOXZGWEVFemo2RU12CmF3c19zZWNyZXRfYWNjZXNzX2tleT1RRDNmRVZMNzVsOWJpSWswYW9PdlRSc2diN01ZRUlnZmF5bzVzRnlmCg== # notsecret
-#     - path: source-crs/OadpDataProtectionApplication.yaml
+#     - path: source-crs/data-protection/OadpDataProtectionApplication.yaml
 #       patches:
 #       - spec:
 #           backupLocations:
@@ -283,5 +282,5 @@ policies:
 #               objectStorage:
 #                 bucket: ibu
 #                 prefix: '{{hub .ManagedClusterName hub}}'
-#     - path: source-crs/OadpBackupStorageLocationStatus.yaml
+#     - path: source-crs/data-protection/OadpBackupStorageLocationStatus.yaml
 #   --- END of source CRs needed for configuring OADP operator for SNO Image Based Upgrade ---

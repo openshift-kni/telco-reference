@@ -22,7 +22,7 @@ spec:
     ##############################
     # gr-du-sno-cfg-pc-templated #
     ##############################
-    - fileName: ClusterLogForwarder.yaml # wave 10
+    - fileName: cluster-logging/ClusterLogForwarder.yaml # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
       spec:
         filters:
@@ -32,10 +32,10 @@ spec:
               # below url is an example
               url: '{{hub fromConfigMap "" "group-zones-configmap" (printf "%s-cluster-log-fwd-outputs-url" (index .ManagedClusterLabels "group-du-sno-zone")) | toLiteral hub}}'
     ###
-    - fileName: DisableOLMPprof.yaml # wave 10
+    - fileName: cluster-tuning/DisableOLMPprof.yaml # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
     ###
-    - fileName: PtpConfigSlave.yaml    # wave 10 # Change to PtpConfigSlaveCvl.yaml for ColumbiaVille NIC
+    - fileName: ptp-operator/configuration/PtpConfigSlave.yaml
       policyName: "gr-du-sno-cfg-pc-templated"
       metadata:
         name: "du-ptp-slave"
@@ -47,7 +47,7 @@ spec:
           ptp4lOpts: "-2 -s --summary_interval -4"
           phc2sysOpts: "-a -r -n 24"
     ###
-    - fileName: SriovOperatorConfig.yaml # wave 10
+    - fileName: sriov-operator/SriovOperatorConfig.yaml # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
       # For existing clusters with node selector set as "master", 
       # change the complianceType to "mustonlyhave".
@@ -58,7 +58,7 @@ spec:
         configDaemonNodeSelector:
           node-role.kubernetes.io/worker: ""
     ###
-    - fileName: StorageLV.yaml # wave 10
+    - fileName: storage-lso/StorageLV.yaml # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
       spec:
         storageClassDevices:
@@ -71,10 +71,10 @@ spec:
           fsType: xfs
           devicePaths: '{{hub fromConfigMap "" "group-hardware-types-configmap" (printf "%s-storagelv-devicepaths-2" (index .ManagedClusterLabels "hardware-type")) | toLiteral hub}}'
     ###
-    - fileName: DisableSnoNetworkDiag.yaml # wave 10
+    - fileName: cluster-tuning/disabling-network-diagnostics/DisableSnoNetworkDiag.yaml # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
     ###
-    - fileName: PerformanceProfile.yaml # wave 10
+    - fileName: node-tuning-operator/PerformanceProfile.yaml # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
       metadata:
         name: openshift-node-performance-profile
@@ -95,7 +95,7 @@ spec:
         realTimeKernel:
           enabled: true
     ###
-    - fileName: TunedPerformancePatch.yaml # wave 10
+    - fileName: node-tuning-operator/TunedPerformancePatch.yaml # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
     ###
     #
@@ -110,19 +110,12 @@ spec:
     - fileName: optional-extra-manifest/enable-crun-worker.yaml
       policyName: "gr-du-sno-cfg-pc-templated"
     ###
-#    # AmqInstance is required if PTP and BMER operators use AMQP transport
-#    - fileName: AmqInstance.yaml # wave 100 - updated below to 10
-#      policyName: "gr-du-sno-cfg-pc-templated"
-#      metadata:
-#        annotations:
-#          ran.openshift.io/ztp-deploy-wave: "10"
-#
 #    # ---- START OF source CRs needed for image registry (check ImageRegistry.md for more details) ----
-#    - fileName: StorageClass.yaml # wave 10
+#    - fileName: storage-lso/StorageClass.yaml # wave 10
 #      policyName: "gr-du-sno-cfg-pc-templated"
 #      metadata:
 #        name: image-registry-sc # FIXED
-#    - fileName: StoragePVC.yaml # wave 10
+#    - fileName: storage-lso/StoragePVC.yaml # wave 10
 #      policyName: "gr-du-sno-cfg-pc-templated"
 #      metadata:
 #        name: image-registry-pvc # FIXED
@@ -135,7 +128,7 @@ spec:
 #            storage: '{{hub fromConfigMap "" "group-zones-configmap" (printf "%s-storagepvc-storage" (index .ManagedClusterLabels "group-du-sno-zone")) hub}}'
 #        storageClassName: image-registry-sc # FIXED
 #        volumeMode: Filesystem # FIXED
-    - fileName: SriovFecClusterConfig.yaml
+    - fileName: sriov-fec-operator/SriovFecClusterConfig.yaml
       policyName: gr-du-sno-cfg-pc-templated
       metadata:
         name: fec-config
@@ -150,14 +143,14 @@ spec:
 #    #############
 #    # pv-policy #
 #    #############
-#    # The following usage of ImageRegistryPV.yaml is assuming that mount_point is set to `/var/imageregistry` in SiteConfig
+#    # The following usage of image-registry/ImageRegistryPV.yaml is assuming that mount_point is set to `/var/imageregistry` in SiteConfig
 #    # using StorageClass `image-registry-sc` (see the first sc-file)
-#    - fileName: ImageRegistryPV.yaml  # wave 2
+#    - fileName: image-registry/ImageRegistryPV.yaml  # wave 2
 #      policyName: "pv-policy"
 #    #############
 #    # irc-policy #
 #    #############
-#    - fileName: ImageRegistryConfig.yaml # wave 11
+#    - fileName: image-registry/ImageRegistryConfig.yaml # wave 11
 #      policyName: "irc-policy"
 #      spec:
 #        storage:
@@ -167,7 +160,7 @@ spec:
     ################################
     # gr-du-sno-sriov-pc-templated #
     ################################
-    - fileName: SriovNetwork.yaml # wave 100
+    - fileName: sriov-operator/SriovNetwork.yaml # wave 100
       policyName: "gr-du-sno-sriov-pc-templated"
       metadata:
         name: sriov-nw-du-fh # FIXED
@@ -175,7 +168,7 @@ spec:
         resourceName: du_fh # FIXED
         vlan: '{{hub fromConfigMap "" "site-data-configmap" (printf "%s-sriov-network-vlan-1" .ManagedClusterName) | toInt hub}}'
     ###
-    - fileName: SriovNetworkNodePolicy.yaml # wave 100
+    - fileName: sriov-operator/SriovNetworkNodePolicy.yaml # wave 100
       policyName: "gr-du-sno-sriov-pc-templated"
       metadata:
         name: sriov-nnp-du-fh
@@ -188,7 +181,7 @@ spec:
         priority: 10
         resourceName: du_fh
     ###
-    - fileName: SriovNetwork.yaml # wave 100
+    - fileName: sriov-operator/SriovNetwork.yaml # wave 100
       policyName: "gr-du-sno-sriov-pc-templated"
       metadata:
         name: sriov-nw-du-mh # FIXED
@@ -196,7 +189,7 @@ spec:
         resourceName: du_mh # FIXED
         vlan: '{{hub fromConfigMap "" "site-data-configmap" (printf "%s-sriov-network-vlan-2" .ManagedClusterName) | toInt hub}}'
     ###
-    - fileName: SriovNetworkNodePolicy.yaml # wave 100
+    - fileName: sriov-operator/SriovNetworkNodePolicy.yaml # wave 100
       policyName: "gr-du-sno-sriov-pc-templated"
       metadata:
         name: sriov-nw-du-fh
@@ -213,7 +206,7 @@ spec:
 #    ########################
 #    # --- START of source CRs needed for updating CRI-O workload-partitioning ----
 #    #     more info here: on the base64 content https://docs.openshift.com/container-platform/4.11/scalability_and_performance/sno-du-enabling-workload-partitioning-on-single-node-openshift.html
-#    - fileName: MachineConfigGeneric.yaml
+#    - fileName: generic/MachineConfigGeneric.yaml
 #      policyName: "workload-policy"
 #      complianceType: mustonlyhave # This is to update array entry as opposed to appending a new entry.
 #      metadata:
@@ -243,11 +236,11 @@ spec:
 #    # oadp-config-policy #
 #    ######################
 #    # --- START of source CRs needed for configuring OADP operator for SNO Image Based Upgrade ---
-#    - fileName: OadpSecret.yaml  # wave 100
+#    - fileName: data-protection/OadpSecret.yaml  # wave 100
 #      policyName: "oadp-config-policy"
 #      data:
 #        cloud: W2RlZmF1bHRdCmF3c19hY2Nlc3Nfa2V5X2lkPVdicktaSFpFOXZGWEVFemo2RU12CmF3c19zZWNyZXRfYWNjZXNzX2tleT1RRDNmRVZMNzVsOWJpSWswYW9PdlRSc2diN01ZRUlnZmF5bzVzRnlmCg==
-#    - fileName: OadpDataProtectionApplication.yaml  # wave 100
+#    - fileName: data-protection/OadpDataProtectionApplication.yaml  # wave 100
 #      policyName: "oadp-config-policy"
 #      spec:
 #        backupLocations:
@@ -266,6 +259,6 @@ spec:
 #            objectStorage:
 #              bucket: ibu
 #              prefix: '{{hub .ManagedClusterName hub}}'
-#    - fileName: OadpBackupStorageLocationStatus.yaml  # wave 100
+#    - fileName: data-protection/OadpBackupStorageLocationStatus.yaml  # wave 100
 #      policyName: "oadp-config-policy"
 #    --- END of source CRs needed for configuring OADP operator for SNO Image Based Upgrade ---

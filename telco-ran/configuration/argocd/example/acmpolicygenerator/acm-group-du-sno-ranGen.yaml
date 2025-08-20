@@ -30,8 +30,8 @@ policies:
   policyAnnotations:
     ran.openshift.io/ztp-deploy-wave: "10"
   manifests:
-    - path: source-crs/DisableOLMPprof.yaml
-    - path: source-crs/ClusterLogForwarder.yaml
+    - path: source-crs/cluster-tuning/DisableOLMPprof.yaml
+    - path: source-crs/cluster-logging/ClusterLogForwarder.yaml
       patches:
       - spec:
           filters:
@@ -56,13 +56,13 @@ policies:
     ## attempt to change the daemonsetNodeSelector will result in ptp daemon
     ## restart and time synchronization loss.
     ## After complying with the policy, complianceType can be set to a safer "musthave"
-#    - path: source-crs/PtpOperatorConfigForEvent.yaml
+#    - path: source-crs/ptp-operator/PtpOperatorConfigForEvent.yaml
 #      complianceType: "mustonlyhave"
 #      patches:
 #      - spec:
 #          daemonNodeSelector:
 #            node-role.kubernetes.io/worker: ""
-    - path: source-crs/PtpConfigSlave.yaml   # Change to PtpConfigSlaveCvl.yaml for ColumbiaVille NIC
+    - path: source-crs/ptp-operator/configuration/PtpConfigSlave.yaml
       patches:
         - metadata:
             name: du-ptp-slave
@@ -78,7 +78,7 @@ policies:
               profile: slave
       openapi:
         path: schema.openapi
-    - path: source-crs/SriovOperatorConfig-SetSelector.yaml
+    - path: source-crs/sriov-operator/SriovOperatorConfig-SetSelector.yaml
       ## For existing clusters with node selector set as "master", 
       ## change the complianceType to "mustonlyhave".
       ## After complying with the policy, the complianceType can 
@@ -88,7 +88,7 @@ policies:
       - spec:
           configDaemonNodeSelector:
             node-role.kubernetes.io/worker: ""
-    - path: source-crs/StorageLV.yaml
+    - path: source-crs/storage-lso/StorageLV.yaml
       patches:
       - spec:
           storageClassDevices:
@@ -110,8 +110,8 @@ policies:
         ##   devicePaths:
         ##   - /dev/disk/by-partlabel/httpevent1
         ##   - /dev/disk/by-partlabel/httpevent2
-    - path: source-crs/DisableSnoNetworkDiag.yaml
-    - path: source-crs/PerformanceProfile-SetSelector.yaml
+    - path: source-crs/cluster-tuning/disabling-network-diagnostics/DisableSnoNetworkDiag.yaml
+    - path: source-crs/node-tuning-operator/PerformanceProfile-SetSelector.yaml
       patches:
       - spec:
           cpu:
@@ -127,7 +127,7 @@ policies:
             pools.operator.machineconfiguration.openshift.io/master: ""
           nodeSelector:
             node-role.kubernetes.io/master: ''
-    - path: source-crs/TunedPerformancePatch.yaml
+    - path: source-crs/node-tuning-operator/TunedPerformancePatch.yaml
       patches:
       - spec:
           recommend:
@@ -137,11 +137,11 @@ policies:
             profile: performance-patch
     - path: source-crs/optional-extra-manifest/enable-crun-master.yaml
     - path: source-crs/optional-extra-manifest/enable-crun-worker.yaml
-#    - path: source-crs/StorageClass.yaml
+#    - path: source-crs/storage-lso/StorageClass.yaml
 #      patches:
 #      - metadata:
 #          name: image-registry-sc
-#    - path: source-crs/StoragePVC.yaml
+#    - path: source-crs/storage-lso/StoragePVC.yaml
 #      patches:
 #      - metadata:
 #          name: image-registry-pvc
@@ -154,8 +154,8 @@ policies:
 #              storage: 100Gi
 #          storageClassName: image-registry-sc
 #          volumeMode: Filesystem
-#    - path: source-crs/ImageRegistryPV.yaml
-#    - path: source-crs/ImageRegistryConfig.yaml
+#    - path: source-crs/image-registry/ImageRegistryPV.yaml
+#    - path: source-crs/image-registry/ImageRegistryConfig.yaml
 #      patches:
 #      - spec:
 #          storage:
@@ -163,7 +163,7 @@ policies:
 #              claim: "image-registry-pvc"
 ##   --- sources needed for updating CRI-O workload-partitioning ----
 ##      more info here: on the base64 content https://docs.openshift.com/container-platform/4.11/scalability_and_performance/sno-du-enabling-workload-partitioning-on-single-node-openshift.html
-#    - path: source-crs/MachineConfigGeneric.yaml
+#    - path: source-crs/generic/MachineConfigGeneric.yaml
 #      complianceType: mustonlyhave
 #      patches:
 #      - metadata:

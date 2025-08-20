@@ -5,8 +5,8 @@ metadata:
   name: group-zones-configmap
   namespace: ztp-group
 data:
-  # ClusterLogForwarder.yaml
+  # cluster-logging/ClusterLogForwarder.yaml
   zone-1-cluster-log-fwd-filters-labels: '{"label1": "test1", "label2": "test2"}'
   zone-1-cluster-log-fwd-outputs-urls: 'tcp://10.46.55.190:9092/test'
-  # StoragePVC.yaml
+  # storage-lso/StoragePVC.yaml
   zone-1-storagepvc-storage: "100Gi"

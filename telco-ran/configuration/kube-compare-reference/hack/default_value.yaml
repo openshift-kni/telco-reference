@@ -1,0 +1,386 @@
+image_registry_ImageRegistryConfig:
+  - spec:
+      httpSecret: {}
+      observedConfig: {}
+      operatorLogLevel: null
+      proxy: {}
+      storage: {}
+storage_lso_StorageClass:
+  - metadata:
+      name: example-storage-class
+    provisioner: kubernetes.io/no-provisioner
+storage_StorageLV:
+  - metadata:
+      name: local-disks
+    spec:
+      storageClassDevices:
+        - devicePaths:
+            - /dev/disk/by-path/pci-0000:05:00.0-nvme-1
+          fsType: xfs
+          storageClassName: "example-storage-class"
+          volumeMode: Filesystem
+storage_lso_StorageSubscription:
+  - spec:
+      source: redhat-operators-disconnected
+ptp_operator_configuration_PtpConfigBoundary:
+  - spec:
+      profile:
+        - placeholder: true
+      recommend:
+        - match:
+            - nodeLabel: "node-role.kubernetes.io/$mcp"
+    captureGroup_defaults:
+      priority2: 128
+      domainNumber: 24
+ptp_operator_configuration_PtpConfigBoundaryForEvent:
+  - spec:
+      profile:
+        - ptpClockThreshold:
+            holdOverTimeout: 5
+            maxOffsetThreshold: 100
+            minOffsetThreshold: -100
+      recommend:
+        - match:
+            - nodeLabel: "node-role.kubernetes.io/$mcp"
+    captureGroup_defaults:
+      priority2: 128
+      domainNumber: 24
+ptp_operator_configuration_PtpConfigDualCardGmWpc:
+  - spec:
+      profile:
+        - plugins:
+            e810:
+              settings:
+                LocalMaxHoldoverOffSet: 1500
+                LocalHoldoverTimeout: 14400
+                MaxInSpecOffset: 1500
+              pins:
+                $iface_timeTx1:
+                  SMA1: 2 1
+                  SMA2: 0 2
+                  U.FL1: 0 1
+                  U.FL2: 0 2
+                $iface_timeTx2:
+                  SMA1: 1 1
+                  SMA2: 0 2
+                  U.FL1: 0 1
+                  U.FL2: 0 2
+          ptpClockThreshold:
+            holdOverTimeout: 5
+            maxOffsetThreshold: 100
+            minOffsetThreshold: -100
+      recommend:
+        - match:
+            - nodeLabel: "node-role.kubernetes.io/$mcp"
+    captureGroup_defaults:
+      priority2: 128
+      domainNumber: 24
+ptp_operator_configuration_PtpConfigDualFollower:
+  - spec:
+      profile:
+        - ptpClockThreshold:
+            holdOverTimeout: 5
+            maxOffsetThreshold: 100
+            minOffsetThreshold: -100
+      recommend:
+        - match:
+            - nodeLabel: "node-role.kubernetes.io/$mcp"
+    captureGroup_defaults:
+      priority2: 128
+      domainNumber: 24
+      iface1: $iface1
+      iface2: $iface2
+ptp_operator_configuration_PtpConfigThreeCardGmWpc:
+  - spec:
+      profile:
+        - plugins:
+            e810:
+              settings:
+                LocalMaxHoldoverOffSet: 1500
+                LocalHoldoverTimeout: 14400
+                MaxInSpecOffset: 1500
+              pins:
+                $iface_timeTx1:
+                  SMA1: 2 1
+                  SMA2: 2 2
+                  U.FL1: 0 1
+                  U.FL2: 0 2
+                $iface_timeTx2:
+                  SMA1: 1 1
+                  SMA2: 0 2
+                  U.FL1: 0 1
+                  U.FL2: 0 2
+                $iface_timeTx3:
+                  SMA1: 1 1
+                  SMA2: 0 2
+                  U.FL1: 0 1
+                  U.FL2: 0 2
+          ptpClockThreshold:
+            holdOverTimeout: 5
+            maxOffsetThreshold: 100
+            minOffsetThreshold: -100
+      recommend:
+        - match:
+            - nodeLabel: "node-role.kubernetes.io/$mcp"
+    captureGroup_defaults:
+      priority2: 128
+      domainNumber: 24
+      iface_timeTx1: $iface_timeTx1
+      iface_timeTx1_1: $iface_timeTx1_1
+      iface_timeTx1_2: $iface_timeTx1_2
+      iface_timeTx1_3: $iface_timeTx1_3
+      iface_timeTx2: $iface_timeTx2
+      iface_timeTx2_1: $iface_timeTx2_1
+      iface_timeTx2_2: $iface_timeTx2_2
+      iface_timeTx2_3: $iface_timeTx2_3
+      iface_timeTx3: $iface_timeTx3
+      iface_timeTx3_1: $iface_timeTx3_1
+      iface_timeTx3_2: $iface_timeTx3_2
+      iface_timeTx3_3: $iface_timeTx3_3
+ptp_operator_configuration_PtpConfigForHA:
+  - spec:
+      profile:
+        - placeholder: true
+      recommend:
+        - match:
+            - nodeLabel: "node-role.kubernetes.io/$mcp"
+    captureGroup_defaults:
+      domainNumber: 24
+ptp_operator_configuration_PtpConfigForHAForEvent:
+  - spec:
+      profile:
+        - ptpClockThreshold:
+            holdOverTimeout: 5
+            maxOffsetThreshold: 100
+            minOffsetThreshold: -100
+      recommend:
+        - match:
+            - nodeLabel: "node-role.kubernetes.io/$mcp"
+    captureGroup_defaults:
+      domainNumber: 24
+ptp_operator_configuration_PtpConfigMaster:
+  - spec:
+      profile:
+        - interface: $interface
+      recommend:
+        - match:
+            - nodeLabel: "node-role.kubernetes.io/$mcp"
+    captureGroup_defaults:
+      priority2: 128
+      domainNumber: 24
+ptp_operator_configuration_PtpConfigMasterForEvent:
+  - spec:
+      profile:
+        - interface: $interface
+          ptpClockThreshold:
+            holdOverTimeout: 5
+            maxOffsetThreshold: 100
+            minOffsetThreshold: -100
+      recommend:
+        - match:
+            - nodeLabel: "node-role.kubernetes.io/$mcp"
+    captureGroup_defaults:
+      priority2: 128
+      domainNumber: 24
+ptp_operator_configuration_PtpConfigSlave:
+  - spec:
+      profile:
+        - interface: $interface
+      recommend:
+        - match:
+            - nodeLabel: "node-role.kubernetes.io/$mcp"
+    captureGroup_defaults:
+      priority2: 128
+      domainNumber: 24
+ptp_operator_configuration_PtpConfigGmWpc:
+  - spec:
+      profile:
+        - plugins:
+            e810:
+              settings:
+                LocalMaxHoldoverOffSet: 1500
+                LocalHoldoverTimeout: 14400
+                MaxInSpecOffset: 1500
+              pins:
+                $iface_timeTx:
+                  SMA1: 0 1
+                  SMA2: 0 2
+                  U.FL1: 0 1
+                  U.FL2: 0 2
+          ptpClockThreshold:
+            holdOverTimeout: 5
+            maxOffsetThreshold: 100
+            minOffsetThreshold: -100
+      recommend:
+        - match:
+            - nodeLabel: "node-role.kubernetes.io/$mcp"
+    captureGroup_defaults:
+      priority2: 128
+      domainNumber: 24
+ptp_operator_configuration_PtpConfigSlaveForEvent:
+  - spec:
+      profile:
+        - interface: $interface
+          ptpClockThreshold:
+            holdOverTimeout: 5
+            maxOffsetThreshold: 100
+            minOffsetThreshold: -100
+      recommend:
+        - match:
+            - nodeLabel: "node-role.kubernetes.io/$mcp"
+    captureGroup_defaults:
+      priority2: 128
+      domainNumber: 24
+ptp_operator_configuration_PtpOperatorConfig:
+  - spec:
+      daemonNodeSelector:
+        node-role.kubernetes.io/$mcp: ""
+ptp_operator_configuration_PtpOperatorConfigForEvent:
+  - spec:
+      daemonNodeSelector:
+        node-role.kubernetes.io/$mcp: ""
+sriov_fec_operator_AcceleratorsSubscription:
+  - spec:
+      source: certified-operators
+sriov_fec_operator_SriovFecClusterConfig:
+  - spec:
+      acceleratorSelector:
+        pciAddress: $pciAddress
+      drainSkip: $drainSkip
+      nodeSelector:
+        node-role.kubernetes.io/$mcp: ""
+      physicalFunction:
+        bbDevConfig: $bbDevConfig
+sriov_fec_operator_SriovVrbClusterConfig:
+  - spec:
+      acceleratorSelector:
+        pciAddress: $pciAddress
+      drainSkip: $drainSkip
+      nodeSelector:
+        node-role.kubernetes.io/$mcp: ""
+      physicalFunction:
+        bbDevConfig: $bbDevConfig
+storage_lvm_StorageLVMCluster:
+  - spec: {}
+storage_lvm_StorageLVMSubscription:
+  - spec:
+      source: redhat-operators-disconnected
+storage_lvm_StoragePV:
+  - spec:
+      nodeAffinity:
+        required:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: "node-role.kubernetes.io/$mcp"
+storage_lvm_StoragePVC:
+  - spec: {}
+cluster_logging_ClusterLogForwarder:
+  - spec:
+      filters:
+        - name: ran-du-labels
+      managementState: {}
+      outputs:
+        - kafka:
+            url: tcp://$kafka-server:9092/endpoint
+          name: kafka-output
+      pipelines:
+        - filterRefs:
+            - ran-du-labels
+          outputRefs:
+            - kafka-output
+      serviceAccount:
+        name: collector
+cluster_logging_ClusterLogSubscription:
+  - spec:
+      source: redhat-operators-disconnected
+cluster_tuning_operator_hub_DefaultCatsrc:
+  - metadata:
+      name: default-cat-source
+    spec:
+      displayName: default-cat-source
+      image: $imageUrl
+cluster_tuning_operator_hub_DisconnectedIDMS:
+  - metadata:
+      name: fec-disconnected-idms
+    spec: {}
+cluster_tuning_monitoring_configuration_ReduceMonitoringFootprint:
+  - metadata:
+      name: cluster-monitoring-config
+    captureGroup_defaults:
+      alertmanager_endpoint: '{{ `{{ (regexFind "alertmanager-endpoint(.*)" ((fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml") | base64dec)) | replace "alertmanager-endpoint: https://" "" }}` }}'
+      managed_cluster: '{{ `{{ fromClusterClaim "id.openshift.io" }}` }}'
+lca_LcaSubscription:
+  - spec:
+      source: redhat-operators-disconnected
+nmstate_NMStateSubscription:
+  - spec:
+      source: redhat-operators-disconnected
+node_tuning_operator_TunedPerformancePatch:
+  - spec:
+      recommend:
+        - machineConfigLabels:
+            machineconfiguration.openshift.io/role: "$mcp"
+node_tuning_operator_PerformanceProfile:
+  - spec:
+      additionalKernelArgs:
+        - "rcupdate.rcu_normal_after_boot=0"
+        - "efi=runtime"
+        - "vfio_pci.enable_sriov=1"
+        - "vfio_pci.disable_idle_d3=1"
+        - "module_blacklist=irdma"
+      cpu:
+        isolated: $isolated
+        reserved: $reserved
+      hugepages:
+        defaultHugepagesSize: $defaultHugepagesSize
+        pages:
+          - count: $count
+            node: $node
+            size: $size
+      machineConfigPoolSelector:
+        pools.operator.machineconfiguration.openshift.io/$mcp: ""
+      nodeSelector:
+        node-role.kubernetes.io/$mcp: ""
+      realTimeKernel:
+        enabled: true
+      workloadHints:
+        perPodPowerManagement: false
+ptp_operator_PtpSubscription:
+  - spec:
+      source: redhat-operators-disconnected
+sriov_operator_SriovNetwork:
+  - metadata:
+      name: $networkName
+    spec:
+      networkNamespace: openshift-sriov-network-operator
+sriov_operator_SriovNetworkNodePolicy:
+  - metadata:
+      name: $name
+    spec:
+      deviceType: $deviceType
+      isRdma: $isRdma
+      nicSelector:
+        pfNames:
+          - $pfNames
+      nodeSelector:
+        node-role.kubernetes.io/$mcp: ""
+      numVfs: $numVfs
+      priority: $priority
+      resourceName: $resourceName
+sriov_operator_SriovOperatorConfig:
+  - spec:
+      configDaemonNodeSelector:
+        "node-role.kubernetes.io/$mcp": ""
+      enableInjector: false
+      enableOperatorWebhook: false
+      logLevel: 0
+sriov_operator_SriovOperatorConfigForSNO:
+  - spec:
+      configDaemonNodeSelector:
+        "node-role.kubernetes.io/$mcp": ""
+      enableInjector: false
+      enableOperatorWebhook: false
+      logLevel: 0
+sriov_operator_SriovSubscription:
+  - spec:
+      source: redhat-operators-disconnected

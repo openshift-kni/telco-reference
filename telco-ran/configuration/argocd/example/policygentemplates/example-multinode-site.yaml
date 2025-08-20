@@ -11,14 +11,14 @@ spec:
     du-profile: "latest"
   mcp: "worker"
   sourceFiles:
-    - fileName: SriovNetwork.yaml
+    - fileName: sriov-operator/SriovNetwork.yaml
       policyName: "config-policy"
       metadata:
         name: "sriov-nw-du-fh"
       spec:
         resourceName: du_fh
         vlan: 140
-    - fileName: SriovNetworkNodePolicy.yaml
+    - fileName: sriov-operator/SriovNetworkNodePolicy.yaml
       policyName: "config-policy"
       metadata:
         name: "sriov-nnp-du-fh"
@@ -30,14 +30,14 @@ spec:
         numVfs: 8
         priority: 10
         resourceName: du_fh
-    - fileName: SriovNetwork.yaml
+    - fileName: sriov-operator/SriovNetwork.yaml
       policyName: "config-policy"
       metadata:
         name: "sriov-nw-du-mh"
       spec:
         resourceName: du_mh
         vlan: 150
-    - fileName: SriovNetworkNodePolicy.yaml
+    - fileName: sriov-operator/SriovNetworkNodePolicy.yaml
       policyName: "config-policy"
       metadata:
         name: "sriov-nnp-du-mh"
