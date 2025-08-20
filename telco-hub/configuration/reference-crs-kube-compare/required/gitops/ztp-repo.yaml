@@ -12,10 +12,12 @@ metadata:
 # For SSH repo access, configure: url, insecure, sshPrivateKey (as shown below)
 # For HTTPS repo access, configure: url, insecure, password, username, forceHttpBasicAuth
 # More examples: https://argo-cd.readthedocs.io/en/stable/operator-manual/argocd-repositories-yaml/
+{{- if .stringData }}
 stringData:
-  insecure: "false"
-  sshPrivateKey: |
-    -----BEGIN OPENSSH PRIVATE KEY-----
-    INSERT PRIVATE KEY
-    -----END OPENSSH PRIVATE KEY-----
-  url: git@gitlab.example.com:namespace/repo.git
+  {{- .stringData | toYaml | nindent 2 }}
+{{- else if .data }}
+data:
+  {{- .data | toYaml | nindent 2 }}
+{{- else }}
+stringData: {}
+{{- end }}

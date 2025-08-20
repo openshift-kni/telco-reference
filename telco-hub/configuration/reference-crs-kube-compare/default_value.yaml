@@ -278,3 +278,130 @@ optional_logging_clusterLogNS:
 optional_logging_clusterLogSubscription:
 - spec:
     source: redhat-operators-disconnected 
+
+optional_logging_clusterLogForwarder:
+- kafka:
+    url: tcp://$kafka-server:9092/endpoint
+  spec:
+    filters:
+    - name: telco-hub-labels
+      type: openshiftLabels
+      openshiftLabels:
+        cluster-role: hub                # Identifies this as hub cluster logs
+        environment: production          # Environment designation
+        telco-component: management      # Component categorization
+  filterRefs:
+  - telco-hub-labels
+
+# GitOps defaults
+required_gitops_argocd_application:
+- spec:
+    source:
+      path: telco-hub/configuration
+      repoURL: https://github.com/openshift-kni/telco-reference.git
+      targetRevision: main
+
+required_gitops_argocd_ssh_known_hosts_cm:
+- data:
+    ssh_known_hosts: |
+      #############################################################
+      # by default empty known hosts, because of usual            #
+      # disconnected environments.                                #
+      #                                                           #
+      #  Manually add needed ssh known hosts:                     #
+      #  example: $> ssh-keyscan my-github.com                    #
+      #  Copy the output here
+      #############################################################
+      # my-github.com sh-rsa AAAAB3NzaC1y...J4i36KV/aCl4Ixz
+      # my-github.com ecdsa-sha2-nistp256...GGtLKqmwLLeKhe6xgc=
+      # my-github-com ssh-ed25519 AAAAC3N...lNrvWjBQ2u
+
+required_gitops_gitopsOperatorGroup:
+- spec:
+    upgradeStrategy: Default
+
+required_gitops_gitopsSubscription:
+- spec:
+    source: redhat-operators-disconnected
+
+required_gitops_ztp_repo:
+- stringData:
+    insecure: "false"
+    sshPrivateKey: |
+      -----BEGIN OPENSSH PRIVATE KEY-----
+      INSERT PRIVATE KEY
+      -----END OPENSSH PRIVATE KEY-----
+    url: git@gitlab.example.com:namespace/repo.git
+
+required_gitops_argocd_tls_certs_cm:
+- data:
+    gitlab.cee.redhat.com: |
+      -----BEGIN CERTIFICATE-----
+      MIIGcjCCBFqgAwIBAgIFICIE...
+      -----END CERTIFICATE-----
+
+# Registry defaults
+required_registry_catalog_source:
+- spec:
+    image: <registry.example.com:8443>/openshift-marketplace/redhat-operators-disconnected:v4.19
+
+required_registry_idms_operator:
+- spec:
+    imageDigestMirrors:
+      - mirrors:
+        - <registry.example.com:8443>/oadp
+        source: registry.redhat.io/oadp
+      - mirrors:
+        - <registry.example.com:8443>/multicluster-engine
+        source: registry.redhat.io/multicluster-engine
+      - mirrors:
+        - <registry.example.com:8443>/rhel8
+        source: registry.redhat.io/rhel8
+      - mirrors:
+        - <registry.example.com:8443>/odf4
+        source: registry.redhat.io/odf4
+      - mirrors:
+        - <registry.example.com:8443>/rhel9
+        source: registry.redhat.io/rhel9
+      - mirrors:
+        - <registry.example.com:8443>/rhceph
+        source: registry.redhat.io/rhceph
+      - mirrors:
+        - <registry.example.com:8443>/openshift-gitops-1
+        source: registry.redhat.io/openshift-gitops-1
+      - mirrors:
+        - <registry.example.com:8443>/rh-sso-7
+        source: registry.redhat.io/rh-sso-7
+      - mirrors:
+        - <registry.example.com:8443>/rhacm2
+        source: registry.redhat.io/rhacm2
+      - mirrors:
+        - <registry.example.com:8443>/openshift4
+        source: registry.redhat.io/openshift4
+
+required_registry_idms_release:
+- spec:
+    imageDigestMirrors:
+      - mirrors:
+        - <registry.example.com:8443>/openshift-release-dev
+        source: quay.io/openshift-release-dev
+
+required_registry_itms_generic:
+- spec:
+    imageTagMirrors:
+      - mirrors:
+        - <registry.example.com:8443>/ubi8
+        source: registry.redhat.io/ubi8
+      - mirrors:
+        - <registry.example.com:8443>/openshift4
+        source: registry.redhat.io/openshift4
+      - mirrors:
+        - <registry.example.com:8443>/rhel8
+        source: registry.redhat.io/rhel8
+
+required_registry_itms_release:
+- spec:
+    imageTagMirrors:
+      - mirrors:
+        - <registry.example.com:8443>/openshift-release-dev
+        source: quay.io/openshift-release-dev

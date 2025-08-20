@@ -1,0 +1,17 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PlacementBinding
+metadata:
+  name: ztp-argo-plugins-binding
+  namespace: hub-policies
+  annotations:
+    argocd.argoproj.io/sync-wave: "-25"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+placementRef:
+  name: ztp-argo-plugins-pl
+  apiGroup: cluster.open-cluster-management.io
+  kind: Placement
+subjects:
+  - name: ztp-argocd-plugins-installer
+    apiGroup: policy.open-cluster-management.io
+    kind: Policy

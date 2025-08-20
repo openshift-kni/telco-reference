@@ -14,13 +14,10 @@ metadata:
     argocd.argoproj.io/compare-options: IgnoreExtraneous
 spec:
   # Filters add metadata labels to log records for identification
+  {{- if .spec.filters }}
   filters:
-  - name: telco-hub-labels
-    openshiftLabels:
-      cluster-role: hub
-      environment: production
-      telco-component: management
-    type: openshiftLabels
+    {{- .spec.filters | toYaml | nindent 2 }}
+  {{- end }}
 
   # Output destinations for log forwarding
   outputs:
@@ -28,7 +25,7 @@ spec:
     type: kafka
     kafka:
       # Kafka broker endpoint -> update for your environment!
-      url: tcp://$kafka-server:9092/endpoint
+      url: {{ .kafka.url }}
 
   # Pipelines define which logs go where with what processing
   pipelines:
@@ -41,8 +38,10 @@ spec:
     outputRefs:
     - hub-kafka-output
     # Apply labeling filter to identify log source
+    {{- if .filterRefs }}
     filterRefs:
-    - telco-hub-labels
+    {{- .filterRefs | toYaml | nindent 4 }}
+    {{- end }}
 
   # Service account for log collection
   serviceAccount:

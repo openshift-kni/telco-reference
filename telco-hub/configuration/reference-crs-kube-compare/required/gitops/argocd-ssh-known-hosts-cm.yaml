@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-40"
+  name: argocd-ssh-known-hosts-cm
+  namespace: openshift-gitops
+data:
+{{- if .data }}
+  ssh_known_hosts: |
+{{ index .data "ssh_known_hosts" | trimSuffix "\n" | indent 4 }}
+{{- end }}
