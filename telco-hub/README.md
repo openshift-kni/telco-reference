@@ -5,13 +5,10 @@ specifications and recommendations of the [Telco Hub Cluster RDS](https://docs.r
 the different operators that make up a Hub cluster will be installed, all in a disconnected environment.
 
 The Yaml manifests used to install the OpenShift cluster and the required mirror registry can be found in the [install](install) folder
-whereas the reference CRs for the day-2 operators are stored in the [configuration](configuration) folder. These manifests need to be
-modified to suit your specific environment (i.e. ssh keys, pull-secret, resources config, etc.) before they can be applied.
+whereas the reference CRs for the day-2 operators are stored in the [configuration](configuration) folder. These manifests can be
+modified to suit your specific environment (i.e. ssh keys, pull-secret, resources config, etc.) prior to being applied to your cluster. In the recommended automated method this is done using kustomize.
 
-## Automated installation
-This is the recommended approach to install the Hub cluster. It uses the GitOps operator to deploy all the required components. See [Automated installation](configuration/README.md) for more information.
-
-## Manual installation
+## Pre-requisites
 
 There are two components required prior to start the configuration of a Hub cluster, a basic OpenShift cluster and a mirror registry already loaded with
 all the container images that will be used for the OpenShift and the day-2 operators installation.
@@ -32,11 +29,15 @@ For a fully disconnected environment a few additional step are required (see [Mi
 
 [Mirror registry setup](install/mirror-registry/README.md)
 
-## Configuration
+## Automated installation
+This is the recommended approach to install the Hub cluster. The automation uses the GitOps operator to deploy and configure all the required components. See [Automated installation](configuration/README.md) for more information.
+
+## Manual configuration of Hub components
 
 The following instructions cover the installation and configuration of the day-2 operators required to turn the basic OpenShift cluster into a Hub cluster.
-They should be installed in the order presented here to ensure that the resource dependencies are properly resolved. **Important:** do not forget to modify the
-reference CRs to match your environment and needs.
+They should be installed in the order presented here to ensure that the resource dependencies are properly resolved.
+
+**IMPORTANT:** Do not forget to modify the reference CRs to match your environment and needs.
 
 ### Required operators
 

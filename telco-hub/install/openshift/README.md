@@ -12,6 +12,8 @@
    `openshift-install --dir ocp agent wait-for install-complete`
 5. Verify that the installation has completed successfully with:
 
+   `export KUBECONFIG=ocp/auth/kubeconfig`
+
    `oc get nodes` (check that all the nodes are ready)
 
    `oc get clusterversion` (check that the status is “Cluster version is <4.x.x>”)
