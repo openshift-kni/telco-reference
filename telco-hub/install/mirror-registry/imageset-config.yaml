@@ -13,9 +13,11 @@ mirror:
     targetCatalog: openshift-marketplace/redhat-operators-disconnected
     packages:
     - name: advanced-cluster-management
+      defaultChannel: release-2.13
       channels:
       - name: release-2.13
     - name: multicluster-engine
+      defaultChannel: stable-2.8
       channels:
       - name: stable-2.8
     - name: openshift-gitops-operator
@@ -32,46 +34,60 @@ mirror:
       channels:
       - name: stable
     - name: odf-operator
+      defaultChannel: stable-4.18
       channels:
       - name: stable-4.18
     - name: odf-dependencies
+      defaultChannel: stable-4.18
       channels:
       - name: stable-4.18
     - name: odf-csi-addons-operator
+      defaultChannel: stable-4.18
       channels:
       - name: stable-4.18
     - name: ocs-client-operator
+      defaultChannel: stable-4.18
       channels:
       - name: stable-4.18
     - name: cephcsi-operator
+      defaultChannel: stable-4.18
       channels:
       - name: stable-4.18
     - name: odf-prometheus-operator
+      defaultChannel: stable-4.18
       channels:
       - name: stable-4.18
     - name: odf-multicluster-orchestrator
+      defaultChannel: stable-4.18
       channels:
       - name: stable-4.18
     - name: ocs-operator
+      defaultChannel: stable-4.18
       channels:
       - name: stable-4.18
     - name: rook-ceph-operator
+      defaultChannel: stable-4.18
       channels:
       - name: stable-4.18
     - name: mcg-operator
+      defaultChannel: stable-4.18
       channels:
       - name: stable-4.18
     - name: odr-hub-operator
+      defaultChannel: stable-4.18
       channels:
       - name: stable-4.18
     - name: odr-cluster-operator
+      defaultChannel: stable-4.18
       channels:
       - name: stable-4.18
     - name: recipe
+      defaultChannel: stable-4.18
       channels:
       - name: stable-4.18
   additionalImages:
   - name: registry.redhat.io/ubi8/ubi:latest
   - name: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.19
   - name: registry.redhat.io/rhel8/support-tools:latest
+  - name: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:v2.13
   helm: {}
