@@ -2,6 +2,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-35"
   name: infra
   namespace: openshift-gitops
 spec:

@@ -1,0 +1,46 @@
+---
+apiVersion: ocs.openshift.io/v1
+kind: StorageCluster
+metadata:
+  name: ocs-storagecluster
+  namespace: openshift-storage
+  annotations:
+    argocd.argoproj.io/sync-wave: "-30"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  manageNodes: false
+  {{- if .spec.resources }}
+  resources:
+    mds:
+      limits:
+        cpu: {{ .spec.resources.mds.limits.cpu | quote }}
+        memory: {{ .spec.resources.mds.limits.memory | quote }}
+      requests:
+        cpu: {{ .spec.resources.mds.requests.cpu | quote }}
+        memory: {{ .spec.resources.mds.requests.memory | quote }}
+  {{- end }}
+  monDataDirHostPath: /var/lib/rook
+  storageDeviceSets:
+  {{- range .spec.storageDeviceSets }}
+  - count: {{ .count }}  # <-- Modify count to desired value. For each set of 3 disks increment the count by 1.
+    dataPVCTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ .dataPVCTemplate.spec.resources.requests.storage | quote }}  # <-- This should be changed as per storage size. Minimum 100 GiB and Maximum 4 TiB
+        storageClassName: {{ .dataPVCTemplate.spec.storageClassName | quote }}  # match this with the storage block created at the LSO step
+        volumeMode: Block
+    name: ocs-deviceset
+    placement: {}
+    portable: false
+    replica: 3
+    resources:
+      limits:
+        cpu: {{ .resources.limits.cpu | quote }}
+        memory: {{ .resources.limits.memory | quote }}
+      requests:
+        cpu: {{ .resources.requests.cpu | quote }}
+        memory: {{ .resources.requests.memory | quote }}
+  {{- end }}

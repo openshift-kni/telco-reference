@@ -1,0 +1,21 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "automergeStrategy": "rebase",
+    "automergeType": "pr",
+    "prConcurrentLimit": 0,
+    "pruneBranchAfterAutomerge": true,
+    "tekton": {
+        "autoApprove": true,
+        "automerge": true,
+        "enabled": true,
+        "fileMatch": [
+            "\\.yaml$",
+            "\\.yml$"
+        ],
+        "ignoreTests": false,
+        "includePaths": [
+            ".tekton/**"
+        ],
+        "platformAutomerge": true
+    }
+}

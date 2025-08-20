@@ -4,6 +4,9 @@ kind: BackupSchedule
 metadata:
   name: schedule-drtest
   namespace: open-cluster-management-backup
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   veleroSchedule: "0 */2 * * *"
   veleroTtl: 120h

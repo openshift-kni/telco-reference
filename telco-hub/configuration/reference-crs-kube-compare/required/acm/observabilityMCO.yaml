@@ -1,0 +1,47 @@
+---
+apiVersion: observability.open-cluster-management.io/v1beta2
+kind: MultiClusterObservability
+metadata:
+  name: observability
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    # avoids MultiClusterHub Observability to own/manage the
+    # spoke clusters configuration about AlertManager forwards.
+    # ZTP Policies will be in charge of configuring it
+    # https://issues.redhat.com/browse/CNF-13398
+    mco-disable-alerting: "true"
+spec:
+  # based on the data provided by acm-capacity tool
+  # https://github.com/stolostron/capacity-planning/blob/main/calculation/ObsSizingTemplate-Rev1.ipynb
+  # for an scenario with:
+  # 3500SNOs, 125 pods and 4 Namespaces (apart from Openshift NS)
+  # storage retention 15 days
+  # downsampling disabled
+  # default MCO Addon configuration samples_per_hour, pv_retention_hrs.
+  # More on how to stimate: https://access.redhat.com/articles/7103886
+  advanced:
+    retentionConfig:
+      blockDuration: 2h
+      deleteDelay: 48h
+      retentionInLocal: 24h
+      retentionResolutionRaw: 15d
+  enableDownsampling: false
+  observabilityAddonSpec:
+    enableMetrics: true
+    interval: 300
+  storageConfig:
+    storageClass: {{ .spec.storageConfig.storageClass }}
+    alertmanagerStorageSize: {{ .spec.storageConfig.alertmanagerStorageSize }}
+    compactStorageSize: {{ .spec.storageConfig.compactStorageSize }}
+    metricObjectStorage:
+      # buckets storage should provide a capacity
+      # of at least 2.5TB
+      key: thanos.yaml
+      name: thanos-object-storage
+    receiveStorageSize: {{ .spec.storageConfig.receiveStorageSize }}
+    ruleStorageSize: {{ .spec.storageConfig.ruleStorageSize }}
+    storeStorageSize: {{ .spec.storageConfig.storeStorageSize }}
+    # In addition to these storage settings, the `metricObjectStorage`
+    # points to an Object Storage. Under the reference configuration,
+    # scale and retention the estimated object storage is about 101Gi

@@ -14,4 +14,7 @@ spec:
 {{ if .spec.autoAssign }}
   autoAssign: {{ .spec.autoAssign }}
 {{ end }}
+{{ if .spec.avoidBuggyIPs }}
+  avoidBuggyIPs: {{ .spec.avoidBuggyIPs }}
+{{ end }}
   ##############

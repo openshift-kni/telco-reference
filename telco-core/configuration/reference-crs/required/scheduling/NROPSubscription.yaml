@@ -7,9 +7,10 @@ metadata:
   name: numaresources-operator
   namespace: openshift-numaresources
 spec:
-  channel: "4.18"
+  channel: "4.19"
   name: numaresources-operator
   source: redhat-operators-disconnected
   sourceNamespace: openshift-marketplace
+  installPlanApproval: Manual
 status:
   state: AtLatestKnown

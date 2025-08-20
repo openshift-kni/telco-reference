@@ -1,0 +1,13 @@
+---
+# patching ClusterLogForwarder for hub-specific configuration
+- op: replace
+  path: /spec/outputs/0/kafka/url
+  value: tcp://jumphost.inbound.lab:9092/endpoint
+
+# Optional: Add additional filter configuration with specific labels
+- op: add
+  path: /spec/filters/0/openshiftLabels
+  value:
+    cluster-role: hub
+    environment: production
+    telco-component: management

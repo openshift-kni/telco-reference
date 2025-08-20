@@ -1,0 +1,14 @@
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-40"
+  name: open-cluster-management-group
+  namespace: open-cluster-management
+spec:
+  targetNamespaces:
+  - open-cluster-management
+  {{- if .spec.upgradeStrategy }}
+  upgradeStrategy: Default
+  {{- end }}

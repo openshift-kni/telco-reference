@@ -4,6 +4,9 @@ kind: ObjectBucketClaim
 metadata:
   name: backup
   namespace: open-cluster-management-backup
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   generateBucketName: backup
   storageClassName: openshift-storage.noobaa.io

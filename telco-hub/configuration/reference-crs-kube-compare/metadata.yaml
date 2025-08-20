@@ -1,0 +1,136 @@
+---
+apiVersion: v2
+parts:
+  - name: version-check
+    description: |-
+      A mismatch here means you may be using the wrong reference.
+      This reference was designed for OpenShift 4.19.
+    components:
+      - name: version-check
+        allOf:
+          - path: ReferenceVersionCheck.yaml
+            config:
+              ignore-unspecified-fields: true
+              fieldsToOmitRefs:
+                - allowStatusCheck
+  - name: optional-storage
+    components:
+      - name: local-storage-operator
+        description: |-
+          https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-local-storage-operator_telco-hub
+        allOrNoneOf:
+          - path: optional/lso/lsoNS.yaml
+          - path: optional/lso/lsoOperatorGroup.yaml
+          - path: optional/lso/lsoSubscription.yaml
+          - path: optional/lso/lsoLocalVolume.yaml
+      - name: odf-internal-operator
+        description: |-
+          https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-openshift-data-foundation_telco-hub
+        allOrNoneOf:
+          - path: optional/odf-internal/odfNS.yaml
+          - path: optional/odf-internal/odfOperatorGroup.yaml
+          - path: optional/odf-internal/odfSubscription.yaml
+          - path: optional/odf-internal/storageCluster.yaml
+            config:
+              ignore-unspecified-fields: true
+  - name: required-talm
+    description: |-
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-topology-aware-lifecycle-manager-talm_telco-hub
+    components:
+      - name: talm-operator
+        allOf:
+          - path: required/talm/talmSubscription.yaml
+  - name: required-acm
+    description: |-
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-red-hat-advanced-cluster-management-rhacm_telco-hub
+    components:
+      - name: acm-operator
+        allOf:
+          - path: required/acm/acmNS.yaml
+          - path: required/acm/acmOperGroup.yaml
+          - path: required/acm/acmSubscription.yaml
+          - path: required/acm/acmMCH.yaml
+          - path: required/acm/acmMCE.yaml
+          - path: required/acm/acmProvisioning.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: required/acm/acmMirrorRegistryCM.yaml
+          - path: required/acm/acmAgentServiceConfig.yaml
+          - path: required/acm/observabilityMCO.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: required/acm/observabilityNS.yaml
+          - path: required/acm/observabilityOBC.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: required/acm/observabilitySecret.yaml
+          - path: required/acm/pullSecretPolicy.yaml
+          - path: required/acm/pullSecretPlacement.yaml
+          - path: required/acm/pullSecretPlacementBinding.yaml
+          - path: required/acm/pullSecretMCSB.yaml
+          - path: required/acm/thanosSecretPolicy.yaml
+            config:
+              ignore-unspecified-fields: true
+              fieldsToOmitRefs:
+                - templates
+          - path: required/acm/thanosSecretPlacement.yaml
+          - path: required/acm/thanosSecretPlacementBinding.yaml
+  - name: optional-logging
+    description: |-
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-logging_telco-hub
+    components:
+      - name: cluster-logging-operator
+        allOrNoneOf:
+          - path: optional/logging/clusterLogNS.yaml
+          - path: optional/logging/clusterLogOperGroup.yaml
+          - path: optional/logging/clusterLogSubscription.yaml
+
+templateFunctionFiles:
+  - version_match.tmpl
+
+fieldsToOmit:
+  defaultOmitRef: all
+  items:
+    defaults:
+      - pathToKey: metadata.annotations."kubectl.kubernetes.io/last-applied-configuration"
+      - pathToKey: metadata.annotations."openshift.io/sa.scc.uid-range"
+      - pathToKey: metadata.annotations."openshift.io/sa.scc.mcs"
+      - pathToKey: metadata.annotations."openshift.io/sa.scc.supplemental-groups"
+      - pathToKey: metadata.annotations."olm.providedAPIs"
+      - pathToKey: metadata.annotations."argocd.argoproj.io"
+        isPrefix: true
+      - pathToKey: metadata.annotations."installer.multicluster.openshift.io"
+        isPrefix: true
+      - pathToKey: metadata.annotations."installer.open-cluster-management.io"
+        isPrefix: true
+      - pathToKey: metadata.annotations."security.openshift.io/MinimallySufficientPodSecurityStandard"
+      - pathToKey: metadata.labels."kubernetes.io/metadata.name"
+      - pathToKey: metadata.labels."security.openshift.io/scc.podSecurityLabelSync"
+      - pathToKey: metadata.labels."operators.coreos.com/local-storage-operator.openshift-local-storage"
+      - pathToKey: metadata.labels."operators.coreos.com/odf-operator.openshift-storage"
+      - pathToKey: metadata.labels."operators.coreos.com/topology-aware-lifecycle-manager.openshift-operators"
+      - pathToKey: metadata.labels."operators.coreos.com/advanced-cluster-management.open-cluster-management"
+      - pathToKey: metadata.labels."agent-install.openshift.io/watch"
+      - pathToKey: metadata.labels."cluster.open-cluster-management.io/backup"
+      - pathToKey: metadata.labels."pod-security.kubernetes.io"
+        isPrefix: true
+      - pathToKey: metadata.labels."olm.operatorgroup.uid"
+        isPrefix: true
+      - pathToKey: metadata.labels."app.kubernetes.io/instance"
+      - pathToKey: metadata.labels."installer.name"
+      - pathToKey: metadata.labels."installer.namespace"
+      - pathToKey: metadata.labels."multiclusterhubs.operator.open-cluster-management.io/managed-by"
+      - pathToKey: metadata.creationTimestamp
+      - pathToKey: metadata.finalizers
+      - pathToKey: metadata.generation
+      - pathToKey: metadata.resourceVersion
+      - pathToKey: metadata.uid
+      - pathToKey: metadata.ownerReferences
+      - pathToKey: spec.finalizers
+    allowStatusCheck:
+      - include: defaults
+    templates:
+      - pathToKey: spec.policy-templates
+    all:
+      - include: defaults
+      - pathToKey: status
