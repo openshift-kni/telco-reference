@@ -4,7 +4,7 @@ kind: ObjectBucketClaim
 metadata:
   name: observability-obc
   annotations:
-    argocd.argoproj.io/sync-wave: "8"
+    argocd.argoproj.io/sync-wave: "-10"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   namespace: open-cluster-management-observability
 spec:
