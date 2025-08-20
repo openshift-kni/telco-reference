@@ -216,19 +216,19 @@ parts:
     components:
       - name: ptp-operator-config
         oneOf:
-          - path: ptp-config/PtpOperatorConfig.yaml
-          - path: ptp-config/PtpOperatorConfigForEvent.yaml
+          - path: ptp-operator/configuration/PtpOperatorConfig.yaml
+          - path: ptp-operator/configuration/PtpOperatorConfigForEvent.yaml
       - name: ptp-config
         oneOf:
           # TODO: the INI files embedded in PtpConfig objects are not handled. CNF-13528
-          - path: ptp-config/PtpConfigBoundary.yaml
+          - path: ptp-operator/configuration/PtpConfigBoundary.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
-          - path: ptp-config/PtpConfigGmWpc.yaml
+          - path: ptp-operator/configuration/PtpConfigGmWpc.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
@@ -237,7 +237,7 @@ parts:
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
-          - path: ptp-config/PtpConfigDualCardGmWpc.yaml
+          - path: ptp-operator/configuration/PtpConfigDualCardGmWpc.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
@@ -246,7 +246,7 @@ parts:
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
-          - path: ptp-config/PtpConfigDualFollower.yaml
+          - path: ptp-operator/configuration/PtpConfigDualFollower.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
@@ -255,7 +255,7 @@ parts:
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
-          - path: ptp-config/PtpConfigThreeCardGmWpc.yaml
+          - path: ptp-operator/configuration/PtpConfigThreeCardGmWpc.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
@@ -264,19 +264,19 @@ parts:
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
-          - path: ptp-config/PtpConfigForHA.yaml
+          - path: ptp-operator/configuration/PtpConfigForHA.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
                   inlineDiffFunc: capturegroups
-          - path: ptp-config/PtpConfigMaster.yaml
+          - path: ptp-operator/configuration/PtpConfigMaster.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
-          - path: ptp-config/PtpConfigSlave.yaml
+          - path: ptp-operator/configuration/PtpConfigSlave.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
@@ -284,26 +284,26 @@ parts:
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
           # TODO: If one of these 4 is selected, they should be paired with 'PtpOperatorConfigForEvent.yaml' above
-          - path: ptp-config/PtpConfigSlaveForEvent.yaml
+          - path: ptp-operator/configuration/PtpConfigSlaveForEvent.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
-          - path: ptp-config/PtpConfigForHAForEvent.yaml
+          - path: ptp-operator/configuration/PtpConfigForHAForEvent.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
                   inlineDiffFunc: capturegroups
-          - path: ptp-config/PtpConfigMasterForEvent.yaml
+          - path: ptp-operator/configuration/PtpConfigMasterForEvent.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
-          - path: ptp-config/PtpConfigBoundaryForEvent.yaml
+          - path: ptp-operator/configuration/PtpConfigBoundaryForEvent.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts

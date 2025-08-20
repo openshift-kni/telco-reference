@@ -94,7 +94,7 @@ oc label node/<node name> node-role.ran.openshift.io=du
 __PTP configuration:__
 
 ```yaml
-    - fileName: ptp-config/PtpConfigSlave.yaml
+    - fileName: ptp-operator/configuration/PtpConfigSlave.yaml
       policyName: "config-policy"
       complianceType: mustonlyhave
       metadata:

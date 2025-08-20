@@ -62,7 +62,7 @@ policies:
 #      - spec:
 #          daemonNodeSelector:
 #            node-role.kubernetes.io/worker: ""
-    - path: source-crs/ptp-config/PtpConfigSlave.yaml
+    - path: source-crs/ptp-operator/configuration/PtpConfigSlave.yaml
       patches:
         - metadata:
             name: du-ptp-slave

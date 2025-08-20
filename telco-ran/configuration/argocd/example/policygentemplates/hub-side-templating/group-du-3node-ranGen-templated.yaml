@@ -21,7 +21,7 @@ spec:
     #######################
     # group-du-3nc-cfg-pc #
     #######################
-    - fileName: ptp-config/PtpConfigSlave.yaml
+    - fileName: ptp-operator/configuration/PtpConfigSlave.yaml
       policyName: "group-du-3nc-cfg-pc"
       metadata:
         name: "du-ptp-slave"

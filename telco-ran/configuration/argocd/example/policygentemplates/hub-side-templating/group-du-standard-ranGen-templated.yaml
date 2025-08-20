@@ -21,7 +21,7 @@ spec:
     ############################
     - fileName: ptp-operator/PtpOperatorConfig.yaml
       policyName: group-du-standard-cfg-pc
-    - fileName: ptp-config/PtpConfigSlave.yaml
+    - fileName: ptp-operator/configuration/PtpConfigSlave.yaml
       policyName: group-du-standard-cfg-pc
       metadata:
         name: "du-ptp-slave"

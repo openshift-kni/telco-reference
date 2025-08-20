@@ -22,7 +22,7 @@ storage_lso_StorageLV:
 storage_lso_StorageSubscription:
   - spec:
       source: redhat-operators-disconnected
-ptp_config_PtpConfigBoundary:
+ptp_operator_configuration_PtpConfigBoundary:
   - spec:
       profile:
         - placeholder: true
@@ -32,7 +32,7 @@ ptp_config_PtpConfigBoundary:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
-ptp_config_PtpConfigBoundaryForEvent:
+ptp_operator_configuration_PtpConfigBoundaryForEvent:
   - spec:
       profile:
         - ptpClockThreshold:
@@ -45,7 +45,7 @@ ptp_config_PtpConfigBoundaryForEvent:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
-ptp_config_PtpConfigDualCardGmWpc:
+ptp_operator_configuration_PtpConfigDualCardGmWpc:
   - spec:
       profile:
         - plugins:
@@ -75,7 +75,7 @@ ptp_config_PtpConfigDualCardGmWpc:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
-ptp_config_PtpConfigDualFollower:
+ptp_operator_configuration_PtpConfigDualFollower:
   - spec:
       profile:
         - ptpClockThreshold:
@@ -90,7 +90,7 @@ ptp_config_PtpConfigDualFollower:
       domainNumber: 24
       iface1: $iface1
       iface2: $iface2
-ptp_config_PtpConfigThreeCardGmWpc:
+ptp_operator_configuration_PtpConfigThreeCardGmWpc:
   - spec:
       profile:
         - plugins:
@@ -137,7 +137,7 @@ ptp_config_PtpConfigThreeCardGmWpc:
       iface_timeTx3_1: $iface_timeTx3_1
       iface_timeTx3_2: $iface_timeTx3_2
       iface_timeTx3_3: $iface_timeTx3_3
-ptp_config_PtpConfigForHA:
+ptp_operator_configuration_PtpConfigForHA:
   - spec:
       profile:
         - placeholder: true
@@ -146,7 +146,7 @@ ptp_config_PtpConfigForHA:
             - nodeLabel: "node-role.kubernetes.io/$mcp"
     captureGroup_defaults:
       domainNumber: 24
-ptp_config_PtpConfigForHAForEvent:
+ptp_operator_configuration_PtpConfigForHAForEvent:
   - spec:
       profile:
         - ptpClockThreshold:
@@ -158,7 +158,7 @@ ptp_config_PtpConfigForHAForEvent:
             - nodeLabel: "node-role.kubernetes.io/$mcp"
     captureGroup_defaults:
       domainNumber: 24
-ptp_config_PtpConfigMaster:
+ptp_operator_configuration_PtpConfigMaster:
   - spec:
       profile:
         - interface: $interface
@@ -168,7 +168,7 @@ ptp_config_PtpConfigMaster:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
-ptp_config_PtpConfigMasterForEvent:
+ptp_operator_configuration_PtpConfigMasterForEvent:
   - spec:
       profile:
         - interface: $interface
@@ -182,7 +182,7 @@ ptp_config_PtpConfigMasterForEvent:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
-ptp_config_PtpConfigSlave:
+ptp_operator_configuration_PtpConfigSlave:
   - spec:
       profile:
         - interface: $interface
@@ -192,7 +192,7 @@ ptp_config_PtpConfigSlave:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
-ptp_config_PtpConfigGmWpc:
+ptp_operator_configuration_PtpConfigGmWpc:
   - spec:
       profile:
         - plugins:
@@ -217,7 +217,7 @@ ptp_config_PtpConfigGmWpc:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
-ptp_config_PtpConfigSlaveForEvent:
+ptp_operator_configuration_PtpConfigSlaveForEvent:
   - spec:
       profile:
         - interface: $interface
@@ -231,11 +231,11 @@ ptp_config_PtpConfigSlaveForEvent:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
-ptp_config_PtpOperatorConfig:
+ptp_operator_configuration_PtpOperatorConfig:
   - spec:
       daemonNodeSelector:
         node-role.kubernetes.io/$mcp: ""
-ptp_config_PtpOperatorConfigForEvent:
+ptp_operator_configuration_PtpOperatorConfigForEvent:
   - spec:
       daemonNodeSelector:
         node-role.kubernetes.io/$mcp: ""

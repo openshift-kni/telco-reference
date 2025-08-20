@@ -30,7 +30,7 @@ policies:
   policyAnnotations:
     ran.openshift.io/ztp-deploy-wave: "10"
   manifests:
-    - path: source-crs/ptp-config/PtpConfigSlave.yaml
+    - path: source-crs/ptp-operator/configuration/PtpConfigSlave.yaml
       patches:
       - metadata:
           name: du-ptp-slave

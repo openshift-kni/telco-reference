@@ -13,7 +13,7 @@ spec:
   sourceFiles:
     - fileName: ptp-operator/PtpOperatorConfig.yaml
       policyName: "config-policy"
-    - fileName: ptp-config/PtpConfigSlave.yaml
+    - fileName: ptp-operator/configuration/PtpConfigSlave.yaml
       policyName: "config-policy"
       metadata:
         name: "du-ptp-slave"

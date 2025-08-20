@@ -46,7 +46,7 @@ spec:
     #     daemonNodeSelector:
     #       node-role.kubernetes.io/worker: ""
 
-    - fileName: ptp-config/PtpConfigSlave.yaml
+    - fileName: ptp-operator/configuration/PtpConfigSlave.yaml
       policyName: "config-policy"
       metadata:
         name: "du-ptp-slave"
