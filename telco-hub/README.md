@@ -1,8 +1,8 @@
-# telco-ran
+# telco-hub
 
 ## Description
 
-This directory contains reference configuration CRs and manifests related to the Telco RAN use models. The content is branched for each y-stream release of OpenShift.
+This directory contains reference configuration CRs and manifests related to the Telco Hub use models. The content is branched for each y-stream release of OpenShift.
 
 Click [here](./yaml_details.md) to view the details of each YAML file in this subdirectory.
 
