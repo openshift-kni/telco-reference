@@ -40,7 +40,7 @@ spec:
   - name: hermetic
     value: "true"
   pipelineRef:
-    name: build-pipeline
+    name: build-pipeline-telco-core-rds
   taskRunTemplate:
     serviceAccountName: build-pipeline-telco-core-rds-4-20
   workspaces:
