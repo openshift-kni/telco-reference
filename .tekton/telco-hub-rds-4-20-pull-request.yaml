@@ -12,7 +12,7 @@ metadata:
       event == "pull_request" &&
       target_branch == "main" &&
       (".tekton/telco-hub-rds-4-20-pull-request.yaml".pathChanged() ||
-      ".tekton/build-pipeline.yaml".pathChanged() ||
+      ".tekton/build-pipeline-telco-hub-rds.yaml".pathChanged() ||
        "telco-hub/***".pathChanged())
   creationTimestamp: null
   labels:
@@ -43,7 +43,7 @@ spec:
   - name: hermetic
     value: "true"
   pipelineRef:
-    name: build-pipeline
+    name: build-pipeline-telco-hub-rds
   taskRunTemplate:
     serviceAccountName: build-pipeline-telco-hub-rds-4-20
   workspaces:
