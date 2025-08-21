@@ -15,6 +15,6 @@ data:
 {{ index .data "ca-bundle.crt" | trimSuffix "\n" | indent 4 }}
   # The registries.conf field has been populated using the registries.conf file found in "/etc/containers/registries.conf" on each node.
   # Replace <registry.example.com:8443> with the mirror registry's address.
-  registries.conf: |
+  registries.conf: |-
 {{ index .data "registries.conf" | trimSuffix "\n" | indent 4 }}
 {{- end }}
