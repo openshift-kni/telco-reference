@@ -114,3 +114,5 @@ open-cluster-management-backup   acm-validation-policy-schedule-20241112183617  
 ```bash
 oc apply -f backupSchedule.yaml
 ```
+
+Back to [Hub Cluster Setup](../../../../README.md).
