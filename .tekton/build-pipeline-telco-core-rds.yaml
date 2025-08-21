@@ -250,17 +250,17 @@ spec:
     - name: LABELS
       value:
       - $(tasks.generate-labels.results.labels[*])
-      - com.redhat.component=lifecycle-agent-operator-container
-      - description=lifecycle-agent
+      - com.redhat.component=openshift-telco-core-rds-container
+      - description=Telco Core RDS manifests
       - distribution-scope=public
-      - io.k8s.description=lifecycle-agent
-      - name=openshift4/lifecycle-agent-operator-bundle
+      - io.k8s.description=Telco Core RDS manifests
+      - name=openshift4/openshift4/openshift-telco-core-rds-rhel9
       - release=4.20
-      - url=https://github.com/openshift-kni/lifecycle-agent
+      - url=https://github.com/openshift-kni/telco-reference
       - vendor=Red Hat, Inc.
-      - io.k8s.display-name=lifecycle-agent
-      - io.openshift.tags=operator
-      - summary=lifecycle-agent
+      - io.k8s.display-name=openshift-telco-core-rds
+      - io.openshift.tags=container
+      - summary=Telco Core RDS manifests
       - maintainer=rauherna@redhat.com,sskeard@redhat.com
     runAfter:
     - prefetch-dependencies
