@@ -12,10 +12,10 @@ spec:
     du-profile: "latest"
   mcp: "master"
   sourceFiles:
-    - fileName: DisableOLMPprof.yaml
+    - fileName: cluster-tuning/DisableOLMPprof.yaml
       policyName: "config-policy"
     # Set ClusterLogForwarder as example might be better to create another policyTemp-Group
-    - fileName: ClusterLogForwarder.yaml
+    - fileName: cluster-logging/ClusterLogForwarder.yaml
       policyName: "config-policy"
       spec:
         filters:
@@ -39,14 +39,14 @@ spec:
     # attempt to change the daemonsetNodeSelector will result in ptp daemon
     # restart and time synchronization loss.
     # After complying with the policy, complianceType can be set to a safer "musthave"
-    # - fileName: PtpOperatorConfigForEvent.yaml
+    # - fileName: ptp-operator/PtpOperatorConfigForEvent.yaml
     #   policyName: "config-policy"
     #   complianceType: mustonlyhave
     #   spec:
     #     daemonNodeSelector:
     #       node-role.kubernetes.io/worker: ""
 
-    - fileName: PtpConfigSlave.yaml   # Change to PtpConfigSlaveCvl.yaml for ColumbiaVille NIC
+    - fileName: ptp-operator/configuration/PtpConfigSlave.yaml
       policyName: "config-policy"
       metadata:
         name: "du-ptp-slave"
@@ -57,7 +57,7 @@ spec:
           interface: "ens5f0"
           ptp4lOpts: "-2 -s --summary_interval -4"
           phc2sysOpts: "-a -r -n 24"
-    - fileName: SriovOperatorConfigForSNO.yaml
+    - fileName: sriov-operator/SriovOperatorConfigForSNO.yaml
       policyName: "config-policy"
       # For existing clusters with node selector set as "master", 
       # change the complianceType to "mustonlyhave".
@@ -67,7 +67,7 @@ spec:
       spec:
         configDaemonNodeSelector:
           node-role.kubernetes.io/worker: ""
-    - fileName: StorageLV.yaml
+    - fileName: storage-lso/StorageLV.yaml
       policyName: "config-policy"
       spec:
         storageClassDevices:
@@ -81,9 +81,9 @@ spec:
           fsType: xfs
           devicePaths:
           - /dev/disk/by-path/pci-0000:89:00.0-nvme-1
-    - fileName: DisableSnoNetworkDiag.yaml
+    - fileName: cluster-tuning/disabling-network-diagnostics/DisableSnoNetworkDiag.yaml
       policyName: "config-policy"
-    - fileName: PerformanceProfile.yaml
+    - fileName: node-tuning-operator/PerformanceProfile.yaml
       policyName: "config-policy"
       spec:
         cpu:
@@ -95,7 +95,7 @@ spec:
           pages:
             - size: 1G
               count: 32
-    - fileName: TunedPerformancePatch.yaml
+    - fileName: node-tuning-operator/TunedPerformancePatch.yaml
       policyName: "config-policy"
     #
     # These CRs are to enable crun on master and worker nodes for 4.13+ only
@@ -108,14 +108,12 @@ spec:
       policyName: "config-policy"
     - fileName: optional-extra-manifest/enable-crun-worker.yaml
       policyName: "config-policy"
-    # # AmqInstance is required if PTP and BMER operators use AMQP transport
-    # - fileName: AmqInstance.yaml
 #    --- sources needed for image registry (check ImageRegistry.md for more details)----
-#    - fileName: StorageClass.yaml
+#    - fileName: storage-lso/StorageClass.yaml
 #      policyName: "config-policy"
 #      metadata:
 #        name: image-registry-sc
-#    - fileName: StoragePVC.yaml
+#    - fileName: storage-lso/StoragePVC.yaml
 #      policyName: "config-policy"
 #      metadata:
 #        name: image-registry-pvc
@@ -128,10 +126,10 @@ spec:
 #            storage: 100Gi
 #        storageClassName: image-registry-sc
 #        volumeMode: Filesystem
-#    - fileName: ImageRegistryPV.yaml  # this is assuming that mount_point is set to `/var/imageregistry` in SiteConfig
+#    - fileName: image-registry/ImageRegistryPV.yaml  # this is assuming that mount_point is set to `/var/imageregistry` in SiteConfig
                                        # using StorageClass `image-registry-sc` (see the first sc-file)
 #      policyName: "config-policy"
-#    - fileName: ImageRegistryConfig.yaml
+#    - fileName: image-registry/ImageRegistryConfig.yaml
 #      policyName: "config-policy"
 #      spec:
 #        storage:
@@ -141,7 +139,7 @@ spec:
 
 #    --- sources needed for updating CRI-O workload-partitioning ----
 #      more info here: on the base64 content https://docs.openshift.com/container-platform/4.11/scalability_and_performance/sno-du-enabling-workload-partitioning-on-single-node-openshift.html
-#    - fileName: MachineConfigGeneric.yaml
+#    - fileName: generic/MachineConfigGeneric.yaml
 #      policyName: "config-policy"
 #      complianceType: mustonlyhave # This is to update array entry as opposed to appending a new entry.
 #      metadata:
@@ -160,7 +158,7 @@ spec:
 #                  name: root
 #              - contents:
 #                  # openshift cpuset config goes below. This value needs to be updated and matched with crio cpuset (array entry above this). Check the link for more info on the content.
-#                  source: data:text/plain;charset=utf-8;base64,ewogICJtYW5hZ2VtZW50IjogewogICAgImNwdXNldCI6ICIwLTEsNTItNTMiCiAgfQp9Cg==
+#                  source: data:text/plain;charset=utf-g;base64,ewogICJtYW5hZ2VtZW50IjogewogICAgImNwdXNldCI6ICIwLTEsNTItNTMiCiAgfQp9Cg==
 #                mode: 420
 #                overwrite: true
 #                path: /etc/kubernetes/openshift-workload-pinning

@@ -7,7 +7,7 @@ metadata:
   # Where <index> represents the position of the corresponding backupLocation
   # in DataProtectionApplication.spec.backupLocations, starting from 1.
   #
-  # If the DataProtectionApplication name is changed in OadpDataProtectionApplication.yaml,
+  # If the DataProtectionApplication name is changed in data-protection/OadpDataProtectionApplication.yaml,
   # be sure to override the BackupStorageLocation name accordingly.
   name: dataprotectionapplication-1
   namespace: openshift-adp

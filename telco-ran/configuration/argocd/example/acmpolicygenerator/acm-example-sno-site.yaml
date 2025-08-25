@@ -32,14 +32,14 @@ policies:
   policyAnnotations:
     ran.openshift.io/ztp-deploy-wave: "100"
   manifests:
-    - path: source-crs/SriovNetwork.yaml
+    - path: source-crs/sriov-operator/SriovNetwork.yaml
       patches:
       - metadata:
           name: "sriov-nw-du-fh"
         spec:
           resourceName: du_fh
           vlan: 140
-    - path: source-crs/SriovNetworkNodePolicy-SetSelector.yaml
+    - path: source-crs/sriov-operator/SriovNetworkNodePolicy-SetSelector.yaml
       patches:
       - metadata:
           name: "sriov-nnp-du-fh"
@@ -53,14 +53,14 @@ policies:
           numVfs: 8
           priority: 10
           resourceName: du_fh
-    - path: source-crs/SriovNetwork.yaml
+    - path: source-crs/sriov-operator/SriovNetwork.yaml
       patches:
       - metadata:
           name: "sriov-nw-du-mh"
         spec:
           resourceName: du_mh
           vlan: 150
-    - path: source-crs/SriovNetworkNodePolicy-SetSelector.yaml
+    - path: source-crs/sriov-operator/SriovNetworkNodePolicy-SetSelector.yaml
       patches:
       - metadata:
           name: "sriov-nnp-du-mh"
@@ -75,11 +75,11 @@ policies:
           priority: 10
           resourceName: du_mh
 #   --- START of source CRs needed for configuring OADP operator for SNO Image Based Upgrade ---
-#   - path: source-crs/OadpSecret.yaml
+#   - path: source-crs/data-protection/OadpSecret.yaml
 #     patches:
 #     - data:
 #         cloud: W2RlZmF1bHRdCmF3c19hY2Nlc3Nfa2V5X2lkPVdicktaSFpFOXZGWEVFemo2RU12CmF3c19zZWNyZXRfYWNjZXNzX2tleT1RRDNmRVZMNzVsOWJpSWswYW9PdlRSc2diN01ZRUlnZmF5bzVzRnlmCg== # notsecret
-#   - path: source-crs/OadpDataProtectionApplication.yaml
+#   - path: source-crs/data-protection/OadpDataProtectionApplication.yaml
 #     patches:
 #     - spec:
 #         backupLocations:
@@ -98,5 +98,5 @@ policies:
 #             objectStorage:
 #               bucket: ibu
 #               prefix: '{{hub .ManagedClusterName hub}}'
-#   - path: source-crs/OadpBackupStorageLocationStatus.yaml
+#   - path: source-crs/data-protection/OadpBackupStorageLocationStatus.yaml
 #   --- END of source CRs needed for configuring OADP operator for SNO Image Based Upgrade ---

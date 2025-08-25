@@ -8,66 +8,60 @@ Depending on the exact purpose and configuration for the spokes, some of the sou
 
 # PGT1 - configuration that can be common for most spoke clusters
 **The source CRs from below could lack group or site specific info and can have common configuration for all spokes**
-* AmqInstance.yaml
-* ClusterLogForwarder.yaml
+* cluster-logging/ClusterLogForwarder.yaml
     * spec.outputs
     * spec.pipelines
-* DisableOLMPprof.yaml
-* DisableSnoNetworkDiag.yaml (Cluster Network Operator)
-* HardwareEvent.yaml
-* ImageRegistryConfig.yaml (Cluster Image Registry Operator)
-* ImageRegistryPV.yaml
-* MachineConfigGeneric.yaml
-* MachineConfigPool.yaml
-* MachineConfigSctp.yaml
-* OperatorHub.yaml
-* StorageClass.yaml
-* StoragePV.yaml (Local Storage Operator)
-* StoragePVC.yaml (Local Storage Operator)
+* cluster-tuning/DisableOLMPprof.yaml
+* cluster-tuning/disabling-network-diagnostics/DisableSnoNetworkDiag.yaml (Cluster Network Operator)
+* image-registry/ImageRegistryConfig.yaml (Cluster Image Registry Operator)
+* image-registry/ImageRegistryPV.yaml
+* generic/MachineConfigGeneric.yaml
+* machine-config/MachineConfigPool.yaml
+* machine-config/MachineConfigSctp.yaml
+* cluster-tuning/operator-hub/OperatorHub.yaml
+* storage-lso/StorageClass.yaml
+* storage-lso/StoragePV.yaml (Local Storage Operator)
+* storage-lso/StoragePVC.yaml (Local Storage Operator)
 
 
 # PGT2 - has configuration that can be common to sites with the same hardware(disks, NICs)/OS, mountpoints, etc
-* AmqInstance.yaml
-* ClusterLogForwarder.yaml
+* cluster-logging/ClusterLogForwarder.yaml
     * spec.outputs
     * spec.pipelines
-* DisableSnoNetworkDiag.yaml (Cluster Network Operator)
+* cluster-tuning/disabling-network-diagnostics/DisableSnoNetworkDiag.yaml (Cluster Network Operator)
     > Note: If users want to configure things apart spec.disableNetworkDiagnostics
-* HardwareEvent.yaml
-     * spec.transportHost
-     * spec.logLevel
-* ImageRegistryConfig.yaml (Image Registry Operator)
+* image-registry/ImageRegistryConfig.yaml (Image Registry Operator)
     > Note: Any of the spec fields can differ based on the spokes groups
-* ImageRegistryPV.yaml
+* image-registry/ImageRegistryPV.yaml
     > Note: Any of the spec fields can differ based on the spokes groups
-* PerformanceProfile.yaml / PerformanceProfile-SetSelector.yaml 
+* node-tuning-operator/PerformanceProfile.yaml / node-tuning-operator/PerformanceProfile-SetSelector.yaml 
     * spec.cpu.isolated, spec.cpu.reserved
     * spec.hugepages.pages.(size/count/node), spec.hugepages.defaultHugepagesSize
-* TunedPerformancePatch.yaml
-* MachineConfigGeneric.yaml
-* MachineConfigPool.yaml
-* MachineConfigSctp.yaml
-* PtpOperatorConfigForEvent.yaml / PtpOperatorConfigForEvent-SetSelector.yam / PtpOperatorConfig.yaml
-* PtpConfig<Boundary/Slave/GmWpc/Master/Slave/SlaveCvl>.yaml DU example
+* node-tuning-operator/TunedPerformancePatch.yaml
+* generic/MachineConfigGeneric.yaml
+* machine-config/MachineConfigPool.yaml
+* machine-config/MachineConfigSctp.yaml
+* ptp-operator/PtpOperatorConfigForEvent.yaml / ptp-operator/PtpOperatorConfigForEvent-SetSelector.yam / ptp-operator/PtpOperatorConfig.yaml
+* ptp-config/PtpConfig<Boundary/Slave/GmWpc/Master/Slave/SlaveCvl>.yaml DU example
     * spec.profile.interface from ConfigMap
-* SriovNetwork.yaml
-* SriovNetworkNodePolicy.yaml / SriovNetworkNodePolicy-SetSelector.yaml
-* SriovOperatorConfig.yaml
-* ImageRegistryConfig.yaml (Image Registry Operator)
-* ImageRegistryPV.yaml
-* StorageLocalVolume.yaml
+* sriov-operator/SriovNetwork.yaml
+* sriov-operator/SriovNetworkNodePolicy.yaml / sriov-operator/SriovNetworkNodePolicy-SetSelector.yaml
+* sriov-operator/SriovOperatorConfig.yaml
+* image-registry/ImageRegistryConfig.yaml (Image Registry Operator)
+* image-registry/ImageRegistryPV.yaml
+* storage/StorageLocalVolume.yaml
     > Note: could be common to all spokes, depending on the exact disk configuration, but safer to have it per-site (Local Storage Operator)
     * spec.devicePaths
-* StorageClass.yaml
-* StorageLVMCluster.yaml
-* StoragePV.yaml
-* StoragePVC.yaml
+* storage-lso/StorageClass.yaml
+* storage-lvm/StorageLVMCluster.yaml
+* storage-lso/StoragePV.yaml
+* storage-lso/StoragePVC.yaml
 
 # PGT3 - has config that is (can be) site specific
-* SriovFecClusterConfig.yaml
+* sriov-fec-operator/SriovFecClusterConfig.yaml
     * spec.acceleratorSelector.pciAddress
     * spec.physicalFunction.bbDevConfig
-* SriovNetwork.yaml
-* SriovNetworkNodePolicy.yaml / SriovNetworkNodePolicy-SetSelector.yaml
-* StorageLocalVolume.yaml
+* sriov-operator/SriovNetwork.yaml
+* sriov-operator/SriovNetworkNodePolicy.yaml / sriov-operator/SriovNetworkNodePolicy-SetSelector.yaml
+* storage/StorageLocalVolume.yaml
     * spec.devicePaths

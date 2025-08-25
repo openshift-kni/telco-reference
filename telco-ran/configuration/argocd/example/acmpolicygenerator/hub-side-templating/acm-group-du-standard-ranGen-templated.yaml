@@ -35,12 +35,12 @@ policies:
   policyAnnotations:
     ran.openshift.io/ztp-deploy-wave: "10"
   manifests:
-    - path: source-crs/PtpOperatorConfig-SetSelector.yaml
+    - path: source-crs/ptp-operator/PtpOperatorConfig-SetSelector.yaml
       patches:
       - spec:
           daemonNodeSelector:
             node-role.kubernetes.io/worker: ""
-    - path: source-crs/PtpConfigSlave.yaml   # Change to PtpConfigSlaveCvl.yaml for ColumbiaVille NIC
+    - path: source-crs/ptp-operator/configuration/PtpConfigSlave.yaml
       patches:
         - metadata:
             name: du-ptp-slave
@@ -56,7 +56,7 @@ policies:
               profile: slave
       openapi:
         path: schema.openapi
-    - path: source-crs/SriovOperatorConfig-SetSelector.yaml
+    - path: source-crs/sriov-operator/SriovOperatorConfig-SetSelector.yaml
       # For existing clusters with node selector set as "master", 
       # change the complianceType to "mustonlyhave".
       # After complying with the policy, the complianceType can 
@@ -66,7 +66,7 @@ policies:
       - spec:
           configDaemonNodeSelector:
             node-role.kubernetes.io/worker: ""
-    - path: source-crs/PerformanceProfile-SetSelector.yaml
+    - path: source-crs/node-tuning-operator/PerformanceProfile-SetSelector.yaml
       patches:
       - spec:
           cpu:
@@ -82,7 +82,7 @@ policies:
             pools.operator.machineconfiguration.openshift.io/worker: ""
           nodeSelector:
             node-role.kubernetes.io/worker: ''
-    - path: source-crs/TunedPerformancePatch.yaml
+    - path: source-crs/node-tuning-operator/TunedPerformancePatch.yaml
       patches:
       - spec:
           recommend:

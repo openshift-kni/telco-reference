@@ -158,8 +158,6 @@ sync_cr() {
       fi
     done
     if [[ $found == 0 ]]; then
-      rendered_base=${rendered_base#optional/}
-      rendered_base=${rendered_base#required/}
       source="$source_dir/${rendered_base}"
     fi
 

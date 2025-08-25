@@ -24,14 +24,14 @@ Installation
    ```yaml
    sourceFiles:
       # storage class
-      - fileName: StorageClass.yaml
+      - fileName: storage-lso/StorageClass.yaml
         policyName: "sc-for-image-registry"
         metadata:
           name: image-registry-sc
           annotations:
             ran.openshift.io/ztp-deploy-wave: "100" # remove this when moved to the right PGT (site/group/common)
      # persistent volume claim
-     - fileName: StoragePVC.yaml
+     - fileName: storage-lso/StoragePVC.yaml
        policyName: "pvc-for-image-registry"
        metadata:
          name: image-registry-pvc
@@ -47,14 +47,14 @@ Installation
          storageClassName: image-registry-sc
          volumeMode: Filesystem
       # persistent volume
-     - fileName: ImageRegistryPV.yaml # this is assuming that mount_point is set to `/var/imageregistry` in SiteConfig
+     - fileName: image-registry/ImageRegistryPV.yaml # this is assuming that mount_point is set to `/var/imageregistry` in SiteConfig
                                       # using StorageClass `image-registry-sc` (see the first sc-file)
        policyName: "pv-for-image-registry" 
        metadata:
          annotations:
            ran.openshift.io/ztp-deploy-wave: "100"  # remove this when moved to the right PGT (site/group/common)
       # configure registry to point to the pvc created above
-     - fileName: ImageRegistryConfig.yaml
+     - fileName: image-registry/ImageRegistryConfig.yaml
        policyName: "config-for-image-registry"
        complianceType: musthave # do not use `mustlyonlyhave` as it will cause deployment failure of registry pod.
        metadata:

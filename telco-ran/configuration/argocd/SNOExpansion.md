@@ -62,13 +62,13 @@ In the group policy, make the additions of `complianceType` and `spec` as shown 
 
 ```yaml
 spec:
-    - fileName: PtpOperatorConfig.yaml
+    - fileName: ptp-operator/PtpOperatorConfig.yaml
       policyName: "config-policy"
       complianceType: mustonlyhave
       spec:
         daemonNodeSelector:
           node-role.kubernetes.io/worker: ""
-    - fileName: SriovOperatorConfig.yaml
+    - fileName: sriov-operator/SriovOperatorConfig.yaml
       policyName: "config-policy"
       complianceType: mustonlyhave
       spec:
@@ -94,7 +94,7 @@ oc label node/<node name> node-role.ran.openshift.io=du
 __PTP configuration:__
 
 ```yaml
-    - fileName: PtpConfigSlave.yaml   
+    - fileName: ptp-operator/configuration/PtpConfigSlave.yaml
       policyName: "config-policy"
       complianceType: mustonlyhave
       metadata:
@@ -115,7 +115,7 @@ __PTP configuration:__
 __SR-IOV network node policies:__
 
 ```yaml
-    - fileName: SriovNetworkNodePolicy.yaml
+    - fileName: sriov-operator/SriovNetworkNodePolicy.yaml
       policyName: "config-policy"
       complianceType: mustonlyhave
       metadata:
@@ -153,7 +153,7 @@ spec:
   sourceFiles:
     # This generic MachineConfig CR is used here to configure workload
     # partitioning on the worker node.
-    - fileName: MachineConfigGeneric.yaml
+    - fileName: generic/MachineConfigGeneric.yaml
       policyName: "config-policy"
       metadata:
         labels:
@@ -177,7 +177,7 @@ spec:
               path: /etc/kubernetes/openshift-workload-pinning
               user:
                 name: root
-    - fileName: PerformanceProfile.yaml
+    - fileName: node-tuning-operator/PerformanceProfile.yaml
       policyName: "config-policy"
       metadata:
         name: openshift-worker-node-performance-profile
@@ -191,7 +191,7 @@ spec:
           pages:
             - size: 1G
               count: 32
-    - fileName: TunedPerformancePatch.yaml
+    - fileName: node-tuning-operator/TunedPerformancePatch.yaml
       policyName: "config-policy"
       metadata:
         name: performance-patch-worker

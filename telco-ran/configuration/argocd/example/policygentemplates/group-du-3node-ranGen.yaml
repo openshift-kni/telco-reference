@@ -13,7 +13,7 @@ spec:
   # the Performance Profile needs to be set up to apply to the master MCP:
   mcp: "master"
   sourceFiles:
-    - fileName: PtpConfigSlave.yaml   # Change to PtpConfigSlaveCvl.yaml for ColumbiaVille NIC
+    - fileName: ptp-operator/configuration/PtpConfigSlave.yaml
       policyName: "config-policy"
       metadata:
         name: "du-ptp-slave"
@@ -24,9 +24,9 @@ spec:
           interface: "ens5f0"
           ptp4lOpts: "-2 -s --summary_interval -4"
           phc2sysOpts: "-a -r -n 24"
-    - fileName: SriovOperatorConfig.yaml
+    - fileName: sriov-operator/SriovOperatorConfig.yaml
       policyName: "config-policy"
-    - fileName: PerformanceProfile.yaml
+    - fileName: node-tuning-operator/PerformanceProfile.yaml
       policyName: "config-policy"
       spec:
         cpu:
@@ -38,7 +38,7 @@ spec:
           pages:
             - size: 1G
               count: 32
-    - fileName: TunedPerformancePatch.yaml
+    - fileName: node-tuning-operator/TunedPerformancePatch.yaml
       policyName: "config-policy"
     #
     # These CRs are to enable crun on master and worker nodes for 4.13+ only
@@ -53,13 +53,13 @@ spec:
       policyName: "config-policy"
     #
     # NMState operator is used for IPsec configuration with NMState
-    # - fileName: NMStateSubscriptionNS.yaml
+    # - fileName: nmstate/NMStateSubscriptionNS.yaml
     #   policyName: "subscriptions-policy"
-    # - fileName: NMStateSubscriptionOperGroup.yaml
+    # - fileName: nmstate/NMStateSubscriptionOperGroup.yaml
     #   policyName: "subscriptions-policy"
-    # - fileName: NMStateSubscription.yaml
+    # - fileName: nmstate/NMStateSubscription.yaml
     #   policyName: "subscriptions-policy"
-    # - fileName: NMStateOperatorStatus.yaml
+    # - fileName: nmstate/NMStateOperatorStatus.yaml
     #   policyName: "subscriptions-policy"
-    # - fileName: NMState.yaml
+    # - fileName: nmstate/NMState.yaml
     #   policyName: "subscriptions-policy"
