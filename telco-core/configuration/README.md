@@ -31,6 +31,7 @@ There are three reference PolicyGenerator CRs.
   reference also contains the optional components
 - `core-upgrade` contains policies which can be used to upgrade a cluster from
   the prior release to the current release.
+- `core-upgrade-finish` contains policies which release MachineConfigPool worker nodes for upgrade.
 
 Other custom content can be added through additional PolicyGenerator CRs.
 
