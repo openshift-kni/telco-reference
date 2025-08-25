@@ -34,21 +34,23 @@ policies:
       #   patches:
       #   - data:
       #       ack-4.15-kube-1.29-api-removals-in-4.16: "true"
-      - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
-        patches:
-        - spec:
-            channel: stable-4.19
       - path: reference-crs/custom-manifests/mcp-worker-1.yaml
         patches:
         - spec:
+            # Adjust as needed based on spare capacity, cluster design, and application requirements
+            maxUnavailable: 100%
             paused: true
       - path: reference-crs/custom-manifests/mcp-worker-2.yaml
         patches:
         - spec:
+            # Adjust as needed based on spare capacity, cluster design, and application requirements
+            maxUnavailable: 100%
             paused: true
       - path: reference-crs/custom-manifests/mcp-worker-3.yaml
         patches:
         - spec:
+            # Adjust as needed based on spare capacity, cluster design, and application requirements
+            maxUnavailable: 100%
             paused: true
   - name: core-upgrade-ocp-19
     manifests:
