@@ -314,6 +314,17 @@ parts:
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
+          - path: optional/ptp-config/PtpConfigNCardTbcWpc.yaml
+            config:
+              perField:
+                - pathToKey: spec.profile.0.ptp4lConf
+                  inlineDiffFunc: capturegroups
+                - pathToKey: spec.profile.1.phc2sysOpts
+                  inlineDiffFunc: capturegroups
+                - pathToKey: spec.profile.1.ts2phcConf
+                  inlineDiffFunc: capturegroups
+                - pathToKey: spec.profile.1.ptp4lConf
+                  inlineDiffFunc: capturegroups
   - name: optional-console-disable
     description: |-
       https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-cluster-tuning_ran-ref-design-components
