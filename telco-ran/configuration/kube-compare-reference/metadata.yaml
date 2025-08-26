@@ -49,6 +49,10 @@ parts:
             config:
               ignore-unspecified-fields: true
           - path: required/cluster-tuning/monitoring-configuration/ReduceMonitoringFootprint.yaml
+            config:
+              perField:
+                - pathToKey: data."config.yaml"
+                  inlineDiffFunc: capturegroups
           - path: required/cluster-tuning/operator-hub/DefaultCatsrc.yaml
           - path: required/cluster-tuning/09-openshift-marketplace-ns.yaml
           - path: required/cluster-tuning/operator-hub/DisconnectedIDMS.yaml

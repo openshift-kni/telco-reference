@@ -303,6 +303,12 @@ required_cluster_tuning_operator_hub_DisconnectedIDMS:
 - metadata:
     name: fec-disconnected-idms
   spec: {}
+required_cluster_tuning_monitoring_configuration_ReduceMonitoringFootprint:
+- metadata:
+    name: cluster-monitoring-config
+  captureGroup_defaults:
+    alertmanager_endpoint: "{{ `{{ (regexFind \"alertmanager-endpoint(.*)\" ((fromSecret \"open-cluster-management-addon-observability\" \"hub-info-secret\" \"hub-info.yaml\") | base64dec)) | replace \"alertmanager-endpoint: https://\" \"\" }}` }}"
+    managed_cluster: "{{ `{{ fromClusterClaim \"id.openshift.io\" }}` }}"
 required_lca_LcaSubscription:
 - spec:
     source: redhat-operators-disconnected
