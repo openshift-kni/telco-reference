@@ -11,5 +11,31 @@ data:
       enabled: false
     telemeterClient:
       enabled: false
+    nodeExporter:
+      collectors:
+        buddyinfo: {}
+        cpufreq: {}
+        ksmd: {}
+        mountstats: {}
+        netclass: {}
+        netdev: {}
+        processes: {}
+        systemd: {}
+        tcpstat: {}
     prometheusK8s:
-       retention: 24h
+      additionalAlertmanagerConfigs:
+      - apiVersion: v2
+        bearerToken:
+          key: token
+          name: observability-alertmanager-accessor
+        scheme: https
+        staticConfigs:
+        - (?<alertmanager_endpoint>.*)
+        tlsConfig:
+          ca:
+            key: service-ca.crt
+            name: hub-alertmanager-router-ca
+          insecureSkipVerify: false
+      externalLabels:
+        managed_cluster: (?<managed_cluster>.*)
+      retention: 24h
