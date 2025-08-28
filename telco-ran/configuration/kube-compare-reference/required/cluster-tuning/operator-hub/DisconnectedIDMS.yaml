@@ -7,7 +7,7 @@ metadata:
 spec:
   # imageDigestMirrors:
   # - $mirrors
-  {{- if .spec.imageDigestMirrors }}
+  {{- if and .spec .spec.imageDigestMirrors }}
   imageDigestMirrors:
     {{- .spec.imageDigestMirrors | toYaml | nindent 2 }}
   {{- end }}
