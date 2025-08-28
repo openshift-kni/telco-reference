@@ -27,6 +27,10 @@
       Thanos secret.
 13. Create the `observabilityMCO.yaml`.
 14. When all the installation is done. Apply the `acmPerfSearch.yaml` .This will configure Search CR called `search-v2-operator` considering different performance and scale optimizations.
+15. When ACM Observability is configured on a managed cluster through the DU profile, the default ACM Observability configuration must be merged with the RAN monitoring tuning [ReduceMonitoringFootprint.yaml](../../../../../telco-ran/configuration/source-crs/ReduceMonitoringFootprint.yaml). To ensure that these changes persist, ACM has to stop managing the cluster-monitoring-config ConfigMap. This can be achieved by adding the following annotation to the MultiClusterObservability CR on the hub cluster:
+```
+oc annotate MultiClusterObservability observability mco-disable-alerting=true
+```
 
 Back to [Hub Cluster Setup](../../../../README.md).
 
