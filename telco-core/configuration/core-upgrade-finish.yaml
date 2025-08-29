@@ -1,0 +1,61 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: core-upgrade-finish
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      common: "core"
+      upgrade-finish: ""
+  remediationAction: "inform"
+policies:
+  - name: core-upgrade-workers-1
+    policyAnnotations:
+      # Ensure propagation time
+      ran.openshift.io/soak-seconds: "30"
+    manifests:
+      - path: reference-crs/custom-manifests/mcp-worker-1.yaml
+        patches:
+        - spec:
+            paused: false
+          status:
+            conditions:
+            - type: Updated
+              status: "True"
+            - type: Updating
+              status: "False"
+
+  - name: core-upgrade-workers-2
+    policyAnnotations:
+      # Ensure propagation time
+      ran.openshift.io/soak-seconds: "30"
+    manifests:
+      - path: reference-crs/custom-manifests/mcp-worker-2.yaml
+        patches:
+        - spec:
+            paused: false
+          status:
+            conditions:
+            - type: Updated
+              status: "True"
+            - type: Updating
+              status: "False"
+
+  - name: core-upgrade-workers-3
+    policyAnnotations:
+      # Ensure propagation time
+      ran.openshift.io/soak-seconds: "30"
+    manifests:
+      - path: reference-crs/custom-manifests/mcp-worker-3.yaml
+        patches:
+        - spec:
+            paused: false
+          status:
+            conditions:
+            - type: Updated
+              status: "True"
+            - type: Updating
+              status: "False"
