@@ -126,6 +126,10 @@ parts:
           - path: optional/logging/clusterLogOperGroup.yaml
           - path: optional/logging/clusterLogSubscription.yaml
           - path: optional/logging/clusterLogForwarder.yaml
+            config:
+              perField:
+                - pathToKey: spec.outputs.0.kafka.url
+                  inlineDiffFunc: regex
           - path: optional/logging/clusterLogServiceAccount.yaml
           - path: optional/logging/clusterLogServiceAccountAuditBinding.yaml
           - path: optional/logging/clusterLogServiceAccountInfrastructureBinding.yaml
