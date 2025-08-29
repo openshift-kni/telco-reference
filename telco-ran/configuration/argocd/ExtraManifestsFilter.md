@@ -42,7 +42,7 @@ Variable scenarios are briefly explained in the below table on filtering.
   ```bash
   extra manifests in the sno-extra-manifest
 
-  - 03-sctp-machine-config-worker.yaml
+  - extra-manifest/03-sctp-machine-config-worker.yaml
   - B.yaml
   - C.yaml 
   ```
@@ -73,7 +73,7 @@ Variable scenarios are briefly explained in the below table on filtering.
       extraManifests:
         filter:
           exclude:
-            - 03-sctp-machine-config-worker.yaml
+            - extra-manifest/03-sctp-machine-config-worker.yaml
   </pre>
   </td>
 
@@ -142,7 +142,7 @@ Variable scenarios are briefly explained in the below table on filtering.
   </td>
 
   <td>
-  included files: [03-sctp-machine-config-worker.yaml B.yaml E.yaml]
+  included files: [extra-manifest/03-sctp-machine-config-worker.yaml B.yaml E.yaml]
   </td>
 </tr>
 

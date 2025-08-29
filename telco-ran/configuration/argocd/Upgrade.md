@@ -145,7 +145,7 @@ This section only applies when upgrading from an earlier release to 4.11. In rel
 
 #### Add disabling chronyd to PolicyGenTemplate CR
 
-Add disabling chronyd in “service” section to the overlaid spec file of TunedPerformancePatch.yaml as shown below. This is normally included in the group policies.
+Add disabling chronyd in “service” section to the overlaid spec file of node-tuning-operator/TunedPerformancePatch.yaml as shown below. This is normally included in the group policies.
 [service]
 service.stalld=start,enable
 service.chronyd=stop,disable

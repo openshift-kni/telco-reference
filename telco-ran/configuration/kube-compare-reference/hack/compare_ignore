@@ -1,0 +1,79 @@
+# Deprecated source-crs:
+deprecated/PaoSubscriptionCatalogSource.yaml
+deprecated/PaoSubscriptionNS.yaml
+deprecated/PaoSubscriptionOperGroup.yaml
+deprecated/PaoSubscription.yaml
+deprecated/PaoOperatorStatus.yaml
+deprecated/AmqInstance.yaml
+deprecated/AmqSubscriptionNS.yaml
+deprecated/AmqSubscriptionOperGroup.yaml
+deprecated/AmqSubscription.yaml
+deprecated/AmqOperatorStatus.yaml
+deprecated/ClusterLogCatSource.yaml
+deprecated/PtpCatSource.yaml
+deprecated/SriovCatSource.yaml
+deprecated/StorageCatSource.yaml
+deprecated/MachineConfigContainerMountNS.yaml
+deprecated/StorageLocalVolume.yaml
+deprecated/PtpConfigSlaveCvl.yaml
+deprecated/workload/03-workload-partitioning.yaml
+
+# General-use source-cr templates, not part of the RDS:
+generic/ConfigMapGeneric.yaml
+generic/MachineConfigGeneric.yaml
+
+# Validator CRs
+validatorCRs/informDuValidatorMaster.yaml
+validatorCRs/informDuValidatorWorker.yaml
+validatorCRs/informDuValidator.yaml
+sriov-fec-operator/AcceleratorsOperatorStatus.yaml
+cluster-logging/ClusterLogOperatorStatus.yaml
+lca/LcaOperatorStatus.yaml
+storage-lvm/LVMOperatorStatus.yaml
+nmstate/NMStateOperatorStatus.yaml
+ptp-operator/PtpOperatorStatus.yaml
+sriov-operator/SriovOperatorStatus.yaml
+storage-lso/StorageOperatorStatus.yaml
+
+# ClusterLogging 5->6 upgrade helper-policy
+cluster-logging/ClusterLogging5Cleanup.yaml
+
+# Set-Selector variants
+node-tuning-operator/PerformanceProfile-SetSelector.yaml
+ptp-operator/PtpOperatorConfig-SetSelector.yaml
+sriov-operator/SriovNetworkNodePolicy-SetSelector.yaml
+sriov-operator/SriovOperatorConfig-SetSelector.yaml
+ptp-operator/PtpOperatorConfigForEvent-SetSelector.yaml
+
+# IBU source-crs, intentionally excluded from the reference for now:
+ibu/ImageBasedUpgrade.yaml
+ibu/PlatformBackupRestoreLvms.yaml
+ibu/PlatformBackupRestore.yaml
+ibu/ImageBasedUpgradeStatus.yaml
+ibu/PlatformBackupRestoreWithIBGU.yaml
+data-protection/OadpBackupStorageLocationStatus.yaml
+data-protection/OadpDataProtectionApplication.yaml
+data-protection/OadpSecret.yaml
+data-protection/OadpSubscriptionNS.yaml
+data-protection/OadpSubscriptionOperGroup.yaml
+data-protection/OadpSubscription.yaml
+data-protection/OadpOperatorStatus.yaml
+ibu/ClusterVersion.yaml
+ibu/ImageSignature.yaml
+machine-config/MachineConfigPool.yaml
+machine-config/MachineConfigSctp.yaml
+
+# Reboot source-crs
+machine-config/RebootMachineConfig.yaml
+validatorCRs/rebootMachineConfigPoolValidator.yaml
+
+# Not true CRs, but special site-config templates
+extra-manifest/disk-encryption.yaml.tmpl
+extra-manifest/image-registry-partition-mc.yaml.tmpl
+
+# Exists in the reference only, to enforce version compatibility
+version-check/ClusterVersionOperator.yaml
+
+# Reference only to ensure default has not been changed
+machine-config/cgroup-check.yaml
+machine-config/container-runtime.yaml

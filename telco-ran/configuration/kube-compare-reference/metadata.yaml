@@ -7,7 +7,7 @@ parts:
     components:
       - name: version-check
         allOf:
-          - path: ClusterVersionOperator.yaml
+          - path: version-check/ClusterVersionOperator.yaml
             config:
               ignore-unspecified-fields: true
               fieldsToOmitRefs:
@@ -19,56 +19,56 @@ parts:
     components:
       - name: defaults-required
         allOf:
-          - path: required/machine-config/cgroup-check.yaml
+          - path: machine-config/cgroup-check.yaml
       - name: defaults-optional
         # If the matching CR exists it needs to match expected content
         anyOf:
-          - path: required/machine-config/container-runtime.yaml
+          - path: machine-config/container-runtime.yaml
   - name: required-cluster-logging
     description: |-
       https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-logging_ran-ref-design-components
     components:
       - name: cluster-logging
         allOf:
-          - path: required/cluster-logging/ClusterLogNS.yaml
-          - path: required/cluster-logging/ClusterLogOperGroup.yaml
-          - path: required/cluster-logging/ClusterLogSubscription.yaml
+          - path: cluster-logging/ClusterLogNS.yaml
+          - path: cluster-logging/ClusterLogOperGroup.yaml
+          - path: cluster-logging/ClusterLogSubscription.yaml
             config:
               ignore-unspecified-fields: true
-          - path: required/cluster-logging/ClusterLogForwarder.yaml
-          - path: required/cluster-logging/ClusterLogServiceAccount.yaml
-          - path: required/cluster-logging/ClusterLogServiceAccountAuditBinding.yaml
-          - path: required/cluster-logging/ClusterLogServiceAccountInfrastructureBinding.yaml
+          - path: cluster-logging/ClusterLogForwarder.yaml
+          - path: cluster-logging/ClusterLogServiceAccount.yaml
+          - path: cluster-logging/ClusterLogServiceAccountAuditBinding.yaml
+          - path: cluster-logging/ClusterLogServiceAccountInfrastructureBinding.yaml
   - name: required-cluster-tuning
     description: |-
       https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-cluster-tuning_ran-ref-design-components
     components:
       - name: cluster-tuning
         allOf:
-          - path: required/cluster-tuning/disabling-network-diagnostics/DisableSnoNetworkDiag.yaml
+          - path: cluster-tuning/disabling-network-diagnostics/DisableSnoNetworkDiag.yaml
             config:
               ignore-unspecified-fields: true
-          - path: required/cluster-tuning/monitoring-configuration/ReduceMonitoringFootprint.yaml
+          - path: cluster-tuning/monitoring-configuration/ReduceMonitoringFootprint.yaml
             config:
               perField:
                 - pathToKey: data."config.yaml"
                   inlineDiffFunc: capturegroups
-          - path: required/cluster-tuning/operator-hub/DefaultCatsrc.yaml
-          - path: required/cluster-tuning/09-openshift-marketplace-ns.yaml
-          - path: required/cluster-tuning/operator-hub/DisconnectedIDMS.yaml
+          - path: cluster-tuning/operator-hub/DefaultCatsrc.yaml
+          - path: cluster-tuning/09-openshift-marketplace-ns.yaml
+          - path: cluster-tuning/operator-hub/DisconnectedIDMS.yaml
       - name: optional-cluster-tuning
         anyOf:
-          - path: required/cluster-tuning/operator-hub/OperatorHub.yaml
-          - path: required/cluster-tuning/DisableOLMPprof.yaml
+          - path: cluster-tuning/operator-hub/OperatorHub.yaml
+          - path: cluster-tuning/DisableOLMPprof.yaml
   - name: optional-lca
     description: |-
       https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-lca-operator_ran-ref-design-components
     components:
       - name: lca
         allOrNoneOf:
-          - path: required/lca/LcaSubscription.yaml
-          - path: required/lca/LcaSubscriptionNS.yaml
-          - path: required/lca/LcaSubscriptionOperGroup.yaml
+          - path: lca/LcaSubscription.yaml
+          - path: lca/LcaSubscriptionNS.yaml
+          - path: lca/LcaSubscriptionOperGroup.yaml
   - name: optional-nmstate-operator
     description: |-
       The nmstate operator is only used in multinode clusters when required by IPSec:
@@ -76,46 +76,46 @@ parts:
     components:
       - name: nmstate-operator
         allOrNoneOf:
-          - path: optional/nmstate/NMStateSubscription.yaml
-          - path: optional/nmstate/NMStateSubscriptionNS.yaml
-          - path: optional/nmstate/NMStateSubscriptionOperGroup.yaml
+          - path: nmstate/NMStateSubscription.yaml
+          - path: nmstate/NMStateSubscriptionNS.yaml
+          - path: nmstate/NMStateSubscriptionOperGroup.yaml
       - name: nmstate-config
         anyOf:
-          - path: optional/nmstate/NMState.yaml
+          - path: nmstate/NMState.yaml
   - name: required-machine-config
     description: |-
       https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-machine-configuration_ran-ref-design-components
     components:
       - name: machine-config
         allOf:
-          - path: required/machine-config/disable-crio-wipe/99-crio-disable-wipe-master.yaml
-          - path: required/machine-config/disable-crio-wipe/99-crio-disable-wipe-worker.yaml
-          - path: required/machine-config/kubelet-configuration-and-container-mount-hiding/01-container-mount-ns-and-kubelet-conf-master.yaml
-          - path: required/machine-config/kubelet-configuration-and-container-mount-hiding/01-container-mount-ns-and-kubelet-conf-worker.yaml
-          - path: required/machine-config/one-shot-time-sync/99-sync-time-once-master.yaml
-          - path: required/machine-config/one-shot-time-sync/99-sync-time-once-worker.yaml
-          - path: required/machine-config/sctp/03-sctp-machine-config-master.yaml
-          - path: required/machine-config/sctp/03-sctp-machine-config-worker.yaml
-          - path: required/machine-config/set-rcu-normal/08-set-rcu-normal-master.yaml
-          - path: required/machine-config/set-rcu-normal/08-set-rcu-normal-worker.yaml
-          - path: required/machine-config/sriov-related-kernel-arguments/07-sriov-related-kernel-args-master.yaml
-          - path: required/machine-config/sriov-related-kernel-arguments/07-sriov-related-kernel-args-worker.yaml
-          - path: required/machine-config/crun/enable-crun-master.yaml
-          - path: required/machine-config/crun/enable-crun-worker.yaml
-          - path: required/machine-config/kdump/06-kdump-master.yaml
-          - path: required/machine-config/kdump/06-kdump-worker.yaml
+          - path: machine-config/disable-crio-wipe/99-crio-disable-wipe-master.yaml
+          - path: machine-config/disable-crio-wipe/99-crio-disable-wipe-worker.yaml
+          - path: machine-config/kubelet-configuration-and-container-mount-hiding/01-container-mount-ns-and-kubelet-conf-master.yaml
+          - path: machine-config/kubelet-configuration-and-container-mount-hiding/01-container-mount-ns-and-kubelet-conf-worker.yaml
+          - path: machine-config/one-shot-time-sync/99-sync-time-once-master.yaml
+          - path: machine-config/one-shot-time-sync/99-sync-time-once-worker.yaml
+          - path: machine-config/sctp/03-sctp-machine-config-master.yaml
+          - path: machine-config/sctp/03-sctp-machine-config-worker.yaml
+          - path: machine-config/set-rcu-normal/08-set-rcu-normal-master.yaml
+          - path: machine-config/set-rcu-normal/08-set-rcu-normal-worker.yaml
+          - path: machine-config/sriov-related-kernel-arguments/07-sriov-related-kernel-args-master.yaml
+          - path: machine-config/sriov-related-kernel-arguments/07-sriov-related-kernel-args-worker.yaml
+          - path: machine-config/crun/enable-crun-master.yaml
+          - path: machine-config/crun/enable-crun-worker.yaml
+          - path: machine-config/kdump/06-kdump-master.yaml
+          - path: machine-config/kdump/06-kdump-worker.yaml
       - name: optional machine-configs
         anyOf:
-          - path: optional/machine-config/01-disk-encryption-pcr-rebind-master.yaml
-          - path: optional/machine-config/01-disk-encryption-pcr-rebind-worker.yaml
+          - path: machine-config/01-disk-encryption-pcr-rebind-master.yaml
+          - path: machine-config/01-disk-encryption-pcr-rebind-worker.yaml
   - name: required-node-tuning-operator
     description: |-
       https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-node-tuning-operator_ran-ref-design-components
     components:
       - name: node-tuning-operator
         allOf:
-          - path: required/node-tuning-operator/PerformanceProfile.yaml
-          - path: required/node-tuning-operator/TunedPerformancePatch.yaml
+          - path: node-tuning-operator/PerformanceProfile.yaml
+          - path: node-tuning-operator/TunedPerformancePatch.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.data
@@ -126,37 +126,37 @@ parts:
     components:
       - name: ptp-operator
         allOf:
-          - path: required/ptp-operator/PtpSubscription.yaml
+          - path: ptp-operator/PtpSubscription.yaml
             config:
               ignore-unspecified-fields: true
-          - path: required/ptp-operator/PtpSubscriptionNS.yaml
-          - path: required/ptp-operator/PtpSubscriptionOperGroup.yaml
+          - path: ptp-operator/PtpSubscriptionNS.yaml
+          - path: ptp-operator/PtpSubscriptionOperGroup.yaml
   - name: required-sriov-operator
     description: |-
       https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-sr-iov-operator_ran-ref-design-components
     components:
       - name: sriov-operator
         allOf:
-          - path: required/sriov-operator/SriovNetwork.yaml
-          - path: required/sriov-operator/SriovNetworkNodePolicy.yaml
-          - path: required/sriov-operator/SriovSubscription.yaml
+          - path: sriov-operator/SriovNetwork.yaml
+          - path: sriov-operator/SriovNetworkNodePolicy.yaml
+          - path: sriov-operator/SriovSubscription.yaml
             config:
               ignore-unspecified-fields: true
-          - path: required/sriov-operator/SriovSubscriptionNS.yaml
-          - path: required/sriov-operator/SriovSubscriptionOperGroup.yaml
+          - path: sriov-operator/SriovSubscriptionNS.yaml
+          - path: sriov-operator/SriovSubscriptionOperGroup.yaml
       - name: sriov-operator-config
         oneOf:
-          - path: required/sriov-operator/SriovOperatorConfig.yaml
-          - path: required/sriov-operator/SriovOperatorConfigForSNO.yaml
-  - name: optional-local-storage-operator
+          - path: sriov-operator/SriovOperatorConfig.yaml
+          - path: sriov-operator/SriovOperatorConfigForSNO.yaml
+  - name: optional-storage-lso
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-local-storage-operator_ran-ref-design-components
+      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-storage-lso_ran-ref-design-components
     components:
-      - name: local-storage-operator
+      - name: storage-lso
         allOrNoneOf:
-          - path: optional/local-storage-operator/StorageNS.yaml
-          - path: optional/local-storage-operator/StorageOperGroup.yaml
-          - path: optional/local-storage-operator/StorageSubscription.yaml
+          - path: storage-lso/StorageNS.yaml
+          - path: storage-lso/StorageOperGroup.yaml
+          - path: storage-lso/StorageSubscription.yaml
             config:
               ignore-unspecified-fields: true
   - name: optional-storage-lvm
@@ -165,30 +165,30 @@ parts:
     components:
       - name: storage-operator
         allOrNoneOf:
-          - path: optional/storage/StorageLVMCluster.yaml
-          - path: optional/storage/StorageLVMSubscription.yaml
+          - path: storage-lvm/StorageLVMCluster.yaml
+          - path: storage-lvm/StorageLVMSubscription.yaml
             config:
               ignore-unspecified-fields: true
-          - path: optional/storage/StorageLVMSubscriptionNS.yaml
-          - path: optional/storage/StorageLVMSubscriptionOperGroup.yaml
-          - path: optional/storage/StoragePV.yaml
+          - path: storage-lvm/StorageLVMSubscriptionNS.yaml
+          - path: storage-lvm/StorageLVMSubscriptionOperGroup.yaml
+          - path: storage-lvm/StoragePV.yaml
   - name: optional-storage-config
     description: |-
       https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-lvms-operator_ran-ref-design-components
     components:
       - name: local-storage-config
         anyOf:
-          - path: optional/storage/StoragePVC.yaml
+          - path: storage-lvm/StoragePVC.yaml
   - name: optional-storage
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-local-storage-operator_ran-ref-design-components
+      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-storage-lso_ran-ref-design-components
     components:
       - name: storage
         allOrNoneOf:
-          - path: optional/local-storage-operator/StorageClass.yaml
+          - path: storage-lso/StorageClass.yaml
             config:
               ignore-unspecified-fields: true
-          - path: optional/local-storage-operator/StorageLV.yaml
+          - path: storage/StorageLV.yaml
             config:
               ignore-unspecified-fields: true
   - name: optional-sriov-fec-operator
@@ -197,42 +197,42 @@ parts:
     components:
       - name: sriov-fec-operator
         allOrNoneOf:
-          - path: optional/sriov-fec-operator/AcceleratorsNS.yaml
-          - path: optional/sriov-fec-operator/AcceleratorsOperGroup.yaml
-          - path: optional/sriov-fec-operator/AcceleratorsSubscription.yaml
+          - path: sriov-fec-operator/AcceleratorsNS.yaml
+          - path: sriov-fec-operator/AcceleratorsOperGroup.yaml
+          - path: sriov-fec-operator/AcceleratorsSubscription.yaml
             config:
               ignore-unspecified-fields: true
       - name: sriov-fec-config
         anyOf:
-          - path: optional/sriov-fec-operator/SriovFecClusterConfig.yaml
-          - path: optional/sriov-fec-operator/SriovVrbClusterConfig.yaml
+          - path: sriov-fec-operator/SriovFecClusterConfig.yaml
+          - path: sriov-fec-operator/SriovVrbClusterConfig.yaml
   - name: optional-image-registry
     description: |-
       https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-lca-operator_ran-ref-design-components
     components:
       - name: image-registry
         allOrNoneOf:
-          - path: optional/image-registry/ImageRegistryConfig.yaml
-          - path: optional/image-registry/ImageRegistryPV.yaml
+          - path: image-registry/ImageRegistryConfig.yaml
+          - path: image-registry/ImageRegistryPV.yaml
   - name: optional-ptp-config
     description: |-
       https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-ptp-operator_ran-ref-design-components
     components:
       - name: ptp-operator-config
         oneOf:
-          - path: optional/ptp-config/PtpOperatorConfig.yaml
-          - path: optional/ptp-config/PtpOperatorConfigForEvent.yaml
+          - path: ptp-operator/configuration/PtpOperatorConfig.yaml
+          - path: ptp-operator/configuration/PtpOperatorConfigForEvent.yaml
       - name: ptp-config
         oneOf:
           # TODO: the INI files embedded in PtpConfig objects are not handled. CNF-13528
-          - path: optional/ptp-config/PtpConfigBoundary.yaml
+          - path: ptp-operator/configuration/PtpConfigBoundary.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
-          - path: optional/ptp-config/PtpConfigGmWpc.yaml
+          - path: ptp-operator/configuration/PtpConfigGmWpc.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
@@ -241,7 +241,7 @@ parts:
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
-          - path: optional/ptp-config/PtpConfigDualCardGmWpc.yaml
+          - path: ptp-operator/configuration/PtpConfigDualCardGmWpc.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
@@ -250,7 +250,7 @@ parts:
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
-          - path: optional/ptp-config/PtpConfigDualFollower.yaml
+          - path: ptp-operator/configuration/PtpConfigDualFollower.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
@@ -259,7 +259,7 @@ parts:
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
-          - path: optional/ptp-config/PtpConfigThreeCardGmWpc.yaml
+          - path: ptp-operator/configuration/PtpConfigThreeCardGmWpc.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
@@ -268,19 +268,19 @@ parts:
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
-          - path: optional/ptp-config/PtpConfigForHA.yaml
+          - path: ptp-operator/configuration/PtpConfigForHA.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
                   inlineDiffFunc: capturegroups
-          - path: optional/ptp-config/PtpConfigMaster.yaml
+          - path: ptp-operator/configuration/PtpConfigMaster.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
-          - path: optional/ptp-config/PtpConfigSlave.yaml
+          - path: ptp-operator/configuration/PtpConfigSlave.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
@@ -288,26 +288,26 @@ parts:
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
           # TODO: If one of these 4 is selected, they should be paired with 'PtpOperatorConfigForEvent.yaml' above
-          - path: optional/ptp-config/PtpConfigSlaveForEvent.yaml
+          - path: ptp-operator/configuration/PtpConfigSlaveForEvent.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
-          - path: optional/ptp-config/PtpConfigForHAForEvent.yaml
+          - path: ptp-operator/configuration/PtpConfigForHAForEvent.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
                   inlineDiffFunc: capturegroups
-          - path: optional/ptp-config/PtpConfigMasterForEvent.yaml
+          - path: ptp-operator/configuration/PtpConfigMasterForEvent.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.0.ptp4lConf
                   inlineDiffFunc: capturegroups
-          - path: optional/ptp-config/PtpConfigBoundaryForEvent.yaml
+          - path: ptp-operator/configuration/PtpConfigBoundaryForEvent.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.phc2sysOpts
@@ -320,13 +320,13 @@ parts:
     components:
       - name: console-disable
         allOrNoneOf:
-          - path: optional/console-disable/ConsoleOperatorDisable.yaml
+          - path: cluster-tuning/console-disable/ConsoleOperatorDisable.yaml
 
 templateFunctionFiles:
-  - validate_node_selector.tmpl
-  - unordered_list.tmpl
-  - version_match.tmpl
-  - must_match_one_of.tmpl
+  - functions/validate_node_selector.tmpl
+  - functions/unordered_list.tmpl
+  - functions/version_match.tmpl
+  - functions/must_match_one_of.tmpl
 
 fieldsToOmit:
   defaultOmitRef: all

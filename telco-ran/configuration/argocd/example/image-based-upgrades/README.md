@@ -1,11 +1,11 @@
 ## Image-Based Upgrades (IBU)
-This directory contains examples of generating resources required for Image Based Upgrades (IBU) utilizing the [Life Cycle Agent operator](https://github.com/openshift-kni/lifecycle-agent). These examples define policies to automate image-based upgrades, ensuring seamless deployment across managed clusters through Gitops.
 
+This directory contains examples of generating resources required for Image Based Upgrades (IBU) utilizing the [Life Cycle Agent operator](https://github.com/openshift-kni/lifecycle-agent). These examples define policies to automate image-based upgrades, ensuring seamless deployment across managed clusters through Gitops.
 
 ### Prerequisites
 
-* Advanced Cluster Management (ACM) 2.10+
-* Before using the IBU examples, ensure that the following namespaces have been created:
+- Advanced Cluster Management (ACM) 2.10+
+- Before using the IBU examples, ensure that the following namespaces have been created:
   - `ztp-group`: The ibu policies will be created in this namespace. If you use another name for the `group` namespace, please remember to add the namespace in [ns.yaml](../policygentemplates/ns.yaml)
   - `openshift-adp`: The ConfigMap containing the related OpenShift API for Data Protection (OADP) Custom Resources (CRs) will be copied to this namespace on the applicable spoke cluster(s).
 
@@ -32,24 +32,24 @@ Note that [`source-crs/ibu`](https://github.com/openshift-kni/cnf-features-deplo
 ### Generating the OADP ConfigMap and Policies
 
 To generate the OADP ConfigMap encapsulating the OADP backup and restore CRs for IBU, use the [`configMapGenerator`](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/#configmapgenerator) provided by the Kustomize tool with Platform and Application(optional) backup and restore source files defined in it.
-As shown in the example below, this will create a Configmap named `oadp-cm` in the namespace `ztp-group` namespace on the hub cluster. 
+As shown in the example below, this will create a Configmap named `oadp-cm` in the namespace `ztp-group` namespace on the hub cluster.
 
 ```yaml
 configMapGenerator:
-- files:
-  - source-crs/ibu/PlatformBackupRestore.yaml
-  # - source-crs/ibu/PlatformBackupRestoreLvms.yaml
-  # - custom-oadp-workload-crs.yaml
-  name: oadp-cm
-  namespace: ztp-group
+  - files:
+      - source-crs/ibu/PlatformBackupRestore.yaml
+    # - source-crs/ibu/PlatformBackupRestoreLvms.yaml
+    # - custom-oadp-workload-crs.yaml
+    name: oadp-cm
+    namespace: ztp-group
 
 generatorOptions:
   disableNameSuffixHash: true
 ```
 
-* [PlatformBackupRestore.yaml](../../../../source-crs/ibu/PlatformBackupRestore.yaml) is provided to backup and restore ACM klusterlet related resources.
-* [PlatformBackupRestoreLvms.yaml](../../../../source-crs/ibu/PlatformBackupRestoreLvms.yaml)(optional) is provided for use cases when the LVMS is configured in the cluster as the storage solution.
-* `custom-oadp-workload-crs.yaml`(optional) defines the OADP backup and restore CRs for the additional workload running on the target cluster. Ensure that the `custom-oadp-workload-crs.yaml` file includes a one-to-one mapping of OADP backup and restore CRs. It's important to note that these CRs can be stored either in separate YAML manifests or consolidated within a single YAML file (as shown below), with each CR section separated by the `---` directive.
+- [PlatformBackupRestore.yaml](../../../../source-crs/ibu/PlatformBackupRestore.yaml) is provided to backup and restore ACM klusterlet related resources.
+- [PlatformBackupRestoreLvms.yaml](../../../../source-crs/ibu/PlatformBackupRestoreLvms.yaml)(optional) is provided for use cases when the LVMS is configured in the cluster as the storage solution.
+- `custom-oadp-workload-crs.yaml`(optional) defines the OADP backup and restore CRs for the additional workload running on the target cluster. Ensure that the `custom-oadp-workload-crs.yaml` file includes a one-to-one mapping of OADP backup and restore CRs. It's important to note that these CRs can be stored either in separate YAML manifests or consolidated within a single YAML file (as shown below), with each CR section separated by the `---` directive.
 
 ```yaml
 apiVersion: velero.io/v1
@@ -61,13 +61,13 @@ metadata:
   namespace: openshift-adp
 spec:
   includedNamespaces:
-  - foobar
+    - foobar
   includedNamespaceScopedResources:
-  - secrets
-  - deployments
-  - statefulsets
+    - secrets
+    - deployments
+    - statefulsets
   excludedClusterScopedResources:
-  - persistentVolumes
+    - persistentVolumes
 ---
 apiVersion: velero.io/v1
 kind: Restore
@@ -79,38 +79,40 @@ metadata:
   annotations:
     lca.openshift.io/apply-wave: "3"
 spec:
-  backupName:
-    foobar-app
+  backupName: foobar-app
 ```
 
 Choose either [ibu-upgrade-ranGen.yaml](./ibu-upgrade-ranGen.yaml) example using ZTP `PolicyGenTemplate` or [acm-ibu-upgrade-ranGen.yaml](./acm-ibu-upgrade-ranGen.yaml) example using ACM `PolicyGenerator` to create policies for performing IBU. Both examples generate the same policies as following:
-* group-ibu-oadp-cm-policy: propagate OADP configmap from hub cluster to target spoke clusters in the `openshift-adp` namespace
-* group-ibu-prep-policy: to transition ibu to Prep stage
-* group-ibu-upgrade-policy: to transition ibu to Upgrade stage
-* group-ibu-finalize-policy: to transition ibu to Idle stage
-* group-ibu-rollback-policy(optional): to transition ibu to Rollback stage
+
+- group-ibu-oadp-cm-policy: propagate OADP configmap from hub cluster to target spoke clusters in the `openshift-adp` namespace
+- group-ibu-prep-policy: to transition ibu to Prep stage
+- group-ibu-upgrade-policy: to transition ibu to Upgrade stage
+- group-ibu-finalize-policy: to transition ibu to Idle stage
+- group-ibu-rollback-policy(optional): to transition ibu to Rollback stage
 
 Add the template to [kustomization.yaml](./kustomization.yaml) file in the `generators` object.
+
 ```yaml
 generators:
-# Use policygentemplate to create oadp cm and ibu policies
-- ibu-upgrade-ranGen.yaml
+  # Use policygentemplate to create oadp cm and ibu policies
+  - ibu-upgrade-ranGen.yaml
 # Use acmpolicygenerator to create oadp cm and ibu policies
 # - acm-ibu-upgrade-ranGen.yaml
 ```
 
 When `ibu-upgrade-ranGen.yaml` is used, override the oadp configmap data field with hub template using the Kustomize patches.
+
 ```yaml
 patches:
-- target:
-    group: policy.open-cluster-management.io
-    version: v1
-    kind: Policy
-    name: group-ibu-oadp-cm-policy
-  patch: |-
-    - op: replace
-      path: /spec/policy-templates/0/objectDefinition/spec/object-templates/0/objectDefinition/data
-      value: '{{hub copyConfigMapData "ztp-group" "oadp-cm" hub}}'
+  - target:
+      group: policy.open-cluster-management.io
+      version: v1
+      kind: Policy
+      name: group-ibu-oadp-cm-policy
+    patch: |-
+      - op: replace
+        path: /spec/policy-templates/0/objectDefinition/spec/object-templates/0/objectDefinition/data
+        value: '{{hub copyConfigMapData "ztp-group" "oadp-cm" hub}}'
 ```
 
 ### Enforcing the Policies

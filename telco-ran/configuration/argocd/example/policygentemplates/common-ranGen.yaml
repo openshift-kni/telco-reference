@@ -11,77 +11,71 @@ spec:
     du-profile: "latest"
   sourceFiles:
     # Create operators policies that will be installed in all clusters
-    - fileName: SriovSubscriptionNS.yaml
+    - fileName: sriov-operator/SriovSubscriptionNS.yaml
       policyName: "subscriptions-policy"
-    - fileName: SriovSubscriptionOperGroup.yaml
+    - fileName: sriov-operator/SriovSubscriptionOperGroup.yaml
       policyName: "subscriptions-policy"
-    - fileName: SriovSubscription.yaml
+    - fileName: sriov-operator/SriovSubscription.yaml
       policyName: "subscriptions-policy"
-    - fileName: SriovOperatorStatus.yaml
+    - fileName: sriov-operator/SriovOperatorStatus.yaml
       policyName: "subscriptions-policy"
-    - fileName: PtpSubscriptionNS.yaml
+    - fileName: ptp-operator/PtpSubscriptionNS.yaml
       policyName: "subscriptions-policy"
-    - fileName: PtpSubscriptionOperGroup.yaml
+    - fileName: ptp-operator/PtpSubscriptionOperGroup.yaml
       policyName: "subscriptions-policy"
-    - fileName: PtpSubscription.yaml
+    - fileName: ptp-operator/PtpSubscription.yaml
       policyName: "subscriptions-policy"
-    - fileName: PtpOperatorStatus.yaml
+    - fileName: ptp-operator/PtpOperatorStatus.yaml
       policyName: "subscriptions-policy"
-    - fileName: ClusterLogNS.yaml
+    - fileName: cluster-logging/ClusterLogNS.yaml
       policyName: "subscriptions-policy"
-    - fileName: ClusterLogOperGroup.yaml
+    - fileName: cluster-logging/ClusterLogOperGroup.yaml
       policyName: "subscriptions-policy"
-    - fileName: ClusterLogSubscription.yaml
+    - fileName: cluster-logging/ClusterLogSubscription.yaml
       policyName: "subscriptions-policy"
-    - fileName: ClusterLogOperatorStatus.yaml
+    - fileName: cluster-logging/ClusterLogOperatorStatus.yaml
       policyName: "subscriptions-policy"
-    - fileName: ClusterLogServiceAccount.yaml
+    - fileName: cluster-logging/ClusterLogServiceAccount.yaml
       policyName: "subscriptions-policy"
-    - fileName: ClusterLogServiceAccountAuditBinding.yaml
+    - fileName: cluster-logging/ClusterLogServiceAccountAuditBinding.yaml
       policyName: "subscriptions-policy"
-    - fileName: ClusterLogServiceAccountInfrastructureBinding.yaml
+    - fileName: cluster-logging/ClusterLogServiceAccountInfrastructureBinding.yaml
       policyName: "subscriptions-policy"
-    - fileName: StorageNS.yaml
+    - fileName: storage-lso/StorageNS.yaml
       policyName: "subscriptions-policy"
-    - fileName: StorageOperGroup.yaml
+    - fileName: storage-lso/StorageOperGroup.yaml
       policyName: "subscriptions-policy"
-    - fileName: StorageSubscription.yaml
+    - fileName: storage-lso/StorageSubscription.yaml
       policyName: "subscriptions-policy"
-    - fileName: StorageOperatorStatus.yaml
+    - fileName: storage-lso/StorageOperatorStatus.yaml
       policyName: "subscriptions-policy"
-    # - fileName: AmqSubscriptionNS.yaml
-    #   policyName: "subscriptions-policy"
-    # - fileName: AmqSubscriptionOperGroup.yaml
-    #   policyName: "subscriptions-policy"
-    # - fileName: AmqSubscription.yaml
-    #   policyName: "subscriptions-policy"
     #
     # LCA operator is used for orchestrating Image Based Upgrade for SNO
-    # - fileName: LcaSubscriptionNS.yaml
+    # - fileName: lca/LcaSubscriptionNS.yaml
     #   policyName: "subscriptions-policy"
-    # - fileName: LcaSubscriptionOperGroup.yaml
+    # - fileName: lca/LcaSubscriptionOperGroup.yaml
     #   policyName: "subscriptions-policy"
-    # - fileName: LcaSubscription.yaml
+    # - fileName: lca/LcaSubscription.yaml
     #   policyName: "subscriptions-policy"
-    # - fileName: LcaOperatorStatus.yaml
+    # - fileName: lca/LcaOperatorStatus.yaml
     #   policyName: "subscriptions-policy"
     #
     # OADP operator is used for backing up and restoring application during Image Based Upgrade
-    # - fileName: OadpSubscriptionNS.yaml
+    # - fileName: data-protection/OadpSubscriptionNS.yaml
     #   policyName: "subscriptions-policy"
-    # - fileName: OadpSubscriptionOperGroup.yaml
+    # - fileName: data-protection/OadpSubscriptionOperGroup.yaml
     #   policyName: "subscriptions-policy"
-    # - fileName: OadpSubscription.yaml
+    # - fileName: data-protection/OadpSubscription.yaml
     #   policyName: "subscriptions-policy"
-    # - fileName: OadpOperatorStatus.yaml
+    # - fileName: data-protection/OadpOperatorStatus.yaml
     #   policyName: "subscriptions-policy"
     #
-    - fileName: ReduceMonitoringFootprint.yaml
+    - fileName: cluster-tuning/monitoring-configuration/ReduceMonitoringFootprint.yaml
       policyName: "config-policy"
     #
     # These CRs are in support of installation from a disconnected registry
     #
-    - fileName: DefaultCatsrc.yaml
+    - fileName: disconnected-registry/DefaultCatsrc.yaml
       policyName: "config-policy"
       # The Subscriptions all point to redhat-operators-disconnected. We remove
       # the marketplace operator which disables the defaults and this CR
@@ -94,7 +88,7 @@ spec:
       spec:
         displayName: disconnected-redhat-operators
         image: registry.example.com:5000/disconnected-redhat-operators/disconnected-redhat-operator-index:v4.9
-    - fileName: DisconnectedIDMS.yaml
+    - fileName: disconnected-registry/DisconnectedIDMS.yaml
       policyName: "config-policy"
       spec:
         imageDigestMirrors:

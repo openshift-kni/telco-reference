@@ -24,7 +24,7 @@ policies:
   policyAnnotations:
     ran.openshift.io/soak-seconds: "120"
   manifests:
-  - path: source-crs/RebootMachineConfig.yaml
+  - path: source-crs/machine-config/RebootMachineConfig.yaml
     complianceType: mustonlyhave
     patches:
     - spec:

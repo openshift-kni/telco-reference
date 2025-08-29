@@ -230,7 +230,7 @@ The following steps prepare the hub cluster for site deployment and initiate ZTP
       - A set of shared `group-du-*-ranGen.yaml`, each of which should be common across a set of similar clusters.
       - An `example-*-site.yaml` which will normally be copied and updated for each individual site.
    2. Ensure the labels defined in your PGTs `bindingRules` section correspond to the proper labels defined on the SiteConfig file(s) of the clusters you are managing.
-   3. Ensure the content of the overlaid spec files matches your desired end state.  As a reference, the *out/source-crs* directory contains the full list of source-crs available to be included and overlayed by your PGT templates.
+   3. Ensure the content of the overlaid spec files matches your desired end state.  As a reference, the *out/source-crs* directory contains the full set of source-crs available to be included and overlayed by your PGT templates.
       > **Note:** Depending on the specific requirements of your clusters, you may need more than just a single group policy per cluster type, especially considering the example group policies each has a single PerformancePolicy which can only be shared across a set of clusters if those clusters consist of identical hardware configurations.
    4. Define all the policy namespaces in a yaml file much like in *example out/argocd/example/policygentemplates/ns.yaml*
    5. Add all the PGTs and *ns.yaml* to the *kustomization.yaml* file, much like in the *out/argocd/example/policygentemplates/kustomization.yaml* example.
@@ -446,7 +446,7 @@ Sync operation to  failed: ComparisonError: rpc error: code = Unknown desc = `ku
 Resources with different waves in the same policy will generate an error as below because all resources in the same policy must have the same wave. To fix it, you should move the mismatched CR to the matching policy if it exists or create a separate policy for the mismatched CR. Please see the [policy waves](../../policygenerator/README.md) for details.
 
 ```
-rpc error: code = Unknown desc = `kustomize build /tmp/http___registry.kni-qe-0.lab.eng.rdu2.redhat.com_3000_kni-qe_ztp-site-configs/policygentemplates --enable-alpha-plugins` failed exit status 1: Could not build the entire policy defined by /tmp/kust-plugin-config-274844375: ran.openshift.io/ztp-deploy-wave annotation in Resource SriovSubscription.yaml (wave 2) doesn't match with Policy common-sriov-sub-policy (wave 1) Error: failure in plugin configured via /tmp/kust-plugin-config-274844375; exit status 1: exit status 1
+rpc error: code = Unknown desc = `kustomize build /tmp/http___registry.kni-qe-0.lab.eng.rdu2.redhat.com_3000_kni-qe_ztp-site-configs/policygentemplates --enable-alpha-plugins` failed exit status 1: Could not build the entire policy defined by /tmp/kust-plugin-config-274844375: ran.openshift.io/ztp-deploy-wave annotation in Resource sriov-operator/SriovSubscription.yaml (wave 2) doesn't match with Policy common-sriov-sub-policy (wave 1) Error: failure in plugin configured via /tmp/kust-plugin-config-274844375; exit status 1: exit status 1
 ```
 
 1. Check for `Status: Sync:`. If there are log errors at `Status: Conditions:`, the `Sync: Status:` will be as `Unknown` or `Error`.

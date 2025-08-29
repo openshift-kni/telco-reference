@@ -1,10 +1,8 @@
-# Reference (DU) validation with kube-compare
+# cluster-compare reference for telco-ran
 
-This directory `kube-compare-reference` contains all the references that can be used to validate a DU profile cluster. 
-
-Please see [here](https://github.com/openshift/kube-compare/blob/main/docs/image-build.md) for the latest instruction on how to run this.
-
-Required and Optional RDS are structured based on internal document "4.16 Telco Engineering RAN Reference Design Specification"
+This directory `kube-compare-reference` contains all the references that can be
+used to validate a DU profile cluster via the
+[cluster-compare](https://github.com/openshift/kube-compare) plugin.
 
 ## Developer Notes
 
@@ -23,7 +21,7 @@ no differences are observed by running `make compare` locally.
 ### Update workflow
 
 There is also a target `make sync` that will copy all reference-based CRs to
-the ../source-crs directory.  Beware that any local edits to source-crs will be
+the ../source-crs directory. Beware that any local edits to source-crs will be
 erased by this action, so this is intended for a workflow as follows:
 
 - Edit the reference to reflect the intended behavior
