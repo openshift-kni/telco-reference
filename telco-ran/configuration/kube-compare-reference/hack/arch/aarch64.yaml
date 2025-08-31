@@ -1,0 +1,32 @@
+node_tuning_operator_PerformanceProfile:
+  - spec:
+      additionalKernelArgs:
+        - "rcupdate.rcu_normal_after_boot=0"
+        - "efi=runtime"
+        - acpi_power_meter.force_cap_on=y
+        - console=ttyAMA0,115200n8
+        - earlycon
+        - module_blacklist=nouveau
+        - pci=realloc=off
+        - pci=pcie_bus_safe
+      cpu:
+        isolated: 4-$lastcpu
+        reserved: 0-3
+      hugepages:
+        defaultHugepagesSize: 512M
+        pages:
+          - count: $count
+            node: $node
+            size: 512M
+      machineConfigPoolSelector:
+        pools.operator.machineconfiguration.openshift.io/$mcp: ""
+      nodeSelector:
+        node-role.kubernetes.io/$mcp: ""
+      numa:
+        topologyPolicy: none
+      realTimeKernel:
+        enabled: false
+      kernelPageSize: 64k
+      workloadHints:
+        perPodPowerManagement: false
+    _arch: aarch64

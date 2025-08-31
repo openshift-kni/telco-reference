@@ -56,7 +56,8 @@ policies:
       - spec:
           configDaemonNodeSelector:
             node-role.kubernetes.io/master: ""
-    - path: source-crs/node-tuning-operator/PerformanceProfile-SetSelector.yaml
+    # PerformanceProfile.yaml is architecture-specific.  Replace x86_64 with aarch64 for ARM deployments
+    - path: source-crs/node-tuning-operator/x86_64/PerformanceProfile-SetSelector.yaml
       patches:
       - spec:
           cpu:

@@ -59,7 +59,7 @@ The tuned performance-patch can be used to confine the maximum cpu frequency. Th
       metadata:
         name: openshift-node-performance-profile
       spec:
-        # Use the additionalKernelArgs list as defined in ztp/source-crs/node-tuning-operator/PerformanceProfile.yaml
+        # Use the additionalKernelArgs list as defined in ztp/source-crs/node-tuning-operator/{x86_64|aarch64}/PerformanceProfile.yaml
         additionalKernelArgs:
           - "cpufreq.default_governor=schedutil"
           - "rcupdate.rcu_normal_after_boot=0"
@@ -139,7 +139,7 @@ workloadHints:
   perPodPowerManagement: false
 ```
 
-If a cpu governor is configured via the additional kernel arguments, and the configuration is managed through Policy, this must be removed according to the `complianceType` of the policy. If the `complianceType` is configured to `mustonlyhave`, then this can be accomplished by setting the `additionalKernelArgs` to the original list as defined in the `ztp/source-crs/node-tuning-operator/PerformanceProfile.yaml` file. This is shown below:
+If a cpu governor is configured via the additional kernel arguments, and the configuration is managed through Policy, this must be removed according to the `complianceType` of the policy. If the `complianceType` is configured to `mustonlyhave`, then this can be accomplished by setting the `additionalKernelArgs` to the original list as defined in the `ztp/source-crs/node-tuning-operator/{x86_64/aarch64}/PerformanceProfile.yaml` file. This is shown below:
 
 ```yaml
 additionalKernelArgs:
