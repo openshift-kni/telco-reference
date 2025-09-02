@@ -11,7 +11,7 @@ metadata:
     pipelinesascode.tekton.dev/on-cel-expression: |
       event == "pull_request" &&
       target_branch == "main" &&
-      (".tekton/telco-hub-rds-4.19-pull-request.yaml".pathChanged() ||
+      (".tekton/telco-hub-rds-4-19-pull-request.yaml".pathChanged() ||
       ".tekton/build-pipeline-telco-hub-rds.yaml".pathChanged() ||
        "telco-hub/***".pathChanged())
   creationTimestamp: null
@@ -19,7 +19,7 @@ metadata:
     appstudio.openshift.io/application: telco-hub-rds-4-19
     appstudio.openshift.io/component: telco-hub-rds-4-19
     pipelines.appstudio.openshift.io/type: build
-  name: telco-hub-rds-4.19-on-pull-request
+  name: telco-hub-rds-4-19-on-pull-request
   namespace: telco-5g-tenant
 spec:
   params:
