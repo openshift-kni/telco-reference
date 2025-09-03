@@ -58,7 +58,7 @@ spec:
         configDaemonNodeSelector:
           node-role.kubernetes.io/worker: ""
     ###
-    - fileName: storage-lso/StorageLV.yaml # wave 10
+    - fileName: storage/StorageLV.yaml # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
       spec:
         storageClassDevices:

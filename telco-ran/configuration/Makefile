@@ -1,7 +1,7 @@
 
-.PHONY: check checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference
+.PHONY: check checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths
 
-check: checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference
+check: checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths
 
 checkExtraManifests:
 	$(MAKE) -C ./extra-manifests-builder check
@@ -62,3 +62,6 @@ checkZtpPaths:
 
 check-reference:
 	$(MAKE) -C ./kube-compare-reference check
+
+checkPolicyPaths:
+	./hack/checkpolicypaths.sh ./argocd/

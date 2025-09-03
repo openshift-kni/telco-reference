@@ -89,7 +89,7 @@ policies:
       - spec:
           configDaemonNodeSelector:
             node-role.kubernetes.io/worker: ""
-    - path: source-crs/storage-lso/StorageLV.yaml
+    - path: source-crs/storage/StorageLV.yaml
       patches:
       - spec:
           storageClassDevices:
