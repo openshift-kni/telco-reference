@@ -67,7 +67,7 @@ spec:
       spec:
         configDaemonNodeSelector:
           node-role.kubernetes.io/worker: ""
-    - fileName: storage-lso/StorageLV.yaml
+    - fileName: storage/StorageLV.yaml
       policyName: "config-policy"
       spec:
         storageClassDevices:
