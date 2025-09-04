@@ -74,6 +74,9 @@ extra-manifest/image-registry-partition-mc.yaml.tmpl
 # Exists in the reference only, to enforce version compatibility
 version-check/ClusterVersionOperator.yaml
 
+# Fetch-only objects
+fetch-only/Node.yaml
+
 # Reference only to ensure default has not been changed
 machine-config/cgroup-check.yaml
 machine-config/container-runtime.yaml

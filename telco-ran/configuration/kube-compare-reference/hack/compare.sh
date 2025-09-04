@@ -108,6 +108,7 @@ helm_per_arch() {
       done
     done
   done
+  return $errors
 }
 
 helmconvert() {
@@ -119,7 +120,7 @@ helmconvert() {
   echo "Converting reference files from $metadata with values $values to helm chart in $chart_dir"
   helm-convert -r "$metadata" -n "$chart_dir" -v "$values" || return 1
   if [[ -n $archdir && -d $archdir ]]; then
-    helm_per_arch "$chart_dir" "$rendered_dir" "$archdir"
+    helm_per_arch "$chart_dir" "$rendered_dir" "$archdir" || return 1
   else
     echo "Rendering helm chart into $rendered_dir"
     helm template rendered "$chart_dir" --output-dir "$rendered_dir" || return 1
