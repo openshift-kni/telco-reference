@@ -6,10 +6,6 @@ metadata:
   name: {{ .metadata.name }}
   namespace: {{ .metadata.namespace }}
 spec:
-  {{ if .spec.nodeSelector }}
-  nodeSelector:
-    {{ .spec.nodeSelector | toYaml | indent 4 }}
-  {{ end }}
   config: {{ .spec.config | toJson }}
 {{- $configWarnings := list }}
 {{- if .spec.config }}
