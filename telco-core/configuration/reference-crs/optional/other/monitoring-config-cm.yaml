@@ -8,7 +8,33 @@ metadata:
   namespace: openshift-monitoring
 data:
   config.yaml: |
+    nodeExporter:
+      collectors:
+        buddyinfo: {}
+        cpufreq: {}
+        ksmd: {}
+        mountstats: {}
+        netclass: {}
+        netdev: {}
+        processes: {}
+        systemd: {}
+        tcpstat: {}
     prometheusK8s:
+      additionalAlertmanagerConfigs:
+      - apiVersion: v2
+        bearerToken:
+          key: token
+          name: observability-alertmanager-accessor
+        scheme: https
+        staticConfigs:
+        - {{ (regexFind "alertmanager-endpoint(.*)" ((fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml") | base64dec)) | replace "alertmanager-endpoint: https://" "" }}
+        tlsConfig:
+          ca:
+            key: service-ca.crt
+            name: hub-alertmanager-router-ca
+          insecureSkipVerify: false
+      externalLabels:
+        managed_cluster: {{ fromClusterClaim "id.openshift.io" }}
       retention: 15d
       volumeClaimTemplate:
         spec:
