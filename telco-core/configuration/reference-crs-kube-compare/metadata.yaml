@@ -140,6 +140,10 @@ parts:
         anyOf:
           - path: optional/other/control-plane-load-kernel-modules.yaml
           - path: optional/other/monitoring-config-cm.yaml
+            config:
+              perField:
+                - pathToKey: data."config.yaml"
+                  inlineDiffFunc: capturegroups
           - path: optional/other/worker-load-kernel-modules.yaml
           - path: optional/other/sctp_module_mc.yaml
   - name: logging
