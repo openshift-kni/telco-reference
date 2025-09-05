@@ -26,7 +26,8 @@ spec:
           phc2sysOpts: "-a -r -n 24"
     - fileName: sriov-operator/SriovOperatorConfig.yaml
       policyName: "config-policy"
-    - fileName: node-tuning-operator/PerformanceProfile.yaml
+    # PerformanceProfile.yaml is architecture-specific.  Replace x86_64 with aarch64 for ARM deployments
+    - fileName: node-tuning-operator/x86_64/PerformanceProfile.yaml
       policyName: "config-policy"
       spec:
         cpu:

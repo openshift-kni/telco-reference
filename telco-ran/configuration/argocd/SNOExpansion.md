@@ -177,7 +177,8 @@ spec:
               path: /etc/kubernetes/openshift-workload-pinning
               user:
                 name: root
-    - fileName: node-tuning-operator/PerformanceProfile.yaml
+    # PerformanceProfile.yaml is architecture-specific.  Replace x86_64 with aarch64 for ARM deployments
+    - fileName: node-tuning-operator/x86_64/PerformanceProfile.yaml
       policyName: "config-policy"
       metadata:
         name: openshift-worker-node-performance-profile
@@ -195,25 +196,6 @@ spec:
       policyName: "config-policy"
       metadata:
         name: performance-patch-worker
-      spec:
-        profile:
-          - name: performance-patch-worker
-            # The cmdline_crash CPU set must match the 'isolated' set in the PerformanceProfile above
-            data: |
-              [main]
-              summary=Configuration changes profile inherited from performance created tuned
-              include=openshift-node-performance-openshift-worker-node-performance-profile
-              [bootloader]
-              cmdline_crash=nohz_full=4-47
-              [sysctl]
-              kernel.timer_migration=1
-              [scheduler]
-              group.ice-ptp=0:f:10:*:ice-ptp.*
-              [service]
-              service.stalld=start,enable
-              service.chronyd=stop,disable
-        recommend:
-        - profile: performance-patch-worker
 ```
 
 ##### __Creating content for workload partitioning machineconfig__

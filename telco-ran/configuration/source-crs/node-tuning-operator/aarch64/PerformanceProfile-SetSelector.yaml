@@ -10,34 +10,44 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "10"
     ran.openshift.io/reference-configuration: "ran-du.redhat.com"
 spec:
+  # Note: The defaults here are for Grace Hopper systems. Other systems may alternative PCI or iommu settings such as:
+  #       - pci=realloc (instead of pci=realloc-off)
+  #       - iommu.passthrough=1
   additionalKernelArgs:
     - rcupdate.rcu_normal_after_boot=0
     - efi=runtime
-    - vfio_pci.enable_sriov=1
-    - vfio_pci.disable_idle_d3=1
+    - acpi_power_meter.force_cap_on=y
+    - console=ttyAMA0,115200n8
+    - earlycon
+    - module_blacklist=nouveau
+    - pci=realloc=off
+    - pci=pcie_bus_safe
     - module_blacklist=irdma
   cpu:
-    isolated: $isolated
-    reserved: $reserved
+  #  isolated: 4-$lastcpu
+  #  reserved: 0-3
   # hardwareTuning allows maximum CPU frequencies to be set for reserved and isolated CPUs
   #hardwareTuning:
   #  isolatedCpuFreq: <max frequency in kHz>
   #  reservedCpuFreq: <max frequency in kHz>
   hugepages:
-    defaultHugepagesSize: $defaultHugepagesSize
+    #  defaultHugepagesSize: 512M
     pages:
-      - size: $size
-        count: $count
-        node: $node
+  #    - size: 512M
+  #      count: $count
+  #      node: $node
+  # For aarch64, setting to 64k selects the 64k kernel
+  kernelPageSize: 64k
   machineConfigPoolSelector:
-    pools.operator.machineconfiguration.openshift.io/$mcp: ""
+  #  pools.operator.machineconfiguration.openshift.io/$mcp: ""
   nodeSelector:
-    node-role.kubernetes.io/$mcp: ""
+  #  node-role.kubernetes.io/$mcp: ""
   numa:
-    topologyPolicy: "restricted"
-  # To use the standard (non-realtime) kernel, set enabled to false
+    topologyPolicy: none
   realTimeKernel:
-    enabled: true
+    # For x86_64, both realtime and non-realtime kernels are supported.
+    # For aarch64, only the non-realtime kernel is supported with 64k pagesize.
+    enabled: false
   workloadHints:
     # WorkloadHints defines the set of upper level flags for different type of workloads.
     # See https://github.com/openshift/cluster-node-tuning-operator/blob/master/docs/performanceprofile/performance_profile.md#workloadhints

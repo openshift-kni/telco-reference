@@ -1,0 +1,58 @@
+apiVersion: performance.openshift.io/v2
+kind: PerformanceProfile
+metadata:
+  # if you change this name make sure the 'include' line in TunedPerformancePatch.yaml
+  # matches this name: include=openshift-node-performance-${PerformanceProfile.metadata.name}
+  # Also in file 'validatorCRs/informDuValidator.yaml':
+  # name: 50-performance-${PerformanceProfile.metadata.name}
+  name: openshift-node-performance-profile
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+    ran.openshift.io/reference-configuration: "ran-du.redhat.com"
+spec:
+  # Note: The defaults here are for Grace Hopper systems. Other systems may alternative PCI or iommu settings such as:
+  #       - pci=realloc (instead of pci=realloc-off)
+  #       - iommu.passthrough=1
+  additionalKernelArgs:
+    - rcupdate.rcu_normal_after_boot=0
+    - efi=runtime
+    - acpi_power_meter.force_cap_on=y
+    - console=ttyAMA0,115200n8
+    - earlycon
+    - module_blacklist=nouveau
+    - pci=realloc=off
+    - pci=pcie_bus_safe
+    - module_blacklist=irdma
+  cpu:
+    isolated: 4-$lastcpu
+    reserved: 0-3
+  # hardwareTuning allows maximum CPU frequencies to be set for reserved and isolated CPUs
+  #hardwareTuning:
+  #  isolatedCpuFreq: <max frequency in kHz>
+  #  reservedCpuFreq: <max frequency in kHz>
+  hugepages:
+    defaultHugepagesSize: 512M
+    pages:
+      - size: 512M
+        count: $count
+        node: $node
+  # For aarch64, setting to 64k selects the 64k kernel
+  kernelPageSize: 64k
+  machineConfigPoolSelector:
+    pools.operator.machineconfiguration.openshift.io/$mcp: ""
+  nodeSelector:
+    node-role.kubernetes.io/$mcp: ""
+  numa:
+    topologyPolicy: none
+  realTimeKernel:
+    # For x86_64, both realtime and non-realtime kernels are supported.
+    # For aarch64, only the non-realtime kernel is supported with 64k pagesize.
+    enabled: false
+  workloadHints:
+    # WorkloadHints defines the set of upper level flags for different type of workloads.
+    # See https://github.com/openshift/cluster-node-tuning-operator/blob/master/docs/performanceprofile/performance_profile.md#workloadhints
+    # for detailed descriptions of each item.
+    # The configuration below is set for a low latency, performance mode.
+    realTime: true
+    highPowerConsumption: false
+    perPodPowerManagement: false

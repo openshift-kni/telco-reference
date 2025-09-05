@@ -111,7 +111,8 @@ policies:
         ##   - /dev/disk/by-partlabel/httpevent1
         ##   - /dev/disk/by-partlabel/httpevent2
     - path: source-crs/cluster-tuning/disabling-network-diagnostics/DisableSnoNetworkDiag.yaml
-    - path: source-crs/node-tuning-operator/PerformanceProfile-SetSelector.yaml
+    # PerformanceProfile.yaml is architecture-specific.  Replace x86_64 with aarch64 for ARM deployments
+    - path: source-crs/node-tuning-operator/x86_64/PerformanceProfile-SetSelector.yaml
       patches:
       - spec:
           cpu:

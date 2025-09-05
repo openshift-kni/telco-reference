@@ -320,31 +320,6 @@ node_tuning_operator_TunedPerformancePatch:
       recommend:
         - machineConfigLabels:
             machineconfiguration.openshift.io/role: "$mcp"
-node_tuning_operator_PerformanceProfile:
-  - spec:
-      additionalKernelArgs:
-        - "rcupdate.rcu_normal_after_boot=0"
-        - "efi=runtime"
-        - "vfio_pci.enable_sriov=1"
-        - "vfio_pci.disable_idle_d3=1"
-        - "module_blacklist=irdma"
-      cpu:
-        isolated: $isolated
-        reserved: $reserved
-      hugepages:
-        defaultHugepagesSize: $defaultHugepagesSize
-        pages:
-          - count: $count
-            node: $node
-            size: $size
-      machineConfigPoolSelector:
-        pools.operator.machineconfiguration.openshift.io/$mcp: ""
-      nodeSelector:
-        node-role.kubernetes.io/$mcp: ""
-      realTimeKernel:
-        enabled: true
-      workloadHints:
-        perPodPowerManagement: false
 ptp_operator_PtpSubscription:
   - spec:
       source: redhat-operators-disconnected

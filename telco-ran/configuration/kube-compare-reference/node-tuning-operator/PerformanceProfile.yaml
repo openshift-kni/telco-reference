@@ -27,6 +27,11 @@ metadata:
       {{- template "kubeletconfigExperimentalSysctls" (list (index (.metadata.annotations | default dict) "kubeletconfig.experimental") (list)  $allowedSysctls) }}
     {{- end }}
 spec:
+  {{- if eq ._arch "aarch64" }}
+  # Note: The defaults here are for Grace Hopper systems. Other systems may alternative PCI or iommu settings such as:
+  #       - pci=realloc (instead of pci=realloc-off)
+  #       - iommu.passthrough=1
+  {{- end }}
   additionalKernelArgs:
     {{- $requiredArgs := list
       "efi=runtime"
@@ -36,6 +41,13 @@ spec:
     {{- $optionalArgs := list
       "vfio_pci.disable_idle_d3=1"
       "vfio_pci.enable_sriov=1"
+      "iommu.passthrough=1"
+      "acpi_power_meter.force_cap_on=y"
+      "console=.*"
+      "earlycon"
+      "module_blacklist=nouveau"
+      "pci=realloc=off"
+      "pci=pcie_bus_safe"
     }}
     {{- if .spec.workloadHints.perPodPowerManagement }}
       {{- $optionalArgs = append $optionalArgs "cpufreq.default_governor=.*" }}
@@ -65,6 +77,7 @@ spec:
         {{- end }}
       {{- end }}
   {{- if .spec.kernelPageSize }}
+  # For aarch64, setting to 64k selects the 64k kernel
   kernelPageSize: {{ .spec.kernelPageSize }}
   {{- end }}
   machineConfigPoolSelector:
@@ -74,9 +87,10 @@ spec:
     {{ template "matchNodeSelector" (list .spec.nodeSelector "node-role.kubernetes.io" ) }}
   {{- end }}
   numa:
-    topologyPolicy: "restricted"
-  # To use the standard (non-realtime) kernel, set enabled to false
+    topologyPolicy: {{ .spec.numa.topologyPolicy }}
   realTimeKernel:
+    # For x86_64, both realtime and non-realtime kernels are supported.
+    # For aarch64, only the non-realtime kernel is supported with 64k pagesize.
     enabled: {{ .spec.realTimeKernel.enabled }}
   workloadHints:
     # WorkloadHints defines the set of upper level flags for different type of workloads.
