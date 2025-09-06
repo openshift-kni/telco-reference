@@ -116,6 +116,9 @@ parts:
         allOf:
           - path: node-tuning-operator/PerformanceProfile.yaml
           - path: node-tuning-operator/TunedPerformancePatch.yaml
+      - name: optional node-tuning-operator
+        anyOf:
+          - path: node-tuning-operator/TunedPowerCustom.yaml
             config:
               perField:
                 - pathToKey: spec.profile.0.data

@@ -1,0 +1,31 @@
+apiVersion: tuned.openshift.io/v1
+kind: Tuned
+metadata:
+  name: power-saving-performance-patch
+  namespace: openshift-cluster-node-tuning-operator
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  profile:
+    - name: power-saving-performance-patch
+      # Please note:
+      # - The 'include' line must match the TuneD profile to include and the priority must be lower than the priority of the profile it includes.
+      data: |
+        [main]
+        summary=Custom power saving configuration changes profile inherited from ran-du-performance
+        include=ran-du-performance
+        [variables]
+        # Note: Edit the above max_percent and scaling_governor variables with consultation of the following links for more information and applicable values:
+        # https://docs.redhat.com/en/documentation/openshift_container_platform/4.19/html/edge_computing/managing-cluster-policies-with-policygentemplate-resources#ztp-using-pgt-to-maximize-power-savings-mode_ztp-advanced-policy-config
+        # https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt
+        max_percent=$max_perf_pct
+        scaling_governor=$governor
+        [bootloader]
+        cmdline_add=cpufreq.default_governor=${scaling_governor}
+        [sysfs]
+        /sys/devices/system/cpu/intel_pstate/max_perf_pct=${max_percent}
+  recommend:
+    - machineConfigLabels:
+        machineconfiguration.openshift.io/role: $mcp
+      priority: 15
+      profile: power-saving-performance-patch

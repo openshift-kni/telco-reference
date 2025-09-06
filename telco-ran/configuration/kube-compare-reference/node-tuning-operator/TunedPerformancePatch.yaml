@@ -1,41 +1,52 @@
 apiVersion: tuned.openshift.io/v1
 kind: Tuned
 metadata:
-  name: performance-patch
+  name: ran-du-performance
   namespace: openshift-cluster-node-tuning-operator
   annotations:
     ran.openshift.io/ztp-deploy-wave: "10"
 spec:
-  {{- $powersaveSysfs := "" }}
-  {{- if and (.spec.profile) (contains "max_perf_pct" (index .spec.profile 0).data) }}
-    {{- $powersaveSysfs = "[sysfs]\n/sys/devices/system/cpu/intel_pstate/max_perf_pct=(?<max_perf_pct>[0-9]+)" }}
-  {{- end }}
   profile:
-    - name: performance-patch
+    - name: ran-du-performance
       # Please note:
       # - The 'include' line must match the associated PerformanceProfile name, following below pattern
       #   include=openshift-node-performance-${PerformanceProfile.metadata.name}
-      # When using the standard (non-realtime) kernel, disable timer migration by adding the following in the data section:
-      # [sysctl]
-      # kernel.timer_migration=0
       data: |
         [main]
-        summary=Configuration changes profile inherited from performance created tuned
-        include=openshift-node-performance-openshift-node-performance-profile
+        summary=Top-level ran-du performance tuning overrides
+        include=openshift-node-performance-openshift-node-performance-profile,ran-du-performance-architecture-common
+    - name: ran-du-performance-architecture-common
+      data: |
+        [main]
+        summary=Common cross-architecture performance tuning which also includes architecture-specific profiles
+        include=performance-patch-${f:lscpu_check:Vendor ID\:\s*GenuineIntel:intel:Vendor ID\:\s*AuthenticAMD:amd:Architecture\:\s*aarch64:arm}-${f:lscpu_check:Architecture\:\s*x86_64:x86:Architecture\:\s*aarch64:aarch64}
+        [service]
+        service.chronyd=stop,disable
+        service.stalld=start,enable
+    - name: performance-patch-arm-aarch64
+      data: |
+        [main]
+        summary=Configuration specific to aarch64 performance tuned
+    - name: performance-patch-intel-x86
+      data: |
+        [main]
+        summary=Configuration specific to Intel x86_64 performance tuned
         [scheduler]
         group.ice-ptp=0:f:10:*:ice-ptp.*
         group.ice-gnss=0:f:10:*:ice-gnss.*
         group.ice-dplls=0:f:10:*:ice-dplls.*
-        [service]
-        service.stalld=start,enable
-        service.chronyd=stop,disable
-        {{- if $powersaveSysfs }}
-          {{- $powersaveSysfs | nindent 8 }}
-        {{- end }}
+    - name: performance-patch-amd-x86
+      data: |
+        [main]
+        summary=Configuration specific to AMD x86_64 performance tuned
+        [scheduler]
+        group.ice-ptp=0:f:10:*:ice-ptp.*
+        group.ice-gnss=0:f:10:*:ice-gnss.*
+        group.ice-dplls=0:f:10:*:ice-dplls.*
   recommend:
   {{- range .spec.recommend }}
     - machineConfigLabels:
         {{- .machineConfigLabels | toYaml | nindent 8 }}
       priority: 19
-      profile: performance-patch
+      profile: ran-du-performance
   {{- end }}
