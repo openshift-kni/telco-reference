@@ -212,6 +212,26 @@ spec:
         workspace: git-auth
       - name: netrc
         workspace: netrc
+    - name: generate-labels
+      params:
+      - name: label-templates
+        value:
+        - build-date=$SOURCE_DATE
+        - short-commit=$(tasks.clone-repository.results.short-commit)
+        - version=v4.17-$SOURCE_DATE_EPOCH
+      - name: source-date-epoch
+        value: $(tasks.clone-repository.results.commit-timestamp)
+      runAfter:
+      - clone-repository
+      taskRef:
+        params:
+        - name: name
+          value: generate-labels
+        - name: bundle
+          value: quay.io/konflux-ci/tekton-catalog/task-generate-labels:0.1@sha256:66fab690df17076deae259412c74d3cda6e2cb060735f70c4be17230436ca4a7
+        - name: kind
+          value: task
+        resolver: bundles
     - matrix:
         params:
         - name: PLATFORM
@@ -246,6 +266,21 @@ spec:
         value: $(tasks.prefetch-dependencies.results.CACHI2_ARTIFACT)
       - name: IMAGE_APPEND_PLATFORM
         value: "true"
+      - name: LABELS
+        value:
+        - $(tasks.generate-labels.results.labels[*])
+        - com.redhat.component=openshift-telco-core-rds-container
+        - description=Telco Core RDS manifests
+        - distribution-scope=public
+        - io.k8s.description=Telco Core RDS manifests
+        - name=openshift4/openshift4/openshift-telco-core-rds-rhel9
+        - release=4.17
+        - url=https://github.com/openshift-kni/telco-reference
+        - vendor=Red Hat, Inc.
+        - io.k8s.display-name=openshift-telco-core-rds
+        - io.openshift.tags=container
+        - summary=Telco Core RDS manifests
+        - maintainer=rauherna@redhat.com,sskeard@redhat.com
       runAfter:
       - prefetch-dependencies
       taskRef:
