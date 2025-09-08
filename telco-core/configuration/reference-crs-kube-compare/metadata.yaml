@@ -33,7 +33,6 @@ parts:
           - path: required/networking/Network.yaml
             config:
               ignore-unspecified-fields: true
-          - path: required/networking/nodeNetworkConfigurationPolicy.yaml
       - name: networking-nmsate
         description: |-
           https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-nmstate-operator_core-ref-design-components
@@ -87,6 +86,7 @@ parts:
           - path: optional/networking/networkAttachmentDefinition.yaml
           - path: optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
           - path: required/networking/metallb/community.yaml
+          - path: optional/networking/nodeNetworkConfigurationPolicy.yaml
   - name: required-other
     components:
       - name: disconnected-registry
