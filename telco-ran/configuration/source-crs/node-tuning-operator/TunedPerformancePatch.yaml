@@ -46,5 +46,5 @@ spec:
   recommend:
     - machineConfigLabels:
         machineconfiguration.openshift.io/role: $mcp
-      priority: 19
+      priority: 18
       profile: ran-du-performance

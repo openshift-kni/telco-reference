@@ -47,6 +47,6 @@ spec:
   {{- range .spec.recommend }}
     - machineConfigLabels:
         {{- .machineConfigLabels | toYaml | nindent 8 }}
-      priority: 19
+      priority: 18
       profile: ran-du-performance
   {{- end }}
