@@ -225,7 +225,7 @@ policies:
 
       - path: reference-crs/required/storage/odf-external/02-ocs-external-storagecluster.yaml
 
-  # reference-crs/required/networking/nodeNetworkConfigurationPolicy.yaml
+  # reference-crs/optional/networking/nodeNetworkConfigurationPolicy.yaml
 
   - name: config-monitoring-4.19
     policyAnnotations:
