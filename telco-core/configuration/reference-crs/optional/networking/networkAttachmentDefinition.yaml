@@ -7,8 +7,6 @@ metadata:
   name: $name
   namespace: $ns
 spec:
-  nodeSelector:
-    kubernetes.io/hostname: $nodeName
   config: $config
   # eg
   # config: '{
