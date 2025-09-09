@@ -34,7 +34,7 @@ Depending on the exact purpose and configuration for the spokes, some of the sou
     > Note: Any of the spec fields can differ based on the spokes groups
 * image-registry/ImageRegistryPV.yaml
     > Note: Any of the spec fields can differ based on the spokes groups
-* node-tuning-operator/PerformanceProfile.yaml / node-tuning-operator/PerformanceProfile-SetSelector.yaml 
+* node-tuning-operator/{x86_64|aarch64}/PerformanceProfile{-SetSelector}.yaml 
     * spec.cpu.isolated, spec.cpu.reserved
     * spec.hugepages.pages.(size/count/node), spec.hugepages.defaultHugepagesSize
 * node-tuning-operator/TunedPerformancePatch.yaml

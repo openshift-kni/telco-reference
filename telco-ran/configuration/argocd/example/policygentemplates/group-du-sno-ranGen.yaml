@@ -83,7 +83,8 @@ spec:
           - /dev/disk/by-path/pci-0000:89:00.0-nvme-1
     - fileName: cluster-tuning/disabling-network-diagnostics/DisableSnoNetworkDiag.yaml
       policyName: "config-policy"
-    - fileName: node-tuning-operator/PerformanceProfile.yaml
+    # PerformanceProfile.yaml is architecture-specific.  Replace x86_64 with aarch64 for ARM deployments
+    - fileName: node-tuning-operator/x86_64/PerformanceProfile.yaml
       policyName: "config-policy"
       spec:
         cpu:

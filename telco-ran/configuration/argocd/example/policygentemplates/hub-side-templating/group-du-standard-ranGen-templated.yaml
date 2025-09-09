@@ -36,7 +36,8 @@ spec:
     - fileName: sriov-operator/SriovOperatorConfig.yaml # wave 10
       policyName: "group-du-standard-cfg-pc"
     ###
-    - fileName: node-tuning-operator/PerformanceProfile.yaml # wave 10
+    # PerformanceProfile.yaml is architecture-specific.  Replace x86_64 with aarch64 for ARM deployments
+    - fileName: node-tuning-operator/x86_64/PerformanceProfile.yaml # wave 10
       policyName: "group-du-standard-cfg-pc"
       spec:
         cpu:
