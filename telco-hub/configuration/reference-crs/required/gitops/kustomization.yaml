@@ -13,3 +13,7 @@ resources:
   - gitopsOperatorGroup.yaml
   - gitopsSubscription.yaml
   - addPluginsPolicy.yaml
+  - addPluginsMCSB.yaml
+  - addPluginsPolicyNS.yaml
+  - addPluginsPolicyPlacementBinding.yaml
+  - addPluginsPolicyPlacement.yaml
