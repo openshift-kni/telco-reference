@@ -1,0 +1,7 @@
+# This is present in cluster-compare to ensure Node objects are available to the `lookupCRs` function
+apiVersion: v1
+kind: Node
+metadata:
+  {{- .metadata | default dict | toYaml | nindent 2 }}
+spec:
+  {{- .spec | default dict | toYaml | nindent 2 }}

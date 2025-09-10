@@ -1,3 +1,39 @@
+{{- /* Architecture detection loop: /* -}}
+{{- /* Find the architecture of the node which matches this object's nodeSelector */ -}}
+{{- $arch := "" }}
+{{- $profileSelectors := (keys .spec.nodeSelector) }}
+{{- $nodes := lookupCRs "v1" "Node" "" "" }}
+{{- range $node := $nodes }}
+  {{- /* Skip any nodes that do not match our nodeSelector criteria */ -}}
+  {{- range $selector := $profileSelectors }}
+    {{- if not (hasKey ($node.metadata.labels | default dict) $selector) }}
+      {{- continue }}
+    {{- end }}
+  {{- end }}
+  {{- /* Found the first matching node; record its architecture */ -}}
+  {{- $arch = index $node.metadata.labels "kubernetes.io/arch" }}
+  {{- /* MachineConfig operator already enforces that all machines in a given pool must be the same architecture */ -}}
+  {{- break }}
+{{- end }}
+{{- if ._arch }}
+  {{- /* Allow manual override override from telco-ran reference generator (if present) */ -}}
+  {{- $arch = ._arch }}
+{{- end }}
+{{- /* Normalize architecture names; the Node object uses "amd64" and "arm64" instead of "x86_64" and "aarch64" */ -}}
+{{- if eq $arch "amd64" }}
+  {{- $arch = "x86_64" }}
+{{- else if eq $arch "arm64" }}
+  {{- $arch = "aarch64" }}
+{{- end }}
+{{- if not $arch }}
+architecture_detection: |-
+  WARNING
+  -------
+  Architecture could not be detected for any nodes matching PerformanceProfile "{{ .metadata.name }}"
+  Tuning recommendations may not be accurate.
+  Ensure the cluster's Node records are available to cluster-compare.
+{{- end }}
+
 apiVersion: performance.openshift.io/v2
 kind: PerformanceProfile
 metadata:
@@ -27,7 +63,7 @@ metadata:
       {{- template "kubeletconfigExperimentalSysctls" (list (index (.metadata.annotations | default dict) "kubeletconfig.experimental") (list)  $allowedSysctls) }}
     {{- end }}
 spec:
-  {{- if eq ._arch "aarch64" }}
+  {{- if eq $arch "aarch64" }}
   # Note: The defaults here are for Grace Hopper systems. Other systems may alternative PCI or iommu settings such as:
   #       - pci=realloc (instead of pci=realloc-off)
   #       - iommu.passthrough=1
@@ -35,20 +71,34 @@ spec:
   additionalKernelArgs:
     {{- $requiredArgs := list
       "efi=runtime"
-      "module_blacklist=irdma"
       "rcupdate.rcu_normal_after_boot=0"
     }}
     {{- $optionalArgs := list
-      "vfio_pci.disable_idle_d3=1"
-      "vfio_pci.enable_sriov=1"
-      "iommu.passthrough=1"
-      "acpi_power_meter.force_cap_on=y"
       "console=.*"
       "earlycon"
-      "module_blacklist=nouveau"
-      "pci=realloc=off"
-      "pci=pcie_bus_safe"
     }}
+    {{- if eq $arch "x86_64" }}
+      {{- $requiredArgs = concat $requiredArgs ( list
+        "module_blacklist=irdma"
+      ) }}
+      {{- $optionalArgs = concat $optionalArgs ( list 
+        "vfio_pci.disable_idle_d3=1"
+        "vfio_pci.enable_sriov=1"
+      ) }}
+    {{- else if eq $arch "aarch64" }}
+      {{- $nonghKernelArgs := list
+        "iommu.passthrough=1"
+        "pci=realloc"
+        "pci=realloc=on"
+      }}
+      {{- $ghKernelArgs := list
+        "acpi_power_meter.force_cap_on=y"
+        "module_blacklist=nouveau"
+        "pci=realloc=off"
+        "pci=pcie_bus_safe"
+      }}
+      {{- $optionalArgs = concat $optionalArgs $nonghKernelArgs $ghKernelArgs }}
+    {{- end }}
     {{- if .spec.workloadHints.perPodPowerManagement }}
       {{- $optionalArgs = append $optionalArgs "cpufreq.default_governor=.*" }}
     {{- end }}
