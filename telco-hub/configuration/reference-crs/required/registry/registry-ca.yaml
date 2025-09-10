@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-40"
+  name: registry-ca
+  namespace: openshift-config
+data:
+  # important: keep the format "url..port"
+  <registry.example.com..8443>: |
+    -----BEGIN CERTIFICATE-----
+    MIIGcjCCBFqgAwIBAgIFICIE...
+    -----END CERTIFICATE-----
