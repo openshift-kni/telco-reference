@@ -134,8 +134,8 @@ policies:
           recommend:
           - machineConfigLabels:
               machineconfiguration.openshift.io/role: "master"
-            priority: 19
-            profile: performance-patch
+            priority: 18
+            profile: ran-du-performance
     - path: source-crs/optional-extra-manifest/enable-crun-master.yaml
     - path: source-crs/optional-extra-manifest/enable-crun-worker.yaml
 #    - path: source-crs/storage-lso/StorageClass.yaml

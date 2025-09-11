@@ -48,7 +48,7 @@ Deploy the PerformanceProfile and TunedPerformancePatch policies as previously w
 
 In order to maximize the power saving gain, the maximum cpu frequency should be capped. Without limiting the maximum cpu frequency, enabling C-states on the non-critical workload cpus allows the frequency of the critical cpus to be boosted, negating much of the power savings.
 
-The tuned performance-patch can be used to confine the maximum cpu frequency. The profile section of the performance-patch can be extended to use the `sysfs` plugin to set the `max_perf_pct`, which applies to all cpus. The `max_perf_pct` parameter controls the maximum frequency the cpufreq driver is allowed to set as a percent of the maximum supported cpu frequency (/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo\_max\_freq). This is demonstrated in the example below.
+The tuned power-saving-performance-patch can be used to confine the maximum cpu frequency. The profile section of the power-saving-performance-patch can be extended to use the `sysfs` plugin to set the `max_perf_pct`, which applies to all cpus. The `cpufreq_max_perf_percent` variable controls the maximum frequency the cpufreq driver is allowed to set as a percent of the maximum supported cpu frequency (/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo\_max\_freq). This is demonstrated in the example below. Meanwhile, the `cpufreq_governor` specifies the cpufreq governor to use. 
 
 > **Note** `/sys/devices/system/cpu/intel_pstate/max_perf_pct=x` where `x` is to be configured based on the hardware specification and powersaving requirements.
 
@@ -61,7 +61,6 @@ The tuned performance-patch can be used to confine the maximum cpu frequency. Th
       spec:
         # Use the additionalKernelArgs list as defined in ztp/source-crs/node-tuning-operator/{x86_64|aarch64}/PerformanceProfile.yaml
         additionalKernelArgs:
-          - "cpufreq.default_governor=schedutil"
           - "rcupdate.rcu_normal_after_boot=0"
           - "efi=runtime"
         ...
@@ -70,15 +69,16 @@ The tuned performance-patch can be used to confine the maximum cpu frequency. Th
           highPowerConsumption: false
           perPodPowerManagement: true
         ...
-    - fileName: node-tuning-operator/TunedPerformancePatch.yaml
+    - fileName: node-tuning-operator/TunedPowerCustom.yaml
       policyName: "config-policy"
       spec:
         profile:
-          - name: performance-patch
+          - name: power-saving-performance-patch
             data: |
               ...
-              [sysfs]
-              /sys/devices/system/cpu/intel_pstate/max_perf_pct=72
+              [variables]
+              cpufreq_max_perf_percent=72
+              cpufreq_governor=schedutil
 ```
 
 More information pertaining to the Power saving configuration can be found in the official [OpenShift docs](https://docs.openshift.com/container-platform/4.12/scalability_and_performance/cnf-low-latency-tuning.html#node-tuning-operator-pod-power-saving-config_cnf-master).
@@ -182,7 +182,7 @@ sh-4.4# cat /sys/devices/system/cpu/cpuidle/current_driver
 intel_idle
 ```
 
-- max cpu frequency (if configured via TunedPerformancePatch policy):
+- max cpu frequency (if configured via TunedPowerCustom policy):
 
 ```sh
 sh-4.4# cat /sys/devices/system/cpu/intel_pstate/max_perf_pct

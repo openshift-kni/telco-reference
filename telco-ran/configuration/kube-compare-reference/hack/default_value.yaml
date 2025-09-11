@@ -315,6 +315,14 @@ lca_LcaSubscription:
 nmstate_NMStateSubscription:
   - spec:
       source: redhat-operators-disconnected
+node_tuning_operator_TunedPowerCustom:
+  - spec:
+      recommend:
+        - machineConfigLabels:
+            machineconfiguration.openshift.io/role: "$mcp"
+    captureGroup_defaults:
+      cpufreq_max_perf_percent: $cpufreq_max_perf_percent
+      cpufreq_governor: $cpufreq_governor
 node_tuning_operator_TunedPerformancePatch:
   - spec:
       recommend:
