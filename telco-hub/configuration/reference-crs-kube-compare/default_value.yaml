@@ -1,0 +1,7 @@
+---
+# Default values for templated configurations
+spec:
+  source:
+    path: "ztp/gitops-subscriptions/argocd/example"
+    repoURL: "https://github.com/openshift-kni/cnf-features-deploy"
+    targetRevision: "master" 
