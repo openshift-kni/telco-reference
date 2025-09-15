@@ -18,8 +18,8 @@ spec:
         # Note: Edit the above cpufreq_max_perf_percent and cpufreq_governor variables with consultation of the following links for more information and applicable values:
         # https://docs.redhat.com/en/documentation/openshift_container_platform/latest/html/edge_computing/managing-cluster-policies-with-policygentemplate-resources#ztp-using-pgt-to-maximize-power-savings-mode_ztp-advanced-policy-config
         # https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt
-        cpufreq_max_perf_percent=$cpufreq_max_perf_percent
-        cpufreq_governor=$cpufreq_governor
+        cpufreq_max_perf_percent=$percent_number
+        cpufreq_governor=$governor_name
         [bootloader]
         cmdline_add=cpufreq.default_governor=${cpufreq_governor}
         [sysfs]

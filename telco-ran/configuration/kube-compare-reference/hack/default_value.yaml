@@ -321,8 +321,8 @@ node_tuning_operator_TunedPowerCustom:
         - machineConfigLabels:
             machineconfiguration.openshift.io/role: "$mcp"
     captureGroup_defaults:
-      cpufreq_max_perf_percent: $cpufreq_max_perf_percent
-      cpufreq_governor: $cpufreq_governor
+      cpufreq_max_perf_percent: $percent_number
+      cpufreq_governor: $governor_name
 node_tuning_operator_TunedPerformancePatch:
   - spec:
       recommend:
