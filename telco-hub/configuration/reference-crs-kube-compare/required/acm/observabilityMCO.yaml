@@ -27,7 +27,7 @@ spec:
   observabilityAddonSpec:
     enableMetrics: true
     interval: 300
-    storageConfig:
+  storageConfig:
     alertmanagerStorageSize: 10Gi
     compactStorageSize: 100Gi
     metricObjectStorage:

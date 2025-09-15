@@ -14,6 +14,6 @@ data:
 #  example: $> ssh-keyscan my-github.com                    #
 #  Copy the output here
 #############################################################
-  # my-github.com sh-rsa AAAAB3NzaC1y...J4i36KV/aCl4Ixz
-    # my-github.com ecdsa-sha2-nistp256...GGtLKqmwLLeKhe6xgc=
-    # my-github-com ssh-ed25519 AAAAC3N...lNrvWjBQ2u
+    # my-github.com sh-rsa AAAAB3NzaC1y...J4i36KV/aCl4Ixz
+  # my-github.com ecdsa-sha2-nistp256...GGtLKqmwLLeKhe6xgc=
+  # my-github-com ssh-ed25519 AAAAC3N...lNrvWjBQ2u
