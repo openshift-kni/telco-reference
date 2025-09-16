@@ -324,6 +324,13 @@ parts:
       - name: console-disable
         allOrNoneOf:
           - path: cluster-tuning/console-disable/ConsoleOperatorDisable.yaml
+  - name: fetch-only
+    description: |-
+      These objects are only included so they are available to 'lookupCRs' functions in other templates; contents is not validated.
+    components:
+      - name: fetch-only
+        anyOf:
+          - path: fetch-only/Node.yaml
 
 templateFunctionFiles:
   - functions/validate_node_selector.tmpl

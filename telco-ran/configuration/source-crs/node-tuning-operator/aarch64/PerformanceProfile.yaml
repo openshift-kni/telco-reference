@@ -22,7 +22,6 @@ spec:
     - module_blacklist=nouveau
     - pci=realloc=off
     - pci=pcie_bus_safe
-    - module_blacklist=irdma
   cpu:
     isolated: 4-$lastcpu
     reserved: 0-3

@@ -367,3 +367,11 @@ sriov_operator_SriovOperatorConfigForSNO:
 sriov_operator_SriovSubscription:
   - spec:
       source: redhat-operators-disconnected
+global:
+  lookup_substitutions:
+    lookupCRs_v1_Node:
+      - metadata:
+          name: node
+          labels:
+            kubernetes.io/arch: any
+        spec: spec
