@@ -17,7 +17,7 @@ spec:
   # for an scenario with:
   # 3500SNOs, 125 pods and 4 Namespaces (apart from Openshift NS)
   # storage retention 15 days
-  # downsampling disabled
+  # downsampling enabled
   # default MCO Addon configuration samples_per_hour, pv_retention_hrs.
   # More on how to stimate: https://access.redhat.com/articles/7103886
   advanced:
@@ -26,7 +26,9 @@ spec:
       deleteDelay: 48h
       retentionInLocal: 24h
       retentionResolutionRaw: 15d
-  enableDownsampling: false
+      retentionResolution1h: 15d
+      retentionResolution5m: 15d
+  enableDownsampling: true
   observabilityAddonSpec:
     enableMetrics: true
     interval: 300
