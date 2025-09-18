@@ -1,0 +1,57 @@
+---
+apiVersion: operator.open-cluster-management.io/v1
+kind: MultiClusterHub
+metadata:
+  annotations:
+    installer.open-cluster-management.io/mce-subscription-spec: '{"installPlanApproval": "Manual"}'
+  name: multiclusterhub
+  namespace: open-cluster-management
+spec:
+  availabilityConfig: High
+  enableClusterBackup: false
+  ingress: {}
+  overrides:
+    components:
+    - configOverrides: {}
+      enabled: true
+      name: app-lifecycle
+    - configOverrides: {}
+      enabled: true
+      name: cluster-lifecycle
+    - configOverrides: {}
+      enabled: true
+      name: cluster-permission
+    - configOverrides: {}
+      enabled: true
+      name: console
+    - configOverrides: {}
+      enabled: true
+      name: grc
+    - configOverrides: {}
+      enabled: true
+      name: insights
+    - configOverrides: {}
+      enabled: true
+      name: multicluster-engine
+    - configOverrides: {}
+      enabled: true
+      name: multicluster-observability
+    - configOverrides: {}
+      enabled: true
+      name: search
+    - configOverrides: {}
+      enabled: true
+      name: submariner-addon
+    - configOverrides: {}
+      enabled: true
+      name: volsync
+    - configOverrides: {}
+      enabled: true
+      name: cluster-backup
+    - configOverrides: {}
+      enabled: true
+      name: siteconfig
+    - configOverrides: {}
+      enabled: false
+      name: edge-manager-preview
+  separateCertificateManagement: false
