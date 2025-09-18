@@ -29,6 +29,7 @@ spec:
       retentionResolution1h: 15d
       retentionResolution5m: 15d
   enableDownsampling: true
+  instanceSize: default
   observabilityAddonSpec:
     enableMetrics: true
     interval: 300
