@@ -20,16 +20,19 @@ spec:
   # downsampling enabled
   # default MCO Addon configuration samples_per_hour, pv_retention_hrs.
   # More on how to stimate: https://access.redhat.com/articles/7103886
+  # changes on the size affects to the number of replicas, that
+  # affects to cluster capacity and storage
+  # changes on the retention affects to the cluster storage
   advanced:
     retentionConfig:
       blockDuration: 2h
       deleteDelay: 48h
-      retentionInLocal: 24h
-      retentionResolutionRaw: 15d
-      retentionResolution1h: 15d
-      retentionResolution5m: 15d
-  enableDownsampling:
-  instanceSize: default
+      retentionInLocal: {{ .spec.storageConfig.retentionInLocal }}
+      retentionResolutionRaw: {{ .spec.storageConfig.retentionResolutionRaw }}
+      retentionResolution1h: {{ .spec.storageConfig.retentionResolution1h }}
+      retentionResolution5m: {{ .spec.storageConfig.retentionResolution5m }}
+  enableDownsampling: true
+  instanceSize: {{ .spec.storageConfig.instanceSize }}
   observabilityAddonSpec:
     enableMetrics: true
     interval: 300
@@ -38,8 +41,6 @@ spec:
     alertmanagerStorageSize: {{ .spec.storageConfig.alertmanagerStorageSize }}
     compactStorageSize: {{ .spec.storageConfig.compactStorageSize }}
     metricObjectStorage:
-      # buckets storage should provide a capacity
-      # of at least 2.5TB
       key: thanos.yaml
       name: thanos-object-storage
     receiveStorageSize: {{ .spec.storageConfig.receiveStorageSize }}
@@ -47,4 +48,5 @@ spec:
     storeStorageSize: {{ .spec.storageConfig.storeStorageSize }}
     # In addition to these storage settings, the `metricObjectStorage`
     # points to an Object Storage. Under the reference configuration,
-    # scale and retention the estimated object storage is about 101Gi
+    # scale and retention the estimated object storage is about
+    # for the reference default values
