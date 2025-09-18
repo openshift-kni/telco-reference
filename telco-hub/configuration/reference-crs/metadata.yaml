@@ -136,4 +136,4 @@ fieldsToOmit:
       - pathToKey: spec.policy-templates
     all:
       - include: defaults
-      - pathToKey: status 
+      - pathToKey: status

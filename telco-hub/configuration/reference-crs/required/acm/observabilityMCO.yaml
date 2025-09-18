@@ -10,7 +10,7 @@ metadata:
     # https://issues.redhat.com/browse/CNF-13398
     mco-disable-alerting: "true"
 spec:
-    # based on the data provided by acm-capacity tool
+  # based on the data provided by acm-capacity tool
     # https://github.com/stolostron/capacity-planning/blob/main/calculation/ObsSizingTemplate-Rev1.ipynb
     # for an scenario with:
     # 3500SNOs, 125 pods and 5 Namespaces (apart from Openshift NS)
@@ -27,12 +27,12 @@ spec:
   observabilityAddonSpec:
     enableMetrics: true
     interval: 300
-  storageConfig:
+    storageConfig:
     alertmanagerStorageSize: 10Gi
     compactStorageSize: 100Gi
     metricObjectStorage:
-    # buckets storage should provide a capacity
-    # of at least 2.5TB
+      # buckets storage should provide a capacity
+      # of at least 2.5TB
       key: thanos.yaml
       name: thanos-object-storage
     receiveStorageSize: 10Gi
