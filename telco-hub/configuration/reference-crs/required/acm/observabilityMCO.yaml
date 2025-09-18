@@ -20,6 +20,9 @@ spec:
   # downsampling enabled
   # default MCO Addon configuration samples_per_hour, pv_retention_hrs.
   # More on how to stimate: https://access.redhat.com/articles/7103886
+  # changes on the size affects to the number of replicas, that
+  # affects to cluster capacity and storage
+  # changes on the retention affects to the cluster storage
   advanced:
     retentionConfig:
       blockDuration: 2h
@@ -38,8 +41,6 @@ spec:
     alertmanagerStorageSize: 10Gi
     compactStorageSize: 100Gi
     metricObjectStorage:
-      # buckets storage should provide a capacity
-      # of at least 2.5TB
       key: thanos.yaml
       name: thanos-object-storage
     receiveStorageSize: 10Gi
@@ -47,4 +48,5 @@ spec:
     storeStorageSize: 100Gi
     # In addition to these storage settings, the `metricObjectStorage`
     # points to an Object Storage. Under the reference configuration,
-    # scale and retention the estimated object storage is about 101Gi
+    # scale and retention the estimated object storage is about
+    # for the reference default values
