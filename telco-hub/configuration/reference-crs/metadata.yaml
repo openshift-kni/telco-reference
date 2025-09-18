@@ -66,7 +66,7 @@ parts:
           - path: required/acm/observabilityMCO.yaml
             config:
               ignore-unspecified-fields: true
-          - path: required/acm/observatilityNS.yaml
+          - path: required/acm/observabilityNS.yaml
   - name: required-gitops
     description: |-
       GitOps and ArgoCD configuration
