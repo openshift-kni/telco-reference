@@ -31,6 +31,9 @@ optional/backup-recovery/policy-backup.yaml
 optional/backup-recovery/restore.yaml
 optional/odf-internal/odfReady.yaml
 required/acm/acmPerfSearch.yaml
+# The thanosSecretPolicy and addPluginsPolicy are ignored in the compare because 
+# the metadata.yaml specifies to omit missing fields and the reference 
+# compare does not include the full policy content due to policy templating.
 required/acm/thanosSecretPolicy.yaml
 required/gitops/addPluginsPolicy.yaml
 
