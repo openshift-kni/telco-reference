@@ -24,24 +24,29 @@ spec:
   - name: hub-kafka-output
     type: kafka
     kafka:
-      # Kafka broker endpoint -> update for your environment!
-      url: {{ .kafka.url }}
+      # Kafka broker endpoint -> update for your environment (e.g., tcp://$kafka-server:9092/endpoint)!
+      url: "^(tcp|http|https)://.*$"
 
   # Pipelines define which logs go where with what processing
   pipelines:
-  - name: telco-hub-logs
-    # Log types to forward (excludes application logs for hub)
-    inputRefs:
-    - audit           # OpenShift API audit logs
-    - infrastructure  # Container runtime and system logs
-    # Where to send the logs
-    outputRefs:
-    - hub-kafka-output
-    # Apply labeling filter to identify log source
+  - # Apply labeling filter to identify log source. NOTE: filterRefs MUST be first
+    # so that the order matches what is in the applied CR (avoiding diffs with cluster-compare tool).
     {{- if .filterRefs }}
     filterRefs:
     {{- .filterRefs | toYaml | nindent 4 }}
+    {{- else }}
+    filterRefs:
+    - telco-hub-labels
     {{- end }}
+    # Log types to forward (excludes application logs for hub). NOTE: inputRefs second
+    # so that the order matches what is in the applied CR (avoiding diffs with cluster-compare tool).
+    inputRefs:
+    - audit           # OpenShift API audit logs
+    - infrastructure  # Container runtime and system logs
+    name: telco-hub-logs
+    # Where to send the logs
+    outputRefs:
+    - hub-kafka-output
 
   # Service account for log collection
   serviceAccount:
