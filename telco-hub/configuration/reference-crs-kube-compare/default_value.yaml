@@ -379,6 +379,13 @@ required_registry_idms_operator:
         - <registry.example.com:8443>/openshift4
         source: registry.redhat.io/openshift4
 
+required_registry_registry_ca:
+- data:
+    <registry.example.com..8443>: |
+      -----BEGIN CERTIFICATE-----
+      MIIGcjCCBFqgAwIBAgIFICIE...
+      -----END CERTIFICATE-----
+
 required_registry_idms_release:
 - spec:
     imageDigestMirrors:
