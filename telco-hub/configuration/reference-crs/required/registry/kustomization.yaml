@@ -8,3 +8,5 @@ resources:
   - idms-release.yaml
   - itms-generic.yaml
   - itms-release.yaml
+  - registry-ca.yaml
+  - image-config.yaml
