@@ -14,8 +14,6 @@ spec:
   #       - pci=realloc=on (default is off)
   #       - iommu.passthrough=1
   additionalKernelArgs:
-    - rcupdate.rcu_normal_after_boot=0
-    - efi=runtime
     - acpi_power_meter.force_cap_on=y
     - console=ttyAMA0,115200n8
     - earlycon
