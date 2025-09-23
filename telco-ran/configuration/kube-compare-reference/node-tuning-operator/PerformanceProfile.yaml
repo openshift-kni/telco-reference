@@ -5,10 +5,14 @@
 {{- $nodes := lookupCRs "v1" "Node" "" "" }}
 {{- range $node := $nodes }}
   {{- /* Skip any nodes that do not match our nodeSelector criteria */ -}}
+  {{- $found := false }}
   {{- range $selector := $profileSelectors }}
-    {{- if not (hasKey ($node.metadata.labels | default dict) $selector) }}
-      {{- continue }}
+    {{- if hasKey ($node.metadata.labels | default dict) $selector }}
+      {{ $found = true }}
     {{- end }}
+  {{- end }}
+  {{- if not $found }}
+    {{- continue }}
   {{- end }}
   {{- /* Found the first matching node; record its architecture */ -}}
   {{- $arch = index $node.metadata.labels "kubernetes.io/arch" }}
