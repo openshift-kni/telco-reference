@@ -11,11 +11,9 @@ metadata:
     ran.openshift.io/reference-configuration: "ran-du.redhat.com"
 spec:
   # Note: The defaults here are for Grace Hopper systems. Other systems may alternative PCI or iommu settings such as:
-  #       - pci=realloc (instead of pci=realloc-off)
+  #       - pci=realloc=on (instead of pci=realloc=off)
   #       - iommu.passthrough=1
   additionalKernelArgs:
-    - rcupdate.rcu_normal_after_boot=0
-    - efi=runtime
     - acpi_power_meter.force_cap_on=y
     - console=ttyAMA0,115200n8
     - earlycon

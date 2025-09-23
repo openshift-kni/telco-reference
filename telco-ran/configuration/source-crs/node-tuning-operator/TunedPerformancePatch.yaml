@@ -23,6 +23,9 @@ spec:
         [service]
         service.chronyd=stop,disable
         service.stalld=start,enable
+        [bootloader]
+        cmdline_add=rcupdate.rcu_normal_after_boot=0
+        cmdline_add=efi=runtime
     - name: performance-patch-arm-aarch64
       data: |
         [main]
@@ -35,6 +38,8 @@ spec:
         group.ice-ptp=0:f:10:*:ice-ptp.*
         group.ice-gnss=0:f:10:*:ice-gnss.*
         group.ice-dplls=0:f:10:*:ice-dplls.*
+        [bootloader]
+        cmdline_add=module_blacklist=irdma
     - name: performance-patch-amd-x86
       data: |
         [main]
@@ -43,6 +48,8 @@ spec:
         group.ice-ptp=0:f:10:*:ice-ptp.*
         group.ice-gnss=0:f:10:*:ice-gnss.*
         group.ice-dplls=0:f:10:*:ice-dplls.*
+        [bootloader]
+        cmdline_add=module_blacklist=irdma
   recommend:
     - machineConfigLabels:
         machineconfiguration.openshift.io/role: $mcp
