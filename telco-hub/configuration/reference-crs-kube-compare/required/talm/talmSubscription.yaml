@@ -4,7 +4,7 @@ kind: Subscription
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-40"
-  name: openshift-topology-aware-lifecycle-manager-subscription
+  name: {{ .metadata.name }}
   namespace: openshift-operators
 spec:
   channel: stable

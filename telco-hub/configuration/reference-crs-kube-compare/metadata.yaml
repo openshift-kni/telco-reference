@@ -161,6 +161,7 @@ fieldsToOmit:
       - pathToKey: metadata.labels."operators.coreos.com/local-storage-operator.openshift-local-storage"
       - pathToKey: metadata.labels."operators.coreos.com/odf-operator.openshift-storage"
       - pathToKey: metadata.labels."operators.coreos.com/topology-aware-lifecycle-manager.openshift-operators"
+      - pathToKey: metadata.labels."operators.coreos.com/cluster-logging.openshift-logging"
       - pathToKey: metadata.labels."operators.coreos.com/advanced-cluster-management.open-cluster-management"
       - pathToKey: metadata.labels."operators.coreos.com/openshift-gitops-operator.openshift-gitops-operator"
       - pathToKey: metadata.labels."agent-install.openshift.io/watch"
@@ -174,6 +175,10 @@ fieldsToOmit:
       - pathToKey: metadata.labels."installer.name"
       - pathToKey: metadata.labels."installer.namespace"
       - pathToKey: metadata.labels."multiclusterhubs.operator.open-cluster-management.io/managed-by"
+      - pathToKey: metadata.annotations."include.release.openshift.io/ibm-cloud-managed"
+      - pathToKey: metadata.annotations."include.release.openshift.io/self-managed-high-availability"
+      - pathToKey: metadata.annotations."release.openshift.io/create-only"
+      - pathToKey: metadata.annotations."ran.openshift.io/ztp-deploy-wave"
       - pathToKey: metadata.creationTimestamp
       - pathToKey: metadata.finalizers
       - pathToKey: metadata.generation
