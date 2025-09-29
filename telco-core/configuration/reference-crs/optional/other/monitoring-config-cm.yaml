@@ -27,7 +27,7 @@ data:
           name: observability-alertmanager-accessor
         scheme: https
         staticConfigs:
-        - {{ (regexFind "alertmanager-endpoint(.*)" ((fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml") | base64dec)) | replace "alertmanager-endpoint: https://" "" }}
+        - {{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{ (regexFind "alertmanager-endpoint(.*)" ((fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml") | base64dec)) | replace "alertmanager-endpoint: https://" "" }}{{ end }}
         tlsConfig:
           ca:
             key: service-ca.crt
