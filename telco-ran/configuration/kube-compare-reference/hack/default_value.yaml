@@ -307,7 +307,7 @@ cluster_tuning_monitoring_configuration_ReduceMonitoringFootprint:
   - metadata:
       name: cluster-monitoring-config
     captureGroup_defaults:
-      alertmanager_endpoint: '{{ `{{ (regexFind "alertmanager-endpoint(.*)" ((fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml") | base64dec)) | replace "alertmanager-endpoint: https://" "" }}` }}'
+      alertmanager_endpoint: '{{ `{{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{ (regexFind "alertmanager-endpoint(.*)" ((fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml") | base64dec)) | replace "alertmanager-endpoint: https://" "" }}{{ end }}` }}'
       managed_cluster: '{{ `{{ fromClusterClaim "id.openshift.io" }}` }}'
 lca_LcaSubscription:
   - spec:
