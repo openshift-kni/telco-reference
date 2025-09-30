@@ -65,7 +65,7 @@ spec:
                             mountPath: "/.config"
                         terminationMessagePolicy: "File"
                         terminationMessagePath: "/dev/termination-log"
-                        image: "registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.19"
+                        image: "registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.20"
                       - name: "policy-generator-install"
                         image: "registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:v2.13"
                         imagePullPolicy: "Always"

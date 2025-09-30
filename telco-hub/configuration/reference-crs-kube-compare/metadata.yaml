@@ -4,7 +4,7 @@ parts:
   - name: version-check
     description: |-
       A mismatch here means you may be using the wrong reference.
-      This reference was designed for OpenShift 4.19.
+      This reference was designed for OpenShift 4.20.
     components:
       - name: version-check
         allOf:
