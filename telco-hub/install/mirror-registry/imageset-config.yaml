@@ -34,57 +34,57 @@ mirror:
       channels:
       - name: stable
     - name: odf-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: odf-dependencies
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: odf-csi-addons-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: ocs-client-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: cephcsi-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: odf-prometheus-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: odf-multicluster-orchestrator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: ocs-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: rook-ceph-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: mcg-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: odr-hub-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: odr-cluster-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: recipe
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
   additionalImages:
   - name: registry.redhat.io/ubi8/ubi:latest
   - name: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.20
