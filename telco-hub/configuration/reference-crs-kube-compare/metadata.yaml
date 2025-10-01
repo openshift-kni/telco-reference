@@ -17,7 +17,7 @@ parts:
     components:
       - name: local-storage-operator
         description: |-
-          https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-local-storage-operator_telco-hub
+          https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-local-storage-operator_telco-hub
         allOrNoneOf:
           - path: optional/lso/lsoNS.yaml
           - path: optional/lso/lsoOperatorGroup.yaml
@@ -25,7 +25,7 @@ parts:
           - path: optional/lso/lsoLocalVolume.yaml
       - name: odf-internal-operator
         description: |-
-          https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-openshift-data-foundation_telco-hub
+          https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-openshift-data-foundation_telco-hub
         allOrNoneOf:
           - path: optional/odf-internal/odfNS.yaml
           - path: optional/odf-internal/odfOperatorGroup.yaml
@@ -35,14 +35,14 @@ parts:
               ignore-unspecified-fields: true
   - name: required-talm
     description: |-
-      https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-topology-aware-lifecycle-manager-talm_telco-hub
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-topology-aware-lifecycle-manager-talm_telco-hub
     components:
       - name: talm-operator
         allOf:
           - path: required/talm/talmSubscription.yaml
   - name: required-acm
     description: |-
-      https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-red-hat-advanced-cluster-management-rhacm_telco-hub
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-red-hat-advanced-cluster-management-rhacm_telco-hub
     components:
       - name: acm-operator
         allOf:
@@ -77,7 +77,7 @@ parts:
           - path: required/acm/thanosSecretPlacementBinding.yaml
   - name: required-gitops
     description: |-
-      https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-gitops-operator-and-ztp-plugins_telco-hub
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-gitops-operator-and-ztp-plugins_telco-hub
     components:
       - name: gitops-operator
         allOf:
@@ -104,7 +104,7 @@ parts:
           - path: required/gitops/argocd-ssh-known-hosts-cm.yaml
   - name: required-registry
     description: |-
-      https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/disconnected_environments/mirroring-in-disconnected-environments
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/disconnected_environments/mirroring-in-disconnected-environments
     components:
       - name: registry-config
         allOf:
@@ -121,7 +121,7 @@ parts:
 
   - name: optional-logging
     description: |-
-      https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-logging_telco-hub
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-logging_telco-hub
     components:
       - name: cluster-logging-operator
         allOrNoneOf:
