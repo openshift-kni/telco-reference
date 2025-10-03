@@ -10,3 +10,5 @@ spec:
   routerID: {{ .spec.routerID }}
   bfdProfile: {{ .spec.bfdProfile }}
   passwordSecret: {{ .spec.passwordSecret | toJson }}
+  disableMP: {{ .spec.disableMP }}
+  peerPort: {{ .spec.peerPort }}
