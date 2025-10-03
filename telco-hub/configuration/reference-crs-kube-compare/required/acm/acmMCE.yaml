@@ -8,6 +8,7 @@ metadata:
   name: multiclusterengine
 spec:
   availabilityConfig: High
+  localClusterName: local-cluster
   overrides:
     components:
     - configOverrides: {}
@@ -44,17 +45,24 @@ spec:
       enabled: true
       name: managedserviceaccount
     - configOverrides: {}
-      enabled: false
-      name: cluster-api-preview
-    - configOverrides: {}
-      enabled: false
-      name: cluster-api-provider-aws-preview
-    - configOverrides: {}
       enabled: true
       name: image-based-install-operator
     - configOverrides: {}
       enabled: true
       name: console-mce
+    - configOverrides: {}
+      enabled: false
+      name: cluster-api
+    - configOverrides: {}
+      enabled: false
+      name: cluster-api-provider-aws
+    - configOverrides: {}
+      enabled: false
+      name: cluster-api-provider-metal3-preview
+    - configOverrides: {}
+      enabled: false
+      name: cluster-api-provider-openshift-assisted-preview
+
   targetNamespace: multicluster-engine
   tolerations:
   - effect: NoSchedule

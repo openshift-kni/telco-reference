@@ -13,6 +13,7 @@ spec:
   availabilityConfig: High
   enableClusterBackup: false
   ingress: {}
+  localClusterName: local-cluster
   overrides:
     components:
     - configOverrides: {}
@@ -57,4 +58,7 @@ spec:
     - configOverrides: {}
       enabled: false
       name: edge-manager-preview
+    - configOverrides: {}
+      enabled: false
+      name: fine-grained-rbac-preview
   separateCertificateManagement: false
