@@ -26,6 +26,8 @@ ptp_operator_configuration_PtpConfigBoundary:
   - spec:
       profile:
         - placeholder: true
+          ptpSettings:
+            logReduce: "true"
       recommend:
         - match:
             - nodeLabel: "node-role.kubernetes.io/$mcp"
@@ -39,6 +41,8 @@ ptp_operator_configuration_PtpConfigBoundaryForEvent:
             holdOverTimeout: 5
             maxOffsetThreshold: 100
             minOffsetThreshold: -100
+          ptpSettings:
+            logReduce: "true"
       recommend:
         - match:
             - nodeLabel: "node-role.kubernetes.io/$mcp"
@@ -69,6 +73,8 @@ ptp_operator_configuration_PtpConfigDualCardGmWpc:
             holdOverTimeout: 5
             maxOffsetThreshold: 100
             minOffsetThreshold: -100
+          ptpSettings:
+            logReduce: "true"
       recommend:
         - match:
             - nodeLabel: "node-role.kubernetes.io/$mcp"
@@ -82,6 +88,8 @@ ptp_operator_configuration_PtpConfigDualFollower:
             holdOverTimeout: 5
             maxOffsetThreshold: 100
             minOffsetThreshold: -100
+          ptpSettings:
+            logReduce: "true"
       recommend:
         - match:
             - nodeLabel: "node-role.kubernetes.io/$mcp"
@@ -119,6 +127,8 @@ ptp_operator_configuration_PtpConfigThreeCardGmWpc:
             holdOverTimeout: 5
             maxOffsetThreshold: 100
             minOffsetThreshold: -100
+          ptpSettings:
+            logReduce: "true"
       recommend:
         - match:
             - nodeLabel: "node-role.kubernetes.io/$mcp"
@@ -141,6 +151,8 @@ ptp_operator_configuration_PtpConfigForHA:
   - spec:
       profile:
         - placeholder: true
+          ptpSettings:
+            logReduce: "true"
       recommend:
         - match:
             - nodeLabel: "node-role.kubernetes.io/$mcp"
@@ -153,6 +165,8 @@ ptp_operator_configuration_PtpConfigForHAForEvent:
             holdOverTimeout: 5
             maxOffsetThreshold: 100
             minOffsetThreshold: -100
+          ptpSettings:
+            logReduce: "true"
       recommend:
         - match:
             - nodeLabel: "node-role.kubernetes.io/$mcp"
@@ -162,6 +176,8 @@ ptp_operator_configuration_PtpConfigMaster:
   - spec:
       profile:
         - interface: $interface
+          ptpSettings:
+            logReduce: "true"
       recommend:
         - match:
             - nodeLabel: "node-role.kubernetes.io/$mcp"
@@ -176,6 +192,8 @@ ptp_operator_configuration_PtpConfigMasterForEvent:
             holdOverTimeout: 5
             maxOffsetThreshold: 100
             minOffsetThreshold: -100
+          ptpSettings:
+            logReduce: "true"
       recommend:
         - match:
             - nodeLabel: "node-role.kubernetes.io/$mcp"
@@ -186,6 +204,8 @@ ptp_operator_configuration_PtpConfigSlave:
   - spec:
       profile:
         - interface: $interface
+          ptpSettings:
+            logReduce: "true"
       recommend:
         - match:
             - nodeLabel: "node-role.kubernetes.io/$mcp"
@@ -211,6 +231,8 @@ ptp_operator_configuration_PtpConfigGmWpc:
             holdOverTimeout: 5
             maxOffsetThreshold: 100
             minOffsetThreshold: -100
+          ptpSettings:
+            logReduce: "true"
       recommend:
         - match:
             - nodeLabel: "node-role.kubernetes.io/$mcp"
@@ -225,6 +247,8 @@ ptp_operator_configuration_PtpConfigSlaveForEvent:
             holdOverTimeout: 5
             maxOffsetThreshold: 100
             minOffsetThreshold: -100
+          ptpSettings:
+            logReduce: "true"
       recommend:
         - match:
             - nodeLabel: "node-role.kubernetes.io/$mcp"

@@ -16,7 +16,7 @@ spec:
     ptpSchedulingPolicy: SCHED_FIFO
     ptpSchedulingPriority: 10
     ptpSettings:
-      logReduce: "true"
+      logReduce: {{ template "mustReMatchOneOf" (list .ptpSettings.logReduce "^true" "^enhanced")}}
     ptp4lConf: |
       [global]
       #
