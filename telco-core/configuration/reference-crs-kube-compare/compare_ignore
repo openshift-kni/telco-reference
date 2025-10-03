@@ -5,6 +5,10 @@ comparison-overrides.yaml
 # Used in the reference only for version compliance checks
 ReferenceVersionCheck.yaml
 
+# Reference only to ensure default has not been changed
+required/machine-config/cgroup-check.yaml
+required/machine-config/container-runtime.yaml
+
 # Utility objects used to migrate from CLO5->CLO6
 ClusterLogging5Cleanup.yaml
 ClusterLogOperatorStatus.yaml
