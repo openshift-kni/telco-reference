@@ -4,25 +4,25 @@ apiVersion: mirror.openshift.io/v2alpha1
 mirror:
   platform:
     channels:
-    - name: stable-4.19
+    - name: stable-4.20
       type: ocp
-      minVersion: 4.19.0
-      maxVersion: 4.19.2
+      minVersion: 4.20.0
+      maxVersion: 4.20.2
   operators:
-  - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.19
+  - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.20
     targetCatalog: openshift-marketplace/redhat-operators-disconnected
     packages:
     - name: advanced-cluster-management
-      defaultChannel: release-2.13
+      defaultChannel: release-2.14
       channels:
-      - name: release-2.13
+      - name: release-2.14
     - name: multicluster-engine
-      defaultChannel: stable-2.8
+      defaultChannel: stable-2.9
       channels:
-      - name: stable-2.8
+      - name: stable-2.9
     - name: openshift-gitops-operator
+      defaultChannel: gitops-1.16
       channels:
-      - name: latest
       - name: gitops-1.16
     - name: redhat-oadp-operator
       channels:
@@ -34,60 +34,60 @@ mirror:
       channels:
       - name: stable
     - name: odf-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: odf-dependencies
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: odf-csi-addons-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: ocs-client-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: cephcsi-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: odf-prometheus-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: odf-multicluster-orchestrator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: ocs-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: rook-ceph-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: mcg-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: odr-hub-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: odr-cluster-operator
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
     - name: recipe
-      defaultChannel: stable-4.18
+      defaultChannel: stable-4.19
       channels:
-      - name: stable-4.18
+      - name: stable-4.19
   additionalImages:
   - name: registry.redhat.io/ubi8/ubi:latest
   - name: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.19
   - name: registry.redhat.io/rhel8/support-tools:latest
-  - name: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:v2.13
+  - name: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:2.14.0-1
   helm: {}
