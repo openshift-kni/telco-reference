@@ -5,6 +5,9 @@ kind: NUMAResourcesOperator
 metadata:
   name: numaresourcesoperator
 spec:
+{{- if .spec.logLevel }}
+  logLevel: {{ .spec.logLevel }}
+{{- end }}
   nodeGroups:
   {{- if .spec.nodeGroups }}
     {{- range .spec.nodeGroups }}
