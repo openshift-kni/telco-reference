@@ -32,7 +32,7 @@ spec:
 
   # Pipelines define which logs go where with what processing
   pipelines:
-  - # Apply labeling filter to identify log source. NOTE: filterRefs MUST be first
+  -   # Apply labeling filter to identify log source. NOTE: filterRefs MUST be first
     # so that the order matches what is in the applied CR (avoiding diffs with cluster-compare tool).
     filterRefs:
     - telco-hub-labels
