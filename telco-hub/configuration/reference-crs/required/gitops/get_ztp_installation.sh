@@ -21,7 +21,7 @@ find ./ztp-installation/ -name "*.yaml" -exec yq -i eval '.metadata.annotations.
 
 # patch the ztp-site-generate version
 echo " - Patch ztp-site-generate version"
-sed -i 's|quay.io/openshift-kni/ztp-site-generator:latest|registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.19|g' ztp-installation/argocd-openshift-gitops-patch.json
+sed -i 's|quay.io/openshift-kni/ztp-site-generator:latest|registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.20|g' ztp-installation/argocd-openshift-gitops-patch.json
 
 echo  " - Adding elements to the whitelist"
 yq '.spec.namespaceResourceWhitelist += {"group": "'metal3.io'", "kind": "DataImage"}' ztp-installation/app-project.yaml
