@@ -9,7 +9,7 @@ compare_crs:
 		echo "kubectl-cluster_compare tool isn't installed; please download it from https://github.com/openshift/kube-compare"; \
 		exit 1; \
 	fi; \
-	$${CLUSTER_COMPARE} -r ./reference-crs-kube-compare/metadata.yaml -f ./reference-crs -R -p ./reference-crs-kube-compare/comparison-overrides.yaml
+	$${CLUSTER_COMPARE} -r ./reference-crs-kube-compare/metadata.yaml -f ./reference-crs,./hack/cluster-default-crs -R -p ./reference-crs-kube-compare/comparison-overrides.yaml
 
 
 .PHONY: missing_crs
