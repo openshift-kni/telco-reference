@@ -14,7 +14,7 @@ spec:
       ptpSchedulingPolicy: SCHED_FIFO
       ptpSchedulingPriority: 10
       ptpSettings:
-        logReduce: "true"
+        logReduce: {{ template "mustReMatchOneOf" (list .ptpSettings.logReduce "^true" "^enhanced")}}
         haProfiles: "$profile1,$profile2"
       {{- if .ptpClockThreshold }}
       ptpClockThreshold:

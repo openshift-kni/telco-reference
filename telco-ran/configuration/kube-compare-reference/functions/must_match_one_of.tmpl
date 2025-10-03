@@ -9,3 +9,15 @@
   {{- end }}
   {{- $result }}
 {{- end }}
+
+{{- define "mustReMatchOneOf" }}
+  {{- $currentValue := index . 0 | default "--empty--" }}
+  {{- $patterns := slice . 1 }}
+  {{- $result := printf "\"%s\" did not match any of: %s" $currentValue ($patterns | toJson) }}
+  {{- range $pattern := $patterns }}
+    {{- if regexMatch $pattern $currentValue }}
+      {{- $result = $currentValue }}
+    {{- end }}
+  {{- end }}
+  {{- $result | toYaml }}
+{{- end }}
