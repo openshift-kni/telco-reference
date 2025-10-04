@@ -23,7 +23,7 @@ policies:
       - path: reference-crs/required/other/catalog-source.yaml
         patches:
         - spec:
-            image: registry.redhat.io/redhat/redhat-operator-index:v4.19
+            image: registry.redhat.io/redhat/redhat-operator-index:v4.20
         - status:
             connectionState:
               lastObservedState: READY
@@ -57,15 +57,15 @@ policies:
       - path: reference-crs/optional/other/ClusterVersion.yaml
         patches:
         - spec:
-            channel: stable-4.19
+            channel: stable-4.20
             desiredUpdate:
               # Replace version, image and status below with desired version
-              version: 4.19.0
+              version: 4.20.0
               image: quay.io/openshift-release-dev/ocp-release@sha256:3482dbdce3a6fb2239684d217bba6fc87453eff3bdb72f5237be4beb22a2160b
               force: true
         - status:
             history:
-            - version: 4.19.0
+            - version: 4.20.0
               state: "Completed"
   - name: core-upgrade-olm-19
     policyAnnotations:
@@ -86,7 +86,7 @@ policies:
       - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
         patches:
         - spec:
-            channel: stable-4.19
+            channel: stable-4.20
         - status:
             state: AtLatestKnown
       - path: reference-crs/required/networking/NMStateSubscription.yaml
