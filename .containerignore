@@ -1,2 +1,3 @@
 telco-core/Dockerfile.telco-core
 telco-hub/Dockerfile.telco-hub
+**/hack

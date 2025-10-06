@@ -17,6 +17,9 @@ ClusterLogOperatorStatus.yaml
 ClusterVersion.yaml
 upgrade-ack.yaml
 
+# Utility objects for lookupCRs support
+infrastructure.yaml
+
 # Deprecated CRs, no longer in the reference-crs examples:
 optional/networking/sriov/SriovNetworkPoolConfig.yaml
 required/networking/metallb/service.yaml
