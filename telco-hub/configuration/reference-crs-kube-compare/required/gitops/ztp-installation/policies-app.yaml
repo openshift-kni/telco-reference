@@ -15,9 +15,9 @@ spec:
     namespace: policies-sub
   project: policy-app-project
   source:
-    path: ztp/gitops-subscriptions/argocd/example/policygentemplates
-    repoURL: https://github.com/openshift-kni/cnf-features-deploy
-    targetRevision: master
+    path: {{.spec.source.path | quote}}
+    repoURL: {{.spec.source.repoURL | quote}}
+    targetRevision: {{.spec.source.targetRevision | quote}}
     # uncomment the below plugin if you will be adding the plugin binaries in the same repo->dir where
     # the policyGenTemplate.yaml exist AND use the ../../hack/patch-argocd-dev.sh script to re-patch the deployment-repo-server
     #  plugin:
