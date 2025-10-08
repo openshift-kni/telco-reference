@@ -103,6 +103,15 @@ parts:
       - name: performance
         allOf:
           - path: required/performance/PerformanceProfile.yaml
+  - name: required-platform
+    components:
+      - name: platform
+        allOf:
+          - path: required/platform/infrastructure.yaml
+            config:
+              ignore-unspecified-fields: true
+              fieldsToOmitRefs:
+                - allowStatusCheck
   - name: required-scheduling
     components:
       - name: scheduling

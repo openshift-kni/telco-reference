@@ -5,7 +5,9 @@ metadata:
   name: cluster
 spec:
   # non-schedulable control plane is the default. This ensures
-  # compliance.
+  # compliance. Schedulable control plane can be enabled when
+  # infrastructure cpu partitioning is enabled (also known as
+  # workload partitioning).
   mastersSchedulable: false
   policy:
     name: ""

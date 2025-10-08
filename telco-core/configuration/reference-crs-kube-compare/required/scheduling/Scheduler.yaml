@@ -3,8 +3,17 @@ kind: Scheduler
 metadata:
   name: cluster
 spec:
+  {{- $obj := lookupCR "config.openshift.io/v1" "Infrastructure" "" "cluster" }}
+  {{- if ne $obj.status.cpuPartitioning "AllNodes"}}
   # non-schedulable control plane is the default. This ensures
-  # compliance.
+  # compliance. Schedulable control plane can be enabled when
+  # infrastructure cpu partitioning is enabled (also known as
+  # workload partitioning).
   mastersSchedulable: false
+  {{- else}}
+  # Workload partitioned clusters support both deployment
+  # types. Schedulable and unschedulable masters.
+  mastersSchedulable: {{ .spec.mastersSchedulable }}
+  {{- end}}
   policy:
     name: ""
