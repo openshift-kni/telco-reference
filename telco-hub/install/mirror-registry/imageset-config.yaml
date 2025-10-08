@@ -6,6 +6,10 @@ mirror:
     channels:
     - name: stable-4.19
       type: ocp
+      # Adjust minVersion and maxVersion according to your required releases. This allows you to
+      # minimize the mirrored content to only what is needed for your deployment. Note that only
+      # versions which are mirrored to the disconnected registry can be installed, so only versions
+      # listed here should be referenced in installation CRs (eg ClusterImageSet / imageSetRef).
       minVersion: 4.19.0
       maxVersion: 4.19.2
   operators:
