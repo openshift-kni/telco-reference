@@ -15,6 +15,13 @@ patches:
       name: redhat-operators-disconnected
     path: catalog-source-image-patch.yaml
 
+  # Patch the registry-ca entry to add the CA for the registry URL
+  - target:
+      version: v1
+      kind: ConfigMap
+      name: registry-ca
+    path: registry-ca-patch.yaml
+
   # Replace entire mirror arrays to avoid merge conflicts
   - target:
       group: config.openshift.io
