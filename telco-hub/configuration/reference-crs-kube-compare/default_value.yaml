@@ -127,6 +127,9 @@ required_acm_observabilityMCO:
       receiveStorageSize: 10Gi
       ruleStorageSize: 30Gi
       storeStorageSize: 100Gi
+      retentionInLocal: 24h
+      retentionResolution: 15d
+      instanceSize: default
 
 required_acm_observabilityOBC:
 - spec:
