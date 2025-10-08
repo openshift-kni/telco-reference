@@ -20,4 +20,4 @@ spec:
       - enabled: true
         name: kdump.service
   kernelArguments:
-    - crashkernel=1024M"
+    - crashkernel=676M"
