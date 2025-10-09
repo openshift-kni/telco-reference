@@ -4,7 +4,7 @@ kind: Subscription
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-40"
-  name: odf-operator
+  name: {{ .metadata.name }}
   namespace: openshift-storage
 spec:
   channel: "stable-4.19"
