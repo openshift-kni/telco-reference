@@ -35,6 +35,33 @@ markdownlint: markdownlint-image  ## run the markdown linter
 		-v $$(pwd):/workdir:Z \
 		$(IMAGE_NAME)-markdownlint:latest
 
+.PHONY: ocp-doc-check
+ocp-doc-check:  ## Download and run ocp-doc-checker against markdown files
+	@echo "Detecting platform..."
+	@OS=$$(uname -s | tr '[:upper:]' '[:lower:]'); \
+	ARCH=$$(uname -m); \
+	if [ "$$OS" = "mingw64_nt" ] || [ "$$OS" = "msys_nt" ]; then \
+		echo "Windows is not supported, skipping ocp-doc-check"; \
+		exit 0; \
+	fi; \
+	if [ "$$ARCH" = "x86_64" ]; then \
+		ARCH="amd64"; \
+	elif [ "$$ARCH" = "aarch64" ]; then \
+		ARCH="arm64"; \
+	fi; \
+	BINARY_NAME="ocp-doc-checker-$$OS-$$ARCH"; \
+	DOWNLOAD_URL="https://github.com/sebrandon1/ocp-doc-checker/releases/latest/download/$$BINARY_NAME"; \
+	echo "Downloading $$BINARY_NAME from $$DOWNLOAD_URL..."; \
+	if ! curl -L -f -o ./$$BINARY_NAME $$DOWNLOAD_URL; then \
+		echo "Failed to download ocp-doc-checker binary"; \
+		exit 1; \
+	fi; \
+	chmod +x ./$$BINARY_NAME; \
+	echo "Running ocp-doc-checker against repository..."; \
+	./$$BINARY_NAME -dir . || true; \
+	rm -f ./$$BINARY_NAME; \
+	echo "ocp-doc-check completed"
+
 ci-validate: lintCheck check-reference-core check-reference-ran check-reference-hub
 
 .PHONY: check-reference-core
