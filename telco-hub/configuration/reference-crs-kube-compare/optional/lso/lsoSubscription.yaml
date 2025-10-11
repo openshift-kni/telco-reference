@@ -2,11 +2,11 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: openshift-gitops-operator
-  namespace: openshift-gitops-operator
+  name: local-storage-operator
+  namespace: openshift-local-storage
 spec:
-  channel: gitops-1.15
+  channel: stable
   installPlanApproval: Automatic
-  name: openshift-gitops-operator
+  name: local-storage-operator
   source: redhat-operators-disconnected
   sourceNamespace: openshift-marketplace
