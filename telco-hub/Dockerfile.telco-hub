@@ -2,7 +2,7 @@ ARG RHEL_VERSION=9.6
 
 FROM registry.redhat.io/ubi9/ubi-minimal:${RHEL_VERSION}
 
-COPY ./telco-hub /usr/share/telco-hub-rds
+COPY . /usr/share/telco-hub-rds
 
 RUN microdnf install -y tar && \
     microdnf clean -y all
