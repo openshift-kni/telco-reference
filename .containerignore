@@ -1,2 +1,4 @@
 telco-core/Dockerfile.telco-core
 telco-hub/Dockerfile.telco-hub
+telco-hub/configuration/reference-crs/optional/cert-manager
+telco-hub/configuration/reference-crs/optional/backup-recovery
