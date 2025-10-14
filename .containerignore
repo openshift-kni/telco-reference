@@ -1,3 +1,6 @@
 telco-core/Dockerfile.telco-core
 telco-hub/Dockerfile.telco-hub
+#adding exclusion for some directories not tested yet on telco-hub
+telco-hub/configuration/reference-crs/optional/cert-manager
+telco-hub/configuration/reference-crs/optional/backup-recovery
 **/hack
