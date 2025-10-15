@@ -7,7 +7,6 @@ node_tuning_operator_PerformanceProfile:
         - console=ttyAMA0,115200n8
         - earlycon
         - module_blacklist=nouveau
-        - pci=realloc=off
         - pci=pcie_bus_safe
       cpu:
         isolated: 4-$lastcpu
