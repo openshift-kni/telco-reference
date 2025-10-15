@@ -36,6 +36,9 @@ required/acm/acmPerfSearch.yaml
 # compare does not include the full policy content due to policy templating.
 required/acm/thanosSecretPolicy.yaml
 required/gitops/addPluginsPolicy.yaml
+# observabilityRoutePolicy is ignored as reference compare does 
+# not include the full policy content due to policy templating.
+required/acm/observabilityRoutePolicy.yaml
 
 # ArgoCD files
 kustomization.yaml
