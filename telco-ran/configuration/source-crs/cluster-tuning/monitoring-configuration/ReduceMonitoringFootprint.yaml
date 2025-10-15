@@ -30,7 +30,7 @@ data:
           name: observability-alertmanager-accessor
         scheme: https
         staticConfigs:
-        - {{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{ (regexFind "alertmanager-endpoint(.*)" ((fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml") | base64dec)) | replace "alertmanager-endpoint: https://" "" }}{{ end }}
+        - {{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{hub index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-alertmanager-route" hub}}{{ end }}
         tlsConfig:
           ca:
             key: service-ca.crt
