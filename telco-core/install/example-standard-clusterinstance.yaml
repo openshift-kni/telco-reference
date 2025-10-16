@@ -233,6 +233,7 @@ spec:
         deviceName: "/dev/disk/by-path/pci-0000:18:00.0-scsi-0:2:1:0"
       nodeLabels:
         node-role.kubernetes.io/worker-1: ""
+        topology.kubernetes.io/zone: kfd1
       # Example partitioning on secondary disk
       ignitionConfigOverride: '{"ignition":{"version":"3.2.0"},"storage":{"disks":[{"device":"/dev/disk/by-path/pci-0000:18:00.0-scsi-0:2:2:0","wipeTable":true,"partitions":[{"number":1,"sizeMiB":409600,"wipePartitionEntry":true},{"number":2,"label":"containers","sizeMiB":102400,"wipePartitionEntry":true},{"number":3,"sizeMiB":10240,"wipePartitionEntry":true}]}],"filesystems":[{"device":"/dev/disk/by-partlabel/containers","format":"xfs","path":"/var/lib/containers","wipeFilesystem":true}]},"systemd":{"units":[{"contents":"#GeneratedbyButane\n[Unit]\nRequires=systemd-fsck@dev-disk-by\\x2dpartlabel-containers.service\nAfter=systemd-fsck@dev-disk-by\\x2dpartlabel-containers.service\n\n[Mount]\nWhere=/var/lib/containers\nWhat=/dev/disk/by-partlabel/containers\nType=xfs\n\n[Install]\nRequiredBy=local-fs.target","enabled":true,"name":"var-lib-containers.mount"}]}}'
       nodeNetwork:
@@ -293,6 +294,7 @@ spec:
         deviceName: "/dev/disk/by-path/pci-0000:18:00.0-scsi-0:2:1:0"
       nodeLabels:
         node-role.kubernetes.io/worker-1: ""
+        topology.kubernetes.io/zone: kfd1
       # Example partitioning on secondary disk
       ignitionConfigOverride: '{"ignition":{"version":"3.2.0"},"storage":{"disks":[{"device":"/dev/disk/by-path/pci-0000:18:00.0-scsi-0:2:2:0","wipeTable":true,"partitions":[{"number":1,"sizeMiB":409600,"wipePartitionEntry":true},{"number":2,"label":"containers","sizeMiB":102400,"wipePartitionEntry":true},{"number":3,"sizeMiB":10240,"wipePartitionEntry":true}]}],"filesystems":[{"device":"/dev/disk/by-partlabel/containers","format":"xfs","path":"/var/lib/containers","wipeFilesystem":true}]},"systemd":{"units":[{"contents":"#GeneratedbyButane\n[Unit]\nRequires=systemd-fsck@dev-disk-by\\x2dpartlabel-containers.service\nAfter=systemd-fsck@dev-disk-by\\x2dpartlabel-containers.service\n\n[Mount]\nWhere=/var/lib/containers\nWhat=/dev/disk/by-partlabel/containers\nType=xfs\n\n[Install]\nRequiredBy=local-fs.target","enabled":true,"name":"var-lib-containers.mount"}]}}'
       nodeNetwork:
@@ -353,6 +355,7 @@ spec:
         deviceName: "/dev/disk/by-path/pci-0000:08:00.0"
       nodeLabels:
         node-role.kubernetes.io/worker-2: ""
+        topology.kubernetes.io/zone: kfd2
       nodeNetwork:
         interfaces:
         - macAddress: 00:11:22:33:44:5B
@@ -400,6 +403,7 @@ spec:
         deviceName: "/dev/disk/by-path/pci-0000:08:00.0"
       nodeLabels:
         node-role.kubernetes.io/worker-2: ""
+        topology.kubernetes.io/zone: kfd2
       nodeNetwork:
         interfaces:
         - macAddress: 00:11:22:33:44:5C
