@@ -59,6 +59,13 @@ parts:
           - path: required/acm/observabilityMCO.yaml
             config:
               ignore-unspecified-fields: true
+              perField:
+              - pathToKey: spec.advanced.retentionConfig.retentionResolutionRaw
+                inlineDiffFunc: regex
+              - pathToKey: spec.advanced.retentionConfig.retentionResolution5m
+                inlineDiffFunc: capturegroups
+              - pathToKey: spec.advanced.retentionConfig.retentionResolution1h
+                inlineDiffFunc: capturegroups
           - path: required/acm/observabilityNS.yaml
           - path: required/acm/observabilityOBC.yaml
             config:
