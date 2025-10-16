@@ -8,6 +8,9 @@ spec:
   ipAddressPools:
     {{- .spec.ipAddressPools | toYaml | nindent 4 }}
   {{- end }}
+  {{- if .spec.localPref }}
+  localPref: {{ .spec.localPref | toYaml }}
+  {{- end }}
   {{- if .spec.nodeSelectors }}
   nodeSelectors:
     {{- .spec.nodeSelectors | toYaml | nindent 4 }}
@@ -26,4 +29,3 @@ spec:
 #    - 65535:65282
   aggregationLength: 32
   aggregationLengthV6: 128
-  localPref: 100
