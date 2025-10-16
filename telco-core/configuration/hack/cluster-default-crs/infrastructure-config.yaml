@@ -1,0 +1,17 @@
+---
+apiVersion: config.openshift.io/v1
+kind: Infrastructure
+metadata:
+  name: cluster
+spec:
+  cloudConfig:
+    name: ""
+  platformSpec:
+    type: None
+status:
+  controlPlaneTopology: HighlyAvailable
+  cpuPartitioning: None
+  infrastructureTopology: HighlyAvailable
+  platform: None
+  platformStatus:
+    type: None
