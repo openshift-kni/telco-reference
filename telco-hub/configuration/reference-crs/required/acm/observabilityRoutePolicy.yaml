@@ -2,65 +2,72 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: Policy
 metadata:
-    annotations:
-        policy.open-cluster-management.io/categories: CM Configuration Management
-        policy.open-cluster-management.io/controls: CM-2 Baseline Configuration
-        policy.open-cluster-management.io/standards: NIST SP 800-53
-        ran.openshift.io/ztp-deploy-wave: "1"
-    name: copy-acm-route
-    namespace: open-cluster-management-observability
+  annotations:
+    policy.open-cluster-management.io/categories: CM Configuration Management
+    policy.open-cluster-management.io/controls: CM-2 Baseline Configuration
+    policy.open-cluster-management.io/standards: NIST SP 800-53
+    ran.openshift.io/ztp-deploy-wave: "1"
+  name: obs-route-policy
+  namespace: open-cluster-management-observability
 spec:
-    remediationAction: enforce
-    disabled: false
-    policy-templates:
-        - objectDefinition:
-              apiVersion: policy.open-cluster-management.io/v1
-              kind: ConfigurationPolicy
-              metadata:
-                  name: copy-acm-route
-              spec:
-                  remediationAction: enforce
-                  severity: low
-                  namespaceselector:
-                      exclude:
-                          - kube-*
-                      include:
-                          - '*'
-                  object-templates-raw: |
-                    {{- range (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" "").items }}
-                    - metadataComplianceType: musthave
-                      objectDefinition:
-                        apiVersion: cluster.open-cluster-management.io/v1
-                        kind: ManagedCluster
-                        metadata:
-                          name: {{ .metadata.name }}
-                          annotations:
-                            acm-alertmanager-route: '{{ (lookup "route.openshift.io/v1" "Route" "open-cluster-management-observability" "alertmanager").spec.host }}'
-                    {{- end }}
+  remediationAction: enforce
+  disabled: false
+  policy-templates:
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: obs-route-policy
+        spec:
+          remediationAction: enforce
+          severity: low
+          namespaceSelector:
+            exclude:
+              - kube-*
+            include:
+              - '*'
+          object-templates-raw: |
+            {{- range (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" "").items }}
+            - metadataComplianceType: musthave
+              objectDefinition:
+                apiVersion: cluster.open-cluster-management.io/v1
+                kind: ManagedCluster
+                metadata:
+                  name: {{ .metadata.name }}
+                  annotations:
+                    acm-alertmanager-route: '{{ (lookup "route.openshift.io/v1" "Route" "open-cluster-management-observability" "alertmanager").spec.host }}'
+            {{- end }}
 ---
-apiVersion: apps.open-cluster-management.io/v1
-kind: PlacementRule
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
 metadata:
-    name: copy-acm-route-placementrules
-    namespace: open-cluster-management-observability
+  name: obs-route-policy-placement
+  namespace: open-cluster-management-observability
 spec:
-    clusterSelector:
-        matchExpressions:
+  predicates:
+    - requiredClusterSelector:
+        labelSelector:
+          matchExpressions:
             - key: local-cluster
               operator: In
               values:
-                  - "true"
+                - "true"
+  tolerations:
+    - key: cluster.open-cluster-management.io/unavailable
+      operator: Exists
+    - key: cluster.open-cluster-management.io/unreachable
+      operator: Exists
 ---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PlacementBinding
 metadata:
-    name: copy-acm-route-placementbinding
-    namespace: open-cluster-management-observability
+  name: obs-route-policy-placementbinding
+  namespace: open-cluster-management-observability
 placementRef:
-    name: copy-acm-route-placementrules
-    kind: PlacementRule
-    apiGroup: apps.open-cluster-management.io
+  name: obs-route-policy-placement
+  kind: Placement
+  apiGroup: cluster.open-cluster-management.io
 subjects:
-    - name: copy-acm-route
-      kind: Policy
-      apiGroup: policy.open-cluster-management.io
+  - name: obs-route-policy
+    kind: Policy
+    apiGroup: policy.open-cluster-management.io
