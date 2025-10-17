@@ -29,15 +29,15 @@ spec:
       deleteDelay: 48h
       retentionInLocal: 24h
       retentionResolutionRaw: 15d
-      retentionResolution1h: 15d
       retentionResolution5m: 15d
+      retentionResolution1h: 15d
   enableDownsampling: true
   instanceSize: default
   observabilityAddonSpec:
     enableMetrics: true
     interval: 300
   storageConfig:
-    storageClass:  # your-fs-storageclass-here
+    storageClass: <your-fs-storageclass-here>
     alertmanagerStorageSize: 10Gi
     compactStorageSize: 100Gi
     metricObjectStorage:
