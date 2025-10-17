@@ -36,7 +36,7 @@ spec:
   {{- range .spec.osImages }}
   - cpuArchitecture: {{ .cpuArchitecture | quote }}
     openshiftVersion: {{ .openshiftVersion | quote }}
-    rootFSUrl: {{ .rootFSUrl }}
+    rootFSUrl: {{ .rootFSUrl | default "" }}
     url: {{ .url }}
     version: {{ .version | quote }}
   {{- end }}
