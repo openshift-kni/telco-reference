@@ -28,9 +28,9 @@ spec:
       blockDuration: 2h
       deleteDelay: 48h
       retentionInLocal: {{ .spec.advanced.retentionConfig.retentionInLocal }}
-      retentionResolutionRaw: {{ .spec.advanced.retentionConfig.retentionResolutionRaw }}
-      retentionResolution5m: {{ .spec.advanced.retentionConfig.retentionResolutionRaw }}
-      retentionResolution1h: {{ .spec.advanced.retentionConfig.retentionResolutionRaw }}
+      retentionResolutionRaw: {{ .spec.advanced.retentionConfig.retentionResolutionRaw | default "15d"}}
+      retentionResolution5m: {{ .spec.advanced.retentionConfig.retentionResolutionRaw | default "15d"}}
+      retentionResolution1h: {{ .spec.advanced.retentionConfig.retentionResolutionRaw | default "15d"}}
   enableDownsampling: true
   instanceSize: {{ .spec.storageConfig.instanceSize }}
   observabilityAddonSpec:
