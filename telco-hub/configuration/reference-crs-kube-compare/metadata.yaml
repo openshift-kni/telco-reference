@@ -151,6 +151,8 @@ fieldsToOmit:
       - pathToKey: metadata.annotations."olm.providedAPIs"
       - pathToKey: metadata.annotations."argocd.argoproj.io"
         isPrefix: true
+      - pathToKey: metadata.labels."argocd.argoproj.io"
+        isPrefix: true
       - pathToKey: metadata.annotations."installer.multicluster.openshift.io"
         isPrefix: true
       - pathToKey: metadata.annotations."installer.open-cluster-management.io"
