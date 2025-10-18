@@ -4,22 +4,21 @@ metadata:
   annotations:
     build.appstudio.openshift.io/repo: https://github.com/openshift-kni/telco-reference?rev={{revision}}
     build.appstudio.redhat.com/commit_sha: '{{revision}}'
-    build.appstudio.redhat.com/pull_request_number: '{{pull_request_number}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
-    pipelinesascode.tekton.dev/cancel-in-progress: "true"
+    pipelinesascode.tekton.dev/cancel-in-progress: "false"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: |
-      event == "pull_request" &&
+      event == "push" &&
       target_branch == "main" &&
-      (".tekton/telco-core-rds-4-20-pull-request.yaml".pathChanged() ||
-      ".tekton/build-pipeline-telco-core-rds.yaml".pathChanged() ||
+      (".tekton/telco-core-rds-4-21-push.yaml".pathChanged() ||
+       ".tekton/build-pipeline-telco-core-rds.yaml".pathChanged() ||
        "telco-core/***".pathChanged())
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: telco-core-rds-4-20
-    appstudio.openshift.io/component: telco-core-rds-4-20
+    appstudio.openshift.io/application: telco-core-rds-4-21
+    appstudio.openshift.io/component: telco-core-rds-4-21
     pipelines.appstudio.openshift.io/type: build
-  name: telco-core-rds-4-20-on-pull-request
+  name: telco-core-rds-4-21-on-push
   namespace: telco-5g-tenant
 spec:
   params:
@@ -28,9 +27,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/telco-5g-tenant/telco-core-rds-4-20:on-pr-{{revision}}
-  - name: image-expires-after
-    value: 5d
+    value: quay.io/redhat-user-workloads/telco-5g-tenant/telco-core-rds-4-21:{{revision}}
   - name: build-platforms
     value:
     - linux/x86_64
@@ -45,7 +42,7 @@ spec:
   pipelineRef:
     name: build-pipeline-telco-core-rds
   taskRunTemplate:
-    serviceAccountName: build-pipeline-telco-core-rds-4-20
+    serviceAccountName: build-pipeline-telco-core-rds-4-21
   workspaces:
   - name: git-auth
     secret:
