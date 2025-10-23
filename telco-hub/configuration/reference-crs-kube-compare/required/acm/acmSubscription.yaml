@@ -4,7 +4,7 @@ kind: Subscription
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-40"
-  name: open-cluster-management-subscription
+  name: {{ .metadata.name }}
   namespace: open-cluster-management
 spec:
   channel: release-2.14

@@ -4,7 +4,7 @@ kind: OperatorGroup
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-40"
-  name: openshift-gitops-operator
+  name: {{ .metadata.name }}
   namespace: openshift-gitops-operator
 spec:
   {{- if .spec.upgradeStrategy }}

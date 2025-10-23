@@ -4,7 +4,7 @@ kind: OperatorGroup
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-40"
-  name: local-operator-group
+  name: {{ .metadata.name }}
   namespace: openshift-local-storage
 spec:
   targetNamespaces:
