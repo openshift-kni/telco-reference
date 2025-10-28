@@ -1,0 +1,147 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ztp-sno-ran-du
+# Service Account for access to hub-side resources
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ztp-sno-ran-du
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ztp-sno-ran-du-svc
+  namespace: ztp-sno-ran-du
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ztp-template-watcher-role
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: ztp-template-watcher-binding
+subjects:
+- kind: ServiceAccount
+  name: ztp-sno-ran-du-svc
+  namespace: ztp-sno-ran-du
+roleRef:
+  kind: ClusterRole
+  name: ztp-template-watcher-role
+  apiGroup: rbac.authorization.k8s.io
+# Policy for ZTP managed extra-manifests
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  name: v1-extra-manifests-policy
+  namespace: ztp-sno-ran-du
+spec:
+  disabled: false
+  hubTemplateOptions:
+    serviceAccountName: ztp-sno-ran-du-svc
+  policy-templates:
+  - objectDefinition:
+      apiVersion: policy.open-cluster-management.io/v1
+      kind: ConfigurationPolicy
+      metadata:
+        name: v1-extra-manifests-policy
+      spec:
+        evaluationInterval:
+          compliant: watch
+          noncompliant: watch
+        namespaceSelector:
+          exclude:
+          - kube-*
+          include:
+          - '*'
+        object-templates-raw: |
+          {{hub $mcl := .ManagedClusterName hub}}
+          {{hub if $clusterInstance := (lookup "siteconfig.open-cluster-management.io/v1alpha1" "ClusterInstance" $mcl $mcl) hub}}
+          {{hub $allMCNames := list hub}}
+          {{hub range $key, $exManifest := $clusterInstance.spec.extraManifestsRefs hub}}
+          {{hub if $extraManifestCM := (lookup "v1" "ConfigMap" $mcl $exManifest.name) hub}}
+          {{hub range $key, $value := $extraManifestCM.data hub}}
+          {{hub $manifest := $value | fromYaml hub}}
+          {{hub $allMCNames = append $allMCNames $manifest.metadata.name hub}}
+          {{hub $_ := set $manifest.metadata.labels "managed-by-ztp" "true" hub}}
+          - complianceType: mustonlyhave
+            objectDefinition:
+              apiVersion: {{hub $manifest.apiVersion hub}}
+              kind: {{hub $manifest.kind hub}}
+              metadata:
+                name: {{hub $manifest.metadata.name hub}}
+                labels: {{hub $manifest.metadata.labels | toJson hub}}
+              spec: {{hub $manifest.spec | toJson hub}}
+          {{hub end hub}}
+          {{hub end hub}}
+          {{hub end hub}}
+          {{ $existingMCs := (lookup "machineconfiguration.openshift.io/v1" "MachineConfig" "" "").items }}
+          {{ range $existingMCs }}
+          {{ if .metadata.labels }}
+          {{ if index .metadata.labels "managed-by-ztp" }}
+          {{ if not (has .metadata.name (list {{hub range $allMCNames hub}}"{{hub . hub}}" {{hub end hub}})) }}
+          - complianceType: mustnothave
+            objectDefinition:
+              apiVersion: machineconfiguration.openshift.io/v1
+              kind: MachineConfig
+              metadata:
+                name: {{ .metadata.name }}
+          {{ end }}
+          {{ end }}
+          {{ end }}
+          {{ end }}
+          {{hub end hub}}
+        remediationAction: enforce
+        severity: low
+  remediationAction: enforce
+---
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  name: placement-v1-extra-manifests-policy
+  namespace: ztp-sno-ran-du
+spec:
+  predicates:
+  - requiredClusterSelector:
+      labelSelector:
+        matchExpressions:
+        - key: ztp-sno-ran-du
+          operator: In
+          values:
+          - ""
+  tolerations:
+  - key: cluster.open-cluster-management.io/unavailable
+    operator: Exists
+  - key: cluster.open-cluster-management.io/unreachable
+    operator: Exists
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PlacementBinding
+metadata:
+  name: binding-v1-extra-manifests-policy
+  namespace: ztp-sno-ran-du
+placementRef:
+  apiGroup: cluster.open-cluster-management.io
+  kind: Placement
+  name: placement-v1-extra-manifests-policy
+subjects:
+- apiGroup: policy.open-cluster-management.io
+  kind: Policy
+  name: v1-extra-manifests-policy
+---
+apiVersion: cluster.open-cluster-management.io/v1beta2
+kind: ManagedClusterSetBinding
+metadata:
+  name: global
+  namespace: ztp-sno-ran-du
+spec:
+  clusterSet: global
