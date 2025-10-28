@@ -3,12 +3,6 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: ztp-sno-ran-du
-# Service Account for access to hub-side resources
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: ztp-sno-ran-du
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -37,7 +31,6 @@ roleRef:
   kind: ClusterRole
   name: ztp-template-watcher-role
   apiGroup: rbac.authorization.k8s.io
-# Policy for ZTP managed extra-manifests
 ---
 apiVersion: policy.open-cluster-management.io/v1
 kind: Policy
@@ -114,7 +107,7 @@ spec:
   - requiredClusterSelector:
       labelSelector:
         matchExpressions:
-        - key: ztp-sno-ran-du
+        - key: ztp-done
           operator: In
           values:
           - ""
