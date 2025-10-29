@@ -10,6 +10,9 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "10"
     ran.openshift.io/reference-configuration: "ran-du.redhat.com"
 spec:
+  # Optional kernel arguments:
+  #   To enable acpi_idle CPUIdle driver
+  #     - intel_idle.max_cstate=0
   additionalKernelArgs:
     - rcupdate.rcu_normal_after_boot=0
     - efi=runtime

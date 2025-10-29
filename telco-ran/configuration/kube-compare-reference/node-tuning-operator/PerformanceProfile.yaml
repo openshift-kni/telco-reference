@@ -71,6 +71,10 @@ spec:
   # Note: The defaults here are for Grace Hopper systems. Other systems may alternative PCI or iommu settings such as:
   #       - pci=realloc=on (default is off)
   #       - iommu.passthrough=1
+  {{- else }}
+  # Optional kernel arguments:
+  #   To enable acpi_idle CPUIdle driver
+  #     - intel_idle.max_cstate=0
   {{- end }}
   additionalKernelArgs:
     {{- $requiredArgs := list
@@ -88,6 +92,7 @@ spec:
       {{- $optionalArgs = concat $optionalArgs ( list 
         "vfio_pci.disable_idle_d3=1"
         "vfio_pci.enable_sriov=1"
+        "intel_idle.max_cstate=0"
       ) }}
     {{- else if eq $arch "aarch64" }}
       {{- $nonghKernelArgs := list
