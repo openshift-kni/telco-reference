@@ -27,6 +27,7 @@ spec:
     {{- template "unorderedList" (list .spec.additionalKernelArgs (list
       "module_blacklist=irdma"
       ) (list
+      "intel_idle.max_cstate=0"
       ) ) }}
   cpu:
     # node0 CPUs: 0-17,36-53

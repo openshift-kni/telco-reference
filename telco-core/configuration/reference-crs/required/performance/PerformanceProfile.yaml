@@ -10,6 +10,9 @@ metadata:
     kubeletconfig.experimental: |
       {"allowedUnsafeSysctls":["net.ipv6.conf.all.accept_ra"]}
 spec:
+  # Optional kernel arguments:
+  #   To enable acpi_idle CPUIdle driver
+  #     - intel_idle.max_cstate=0
   additionalKernelArgs:
   - module_blacklist=irdma
   cpu:
