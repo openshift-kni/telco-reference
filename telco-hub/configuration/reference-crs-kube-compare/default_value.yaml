@@ -119,14 +119,24 @@ required_acm_acmProvisioning:
 
 required_acm_observabilityMCO:
 - spec:
-    availabilityConfig: Basic
+    advanced:
+      retentionConfig:
+        retentionInLocal: 24h
+        retentionResolutionRaw: 15d
+        retentionResolution5m: 15d
+        retentionResolution1h: 15d
     storageConfig:
-      storageClass: " # your-fs-storageclass-here"
+      storageClass: <your-fs-storageclass-here>
+      instanceSize: default
       alertmanagerStorageSize: 10Gi
       compactStorageSize: 100Gi
+      metricObjectStorage:
+        key: thanos.yaml
+        name: thanos-object-storage
       receiveStorageSize: 10Gi
       ruleStorageSize: 30Gi
       storeStorageSize: 100Gi
+
 
 required_acm_observabilityOBC:
 - spec:
