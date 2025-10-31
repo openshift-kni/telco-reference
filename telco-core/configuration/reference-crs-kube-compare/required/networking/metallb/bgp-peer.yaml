@@ -12,3 +12,6 @@ spec:
   passwordSecret: {{ .spec.passwordSecret | toJson }}
   disableMP: {{ .spec.disableMP }}
   peerPort: {{ .spec.peerPort }}
+  {{- if .spec.vrf }}
+  vrf: {{ .spec.vrf }}
+  {{- end }}
