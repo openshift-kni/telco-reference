@@ -1,0 +1,21 @@
+# Base sshd_config that enables the include directory for modular configuration
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 75-sshd-config-base
+  labels:
+    machineconfiguration.openshift.io/role: worker
+spec:
+  config:
+    ignition:
+      version: 3.1.0
+    storage:
+      files:
+        - contents:
+            # Plaintext content:
+            # Include /etc/ssh/sshd_config.d/*.conf
+            source: data:,Include%20%2Fetc%2Fssh%2Fsshd_config.d%2F*.conf%0A
+          mode: 0644
+          overwrite: true
+          path: /etc/ssh/sshd_config.d/00-include.conf
+

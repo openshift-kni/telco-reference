@@ -1,0 +1,23 @@
+# Implements automatic session timeout after 5 minutes of inactivity
+# Remediation: High severity - Prevents abandoned sessions from being hijacked
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 78-sshd-session-timeout
+  labels:
+    machineconfiguration.openshift.io/role: worker
+spec:
+  config:
+    ignition:
+      version: 3.1.0
+    storage:
+      files:
+        - contents:
+            # Plaintext content:
+            # ClientAliveInterval 300
+            # ClientAliveCountMax 0
+            source: data:,ClientAliveInterval%20300%0AClientAliveCountMax%200%0A
+          mode: 0644
+          overwrite: true
+          path: /etc/ssh/sshd_config.d/03-session-timeout.conf
+
