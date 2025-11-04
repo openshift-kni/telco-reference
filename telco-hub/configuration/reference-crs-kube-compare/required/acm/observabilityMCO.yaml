@@ -32,7 +32,7 @@ spec:
       retentionResolution5m: {{ .spec.advanced.retentionConfig.retentionResolutionRaw | default "15d"}}
       retentionResolution1h: {{ .spec.advanced.retentionConfig.retentionResolutionRaw | default "15d"}}
   enableDownsampling: true
-  instanceSize: {{ .spec.storageConfig.instanceSize }}
+  instanceSize: {{ .spec.storageConfig.instanceSize | default "default" }}
   observabilityAddonSpec:
     enableMetrics: true
     interval: 300
