@@ -42,6 +42,8 @@ spec:
     value: '{"type": "rpm", "path": "build"}'
   - name: hermetic
     value: "true"
+  - name: skip-sast-coverity
+    value: "true"
   pipelineRef:
     name: build-pipeline-telco-core-rds
   taskRunTemplate:
