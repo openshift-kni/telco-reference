@@ -1,0 +1,22 @@
+# Prevents direct root SSH access
+# Remediation: High severity - Force use of privilege escalation for admin tasks
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 76-sshd-disable-root-login
+  labels:
+    machineconfiguration.openshift.io/role: worker
+spec:
+  config:
+    ignition:
+      version: 3.1.0
+    storage:
+      files:
+        - contents:
+            # Plaintext content:
+            # PermitRootLogin no
+            source: data:,PermitRootLogin%20no%0A
+          mode: 0644
+          overwrite: true
+          path: /etc/ssh/sshd_config.d/01-disable-root-login.conf
+

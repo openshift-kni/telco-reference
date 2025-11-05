@@ -1,0 +1,22 @@
+# Explicitly enables public key authentication
+# Remediation: High severity - Ensures key-based auth works when password auth is disabled
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 79-sshd-enable-pubkey-auth
+  labels:
+    machineconfiguration.openshift.io/role: worker
+spec:
+  config:
+    ignition:
+      version: 3.1.0
+    storage:
+      files:
+        - contents:
+            # Plaintext content:
+            # PubkeyAuthentication yes
+            source: data:,PubkeyAuthentication%20yes%0A
+          mode: 0644
+          overwrite: true
+          path: /etc/ssh/sshd_config.d/04-pubkey-auth.conf
+
