@@ -215,6 +215,7 @@ fieldsToOmit:
       - pathToKey: metadata.annotations."operator.sriovnetwork.openshift.io/last-network-namespace"
       - pathToKey: metadata.annotations."workload.openshift.io/allowed"
       - pathToKey: spec.installPlanApproval
+      - pathToKey: metadata.annotations."k8s.v1.cni.cncf.io/resourceName"
     allowStatusCheck:
       - include: defaults
     all:
