@@ -1,5 +1,11 @@
 node_tuning_operator_PerformanceProfile:
-  - spec:
+  - metadata:
+      annotations:
+        kubeletconfig.experimental: |
+          {
+            "systemReserved":{"memory":"11Gi"}
+          }
+    spec:
       additionalKernelArgs:
         - "rcupdate.rcu_normal_after_boot=0"
         - "efi=runtime"
