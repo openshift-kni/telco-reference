@@ -59,12 +59,15 @@ spec:
         object-templates-raw: |
           {{hub $mcl := .ManagedClusterName hub}}
           {{hub if $clusterInstance := (lookup "siteconfig.open-cluster-management.io/v1alpha1" "ClusterInstance" $mcl $mcl) hub}}
-          {{hub $allMCNames := list hub}}
+          {{hub $allExtraManifestNames := list hub}}
           {{hub range $key, $exManifest := $clusterInstance.spec.extraManifestsRefs hub}}
           {{hub if $extraManifestCM := (lookup "v1" "ConfigMap" $mcl $exManifest.name) hub}}
           {{hub range $key, $value := $extraManifestCM.data hub}}
           {{hub $manifest := $value | fromYaml hub}}
-          {{hub $allMCNames = append $allMCNames $manifest.metadata.name hub}}
+          {{hub $allExtraManifestNames = append $allExtraManifestNames $manifest.metadata.name hub}}
+          {{hub if not $manifest.metadata.labels hub}}
+          {{hub $_ := set $manifest.metadata "labels" dict hub}}
+          {{hub end hub}}
           {{hub $_ := set $manifest.metadata.labels "managed-by-ztp" "true" hub}}
           - complianceType: mustonlyhave
             objectDefinition:
@@ -81,7 +84,7 @@ spec:
           {{ range $existingMCs }}
           {{ if .metadata.labels }}
           {{ if index .metadata.labels "managed-by-ztp" }}
-          {{ if not (has .metadata.name (list {{hub range $allMCNames hub}}"{{hub . hub}}" {{hub end hub}})) }}
+          {{ if not (has .metadata.name (list {{hub range $allExtraManifestNames hub}}"{{hub . hub}}" {{hub end hub}})) }}
           - complianceType: mustnothave
             objectDefinition:
               apiVersion: machineconfiguration.openshift.io/v1
