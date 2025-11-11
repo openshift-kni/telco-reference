@@ -76,19 +76,16 @@ spec:
   #   To enable acpi_idle CPUIdle driver
   #     - intel_idle.max_cstate=0
   {{- end }}
+  {{- if .spec.additionalKernelArgs }}
   additionalKernelArgs:
-    {{- $requiredArgs := list
-      "efi=runtime"
-      "rcupdate.rcu_normal_after_boot=0"
-    }}
     {{- $optionalArgs := list
       "console=.*"
       "earlycon"
+      "efi=runtime"
+      "rcupdate.rcu_normal_after_boot=0"
+      "module_blacklist=.*"
     }}
     {{- if eq $arch "x86_64" }}
-      {{- $requiredArgs = concat $requiredArgs ( list
-        "module_blacklist=irdma"
-      ) }}
       {{- $optionalArgs = concat $optionalArgs ( list 
         "vfio_pci.disable_idle_d3=1"
         "vfio_pci.enable_sriov=1"
@@ -110,7 +107,8 @@ spec:
     {{- if .spec.workloadHints.perPodPowerManagement }}
       {{- $optionalArgs = append $optionalArgs "cpufreq.default_governor=.*" }}
     {{- end }}
-    {{- template "kernelArgList" (list .spec.additionalKernelArgs $requiredArgs $optionalArgs) }}
+    {{- template "kernelArgList" (list .spec.additionalKernelArgs ( list ) $optionalArgs) }}
+  {{- end }}
   cpu:
     isolated: {{ .spec.cpu.isolated }}
     reserved: {{ .spec.cpu.reserved }}
