@@ -1,0 +1,22 @@
+# Combined from the following remediations for /etc/sysctl.d/75-sysctl_kernel_randomize_va_space.conf (all roles):
+#   - rhcos4-e8-master-sysctl-kernel-randomize-va-space.yaml
+#   - rhcos4-e8-worker-sysctl-kernel-randomize-va-space.yaml
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+spec:
+  config:
+    ignition:
+      version: 3.1.0
+    storage:
+      files:
+        - contents:
+            # The following lines are the deduplicated, combined plaintext contents from all related MachineConfig remediations.
+            # kernel.randomize_va_space=2
+            source: data:,kernel.randomize_va_space%3D2%0A
+          mode: 384
+          overwrite: true
+          path: /etc/sysctl.d/75-sysctl_kernel_randomize_va_space.conf
+metadata:
+  name: 75-sysctl_kernel_randomize_va_space-combo
+  labels:
+    machineconfiguration.openshift.io/role: worker
