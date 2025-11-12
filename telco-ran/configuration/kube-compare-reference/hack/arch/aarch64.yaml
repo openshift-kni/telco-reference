@@ -1,5 +1,11 @@
 node_tuning_operator_PerformanceProfile:
-  - spec:
+  - metadata:
+      annotations:
+        kubeletconfig.experimental: |
+          {
+            "systemReserved":{"memory":"11Gi"}
+          }
+    spec:
       additionalKernelArgs:
         - acpi_power_meter.force_cap_on=y
         - console=ttyAMA0,115200n8

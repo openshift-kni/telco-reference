@@ -4,9 +4,12 @@
 apiVersion: machineconfiguration.openshift.io/v1
 kind: KubeletConfig
 metadata:
-  name: autosizing-master
+  name: sizing-master
 spec:
-  autoSizingReserved: true
+  kubeletConfig:
+    # This configuration value should be tailored for each environment.
+    systemReserved:
+      memory: "30Gi"
   machineConfigPoolSelector:
     matchLabels:
       pools.operator.machineconfiguration.openshift.io/master: ""

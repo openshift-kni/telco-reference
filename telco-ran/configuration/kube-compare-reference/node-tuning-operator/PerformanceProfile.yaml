@@ -49,8 +49,9 @@ metadata:
   annotations:
     ran.openshift.io/ztp-deploy-wave: "10"
     ran.openshift.io/reference-configuration: "ran-du.redhat.com"
+    # systemReserved: when used, it should be tailored for each environment.
     {{- if .metadata }}
-      {{ $allowedSysctls := (list
+      {{- $allowedSysctls := (list
           "net.ipv6.conf.all.accept_ra"
           "net.ipv6.conf.default.accept_ra"
           "net.ipv6.conf.all.disable_ipv6"
@@ -64,7 +65,7 @@ metadata:
           "net.ipv6.conf.all.hop_limit"
           "net.ipv6.conf.default.hop_limit"
         ) }}
-      {{- template "kubeletconfigExperimentalSysctls" (list (index (.metadata.annotations | default dict) "kubeletconfig.experimental") (list)  $allowedSysctls) }}
+      {{- template "kubeletconfigExperimental" (list (index (.metadata.annotations | default dict) "kubeletconfig.experimental") (list) $allowedSysctls) }}
     {{- end }}
 spec:
   {{- if eq $arch "aarch64" }}
