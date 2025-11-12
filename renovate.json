@@ -8,9 +8,9 @@
         "autoApprove": true,
         "automerge": true,
         "enabled": true,
-        "fileMatch": [
-            "\\.yaml$",
-            "\\.yml$"
+        "managerFilePatterns": [
+            "/\\.yaml$/",
+            "/\\.yml$/"
         ],
         "ignoreTests": false,
         "includePaths": [
