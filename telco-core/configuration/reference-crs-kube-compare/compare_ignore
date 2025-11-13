@@ -35,3 +35,12 @@ optional/other/server-cert-openshift-config-copy.yaml
 
 # This is an object-template-raw used only to validate subscription state
 custom-manifests/subscription-validator.yaml
+
+# cert-manager CRs
+optional/cert-manager/certManagerClusterIssuer.yaml
+optional/cert-manager/certManagerNS.yaml
+optional/cert-manager/certManagerOperatorgroup.yaml
+optional/cert-manager/certManagerSubscription.yaml
+optional/cert-manager/consoleCertificate.yaml
+optional/cert-manager/downloadsCertificate.yaml
+optional/cert-manager/oauthServiceCertificate.yaml
