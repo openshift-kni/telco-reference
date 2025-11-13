@@ -1,0 +1,12 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - certManagerNS.yaml
+  - certManagerOperatorgroup.yaml
+  - certManagerSubscription.yaml
+  - certManagerClusterIssuer.yaml
+  - ingressCertificate.yaml
+  - ingressControllerConfig.yaml
+  - apiServerCertificate.yaml
+  - apiServerConfig.yaml

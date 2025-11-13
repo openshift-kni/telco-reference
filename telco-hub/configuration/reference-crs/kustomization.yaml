@@ -5,6 +5,7 @@ resources:
   # comment the optional components when not using them
   - optional/lso/
   - optional/odf-internal/
+  # - optional/cert-manager/
   # everything under required is mandatory
   - required/gitops/
   - required/acm/

@@ -302,3 +302,31 @@ policies:
                   apiVersion: "v1"
                   staticConfigs:
                   - "10.11.12.14:9999"
+
+  # Cert-manager configuration (optional component)
+  # - name: config-cert-manager-4.20
+  #   policyAnnotations:
+  #     ran.openshift.io/ztp-deploy-wave: "10"
+  #   manifests:
+  #     - path: reference-crs/optional/cert-manager/certManagerClusterIssuer.yaml
+  #       patches:
+  #       - spec:
+  #           acme:
+  #             server: https://acme-v02.api.letsencrypt.org/directory
+  #             email: your-email@example.com
+  #             privateKeySecretRef:
+  #               name: acme-account-key
+  #     - path: reference-crs/optional/cert-manager/ingressCertificate.yaml
+  #       patches:
+  #       - spec:
+  #           commonName: "*.apps.example.com"
+  #           dnsNames:
+  #           - "*.apps.example.com"
+  #     - path: reference-crs/optional/cert-manager/ingressControllerConfig.yaml
+  #     - path: reference-crs/optional/cert-manager/apiServerCertificate.yaml
+  #       patches:
+  #       - spec:
+  #           commonName: "api.example.com"
+  #           dnsNames:
+  #           - "api.example.com"
+  #     - path: reference-crs/optional/cert-manager/apiServerConfig.yaml

@@ -1,0 +1,20 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ingress-wildcard-certificate
+  namespace: openshift-ingress
+spec:
+  commonName: {{ .spec.commonName | default "" | quote }}
+  dnsNames:{{- if .spec.dnsNames }}
+{{ .spec.dnsNames | toYaml | indent 2 }}
+{{- else }} []{{ end }}
+  isCA: false
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: acme-issuer
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  secretName: ingress-wildcard-cert
