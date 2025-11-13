@@ -4,6 +4,7 @@ kind: OperatorGroup
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-40"
+    operatorframework.io/bundle-unpack-min-retry-interval: 10m
   name: openshift-gitops-operator
   namespace: openshift-gitops-operator
 spec:
