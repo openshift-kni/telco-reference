@@ -5,6 +5,8 @@ kind: OperatorGroup
 metadata:
   name: numaresources-operator
   namespace: openshift-numaresources
+  annotations:
+    operatorframework.io/bundle-unpack-min-retry-interval: 10m
 spec:
   targetNamespaces:
   - openshift-numaresources

@@ -4,6 +4,7 @@ metadata:
   name: redhat-oadp-operator
   namespace: openshift-adp
   annotations:
+    operatorframework.io/bundle-unpack-min-retry-interval: 10m
     ran.openshift.io/ztp-deploy-wave: "2"
 spec:
   targetNamespaces:

@@ -4,6 +4,8 @@ kind: OperatorGroup
 metadata:
   name: openshift-nmstate
   namespace: openshift-nmstate
+  annotations:
+    operatorframework.io/bundle-unpack-min-retry-interval: 10m
 spec:
   targetNamespaces:
   - openshift-nmstate
