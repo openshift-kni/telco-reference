@@ -107,6 +107,18 @@ policies:
             nodeSelector:
               node-role.kubernetes.io/worker-3: ""
 
+      - path: reference-crs/required/performance/TunedPerformancePatch.yaml
+        patches:
+        - metadata:
+            name: worker-profile
+          spec:
+            profile:
+              - name: telco-core-performance
+            recommend:
+              - machineConfigLabels:
+                  machineconfiguration.openshift.io/role: worker
+                profile: worker-profile
+
       # Cluster Logging
       - path: reference-crs/optional/logging/ClusterLogForwarder.yaml
         patches:

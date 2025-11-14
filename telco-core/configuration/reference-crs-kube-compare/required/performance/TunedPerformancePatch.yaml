@@ -22,5 +22,5 @@ spec:
     - machineConfigLabels:
         {{- .machineConfigLabels | toYaml | nindent 8 }}
       priority: {{ .priority | default 18 }}
-      profile: {{ .metadata.name }}
+      profile: {{ $.metadata.name }}
   {{- end }}
