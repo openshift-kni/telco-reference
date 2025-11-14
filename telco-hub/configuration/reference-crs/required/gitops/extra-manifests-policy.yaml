@@ -64,12 +64,14 @@ spec:
           {{hub if $extraManifestCM := (lookup "v1" "ConfigMap" $mcl $exManifest.name) hub}}
           {{hub range $key, $value := $extraManifestCM.data hub}}
           {{hub $manifest := $value | fromYaml hub}}
+          {{hub if eq $manifest.kind "MachineConfig" hub}}
           {{hub $allExtraManifestNames = append $allExtraManifestNames $manifest.metadata.name hub}}
           {{hub if not $manifest.metadata.labels hub}}
           {{hub $_ := set $manifest.metadata "labels" dict hub}}
           {{hub end hub}}
           {{hub $_ := set $manifest.metadata.labels "managed-by-ztp" "true" hub}}
           - complianceType: mustonlyhave
+            metadataComplianceType: musthave
             objectDefinition:
               apiVersion: {{hub $manifest.apiVersion hub}}
               kind: {{hub $manifest.kind hub}}
@@ -77,6 +79,7 @@ spec:
                 name: {{hub $manifest.metadata.name hub}}
                 labels: {{hub $manifest.metadata.labels | toJson hub}}
               spec: {{hub $manifest.spec | toJson hub}}
+          {{hub end hub}}
           {{hub end hub}}
           {{hub end hub}}
           {{hub end hub}}
