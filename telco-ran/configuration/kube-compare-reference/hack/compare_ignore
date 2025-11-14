@@ -80,12 +80,3 @@ fetch-only/Node.yaml
 # Reference only to ensure default has not been changed
 machine-config/cgroup-check.yaml
 machine-config/container-runtime.yaml
-
-# cert-manager CRs
-cert-manager/certManagerClusterIssuer.yaml
-cert-manager/certManagerNS.yaml
-cert-manager/certManagerOperatorgroup.yaml
-cert-manager/certManagerSubscription.yaml
-cert-manager/consoleCertificate.yaml
-cert-manager/downloadsCertificate.yaml
-cert-manager/oauthServiceCertificate.yaml

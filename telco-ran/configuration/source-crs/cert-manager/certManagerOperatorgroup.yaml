@@ -3,6 +3,7 @@ apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
   annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"
     olm.operatorframework.io/bundle-install-timeout: "10m"
   name: cert-manager-operator
   namespace: openshift-console
