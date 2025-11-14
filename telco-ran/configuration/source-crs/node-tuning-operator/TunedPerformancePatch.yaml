@@ -40,6 +40,8 @@ spec:
         group.ice-dplls=0:f:10:*:ice-dplls.*
         [bootloader]
         cmdline_add=module_blacklist=irdma
+        [sysctl]
+        kernel.panic_on_unrecovered_nmi=1
     - name: performance-patch-amd-x86
       data: |
         [main]
@@ -50,6 +52,8 @@ spec:
         group.ice-dplls=0:f:10:*:ice-dplls.*
         [bootloader]
         cmdline_add=module_blacklist=irdma
+        [sysctl]
+        kernel.panic_on_unrecovered_nmi=1
   recommend:
     - machineConfigLabels:
         machineconfiguration.openshift.io/role: $mcp

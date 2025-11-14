@@ -103,6 +103,9 @@ parts:
       - name: performance
         allOf:
           - path: required/performance/PerformanceProfile.yaml
+      - name: performance-optional
+        anyOf:
+          - path: required/performance/TunedPerformancePatch.yaml
   - name: required-platform
     components:
       - name: platform
