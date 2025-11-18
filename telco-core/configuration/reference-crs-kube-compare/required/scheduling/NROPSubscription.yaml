@@ -10,3 +10,4 @@ spec:
   name: numaresources-operator
   source: {{ if .spec.source }} {{ .spec.source }} {{ else }} "redhat-operators-disconnected " {{ end }}
   sourceNamespace: {{ if .spec.sourceNamespace }} {{ .spec.sourceNamespace }} {{ else }} "openshift-marketplace" {{ end }}
+  installPlanApproval: Manual
