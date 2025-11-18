@@ -9,18 +9,20 @@ metadata:
   annotations:
     ran.openshift.io/ztp-deploy-wave: "10"
     ran.openshift.io/reference-configuration: "ran-du.redhat.com"
+    # systemReserved: when used, it should be tailored for each environment.
+    kubeletconfig.experimental: |
+      {
+       "systemReserved":{"memory":"11Gi"}
+      }
 spec:
   # Note: The defaults here are for Grace Hopper systems. Other systems may alternative PCI or iommu settings such as:
-  #       - pci=realloc (instead of pci=realloc-off)
+  #       - pci=realloc=on (default is off)
   #       - iommu.passthrough=1
   additionalKernelArgs:
-    - rcupdate.rcu_normal_after_boot=0
-    - efi=runtime
     - acpi_power_meter.force_cap_on=y
     - console=ttyAMA0,115200n8
     - earlycon
     - module_blacklist=nouveau
-    - pci=realloc=off
     - pci=pcie_bus_safe
   cpu:
     isolated: 4-$lastcpu

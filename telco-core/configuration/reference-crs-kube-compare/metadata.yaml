@@ -229,6 +229,7 @@ fieldsToOmit:
       - pathToKey: metadata.annotations."nmstate.io/webhook-mutating-timestamp"
       - pathToKey: metadata.annotations."operator.sriovnetwork.openshift.io/last-network-namespace"
       - pathToKey: metadata.annotations."k8s.v1.cni.cncf.io/resourceName"
+      - pathToKey: metadata.annotations."security.openshift.io/MinimallySufficientPodSecurityStandard"
     allowStatusCheck:
       - include: defaults
     all:

@@ -6,3 +6,5 @@ kind: OperatorGroup
 metadata:
   name: metallb-operator
   namespace: metallb-system
+  annotations:
+    operatorframework.io/bundle-unpack-min-retry-interval: 10m
