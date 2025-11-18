@@ -26,6 +26,8 @@
       Thanos secret.
 12. Create the `observabilityMCO.yaml`.
 13. When all the installation is done. Apply the `acmPerfSearch.yaml` .This will configure Search CR called `search-v2-operator` considering different performance and scale optimizations.
-14. When ACM Observability is configured on a managed cluster through the Core or RAN profile, the default ACM Observability configuration must be merged with the RAN monitoring tuning [ReduceMonitoringFootprint.yaml](../../../../../telco-ran/configuration/source-crs/ReduceMonitoringFootprint.yaml) or Core monitoring config [monitoring-config-cm.yaml](../../../../../telco-core/configuration/reference-crs/optional/other/monitoring-config-cm.yaml) respectively. To ensure that these changes persist, ACM has to stop managing the cluster-monitoring-config ConfigMap, which is set in this annotation [here](../../../../../telco-hub/configuration/reference-crs/required/acm/observabilityMCO.yaml#L13).
+14. When ACM Observability is configured on a managed cluster through the Core or RAN profile, the default ACM Observability configuration must be merged with the RAN monitoring tuning [ReduceMonitoringFootprint.yaml](../../../../../telco-ran/configuration/source-crs/ReduceMonitoringFootprint.yaml) or Core monitoring config [monitoring-config-cm.yaml](../../../../../telco-core/configuration/reference-crs/optional/other/monitoring-config-cm.yaml) respectively.
+    * To ensure that these changes persist, ACM has to stop managing the cluster-monitoring-config ConfigMap, which is set in this annotation [here](../../../../../telco-hub/configuration/reference-crs/required/acm/observabilityMCO.yaml#L13).
+    * When mco-alerting is disabled, the [obs-route-policy](observabilityRoutePolicy.yaml) should be used for propagating the alertmanager URL from the ACM observability route to all managed clusters through the `acm-alertmanager-route` annotation.
 
 Back to [Hub Cluster Setup](../../../../README.md).
