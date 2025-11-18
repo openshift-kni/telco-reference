@@ -4,6 +4,7 @@ metadata:
   name: openshift-local-storage
   namespace: openshift-local-storage
   annotations:
+    operatorframework.io/bundle-unpack-min-retry-interval: 10m
     ran.openshift.io/ztp-deploy-wave: "2"
 spec:
   targetNamespaces:

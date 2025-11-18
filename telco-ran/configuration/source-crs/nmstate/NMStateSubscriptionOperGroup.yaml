@@ -3,6 +3,7 @@ kind: OperatorGroup
 metadata:
   annotations:
     olm.providedAPIs: NMState.v1.nmstate.io
+    operatorframework.io/bundle-unpack-min-retry-interval: 10m
     ran.openshift.io/ztp-deploy-wave: "2"
   name: openshift-nmstate
   namespace: openshift-nmstate

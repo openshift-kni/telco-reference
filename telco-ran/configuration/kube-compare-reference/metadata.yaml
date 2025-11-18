@@ -88,8 +88,6 @@ parts:
     components:
       - name: machine-config
         allOf:
-          - path: machine-config/disable-crio-wipe/99-crio-disable-wipe-master.yaml
-          - path: machine-config/disable-crio-wipe/99-crio-disable-wipe-worker.yaml
           - path: machine-config/kubelet-configuration-and-container-mount-hiding/01-container-mount-ns-and-kubelet-conf-master.yaml
           - path: machine-config/kubelet-configuration-and-container-mount-hiding/01-container-mount-ns-and-kubelet-conf-worker.yaml
           - path: machine-config/one-shot-time-sync/99-sync-time-once-master.yaml

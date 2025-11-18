@@ -49,8 +49,9 @@ metadata:
   annotations:
     ran.openshift.io/ztp-deploy-wave: "10"
     ran.openshift.io/reference-configuration: "ran-du.redhat.com"
+    # systemReserved: when used, it should be tailored for each environment.
     {{- if .metadata }}
-      {{ $allowedSysctls := (list
+      {{- $allowedSysctls := (list
           "net.ipv6.conf.all.accept_ra"
           "net.ipv6.conf.default.accept_ra"
           "net.ipv6.conf.all.disable_ipv6"
@@ -64,30 +65,32 @@ metadata:
           "net.ipv6.conf.all.hop_limit"
           "net.ipv6.conf.default.hop_limit"
         ) }}
-      {{- template "kubeletconfigExperimentalSysctls" (list (index (.metadata.annotations | default dict) "kubeletconfig.experimental") (list)  $allowedSysctls) }}
+      {{- template "kubeletconfigExperimental" (list (index (.metadata.annotations | default dict) "kubeletconfig.experimental") (list) $allowedSysctls) }}
     {{- end }}
 spec:
   {{- if eq $arch "aarch64" }}
   # Note: The defaults here are for Grace Hopper systems. Other systems may alternative PCI or iommu settings such as:
   #       - pci=realloc=on (default is off)
   #       - iommu.passthrough=1
+  {{- else }}
+  # Optional kernel arguments:
+  #   To enable acpi_idle CPUIdle driver
+  #     - intel_idle.max_cstate=0
   {{- end }}
+  {{- if .spec.additionalKernelArgs }}
   additionalKernelArgs:
-    {{- $requiredArgs := list
-      "efi=runtime"
-      "rcupdate.rcu_normal_after_boot=0"
-    }}
     {{- $optionalArgs := list
       "console=.*"
       "earlycon"
+      "efi=runtime"
+      "rcupdate.rcu_normal_after_boot=0"
+      "module_blacklist=.*"
     }}
     {{- if eq $arch "x86_64" }}
-      {{- $requiredArgs = concat $requiredArgs ( list
-        "module_blacklist=irdma"
-      ) }}
       {{- $optionalArgs = concat $optionalArgs ( list 
         "vfio_pci.disable_idle_d3=1"
         "vfio_pci.enable_sriov=1"
+        "intel_idle.max_cstate=0"
       ) }}
     {{- else if eq $arch "aarch64" }}
       {{- $nonghKernelArgs := list
@@ -105,7 +108,8 @@ spec:
     {{- if .spec.workloadHints.perPodPowerManagement }}
       {{- $optionalArgs = append $optionalArgs "cpufreq.default_governor=.*" }}
     {{- end }}
-    {{- template "kernelArgList" (list .spec.additionalKernelArgs $requiredArgs $optionalArgs) }}
+    {{- template "kernelArgList" (list .spec.additionalKernelArgs ( list ) $optionalArgs) }}
+  {{- end }}
   cpu:
     isolated: {{ .spec.cpu.isolated }}
     reserved: {{ .spec.cpu.reserved }}

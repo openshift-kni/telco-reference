@@ -9,13 +9,18 @@ metadata:
   annotations:
     ran.openshift.io/ztp-deploy-wave: "10"
     ran.openshift.io/reference-configuration: "ran-du.redhat.com"
+    # systemReserved: when used, it should be tailored for each environment.
+    kubeletconfig.experimental: |
+      {
+       "systemReserved":{"memory":"11Gi"}
+      }
 spec:
+  # Optional kernel arguments:
+  #   To enable acpi_idle CPUIdle driver
+  #     - intel_idle.max_cstate=0
   additionalKernelArgs:
-    - rcupdate.rcu_normal_after_boot=0
-    - efi=runtime
     - vfio_pci.enable_sriov=1
     - vfio_pci.disable_idle_d3=1
-    - module_blacklist=irdma
   cpu:
     isolated: $isolated
     reserved: $reserved

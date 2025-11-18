@@ -20,13 +20,14 @@ metadata:
           "net.ipv6.conf.all.hop_limit"
           "net.ipv6.conf.default.hop_limit"
         ) }}
-      {{- template "kubeletconfigExperimentalSysctls" (list (index (.metadata.annotations | default dict) "kubeletconfig.experimental") (list "net.ipv6.conf.all.accept_ra")  $allowedSysctls) }}
+      {{- template "kubeletconfigExperimental" (list (index (.metadata.annotations | default dict) "kubeletconfig.experimental") (list "net.ipv6.conf.all.accept_ra")  $allowedSysctls) }}
     {{- end }}
 spec:
   additionalKernelArgs:
     {{- template "unorderedList" (list .spec.additionalKernelArgs (list
       "module_blacklist=irdma"
       ) (list
+      "intel_idle.max_cstate=0"
       ) ) }}
   cpu:
     # node0 CPUs: 0-17,36-53
