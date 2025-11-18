@@ -6,6 +6,8 @@ kind: OperatorGroup
 metadata:
   name: openshift-storage-operatorgroup
   namespace: openshift-storage
+  annotations:
+    operatorframework.io/bundle-unpack-min-retry-interval: 10m
 spec:
   targetNamespaces:
     - openshift-storage
