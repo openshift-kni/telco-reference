@@ -1,5 +1,11 @@
 node_tuning_operator_PerformanceProfile:
-  - spec:
+  - metadata:
+      annotations:
+        kubeletconfig.experimental: |
+          {
+            "systemReserved":{"memory":"11Gi"}
+          }
+    spec:
       additionalKernelArgs:
         - "vfio_pci.enable_sriov=1"
         - "vfio_pci.disable_idle_d3=1"

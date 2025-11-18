@@ -87,15 +87,19 @@ helm_per_arch() {
   done
   local first=${arch_list[0]}
   local rendered_first="$rendered_dir.$first"
-  local first_files
-  readarray -t first_files < <(find "$rendered_first" -type f)
+  local first_files=()
+  while IFS= read -r line; do
+    first_files+=("$line")
+  done < <(find "$rendered_first" -type f)
   for arch in "${arch_list[@]}"; do
     if [[ $arch == "$first" ]]; then
       continue
     fi
     local rendered_arch="$rendered_dir.$arch"
-    local arch_files
-    readarray -t arch_files < <(find "$rendered_arch" -type f)
+    local arch_files=()
+    while IFS= read -r line; do
+      arch_files+=("$line")
+    done < <(find "$rendered_arch" -type f)
     echo "Comparing $arch to $first to sort out common and arch-specific files"
     for first_file in "${first_files[@]}"; do
       local relative_file=${first_file#"$rendered_first"/}
@@ -138,15 +142,21 @@ compare_cr() {
   local -a missing_sources
   local -a diff_files
 
-  local -a renderedFiles
-  readarray -t renderedFiles < <(find "$rendered_dir" -name '*.yaml')
+  local -a renderedFiles=()
+  while IFS= read -r line; do
+    renderedFiles+=("$line")
+  done < <(find "$rendered_dir" -name '*.yaml')
 
-  local -a sourceFiles
-  readarray -t sourceFiles < <(find "$source_dir" -name '*.yaml')
+  local -a sourceFiles=()
+  while IFS= read -r line; do
+    sourceFiles+=("$line")
+  done < <(find "$source_dir" -name '*.yaml')
   local remainingSources=("${sourceFiles[@]}")
 
-  local -a excludedFiles
-  readarray -t excludedFiles < <(grep -v '^#' "$exclusionfile" | grep -v '^$')
+  local -a excludedFiles=()
+  while IFS= read -r line; do
+    excludedFiles+=("$line")
+  done < <(grep -v '^#' "$exclusionfile" | grep -v '^$')
 
   # Sync direction 1: Compare all rendered files to all source files.
   local source rendered excluded found

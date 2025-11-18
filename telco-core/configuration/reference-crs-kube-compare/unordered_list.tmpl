@@ -18,7 +18,7 @@
 {{- $result | toYaml | nindent 4 }}
 {{- end }}
 
-{{- define "kubeletconfigExperimentalSysctls"}}
+{{- define "kubeletconfigExperimental"}}
 {{- $result := list }}
 {{- $optionalArgs := list }}
 {{- if gt (len .) 2 }}
@@ -26,8 +26,10 @@
 {{- end }}
 {{- $expectedArgs := index . 1 }}
 {{ $values := list}}
+{{ $config := dict }}
 {{- if ne (index . 0) nil }}
-{{- $values = ((index . 0) | fromJson).allowedUnsafeSysctls }}
+{{- $config = (index . 0) | fromJson }}
+{{- $values = $config.allowedUnsafeSysctls }}
 {{- end}}
 {{- range $value := $values }}
   {{- if or (has $value $expectedArgs) (has $value $optionalArgs) }}
@@ -38,6 +40,16 @@
 {{- range $value := $expectedArgs }}
   {{- $result = append $result $value }}
 {{- end }}
+{{- $systemReservedMemory := "$systemReservedMemory" }}
+{{- if hasKey $config "systemReserved" }}
+{{- $inputSystemReserved := $config.systemReserved }}
+{{- if hasKey $inputSystemReserved "memory" }}
+{{- $systemReservedMemory = printf "\"%s\"" $inputSystemReserved.memory }}
+{{- end }}
+{{- end }}
     kubeletconfig.experimental: |
-      {{ (dict "allowedUnsafeSysctls" $result) | toJson }}
+      {
+       "allowedUnsafeSysctls":{{ $result | toJson }},
+       "systemReserved":{"memory":{{ $systemReservedMemory }}}
+      }
 {{- end }}
