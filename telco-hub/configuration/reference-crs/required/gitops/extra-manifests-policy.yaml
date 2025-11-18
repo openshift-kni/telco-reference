@@ -99,9 +99,9 @@ spec:
           {{ end }}
           {{ end }}
           {{hub end hub}}
-        remediationAction: enforce
+        remediationAction: inform
         severity: low
-  remediationAction: enforce
+  remediationAction: inform
 ---
 apiVersion: cluster.open-cluster-management.io/v1beta1
 kind: Placement
