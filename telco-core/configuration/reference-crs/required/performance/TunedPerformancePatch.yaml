@@ -7,10 +7,10 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "10"
 spec:
   profile:
-    - name: telco-core-performance
       # Please note:
       # - The 'include' line must match the associated PerformanceProfile name, following below pattern
       #   include=openshift-node-performance-${PerformanceProfile.metadata.name}
+    - name: telco-core-performance
       data: |
         [main]
         summary=Top-level core performance tuning overrides

@@ -7,11 +7,11 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "10"
 spec:
   profile:
-{{- range .spec.profile }}
-    - name: {{ .name }}
       # Please note:
       # - The 'include' line must match the associated PerformanceProfile name, following below pattern
       #   include=openshift-node-performance-${PerformanceProfile.metadata.name}
+{{- range .spec.profile }}
+    - name: {{ .name }}
       data: |
 {{- .data | nindent 8 }}
 {{- end }}
