@@ -7,38 +7,18 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "10"
 spec:
   profile:
-    - name: telco-core-performance
+{{- range .spec.profile }}
+    - name: {{ .name }}
       # Please note:
       # - The 'include' line must match the associated PerformanceProfile name, following below pattern
       #   include=openshift-node-performance-${PerformanceProfile.metadata.name}
       data: |
-        [main]
-        summary=Top-level core performance tuning overrides
-    - name: worker-profile-1
-      data: |
-        [main]
-        summary=Worker-1 core performance tuning overrides
-        include=openshift-node-performance-worker-profile-1
-        [sysctl]
-        kernel.panic_on_unrecovered_nmi=1
-    - name: worker-profile-2
-      data: |
-        [main]
-        summary=Worker-2 core performance tuning overrides
-        include=openshift-node-performance-worker-profile-2
-        [sysctl]
-        kernel.panic_on_unrecovered_nmi=1
-    - name: worker-profile-3
-      data: |
-        [main]
-        summary=Worker-3 core performance tuning overrides
-        include=openshift-node-performance-worker-profile-3
-        [sysctl]
-        kernel.panic_on_unrecovered_nmi=1
+{{- .data | nindent 8 }}
+{{- end }}
   recommend:
-  {{- range .spec.recommend }}
+{{- range .spec.recommend }}
     - machineConfigLabels:
-        {{- .machineConfigLabels | toYaml | nindent 8 }}
+{{- .machineConfigLabels | toYaml | nindent 8 }}
       priority: {{ .priority | default 18 }}
       profile: {{ .profile }}
-  {{- end }}
+{{- end }}
