@@ -146,7 +146,7 @@ policies:
       #         - machineConfigLabels:
       #             machineconfiguration.openshift.io/role: worker-profile-x
       #           priority: 18
-      #           profile: worker-profile-x
+      #           profile: custom-worker-profile
 
       # Cluster Logging
       - path: reference-crs/optional/logging/ClusterLogForwarder.yaml
