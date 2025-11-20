@@ -1,4 +1,4 @@
-Hub-side policy that manages `MachineConfig` resources from extra-manifest ConfigMaps.
+Hub-side policy for managing `MachineConfig` resources from extra-manifest ConfigMaps.
 
 **Setup**: Can be applied before or after cluster installation.
 
@@ -10,4 +10,4 @@ Hub-side policy that manages `MachineConfig` resources from extra-manifest Confi
 - Can be used to add, remove or update existing MachineConfigs as a day-2 operation.
 - Ignores non-MachineConfig resources in extra-manifests (Namespaces, etc.).
 
-**Note**: If using custom day-2 patches for MachineConfigs, remove them and make updates directly in extra-manifest ConfigMaps to avoid policy conflicts.
+**Note**: If using custom day-2 patches for MachineConfigs, remove them and make updates directly in extra-manifest ConfigMaps to avoid Policy conflicts.
