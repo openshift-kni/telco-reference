@@ -1,4 +1,4 @@
-Hub-side policy for managing `MachineConfig` resources from extra-manifest ConfigMaps.
+# Hub-side policy for managing `MachineConfig` resources from extra-manifest ConfigMaps
 
 **Setup**: Can be applied before or after cluster installation.
 
