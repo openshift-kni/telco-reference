@@ -35,7 +35,7 @@ roleRef:
 apiVersion: policy.open-cluster-management.io/v1
 kind: Policy
 metadata:
-  name: v1-extra-manifests-policy
+  name: extra-manifests-policy
   namespace: ztp-sno-ran-du
 spec:
   disabled: false
@@ -46,7 +46,7 @@ spec:
       apiVersion: policy.open-cluster-management.io/v1
       kind: ConfigurationPolicy
       metadata:
-        name: v1-extra-manifests-policy
+        name: extra-manifests-policy
       spec:
         evaluationInterval:
           compliant: watch
@@ -106,7 +106,7 @@ spec:
 apiVersion: cluster.open-cluster-management.io/v1beta1
 kind: Placement
 metadata:
-  name: placement-v1-extra-manifests-policy
+  name: placement-extra-manifests-policy
   namespace: ztp-sno-ran-du
 spec:
   predicates:
@@ -126,16 +126,16 @@ spec:
 apiVersion: policy.open-cluster-management.io/v1
 kind: PlacementBinding
 metadata:
-  name: binding-v1-extra-manifests-policy
+  name: binding-extra-manifests-policy
   namespace: ztp-sno-ran-du
 placementRef:
   apiGroup: cluster.open-cluster-management.io
   kind: Placement
-  name: placement-v1-extra-manifests-policy
+  name: placement-extra-manifests-policy
 subjects:
 - apiGroup: policy.open-cluster-management.io
   kind: Policy
-  name: v1-extra-manifests-policy
+  name: extra-manifests-policy
 ---
 apiVersion: cluster.open-cluster-management.io/v1beta2
 kind: ManagedClusterSetBinding
