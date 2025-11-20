@@ -39,3 +39,6 @@ data:
       externalLabels:
         managed_cluster: (?<managed_cluster>.*)
       retention: 24h
+
+# RAN Observability configuration
+# As a prerequisite for merging RAN Observability configuration with openshift-monitoring, apply the observabilityRoutePolicy on the HUB from the telco-hub required reference-crs. This is needed to copy the alert-manager URL from the hub side open-cluster-management-observability namespace and make it available in the openshift-monitoring configmap.
