@@ -8,6 +8,10 @@ metadata:
     argocd.argoproj.io/sync-wave: "-30"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
+  managedResources:
+    cephCluster:
+      CleanupPolicy:
+        WipDevicesFromPreviousCluster: true
   manageNodes: false
   resources:
     mds:
