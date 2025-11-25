@@ -12,7 +12,6 @@ spec:
     cephCluster:
       cleanupPolicy:
         wipeDevicesFromOtherClusters: true
-  manageNodes: false
   resources:
     mds:
       limits:
