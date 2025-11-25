@@ -10,8 +10,8 @@ metadata:
 spec:
   managedResources:
     cephCluster:
-      CleanupPolicy:
-        WipDevicesFromPreviousCluster: true
+      cleanupPolicy:
+        wipeDevicesFromOtherClusters: true
   manageNodes: false
   resources:
     mds:
