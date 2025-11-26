@@ -107,6 +107,47 @@ policies:
             nodeSelector:
               node-role.kubernetes.io/worker-3: ""
 
+      # TuneD performance patches for core
+      - path: reference-crs/required/performance/TunedPerformancePatch.yaml
+        patches:
+        - metadata:
+            name: telco-core-performance-patch
+          spec:
+            recommend:
+              - machineConfigLabels:
+                  machineconfiguration.openshift.io/role: worker-1
+                priority: 18
+                profile: worker-profile-1
+              - machineConfigLabels:
+                  machineconfiguration.openshift.io/role: worker-2
+                priority: 18
+                profile: worker-profile-2
+              - machineConfigLabels:
+                  machineconfiguration.openshift.io/role: worker-3
+                priority: 18
+                profile: worker-profile-3
+
+      # Tuned performance patch template for usage with custom profile names
+
+      # - path: reference-crs/required/performance/TunedPerformancePatch.yaml
+      #   patches:
+      #   - metadata:
+      #       name: custom-telco-core-performance-patch
+      #     spec:
+      #       profile:
+      #         - name: custom-worker-profile
+      #           data: |
+      #             [main]
+      #             summary=Custom compute core performance tuning overrides
+      #             include=openshift-node-performance-worker-profile-x
+      #             [sysctl]
+      #             kernel.panic_on_unrecovered_nmi=1
+      #       recommend:
+      #         - machineConfigLabels:
+      #             machineconfiguration.openshift.io/role: worker-profile-x
+      #           priority: 18
+      #           profile: custom-worker-profile
+
       # Cluster Logging
       - path: reference-crs/optional/logging/ClusterLogForwarder.yaml
         patches:

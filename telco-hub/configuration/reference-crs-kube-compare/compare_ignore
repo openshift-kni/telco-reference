@@ -40,6 +40,7 @@ required/gitops/addPluginsPolicy.yaml
 # not include the full policy content due to policy templating.
 required/acm/observabilityRoutePolicy.yaml
 
+required/gitops/extra-manifests-policy.yaml
 # ArgoCD files
 kustomization.yaml
 optional/lso/kustomization.yaml

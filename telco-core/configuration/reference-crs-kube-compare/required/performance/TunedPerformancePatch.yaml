@@ -1,0 +1,22 @@
+apiVersion: tuned.openshift.io/v1
+kind: Tuned
+metadata:
+  name: {{ .metadata.name }}
+  namespace: openshift-cluster-node-tuning-operator
+spec:
+  profile:
+      # Please note:
+      # - The 'include' line must match the associated PerformanceProfile name, following below pattern
+      #   include=openshift-node-performance-${PerformanceProfile.metadata.name}
+{{- range .spec.profile }}
+    - name: {{ .name }}
+      data: |
+{{- .data | nindent 8 }}
+{{- end }}
+  recommend:
+{{- range .spec.recommend }}
+    - machineConfigLabels:
+{{- .machineConfigLabels | toYaml | nindent 8 }}
+      priority: {{ .priority | default 18 }}
+      profile: {{ .profile }}
+{{- end }}
