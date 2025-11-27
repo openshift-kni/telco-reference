@@ -1,7 +1,30 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
-generators:
+resources:
 - example-sno.yaml
 - example-3node.yaml
 - example-standard.yaml
+# - namespace.yaml
+# - secret.yaml
+#
+## Create extra-manifests/ directory and copy the desired extra-manifests inside it
+## Reference the generated confimap in ClusterInstance.spec.extraManifestRefs
+#
+# configMapGenerator:
+#     - files:
+#         - extra-manifests/06-kdump-master.yaml
+#         - extra-manifests/06-kdump-worker.yaml
+#         - extra-manifests/07-sriov-related-kernel-args-master.yaml
+#         - extra-manifests/07-sriov-related-kernel-args-worker.yaml
+#         - extra-manifests/08-set-rcu-normal-master.yaml
+#         - extra-manifests/08-set-rcu-normal-worker.yaml
+#         - extra-manifests/98-var-lib-containers-partitioned.yaml
+#         - extra-manifests/99-sync-time-once-master.yaml
+#         - extra-manifests/99-sync-time-once-worker.yaml
+#         - extra-manifests/enable-crun-master.yaml
+#         - extra-manifests/enable-crun-worker.yaml
+#         ...
+#       name: sno-extra-manifests-configmap
+#       namespace: $NAMESPACE
+# generatorOptions:
+#    disableNameSuffixHash: true
