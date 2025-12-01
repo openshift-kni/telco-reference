@@ -1,27 +1,27 @@
 #!/bin/bash
 
 fatal() {
-    echo "FATAL: $@"
-    exit 1
+  echo "FATAL: $@"
+  exit 1
 }
 
 export TMPDIR=$(mktemp -d)
 
 cleanup() {
-    rm -rf $TMPDIR
+  rm -rf $TMPDIR
 }
 trap cleanup EXIT
 
 # Mock for 'systemctl`; mimics the actual output as best we can.
 systemctl() {
-    local action=$1 arg=$2
-    local file=$TMPDIR/$arg
-    if [[ ! -f $file ]]; then
-        echo "No files found for $arg." >&2
-        return 1
-    fi
-    echo "# $file"
-    cat $file
+  local action=$1 arg=$2
+  local file=$TMPDIR/$arg
+  if [[ ! -f $file ]]; then
+    echo "No files found for $arg." >&2
+    return 1
+  fi
+  echo "# $file"
+  cat $file
 }
 export -f systemctl
 
