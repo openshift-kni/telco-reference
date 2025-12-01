@@ -255,6 +255,232 @@ ptp_operator_configuration_PtpConfigSlaveForEvent:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
+ptp_operator_configuration_PtpConfigTBCWpc:
+  - spec:
+      profile:
+        - name: "tbc-tr"
+          plugins:
+            e810:
+              interconnections:
+                - gnssInput: false
+                  id: $iface_FirstPort
+                  part: E810-XXVDA4T
+                  phaseOutputConnectors:
+                    - SMA1
+                  upstreamPort: $iface_timeRx
+              settings:
+                LocalMaxHoldoverOffSet: 1500
+                LocalHoldoverTimeout: 14400
+                MaxInSpecOffset: 100
+              pins:
+                $iface_FirstPort:
+                  SMA1: 0 1
+                  SMA2: 0 2
+                  U.FL1: 0 1
+                  U.FL2: 0 2
+          ptpSettings:
+            inSyncConditionThreshold: "10"
+            inSyncConditionTimes: "12"
+            logReduce: "false"
+        - name: "tbc-tt"
+          ptpSettings:
+            controllingProfile: tbc-tr
+            logReduce: "false"
+      recommend:
+        - profile: "tbc-tr"
+          match:
+            - nodeLabel: "node-role.kubernetes.io/master"
+        - profile: "tbc-tt"
+          match:
+            - nodeLabel: "node-role.kubernetes.io/master"
+    captureGroup_defaults:
+      priority2: 128
+      domainNumber: 24
+      pi_proportional_const: "0.60"
+      pi_integral_const: "0.0003"
+      iface_timeRx: $iface_timeRx
+      iface_FirstPort: $iface_FirstPort
+      iface_timeTx_0: $iface_timeTx_0
+      iface_timeTx_1: $iface_timeTx_1
+      iface_timeTx_2: $iface_timeTx_2
+ptp_operator_configuration_PtpConfigDualCardTBCWpc:
+  - spec:
+      profile:
+        - name: "tbc-dual-card-tr"
+          plugins:
+            e810:
+              interconnections:
+                - gnssInput: false
+                  id: $iface_FirstPort1
+                  part: E810-XXVDA4T
+                  phaseOutputConnectors:
+                    - SMA1
+                  upstreamPort: $iface_timeRx
+                - id: $iface_FirstPort2
+                  inputConnector:
+                    connector: SMA1
+                  part: E810-XXVDA4T
+              pins:
+                $iface_FirstPort1:
+                  SMA1: 2 1
+                  SMA2: 2 2
+                  U.FL1: 0 1
+                  U.FL2: 0 2
+                $iface_FirstPort2:
+                  SMA1: 1 1
+                  SMA2: 0 2
+                  U.FL1: 0 1
+                  U.FL2: 0 2
+              settings:
+                LocalMaxHoldoverOffSet: 1500
+                LocalHoldoverTimeout: 14400
+                MaxInSpecOffset: 100
+          ptpSettings:
+            inSyncConditionThreshold: "10"
+            inSyncConditionTimes: "12"
+            logReduce: "false"
+        - name: "tbc-dual-card-tt"
+          ptpSettings:
+            controllingProfile: tbc-dual-card-tr
+            logReduce: "false"
+      recommend:
+        - profile: "tbc-dual-card-tr"
+          match:
+            - nodeLabel: "node-role.kubernetes.io/master"
+        - profile: "tbc-dual-card-tt"
+          match:
+            - nodeLabel: "node-role.kubernetes.io/master"
+    captureGroup_defaults:
+      priority2: 128
+      domainNumber: 24
+      pi_proportional_const: "0.60"
+      pi_integral_const: "0.0003"
+      iface_timeRx: $iface_timeRx
+      iface_FirstPort1: $iface_FirstPort1
+      iface_FirstPort2: $iface_FirstPort2
+      iface_timeTx1_0: $iface_timeTx1_0
+      iface_timeTx1_1: $iface_timeTx1_1
+      iface_timeTx1_2: $iface_timeTx1_2
+      iface_timeTx2_0: $iface_timeTx2_0
+      iface_timeTx2_1: $iface_timeTx2_1
+      iface_timeTx2_2: $iface_timeTx2_2
+      iface_timeTx2_3: $iface_timeTx2_3
+ptp_operator_configuration_PtpConfigThreeCardTBCWpc:
+  - spec:
+      profile:
+        - name: "tbc-3-card-tr"
+          plugins:
+            e810:
+              interconnections:
+              - gnssInput: false
+                id: $iface_FirstPort1
+                part: E810-XXVDA4T
+                phaseOutputConnectors:
+                - SMA1
+                - SMA2
+                upstreamPort: $iface_timeRx
+              - id: $iface_FirstPort2
+                inputConnector:
+                  connector: SMA1
+                part: E810-XXVDA4T
+              - id: $iface_FirstPort3
+                inputConnector:
+                  connector: SMA1
+                part: E810-XXVDA4T
+              settings:
+                LocalHoldoverTimeout: 14400
+                LocalMaxHoldoverOffSet: 1500
+                MaxInSpecOffset: 100
+              pins:
+                $iface_FirstPort1:
+                  SMA1: 2 1
+                  SMA2: 2 2
+                  U.FL1: 0 1
+                  U.FL2: 0 2
+                $iface_FirstPort2:
+                  SMA1: 1 1
+                  SMA2: 0 2
+                  U.FL1: 0 1
+                  U.FL2: 0 2
+                $iface_FirstPort3:
+                  SMA1: 1 1
+                  SMA2: 0 2
+                  U.FL1: 0 1
+                  U.FL2: 0 2
+          ptpSettings:
+            inSyncConditionThreshold: "10"
+            inSyncConditionTimes: "12"
+            logReduce: "false"
+        - name: "tbc-3-card-tt"
+          ptpSettings:
+            controllingProfile: tbc-3-card-tr
+            logReduce: "false"
+      recommend:
+        - profile: "tbc-3-card-tr"
+          match:
+            - nodeLabel: "node-role.kubernetes.io/master"
+        - profile: "tbc-3-card-tt"
+          match:
+            - nodeLabel: "node-role.kubernetes.io/master"
+    captureGroup_defaults:
+      priority2: 128
+      domainNumber: 24
+      pi_proportional_const: "0.60"
+      pi_integral_const: "0.0003"
+      iface_timeRx: $iface_timeRx
+      iface_FirstPort1: $iface_FirstPort1
+      iface_FirstPort2: $iface_FirstPort2
+      iface_FirstPort3: $iface_FirstPort3
+      iface_timeTx1_0: $iface_timeTx1_0
+      iface_timeTx1_1: $iface_timeTx1_1
+      iface_timeTx1_2: $iface_timeTx1_2
+      iface_timeTx2_0: $iface_timeTx2_0
+      iface_timeTx2_1: $iface_timeTx2_1
+      iface_timeTx2_2: $iface_timeTx2_2
+      iface_timeTx2_3: $iface_timeTx2_3
+      iface_timeTx3_0: $iface_timeTx3_0
+      iface_timeTx3_1: $iface_timeTx3_1
+      iface_timeTx3_2: $iface_timeTx3_2
+      iface_timeTx3_3: $iface_timeTx3_3
+ptp_operator_configuration_PtpConfigTTSCWpc:
+  - spec:
+      profile:
+        - name: "t-tsc"
+          plugins:
+              e810:
+                enableDefaultConfig: false
+                interconnections:
+                  - gnssInput: false
+                    id: $iface_FirstPort
+                    part: E810-XXVDA4T
+                    phaseOutputConnectors:
+                    - SMA1
+                    upstreamPort: $iface_timeRx
+                settings:
+                  LocalHoldoverTimeout: 14400
+                  LocalMaxHoldoverOffSet: 1500
+                  MaxInSpecOffset: 100
+                pins:
+                  $iface_FirstPort:
+                    SMA1: 0 1
+                    SMA2: 0 2
+                    U.FL1: 0 1
+                    U.FL2: 0 2
+          ptpSettings:
+            inSyncConditionThreshold: "10"
+            inSyncConditionTimes: "12"
+            logReduce: "false"
+      recommend:
+        - profile: "t-tsc"
+          match:
+            - nodeLabel: "node-role.kubernetes.io/master"
+    captureGroup_defaults:
+      priority2: 128
+      domainNumber: 24
+      pi_proportional_const: "0.60"
+      pi_integral_const: "0.0003"
+      iface_timeRx: $iface_timeRx
+      iface_FirstPort: $iface_FirstPort
 ptp_operator_configuration_PtpOperatorConfig:
   - spec:
       daemonNodeSelector:
