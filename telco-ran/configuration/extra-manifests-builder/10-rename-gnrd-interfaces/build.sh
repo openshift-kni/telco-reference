@@ -1,0 +1,32 @@
+#!/bin/bash
+
+MCPROLE=${MCPROLE:-master}
+
+# MachineConfig to rename GNRD interfaces
+# This renames Intel GNRD (Granite Rapids D) network interfaces using systemd link files
+
+cat << EOF
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 10-rename-gnrd-interfaces-${MCPROLE}
+  labels:
+    machineconfiguration.openshift.io/role: ${MCPROLE}
+spec:
+  config:
+    ignition:
+      version: 3.2.0
+    storage:
+      files:
+        - path: /etc/systemd/network/10-interface-8086-12d3.link
+          # [Match]
+          # Property=ID_VENDOR_ID=0x8086
+          # Property=ID_MODEL_ID=0x12d3
+          # [Link]
+          # NamePolicy=path
+          mode: 420
+          overwrite: true
+          contents:
+            source: data:text/plain,%5BMatch%5D%0AProperty%3DID_VENDOR_ID%3D0x8086%0AProperty%3DID_MODEL_ID%3D0x12d3%0A%0A%5BLink%5D%0ANamePolicy%3Dpath%0A
+EOF
+
