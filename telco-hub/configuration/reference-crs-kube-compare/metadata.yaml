@@ -24,6 +24,9 @@ parts:
           - path: optional/cert-manager/certManagerSubscription.yaml
           - path: optional/cert-manager/certManagerClusterIssuer.yaml
           - path: optional/cert-manager/ingressCertificate.yaml
+          - path: optional/cert-manager/apiServerCertificate.yaml
+          - path: optional/cert-manager/apiServerConfig.yaml
+          - path: optional/cert-manager/ingressControllerConfig.yaml
   - name: optional-storage
     components:
       - name: local-storage-operator
