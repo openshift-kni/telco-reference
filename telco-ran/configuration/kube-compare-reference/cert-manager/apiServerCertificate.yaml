@@ -2,12 +2,14 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: ingress-wildcard-certificate
-  namespace: openshift-ingress
+  name: api-server-certificate
+  namespace: openshift-config
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
 spec:
-  commonName: "*.apps.example.com"
+  commonName: "api.example.com"
   dnsNames:
-  - "*.apps.example.com"
+  - "api.example.com"
   isCA: false
   issuerRef:
     group: cert-manager.io
@@ -16,4 +18,4 @@ spec:
   privateKey:
     algorithm: ECDSA
     size: 256
-  secretName: ingress-wildcard-cert
+  secretName: api-server-cert
