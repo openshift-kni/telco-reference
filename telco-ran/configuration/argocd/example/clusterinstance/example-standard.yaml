@@ -23,7 +23,7 @@ spec:
       du-profile: "latest"
       # These example cluster labels correspond to the bindingRules in the PolicyGenTemplate examples in ../policygentemplates:
       # ../policygentemplates/common-ranGen.yaml will apply to all clusters with 'common: true'
-      common: true
+      common: "true"
       # ../policygentemplates/group-du-standard-ranGen.yaml will apply to all clusters with 'group-du-standard: ""'
       group-du-standard: ""
       # ../policygentemplates/example-multinode-site.yaml will apply to all clusters with 'sites: "example-multinode"'
@@ -43,7 +43,7 @@ spec:
     - 1111:2222:3333:4444::2
   templateRefs:
     - name: ai-cluster-templates-v1
-      namespace: open-cluster-managememt
+      namespace: open-cluster-management
   nodes:
     - hostName: "example-node1.example.com"
       role: "master"
@@ -126,7 +126,7 @@ spec:
               table-id: 254
       templateRefs:
         - name: ai-node-templates-v1
-          namespace: open-cluster-managememt
+          namespace: open-cluster-management
     - hostName: "example-node3.example.com"
       role: "master"
       bmcAddress: "idrac-virtualmedia+https://[1111:2222:3333:4444::bbbb:3]/redfish/v1/Systems/System.Embedded.1"
@@ -167,7 +167,7 @@ spec:
               table-id: 254
       templateRefs:
         - name: ai-node-templates-v1
-          namespace: open-cluster-managememt
+          namespace: open-cluster-management
     - hostName: "example-node4.example.com"
       role: "worker"
       bmcAddress: "idrac-virtualmedia+https://[1111:2222:3333:4444::bbbb:4]/redfish/v1/Systems/System.Embedded.1"
@@ -208,7 +208,7 @@ spec:
               table-id: 254
       templateRefs:
         - name: ai-node-templates-v1
-          namespace: open-cluster-managememt
+          namespace: open-cluster-management
     - hostName: "example-node5.example.com"
       role: "worker"
       bmcAddress: "idrac-virtualmedia+https://[1111:2222:3333:4444::bbbb:5]/redfish/v1/Systems/System.Embedded.1"
