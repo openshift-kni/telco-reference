@@ -2,7 +2,7 @@
 
 ## Enabling Secure Boot
 
-- Configure `SiteConfig` with `UEFIScureBoot` for `bootMode`. E.g part of yaml below
+- By default secure boot is enabled when bootmode is selected as UEFISecureBoot as recommended in ClusterInstance.
 
    ```yaml
     nodes:
@@ -70,20 +70,22 @@ EFI variables are not supported on this system
 
 There are multiple ways to enable kernel access to the EFI variables that are required by `mokutil`:
 
-- Update to the latest set of source-cr
+## Update to the latest set of source-cr
 
-- Append `node-tuning-operator/{x86_64|aarch64}/PerformanceProfile.yaml`'s  `additionalKernelArgs` from PGT
+  - Append `node-tuning-operator/{x86_64|aarch64}/PerformanceProfile.yaml`'s  `additionalKernelArgs` from PGT
 
-  ```yaml
-  spec:
-    additionalKernelArgs:
-      - ...
-      - "efi=runtime"
-  ```
+    ```yaml
+    spec:
+      additionalKernelArgs:
+        - ...
+        - "efi=runtime"
+    ```
 
-- Use SiteConfig's `sno-extra-manifest` feature.
+or
 
-  1. Create MachineConfig CR `99-efi-runtime-path-kargs.yaml`
+
+## Set the Kernel arguement during installation time using ClusterInstance
+To do that, create a MachineConfig CR as an example: `99-efi-runtime-path-kargs.yaml`
 
    ```yaml
    apiVersion: machineconfiguration.openshift.io/v1
@@ -97,27 +99,23 @@ There are multiple ways to enable kernel access to the EFI variables that are re
      - "efi=runtime"
   ```
 
-  2. Include the `MC` with your `SiteConfig` as part of extra manifest. E.g part of the CR below
-  
-     ```yaml
-     clusters:
-     - clusterName: "myhost"
-       extraManifestPath: myhost/sno-extra-manifest/
-     ```
+  2. Include the `MC` with all the other `MC` in the ConfigMapGenerator to include in the configMap that will be referenced back to ClusterInstance via `.spec.extraManifestsRefs`
 
-     File dir may look like below
 
-     ```shell
-     ➜ tree .
-       └── install
-       ├── myhost
-       │   ├── myhost.yaml
-       │   ├── secret.yaml
-       │   └── sno-extra-manifest
-       │       └── 99-efi-runtime-path-kargs.yaml
-       └── kustomization.yaml
+ ```yaml
+  configMapGenerator:
+  - files:
+    - extra-manifest/01-container-mount-ns-and-kubelet-conf-master.yaml
+    - extra-manifest/01-container-mount-ns-and-kubelet-conf-worker.yaml
+    - ...........
+    - ...........
+    - extra-manifest/99-efi-runtime-path-kargs
+    name: sno-ran-du-extra-manifest-1
+    namespace: <namespace>
+  generatorOptions:
+    disableNameSuffixHash: true
+  ```
 
-     ```
 
 ## More info on Secure Boot
 
