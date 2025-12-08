@@ -89,7 +89,7 @@ spec:
               - "1"
               - "-e"
               - "SURVEYIN,600,50000"
-            reportOutput: true  
+            reportOutput: true
           - args: #ubxtool -P 29.20 -p MON-HW
               - "-P"
               - "29.20"
