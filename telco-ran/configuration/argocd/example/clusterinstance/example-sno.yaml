@@ -41,7 +41,7 @@ spec:
       du-profile: "latest"
       # These example cluster labels correspond to the bindingRules in the PolicyGenTemplate examples in ../policygentemplates:
       # ../policygentemplates/common-ranGen.yaml will apply to all clusters with 'common: true'
-      common: true
+      common: "true"
       # ../policygentemplates/group-du-sno-ranGen.yaml will apply to all clusters with 'group-du-sno: ""'
       group-du-sno: ""
       # ../policygentemplates/example-sno-site.yaml will apply to all clusters with 'sites: "example-sno"'
@@ -61,7 +61,7 @@ spec:
   cpuPartitioningMode: AllNodes
   templateRefs:
     - name: ai-cluster-templates-v1
-      namespace: open-cluster-managememt
+      namespace: open-cluster-management
   nodes:
     - hostName: "example-node1.example.com"
       role: "master"
