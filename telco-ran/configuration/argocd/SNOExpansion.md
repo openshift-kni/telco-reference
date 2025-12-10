@@ -262,7 +262,7 @@ EOF
 
 ### Deploying a worker node ###
 
-1. Assuming your cluster was deployed using [this SiteConfig manifest](example/siteconfig/example-sno.yaml), add your new worker node to `spec.clusters['example-sno'].nodes` list, for example:
+1. Assuming your cluster was deployed using [this ClusterInstance CR](example/clusterinstance/example-sno.yaml), add your new worker node to `spec.clusters['example-sno'].nodes` list, for example:
 
 ```yaml
       nodes:
@@ -272,7 +272,7 @@ EOF
         bmcCredentialsName:
           name: "example-node2-bmh-secret"
         bootMACAddress: "<MAC of the machine network interface>"
-        bootMode: "UEFI"
+        bootMode: "UEFISecureBoot"
         rootDeviceHints:
           deviceName: "/dev/disk/by-path/<device-path>"
         nodeNetwork:
@@ -306,7 +306,7 @@ EOF
 
 ```
 
-2. Create secret with BMC credentials for the new host, as referenced by `bmcCredentialsName` in the SiteConfig `nodes` section.
+2. Create secret with BMC credentials for the new host, as referenced by `bmcCredentialsName` in the ClusterInstance `nodes` section.
 
 3. Commit and push your changes to the git repository configured in the `Clusters` ArgoCD application and wait for it to synchronize.
 

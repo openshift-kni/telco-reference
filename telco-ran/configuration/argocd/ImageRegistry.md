@@ -1,25 +1,9 @@
 Installation
 -
 
-1. Use SiteConfig to generate a MachineConfig for disk partitioning. Make sure to modify the values in the MC appropriately as it is dependent on the underlying disk.
+1. Use ClusterInstance to generate a MachineConfig for [disk partitioning](./DiskPartitionContainers.md).
 
-   It is important to use persistent naming for device, especially if you have more than one disk as names like `/dev/sda` and `/dev/sdb` may switch at every reboot. You can use `rootDeviceHints` to choose the bootable device and then use the same device for further partitioning, in this case, for Image registry. More info on persistent naming [here](https://wiki.archlinux.org/title/persistent_block_device_naming#Persistent_naming_methods).
-
-   *by-path* is used below.
-
-    ```yaml
-    nodes:
-    - rootDeviceHints:
-        deviceName: /dev/disk/by-path/pci-0000:01:00.0-scsi-0:2:0:0
-      diskPartition:
-      - device: /dev/disk/by-path/pci-0000:01:00.0-scsi-0:2:0:0 # depends on the hardware. It can also be a serial num or WWN. Recommend using by-path. Match with the rootDeviceHint above
-        partitions:
-        - mount_point: /var/imageregistry
-          size: 102500 # min value 100gig for image registry
-          start: 344844 # 25000 min value, otherwise root partition is too small. Recommended startMiB (Disk - sizeMiB - some buffer), if startMiB + sizeMiB  exceeds disk size, installation will fail
-    ```
-
-3. Use PGT to apply the following to create the pv and pvc and patch imageregistry config as part of normal day-2 operation. Select the appropriate PGT for each source-cr and refer to `wave` doc for more help. Below is as example if you would like to test it at the site level.
+2. Use PGT to apply the following to create the pv and pvc and patch imageregistry config as part of normal day-2 operation. Select the appropriate PGT for each source-cr and refer to `wave` doc for more help. Below is as example if you would like to test it at the site level.
 
    ```yaml
    sourceFiles:
@@ -47,7 +31,7 @@ Installation
          storageClassName: image-registry-sc
          volumeMode: Filesystem
       # persistent volume
-     - fileName: image-registry/ImageRegistryPV.yaml # this is assuming that mount_point is set to `/var/imageregistry` in SiteConfig
+     - fileName: image-registry/ImageRegistryPV.yaml # this is assuming that mount_point is set to `/var/imageregistry` in ClusterInstance
                                       # using StorageClass `image-registry-sc` (see the first sc-file)
        policyName: "pv-for-image-registry" 
        metadata:
@@ -95,8 +79,8 @@ Verify/Debug
     sr0     11:0    1   104M  0 rom
     ```
 
-Additional Resources
--
+## Additional Resources
+
 
 - For more info on using image registry operator check the [official docs](https://docs.openshift.com/container-platform/4.10/registry/index.html).
   - You can also expose the registry to outside world, make it secure and so on
