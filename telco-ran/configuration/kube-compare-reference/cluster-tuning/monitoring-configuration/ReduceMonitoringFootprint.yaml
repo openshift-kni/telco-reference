@@ -32,8 +32,7 @@ data:
           key: token
           name: observability-alertmanager-accessor
         scheme: https
-        staticConfigs:
-        - (?<alertmanager_endpoint>.*)
+        staticConfigs: (?<alertmanager_endpoint>.*)
         tlsConfig:
           ca:
             key: service-ca.crt
