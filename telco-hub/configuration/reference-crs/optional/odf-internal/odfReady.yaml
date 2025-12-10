@@ -3,7 +3,7 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: Policy
 metadata:
-  name: odf-ready-validation
+  name: checkpoint-odf
   namespace: hub-policies
   annotations:
     # we do a validation of odf after StorageCluster creation
@@ -21,21 +21,18 @@ spec:
         apiVersion: policy.open-cluster-management.io/v1
         kind: ConfigurationPolicy
         metadata:
-          name: odf-ready
+          name: storagecluster-ready
         spec:
           object-templates:
             - complianceType: musthave
               objectDefinition:
-                apiVersion: batch/v1
-                kind: Job
+                apiVersion: ocs.openshift.io/v1
+                kind: StorageCluster
                 metadata:
+                  name: ocs-storagecluster
                   namespace: openshift-storage
                 status:
-                  ready: 0
-                  succeeded: 1
-                  conditions:
-                  - status: "True"
-                    type: Complete
+                  phase: Ready
 ---
 apiVersion: cluster.open-cluster-management.io/v1beta1
 kind: Placement
@@ -68,6 +65,6 @@ placementRef:
   apiGroup: cluster.open-cluster-management.io
   kind: Placement
 subjects:
-  - name: odf-ready-validation
+  - name: checkpoint-odf
     apiGroup: policy.open-cluster-management.io
     kind: Policy
