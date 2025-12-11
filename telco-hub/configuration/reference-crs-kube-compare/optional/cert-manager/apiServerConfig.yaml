@@ -1,0 +1,9 @@
+---
+apiVersion: config.openshift.io/v1
+kind: APIServer
+metadata:
+  name: cluster
+spec:
+  servingCerts:
+    namedCertificates: {{ if .spec.servingCerts.namedCertificates }}
+{{ .spec.servingCerts.namedCertificates | toYaml | nindent 4 }}{{ else }}[]{{ end }}

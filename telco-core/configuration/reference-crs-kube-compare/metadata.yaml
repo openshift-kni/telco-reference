@@ -188,6 +188,24 @@ parts:
         allOf:
           - path: optional/other/mount_namespace_config_master.yaml
           - path: optional/other/mount_namespace_config_worker.yaml
+  - name: optional-cert-manager
+    description: |-
+      Cert-manager operator for automated certificate management
+    components:
+      - name: cert-manager-operator
+        allOrNoneOf:
+          - path: optional/cert-manager/certManagerNS.yaml
+          - path: optional/cert-manager/certManagerOperatorgroup.yaml
+          - path: optional/cert-manager/certManagerSubscription.yaml
+          - path: optional/cert-manager/certManagerClusterIssuer.yaml
+      - name: cert-manager-ingress
+        allOrNoneOf:
+          - path: optional/cert-manager/ingressCertificate.yaml
+          - path: optional/cert-manager/ingressControllerConfig.yaml
+      - name: cert-manager-apiserver
+        allOrNoneOf:
+          - path: optional/cert-manager/apiServerCertificate.yaml
+          - path: optional/cert-manager/apiServerConfig.yaml
 
 templateFunctionFiles:
   - version_match.tmpl
