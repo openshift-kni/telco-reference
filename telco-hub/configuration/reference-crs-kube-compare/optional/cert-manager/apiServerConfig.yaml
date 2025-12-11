@@ -5,8 +5,5 @@ metadata:
   name: cluster
 spec:
   servingCerts:
-    namedCertificates:
-    - names:
-      - "api.example.com"
-      servingCertificate:
-        name: api-server-cert
+    namedCertificates: {{ if .spec.servingCerts.namedCertificates }}
+{{ .spec.servingCerts.namedCertificates | toYaml | nindent 4 }}{{ else }}[]{{ end }}

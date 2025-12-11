@@ -2,19 +2,17 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: acme-issuer
+  name: {{ .metadata.name | default "acme-issuer" }}
   annotations:
     ran.openshift.io/ztp-deploy-wave: "10"
 spec:
   # Example based on: https://cert-manager.io/docs/configuration/acme/#creating-a-basic-acme-issuer
   acme:
-    server: https://acme-v02.api.letsencrypt.org/directory
-    email: your-email@example.com
+    server: {{ .spec.acme.server | default "https://acme-v02.api.letsencrypt.org/directory" }}
+    email: {{ .spec.acme.email | default "your-email@example.com" }}
     privateKeySecretRef:
-      name: acme-account-key
-    solvers:
-    - dns01:
-        route53:
-          region: us-east-1
-          # Replace with your DNS provider configuration
-          # See: https://cert-manager.io/docs/configuration/acme/dns01/
+      name: {{ .spec.acme.privateKeySecretRef.name | default "acme-account-key" }}
+    solvers: {{ if .spec.acme.solvers }}
+{{ .spec.acme.solvers | toYaml | nindent 4 }}{{ else }}[]{{ end }}
+      # Replace with your DNS provider configuration
+      # See: https://cert-manager.io/docs/configuration/acme/dns01/

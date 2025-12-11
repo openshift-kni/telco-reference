@@ -5,7 +5,8 @@ metadata:
   annotations:
     ran.openshift.io/ztp-deploy-wave: "2"
     olm.operatorframework.io/bundle-install-timeout: "10m"
+    operatorframework.io/bundle-unpack-min-retry-interval: 10m
   name: cert-manager-operator
-  namespace: openshift-console
+  namespace: cert-manager-operator
 spec:
   upgradeStrategy: Default

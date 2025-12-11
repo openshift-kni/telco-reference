@@ -23,10 +23,14 @@ parts:
           - path: optional/cert-manager/certManagerOperatorgroup.yaml
           - path: optional/cert-manager/certManagerSubscription.yaml
           - path: optional/cert-manager/certManagerClusterIssuer.yaml
+      - name: cert-manager-ingress
+        allOrNoneOf:
           - path: optional/cert-manager/ingressCertificate.yaml
+          - path: optional/cert-manager/ingressControllerConfig.yaml
+      - name: cert-manager-apiserver
+        allOrNoneOf:
           - path: optional/cert-manager/apiServerCertificate.yaml
           - path: optional/cert-manager/apiServerConfig.yaml
-          - path: optional/cert-manager/ingressControllerConfig.yaml
   - name: optional-storage
     components:
       - name: local-storage-operator

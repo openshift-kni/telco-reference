@@ -3,7 +3,7 @@ apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
   name: openshift-cert-manager-operator
-  namespace: openshift-console
+  namespace: cert-manager-operator
   annotations:
     ran.openshift.io/ztp-deploy-wave: "2"
 spec:
@@ -11,4 +11,6 @@ spec:
   name: openshift-cert-manager-operator
   source: redhat-operators-disconnected
   sourceNamespace: openshift-marketplace
-  installPlanApproval: Automatic
+  installPlanApproval: Manual
+status:
+  state: AtLatestKnown

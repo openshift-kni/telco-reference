@@ -5,7 +5,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-40"
   name: openshift-cert-manager-operator
-  namespace: openshift-console
+  namespace: cert-manager-operator
 spec:
   channel: stable-v1
   name: openshift-cert-manager-operator

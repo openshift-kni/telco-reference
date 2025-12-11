@@ -70,10 +70,14 @@ parts:
           - path: cert-manager/certManagerOperatorgroup.yaml
           - path: cert-manager/certManagerSubscription.yaml
           - path: cert-manager/certManagerClusterIssuer.yaml
+      - name: cert-manager-ingress
+        allOrNoneOf:
           - path: cert-manager/ingressCertificate.yaml
+          - path: cert-manager/ingressControllerConfig.yaml
+      - name: cert-manager-apiserver
+        allOrNoneOf:
           - path: cert-manager/apiServerCertificate.yaml
           - path: cert-manager/apiServerConfig.yaml
-          - path: cert-manager/ingressControllerConfig.yaml
   - name: optional-lca
     description: |-
       https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-lca-operator_ran-ref-design-components
