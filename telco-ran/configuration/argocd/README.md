@@ -6,7 +6,7 @@
 
 ### Obtaining the ZTP site generator container
 
-The GitOps ZTP infrastructure relies on the ztp-site-generator container to provide the tools which transform SiteConfig and PolicyGenTemplate CRs into the underlying installation and configuration CRs. This container can be pulled from pre-build/official sources or built from source by following [Building the container](../../resource-generator/README.md)
+The GitOps ZTP infrastructure relies on the ztp-site-generator container to provide the tools which transform PolicyGenTemplate CRs into the underlying installation and configuration CRs. This container can be pulled from pre-build/official sources or built from source by following [Building the container](../../resource-generator/README.md)
 
 ## Obtaining pre-built image
 
@@ -18,7 +18,7 @@ The GitOps ZTP infrastructure relies on the ztp-site-generator container to prov
 
 Create a GIT repository for hosting site configuration data. The ZTP pipeline will require read access to this repository.
 
-1. Create a directory structure with separate paths for SiteConfig and PolicyGenTemplate CRs
+1. Create a directory structure with separate paths for ClusterInstance and PolicyGenTemplate CRs
 2. Export the argocd directory from the ztp-site-generator container image by executing the following commands:
 
 ```
@@ -28,10 +28,10 @@ Create a GIT repository for hosting site configuration data. The ZTP pipeline wi
 
 3. Check the out directory that was created above. It should contain the following sub directories:
 
-- out/extra-manifest: contains the source CR files that SiteConfig uses to generate the extra manifest configMap.
+- out/extra-manifest: contains the source CR files that ClusterInstance applies to a cluster during installation. 
 - out/source-crs: contains the source CR files that PolicyGenTemplate uses to generate the ACM policies.
 - out/argocd/deployment: contains patches and yaml files to apply on the hub cluster for use in the next steps of this procedure.
-- out/argocd/example: contains SiteConfig and PolicyGenTemplate examples that represent our recommended configuration.
+- out/argocd/example: contains ClusterInstance and PolicyGenTemplate examples that represent our recommended configuration.
 
 ### Preparation of Hub cluster for ZTP
 
@@ -39,16 +39,10 @@ These steps configure your hub cluster with a set of ArgoCD Applications which g
 
 **Requirements:**
 
-- Openshift Cluster v4.16 as Hub cluster
-- Advanced Cluster Management (ACM) operator v2.10/v2.11 installed on the hub cluster
-- Red Hat OpenShift GitOps operator v1.11/1.12 installed on the hub cluster
+- Openshift Cluster v4.16 or higher as Hub cluster
+- Advanced Cluster Management (ACM) operator v2.10/v2.11 or higher installed on the hub cluster
+- Red Hat OpenShift GitOps operator v1.14/1.v1.15 or higher installed on the hub cluster
 
-Note:
-In order to deploy the OpenShift GitOps operator v1.12 you may apply the provided subscription [deployment/openshift-gitops-operator.yaml](https://github.com/openshift-kni/cnf-features-deploy/blob/master/ztp/gitops-subscriptions/argocd/deployment/openshift-gitops-operator.yaml) using the following command.
-
-```
-    oc apply -f deployment/openshift-gitops-operator.yaml
-```
 
 **Steps:**
 
@@ -136,7 +130,7 @@ In order to deploy the OpenShift GitOps operator v1.12 you may apply the provide
 - Modify the two ArgoCD Applications (*out/argocd/deployment/clusters-app.yaml* and *out/argocd/deployment/policies-app.yaml*) based on your GIT repository:
   - Update *URL* to point to git repository. The URL must end with .git, eg: <https://repo.example.com/repo.git>
   - The *targetRevision* should indicate which branch to monitor
-  - The path should specify the path to the directories holding SiteConfig or PolicyGenTemplate CRs respectively
+  - The path should specify the path to the directories holding ClusterInstance or PolicyGenTemplate CRs respectively
 
 6. Apply pipeline configuration to your hub cluster using the following command.
 
@@ -154,7 +148,7 @@ In order to deploy the OpenShift GitOps operator v1.12 you may apply the provide
 
 The following steps prepare the hub cluster for site deployment and initiate ZTP by pushing CRs to your GIT repository.
 
-1. Create the secrets needed for the site installation. These resources must be in a namespace with a name matching the cluster name. In *out/argocd/example/siteconfig/example-sno.yaml* the cluster *name* & *namespace* is `example-sno`.
+1. Create the secrets needed for the site installation. These resources must be in a namespace with a name matching the cluster name. In *out/argocd/example/clusterinstance/example-sno.yaml* the cluster *name* & *namespace* is `example-sno`.
 
     - Create the namespace for the cluster:
 
@@ -165,7 +159,7 @@ The following steps prepare the hub cluster for site deployment and initiate ZTP
 
     > **Note**: The namespace must not start with `ztp` or there will be collisions with the ArgoCD policy application.
 
-    - Create a pull secret for the cluster. The pull secret must contain all the credentials necessary for installing OpenShift and all the required operators. In all of the SiteConfigs examples this is named `assisted-deployment-pull-secret`
+    - Create a pull secret for the cluster. The pull secret must contain all the credentials necessary for installing OpenShift and all the required operators. In all of the ClusterInstance examples this is named as `assisted-deployment-pull-secret`
 
     ```
     $ oc apply -f - <<EOF
@@ -196,51 +190,41 @@ The following steps prepare the hub cluster for site deployment and initiate ZTP
     EOF
     ```
 
-2. Create a SiteConfig CR for your cluster in your local clone of the git repository:
-   1. Begin by choosing an appropriate example from *out/argocd/example/siteconfig/*.  There are examples for SNO, 3-node, and standard clusters.
+2. Create a ClusterInstance CR for your cluster in your local clone of the git repository:
+   1. Begin by choosing an appropriate example from *out/argocd/example/clusterinstance/*.  There are examples for SNO, 3-node, and standard clusters.
    2. Change the cluster and host details in the example to match your desired cluster.  Some important notes:
       - The *clusterImageSetNameRef* must match an imageset available on the hub cluster (run `oc get clusterimagesets` for the list of supported versions on your hub)
       - Ensure the cluster networking sections are defined correctly:
         - For SNO deployments, you must define a `MachineNetwork` section and not the `apiVIP` and `ingressVIP` values.
         - For 3-node and standard deployments, you must define the `apiVIP` and `ingressVIP` values and not the `MachineNetwork` section.
-      - The set of cluster labels that you define in the `clusterLabels` section must correspond to the PolicyGenTemplate labels you will be defining in a later step.
+      - The set of cluster labels that you define in the `extraLabels` section must correspond to the PolicyGenTemplate labels you will be defining in a later step.
       - Ensure you have updated the hostnames, BMC address, BMC secret name and network configuration sections
       - Ensure you have the required number of host entries defined:
         - For SNO deployments, you must have exactly one host defined.
         - For 3-node deployments, you must have exactly three hosts defined.
         - For standard deployments, you must have exactly three hosts defined with `role: master` and one or more hosts defined with `role: worker`
-      - The ztp container version specific set of extra-manifest MachineConfigs can be inspected in *out/argocd/extra-manifest*. When `extraManifests.searchPaths` is defined in SiteConfig, one must copy all the contents from *out/argocd/extra-manifest* to the user GIT repository, and include that GIT directory path under `extraManifests.searchPaths`. It will allow those CR files to be applied during cluster installation. When `searchPath` is defined, **the manifests will not be fetched from ztp container**.
-      - *It is strongly recommended that, user extracts `extra-manifest` and its content and push the content to users GIT repository*.
-        - For the 4.14 release, we will still support the behavior of `extraManifestPath` and applying default extra manifests from the container during site installation only if `extraManifests.searchPaths` is not declared in the SiteConfig file. Going forward, the behavior will be deprecated and we strongly recommend to use `extraManifests.searchPaths` instead. Deprecation warning of this field is also added in the release.
-        - Optional: For provisioning additional install-time manifests on the provisioned cluster, create another directory in your GIT repository (for example, `custom-manifest/`) and add your custom manifest CRs to this directory. In the SiteConfig, refer to this newly created directory via the `extraManifests.searchPaths` field, any CRs in this referenced directory will be appended in addition to the default set of extra manifests. For the same named CR files in multiple directories, the last found file in the directory will override the content.
+      - The ztp container version specific set of extra-manifest MachineConfigs can be inspected in *out/argocd/extra-manifest*. 
 
-          ```
-          extraManifests:
-            searchPaths:
-             - sno-extra-manifest/ <-- ztp-containers's reference manifests
-             - custom-manifests/ <-- user's custom manifests
-          ```
-
-   3. Add the SiteConfig CR to the kustomization.yaml in the 'generators' section, much like in the example out/argocd/example/siteconfig/kustomization.yaml
-   4. Commit your SiteConfig and associated kustomization.yaml in git.
+   3. Add the ClusterInstance CR to the kustomization.yaml in the 'generators' section, much like in the example out/argocd/example/clusterinstance/kustomization.yaml
+   4. Commit your ClusterInstance and associated kustomization.yaml in git.
 3. Create the PolicyGenTemplate CR for your site in your local clone of the git repository:
    1. Begin by choosing an appropriate example from *out/argocd/example/policygentemplates*. This directory demonstrates a 3-level policy framework which represents a well-supported low-latency profile tuned for the needs of 5G Telco DU deployments:
       - A single `common-ranGen.yaml` should be applied to SNO. DO NOT USE the `common-mno-ranGen.yaml` file for SNO clusters.
       - For MNO clusters, it will require both `common-ranGen.yaml` and `common-mno-ranGen.yaml` file.
       - A set of shared `group-du-*-ranGen.yaml`, each of which should be common across a set of similar clusters.
       - An `example-*-site.yaml` which will normally be copied and updated for each individual site.
-   2. Ensure the labels defined in your PGTs `bindingRules` section correspond to the proper labels defined on the SiteConfig file(s) of the clusters you are managing.
+   2. Ensure the labels defined in your PGTs `bindingRules` section correspond to the proper labels defined on the ClusterInstance file(s) of the clusters you are managing.
    3. Ensure the content of the overlaid spec files matches your desired end state.  As a reference, the *out/source-crs* directory contains the full set of source-crs available to be included and overlayed by your PGT templates.
       > **Note:** Depending on the specific requirements of your clusters, you may need more than just a single group policy per cluster type, especially considering the example group policies each has a single PerformancePolicy which can only be shared across a set of clusters if those clusters consist of identical hardware configurations.
    4. Define all the policy namespaces in a yaml file much like in *example out/argocd/example/policygentemplates/ns.yaml*
    5. Add all the PGTs and *ns.yaml* to the *kustomization.yaml* file, much like in the *out/argocd/example/policygentemplates/kustomization.yaml* example.
    6. Commit the PolicyGenTemplate CRs, *ns.yaml*, and associated *kustomization.yaml* in git.
-4. Push your changes to the git repository and the ArgoCD pipeline will detect the changes and begin the site deployment. The SiteConfig and PolicyGenTemplate CRs can be pushed simultaneously.
-    > **Note**: The policyGenTemplate CRs and associated *ns.yaml*, *kustomization.yaml* must be pushed to the git repository within the 20 mins after the SiteConfigs are pushed.
+4. Push your changes to the git repository and the ArgoCD pipeline will detect the changes and begin the site deployment. The ClusterInstance and PolicyGenTemplate CRs can be pushed simultaneously.
+    > **Note**: The policyGenTemplate CRs and associated *ns.yaml*, *kustomization.yaml* must be pushed to the git repository within the 20 mins after the ClusterInstance is pushed.
 
 ### Monitoring progress
 
-The ArgoCD pipeline uses the SiteConfig and PolicyGenTemplate CRs in GIT to generate the cluster configuration CRs & ACM policies, then sync them to the hub.
+The ArgoCD pipeline uses the ClusterInstance and PolicyGenTemplate CRs in GIT to generate the cluster configuration CRs & ACM policies, then sync them to the hub.
 
 The progress of this synchronization can be monitored in the ArgoCD dashboard.
 
@@ -283,9 +267,9 @@ After all policies become complaint, `ztp-done` label will be added to the clust
 
 ### Site Cleanup
 
-A site and the associated installation and configuration policy CRs can be removed by removing the SiteConfig & PolicyGenTemplate file names from the *kustomization.yaml* file. The generated CRs will be removed as well.
+A site and the associated installation and configuration policy CRs can be removed by removing the ClusterInstance & PolicyGenTemplate file names from the *kustomization.yaml* file. The generated CRs will be removed as well.
 
-> **NOTE**: After removing the SiteConfig file, if its corresponding clusters get stuck in the detach process, check [ACM page](https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.4/html/clusters/managing-your-clusters#remove-managed-cluster) on how to clean detached managed cluster.
+> **NOTE**: After removing the ClusterInstance file, if its corresponding clusters get stuck in the detach process, check [ARemoving a cluster frm management - ACM reference](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/latest/html/clusters/cluster_mce_overview#remove-managed-cluster) on how to clean detached managed cluster.
 
 ### Remove obsolete content
 
@@ -320,7 +304,7 @@ To upgrade an existing GitOps ZTP installation follow the [Upgrade Guide](Upgrad
 
 ## Troubleshooting GitOps ZTP
 
-As noted above, the ArgoCD pipeline uses the SiteConfig and PolicyGenTemplate CRs from GIT to generate the cluster configuration CRs & ACM policies. The following steps can be used to troubleshoot issues that may occur in this process.
+As noted above, the ArgoCD pipeline uses the ClusterInstance and PolicyGenTemplate CRs from GIT to generate the cluster configuration CRs & ACM policies. The following steps can be used to troubleshoot issues that may occur in this process.
 
 ### Validate generation of installation CRs
 
@@ -330,31 +314,24 @@ The installation CRs are applied to the hub cluster in a namespace with name mat
     oc get AgentClusterInstall -n <clusterName>
 ```
 
-If no object is returned, troubleshoot the ArgoCD pipeline flow from SiteConfig to installation CRs.
+If no object is returned, troubleshoot the ArgoCD pipeline flow from ClusterInstance to installation CRs.
 
-1. Did the SiteConfig->ManagedCluster get generated to the hub cluster ?
+1. Did the ClusterInstance->ManagedCluster get generated to the hub cluster ?
 
 ```
      oc get managedcluster
 ```
 
-- If the SiteConfig->ManagedCluster is missing, check if the `clusters` application failed to synchronize the files from GIT to the hub.
+- If the ClusterInstance->ManagedCluster is missing, check if the `clusters` application failed to synchronize the files from GIT to the hub.
 
 ```
     oc describe -n openshift-gitops application clusters 
 ```
 
-- Check if the SiteConfig was synced to the hub. If this is the case, then it means there was an error in SiteConfig. To identify that error, look in the ArgoCD UI under the `DESIRED MANIFEST` tab for the synced SiteConfig, under `spec.siteConfigError`. Setting an invalid `extraManifestPath` will raise the error as below:
-
-```
-siteConfigError: >-
-  Error: could not build the entire SiteConfig defined by
-  /tmp/kust-plugin-config-390395466: stat sno-extra-manifest/: no such file or
-  directory
-```
+- Check if the ClusterInstance was synced to the hub. If this is the case, then it means there was an error in ClusterInstance. 
 
 - Check for `Status.Conditions` in the `applications.argoproj.io` *clusters* resource as it can show error logs.
-For example, setting an invalid path to the SiteConfig file in the *kustomization.yaml* will raise an error as below.
+For example, setting an invalid path to the ClusterInstance file in the *kustomization.yaml* will raise an error as below.
 
 ```
 status:
@@ -385,7 +362,7 @@ Status:
         Server:     https://kubernetes.default.svc
       Source:
         Path:             sites-config
-        Repo URL:         https://git.com/ran-sites/siteconfigs/.git
+        Repo URL:         https://git.com/ran-sites/clusterinstance/.git
         Target Revision:  master
     Status:               Unknown
 ```
@@ -395,11 +372,9 @@ Status:
 ```
 syncResult:
       resources:
-      - group: ran.openshift.io
-        kind: SiteConfig
-        message: The Kubernetes API could not find ran.openshift.io/SiteConfig for
-          requested resource spoke-sno/spoke-sno-example. Make sure the "SiteConfig" CRD is
-          installed on the destination cluster.
+      - group: siteconfig.open-cluster-management.io/v1alpha1
+        kind: ClusterInstance
+        message: <appropriate message>.
         name: spoke-sno-example
         namespace: spoke-sno-example
         status: SyncFailed
@@ -524,4 +499,4 @@ A ClusterGroupUpgrade CR in the `UpgradeTimedOut` state will automatically resta
      oc delete clustergroupupgrades -n ztp-install $CLUSTER
 ```
 
-> **Note:** Once ClusterGroupUpgrade CR completes with status ```UpgradeCompleted``` and the managed spoke cluster has label ```ztp-done``` applied, if you would like to make additional configuration via PGT, deleting the existing ClusterGroupUpgrade CR will not make TALO generate a new CR. At this point ZTP has completed its interaction with the cluster and any further interactions should be treated as an upgrade. See the [Topology-Aware Lifecycle Operator](https://github.com/openshift-kni/cluster-group-upgrades-operator#readme) documentation for instructions on how to construct your own ClusterGroupUpgrade CR to apply the new changes.
+> **Note:** Once ClusterGroupUpgrade CR completes with status ```UpgradeCompleted``` and the managed spoke cluster has label ```ztp-done``` applied, if you would like to make additional configuration via PGT, deleting the existing ClusterGroupUpgrade CR will not make TALM generate a new CR. At this point ZTP has completed its interaction with the cluster and any further interactions should be treated as an upgrade. See the [Topology-Aware Lifecycle Operator](https://github.com/openshift-kni/cluster-group-upgrades-operator#readme) documentation for instructions on how to construct your own ClusterGroupUpgrade CR to apply the new changes.

@@ -9,29 +9,30 @@ Starting from ACM 2.8, it supports GitOps workflow to cleanly delete a node from
 
 ## Delete a worker node from spoke cluster
 
-1. Annotate the BMH CR of the worker node with the "bmac.agent-install.openshift.io/remove-agent-and-node-on-delete=true"    annotation. Add the annotation via SiteConfig as the following, then push the changes to git repo and wait for the BMH CR on the hub cluster has the annotation applied.
+1. Annotate the BMH CR of the worker node with the "bmac.agent-install.openshift.io/remove-agent-and-node-on-delete=true" annotation. Add the annotation using `extraAnnotations` via ClusterInstance as the following, then push the changes to git repo and wait for the BMH CR on the hub cluster has the annotation applied.
 
     ```yaml
     nodes:
-    - hostname: node6
-      role: "worker"
-      crAnnotations:
-        add:
+    - hostName: "worker-node2.example.com"
+        role: "worker"
+        extraAnnotations:
           BareMetalHost:
-            bmac.agent-install.openshift.io/remove-agent-and-node-on-delete: true
+            bmac.agent-install.openshift.io/remove-agent-and-node-on-delete: "true"
     ```
 
-2. Delete the BMH CR of the worker node that has been annotated. Suppress the generation of the BMH CR via SiteConfig as the following, then push the changes to git repo and wait for deprovision to start.
+2. Delete the BMH CR of the worker node that has been annotated. Suppress the generation of the BMH CR using via ClusterInstance as the following, then push the changes to git repo and wait for deprovision to start.
 
    ```yaml
-   nodes:
-   - hostname: node6
-     role: "worker"
-     crSuppression:
-       - BareMetalHost
+    nodes:
+      - hostName: "worker-node2.example.com"
+        role: "worker"
+        pruneManifests:
+          - apiVersion: metal3.io/v1alpha1
+            kind: BareMetalHost
    ```
 
 3. The status of the BMH CR should be changed to "deprovisioning". Wait for the BMH to finish deprovisioning, and to be fully deleted.
+
 
 ## Verify the node is deleted
 
@@ -48,18 +49,13 @@ oc get agent -n <cluster-ns>
 oc get nodes
 ```
 
-## Reprovision the worker node
+## Update ClusterInstance
 
-Delete the following changes from the SiteConfig you added previously for the node deletion, then push the changes to the git repo and wait for sync to complete. This will re-generate the BMH CR of the worker node and trigger the re-install of the node.
+After the `BareMetalHost` object of the worker node is successfully deleted, remove the associated worker node definition from the `spec.nodes` section in the `ClusterInstance` resource.
 
-```yaml
-   nodes:
-   - hostname: node6
-     role: "worker"
-     crAnnotations:
-       add:
-         BareMetalHost:
-           bmac.agent-install.openshift.io/remove-agent-and-node-on-delete: true
-     crSuppression:
-       - BareMetalHost
-```
+## Official documentation
+
+- [Adding annotations to any Underlying CR or any worker node](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/latest/html-single/multicluster_engine_operator_with_red_hat_advanced_cluster_management/index#scale-add-annotation)  
+
+
+- [Delete BMH of worker nodes](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/latest/html-single/multicluster_engine_operator_with_red_hat_advanced_cluster_management/index#scale-in-delete-baremetal-host)
