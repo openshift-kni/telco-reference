@@ -1,0 +1,10 @@
+---
+# Update ingress wildcard certificate common name for hub cluster domain
+- op: replace
+  path: /spec/commonName
+  value: "*.apps.hub.example.com"
+
+# Update DNS names for ingress wildcard certificate
+- op: replace
+  path: /spec/dnsNames/0
+  value: "*.apps.hub.example.com"

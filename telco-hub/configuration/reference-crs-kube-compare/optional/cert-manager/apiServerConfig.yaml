@@ -1,0 +1,14 @@
+---
+apiVersion: config.openshift.io/v1
+kind: APIServer
+metadata:
+  name: cluster
+spec:
+  servingCerts:
+    namedCertificates:
+    {{- range .spec.servingCerts.namedCertificates }}
+    - names:
+{{ .names | toYaml | indent 6 }}
+      servingCertificate:
+        name: api-server-cert
+    {{- end }}

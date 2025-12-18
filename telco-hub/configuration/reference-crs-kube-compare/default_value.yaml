@@ -422,3 +422,45 @@ required_registry_itms_release:
       - mirrors:
         - <registry.example.com:8443>/openshift-release-dev
         source: quay.io/openshift-release-dev
+
+# cert-manager defaults
+optional_cert_manager_certManagerClusterIssuer:
+- metadata:
+    name: acme-issuer
+  spec:
+    acme:
+      server: https://acme-v02.api.letsencrypt.org/directory
+      email: your-email@example.com
+      privateKeySecretRef:
+        name: acme-account-key
+      solvers:
+        - dns01:
+            route53:
+              region: us-east-1
+
+optional_cert_manager_ingressCertificate:
+- spec:
+    commonName: "*.apps.example.com"
+    dnsNames:
+      - '*.apps.example.com'
+    secretName: ingress-wildcard-cert
+
+optional_cert_manager_apiServerCertificate:
+- spec:
+    commonName: "api.example.com"
+    dnsNames:
+      - api.example.com
+    secretName: api-server-cert
+
+optional_cert_manager_apiServerConfig:
+- spec:
+    servingCerts:
+      namedCertificates:
+        - names:
+            - api.example.com
+          servingCertificate:
+            name: api-server-cert
+
+optional_cert_manager_certManagerSubscription:
+- spec:
+    source: redhat-operators-disconnected

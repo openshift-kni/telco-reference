@@ -3,6 +3,57 @@ IMAGE_NAME ?= telco-reference
 
 CONTAINER_TOOL ?= podman
 
+# Check that all required dependencies are installed
+.PHONY: check-deps
+check-deps:
+	@echo "Checking dependencies for ci-validate..."
+	@echo ""
+	@MISSING=0; \
+	echo -n "Checking yamllint... "; \
+	if command -v yamllint >/dev/null 2>&1; then \
+		echo "✓ Found: $$(yamllint --version)"; \
+	else \
+		echo "✗ Missing (install: pip install yamllint or brew install yamllint)"; \
+		MISSING=$$((MISSING+1)); \
+	fi; \
+	echo -n "Checking kubectl-cluster_compare... "; \
+	if command -v kubectl-cluster_compare >/dev/null 2>&1; then \
+		echo "✓ Found: $$(kubectl-cluster_compare --version 2>&1 | head -1)"; \
+	else \
+		echo "✗ Missing (install from: https://github.com/openshift/kube-compare/releases)"; \
+		MISSING=$$((MISSING+1)); \
+	fi; \
+	echo -n "Checking helm-convert... "; \
+	if command -v helm-convert >/dev/null 2>&1; then \
+		echo "✓ Found"; \
+	else \
+		echo "✗ Missing (install: go install github.com/openshift/kube-compare/addon-tools/helm-convert@latest)"; \
+		MISSING=$$((MISSING+1)); \
+	fi; \
+	echo -n "Checking mcmaker... "; \
+	if command -v mcmaker >/dev/null 2>&1; then \
+		echo "✓ Found"; \
+	else \
+		echo "✗ Missing (install: go install github.com/lack/mcmaker@latest)"; \
+		MISSING=$$((MISSING+1)); \
+	fi; \
+	echo -n "Checking go... "; \
+	if command -v go >/dev/null 2>&1; then \
+		echo "✓ Found: $$(go version)"; \
+	else \
+		echo "✗ Missing (install from: https://go.dev/dl/)"; \
+		MISSING=$$((MISSING+1)); \
+	fi; \
+	echo ""; \
+	if [ $$MISSING -eq 0 ]; then \
+		echo "✅ All dependencies are installed!"; \
+		echo "You can now run: make ci-validate"; \
+		exit 0; \
+	else \
+		echo "❌ Missing $$MISSING dependencies. Please install them to run ci-validate."; \
+		exit 1; \
+	fi
+
 # Basic lint checking
 lintCheck:
 	# The configuration is done piece-wise in order to skip the

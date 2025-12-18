@@ -1,0 +1,31 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../reference-crs/optional/cert-manager/
+
+patches:
+  # Customize ClusterIssuer for hub-specific ACME configuration
+  - target:
+      group: cert-manager.io
+      version: v1
+      kind: ClusterIssuer
+      name: acme-issuer
+    path: cluster-issuer-patch.yaml
+
+  # Customize ingress wildcard certificate for hub domain
+  - target:
+      group: cert-manager.io
+      version: v1
+      kind: Certificate
+      name: ingress-wildcard-certificate
+    path: ingress-certificate-patch.yaml
+
+  # Customize API server certificate for hub domain
+  - target:
+      group: cert-manager.io
+      version: v1
+      kind: Certificate
+      name: api-server-certificate
+    path: api-server-certificate-patch.yaml

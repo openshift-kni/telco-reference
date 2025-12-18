@@ -524,6 +524,39 @@ storage_lvm_StoragePV:
                 - key: "node-role.kubernetes.io/$mcp"
 storage_lvm_StoragePVC:
   - spec: {}
+cert_manager_certManagerClusterIssuer:
+  - metadata:
+      name: acme-issuer
+    spec:
+      acme:
+        server: https://acme-v02.api.letsencrypt.org/directory
+        email: your-email@example.com
+        privateKeySecretRef:
+          name: acme-account-key
+        solvers:
+          - dns01:
+              route53:
+                region: us-east-1
+cert_manager_ingressCertificate:
+  - spec:
+      commonName: "*.apps.example.com"
+      dnsNames:
+        - "*.apps.example.com"
+      secretName: ingress-wildcard-cert
+cert_manager_apiServerCertificate:
+  - spec:
+      commonName: "api.example.com"
+      dnsNames:
+        - "api.example.com"
+      secretName: api-server-cert
+cert_manager_apiServerConfig:
+  - spec:
+      servingCerts:
+        namedCertificates:
+          - names:
+              - api.example.com
+            servingCertificate:
+              name: api-server-cert
 cluster_logging_ClusterLogForwarder:
   - spec:
       filters:

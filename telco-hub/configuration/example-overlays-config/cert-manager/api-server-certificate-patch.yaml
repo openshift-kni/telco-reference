@@ -1,0 +1,10 @@
+---
+# Update API server certificate common name for hub cluster domain
+- op: replace
+  path: /spec/commonName
+  value: api.hub.example.com
+
+# Update DNS names for API server certificate
+- op: replace
+  path: /spec/dnsNames/0
+  value: api.hub.example.com

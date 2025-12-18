@@ -1,0 +1,17 @@
+---
+# Update ACME server URL (e.g., production vs staging Let's Encrypt)
+- op: replace
+  path: /spec/acme/server
+  value: https://acme-v02.api.letsencrypt.org/directory
+
+# Update email address for ACME account notifications
+- op: replace
+  path: /spec/acme/email
+  value: platform-team@example.com
+
+# Update DNS provider configuration for DNS-01 challenge
+# This example uses Route53 - adjust for your DNS provider
+# See: https://cert-manager.io/docs/configuration/acme/dns01/
+- op: replace
+  path: /spec/acme/solvers/0/dns01/route53/region
+  value: us-west-2

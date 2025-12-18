@@ -3,9 +3,6 @@ apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: acme-issuer
-  annotations:
-    argocd.argoproj.io/sync-wave: "-30"
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   # Example based on: https://cert-manager.io/docs/configuration/acme/#creating-a-basic-acme-issuer
   acme:
@@ -17,3 +14,5 @@ spec:
     - dns01:
         route53:
           region: us-east-1
+          # Replace with your DNS provider configuration
+          # See: https://cert-manager.io/docs/configuration/acme/dns01/

@@ -46,6 +46,11 @@ policies:
                     status: "True"
                     reason: InstallSucceeded
 
+      # Cert-manager operator (optional component)
+      # - path: reference-crs/optional/cert-manager/certManagerNS.yaml
+      # - path: reference-crs/optional/cert-manager/certManagerOperatorgroup.yaml
+      # - path: reference-crs/optional/cert-manager/certManagerSubscription.yaml
+
       - path: reference-crs/required/networking/sriov/SriovSubscriptionNS.yaml
       - path: reference-crs/required/networking/sriov/SriovSubscriptionOperGroup.yaml
       - path: reference-crs/required/networking/sriov/SriovSubscription.yaml

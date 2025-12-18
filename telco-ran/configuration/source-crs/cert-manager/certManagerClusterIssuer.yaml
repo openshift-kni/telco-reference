@@ -4,8 +4,7 @@ kind: ClusterIssuer
 metadata:
   name: acme-issuer
   annotations:
-    argocd.argoproj.io/sync-wave: "-30"
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    ran.openshift.io/ztp-deploy-wave: "10"
 spec:
   # Example based on: https://cert-manager.io/docs/configuration/acme/#creating-a-basic-acme-issuer
   acme:

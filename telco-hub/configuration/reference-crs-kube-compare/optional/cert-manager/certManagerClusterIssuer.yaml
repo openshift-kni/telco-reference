@@ -1,0 +1,18 @@
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: {{ .metadata.name | default "acme-issuer" }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-30"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  # Example based on: https://cert-manager.io/docs/configuration/acme/#creating-a-basic-acme-issuer
+  acme:
+    server: {{ .spec.acme.server | default "https://acme-v02.api.letsencrypt.org/directory" }}
+    email: {{ .spec.acme.email | default "your-email@example.com" }}
+    privateKeySecretRef:
+      name: {{ .spec.acme.privateKeySecretRef.name | default "acme-account-key" }}
+    solvers:{{- if .spec.acme.solvers }}
+{{ .spec.acme.solvers | toYaml | indent 4 }}
+{{- else }} []{{ end }}
