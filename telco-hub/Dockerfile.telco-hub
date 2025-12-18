@@ -13,6 +13,7 @@ CMD ["-c", "tar -cf - --directory /usr/share telco-hub-rds | base64 -w0"]
 
 LABEL com.redhat.component="openshift-telco-hub-rds-container" \
     name="openshift4/openshift-telco-hub-rds-rhel9" \
+    cpe="cpe:/a:redhat:openshift:4.20::el9" \
     summary="Telco Hub RDS manifests" \
     io.openshift.expose-services="" \
     io.openshift.tags="" \
