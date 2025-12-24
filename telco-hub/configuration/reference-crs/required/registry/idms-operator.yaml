@@ -8,7 +8,6 @@ kind: ImageDigestMirrorSet
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-50"
-    target.workload.openshift.io/management: '{"effect": "PreferredDuringScheduling"}'
   name: idms-operator-0
 spec:
   imageDigestMirrors:
