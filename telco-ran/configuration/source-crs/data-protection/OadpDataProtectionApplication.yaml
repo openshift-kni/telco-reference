@@ -9,9 +9,6 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "100"
 spec:
   configuration:
-    nodeAgent:
-      enable: false
-      uploaderType: restic
     velero:
       defaultPlugins:
         - aws
