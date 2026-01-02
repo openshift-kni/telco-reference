@@ -10,3 +10,4 @@ resources:
   - ingressControllerConfig.yaml
   - apiServerCertificate.yaml
   - apiServerConfig.yaml
+  - certManagerCertificatePolicy.yaml
