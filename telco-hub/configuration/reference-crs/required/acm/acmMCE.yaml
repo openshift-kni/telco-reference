@@ -33,7 +33,7 @@ spec:
       enabled: true
       name: server-foundation
     - configOverrides: {}
-      enabled: false
+      enabled: true
       name: cluster-proxy-addon
     - configOverrides: {}
       enabled: true
@@ -58,11 +58,10 @@ spec:
       name: cluster-api-provider-aws
     - configOverrides: {}
       enabled: false
-      name: cluster-api-provider-metal3-preview
+      name: cluster-api-provider-metal3
     - configOverrides: {}
       enabled: false
-      name: cluster-api-provider-openshift-assisted-preview
-
+      name: cluster-api-provider-openshift-assisted
   targetNamespace: multicluster-engine
   tolerations:
   - effect: NoSchedule
