@@ -2,14 +2,14 @@
 set -o errexit -o nounset -o pipefail
 
 isOstreeUpdating() {
-	local RESULT
+  local RESULT
 
-	RESULT=$(ostree admin status | grep -E "staged|pending")
-	if [ "$RESULT" != "" ]; then
-		return "$TRUE"
-	else
-		return "$FALSE"
-	fi
+  RESULT=$(ostree admin status | grep -E "staged|pending")
+  if [ "$RESULT" != "" ]; then
+    return "$TRUE"
+  else
+    return "$FALSE"
+  fi
 }
 
 # Add a new function to the array of update detection methods
