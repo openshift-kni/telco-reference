@@ -7,7 +7,7 @@ metadata:
   name: open-cluster-management-subscription
   namespace: open-cluster-management
 spec:
-  channel: release-2.14
+  channel: release-2.15
   installPlanApproval: Automatic
   name: advanced-cluster-management
   source: {{ .spec.source }}
