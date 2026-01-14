@@ -1,0 +1,40 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+spec:
+  config:
+    ignition:
+      version: 3.5.0
+    storage:
+      files:
+        - contents:
+            # Consolidated SSHD Security Hardening (E8/CIS Compliance Operator)
+            #
+            # HIGH Severity:
+            # PermitEmptyPasswords no - Prevent SSH login with empty passwords
+            #
+            # MEDIUM Severity:
+            # PermitRootLogin no - Disable direct root SSH access
+            # GSSAPIAuthentication no - Disable GSSAPI authentication
+            # IgnoreRhosts yes - Disable rhost authentication
+            # IgnoreUserKnownHosts yes - Ignore user's known_hosts file
+            # PermitUserEnvironment no - Block user environment variable passing
+            # StrictModes yes - Enable strict mode checking
+            # PrintLastLog yes - Display last login information
+            #
+            # LOW Severity:
+            # LogLevel INFO - Set SSH logging to INFO level
+            #
+            # Additional hardening (best practice):
+            # PasswordAuthentication no - Disable password auth (use keys)
+            # PubkeyAuthentication yes - Enable public key authentication
+            # ClientAliveInterval 300 - Session timeout (5 min)
+            # ClientAliveCountMax 0 - No keepalive retries
+            #
+            source: data:,PermitEmptyPasswords%20no%0APermitRootLogin%20no%0AGSSAPIAuthentication%20no%0AIgnoreRhosts%20yes%0AIgnoreUserKnownHosts%20yes%0APermitUserEnvironment%20no%0AStrictModes%20yes%0APrintLastLog%20yes%0ALogLevel%20INFO%0APasswordAuthentication%20no%0APubkeyAuthentication%20yes%0AClientAliveInterval%20300%0AClientAliveCountMax%200%0A
+          mode: 384
+          overwrite: true
+          path: /etc/ssh/sshd_config.d/75-hardening.conf
+metadata:
+  name: 75-sshd-hardening
+  labels:
+    machineconfiguration.openshift.io/role: worker
