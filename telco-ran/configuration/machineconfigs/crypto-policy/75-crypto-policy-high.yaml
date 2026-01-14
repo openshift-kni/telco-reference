@@ -1,0 +1,26 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+spec:
+  config:
+    ignition:
+      version: 3.5.0
+    systemd:
+      units:
+        - contents: |
+            [Unit]
+            Description=Configure system-wide crypto policy (HIGH severity)
+            Before=kubelet.service
+            ConditionPathExists=!/var/lib/crypto-policy-configured
+            [Service]
+            Type=oneshot
+            ExecStart=/usr/bin/update-crypto-policies --set DEFAULT:NO-SHA1
+            ExecStartPost=/usr/bin/touch /var/lib/crypto-policy-configured
+            RemainAfterExit=yes
+            [Install]
+            WantedBy=multi-user.target
+          enabled: true
+          name: configure-crypto-policy.service
+metadata:
+  name: 75-crypto-policy-high
+  labels:
+    machineconfiguration.openshift.io/role: worker
