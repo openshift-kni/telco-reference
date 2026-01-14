@@ -1,0 +1,29 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+spec:
+  config:
+    ignition:
+      version: 3.5.0
+    storage:
+      files:
+        - contents:
+            # Top Priority Kernel Sysctl Security Settings (E8/CIS):
+            # 1. Restrict kernel log access - prevents unprivileged users from reading dmesg
+            #    which can leak sensitive system information
+            # kernel.dmesg_restrict=1
+            # 2. Enable full ASLR - randomizes memory layout to prevent exploitation attacks
+            # kernel.randomize_va_space=2
+            # 3. Disable unprivileged BPF - prevents privilege escalation via BPF programs
+            # kernel.unprivileged_bpf_disabled=1
+            # 4. Restrict ptrace to parent-child - prevents process injection and credential theft
+            # kernel.yama.ptrace_scope=1
+            # 5. Harden BPF JIT compiler - prevents JIT spraying attacks
+            # net.core.bpf_jit_harden=2
+            source: data:,kernel.dmesg_restrict%3D1%0Akernel.randomize_va_space%3D2%0Akernel.unprivileged_bpf_disabled%3D1%0Akernel.yama.ptrace_scope%3D1%0Anet.core.bpf_jit_harden%3D2%0A
+          mode: 420
+          overwrite: true
+          path: /etc/sysctl.d/75-sysctl-high.conf
+metadata:
+  name: 75-sysctl-high
+  labels:
+    machineconfiguration.openshift.io/role: worker
