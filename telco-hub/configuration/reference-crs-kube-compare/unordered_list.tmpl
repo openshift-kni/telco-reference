@@ -1,0 +1,13 @@
+{{- define "unorderedListAllowExtra" -}}
+{{- /* unorderedListAllowExtra <listToEval> <requiredValues>: ensures required values present, allows extras */ -}}
+{{- $result := list }}
+{{- $requiredArgs := index . 1 }}
+{{- range $value := (index . 0) }}
+  {{- $result = append $result $value }}
+  {{- $requiredArgs = without $requiredArgs $value }}
+{{- end }}
+{{- range $value := $requiredArgs }}
+  {{- $result = append $result $value }}
+{{- end }}
+{{- $result | toYaml | nindent 14 }}
+{{- end }}

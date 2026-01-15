@@ -31,6 +31,13 @@ parts:
         allOrNoneOf:
           - path: optional/cert-manager/apiServerCertificate.yaml
           - path: optional/cert-manager/apiServerConfig.yaml
+      - name: cert-manager-monitoring
+        description: |-
+          Certificate monitoring policy for RHACM
+        allOrNoneOf:
+          - path: optional/cert-manager/certManagerCertificatePolicy.yaml
+          - path: optional/cert-manager/certManagerCertificatePolicyPlacement.yaml
+          - path: optional/cert-manager/certManagerCertificatePolicyPlacementBinding.yaml
   - name: optional-storage
     components:
       - name: local-storage-operator
@@ -157,6 +164,7 @@ parts:
 
 templateFunctionFiles:
   - version_match.tmpl
+  - unordered_list.tmpl
 
 fieldsToOmit:
   defaultOmitRef: all
