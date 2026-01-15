@@ -460,6 +460,14 @@ optional_cert_manager_apiServerConfig:
           servingCertificate:
             name: api-server-cert
 
+optional_cert_manager_certManagerCertificatePolicy:
+- spec:
+    minimumDuration: 720h
+    namespaceSelector:
+      include:
+        - openshift-ingress
+        - openshift-config
+
 optional_cert_manager_certManagerSubscription:
 - spec:
     source: redhat-operators-disconnected
