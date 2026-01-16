@@ -1,4 +1,3 @@
-
 # telco-core
 
 ## Description
@@ -6,6 +5,8 @@
 This repository contains reference configuration CRs related to the
 Telco Core use models. The content is branched for each y-stream
 release of OpenShift.
+
+Click [here](./yaml_details.md) to view the details of each YAML file in this subdirectory.
 
 ## Contributing
 
