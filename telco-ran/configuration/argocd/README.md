@@ -205,7 +205,7 @@ The following steps prepare the hub cluster for site deployment and initiate ZTP
         - For standard deployments, you must have exactly three hosts defined with `role: master` and one or more hosts defined with `role: worker`
       - The ztp container version specific set of extra-manifest MachineConfigs can be inspected in *out/argocd/extra-manifest*. 
 
-   3. Add the ClusterInstance CR to the kustomization.yaml in the 'generators' section, much like in the example out/argocd/example/clusterinstance/kustomization.yaml
+   3. Add the ClusterInstance CR to the kustomization.yaml in the 'resources' section, much like in the example out/argocd/example/clusterinstance/kustomization.yaml
    4. Commit your ClusterInstance and associated kustomization.yaml in git.
 3. Create the PolicyGenTemplate CR for your site in your local clone of the git repository:
    1. Begin by choosing an appropriate example from *out/argocd/example/policygentemplates*. This directory demonstrates a 3-level policy framework which represents a well-supported low-latency profile tuned for the needs of 5G Telco DU deployments:
