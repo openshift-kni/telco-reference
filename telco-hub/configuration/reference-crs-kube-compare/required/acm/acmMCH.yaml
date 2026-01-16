@@ -61,4 +61,7 @@ spec:
     - configOverrides: {}
       enabled: false
       name: fine-grained-rbac-preview
+    - configOverrides: {}
+      enabled: false
+      name: cnv-mtv-integrations-preview
   separateCertificateManagement: false
