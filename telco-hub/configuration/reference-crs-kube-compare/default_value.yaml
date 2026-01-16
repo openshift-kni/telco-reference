@@ -87,7 +87,6 @@ optional_odf_internal_odfNS:
 - metadata:
     annotations:
       argocd.argoproj.io/sync-wave: "-5"
-      workload.openshift.io/allowed: management
 
 optional_odf_internal_odfOperatorGroup:
 - metadata:
@@ -283,7 +282,7 @@ required_talm_talmSubscription:
 optional_logging_clusterLogNS:
 - metadata:
     annotations:
-      workload.openshift.io/allowed: management
+      argocd.argoproj.io/sync-wave: "-45"
 
 optional_logging_clusterLogSubscription:
 - spec:
