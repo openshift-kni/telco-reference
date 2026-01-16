@@ -1,0 +1,27 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  name: monitor-certificates
+  namespace: default
+  annotations:
+    policy.open-cluster-management.io/categories: SC System and Communications Protection
+    policy.open-cluster-management.io/controls: SC-8 Transmission Confidentiality and Integrity
+    policy.open-cluster-management.io/standards: NIST 800-53
+spec:
+  disabled: false
+  policy-templates:
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: CertificatePolicy
+        metadata:
+          name: policy-monitor-certificates
+        spec:
+          minimumDuration: 720h
+          namespaceSelector:
+            include:
+              - openshift-ingress
+              - openshift-config
+          remediationAction: inform
+          severity: low
+  remediationAction: inform
