@@ -14,6 +14,7 @@ spec:
   clusterName: "example-ai-3node"
   clusterType: HighlyAvailable  
   networkType: "OVNKubernetes"
+  cpuPartitioningMode: AllNodes
   # Include references to extraManifest ConfigMaps.
   extraManifestsRefs:
     - name: sno-extra-manifest-configmap
