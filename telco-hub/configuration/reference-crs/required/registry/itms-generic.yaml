@@ -20,3 +20,4 @@ spec:
   - mirrors:
     - <registry.example.com:8443>/rhel8
     source: registry.redhat.io/rhel8
+    
