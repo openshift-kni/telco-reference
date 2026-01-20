@@ -4,30 +4,30 @@ apiVersion: mirror.openshift.io/v2alpha1
 mirror:
   platform:
     channels:
-    - name: stable-4.20
+    - name: stable-4.21
       type: ocp
       # Adjust minVersion and maxVersion according to your required releases. This allows you to
       # minimize the mirrored content to only what is needed for your deployment. Note that only
       # versions which are mirrored to the disconnected registry can be installed, so only versions
       # listed here should be referenced in installation CRs (eg ClusterImageSet / imageSetRef).
-      minVersion: 4.20.0
-      maxVersion: 4.20.2
+      minVersion: 4.21.0
+      maxVersion: 4.21.2
   operators:
-  - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.20
+  - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.21
     targetCatalog: openshift-marketplace/redhat-operators-disconnected
     packages:
     - name: advanced-cluster-management
-      defaultChannel: release-2.14
+      defaultChannel: release-2.15
       channels:
-      - name: release-2.14
+      - name: release-2.15
     - name: multicluster-engine
-      defaultChannel: stable-2.9
+      defaultChannel: stable-2.10
       channels:
-      - name: stable-2.9
+      - name: stable-2.10
     - name: openshift-gitops-operator
-      defaultChannel: gitops-1.16
+      defaultChannel: gitops-1.19
       channels:
-      - name: gitops-1.16
+      - name: gitops-1.19
     - name: redhat-oadp-operator
       channels:
       - name: stable
@@ -39,7 +39,7 @@ mirror:
       - name: stable
     - name: cluster-logging
       channels:
-      - name: stable-6.2
+      - name: stable-6.4
     - name: odf-operator
       defaultChannel: stable-4.20
       channels:
