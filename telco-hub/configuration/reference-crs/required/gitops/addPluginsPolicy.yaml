@@ -86,7 +86,7 @@ spec:
                         terminationMessagePath: "/dev/termination-log"
                         image: "registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.19"
                       - name: "policy-generator-install"
-                        image: "registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:v2.13"
+                        image: "registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:v2.14"
                         imagePullPolicy: "Always"
                         volumeMounts:
                           - name: "kustomize"
