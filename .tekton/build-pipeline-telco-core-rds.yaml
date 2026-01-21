@@ -264,8 +264,8 @@ spec:
       - description=Telco Core RDS manifests
       - distribution-scope=public
       - io.k8s.description=Telco Core RDS manifests
-      - name=openshift4/openshift4/openshift-telco-core-rds-rhel9
-      - release=4.20
+      - name=openshift4/openshift-telco-core-rds-rhel9
+      - release=4.21
       - url=https://github.com/openshift-kni/telco-reference
       - vendor=Red Hat, Inc.
       - io.k8s.display-name=openshift-telco-core-rds
