@@ -85,17 +85,17 @@ mirror:
       channels:
       - name: stable-4.20
     - name: odr-hub-operator
-      defaultChannel: stable-4.21
+      defaultChannel: stable-4.20
       channels:
-      - name: stable-4.21
+      - name: stable-4.20
     - name: odr-cluster-operator
-      defaultChannel: stable-4.21
+      defaultChannel: stable-4.20
       channels:
-      - name: stable-4.21
+      - name: stable-4.20
     - name: recipe
-      defaultChannel: stable-4.21
+      defaultChannel: stable-4.20
       channels:
-      - name: stable-4.21
+      - name: stable-4.20
   additionalImages:
   - name: registry.redhat.io/ubi8/ubi:latest
   - name: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.20
