@@ -57,6 +57,9 @@ spec:
     - configOverrides: {}
       enabled: false
       name: edge-manager-preview
+    - configOverrides: {}
+      enabled: false
+      name: fine-grained-rbac-preview
   separateCertificateManagement: false
 ---
 apiVersion: cluster.open-cluster-management.io/v1beta2
