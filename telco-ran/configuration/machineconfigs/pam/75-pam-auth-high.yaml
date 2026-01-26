@@ -1,0 +1,28 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+spec:
+  config:
+    ignition:
+      version: 3.5.0
+    systemd:
+      units:
+        - contents: |
+            [Unit]
+            Description=Remove nullok from PAM auth files (HIGH severity)
+            Before=kubelet.service
+            ConditionPathExists=!/var/lib/pam-nullok-removed
+            [Service]
+            Type=oneshot
+            # Remove nullok option from PAM auth files to prevent empty passwords
+            ExecStart=/usr/bin/sed -i 's/\snullok\s/ /g; s/\snullok$//g' /etc/pam.d/system-auth
+            ExecStart=/usr/bin/sed -i 's/\snullok\s/ /g; s/\snullok$//g' /etc/pam.d/password-auth
+            ExecStartPost=/usr/bin/touch /var/lib/pam-nullok-removed
+            RemainAfterExit=yes
+            [Install]
+            WantedBy=multi-user.target
+          enabled: true
+          name: pam-remove-nullok.service
+metadata:
+  name: 75-pam-auth-high
+  labels:
+    machineconfiguration.openshift.io/role: worker
