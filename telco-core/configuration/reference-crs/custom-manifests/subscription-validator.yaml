@@ -1,6 +1,7 @@
 # This policy allows validation of all operator subscriptions status
 # including subscriptions automatically created on behalf of other
 # subscriptions.
+---
 object-templates-raw: |
   {{- range (lookup "operators.coreos.com/v1alpha1" "Subscription" "" "").items }}
   - complianceType: musthave

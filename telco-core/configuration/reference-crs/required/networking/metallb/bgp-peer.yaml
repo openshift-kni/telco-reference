@@ -13,5 +13,5 @@ spec:
   routerID: $id  # eg 10.10.10.10
   bfdProfile: $bfdprofile  # e.g. bfdprofile
   passwordSecret: {}
-  disableMP: $disableMP # e.g. false
-  peerPort: $peerPort # e.g. 179
+  disableMP: $disableMP  # e.g. false
+  peerPort: $peerPort  # e.g. 179
