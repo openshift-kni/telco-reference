@@ -27,14 +27,14 @@ data:
       - apiVersion: v2
         bearerToken:
           key: token
-          name: observability-alertmanager-accessor
+          name: {{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{ (regexFind "hub-cluster-id(.*)" ((fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml") | base64dec)) | replace "hub-cluster-id: " "observability-alertmanager-accessor-" }}{{ end }}
         scheme: https
         staticConfigs:
         - {{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{ (regexFind "alertmanager-endpoint(.*)" ((fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml") | base64dec)) | replace "alertmanager-endpoint: https://" "" }}{{ end }}
         tlsConfig:
           ca:
             key: service-ca.crt
-            name: hub-alertmanager-router-ca
+            name: {{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{ (regexFind "hub-cluster-id(.*)" ((fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml") | base64dec)) | replace "hub-cluster-id: " "hub-alertmanager-router-ca-" }}{{ end }}
           insecureSkipVerify: false
       externalLabels:
         managed_cluster: {{ fromClusterClaim "id.openshift.io" }}
