@@ -6,19 +6,19 @@ kind: SriovNetworkNodePolicy
 metadata:
   name: $name
   namespace: openshift-sriov-network-operator
+# eg
+# deviceType: netdevice
+# nicSelector:
+#   deviceID: "1593"
+#   pfNames:
+#   - ens8f0np0#0-9
+#   rootDevices:
+#   - 0000:d8:00.0
+#   vendor: "8086"
+# nodeSelector:
+#   kubernetes.io/hostname: host.sample.lab
+# numVfs: 20
+# priority: 99
+# excludeTopology: true
+# resourceName: resourceNameABCD
 spec: {}  # $spec
-  # eg
-  # deviceType: netdevice
-  # nicSelector:
-  #   deviceID: "1593"
-  #   pfNames:
-  #   - ens8f0np0#0-9
-  #   rootDevices:
-  #   - 0000:d8:00.0
-  #   vendor: "8086"
-  # nodeSelector:
-  #   kubernetes.io/hostname: host.sample.lab
-  # numVfs: 20
-  # priority: 99
-  # excludeTopology: true
-  # resourceName: resourceNameABCD
