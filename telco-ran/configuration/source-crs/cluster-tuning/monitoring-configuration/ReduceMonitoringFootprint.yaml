@@ -30,13 +30,13 @@ data:
       - apiVersion: v2
         bearerToken:
           key: token
-          name: observability-alertmanager-accessor
+          name: {{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{ $result := (regexFind "hub-cluster-id(.*)" ((fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml") | base64dec)) | replace "hub-cluster-id: " "observability-alertmanager-accessor-" }}{{ (empty $result) | ternary "observability-alertmanager-accessor" $result }}{{ else }}observability-alertmanager-accessor{{ end }}
         scheme: https
         staticConfigs: {{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{hub $route := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-alertmanager-route" hub}}{{hub if $route hub}}[{{hub $route hub}}]{{hub else hub}}[]{{hub end hub}}{{ else }}[]{{ end }}
         tlsConfig:
           ca:
             key: service-ca.crt
-            name: hub-alertmanager-router-ca
+            name: {{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{ $result := (regexFind "hub-cluster-id(.*)" ((fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml") | base64dec)) | replace "hub-cluster-id: " "hub-alertmanager-router-ca-" }}{{ (empty $result) | ternary "hub-alertmanager-router-ca" $result }}{{ else }}hub-alertmanager-router-ca{{ end }}
           insecureSkipVerify: false
       externalLabels:
         managed_cluster: {{ fromClusterClaim "id.openshift.io" }}
