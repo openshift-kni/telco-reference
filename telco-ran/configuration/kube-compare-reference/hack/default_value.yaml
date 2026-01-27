@@ -212,33 +212,6 @@ ptp_operator_configuration_PtpConfigSlave:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
-ptp_operator_configuration_PtpConfigGmWpc:
-  - spec:
-      profile:
-        - plugins:
-            e810:
-              settings:
-                LocalMaxHoldoverOffSet: 1500
-                LocalHoldoverTimeout: 14400
-                MaxInSpecOffset: 1500
-              pins:
-                $iface_timeTx:
-                  SMA1: 0 1
-                  SMA2: 0 2
-                  U.FL1: 0 1
-                  U.FL2: 0 2
-          ptpClockThreshold:
-            holdOverTimeout: 5
-            maxOffsetThreshold: 100
-            minOffsetThreshold: -100
-          ptpSettings:
-            logReduce: "true"
-      recommend:
-        - match:
-            - nodeLabel: "node-role.kubernetes.io/$mcp"
-    captureGroup_defaults:
-      priority2: 128
-      domainNumber: 24
 ptp_operator_configuration_PtpConfigSlaveForEvent:
   - spec:
       profile:
