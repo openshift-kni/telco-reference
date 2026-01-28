@@ -19,7 +19,8 @@ spec:
       resourceTimeout: 10m
 # User needs to configure the following backupLocations through PGT overlay
 # backupLocations:
-# - velero:
+# - name: dataprotectionapplication-1
+#   velero:
 #     provider: aws
 #     default: true
 #     credential:
