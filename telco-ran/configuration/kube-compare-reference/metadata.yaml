@@ -60,24 +60,6 @@ parts:
         anyOf:
           - path: cluster-tuning/operator-hub/OperatorHub.yaml
           - path: cluster-tuning/DisableOLMPprof.yaml
-  - name: optional-cert-manager
-    description: |-
-      Cert-manager operator for automated certificate management
-    components:
-      - name: cert-manager-operator
-        allOrNoneOf:
-          - path: cert-manager/certManagerNS.yaml
-          - path: cert-manager/certManagerOperatorgroup.yaml
-          - path: cert-manager/certManagerSubscription.yaml
-          - path: cert-manager/certManagerClusterIssuer.yaml
-      - name: cert-manager-ingress
-        allOrNoneOf:
-          - path: cert-manager/ingressCertificate.yaml
-          - path: cert-manager/ingressControllerConfig.yaml
-      - name: cert-manager-apiserver
-        allOrNoneOf:
-          - path: cert-manager/apiServerCertificate.yaml
-          - path: cert-manager/apiServerConfig.yaml
   - name: optional-lca
     description: |-
       https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-lca-operator_ran-ref-design-components
