@@ -22,6 +22,3 @@ spec: {}  # $spec
 # priority: 99
 # excludeTopology: true
 # resourceName: resourceNameABCD
-# yamllint enable rule:indentation
-[10:02 PM]Documented here:
-https://yamllint.readthedocs.io/en/stable/disable_with_comments.html#disabling-checks-for-all-or-part-of-the-file
