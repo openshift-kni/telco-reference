@@ -85,13 +85,13 @@ spec:
                         value: "360s"
                       - name: "KUSTOMIZE_PLUGIN_HOME"
                         value: "/.config/kustomize/plugin"
-                        # This is an optional workaround to override the health check for Policies.
-                        # With this configuration, ArgoCD will not report the Application as unhealthy if the Policy is NonCompliant.
-                        # resourceHealthChecks:
-                        #   - check: |
-                        #       hs = {}
-                        #       hs.status = "Healthy"
-                        #       hs.message = "Health check overridden"
-                        #       return hs
-                        #     group: policy.open-cluster-management.io
-                        #     kind: Policy
+                  # This is an optional workaround to override the health check for Policies.
+                  # With this configuration, ArgoCD will not report the Application as unhealthy if the Policy is NonCompliant.
+                  # resourceHealthChecks:
+                  # - check: |
+                  #     hs = {}
+                  #     hs.status = "Healthy"
+                  #     hs.message = "Health check overridden"
+                  #     return hs
+                  #   group: policy.open-cluster-management.io
+                  #   kind: Policy
