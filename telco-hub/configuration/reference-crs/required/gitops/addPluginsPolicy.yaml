@@ -42,6 +42,16 @@ spec:
                         cpu: "1"
                         memory: 2Gi
                   kustomizeBuildOptions: "--enable-alpha-plugins"
+                  # This is an optional workaround to override the health check for Policies.
+                  # With this configuration, ArgoCD will not report the Application as unhealthy if the Policy is NonCompliant.
+                  # resourceHealthChecks:
+                  #   - check: |
+                  #       hs = {}
+                  #       hs.status = "Healthy"
+                  #       hs.message = "Health check overridden"
+                  #       return hs
+                  #     group: policy.open-cluster-management.io
+                  #     kind: Policy
                   repo:
                     resources:
                       limits:
@@ -67,7 +77,7 @@ spec:
                         terminationMessagePath: "/dev/termination-log"
                         image: "registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.20"
                       - name: "policy-generator-install"
-                        image: "registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:v2.13"
+                        image: "registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:v2.15"
                         imagePullPolicy: "Always"
                         volumeMounts:
                           - name: "kustomize"
@@ -85,13 +95,3 @@ spec:
                         value: "360s"
                       - name: "KUSTOMIZE_PLUGIN_HOME"
                         value: "/.config/kustomize/plugin"
-                  # This is an optional workaround to override the health check for Policies.
-                  # With this configuration, ArgoCD will not report the Application as unhealthy if the Policy is NonCompliant.
-                  # resourceHealthChecks:
-                  # - check: |
-                  #     hs = {}
-                  #     hs.status = "Healthy"
-                  #     hs.message = "Health check overridden"
-                  #     return hs
-                  #   group: policy.open-cluster-management.io
-                  #   kind: Policy

@@ -39,8 +39,9 @@ spec:
       size: 1G
   # machineConfigPoolSelector: {}
   #   pools.operator.machineconfiguration.openshift.io/worker: ''
+  # nodeSelector:
+  #   node-role.kubernetes.io/worker: ""
   nodeSelector: {}
-    # node-role.kubernetes.io/worker: ""
   workloadHints:
     realTime: false
     highPowerConsumption: false

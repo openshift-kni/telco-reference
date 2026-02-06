@@ -17,13 +17,13 @@ mirror:
     targetCatalog: openshift-marketplace/redhat-operators-disconnected
     packages:
     - name: advanced-cluster-management
-      defaultChannel: release-2.14
+      defaultChannel: release-2.15
       channels:
-      - name: release-2.14
+      - name: release-2.15
     - name: multicluster-engine
-      defaultChannel: stable-2.9
+      defaultChannel: stable-2.10
       channels:
-      - name: stable-2.9
+      - name: stable-2.10
     - name: openshift-gitops-operator
       defaultChannel: gitops-1.16
       channels:
@@ -39,7 +39,7 @@ mirror:
       - name: stable
     - name: cluster-logging
       channels:
-      - name: stable-6.2
+      - name: stable-6.4
     - name: odf-operator
       defaultChannel: stable-4.20
       channels:
@@ -100,5 +100,5 @@ mirror:
   - name: registry.redhat.io/ubi8/ubi:latest
   - name: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.20
   - name: registry.redhat.io/rhel8/support-tools:latest
-  - name: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:2.14.0-1
+  - name: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:2.15.0-1
   helm: {}
