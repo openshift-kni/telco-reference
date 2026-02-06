@@ -1,3 +1,4 @@
+---
 apiVersion: tuned.openshift.io/v1
 kind: Tuned
 metadata:
@@ -5,9 +6,9 @@ metadata:
   namespace: openshift-cluster-node-tuning-operator
 spec:
   profile:
-      # Please note:
-      # - The 'include' line must match the associated PerformanceProfile name, following below pattern
-      #   include=openshift-node-performance-${PerformanceProfile.metadata.name}
+    # Please note:
+    # - The 'include' line must match the associated PerformanceProfile name, following below pattern
+    #   include=openshift-node-performance-${PerformanceProfile.metadata.name}
     - name: telco-core-performance
       data: |
         [main]
