@@ -37,6 +37,9 @@ mirror:
     - name: local-storage-operator
       channels:
       - name: stable
+    - name: cluster-logging
+      channels:
+      - name: stable-6.2
     - name: odf-operator
       defaultChannel: stable-4.20
       channels:
