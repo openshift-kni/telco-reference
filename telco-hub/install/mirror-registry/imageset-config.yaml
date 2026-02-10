@@ -25,9 +25,9 @@ mirror:
       channels:
       - name: stable-2.9
     - name: openshift-gitops-operator
-      defaultChannel: gitops-1.16
+      defaultChannel: gitops-1.18
       channels:
-      - name: gitops-1.16
+      - name: gitops-1.18
     - name: redhat-oadp-operator
       channels:
       - name: stable
