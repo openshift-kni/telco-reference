@@ -12,7 +12,7 @@ optional/quay/quaySubscription.yaml
 # Reference templates not implemented yet:
 required/gitops/ztp-installation/app-project.yaml
 required/gitops/ztp-installation/clusters-app.yaml
-required/gitops/ztp-installation/gitops-cluster-rolebinding.yaml
+required/gitops/ztp-installation/gitops-cluster-clusterrole.yaml
 required/gitops/ztp-installation/gitops-policy-rolebinding.yaml
 required/gitops/ztp-installation/kustomization.yaml
 required/gitops/ztp-installation/policies-app-project.yaml
