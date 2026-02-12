@@ -14,3 +14,12 @@ spec:
   - mirrors:
     - <registry.example.com:8443>/openshift-release-dev
     source: quay.io/openshift-release-dev
+  - mirrors:
+    - <registry.example.com:8443>/openshift-release-dev/ocp-v4.0-art-dev
+    source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+  - mirrors:
+    - <registry.example.com:8443>/multicluster-engine/assisted-installer-agent-rhel9
+    source: registry.redhat.io/multicluster-engine/assisted-installer-agent-rhel9
+  - mirrors:
+    - <registry.example.com:8443>/multicluster-engine/assisted-installer-rhel9
+    source: registry.redhat.io/multicluster-engine/assisted-installer-rhel9
