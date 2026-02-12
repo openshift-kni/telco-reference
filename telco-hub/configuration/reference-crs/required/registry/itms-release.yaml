@@ -12,5 +12,5 @@ metadata:
 spec:
   imageTagMirrors:
   - mirrors:
-    - <registry.example.com:8443>/openshift-release-dev
-    source: quay.io/openshift-release-dev
+    - <registry.example.com:8443>/openshift-release-dev/ocp-v4.0-art-dev
+    source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
