@@ -8,6 +8,6 @@ metadata:
   namespace: openshift-marketplace
 spec:
   displayName: Disconnected Red Hat Operators
-  image: <registry.example.com:8443>/openshift-marketplace/redhat-operators-disconnected:v4.20
+  image: <registry.example.com:8443>/openshift-marketplace/redhat-operators-disconnected:v4.21
   publisher: Red Hat
   sourceType: grpc
