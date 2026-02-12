@@ -32,3 +32,6 @@
   - mirrors:
     - <registry.example.com:8443>/openshift4
     source: registry.redhat.io/openshift4
+  - mirrors:
+    - <registry.example.com:8443>/multicluster-engine/assisted-installer-agent-rhel9
+    source: registry.redhat.io/multicluster-engine/assisted-installer-agent-rhel9
