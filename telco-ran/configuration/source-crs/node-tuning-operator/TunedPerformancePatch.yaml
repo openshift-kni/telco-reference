@@ -19,30 +19,27 @@ spec:
       data: |
         [main]
         summary=Common cross-architecture performance tuning which also includes architecture-specific profiles
-        include=performance-patch-${f:lscpu_check:Vendor ID\:\s*GenuineIntel:intel:Vendor ID\:\s*AuthenticAMD:amd:Architecture\:\s*aarch64:arm}-${f:lscpu_check:Architecture\:\s*x86_64:x86:Architecture\:\s*aarch64:aarch64}
+        include=ran-du-common-${f:lscpu_check:Architecture\:\s*x86_64:x86:Architecture\:\s*aarch64:aarch64}
         [service]
         service.chronyd=stop,disable
         service.stalld=start,enable
-    - name: performance-patch-arm-aarch64
+    - name: ran-du-common-aarch64
       data: |
         [main]
-        summary=Configuration specific to aarch64 performance tuned
-    - name: performance-patch-intel-x86
+        summary=Configuration specific to aarch64 performance
+        # No aarch64-specific tuning needed at this time
+    - name: ran-du-common-x86
       data: |
         [main]
-        summary=Configuration specific to Intel x86_64 performance tuned
+        summary=Configuration specific to x86_64 performance
+        # Note: If processor family-specific tuning is needed, uncomment this line and add appropriate profiles for 'ran-du-intel' and 'ran-du-amd'
+        #include=ran-du-${f:lscpu_check:Vendor ID\:\s*GenuineIntel:intel:Vendor ID\:\s*AuthenticAMD:amd}
         [scheduler]
         group.ice-ptp=0:f:10:*:ice-ptp.*
         group.ice-gnss=0:f:10:*:ice-gnss.*
         group.ice-dplls=0:f:10:*:ice-dplls.*
-    - name: performance-patch-amd-x86
-      data: |
-        [main]
-        summary=Configuration specific to AMD x86_64 performance tuned
-        [scheduler]
-        group.ice-ptp=0:f:10:*:ice-ptp.*
-        group.ice-gnss=0:f:10:*:ice-gnss.*
-        group.ice-dplls=0:f:10:*:ice-dplls.*
+        [bootloader]
+        cmdline_x86_blacklist=module_blacklist=mgag200
   recommend:
     - machineConfigLabels:
         machineconfiguration.openshift.io/role: $mcp
