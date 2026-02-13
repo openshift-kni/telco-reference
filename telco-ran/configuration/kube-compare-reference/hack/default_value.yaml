@@ -559,6 +559,8 @@ cluster_tuning_monitoring_configuration_ReduceMonitoringFootprint:
     captureGroup_defaults:
       alertmanager_endpoint: '{{ `{{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{hub $route := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-alertmanager-route" hub}}{{hub if $route hub}}[{{hub $route hub}}]{{hub else hub}}[]{{hub end hub}}{{ else }}[]{{ end }}` }}'
       managed_cluster: '{{ `{{ fromClusterClaim "id.openshift.io" }}` }}'
+      observability_alertmanager_accessor: '{{ `{{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{ $result := (regexFind "hub-cluster-id(.*)" ((fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml") | base64dec)) | replace "hub-cluster-id: " "observability-alertmanager-accessor-" }}{{ (empty $result) | ternary "observability-alertmanager-accessor" $result }}{{ else }}observability-alertmanager-accessor{{ end }}` }}'
+      hub_alertmanager_router_ca: '{{ `{{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{ $result := (regexFind "hub-cluster-id(.*)" ((fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml") | base64dec)) | replace "hub-cluster-id: " "hub-alertmanager-router-ca-" }}{{ (empty $result) | ternary "hub-alertmanager-router-ca" $result }}{{ else }}hub-alertmanager-router-ca{{ end }}` }}'
 lca_LcaSubscription:
   - spec:
       source: redhat-operators-disconnected
