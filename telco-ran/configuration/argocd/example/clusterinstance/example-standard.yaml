@@ -5,6 +5,8 @@ kind: ClusterInstance
 metadata:
   name: "example-ai-standard"
   namespace: "example-ai-standard"
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   baseDomain: "example.com"
   pullSecretRef:
