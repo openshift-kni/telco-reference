@@ -20,6 +20,11 @@ policies:
       - path: reference-crs/custom-manifests/mcp-worker-1.yaml
         patches:
         - spec:
+            # Using 100% maxUnavailable for the MCP requires the cluster and workload to be designed for
+            # multiple nodes to be offline simultaneously. This includes sufficient spare capacity, labeling for 
+            # zones to spread replicas, and workload dimensioning to ensure service availability is retained. 
+            # See https://github.com/openshift-kni/telco-reference/tree/main/telco-core/configuration#worker-node-upgrade for more details.
+            maxUnavailable: 100%
             paused: false
           status:
             conditions:
@@ -36,6 +41,7 @@ policies:
       - path: reference-crs/custom-manifests/mcp-worker-2.yaml
         patches:
         - spec:
+            maxUnavailable: 100%
             paused: false
           status:
             conditions:
@@ -52,6 +58,7 @@ policies:
       - path: reference-crs/custom-manifests/mcp-worker-3.yaml
         patches:
         - spec:
+            maxUnavailable: 100%
             paused: false
           status:
             conditions:
