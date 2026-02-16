@@ -6,7 +6,7 @@ kind: MetalLB
 metadata:
   name: metallb
   namespace: metallb-system
+# nodeSelector:
+#   node-role.kubernetes.io/worker: ""
+# loadBalancerClass: "metallb-class1"
 spec: {}
-  # nodeSelector:
-  #   node-role.kubernetes.io/worker: ""
-  # loadBalancerClass: "metallb-class1"

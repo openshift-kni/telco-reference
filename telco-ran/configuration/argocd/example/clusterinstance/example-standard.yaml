@@ -5,6 +5,8 @@ kind: ClusterInstance
 metadata:
   name: "example-ai-standard"
   namespace: "example-ai-standard"
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   baseDomain: "example.com"
   pullSecretRef:
@@ -14,6 +16,7 @@ spec:
   clusterName: "example-ai-standard"
   clusterType: HighlyAvailable  
   networkType: "OVNKubernetes"
+  cpuPartitioningMode: AllNodes
   # Include references to extraManifest ConfigMaps.
   extraManifestsRefs:
     - name: sno-extra-manifest-configmap

@@ -73,11 +73,6 @@ policies:
     - path: source-crs/storage-lso/StorageSubscription.yaml
     - path: source-crs/storage-lso/StorageOperatorStatus.yaml
     #
-    # Cert-manager operator for automated certificate management
-    # - path: source-crs/cert-manager/certManagerNS.yaml
-    # - path: source-crs/cert-manager/certManagerOperatorgroup.yaml
-    # - path: source-crs/cert-manager/certManagerSubscription.yaml
-    #
     # LCA operator is used for orchestrating Image Based Upgrade for SNO
     # - path: source-crs/lca/LcaSubscriptionNS.yaml
     # - path: source-crs/lca/LcaSubscriptionOperGroup.yaml

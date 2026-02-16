@@ -6,8 +6,8 @@ kind: SriovNetworkPoolConfig
 metadata:
   name: $name
   namespace: openshift-sriov-network-operator
+# maxUnavailable: $maxUnavailable
+# nodeSelector:
+#   matchLabels:
+#     node-role.kubernetes.io/worker: ""
 spec: {}
-  # maxUnavailable: $maxUnavailable
-  # nodeSelector:
-  #   matchLabels:
-  #     node-role.kubernetes.io/worker: ""

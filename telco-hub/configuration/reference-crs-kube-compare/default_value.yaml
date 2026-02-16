@@ -172,11 +172,6 @@ required_acm_acmAgentServiceConfig:
       name: mirror-registry-config
     osImages:
     - cpuArchitecture: "x86_64"
-      openshiftVersion: "4.18"
-      rootFSUrl: http://<http-server-address:port>/rhcos-4.18.0-x86_64-live-rootfs.x86_64.img
-      url: http://<http-server-address:port>/rhcos-4.18.0-x86_64-live.x86_64.iso
-      version: "418.94.202502100215-0"
-    - cpuArchitecture: "x86_64"
       openshiftVersion: "4.19"
       rootFSUrl: http://<http-server-address:port>/rhcos-4.19.0-x86_64-live-rootfs.x86_64.img
       url: http://<http-server-address:port>/rhcos-4.19.0-x86_64-live-iso.x86_64.iso
@@ -186,6 +181,11 @@ required_acm_acmAgentServiceConfig:
       rootFSUrl: http://<http-server-address:port>/rhcos-4.20.0-x86_64-live-rootfs.x86_64.img
       url: http://<http-server-address:port>/rhcos-4.20.0-x86_64-live-iso.x86_64.iso
       version: "9.6.20250530-0"
+    - cpuArchitecture: "x86_64"
+      openshiftVersion: "4.21"
+      rootFSUrl: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.21/latest/rhcos-live-rootfs.x86_64.img
+      url: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.21/latest/rhcos-live-iso.x86_64.iso
+      version: "9.6.20251212-1"
     osImageVersion: {}
 
 required_acm_acmMirrorRegistryCM:
@@ -352,7 +352,7 @@ required_gitops_argocd_tls_certs_cm:
 # Registry defaults
 required_registry_catalog_source:
 - spec:
-    image: <registry.example.com:8443>/openshift-marketplace/redhat-operators-disconnected:v4.20
+    image: <registry.example.com:8443>/openshift-marketplace/redhat-operators-disconnected:v4.21
 
 required_registry_idms_operator:
 - spec:
@@ -387,6 +387,9 @@ required_registry_idms_operator:
       - mirrors:
         - <registry.example.com:8443>/openshift4
         source: registry.redhat.io/openshift4
+      - mirrors:
+        - <registry.example.com:8443>/multicluster-engine/assisted-installer-agent-rhel9
+        source: registry.redhat.io/multicluster-engine/assisted-installer-agent-rhel9
 
 required_registry_registry_ca:
 - data:
@@ -401,6 +404,15 @@ required_registry_idms_release:
       - mirrors:
         - <registry.example.com:8443>/openshift-release-dev
         source: quay.io/openshift-release-dev
+      - mirrors:
+        - <registry.example.com:8443>/openshift-release-dev/ocp-v4.0-art-dev
+        source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+      - mirrors:
+        - <registry.example.com:8443>/multicluster-engine/assisted-installer-agent-rhel9
+        source: registry.redhat.io/multicluster-engine/assisted-installer-agent-rhel9
+      - mirrors:
+        - <registry.example.com:8443>/multicluster-engine/assisted-installer-rhel9
+        source: registry.redhat.io/multicluster-engine/assisted-installer-rhel9
 
 required_registry_itms_generic:
 - spec:
@@ -419,8 +431,8 @@ required_registry_itms_release:
 - spec:
     imageTagMirrors:
       - mirrors:
-        - <registry.example.com:8443>/openshift-release-dev
-        source: quay.io/openshift-release-dev
+        - <registry.example.com:8443>/openshift-release-dev/ocp-v4.0-art-dev
+        source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
 
 # cert-manager defaults
 optional_cert_manager_certManagerClusterIssuer:
@@ -459,6 +471,14 @@ optional_cert_manager_apiServerConfig:
             - api.example.com
           servingCertificate:
             name: api-server-cert
+
+optional_cert_manager_certManagerCertificatePolicy:
+- spec:
+    minimumDuration: 720h
+    namespaceSelector:
+      include:
+        - openshift-ingress
+        - openshift-config
 
 optional_cert_manager_certManagerSubscription:
 - spec:

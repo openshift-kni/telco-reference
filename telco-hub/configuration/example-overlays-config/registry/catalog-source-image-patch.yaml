@@ -1,4 +1,4 @@
 ---
 - op: replace
   path: /spec/image
-  value: <registry.example.com:8443>/openshift-marketplace/redhat-operators-disconnected:v4.20
+  value: <registry.example.com:8443>/openshift-marketplace/redhat-operators-disconnected:v4.21
