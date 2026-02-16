@@ -85,3 +85,15 @@ rules:
   verbs:
   - 'patch'
   - 'get'
+- apiGroups:
+  - observability.openshift.io
+  resources:
+  - clusterlogforwarders
+  verbs:
+  - '*'
+#- apiGroups:
+#  - ""
+#  resources:
+#  - serviceaccounts
+#  verbs:
+#  - '*'

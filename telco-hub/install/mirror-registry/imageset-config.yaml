@@ -17,11 +17,11 @@ mirror:
     targetCatalog: openshift-marketplace/redhat-operators-disconnected
     packages:
     - name: advanced-cluster-management
-      defaultChannel: release-2.14
+      defaultChannel: release-2.15
       channels:
-      - name: release-2.14
+      - name: release-2.15
     - name: multicluster-engine
-      defaultChannel: stable-2.9
+      defaultChannel: stable-2.10
       channels:
       - name: stable-2.9
     - name: openshift-gitops-operator
