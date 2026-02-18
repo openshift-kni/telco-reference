@@ -1,18 +1,18 @@
 # OpenShift installation with the Agent-based Installer
 
 1. [Download the Agent-based Installer](https://docs.openshift.com/container-platform/4.18/installing/installing_with_agent_based_installer/installing-with-agent-based-installer.html#installing-ocp-agent-retrieve_installing-with-agent-based-installer)
-2. Create a new directory `ocp`, copy the [install-config.yaml](install-config.yaml) and the [agent-config.yaml](agent-config.yaml) files and modify them to fit your environment.
+2. Create a new directory `install_directory`, copy the [install-config.yaml](install-config.yaml) and the [agent-config.yaml](agent-config.yaml) files and modify them to fit your environment.
    Read the inline comments for suggestions on which fields should be modified and how.
 3. Generate the ABI ISO image with the following command:
 
-   `openshift-install --dir ocp agent create image`
+   `openshift-install --dir install_directory agent create image`
 4. Load the generated ISO into each node's local disk and proceed with the OpenShift installation. To monitor the process use:
 
-   `openshift-install --dir ocp agent wait-for bootstrap-complete --log-level=info`
-   `openshift-install --dir ocp agent wait-for install-complete`
+   `openshift-install --dir install_directory agent wait-for bootstrap-complete --log-level=info`
+   `openshift-install --dir install_directory agent wait-for install-complete`
 5. Verify that the installation has completed successfully with:
 
-   `export KUBECONFIG=ocp/auth/kubeconfig`
+   `export KUBECONFIG=install_directory/auth/kubeconfig`
 
    `oc get nodes` (check that all the nodes are ready)
 
