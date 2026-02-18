@@ -7,4 +7,4 @@ metadata:
 spec:
   defaultNetwork:
     ovnKubernetesConfig:
-      mtu: $clusterNetworkMTU # Explicitly set cluster network MTU at deployment time. Setting the Cluster Network MTU at deployment requires caution. Its value must be lower than the Machine Network MTU by at least 100 bytes to account for OVN overhead. A further reduction (100 bytes) is necessary if IPsec is enabled
+      mtu: 8900 # This is the recommended default value. Setting the Cluster Network MTU at deployment requires caution. Its value must be lower than the Machine Network MTU by at least 100 bytes to account for OVN overhead. A further reduction (100 bytes) is necessary if IPsec is enabled.
