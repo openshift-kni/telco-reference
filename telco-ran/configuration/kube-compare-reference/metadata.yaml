@@ -34,7 +34,8 @@ parts:
           - path: cluster-logging/ClusterLogOperGroup.yaml
           - path: cluster-logging/ClusterLogSubscription.yaml
             config:
-              ignore-unspecified-fields: true
+              fieldsToOmitRefs:
+                - subscriptions
           - path: cluster-logging/ClusterLogForwarder.yaml
           - path: cluster-logging/ClusterLogServiceAccount.yaml
           - path: cluster-logging/ClusterLogServiceAccountAuditBinding.yaml
@@ -67,6 +68,9 @@ parts:
       - name: lca
         allOrNoneOf:
           - path: lca/LcaSubscription.yaml
+            config:
+              fieldsToOmitRefs:
+                - subscriptions
           - path: lca/LcaSubscriptionNS.yaml
           - path: lca/LcaSubscriptionOperGroup.yaml
   - name: optional-nmstate-operator
@@ -77,6 +81,9 @@ parts:
       - name: nmstate-operator
         allOrNoneOf:
           - path: nmstate/NMStateSubscription.yaml
+            config:
+              fieldsToOmitRefs:
+                - subscriptions
           - path: nmstate/NMStateSubscriptionNS.yaml
           - path: nmstate/NMStateSubscriptionOperGroup.yaml
       - name: nmstate-config
@@ -131,7 +138,8 @@ parts:
         allOf:
           - path: ptp-operator/PtpSubscription.yaml
             config:
-              ignore-unspecified-fields: true
+              fieldsToOmitRefs:
+                - subscriptions
           - path: ptp-operator/PtpSubscriptionNS.yaml
           - path: ptp-operator/PtpSubscriptionOperGroup.yaml
   - name: required-sriov-operator
@@ -144,7 +152,8 @@ parts:
           - path: sriov-operator/SriovNetworkNodePolicy.yaml
           - path: sriov-operator/SriovSubscription.yaml
             config:
-              ignore-unspecified-fields: true
+              fieldsToOmitRefs:
+                - subscriptions
           - path: sriov-operator/SriovSubscriptionNS.yaml
           - path: sriov-operator/SriovSubscriptionOperGroup.yaml
       - name: sriov-operator-config
@@ -161,7 +170,8 @@ parts:
           - path: storage-lso/StorageOperGroup.yaml
           - path: storage-lso/StorageSubscription.yaml
             config:
-              ignore-unspecified-fields: true
+              fieldsToOmitRefs:
+                - subscriptions
   - name: optional-storage-lvm
     description: |-
       https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-lvms-operator_ran-ref-design-components
@@ -171,7 +181,8 @@ parts:
           - path: storage-lvm/StorageLVMCluster.yaml
           - path: storage-lvm/StorageLVMSubscription.yaml
             config:
-              ignore-unspecified-fields: true
+              fieldsToOmitRefs:
+                - subscriptions
           - path: storage-lvm/StorageLVMSubscriptionNS.yaml
           - path: storage-lvm/StorageLVMSubscriptionOperGroup.yaml
           - path: storage-lvm/StoragePV.yaml
@@ -204,7 +215,8 @@ parts:
           - path: sriov-fec-operator/AcceleratorsOperGroup.yaml
           - path: sriov-fec-operator/AcceleratorsSubscription.yaml
             config:
-              ignore-unspecified-fields: true
+              fieldsToOmitRefs:
+                - subscriptions
       - name: sriov-fec-config
         anyOf:
           - path: sriov-fec-operator/SriovFecClusterConfig.yaml
@@ -423,3 +435,7 @@ fieldsToOmit:
     all:
       - include: defaults
       - pathToKey: status
+    subscriptions:
+      - include: all
+      - pathToKey: metadata.labels."operators.coreos.com/"
+        isPrefix: true
