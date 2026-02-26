@@ -58,7 +58,7 @@ spec:
     # Include these CRs in the group PGT instead of the common PGT to make sure they are applied
     # after the operators have been successfully installed, however, it's strongly recommended
     # to include these CRs as day-0 extra manifests to avoid an extra reboot.
-    - fileName: optional-extra-manifest/enable-crun-master.yaml
+    - fileName: extra-manifest/enable-crun-master.yaml
       policyName: "group-du-standard-cfg-pc"
-    - fileName: optional-extra-manifest/enable-crun-worker.yaml
+    - fileName: extra-manifest/enable-crun-worker.yaml
       policyName: "group-du-standard-cfg-pc"
