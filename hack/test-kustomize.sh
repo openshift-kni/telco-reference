@@ -12,7 +12,7 @@ NC='\033[0m' # No Color
 # Directories that require OpenShift ZTP external kustomize plugins
 # These plugins (PolicyGenerator, ClusterInstance, SiteConfig, PolicyGenTemplate) are distributed
 # via Red Hat container images and are designed to run in OpenShift ArgoCD with ACM/MCE installed.
-# 
+#
 # These plugins come from:
 # - registry.redhat.io/openshift4/ztp-site-generate-rhel8 (ClusterInstance, SiteConfig)
 # - registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9 (PolicyGenerator)
@@ -77,14 +77,14 @@ fi
 for kustomize_file in "${kustomize_files[@]}"; do
     dir=$(dirname "$kustomize_file")
     echo -n "  $dir: "
-    
+
     # Check if this directory requires external plugins
     if is_excluded "$dir"; then
         echo -e "${BLUE}SKIPPED${NC} (requires external plugins)"
         SKIPPED=$((SKIPPED + 1))
         continue
     fi
-    
+
     # Try to build the kustomization
     if kustomize build "$dir" > /dev/null 2>&1; then
         echo -e "${GREEN}OK${NC}"
