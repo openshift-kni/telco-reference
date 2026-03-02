@@ -113,6 +113,9 @@ ocp-doc-check:  ## Download and run ocp-doc-checker against markdown files
 	rm -f ./$$BINARY_NAME; \
 	echo "ocp-doc-check completed"
 
+test-kustomize:  ## Validate all kustomization.yaml files can build
+	./hack/test-kustomize.sh
+
 ci-validate: lintCheck check-reference-core check-reference-ran check-reference-hub
 
 .PHONY: check-reference-core
