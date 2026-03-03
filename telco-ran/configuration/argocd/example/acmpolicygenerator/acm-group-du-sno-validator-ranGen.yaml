@@ -40,3 +40,5 @@ policies:
     ran.openshift.io/ztp-deploy-wave: "10000"
   manifests:
     - path: source-crs/validatorCRs/informDuValidatorMaster.yaml
+# source CR needed for configuring OADP operator for SNO Image Based Upgrade
+#   - path: source-crs/data-protection/OadpBackupStorageLocationStatus.yaml
