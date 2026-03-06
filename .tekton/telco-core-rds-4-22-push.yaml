@@ -41,6 +41,8 @@ spec:
     value: "true"
   - name: skip-sast-coverity
     value: "true"
+  - name: additional-tags
+    value: ["latest"]
   pipelineRef:
     name: build-pipeline-telco-core-rds
   taskRunTemplate:
