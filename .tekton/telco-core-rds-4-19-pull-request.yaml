@@ -42,6 +42,8 @@ spec:
     value: '{"type": "rpm", "path": "build"}'
   - name: hermetic
     value: "true"
+  - name: additional-tags
+    value: []
   pipelineRef:
     name: build-pipeline-telco-core-rds
   taskRunTemplate:
