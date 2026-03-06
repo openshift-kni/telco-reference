@@ -38,6 +38,8 @@ spec:
     value: '{"type": "rpm", "path": "build"}'
   - name: hermetic
     value: "true"
+  - name: additional-tags
+    value: ["latest"]
   pipelineSpec:
     description: |
       This pipeline is ideal for building multi-arch container images from a Containerfile while maintaining trust after pipeline customization.
@@ -120,6 +122,10 @@ spec:
       - linux/x86_64
       description: List of platforms to build the container images on. The available set of values is determined by the configuration of the multi-platform-controller.
       name: build-platforms
+      type: array
+    - default: []
+      description: Additional tags to apply to the built container image
+      name: additional-tags
       type: array
     - name: buildah-format
       default: docker
@@ -603,6 +609,8 @@ spec:
         - "false"
     - name: apply-tags
       params:
+      - name: ADDITIONAL_TAGS
+        value: $(params.additional-tags[*])
       - name: IMAGE_URL
         value: $(tasks.build-image-index.results.IMAGE_URL)
       - name: IMAGE_DIGEST
