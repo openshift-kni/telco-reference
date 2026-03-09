@@ -17,4 +17,8 @@ spec:
 {{ if .spec.avoidBuggyIPs }}
   avoidBuggyIPs: {{ .spec.avoidBuggyIPs }}
 {{ end }}
+{{ if .spec.serviceAllocation }}
+  serviceAllocation:
+{{ .spec.serviceAllocation | toYaml | indent 4}}
+{{ end }}
   ##############
