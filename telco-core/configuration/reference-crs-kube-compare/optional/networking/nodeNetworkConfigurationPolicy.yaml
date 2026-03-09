@@ -35,6 +35,10 @@ spec:
 #     ethernet:
 #       sr-iov:
 #         total-vfs: 5
+    {{- if (hasKey .spec.desiredState "route-rules") }}
+    route-rules:
+      {{- index .spec.desiredState "route-rules" | toYaml | nindent 6 }}
+    {{- end }}
     {{- if .spec.desiredState.routes }}
     routes:
       {{- if (hasKey .spec.desiredState.routes "config") }}
