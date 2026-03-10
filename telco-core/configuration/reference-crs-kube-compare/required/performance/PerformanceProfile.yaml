@@ -51,6 +51,9 @@ spec:
           node: {{ .node }}
           {{- end }}
         {{- end }}
+  {{- if hasKey .spec "kernelPageSize" }}
+  kernelPageSize: {{ .spec.kernelPageSize }}
+  {{- end }}
   {{- if hasKey .spec "machineConfigPoolSelector" }}
   machineConfigPoolSelector:
     {{- .spec.machineConfigPoolSelector | toYaml | nindent 4 }}
