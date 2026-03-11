@@ -57,7 +57,8 @@ spec:
 #     policyName: "config-policy"
 #     spec:
 #       backupLocations:
-#       - velero:
+#       - name: dataprotectionapplication-1
+#         velero:
 #           provider: aws
 #           default: true
 #           credential:
@@ -72,6 +73,4 @@ spec:
 #           objectStorage:
 #             bucket: ibu
 #             prefix: '{{hub .ManagedClusterName hub}}'
-#   - fileName: data-protection/OadpBackupStorageLocationStatus.yaml
-#     policyName: "config-policy"
 #   --- END of source CRs needed for configuring OADP operator for SNO Image Based Upgrade ---
