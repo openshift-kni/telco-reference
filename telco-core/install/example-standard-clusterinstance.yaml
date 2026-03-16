@@ -19,6 +19,7 @@ spec:
   clusterName: "example-standard"
   networkType: "OVNKubernetes"
   clusterType: HighlyAvailable
+  cpuPartitioningMode: AllNodes
   # Reference configuration extra manifests
   extraManifestsRefs:
     - name: extra-manifests-configmap
