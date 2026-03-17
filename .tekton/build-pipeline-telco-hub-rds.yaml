@@ -175,7 +175,7 @@ spec:
       value:
       - build-date=$SOURCE_DATE
       - short-commit=$(tasks.clone-repository.results.short-commit)
-      - version=v4.20-$SOURCE_DATE_EPOCH
+      - version=v4.21-$SOURCE_DATE_EPOCH
     - name: source-date-epoch
       value: $(tasks.clone-repository.results.commit-timestamp)
     runAfter:
@@ -259,7 +259,7 @@ spec:
       - distribution-scope=public
       - io.k8s.description=Telco Hub RDS manifests
       - name=openshift4/openshift-telco-hub-rds-rhel9
-      - release=4.20
+      - release=4.21
       - url=https://github.com/openshift-kni/telco-reference
       - vendor=Red Hat, Inc.
       - io.k8s.display-name=openshift-telco-hub-rds
