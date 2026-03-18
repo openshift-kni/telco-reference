@@ -1,0 +1,17 @@
+---
+apiVersion: machineconfiguration.openshift.io/v1
+kind: PinnedImageSet
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: worker
+  name: worker-olm-pinned-images
+spec:
+  # Replace the pinnedImages list below with the actual images required for
+  # your target release(s). Use patches in the PolicyGenerator to override
+  # this list with environment-specific image digests.
+  pinnedImages:
+    - name: "registry.redhat.io/redhat/redhat-operator-index@sha256:..."
+    - name: "registry.redhat.io/odf4/odf-rhel9-operator@sha256:..."
+    - name: "registry.redhat.io/openshift4/ose-sriov-network-rhel9-operator@sha256:..."
+    - name: "registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:..."
+    - name: "registry.redhat.io/openshift4/metallb-rhel9-operator@sha256:..."

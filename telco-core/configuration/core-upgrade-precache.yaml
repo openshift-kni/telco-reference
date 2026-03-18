@@ -1,0 +1,62 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: telco-core-upgrade-precache-22
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      common: "core"
+      # Label clusters with upgrade-precache: "" to activate pre-caching.
+      # This is independent of the upgrade version labels since the PinnedImageSets
+      # contain images for all target releases in the EUS-to-EUS upgrade path.
+      upgrade-precache: ""
+  remediationAction: "inform"
+policies:
+  - name: core-upgrade-precache-controlplane-22
+    policyAnnotations:
+      ran.openshift.io/soak-seconds: "30"
+    manifests:
+      - path: reference-crs/optional/other/precache/controlplane-olm-pinned-images.yaml
+        complianceType: mustonlyhave
+        # Override pinnedImages with the full list of OLM images for your target release(s)
+        patches:
+        - spec:
+            pinnedImages:
+              - name: "registry.redhat.io/redhat/redhat-operator-index@sha256:<sha>"
+              # - name: "<add remaining OLM images here>"
+      - path: reference-crs/optional/other/precache/controlplane-releases-pinned-images.yaml
+        complianceType: mustonlyhave
+        # Override pinnedImages with the full list of release images for your target release(s)
+        patches:
+        - spec:
+            pinnedImages:
+              - name: "quay.io/openshift-release-dev/ocp-release@sha256:<sha>"
+              # - name: "<add remaining release images here>"
+  - name: core-upgrade-precache-worker-22
+    policyAnnotations:
+      ran.openshift.io/soak-seconds: "30"
+    manifests:
+      - path: reference-crs/optional/other/precache/worker-olm-pinned-images.yaml
+        complianceType: mustonlyhave
+        # Override pinnedImages with the full list of OLM images for your target release(s)
+        patches:
+        - spec:
+            pinnedImages:
+              - name: "registry.redhat.io/redhat/redhat-operator-index@sha256:<sha>"
+              # - name: "<add remaining OLM images here>"
+      - path: reference-crs/optional/other/precache/worker-releases-pinned-images.yaml
+        complianceType: mustonlyhave
+        # Override pinnedImages with the full list of release images for your target release(s)
+        patches:
+        - spec:
+            pinnedImages:
+              - name: "quay.io/openshift-release-dev/ocp-release@sha256:<sha>"
+              # - name: "<add remaining release images here>"
+  - name: core-upgrade-precache-validator-22
+    policyAnnotations:
+      ran.openshift.io/soak-seconds: "30"
+    manifests:
+      - path: reference-crs/custom-manifests/precache-validator.yaml
