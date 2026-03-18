@@ -1,0 +1,63 @@
+# This policy validates that PinnedImageSet pre-caching has completed successfully
+# on all nodes before starting the upgrade. Each PinnedImageSet is checked
+# independently to avoid order-sensitive list matching in ACM ConfigurationPolicy.
+---
+object-templates-raw: |
+  {{- range (lookup "machineconfiguration.openshift.io/v1" "MachineConfigNode" "" "").items }}
+  {{- if eq .spec.pool.name "master" }}
+  {{- $cpOlmDesired := 0 }}
+  {{- range .status.pinnedImageSets }}{{- if eq .name "controlplane-olm-pinned-images" }}{{- $cpOlmDesired = .desiredGeneration }}{{- end }}{{- end }}
+  - complianceType: musthave
+    objectDefinition:
+      apiVersion: machineconfiguration.openshift.io/v1
+      kind: MachineConfigNode
+      metadata:
+        name: {{ .metadata.name }}
+      status:
+        pinnedImageSets:
+          - currentGeneration: {{ $cpOlmDesired }}
+            desiredGeneration: {{ $cpOlmDesired }}
+            name: controlplane-olm-pinned-images
+  {{- $cpRelDesired := 0 }}
+  {{- range .status.pinnedImageSets }}{{- if eq .name "controlplane-releases-pinned-images" }}{{- $cpRelDesired = .desiredGeneration }}{{- end }}{{- end }}
+  - complianceType: musthave
+    objectDefinition:
+      apiVersion: machineconfiguration.openshift.io/v1
+      kind: MachineConfigNode
+      metadata:
+        name: {{ .metadata.name }}
+      status:
+        pinnedImageSets:
+          - currentGeneration: {{ $cpRelDesired }}
+            desiredGeneration: {{ $cpRelDesired }}
+            name: controlplane-releases-pinned-images
+  {{- end }}
+  {{- if (hasPrefix "worker" .spec.pool.name) }}
+  {{- $wOlmDesired := 0 }}
+  {{- range .status.pinnedImageSets }}{{- if eq .name "worker-olm-pinned-images" }}{{- $wOlmDesired = .desiredGeneration }}{{- end }}{{- end }}
+  - complianceType: musthave
+    objectDefinition:
+      apiVersion: machineconfiguration.openshift.io/v1
+      kind: MachineConfigNode
+      metadata:
+        name: {{ .metadata.name }}
+      status:
+        pinnedImageSets:
+          - currentGeneration: {{ $wOlmDesired }}
+            desiredGeneration: {{ $wOlmDesired }}
+            name: worker-olm-pinned-images
+  {{- $wRelDesired := 0 }}
+  {{- range .status.pinnedImageSets }}{{- if eq .name "worker-releases-pinned-images" }}{{- $wRelDesired = .desiredGeneration }}{{- end }}{{- end }}
+  - complianceType: musthave
+    objectDefinition:
+      apiVersion: machineconfiguration.openshift.io/v1
+      kind: MachineConfigNode
+      metadata:
+        name: {{ .metadata.name }}
+      status:
+        pinnedImageSets:
+          - currentGeneration: {{ $wRelDesired }}
+            desiredGeneration: {{ $wRelDesired }}
+            name: worker-releases-pinned-images
+  {{- end }}
+  {{- end }}
