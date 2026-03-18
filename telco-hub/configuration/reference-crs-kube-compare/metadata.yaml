@@ -129,7 +129,7 @@ parts:
           - path: required/gitops/argocd-ssh-known-hosts-cm.yaml
   - name: required-registry
     description: |-
-      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/disconnected_environments/mirroring-in-disconnected-environments
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/disconnected_environments/about-installing-oc-mirror-v2
     components:
       - name: registry-config
         allOf:
