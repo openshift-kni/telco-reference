@@ -1,0 +1,36 @@
+# required
+# count: 1
+---
+apiVersion: remediation.medik8s.io/v1alpha1
+kind: NodeHealthCheck
+metadata:
+  name: nhc-worker-self
+spec:
+  # minHealthy: minimum ratio of healthy nodes for remediation to take place.
+  # If the number of healthy nodes drops below this threshold, no further
+  # remediation will be triggered to prevent cascading failures.
+  # No one-size-fits-all value: depends on cluster size and customer needs.
+  # Tested value: 75% on a 4-worker-node cluster (at least 3 of 4 must be healthy).
+  minHealthy: $minHealthy  # eg 75%
+  remediationTemplate:
+    apiVersion: self-node-remediation.medik8s.io/v1alpha1
+    kind: SelfNodeRemediationTemplate
+    name: self-node-remediation-outofservicetaint-strategy-template
+    namespace: openshift-workload-availability
+  selector:
+    matchExpressions:
+    - key: $selector  # eg node-role.kubernetes.io/worker
+      operator: Exists
+  # unhealthyConditions.duration: how long a node must remain in a
+  # not-Ready state before it is considered unhealthy and remediation begins.
+  # Shorter values detect failures faster but risk false positives in
+  # environments with transient network issues.
+  # No one-size-fits-all value: depends on specific environment conditions.
+  # Tested value: 60s
+  unhealthyConditions:
+  - duration: $duration  # eg 60s
+    status: 'False'
+    type: Ready
+  - duration: $duration  # eg 60s
+    status: 'Unknown'
+    type: Ready
