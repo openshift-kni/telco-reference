@@ -96,6 +96,10 @@ mirror:
       defaultChannel: stable-4.20
       channels:
       - name: stable-4.20
+    - name: openshift-cert-manager-operator
+      defaultChannel: stable-v1
+      channels:
+      - name: stable-v1
   additionalImages:
   - name: registry.redhat.io/ubi8/ubi:latest
   - name: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.21
