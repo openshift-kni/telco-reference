@@ -186,14 +186,17 @@ spec:
       uds_address /var/run/ptp4l.0.socket
       [$iface_FirstPort1]
       ts2phc.extts_polarity rising
+      ts2phc.pin_index 1
       ts2phc.extts_correction -10
       ts2phc.master 0
       [$iface_FirstPort2]
       ts2phc.extts_polarity rising
+      ts2phc.pin_index 1
       ts2phc.extts_correction -27
       ts2phc.master 0
       [$iface_FirstPort3]
       ts2phc.extts_polarity rising
+      ts2phc.pin_index 1
       ts2phc.extts_correction -27
       ts2phc.master 0
     ts2phcOpts: -s generic -a --ts2phc.rh_external_pps 1
