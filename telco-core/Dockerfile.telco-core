@@ -1,4 +1,4 @@
-ARG RHEL_VERSION=9.7
+ARG RHEL_VERSION=9.7-1773939694
 
 FROM registry.redhat.io/ubi9/ubi-minimal:${RHEL_VERSION}
 
