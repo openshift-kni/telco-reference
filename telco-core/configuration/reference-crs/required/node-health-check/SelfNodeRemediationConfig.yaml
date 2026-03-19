@@ -1,0 +1,44 @@
+# required
+# count: 1
+#
+# These timers can be tuned based on the end-to-end delay profile of
+# the specific environment. They affect the estimated time to recover
+# affected workloads. No one-size-fits-all recommendation.
+---
+apiVersion: self-node-remediation.medik8s.io/v1alpha1
+kind: SelfNodeRemediationConfig
+metadata:
+  name: self-node-remediation-config
+  namespace: openshift-workload-availability
+spec:
+  # safeTimeToAssumeNodeRebootedSeconds: time after which the SNR operator
+  # assumes the node has been rebooted and begins fencing. Must be long enough
+  # for the node to complete a full reboot cycle.
+  # Note: actual fencing completion time exceeds this value because the SNR
+  # operator waits for all terminating pods on the fenced node to be deleted
+  # before marking fencing as complete. System pods on an unreachable node
+  # may take additional time to terminate (observed: 20s to several minutes).
+  # Tested value: 180s (bare metal server with standard boot time)
+  safeTimeToAssumeNodeRebootedSeconds: $safeTimeToAssumeNodeRebootedSeconds  # eg 180
+  watchdogFilePath: /dev/watchdog
+  isSoftwareRebootEnabled: true
+  # apiServerTimeout: timeout for API server connectivity checks.
+  # If the node cannot reach the API server within this time, it is
+  # considered to have lost connectivity.
+  # Tested value: 15s
+  apiServerTimeout: $apiServerTimeout  # eg 15s
+  # apiCheckInterval: how often the SNR agent checks API server connectivity.
+  # Tested value: 5s
+  apiCheckInterval: $apiCheckInterval  # eg 5s
+  # maxApiErrorThreshold: number of consecutive API check failures before
+  # the agent considers the API server unreachable and begins self-diagnosis.
+  # Tested value: 3
+  maxApiErrorThreshold: $maxApiErrorThreshold  # eg 3
+  # Peer connectivity timeouts: used by the SNR agent to check if the node
+  # is isolated (network partition) or if the API server is truly down.
+  # Tested values below.
+  peerApiServerTimeout: $peerApiServerTimeout  # eg 5s
+  peerDialTimeout: $peerDialTimeout  # eg 5s
+  peerRequestTimeout: $peerRequestTimeout  # eg 5s
+  peerUpdateInterval: $peerUpdateInterval  # eg 15m
+  hostPort: 30001
