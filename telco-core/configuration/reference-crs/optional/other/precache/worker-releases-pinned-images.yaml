@@ -1,0 +1,17 @@
+---
+apiVersion: machineconfiguration.openshift.io/v1
+kind: PinnedImageSet
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: worker
+  name: worker-releases-pinned-images
+spec:
+  # Replace the pinnedImages list below with the actual release images required
+  # for your target release(s). Use patches in the PolicyGenerator to override
+  # this list with environment-specific image digests.
+  pinnedImages:
+    - name: "quay.io/openshift-release-dev/ocp-release@sha256:..."
+    - name: "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:..."
+    - name: "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:..."
+    - name: "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:..."
+    - name: "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:..."

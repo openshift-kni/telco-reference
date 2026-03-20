@@ -98,6 +98,38 @@ sequence for each release upgrade are the same:
    of the second upgrade in two-release upgrade scenarios. This is the
    `core-upgrade-workers-#` policies in `core-upgrade-finish.yaml`
 
+#### Pre-caching (optional)
+The `core-upgrade-precache.yaml` PolicyGenerator defines policies that pre-pull
+images onto nodes ahead of the upgrade maintenance window using the
+`PinnedImageSet` CR. This allows the network-intensive image pull phase to
+complete before the upgrade begins, reducing the time spent in the maintenance
+window.
+
+Four `PinnedImageSet` CRs are created, one for each combination of node role and
+image type:
+
+* `controlplane-olm-pinned-images` — OLM operator images for control-plane nodes
+* `controlplane-releases-pinned-images` — OpenShift release images for control-plane nodes
+* `worker-olm-pinned-images` — OLM operator images for worker nodes
+* `worker-releases-pinned-images` — OpenShift release images for worker nodes
+
+The `pinnedImages` list in each `PinnedImageSet` must be patched with the actual
+image digests for your target olm(s) and/or release(s) before the policies are enforced.
+
+To activate pre-caching on a cluster, add the label `upgrade-precache: ""` to
+its `ManagedCluster` resource. This label is independent of the version labels
+used by the upgrade policies, allowing pre-caching to begin before the upgrade
+maintenance window.
+
+The `core-upgrade-precache-validator-22` policy checks that pre-caching has
+completed on all nodes by verifying that `currentGeneration == desiredGeneration`
+for each `PinnedImageSet`.
+
+After the upgrade completes, the `core-upgrade-precache-cleanup-22` policy in
+`core-upgrade-finish.yaml` removes the four `PinnedImageSet` CRs. This policy
+uses `mustnothave` compliance so it is safe to include even when pre-caching was
+not used — it is compliant when the objects do not exist.
+
 #### Worker Node Upgrade
 At the completion of control plane upgrade the completion policies are used to
 unpause worker MachineConfigPools (MCP) allowing them to update. This typically
@@ -212,6 +244,32 @@ spec:
   blockingCRs:
   - name: upgrade-20
     namespace: default
+```
+
+(Optional) In case you want to add pre-caching as a prestage step before the 
+standard upgrade CGUs, a typical CGU sequence run in a previous maintenance window
+would look similar to:
+
+```
+---
+apiVersion: ran.openshift.io/v1alpha1
+kind: ClusterGroupUpgrade
+metadata:
+  name: upgrade-precache
+  namespace: default
+spec:
+  actions:
+    afterCompletion:
+      deleteObjects: true
+  clusters:
+  - test-cluster
+  enable: true
+  managedPolicies:
+    - core-upgrade-precache-controlplane-20
+    - core-upgrade-precache-worker-20
+  remediationStrategy:
+    maxConcurrency: 1
+    timeout: 480
 ```
 
 

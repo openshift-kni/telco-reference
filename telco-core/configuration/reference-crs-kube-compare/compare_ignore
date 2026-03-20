@@ -35,3 +35,6 @@ optional/other/server-cert-openshift-config-copy.yaml
 
 # This is an object-template-raw used only to validate subscription state
 custom-manifests/subscription-validator.yaml
+
+# This is an object-template-raw used only to validate pre-caching state
+custom-manifests/precache-validator.yaml
