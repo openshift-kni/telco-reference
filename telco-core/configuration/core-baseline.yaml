@@ -2,18 +2,18 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: core-baseline-19
+  name: core-baseline-21
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
     clusterSelectors:
       common: "core"
-      version: "4.20"
+      version: "4.21"
   remediationAction: "inform"
 policies:
   # Base cluster configuration
-  - name: core-cluster-config-4.20
+  - name: core-cluster-config-4.21
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "1"
     manifests:
@@ -21,11 +21,11 @@ policies:
       - path: reference-crs/required/other/catalog-source.yaml
         patches:
         - spec:
-            image: registry.redhat.io/redhat/redhat-operator-index:v4.20
+            image: registry.redhat.io/redhat/redhat-operator-index:v4.21
       - path: reference-crs/required/scheduling/Scheduler.yaml
 
   # Core cluster OLM operators
-  - name: core-operator-subs-4.20
+  - name: core-operator-subs-4.21
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "5"
     manifests:
@@ -40,7 +40,7 @@ policies:
               - kind: ClusterServiceVersion
                 namespace: openshift-logging
                 # Update with specific target version
-                name: cluster-logging.v6.2.0
+                name: cluster-logging.v6.4.0
                 conditions:
                   - type: Succeeded
                     status: "True"
@@ -63,7 +63,7 @@ policies:
         patches:
         - spec:
             installPlanApproval: Manual
-            channel: stable-4.20
+            channel: stable-4.21
       - path: reference-crs/required/networking/metallb/metallbNS.yaml
       - path: reference-crs/required/networking/metallb/metallbOperGroup.yaml
       - path: reference-crs/required/networking/metallb/metallbSubscription.yaml
@@ -84,7 +84,7 @@ policies:
             installPlanApproval: Manual
 
   # Operator configuration
-  - name: core-operator-config-4.20
+  - name: core-operator-config-4.21
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "7"
     manifests:
@@ -106,4 +106,4 @@ policies:
       - path: reference-crs/required/scheduling/sched.yaml
         patches:
         - spec:
-            imageSpec: registry.example.com/openshift4/noderesourcetopology-scheduler-rhel9:v4.20.0
+            imageSpec: registry.example.com/openshift4/noderesourcetopology-scheduler-rhel9:v4.21.0
