@@ -2,18 +2,18 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: core-customer-policies
+  name: core-customer-policies-21
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
     clusterSelectors:
       common: "core"
-      version: "4.20"
+      version: "4.21"
   remediationAction: "inform"
 policies:
   # unpause baseline configuration
-  - name: custom-mcp-unpause
+  - name: custom-mcp-unpause-21
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "200"
     manifests:
@@ -55,7 +55,7 @@ policies:
             - type: Updating
               status: "False"
 
-  - name: core-custom-mcp-set-maxavailable
+  - name: core-custom-mcp-set-maxavailable-21
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "201"
     manifests:

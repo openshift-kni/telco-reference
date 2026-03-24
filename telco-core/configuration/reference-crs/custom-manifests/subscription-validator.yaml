@@ -12,7 +12,7 @@ object-templates-raw: |
         name: {{ .metadata.name }}
         namespace: {{ .metadata.namespace }}
         annotations:
-          ztp-validated: "4.20"
+          ztp-validated: "4.21"
       status:
         state: AtLatestKnown
   {{- end }}
