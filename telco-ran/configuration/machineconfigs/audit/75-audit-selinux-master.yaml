@@ -1,0 +1,23 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 75-audit-selinux-master
+  labels:
+    machineconfiguration.openshift.io/role: master
+spec:
+  config:
+    ignition:
+      version: 3.5.0
+    storage:
+      files:
+      - path: /etc/audit/rules.d/75-selinux-audit.rules
+        mode: 420
+        overwrite: true
+        contents:
+          # -a always,exit -F path=/usr/bin/chcon -F auid>=1000 -F auid!=unset -F key=privileged
+          # -a always,exit -F path=/usr/sbin/restorecon -F auid>=1000 -F auid!=unset -F key=privileged
+          # -a always,exit -F path=/usr/sbin/semanage -F auid>=1000 -F auid!=unset -F key=privileged
+          # -a always,exit -F path=/usr/sbin/setfiles -F auid>=1000 -F auid!=unset -F key=privileged
+          # -a always,exit -F path=/usr/sbin/setsebool -F auid>=1000 -F auid!=unset -F key=privileged
+          # -a always,exit -F path=/usr/sbin/seunshare -F auid>=1000 -F auid!=unset -F key=privileged
+          source: data:text/plain,%23%20M4%3A%20Audit%20SELinux%20Commands%20%28E8%20Compliance%29%0A%0A-a%20always%2Cexit%20-F%20path%3D%2Fusr%2Fbin%2Fchcon%20-F%20auid%3E%3D1000%20-F%20auid%21%3Dunset%20-F%20key%3Dprivileged%0A-a%20always%2Cexit%20-F%20path%3D%2Fusr%2Fsbin%2Frestorecon%20-F%20auid%3E%3D1000%20-F%20auid%21%3Dunset%20-F%20key%3Dprivileged%0A-a%20always%2Cexit%20-F%20path%3D%2Fusr%2Fsbin%2Fsemanage%20-F%20auid%3E%3D1000%20-F%20auid%21%3Dunset%20-F%20key%3Dprivileged%0A-a%20always%2Cexit%20-F%20path%3D%2Fusr%2Fsbin%2Fsetfiles%20-F%20auid%3E%3D1000%20-F%20auid%21%3Dunset%20-F%20key%3Dprivileged%0A-a%20always%2Cexit%20-F%20path%3D%2Fusr%2Fsbin%2Fsetsebool%20-F%20auid%3E%3D1000%20-F%20auid%21%3Dunset%20-F%20key%3Dprivileged%0A-a%20always%2Cexit%20-F%20path%3D%2Fusr%2Fsbin%2Fseunshare%20-F%20auid%3E%3D1000%20-F%20auid%21%3Dunset%20-F%20key%3Dprivileged%0A
