@@ -158,6 +158,12 @@ parts:
                   inlineDiffFunc: capturegroups
           - path: optional/other/worker-load-kernel-modules.yaml
           - path: optional/other/sctp_module_mc.yaml
+      - name: precache
+        anyOf:
+          - path: optional/other/precache/controlplane-olm-pinned-images.yaml
+          - path: optional/other/precache/controlplane-releases-pinned-images.yaml
+          - path: optional/other/precache/worker-olm-pinned-images.yaml
+          - path: optional/other/precache/worker-releases-pinned-images.yaml
   - name: logging
     description: |-
       https://docs.openshift.com/container-platform/4.17/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-crs.html#other-crs_ran-core-ref-design-crs
