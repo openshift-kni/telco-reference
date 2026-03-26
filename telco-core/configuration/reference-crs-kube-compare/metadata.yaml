@@ -216,6 +216,7 @@ parts:
 templateFunctionFiles:
   - version_match.tmpl
   - unordered_list.tmpl
+  - validate_base64_list.tmpl
 
 fieldsToOmit:
   defaultOmitRef: all

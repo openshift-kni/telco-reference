@@ -1,0 +1,38 @@
+{{- define "validateBase64List" -}}
+{{/*
+Validates base64-encoded newline-separated strings against an allowed list.
+Decodes a data URI, extracts items (one per line), and checks each against allowedItems.
+Returns original source if all items allowed, else returns error message with disallowed items.
+
+Args:
+  - sourceField: data URI containing base64-encoded content (e.g., "data:text/plain;charset=utf-8;base64,...")
+  - allowedItems: list of allowed string values
+*/}}
+{{- $sourceField := index . 0 -}}
+{{- $allowedItems := index . 1 -}}
+{{- if $sourceField -}}
+  {{- $parts := splitList "," $sourceField -}}
+  {{- if gt (len $parts) 1 -}}
+    {{- $base64Content := index $parts 1 -}}
+    {{- $decodedContent := b64dec $base64Content -}}
+    {{- $lines := splitList "\n" $decodedContent -}}
+    {{- $notAllowedItems := list -}}
+    {{- range $line := $lines -}}
+      {{- $item := trim $line -}}
+      {{- if and $item (not (has $item $allowedItems)) -}}
+        {{- $notAllowedItems = append $notAllowedItems $item -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if gt (len $notAllowedItems) 0 -}}
+      {{- $itemsList := join " " $notAllowedItems -}}
+      {{- printf "data:,Items not in allowed list %s" $itemsList -}}
+    {{- else -}}
+      {{- $sourceField -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $sourceField -}}
+  {{- end -}}
+{{- else -}}
+  {{- print "data:," -}}
+{{- end -}}
+{{- end -}}
