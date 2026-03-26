@@ -1,0 +1,29 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 75-audit-login-worker
+  labels:
+    machineconfiguration.openshift.io/role: worker
+spec:
+  config:
+    ignition:
+      version: 3.5.0
+    storage:
+      files:
+      - path: /etc/audit/rules.d/75-login-events.rules
+        mode: 420
+        overwrite: true
+        contents:
+          # # Login event logs
+          # -w /var/run/faillock -p wa -k logins
+          # -w /var/log/lastlog -p wa -k logins
+          # -w /var/log/tallylog -p wa -k logins
+          # # Sudo configuration
+          # -w /etc/sudoers -p wa -k actions
+          # -w /etc/sudoers.d/ -p wa -k actions
+          # # User/group modification
+          # -w /etc/passwd -p wa -k identity
+          # -w /etc/group -p wa -k identity
+          # -w /etc/shadow -p wa -k identity
+          # -w /etc/gshadow -p wa -k identity
+          source: data:text/plain,%23%20M7%3A%20Audit%20Login%20Monitoring%20%28E8%20Compliance%29%0A%23%20Documentation%3A%20https%3A%2F%2Fsebrandon1.github.io%2Fcompliance-scripts%2Fversions%2F4.21%2Fgroups%2FM7.html%0A%0A%23%20Login%20event%20logs%0A-w%20%2Fvar%2Frun%2Ffaillock%20-p%20wa%20-k%20logins%0A-w%20%2Fvar%2Flog%2Flastlog%20-p%20wa%20-k%20logins%0A-w%20%2Fvar%2Flog%2Ftallylog%20-p%20wa%20-k%20logins%0A%0A%23%20Sudo%20configuration%0A-w%20%2Fetc%2Fsudoers%20-p%20wa%20-k%20actions%0A-w%20%2Fetc%2Fsudoers.d%2F%20-p%20wa%20-k%20actions%0A%0A%23%20User%2Fgroup%20modification%0A-w%20%2Fetc%2Fpasswd%20-p%20wa%20-k%20identity%0A-w%20%2Fetc%2Fgroup%20-p%20wa%20-k%20identity%0A-w%20%2Fetc%2Fshadow%20-p%20wa%20-k%20identity%0A-w%20%2Fetc%2Fgshadow%20-p%20wa%20-k%20identity%0A
