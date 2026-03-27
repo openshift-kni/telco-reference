@@ -26,3 +26,7 @@ spec:
       # using a bindingExcludeRules entry with ztp-done
       evaluationInterval:
         compliant: 5s
+# source CRs needed for configuring OADP operator for SNO Image Based Upgrade
+
+#   - fileName: data-protection/OadpBackupStorageLocationStatus.yaml
+#     policyName: "du-policy"
