@@ -82,6 +82,16 @@ policies:
         patches:
         - spec:
             installPlanApproval: Manual
+      - path: reference-crs/required/node-health-check/NHCSubscriptionNS.yaml
+      - path: reference-crs/required/node-health-check/NHCSubscriptionOperGroup.yaml
+      - path: reference-crs/required/node-health-check/NHCSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+      - path: reference-crs/required/node-health-check/SNRSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
 
   # Operator configuration
   - name: core-operator-config-4.20
@@ -101,6 +111,11 @@ policies:
             - mellanox
 
       - path: reference-crs/required/networking/NMState.yaml
+
+      # Node Health Check and Self Node Remediation configuration
+      - path: reference-crs/required/node-health-check/SelfNodeRemediationTemplate.yaml
+      - path: reference-crs/required/node-health-check/SelfNodeRemediationConfig.yaml
+      - path: reference-crs/required/node-health-check/NodeHealthCheck.yaml
 
       # Scheduling
       - path: reference-crs/required/scheduling/sched.yaml
