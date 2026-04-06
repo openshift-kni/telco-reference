@@ -10,8 +10,7 @@ spec:
     ovnKubernetesConfig:
       gatewayConfig:
         routingViaHost: true
-      egressIPConfig:
-        reachabilityTotalTimeoutSeconds: ^(1|)$
+      egressIPConfig: {}
   # additional networks are optional and may alternatively be specified using NetworkAttachmentDefinition CRs
   additionalNetworks: [ $additionalNetworks ]
   # eg
