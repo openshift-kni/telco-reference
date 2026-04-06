@@ -7,7 +7,21 @@ spec:
     ovnKubernetesConfig:
       gatewayConfig:
         routingViaHost: true
+{{- $ovn := .spec.defaultNetwork.ovnKubernetesConfig }}
+{{- if $ovn }}
+{{- if $ovn.egressIPConfig }}
+{{- if hasKey $ovn.egressIPConfig "reachabilityTotalTimeoutSeconds" }}
+      egressIPConfig:
+        reachabilityTotalTimeoutSeconds: {{ index $ovn.egressIPConfig "reachabilityTotalTimeoutSeconds" }}
+{{- else }}
       egressIPConfig: {}
+{{- end }}
+{{- else }}
+      egressIPConfig: {}
+{{- end }}
+{{- else }}
+      egressIPConfig: {}
+{{- end }}
   {{ if hasKey .spec "useMultiNetworkPolicy" }}
   useMultiNetworkPolicy: {{ .spec.useMultiNetworkPolicy }}
   {{ end }}
