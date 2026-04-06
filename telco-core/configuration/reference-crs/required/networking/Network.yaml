@@ -11,7 +11,7 @@ spec:
       gatewayConfig:
         routingViaHost: true
       egressIPConfig:
-        reachabilityTotalTimeoutSeconds: 1
+        reachabilityTotalTimeoutSeconds: ^(1|)$
   # additional networks are optional and may alternatively be specified using NetworkAttachmentDefinition CRs
   additionalNetworks: [ $additionalNetworks ]
   # eg

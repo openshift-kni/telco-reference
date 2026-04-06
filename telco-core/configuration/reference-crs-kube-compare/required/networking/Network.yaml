@@ -8,7 +8,7 @@ spec:
       gatewayConfig:
         routingViaHost: true
       egressIPConfig:
-        reachabilityTotalTimeoutSeconds: 1
+        reachabilityTotalTimeoutSeconds: ^(1|)$
   {{ if hasKey .spec "useMultiNetworkPolicy" }}
   useMultiNetworkPolicy: {{ .spec.useMultiNetworkPolicy }}
   {{ end }}
