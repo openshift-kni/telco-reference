@@ -10,8 +10,9 @@ spec:
     ovnKubernetesConfig:
       gatewayConfig:
         routingViaHost: true
-      # Kube-compare allows {} or explicit reachabilityTotalTimeoutSeconds (default 1).
-      egressIPConfig: {}
+      # Kube-compare template matches either {} or explicit reachabilityTotalTimeoutSeconds: 1 (default).
+      egressIPConfig:
+        reachabilityTotalTimeoutSeconds: 1
   # additional networks are optional and may alternatively be specified using NetworkAttachmentDefinition CRs
   additionalNetworks: [ $additionalNetworks ]
   # eg

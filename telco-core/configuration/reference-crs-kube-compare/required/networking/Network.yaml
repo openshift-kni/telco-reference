@@ -7,18 +7,10 @@ spec:
     ovnKubernetesConfig:
       gatewayConfig:
         routingViaHost: true
-{{- $ovn := .spec.defaultNetwork.ovnKubernetesConfig }}
-{{- if $ovn }}
-{{- if $ovn.egressIPConfig }}
-{{- if hasKey $ovn.egressIPConfig "reachabilityTotalTimeoutSeconds" }}
+{{- $eip := .spec.defaultNetwork.ovnKubernetesConfig.egressIPConfig }}
+{{- if and $eip $eip.reachabilityTotalTimeoutSeconds }}
       egressIPConfig:
-        reachabilityTotalTimeoutSeconds: {{ index $ovn.egressIPConfig "reachabilityTotalTimeoutSeconds" }}
-{{- else }}
-      egressIPConfig: {}
-{{- end }}
-{{- else }}
-      egressIPConfig: {}
-{{- end }}
+        reachabilityTotalTimeoutSeconds: 1
 {{- else }}
       egressIPConfig: {}
 {{- end }}
