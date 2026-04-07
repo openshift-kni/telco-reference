@@ -171,28 +171,8 @@ spec:
   {{- if eq .name "tbc-3-card-tt" }}
   - name: tbc-3-card-tt
     ptp4lConf: |
-      [(?<iface_timeTx1_0>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx1_1>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx1_2>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx2_0>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx2_1>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx2_2>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx2_3>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx3_0>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx3_1>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx3_2>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx3_3>[[:alnum:]]+)]
-      masterOnly 1
+      (?<masterPorts>((\[[[:alnum:]]+\]
+      masterOnly 1| *#.*| *)(\n|$))+)
       [global]
       #
       # Default Data Set
