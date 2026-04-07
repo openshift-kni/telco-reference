@@ -263,22 +263,16 @@ ptp_operator_configuration_PtpConfigDualCardGmWpc:
       priority2: 128
       domainNumber: 24
       masterPorts: |-
-        [(?<iface_timeTx1>[[:alnum:]]+)]
+        # Include one section for each TimeTransmitter port on the WPC cards:
+              [ens1f0]
               masterOnly 1
-              [(?<iface_timeTx1_1>[[:alnum:]]+)]
+              [ens1f1]
               masterOnly 1
-              [(?<iface_timeTx1_2>[[:alnum:]]+)]
+              [ens2f0]
               masterOnly 1
-              [(?<iface_timeTx1_3>[[:alnum:]]+)]
+              [ens2f1]
               masterOnly 1
-              [(?<iface_timeTx2>[[:alnum:]]+)]
-              masterOnly 1
-              [(?<iface_timeTx2_1>[[:alnum:]]+)]
-              masterOnly 1
-              [(?<iface_timeTx2_2>[[:alnum:]]+)]
-              masterOnly 1
-              [(?<iface_timeTx2_3>[[:alnum:]]+)]
-              masterOnly 1
+              # ...
 ptp_operator_configuration_PtpConfigDualFollower:
   - spec:
       profile:
