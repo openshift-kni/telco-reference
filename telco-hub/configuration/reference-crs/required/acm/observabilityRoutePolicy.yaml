@@ -27,6 +27,9 @@ spec:
             include:
               - '*'
           object-templates-raw: |
+            {{- $localCluster := (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" "local-cluster") }}
+            {{- $clusterID := index $localCluster.metadata.labels "clusterID" }}
+            {{- $hubID := $clusterID | replace "-" "" | trunc 19 }}
             {{- range (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" "").items }}
             - metadataComplianceType: musthave
               objectDefinition:
@@ -36,6 +39,7 @@ spec:
                   name: {{ .metadata.name }}
                   annotations:
                     acm-alertmanager-route: '{{ (lookup "route.openshift.io/v1" "Route" "open-cluster-management-observability" "alertmanager").spec.host }}'
+                    acm-hub-cluster-id: '{{ $hubID }}'
             {{- end }}
 ---
 apiVersion: cluster.open-cluster-management.io/v1beta1
