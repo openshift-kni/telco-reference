@@ -154,9 +154,7 @@ parts:
             config:
               fieldsToOmitRefs:
                 - subscriptions
-          - path: sriov-operator/SriovSubscriptionNS.yaml
-            config:
-              ignore-unspecified-fields: true
+          - path: sriov-operator/SriovSubscriptionNS.yaml            
           - path: sriov-operator/SriovSubscriptionOperGroup.yaml
       - name: sriov-operator-config
         oneOf:

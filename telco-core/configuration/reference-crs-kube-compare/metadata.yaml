@@ -77,9 +77,7 @@ parts:
             config:
               ignore-unspecified-fields: true
           - path: required/networking/sriov/SriovSubscription.yaml
-          - path: required/networking/sriov/SriovSubscriptionNS.yaml
-            config:
-              ignore-unspecified-fields: true
+          - path: required/networking/sriov/SriovSubscriptionNS.yaml            
           - path: required/networking/sriov/SriovSubscriptionOperGroup.yaml
             config:
               ignore-unspecified-fields: true
