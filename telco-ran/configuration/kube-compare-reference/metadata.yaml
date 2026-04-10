@@ -464,7 +464,7 @@ fieldsToOmit:
       - pathToKey: status
     monitoringLabel:
       - include: all
-      - pathToKey: pathToKey: metadata.labels."openshift.io/cluster-monitoring"
+      - pathToKey: metadata.labels."openshift.io/cluster-monitoring"
     subscriptions:
       - include: all
       - pathToKey: metadata.labels."operators.coreos.com/"
