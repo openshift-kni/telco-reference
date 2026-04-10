@@ -26,16 +26,16 @@ data:
       - apiVersion: v2
         bearerToken:
           key: token
-          name: {{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{ $result := (regexFind "hub-cluster-id(.*)" ((fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml") | base64dec)) | replace "hub-cluster-id: " "observability-alertmanager-accessor-" }}{{ (empty $result) | ternary "observability-alertmanager-accessor" $result }}{{ else }}observability-alertmanager-accessor{{ end }}
+          name: {{hub $hubID := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-hub-cluster-id" hub}}{{hub if $hubID hub}}observability-alertmanager-accessor-{{hub $hubID hub}}{{hub else hub}}observability-alertmanager-accessor{{hub end hub}}
         scheme: https
-        staticConfigs: {{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{hub $route := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-alertmanager-route" hub}}{{hub if $route hub}}[{{hub $route hub}}]{{hub else hub}}[]{{hub end hub}}{{ else }}[]{{ end }}
+        staticConfigs: {{hub $route := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-alertmanager-route" hub}}{{hub if $route hub}}[{{hub $route hub}}]{{hub else hub}}[]{{hub end hub}}
         tlsConfig:
           ca:
             key: service-ca.crt
-            name: {{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{ $result := (regexFind "hub-cluster-id(.*)" ((fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml") | base64dec)) | replace "hub-cluster-id: " "hub-alertmanager-router-ca-" }}{{ (empty $result) | ternary "hub-alertmanager-router-ca" $result }}{{ else }}hub-alertmanager-router-ca{{ end }}
+            name: {{hub $hubID2 := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-hub-cluster-id" hub}}{{hub if $hubID2 hub}}hub-alertmanager-router-ca-{{hub $hubID2 hub}}{{hub else hub}}hub-alertmanager-router-ca{{hub end hub}}
           insecureSkipVerify: false
       externalLabels:
-        managed_cluster: {{ fromClusterClaim "id.openshift.io" }}
+        managed_cluster: {{hub index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.labels "clusterID" hub}}
       retention: 15d
       volumeClaimTemplate:
         spec:
