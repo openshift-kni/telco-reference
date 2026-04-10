@@ -3,7 +3,7 @@ parts:
   - name: version-check
     description: |-
       A mismatch here means you may be using the wrong reference.
-      This reference was designed for OpenShift 4.22.
+      This reference was designed for OpenShift 4.20.
     components:
       - name: version-check
         allOf:
@@ -26,7 +26,7 @@ parts:
           - path: required/machine-config/container-runtime.yaml
   - name: networking
     description: |-
-      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-core-ref-design-specs#telco-core-networking_telco-core
+      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-networking_core-ref-design-components
     components:
       - name: networking-root
         allOf:
@@ -35,7 +35,7 @@ parts:
               ignore-unspecified-fields: true
       - name: networking-nmsate
         description: |-
-          https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-core-ref-design-specs#telco-core-nmstate-operator_telco-core
+          https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-nmstate-operator_core-ref-design-components
         allOrNoneOf:
           - path: required/networking/NMState.yaml
           - path: required/networking/NMStateNS.yaml
@@ -45,7 +45,7 @@ parts:
           - path: required/networking/NMStateSubscription.yaml
       - name: networking-metallb
         description: |-
-          https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-core-ref-design-specs#telco-core-load-balancer_telco-core
+          https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-load-balancer_core-ref-design-components
         allOf:
           - path: required/networking/metallb/addr-pool.yaml
           - path: required/networking/metallb/bfd-profile.yaml
@@ -59,17 +59,17 @@ parts:
           - path: required/networking/metallb/metallbSubscription.yaml
       - name: networking-multinetworkpolicy
         description: |-
-          https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-core-ref-design-specs#telco-core-sr-iov_telco-core
+          https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-sriov_core-ref-design-components
         allOf:
           - path: required/networking/multinetworkpolicy/multiNetworkPolicyAllowPortProtocol.yaml
       - name: networking-multinetworkpolicy-denyall
         description: |-
-          https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-core-ref-design-specs#telco-core-sr-iov_telco-core
+          https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-sriov_core-ref-design-components
         anyOf:
           - path: required/networking/multinetworkpolicy/multiNetworkPolicyDenyAll.yaml
       - name: networking-sriov
         description: |-
-          https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-core-ref-design-specs#telco-core-sr-iov_telco-core
+          https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-sriov_core-ref-design-components
         allOf:
           - path: required/networking/sriov/sriovNetwork.yaml
           - path: required/networking/sriov/sriovNetworkNodePolicy.yaml
@@ -78,9 +78,7 @@ parts:
               ignore-unspecified-fields: true
           - path: required/networking/sriov/SriovSubscription.yaml
           - path: required/networking/sriov/SriovSubscriptionNS.yaml            
-          - path: required/networking/sriov/SriovSubscriptionOperGroup.yaml
-            config:
-              ignore-unspecified-fields: true
+          - path: required/networking/sriov/SriovSubscriptionOperGroup.yaml     
       - name: optional-networking
         anyOf:
           - path: optional/networking/networkAttachmentDefinition.yaml
@@ -91,14 +89,14 @@ parts:
     components:
       - name: disconnected-registry
         description: |-
-          https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-core-ref-design-specs#telco-core-disconnected-environment_telco-core
+          https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-disconnected-environment_core-ref-design-components
         allOf:
           - path: required/other/catalog-source.yaml
           - path: required/other/idms.yaml
           - path: required/other/operator-hub.yaml
   - name: required-performance
     description: |-
-      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-core-ref-design-specs#telco-core-cpu-partitioning-and-performance-tuning_telco-core
+      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-cpu-partitioning-performance-tune_core-ref-design-components
     components:
       - name: performance
         allOf:
@@ -119,7 +117,7 @@ parts:
     components:
       - name: scheduling
         description: |-
-          https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-core-ref-design-specs#telco-core-scheduling_telco-core
+          https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-scheduling_core-ref-design-components
         allOf:
           - path: required/scheduling/nrop.yaml
           - path: required/scheduling/NROPSubscription.yaml
@@ -133,7 +131,7 @@ parts:
     components:
       - name: storage-odf
         description: |-
-          https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-core-ref-design-specs#telco-core-storage_telco-core
+          https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-rh-storage_core-ref-design-components
         allOf:
           - path: required/storage/odf-external/01-rook-ceph-external-cluster-details.secret.yaml
           - path: required/storage/odf-external/02-ocs-external-storagecluster.yaml
@@ -146,7 +144,7 @@ parts:
           - path: required/storage/odf-external/odfSubscription.yaml
   - name: other
     description: |-
-      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-core-ref-design-specs#node-configuration-crs
+      https://docs.openshift.com/container-platform/4.17/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-crs.html#node-configuration-crs_ran-core-ref-design-crs
     components:
       - name: other
         anyOf:
@@ -166,7 +164,7 @@ parts:
           - path: optional/other/precache/worker-releases-pinned-images.yaml
   - name: logging
     description: |-
-      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-core-ref-design-specs#resource-tuning-crs
+      https://docs.openshift.com/container-platform/4.17/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-crs.html#other-crs_ran-core-ref-design-crs
     components:
       - name: logging
         allOrNoneOf:
@@ -181,7 +179,7 @@ parts:
           - path: optional/logging/ClusterLogServiceAccountInfrastructureBinding.yaml
   - name: tuning
     description: |-
-      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-core-ref-design-specs#telco-core-cpu-partitioning-and-performance-tuning_telco-core
+      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-design-components.html#telco-core-cpu-partitioning-performance-tune_core-ref-design-components
     components:
       - name: other
         anyOf:
