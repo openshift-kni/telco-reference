@@ -1,0 +1,24 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 75-audit-time-worker
+  labels:
+    machineconfiguration.openshift.io/role: worker
+spec:
+  config:
+    ignition:
+      version: 3.5.0
+    storage:
+      files:
+      - path: /etc/audit/rules.d/75-time-change.rules
+        mode: 420
+        overwrite: true
+        contents:
+          # # Time syscalls
+          # -a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change
+          # -a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-change
+          # -a always,exit -F arch=b64 -S clock_settime -F a0=0x0 -k time-change
+          # -a always,exit -F arch=b32 -S clock_settime -F a0=0x0 -k time-change
+          # # Localtime file watch
+          # -w /etc/localtime -p wa -k time-change
+          source: data:text/plain,%23%20M6%3A%20Audit%20Time%20Modifications%20%28E8%20Compliance%29%0A%0A%23%20Time%20syscalls%0A-a%20always%2Cexit%20-F%20arch%3Db64%20-S%20adjtimex%20-S%20settimeofday%20-k%20time-change%0A-a%20always%2Cexit%20-F%20arch%3Db32%20-S%20adjtimex%20-S%20settimeofday%20-S%20stime%20-k%20time-change%0A-a%20always%2Cexit%20-F%20arch%3Db64%20-S%20clock_settime%20-F%20a0%3D0x0%20-k%20time-change%0A-a%20always%2Cexit%20-F%20arch%3Db32%20-S%20clock_settime%20-F%20a0%3D0x0%20-k%20time-change%0A%0A%23%20Localtime%20file%20watch%0A-w%20%2Fetc%2Flocaltime%20-p%20wa%20-k%20time-change%0A
