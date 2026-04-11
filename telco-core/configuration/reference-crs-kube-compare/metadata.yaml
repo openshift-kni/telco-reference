@@ -243,6 +243,7 @@ fieldsToOmit:
       - pathToKey: metadata.generation
       - pathToKey: metadata.finalizers
       - pathToKey: metadata.annotations."ran.openshift.io/ztp-gitops-generated"
+      - pathToKey: metadata.annotations."ran.openshift.io/ztp-deploy-wave"
       - pathToKey: spec.ownerReferences
       - pathToKey: metadata.ownerReferences
       - pathToKey: metadata.annotations."include.release.openshift.io/ibm-cloud-managed"
