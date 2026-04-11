@@ -1,0 +1,31 @@
+---
+name: Kustomize Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  kustomize-validation:
+    name: Validate Kustomization Files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Kustomize
+        env:
+          KUSTOMIZE_VERSION: 'v5.8.1'
+        run: |
+          curl -sLO "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_amd64.tar.gz"
+          tar xzf "kustomize_${KUSTOMIZE_VERSION}_linux_amd64.tar.gz"
+          sudo mv kustomize /usr/local/bin/
+          rm "kustomize_${KUSTOMIZE_VERSION}_linux_amd64.tar.gz"
+          kustomize version
+
+      - name: Validate Kustomization Files
+        run: make test-kustomize
