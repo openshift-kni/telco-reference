@@ -105,9 +105,9 @@ spec:
     # they are applied after the operators have been successfully installed,
     # however, it's strongly recommended to include these CRs as day-0 extra manifests
     # to avoid the risky of an extra reboot.
-    - fileName: optional-extra-manifest/enable-crun-master.yaml
+    - fileName: extra-manifest/enable-crun-master.yaml
       policyName: "config-policy"
-    - fileName: optional-extra-manifest/enable-crun-worker.yaml
+    - fileName: extra-manifest/enable-crun-worker.yaml
       policyName: "config-policy"
 #    --- sources needed for image registry (check ImageRegistry.md for more details)----
 #    - fileName: storage-lso/StorageClass.yaml
