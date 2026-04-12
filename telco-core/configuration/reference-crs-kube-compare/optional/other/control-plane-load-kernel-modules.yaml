@@ -18,7 +18,6 @@ spec:
         mode: 420
         overwrite: true
         path: /etc/modprobe.d/kernel-blacklist.conf
-
       - contents:
           # Contents
           # ip_gre
