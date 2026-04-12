@@ -7,8 +7,8 @@ metadata:
     machineconfiguration.openshift.io/role: master
   name: 40-load-kernel-modules-control-plane
 spec:
-  # Release info found in https://github.com/coreos/butane/releases
   config:
+    # Release info found in https://github.com/coreos/butane/releases
     ignition:
       version: 3.2.0
     storage:
