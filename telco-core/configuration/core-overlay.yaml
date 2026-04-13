@@ -270,6 +270,8 @@ policies:
   # reference-crs/optional/networking/nodeNetworkConfigurationPolicy.yaml
 
   - name: config-monitoring-4.22
+    # For consistency the name of this policy will be updated in a future release:
+    # - name: core-overlay-monitoring-4.22
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "10"
     manifests:
@@ -305,6 +307,7 @@ policies:
                   - "10.11.12.14:9999"
 
   # Cert-manager configuration (optional component)
+  # For consistency the name of this policy will be updated in a future release to `core-overlay-cert-manager-4.22`
   # - name: config-cert-manager-4.22
   #   policyAnnotations:
   #     ran.openshift.io/ztp-deploy-wave: "10"
