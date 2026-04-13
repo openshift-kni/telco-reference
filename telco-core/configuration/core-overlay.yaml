@@ -7,9 +7,10 @@ policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
-    clusterSelectors:
-      common: "core"
-      version: "4.22"
+    labelSelector:
+      matchLabels:
+        common: "core"
+        version: "4.22"
   remediationAction: "inform"
 policies:
   # Baseline configuration with custom overlay content

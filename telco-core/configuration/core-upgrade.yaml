@@ -7,9 +7,10 @@ policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
-    clusterSelectors:
-      common: "core"
-      upgrade-version-4-22: ""
+    labelSelector:
+      matchLabels:
+        common: "core"
+        upgrade-version-4-22: ""
   remediationAction: "inform"
 policies:
   - name: core-upgrade-prep-22
