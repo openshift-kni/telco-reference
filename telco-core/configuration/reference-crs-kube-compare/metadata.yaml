@@ -78,6 +78,9 @@ parts:
               ignore-unspecified-fields: true
           - path: required/networking/sriov/SriovSubscription.yaml
           - path: required/networking/sriov/SriovSubscriptionNS.yaml
+            config:
+              fieldsToOmitRefs:
+                - monitoringLabel
           - path: required/networking/sriov/SriovSubscriptionOperGroup.yaml
             config:
               ignore-unspecified-fields: true
@@ -264,3 +267,6 @@ fieldsToOmit:
     all:
       - include: defaults
       - pathToKey: status
+    monitoringLabel:
+      - include: all
+      - pathToKey: metadata.labels."openshift.io/cluster-monitoring"
