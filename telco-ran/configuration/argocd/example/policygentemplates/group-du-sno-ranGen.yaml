@@ -56,7 +56,7 @@ spec:
           # This interface must match the hardware in this group
           interface: "ens5f0"
           ptp4lOpts: "-2 -s --summary_interval -4"
-          phc2sysOpts: "-a -r -n 24"
+          phc2sysOpts: "-a -r -m -n 24 -N 8 -R 16"
     - fileName: sriov-operator/SriovOperatorConfigForSNO.yaml
       policyName: "config-policy"
       # For existing clusters with node selector set as "master", 

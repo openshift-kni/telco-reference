@@ -45,7 +45,7 @@ spec:
           # This interface must match the hardware in this group
           interface: '{{hub fromConfigMap "" "group-hardware-types-configmap" (printf "%s-ptpcfgslave-profile-interface" (index .ManagedClusterLabels "hardware-type")) hub}}'
           ptp4lOpts: "-2 -s --summary_interval -4"
-          phc2sysOpts: "-a -r -n 24"
+          phc2sysOpts: "-a -r -m -n 24 -N 8 -R 16"
     ###
     - fileName: sriov-operator/SriovOperatorConfig.yaml # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
