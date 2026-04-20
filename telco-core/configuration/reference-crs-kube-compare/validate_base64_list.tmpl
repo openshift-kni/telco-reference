@@ -1,0 +1,49 @@
+{{- define "validateBase64List" -}}
+{{/*
+Validates base64-encoded or plain text newline-separated strings against an allowed list.
+Decodes a data URI if base64-encoded, or URL-decodes plain text content.
+Extracts items (one per line) and checks each against allowedItems.
+Returns original source if all items allowed, else returns error message with disallowed items.
+
+Args:
+  - sourceField: data URI containing base64-encoded or plain text content
+      Examples:
+        - Base64: "data:text/plain;charset=utf-8;base64,aXBfZ3Jl..."
+        - Plain text: "data:,ip_gre%0Anf_tables" (URL-encoded newlines)
+  - allowedItems: list of allowed string values
+*/}}
+{{- $sourceField := index . 0 -}}
+{{- $allowedItems := index . 1 -}}
+{{- if $sourceField -}}
+  {{- $parts := splitList "," $sourceField -}}
+  {{- if gt (len $parts) 1 -}}
+    {{- $content := index $parts 1 -}}
+    {{- $prefix := index $parts 0 -}}
+    {{- $decodedContent := "" -}}
+    {{- if contains "base64" $prefix -}}
+      {{- $decodedContent = b64dec $content -}}
+    {{- else -}}
+      {{/* URL-decode plain text content (handle common encoded characters) */}}
+      {{- $decodedContent = $content | replace "%0A" "\n" | replace "%0D" "\r" | replace "%09" "\t" | replace "%20" " " -}}
+    {{- end -}}
+    {{- $lines := splitList "\n" $decodedContent -}}
+    {{- $notAllowedItems := list -}}
+    {{- range $line := $lines -}}
+      {{- $item := trim $line -}}
+      {{- if and $item (not (has $item $allowedItems)) -}}
+        {{- $notAllowedItems = append $notAllowedItems $item -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if gt (len $notAllowedItems) 0 -}}
+      {{- $itemsList := join " " $notAllowedItems -}}
+      {{- printf "data:,Items not in allowed list %s" $itemsList -}}
+    {{- else -}}
+      {{- $sourceField -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $sourceField -}}
+  {{- end -}}
+{{- else -}}
+  {{- print "data:," -}}
+{{- end -}}
+{{- end -}}
