@@ -87,7 +87,7 @@ policies:
   # Operator configuration
   - name: core-operator-config-4.22
     policyAnnotations:
-      ran.openshift.io/ztp-deploy-wave: "7"
+      ran.openshift.io/ztp-deploy-wave: "6"
     manifests:
       - path: reference-crs/optional/logging/ClusterLogServiceAccount.yaml
       - path: reference-crs/optional/logging/ClusterLogServiceAccountAuditBinding.yaml
