@@ -1,0 +1,24 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 75-sysctl-kernel-hardening-master
+  labels:
+    machineconfiguration.openshift.io/role: master
+spec:
+  config:
+    ignition:
+      version: 3.5.0
+    storage:
+      files:
+      - path: /etc/sysctl.d/75-kernel-hardening.conf
+        mode: 420
+        overwrite: true
+        contents:
+          # # Memory protection - Full ASLR
+          # kernel.randomize_va_space = 2
+          # # BPF security - Prevent privilege escalation
+          # kernel.unprivileged_bpf_disabled = 1
+          # net.core.bpf_jit_harden = 2
+          # # Process tracing restriction
+          # kernel.yama.ptrace_scope = 1
+          source: data:text/plain,%23%20MEDIUM%20Severity%20Kernel%20Hardening%20%28E8%20Compliance%29%0A%23%20Documentation%3A%20https%3A%2F%2Fsebrandon1.github.io%2Fcompliance-scripts%2Fversions%2F4.21%2Fgroups%2FM2.html%0A%0A%23%20Memory%20protection%20-%20Full%20ASLR%0Akernel.randomize_va_space%20%3D%202%0A%0A%23%20BPF%20security%20-%20Prevent%20privilege%20escalation%0Akernel.unprivileged_bpf_disabled%20%3D%201%0Anet.core.bpf_jit_harden%20%3D%202%0A%0A%23%20Process%20tracing%20restriction%0Akernel.yama.ptrace_scope%20%3D%201%0A
