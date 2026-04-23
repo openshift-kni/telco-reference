@@ -80,3 +80,11 @@ fetch-only/Node.yaml
 # Reference only to ensure default has not been changed
 machine-config/cgroup-check.yaml
 machine-config/container-runtime.yaml
+
+# Informational hardening configs (no corresponding source-crs)
+informational/hardening/75-crypto-policy-high-master.yaml
+informational/hardening/75-crypto-policy-high-worker.yaml
+informational/hardening/75-pam-auth-high-master.yaml
+informational/hardening/75-pam-auth-high-worker.yaml
+informational/hardening/75-sshd-permit-empty-passwords-master.yaml
+informational/hardening/75-sshd-permit-empty-passwords-worker.yaml

@@ -405,6 +405,21 @@ parts:
       - name: console-disable
         allOrNoneOf:
           - path: cluster-tuning/console-disable/ConsoleOperatorDisable.yaml
+  - name: informational-hardening
+    description: |-
+      Informational: Reference hardening configurations for HIGH severity
+      compliance remediations (crypto policy, PAM, SSHD). Differences are
+      reported as warnings only.
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-ran-du-ref-design-specs#telco-ran-machine-configuration_telco-ran-du
+    components:
+      - name: informational-hardening-configs
+        anyOf:
+          - path: informational/hardening/75-crypto-policy-high-master.yaml
+          - path: informational/hardening/75-crypto-policy-high-worker.yaml
+          - path: informational/hardening/75-pam-auth-high-master.yaml
+          - path: informational/hardening/75-pam-auth-high-worker.yaml
+          - path: informational/hardening/75-sshd-permit-empty-passwords-master.yaml
+          - path: informational/hardening/75-sshd-permit-empty-passwords-worker.yaml
   - name: fetch-only
     description: |-
       These objects are only included so they are available to 'lookupCRs' functions in other templates; contents is not validated.
