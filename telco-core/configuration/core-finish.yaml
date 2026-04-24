@@ -17,6 +17,21 @@ policies:
   - name: custom-mcp-unpause-22
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "200"
+    placement:
+      labelSelector:
+        matchExpressions:
+          - key: common
+            operator: In
+            values:
+              - "core"
+          - key: version
+            operator: In
+            values:
+              - "4.22"
+          - key: ztp-done
+            operator: DoesNotExist
+    evaluationInterval:
+      compliant: never
     manifests:
       # The MCPs should be added as extra manifests at installation time. Their
       # inclusion here will reset the pause to false, allowing the MCPs to update
@@ -59,6 +74,8 @@ policies:
   - name: core-custom-mcp-set-maxavailable-22
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "201"
+    evaluationInterval:
+      compliant: never
     manifests:
       # This sets the desired maxUnavailable on the customMCPs
       - path: reference-crs/custom-manifests/mcp-worker-1.yaml
