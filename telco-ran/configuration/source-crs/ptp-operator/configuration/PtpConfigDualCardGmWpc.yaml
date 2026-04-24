@@ -126,22 +126,16 @@ spec:
       #this is a measured value in nanoseconds to compensate for SMA cable delay
       ts2phc.extts_correction -10
     ptp4lConf: |
-      [(?<iface_timeTx1>[[:alnum:]]+)]
+      # Include one section for each TimeTransmitter port on the WPC cards:
+      [ens1f0]
       masterOnly 1
-      [(?<iface_timeTx1_1>[[:alnum:]]+)]
+      [ens1f1]
       masterOnly 1
-      [(?<iface_timeTx1_2>[[:alnum:]]+)]
+      [ens2f0]
       masterOnly 1
-      [(?<iface_timeTx1_3>[[:alnum:]]+)]
+      [ens2f1]
       masterOnly 1
-      [(?<iface_timeTx2>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx2_1>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx2_2>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx2_3>[[:alnum:]]+)]
-      masterOnly 1
+      # ...
       [global]
       #
       # Default Data Set

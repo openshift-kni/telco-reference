@@ -215,6 +215,16 @@ ptp_operator_configuration_PtpConfigBoundary:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
+      iface_timeRx: ens1f0
+      masterPorts: |-
+        # Include one section for each TimeTransmitter port:
+              [ens1f1]
+              masterOnly 1
+              [ens1f2]
+              masterOnly 1
+              [ens1f3]
+              masterOnly 1
+              # ...
 ptp_operator_configuration_PtpConfigBoundaryForEvent:
   - spec:
       profile:
@@ -230,6 +240,16 @@ ptp_operator_configuration_PtpConfigBoundaryForEvent:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
+      iface_timeRx: ens1f0
+      masterPorts: |-
+        # Include one section for each TimeTransmitter port:
+              [ens1f1]
+              masterOnly 1
+              [ens1f2]
+              masterOnly 1
+              [ens1f3]
+              masterOnly 1
+              # ...
 ptp_operator_configuration_PtpConfigDualCardGmWpc:
   - spec:
       profile:
@@ -262,6 +282,17 @@ ptp_operator_configuration_PtpConfigDualCardGmWpc:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
+      masterPorts: |-
+        # Include one section for each TimeTransmitter port on the WPC cards:
+              [ens1f0]
+              masterOnly 1
+              [ens1f1]
+              masterOnly 1
+              [ens2f0]
+              masterOnly 1
+              [ens2f1]
+              masterOnly 1
+              # ...
 ptp_operator_configuration_PtpConfigDualFollower:
   - spec:
       profile:
@@ -317,17 +348,35 @@ ptp_operator_configuration_PtpConfigThreeCardGmWpc:
       priority2: 128
       domainNumber: 24
       iface_timeTx1: $iface_timeTx1
-      iface_timeTx1_1: $iface_timeTx1_1
-      iface_timeTx1_2: $iface_timeTx1_2
-      iface_timeTx1_3: $iface_timeTx1_3
       iface_timeTx2: $iface_timeTx2
-      iface_timeTx2_1: $iface_timeTx2_1
-      iface_timeTx2_2: $iface_timeTx2_2
-      iface_timeTx2_3: $iface_timeTx2_3
       iface_timeTx3: $iface_timeTx3
-      iface_timeTx3_1: $iface_timeTx3_1
-      iface_timeTx3_2: $iface_timeTx3_2
-      iface_timeTx3_3: $iface_timeTx3_3
+      masterPorts: |-
+        # Include one section for each TimeTransmitter port on the WPC cards:
+              [ens1f0]
+              masterOnly 1
+              [ens1f1]
+              masterOnly 1
+              [ens1f2]
+              masterOnly 1
+              [ens1f3]
+              masterOnly 1
+              [ens2f0]
+              masterOnly 1
+              [ens2f1]
+              masterOnly 1
+              [ens2f2]
+              masterOnly 1
+              [ens2f3]
+              masterOnly 1
+              [ens3f0]
+              masterOnly 1
+              [ens3f1]
+              masterOnly 1
+              [ens3f2]
+              masterOnly 1
+              [ens3f3]
+              masterOnly 1
+              # ...
 ptp_operator_configuration_PtpConfigForHA:
   - spec:
       profile:
@@ -420,6 +469,17 @@ ptp_operator_configuration_PtpConfigGmWpc:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
+      masterPorts: |-
+        # Include one section for each TimeTransmitter port on the WPC card:
+              [ens1f0]
+              masterOnly 1
+              [ens1f1]
+              masterOnly 1
+              [ens1f2]
+              masterOnly 1
+              [ens1f3]
+              masterOnly 1
+              # ...
 ptp_operator_configuration_PtpConfigSlaveForEvent:
   - spec:
       profile:
@@ -481,9 +541,15 @@ ptp_operator_configuration_PtpConfigTBCWpc:
       pi_integral_const: "0.0003"
       iface_timeRx: $iface_timeRx
       iface_FirstPort: $iface_FirstPort
-      iface_timeTx_0: $iface_timeTx_0
-      iface_timeTx_1: $iface_timeTx_1
-      iface_timeTx_2: $iface_timeTx_2
+      masterPorts: |-
+        # Include one section for each TimeTransmitter port on the WPC card:
+              [ens1f0]
+              masterOnly 1
+              [ens1f1]
+              masterOnly 1
+              [ens1f2]
+              masterOnly 1
+              # ...
 ptp_operator_configuration_PtpConfigDualCardTBCWpc:
   - spec:
       profile:
@@ -539,13 +605,23 @@ ptp_operator_configuration_PtpConfigDualCardTBCWpc:
       iface_timeRx: $iface_timeRx
       iface_FirstPort1: $iface_FirstPort1
       iface_FirstPort2: $iface_FirstPort2
-      iface_timeTx1_0: $iface_timeTx1_0
-      iface_timeTx1_1: $iface_timeTx1_1
-      iface_timeTx1_2: $iface_timeTx1_2
-      iface_timeTx2_0: $iface_timeTx2_0
-      iface_timeTx2_1: $iface_timeTx2_1
-      iface_timeTx2_2: $iface_timeTx2_2
-      iface_timeTx2_3: $iface_timeTx2_3
+      masterPorts: |-
+        # Include one section for each TimeTransmitter port on the WPC cards:
+              [ens1f0]
+              masterOnly 1
+              [ens1f1]
+              masterOnly 1
+              [ens1f2]
+              masterOnly 1
+              [ens2f0]
+              masterOnly 1
+              [ens2f1]
+              masterOnly 1
+              [ens2f2]
+              masterOnly 1
+              [ens2f3]
+              masterOnly 1
+              # ...
 ptp_operator_configuration_PtpConfigThreeCardTBCWpc:
   - spec:
       profile:
@@ -612,17 +688,31 @@ ptp_operator_configuration_PtpConfigThreeCardTBCWpc:
       iface_FirstPort1: $iface_FirstPort1
       iface_FirstPort2: $iface_FirstPort2
       iface_FirstPort3: $iface_FirstPort3
-      iface_timeTx1_0: $iface_timeTx1_0
-      iface_timeTx1_1: $iface_timeTx1_1
-      iface_timeTx1_2: $iface_timeTx1_2
-      iface_timeTx2_0: $iface_timeTx2_0
-      iface_timeTx2_1: $iface_timeTx2_1
-      iface_timeTx2_2: $iface_timeTx2_2
-      iface_timeTx2_3: $iface_timeTx2_3
-      iface_timeTx3_0: $iface_timeTx3_0
-      iface_timeTx3_1: $iface_timeTx3_1
-      iface_timeTx3_2: $iface_timeTx3_2
-      iface_timeTx3_3: $iface_timeTx3_3
+      masterPorts: |-
+        # Include one section for each TimeTransmitter port on the WPC cards:
+              [ens1f0]
+              masterOnly 1
+              [ens1f1]
+              masterOnly 1
+              [ens1f2]
+              masterOnly 1
+              [ens2f0]
+              masterOnly 1
+              [ens2f1]
+              masterOnly 1
+              [ens2f2]
+              masterOnly 1
+              [ens2f3]
+              masterOnly 1
+              [ens3f0]
+              masterOnly 1
+              [ens3f1]
+              masterOnly 1
+              [ens3f2]
+              masterOnly 1
+              [ens3f3]
+              masterOnly 1
+              # ...
 ptp_operator_configuration_PtpConfigTTSCWpc:
   - spec:
       profile:
