@@ -14,6 +14,7 @@ spec:
   sourceFiles:
     - fileName: cluster-tuning/DisableOLMPprof.yaml
       policyName: "config-policy"
+      complianceType: mustnothave
     # Set ClusterLogForwarder as example might be better to create another policyTemp-Group
     - fileName: cluster-logging/ClusterLogForwarder.yaml
       policyName: "config-policy"
