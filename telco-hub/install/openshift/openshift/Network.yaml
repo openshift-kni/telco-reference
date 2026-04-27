@@ -1,0 +1,10 @@
+# optional
+---
+apiVersion: operator.openshift.io/v1
+kind: Network
+metadata:
+  name: cluster
+spec:
+  defaultNetwork:
+    ovnKubernetesConfig:
+      mtu: 8900 # The cluster MTU must be set lower than machine network MTU. Optional features like encryption may require further lowering the MTU. See the documentation for details: https://docs.redhat.com/en/documentation/openshift_container_platform/latest/html/advanced_networking/changing-cluster-network-mtu
