@@ -132,6 +132,22 @@ parts:
               ignore-unspecified-fields: true
           - path: required/scheduling/sched.yaml
           - path: required/scheduling/Scheduler.yaml
+  - name: node-health-check
+    description: |-
+      Node Health Check and Self Node Remediation operators for automatic
+      detection and remediation of unhealthy nodes.
+    components:
+      - name: node-health-check-operator
+        allOrNoneOf:
+          - path: required/node-health-check/NodeHealthCheck.yaml
+          - path: required/node-health-check/SelfNodeRemediationTemplate.yaml
+          - path: required/node-health-check/SelfNodeRemediationConfig.yaml
+          - path: required/node-health-check/NHCSubscriptionNS.yaml
+          - path: required/node-health-check/NHCSubscriptionOperGroup.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: required/node-health-check/NHCSubscription.yaml
+          - path: required/node-health-check/SNRSubscription.yaml
   - name: required-storage
     components:
       - name: storage-odf
