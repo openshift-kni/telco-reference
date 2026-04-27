@@ -1,0 +1,26 @@
+---
+name: Kustomize Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  kustomize-validation:
+    name: Validate Kustomization Files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Kustomize
+        uses: imranismail/setup-kustomize@v3
+        with:
+          kustomize-version: '5.8.1'
+
+      - name: Validate Kustomization Files
+        run: make test-kustomize
