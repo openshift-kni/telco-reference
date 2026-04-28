@@ -22,6 +22,187 @@ storage_StorageLV:
 storage_lso_StorageSubscription:
   - spec:
       source: redhat-operators-disconnected
+ptp_operator_configuration_PtpConfigGnrdTGM:
+  - spec:
+      profile:
+      - ptpSettings:
+          logReduce: "true"
+        plugins:
+          e825:
+            devices:
+              - eno8703
+          e830:
+            devices:
+              - enp108s0f0
+              - enp110s0f0
+      recommend:
+      - profile: grandmaster
+        priority: 4
+        match:
+          - nodeLabel: "node-role.kubernetes.io/$mcp"
+    captureGroup_defaults:
+      leadingInterface: eno8703
+      priority2: 128
+      domainNumber: 24
+      ts2phcPortConfig: |-
+        # This should be one section per Carter Flats (e830) card:
+                [enp108s0f0]
+                ts2phc.extts_polarity rising
+                ts2phc.extts_correction 0
+                ts2phc.master 0
+                ts2phc.channel 0
+                ts2phc.pin_index 1
+                [enp110s0f0]
+                ts2phc.extts_polarity rising
+                ts2phc.extts_correction 0
+                ts2phc.master 0
+                ts2phc.channel 0
+                ts2phc.pin_index 1
+      masterPorts: |-
+        # All TimeTransmitter ports should be outlined here with 'masterOnly 1'
+                #[eno8303]
+                # ** Host management interface
+                [eno8403]
+                masterOnly 1
+                [eno8503]
+                masterOnly 1
+                [eno8603]
+                masterOnly 1
+                [eno8703]
+                masterOnly 1
+                [eno8803]
+                masterOnly 1
+                [eno8903]
+                masterOnly 1
+                [eno9003]
+                masterOnly 1
+                [enp108s0f0]
+                masterOnly 1
+                [enp108s0f1]
+                masterOnly 1
+                [enp108s0f2]
+                masterOnly 1
+                [enp108s0f3]
+                masterOnly 1
+                [enp108s0f4]
+                masterOnly 1
+                [enp108s0f5]
+                masterOnly 1
+                [enp108s0f6]
+                masterOnly 1
+                [enp108s0f7]
+                masterOnly 1
+                [enp110s0f0]
+                masterOnly 1
+                [enp110s0f1]
+                masterOnly 1
+                [enp110s0f2]
+                masterOnly 1
+                [enp110s0f3]
+                masterOnly 1
+                [enp110s0f4]
+                masterOnly 1
+                [enp110s0f5]
+                masterOnly 1
+                [enp110s0f6]
+                masterOnly 1
+                [enp110s0f7]
+                masterOnly 1
+ptp_operator_configuration_PtpConfigGnrdBcNoHoldover:
+  - spec:
+      profile:
+        - name: "00-bc-tt"
+          ptpSettings:
+            logReduce: "true"
+        - name: "01-bc-tr"
+          ptpSettings:
+            logReduce: "true"
+          plugins:
+            e825:
+              devices:
+                - eno8703
+            e830:
+              devices:
+                - enp108s0f0
+                - enp110s0f0
+      recommend:
+        - profile: 00-bc-tt
+          priority: 4
+          match:
+            - nodeLabel: "node-role.kubernetes.io/$mcp"
+        - profile: 01-bc-tr
+          priority: 4
+          match:
+            - nodeLabel: "node-role.kubernetes.io/$mcp"
+    captureGroup_defaults:
+      leadingInterface: eno8703
+      upstreamInterface: $upstreamInterface
+      priority2: 128
+      domainNumber: 24
+      ts2phcPortConfig: |-
+        # This should be one section per Carter Flats (e830) card:
+                [enp108s0f0]
+                ts2phc.extts_polarity rising
+                ts2phc.extts_correction 0
+                ts2phc.master 0
+                ts2phc.channel 0
+                ts2phc.pin_index 1
+                [enp110s0f0]
+                ts2phc.extts_polarity rising
+                ts2phc.extts_correction 0
+                ts2phc.master 0
+                ts2phc.channel 0
+                ts2phc.pin_index 1
+      masterPorts: |-
+        # All TimeTransmitter ports should be outlined here with 'masterOnly 1'
+                #[eno8303]
+                # ** Host management interface
+                [eno8403]
+                masterOnly 1
+                #[eno8503]
+                # ** TR port (see 01-bc-tr profile)
+                [eno8603]
+                masterOnly 1
+                [eno8703]
+                masterOnly 1
+                [eno8803]
+                masterOnly 1
+                [eno8903]
+                masterOnly 1
+                [eno9003]
+                masterOnly 1
+                [enp108s0f0]
+                masterOnly 1
+                [enp108s0f1]
+                masterOnly 1
+                [enp108s0f2]
+                masterOnly 1
+                [enp108s0f3]
+                masterOnly 1
+                [enp108s0f4]
+                masterOnly 1
+                [enp108s0f5]
+                masterOnly 1
+                [enp108s0f6]
+                masterOnly 1
+                [enp108s0f7]
+                masterOnly 1
+                [enp110s0f0]
+                masterOnly 1
+                [enp110s0f1]
+                masterOnly 1
+                [enp110s0f2]
+                masterOnly 1
+                [enp110s0f3]
+                masterOnly 1
+                [enp110s0f4]
+                masterOnly 1
+                [enp110s0f5]
+                masterOnly 1
+                [enp110s0f6]
+                masterOnly 1
+                [enp110s0f7]
+                masterOnly 1
 ptp_operator_configuration_PtpConfigBoundary:
   - spec:
       profile:
