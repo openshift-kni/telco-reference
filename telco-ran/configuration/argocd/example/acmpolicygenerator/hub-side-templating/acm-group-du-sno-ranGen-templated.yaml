@@ -38,6 +38,7 @@ policies:
     ran.openshift.io/ztp-deploy-wave: "10"
   manifests:
     - path: source-crs/cluster-tuning/DisableOLMPprof.yaml
+      complianceType: mustnothave
     - path: source-crs/cluster-logging/ClusterLogForwarder.yaml
       patches:
       - spec:
