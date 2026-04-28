@@ -7,6 +7,9 @@ spec:
     ovnKubernetesConfig:
       gatewayConfig:
         routingViaHost: true
+        {{ if hasKey .spec.defaultNetwork.ovnKubernetesConfig.gatewayConfig "ipForwarding" }}
+        ipForwarding: Restricted
+        {{ end }}
 {{- $eip := .spec.defaultNetwork.ovnKubernetesConfig.egressIPConfig }}
 {{- if and $eip $eip.reachabilityTotalTimeoutSeconds }}
       egressIPConfig:
