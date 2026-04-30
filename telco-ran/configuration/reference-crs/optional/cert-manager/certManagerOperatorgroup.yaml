@@ -1,0 +1,11 @@
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  annotations:
+    olm.operatorframework.io/bundle-install-timeout: "10m"
+    operatorframework.io/bundle-unpack-min-retry-interval: 10m
+  name: cert-manager-operator
+  namespace: cert-manager-operator
+spec:
+  upgradeStrategy: Default

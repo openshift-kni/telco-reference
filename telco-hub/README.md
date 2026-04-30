@@ -1,7 +1,7 @@
 # Telco Hub Cluster Setup
 
 The goal of this document is to provide a step-by-step guide on how to install and configure a Hub cluster that follows the
-specifications and recommendations of the [Telco Hub Cluster RDS](https://docs.redhat.com/en/documentation/openshift_container_platform/4.19/html/scalability_and_performance/telco-hub-ref-design-specs). Starting from a basic OpenShift cluster,
+specifications and recommendations of the [Telco Hub Cluster RDS](https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/scalability_and_performance/telco-hub-ref-design-specs). Starting from a basic OpenShift cluster,
 the different operators that make up a Hub cluster will be installed, all in a disconnected environment.
 
 The Yaml manifests used to install the OpenShift cluster and the required mirror registry can be found in the [install](install) folder
@@ -25,7 +25,7 @@ is acceptable as long as they reach the same end result. The instructions below 
 The instructions that follow consider a partially-disconnected environment. In this kind of environment there is a host that has
 Internet connectivity but the OCP nodes of the Hub cluster are disconnected. This scenario has the advantage that it allows to create and
 populate the mirror registry directly using the public repositories while proceeding with the Hub cluster installation as if it was fully-disconnected.
-For a fully disconnected environment a few additional step are required (see [Mirroring an image set in a fully disconnected environment](https://docs.redhat.com/en/documentation/openshift_container_platform/4.19/html-single/disconnected_environments/index#mirroring-image-set-full)).
+For a fully disconnected environment a few additional step are required (see [Mirroring an image set in a fully disconnected environment](https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html-single/disconnected_environments/index#mirroring-image-set-full)).
 
 [Mirror registry setup](install/mirror-registry/README.md)
 

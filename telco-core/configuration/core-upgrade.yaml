@@ -2,17 +2,18 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: telco-core-upgrade-19
+  name: telco-core-upgrade-22
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
-    clusterSelectors:
-      common: "core"
-      upgrade-version-4-19: ""
+    labelSelector:
+      matchLabels:
+        common: "core"
+        upgrade-version-4-22: ""
   remediationAction: "inform"
 policies:
-  - name: core-upgrade-prep-19
+  - name: core-upgrade-prep-22
     policyAnnotations:
       # Updates to the catalogsource take a few seconds to propagate
       # to the status. The soak seconds gives time for that
@@ -23,7 +24,7 @@ policies:
       - path: reference-crs/required/other/catalog-source.yaml
         patches:
         - spec:
-            image: registry.redhat.io/redhat/redhat-operator-index:v4.20
+            image: registry.redhat.io/redhat/redhat-operator-index:v4.22
         - status:
             connectionState:
               lastObservedState: READY
@@ -52,22 +53,22 @@ policies:
             # Adjust as needed based on spare capacity, cluster design, and application requirements
             maxUnavailable: 100%
             paused: true
-  - name: core-upgrade-ocp-19
+  - name: core-upgrade-ocp-22
     manifests:
       - path: reference-crs/optional/other/ClusterVersion.yaml
         patches:
         - spec:
-            channel: stable-4.20
+            channel: stable-4.22
             desiredUpdate:
               # Replace version, image and status below with desired version
-              version: 4.20.0
-              image: quay.io/openshift-release-dev/ocp-release@sha256:3482dbdce3a6fb2239684d217bba6fc87453eff3bdb72f5237be4beb22a2160b
+              version: 4.22.0
+              image: quay.io/openshift-release-dev/ocp-release@sha256:<TBD>
               force: true
         - status:
             history:
-            - version: 4.20.0
+            - version: 4.22.0
               state: "Completed"
-  - name: core-upgrade-olm-19
+  - name: core-upgrade-olm-22
     policyAnnotations:
       # Ensure that status for OLM created operators has time to propagate
       ran.openshift.io/soak-seconds: "60"
@@ -76,7 +77,7 @@ policies:
         patches:
         - metadata:
             annotations:
-              noop-for-triggering-noncompliance: "19"
+              noop-for-triggering-noncompliance: "22"
         - status:
             state: AtLatestKnown
       - path: reference-crs/required/networking/sriov/SriovSubscription.yaml
@@ -86,7 +87,7 @@ policies:
       - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
         patches:
         - spec:
-            channel: stable-4.20
+            channel: stable-4.21
         - status:
             state: AtLatestKnown
       - path: reference-crs/required/networking/NMStateSubscription.yaml
@@ -105,7 +106,7 @@ policies:
   # Ensure that all subscriptions are at the latest known, including
   # subscriptions automatically created by OLM on behalf of higher
   # level operators.
-  - name: core-upgrade-validate-19
+  - name: core-upgrade-validate-22
     policyAnnotations:
       # Ensure that propagation to OLM created operators has time to propagate
       ran.openshift.io/soak-seconds: "30"

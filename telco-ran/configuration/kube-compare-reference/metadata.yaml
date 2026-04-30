@@ -3,7 +3,7 @@ parts:
   - name: version-check
     description: |-
       A mismatch here means you may be using the wrong reference.
-      This reference was designed for OpenShift 4.20.
+      This reference was designed for OpenShift 4.22.
     components:
       - name: version-check
         allOf:
@@ -26,7 +26,7 @@ parts:
           - path: machine-config/container-runtime.yaml
   - name: required-cluster-logging
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-logging_ran-ref-design-components
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-ran-du-ref-design-specs#telco-ran-logging_telco-ran-du
     components:
       - name: cluster-logging
         allOf:
@@ -42,7 +42,7 @@ parts:
           - path: cluster-logging/ClusterLogServiceAccountInfrastructureBinding.yaml
   - name: required-cluster-tuning
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-cluster-tuning_ran-ref-design-components
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-ran-du-ref-design-specs#telco-ran-cluster-tuning_telco-ran-du
     components:
       - name: cluster-tuning
         allOf:
@@ -63,7 +63,7 @@ parts:
           - path: cluster-tuning/DisableOLMPprof.yaml
   - name: optional-lca
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-lca-operator_ran-ref-design-components
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-ran-du-ref-design-specs#telco-ran-lca-operator_telco-ran-du
     components:
       - name: lca
         allOrNoneOf:
@@ -76,7 +76,7 @@ parts:
   - name: optional-nmstate-operator
     description: |-
       The nmstate operator is only used in multinode clusters when required by IPSec:
-        https://docs.openshift.com/container-platform/4.20/edge_computing/ztp-deploying-far-edge-sites.html#ztp-configuring-ipsec-using-ztp-and-siteconfig-for-mno_ztp-deploying-far-edge-sites
+        https://docs.openshift.com/container-platform/4.22/edge_computing/ztp-deploying-far-edge-sites.html#ztp-configuring-ipsec-using-ztp-and-siteconfig-for-mno_ztp-deploying-far-edge-sites
     components:
       - name: nmstate-operator
         allOrNoneOf:
@@ -91,7 +91,7 @@ parts:
           - path: nmstate/NMState.yaml
   - name: required-machine-config
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-machine-configuration_ran-ref-design-components
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-ran-du-ref-design-specs#telco-ran-machine-configuration_telco-ran-du
     components:
       - name: machine-config
         allOf:
@@ -117,7 +117,7 @@ parts:
           - path: machine-config/01-disk-encryption-pcr-rebind-worker.yaml
   - name: required-node-tuning-operator
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-node-tuning-operator_ran-ref-design-components
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-ran-du-ref-design-specs#telco-ran-node-tuning-operator_telco-ran-du
     components:
       - name: node-tuning-operator
         allOf:
@@ -132,7 +132,7 @@ parts:
                   inlineDiffFunc: capturegroups
   - name: required-ptp-operator
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-ptp-operator_ran-ref-design-components
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-ran-du-ref-design-specs#telco-ran-ptp-operator_telco-ran-du
     components:
       - name: ptp-operator
         allOf:
@@ -144,7 +144,7 @@ parts:
           - path: ptp-operator/PtpSubscriptionOperGroup.yaml
   - name: required-sriov-operator
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-sr-iov-operator_ran-ref-design-components
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-ran-du-ref-design-specs#telco-ran-sr-iov-operator_telco-ran-du
     components:
       - name: sriov-operator
         allOf:
@@ -155,6 +155,9 @@ parts:
               fieldsToOmitRefs:
                 - subscriptions
           - path: sriov-operator/SriovSubscriptionNS.yaml
+            config:
+              fieldsToOmitRefs:
+                - monitoringLabel
           - path: sriov-operator/SriovSubscriptionOperGroup.yaml
       - name: sriov-operator-config
         oneOf:
@@ -162,7 +165,7 @@ parts:
           - path: sriov-operator/SriovOperatorConfigForSNO.yaml
   - name: optional-storage-lso
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-storage-lso_ran-ref-design-components
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-ran-du-ref-design-specs#telco-ran-local-storage-operator_telco-ran-du
     components:
       - name: storage-lso
         allOrNoneOf:
@@ -174,7 +177,7 @@ parts:
                 - subscriptions
   - name: optional-storage-lvm
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-lvms-operator_ran-ref-design-components
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-ran-du-ref-design-specs#telco-ran-lvms-operator_telco-ran-du
     components:
       - name: storage-operator
         allOrNoneOf:
@@ -188,14 +191,14 @@ parts:
           - path: storage-lvm/StoragePV.yaml
   - name: optional-storage-config
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-lvms-operator_ran-ref-design-components
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-ran-du-ref-design-specs#telco-ran-lvms-operator_telco-ran-du
     components:
       - name: local-storage-config
         anyOf:
           - path: storage-lvm/StoragePVC.yaml
   - name: optional-storage
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-storage-lso_ran-ref-design-components
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-ran-du-ref-design-specs#telco-ran-local-storage-operator_telco-ran-du
     components:
       - name: storage
         allOrNoneOf:
@@ -207,7 +210,7 @@ parts:
               ignore-unspecified-fields: true
   - name: optional-sriov-fec-operator
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-sriov-fec-operator_ran-ref-design-components
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-ran-du-ref-design-specs#telco-ran-sriov-fec-operator_telco-ran-du
     components:
       - name: sriov-fec-operator
         allOrNoneOf:
@@ -223,7 +226,7 @@ parts:
           - path: sriov-fec-operator/SriovVrbClusterConfig.yaml
   - name: optional-image-registry
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-lca-operator_ran-ref-design-components
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-ran-du-ref-design-specs#telco-ran-lca-operator_telco-ran-du
     components:
       - name: image-registry
         allOrNoneOf:
@@ -231,7 +234,7 @@ parts:
           - path: image-registry/ImageRegistryPV.yaml
   - name: optional-ptp-config
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-ptp-operator_ran-ref-design-components
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-ran-du-ref-design-specs#telco-ran-ptp-operator_telco-ran-du
     components:
       - name: ptp-operator-config
         oneOf:
@@ -397,7 +400,7 @@ parts:
                   inlineDiffFunc: capturegroups
   - name: optional-console-disable
     description: |-
-      https://docs.openshift.com/container-platform/4.20/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-cluster-tuning_ran-ref-design-components
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-ran-du-ref-design-specs#telco-ran-cluster-tuning_telco-ran-du
     components:
       - name: console-disable
         allOrNoneOf:
@@ -459,6 +462,9 @@ fieldsToOmit:
     all:
       - include: defaults
       - pathToKey: status
+    monitoringLabel:
+      - include: all
+      - pathToKey: metadata.labels."openshift.io/cluster-monitoring"
     subscriptions:
       - include: all
       - pathToKey: metadata.labels."operators.coreos.com/"
