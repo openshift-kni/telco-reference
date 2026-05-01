@@ -1,8 +1,9 @@
----
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: acme-issuer
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
 spec:
   # Example based on: https://cert-manager.io/docs/configuration/acme/#creating-a-basic-acme-issuer
   acme:

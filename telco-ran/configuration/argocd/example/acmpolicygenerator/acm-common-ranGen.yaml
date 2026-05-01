@@ -84,3 +84,9 @@ policies:
     # - path: source-crs/data-protection/OadpSubscriptionOperGroup.yaml
     # - path: source-crs/data-protection/OadpSubscription.yaml
     # - path: source-crs/data-protection/OadpOperatorStatus.yaml
+    #
+    # cert-manager operator for managing TLS certificates
+    # - path: source-crs/cert-manager/certManagerNS.yaml
+    # - path: source-crs/cert-manager/certManagerOperatorgroup.yaml
+    # - path: source-crs/cert-manager/certManagerSubscription.yaml
+    # - path: source-crs/cert-manager/certManagerOperatorStatus.yaml

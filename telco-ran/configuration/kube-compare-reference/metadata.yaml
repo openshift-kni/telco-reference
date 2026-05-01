@@ -73,6 +73,18 @@ parts:
                 - subscriptions
           - path: lca/LcaSubscriptionNS.yaml
           - path: lca/LcaSubscriptionOperGroup.yaml
+  - name: optional-cert-manager
+    description: |-
+      cert-manager operator for managing TLS certificates
+    components:
+      - name: cert-manager-operator
+        allOrNoneOf:
+          - path: cert-manager/certManagerSubscription.yaml
+            config:
+              fieldsToOmitRefs:
+                - subscriptions
+          - path: cert-manager/certManagerNS.yaml
+          - path: cert-manager/certManagerOperatorgroup.yaml
   - name: optional-nmstate-operator
     description: |-
       The nmstate operator is only used in multinode clusters when required by IPSec:
