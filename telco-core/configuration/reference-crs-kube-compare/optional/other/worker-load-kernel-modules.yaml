@@ -37,7 +37,7 @@ spec:
               {{- $userSource = $file.contents.source }}
             {{- end }}
           {{- end }}
-          source: {{ template "validateBase64List" (list $userSource (list "ip_gre" "nf_tables" "nf_conntrack" "nft_ct" "nft_limit" "nft_log" "nft_nat" "nft_chain_nat" "nf_reject_ipv4" "nf_reject_ipv6" "nfnetlink_log")) }}
+          source: {{ template "validateBase64List" (list $userSource (list "ip_gre" "nf_tables" "nf_conntrack" "nft_ct" "nft_limit" "nft_log" "nft_nat" "nft_chain_nat" "nf_reject_ipv4" "nf_reject_ipv6" "nfnetlink_log" "mpls" "vrf")) }}
         mode: 420
         overwrite: true
         path: /etc/modules-load.d/kernel-load.conf
