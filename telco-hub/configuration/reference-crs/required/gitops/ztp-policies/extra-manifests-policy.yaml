@@ -2,13 +2,13 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ztp-sno-ran-du
+  name: ztp-hub-policies
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: ztp-sno-ran-du-svc
-  namespace: ztp-sno-ran-du
+  name: ztp-hub-policies-svc
+  namespace: ztp-hub-policies
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -25,8 +25,8 @@ metadata:
   name: ztp-template-watcher-binding
 subjects:
 - kind: ServiceAccount
-  name: ztp-sno-ran-du-svc
-  namespace: ztp-sno-ran-du
+  name: ztp-hub-policies-svc
+  namespace: ztp-hub-policies
 roleRef:
   kind: ClusterRole
   name: ztp-template-watcher-role
@@ -36,11 +36,11 @@ apiVersion: policy.open-cluster-management.io/v1
 kind: Policy
 metadata:
   name: extra-manifests-policy
-  namespace: ztp-sno-ran-du
+  namespace: ztp-hub-policies
 spec:
   disabled: false
   hubTemplateOptions:
-    serviceAccountName: ztp-sno-ran-du-svc
+    serviceAccountName: ztp-hub-policies-svc
   policy-templates:
   - objectDefinition:
       apiVersion: policy.open-cluster-management.io/v1
@@ -107,7 +107,7 @@ apiVersion: cluster.open-cluster-management.io/v1beta1
 kind: Placement
 metadata:
   name: placement-extra-manifests-policy
-  namespace: ztp-sno-ran-du
+  namespace: ztp-hub-policies
 spec:
   predicates:
   - requiredClusterSelector:
@@ -127,7 +127,7 @@ apiVersion: policy.open-cluster-management.io/v1
 kind: PlacementBinding
 metadata:
   name: binding-extra-manifests-policy
-  namespace: ztp-sno-ran-du
+  namespace: ztp-hub-policies
 placementRef:
   apiGroup: cluster.open-cluster-management.io
   kind: Placement
@@ -141,6 +141,6 @@ apiVersion: cluster.open-cluster-management.io/v1beta2
 kind: ManagedClusterSetBinding
 metadata:
   name: global
-  namespace: ztp-sno-ran-du
+  namespace: ztp-hub-policies
 spec:
   clusterSet: global
