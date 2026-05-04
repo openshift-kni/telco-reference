@@ -17,3 +17,4 @@ resources:
   - addPluginsPolicyNS.yaml
   - addPluginsPolicyPlacementBinding.yaml
   - addPluginsPolicyPlacement.yaml
+  - ztp-policies/extra-manifests-policy.yaml
