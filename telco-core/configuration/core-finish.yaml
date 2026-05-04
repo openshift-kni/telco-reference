@@ -17,6 +17,25 @@ policies:
   - name: custom-mcp-unpause-22
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "200"
+    placement:
+      labelSelector:
+        matchExpressions:
+          - key: common
+            operator: In
+            values:
+              - "core"
+          - key: version
+            operator: In
+            values:
+              - "4.22"
+          - key: ztp-done
+            operator: DoesNotExist
+    # The policy unpauses MCPs that were paused during initial creation
+    # and sets 'maxUnavailable' parameter to 100% to speed up the deployment.
+    # This is only required once as part of the deployment optimization
+    # therefore it's not required to re-evaluate it after initial deployment.
+    evaluationInterval:
+      compliant: never
     manifests:
       # The MCPs should be added as extra manifests at installation time. Their
       # inclusion here will reset the pause to false, allowing the MCPs to update
