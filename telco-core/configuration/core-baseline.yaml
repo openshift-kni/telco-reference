@@ -71,6 +71,7 @@ policies:
         patches:
         - spec:
             installPlanApproval: Manual
+      - path: reference-crs/required/networking/metallb/configurationstate.yaml
       - path: reference-crs/required/scheduling/NROPSubscriptionNS.yaml
       - path: reference-crs/required/scheduling/NROPSubscriptionOperGroup.yaml
       - path: reference-crs/required/scheduling/NROPSubscription.yaml
