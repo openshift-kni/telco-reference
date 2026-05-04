@@ -1,0 +1,16 @@
+# required
+# count: 1
+---
+apiVersion: self-node-remediation.medik8s.io/v1alpha1
+kind: SelfNodeRemediationTemplate
+metadata:
+  name: self-node-remediation-outofservicetaint-strategy-template
+  namespace: openshift-workload-availability
+spec:
+  template:
+    spec:
+      # OutOfServiceTaint: the SNR agent applies the out-of-service taint
+      # to the unhealthy node, which forces the eviction of stateful pods
+      # and allows their PVCs to be force-detached and reattached to a
+      # healthy node.
+      remediationStrategy: OutOfServiceTaint
