@@ -2,6 +2,7 @@ apiVersion: k8s.cni.cncf.io/v1beta1
 kind: MultiNetworkPolicy
 metadata:
   name: deny-all
+  namespace: {{ .metadata.namespace }}
 {{- if .metadata.annotations }}
   {{- if ne (index .metadata.annotations "k8s.v1.cni.cncf.io/policy-for") nil }}
   annotations:
