@@ -10,15 +10,15 @@ metadata:
     pipelinesascode.tekton.dev/on-cel-expression: |
       event == "push" &&
       target_branch == "main" &&
-      (".tekton/telco-hub-rds-4-22-push.yaml".pathChanged() ||
+      (".tekton/telco-hub-rds-5-0-push.yaml".pathChanged() ||
        ".tekton/build-pipeline-telco-hub-rds.yaml".pathChanged() ||
        "telco-hub/***".pathChanged())
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: telco-hub-rds-4-22
-    appstudio.openshift.io/component: telco-hub-rds-4-22
+    appstudio.openshift.io/application: telco-hub-rds-5-0
+    appstudio.openshift.io/component: telco-hub-rds-5-0
     pipelines.appstudio.openshift.io/type: build
-  name: telco-hub-rds-4-22-on-push
+  name: telco-hub-rds-5-0-on-push
   namespace: telco-5g-tenant
 spec:
   params:
@@ -27,7 +27,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/telco-5g-tenant/telco-hub-rds-4-22:{{revision}}
+    value: quay.io/redhat-user-workloads/telco-5g-tenant/telco-hub-rds-5-0:{{revision}}
   - name: build-platforms
     value:
     - linux/x86_64
@@ -46,7 +46,7 @@ spec:
   pipelineRef:
     name: build-pipeline-telco-hub-rds
   taskRunTemplate:
-    serviceAccountName: build-pipeline-telco-hub-rds-4-22
+    serviceAccountName: build-pipeline-telco-hub-rds-5-0
   workspaces:
   - name: git-auth
     secret:
