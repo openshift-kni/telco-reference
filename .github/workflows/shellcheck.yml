@@ -1,0 +1,24 @@
+---
+name: ShellCheck
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "**/*.sh"
+      - "Makefile"
+
+permissions:
+  contents: read
+
+jobs:
+  shellcheck:
+    name: Validate Shell Scripts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run ShellCheck
+        run: make test-shellcheck

@@ -44,6 +44,13 @@ check-deps:
 		echo "✗ Missing (install from: https://go.dev/dl/)"; \
 		MISSING=$$((MISSING+1)); \
 	fi; \
+	echo -n "Checking shellcheck... "; \
+	if command -v shellcheck >/dev/null 2>&1; then \
+		echo "✓ Found: $$(shellcheck --version 2>&1 | grep version: | head -1)"; \
+	else \
+		echo "✗ Missing (install: brew install shellcheck or apt-get install shellcheck)"; \
+		MISSING=$$((MISSING+1)); \
+	fi; \
 	echo ""; \
 	if [ $$MISSING -eq 0 ]; then \
 		echo "✅ All dependencies are installed!"; \
@@ -115,6 +122,10 @@ ocp-doc-check:  ## Download and run ocp-doc-checker against markdown files
 
 test-kustomize:  ## Validate all kustomization.yaml files can build
 	./hack/test-kustomize.sh
+
+.PHONY: test-shellcheck
+test-shellcheck:  ## Validate shell scripts with shellcheck
+	./hack/test-shellcheck.sh
 
 ci-validate: lintCheck check-reference-core check-reference-ran check-reference-hub
 
