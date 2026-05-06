@@ -14,7 +14,7 @@ spec:
   {{- end }}
   acceleratorSelector:
     pciAddress: {{ .spec.acceleratorSelector.pciAddress }}
-  physicalFunction:  
+  physicalFunction:
     pfDriver: "vfio-pci"
     vfDriver: "vfio-pci"
     vfAmount: 16

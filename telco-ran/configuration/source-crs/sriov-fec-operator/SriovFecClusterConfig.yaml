@@ -12,7 +12,7 @@ spec:
     node-role.kubernetes.io/$mcp: "" # use master for SNO
   acceleratorSelector:
     pciAddress: $pciAddress
-  physicalFunction:  
+  physicalFunction:
     pfDriver: "vfio-pci"
     vfDriver: "vfio-pci"
     vfAmount: 16

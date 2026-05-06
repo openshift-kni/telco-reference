@@ -2,7 +2,7 @@
 apiVersion: operators.coreos.com/v1
 kind: Operator
 metadata:
-  name: lifecycle-agent.openshift-lifecycle-agent 
+  name: lifecycle-agent.openshift-lifecycle-agent
   annotations:
     ran.openshift.io/ztp-deploy-wave: "2"
 status:

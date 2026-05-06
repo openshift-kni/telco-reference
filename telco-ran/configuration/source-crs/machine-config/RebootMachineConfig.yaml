@@ -2,7 +2,7 @@ apiVersion: machineconfiguration.openshift.io/v1
 kind: MachineConfig
 metadata:
   labels:
-    machineconfiguration.openshift.io/role: $mcp 
+    machineconfiguration.openshift.io/role: $mcp
   name: 95-talm-initiated-reboot-$mcp
 spec:
   baseOSExtensionsContainerImage: ""

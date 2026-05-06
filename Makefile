@@ -67,6 +67,9 @@ lintCheck:
 	yamllint -c .yamllint.yaml telco-hub/configuration/reference-crs
 	yamllint -c .yamllint.yaml telco-hub/configuration/example-overlays-config
 	yamllint -c .yamllint.yaml telco-hub/install/
+	find telco-ran/configuration/source-crs -path '*/extra-manifest' -prune -o -name '*.yaml' -print | xargs yamllint -c .yamllint.yaml
+	if [ -d telco-ran/configuration/hardening ]; then yamllint -c .yamllint.yaml telco-ran/configuration/hardening; fi
+	yamllint -c .yamllint.yaml telco-ran/install/
 
 # markdownlint rules, following: https://github.com/openshift/enhancements/blob/master/Makefile
 .PHONY: markdownlint-image
