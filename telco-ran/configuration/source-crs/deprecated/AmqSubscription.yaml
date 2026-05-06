@@ -8,7 +8,7 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "2"
 spec:
   channel: 1.10.x
-  name:  amq7-interconnect-operator
+  name: amq7-interconnect-operator
   source: redhat-operators-disconnected
   sourceNamespace: openshift-marketplace
   installPlanApproval: Manual

@@ -47,9 +47,9 @@ policies:
       openapi:
         path: schema.openapi
     - path: source-crs/sriov-operator/SriovOperatorConfig-SetSelector.yaml
-      # For existing clusters with node selector set as "master", 
+      # For existing clusters with node selector set as "master",
       # change the complianceType to "mustonlyhave".
-      # After complying with the policy, the complianceType can 
+      # After complying with the policy, the complianceType can
       # be reverted to "musthave"
       complianceType: musthave
       patches:

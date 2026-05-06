@@ -1,5 +1,5 @@
 # For this PGT, we've considered an SNO managed cluster with the following labels:
-#   group-du-sno-zone: zone-1 
+#   group-du-sno-zone: zone-1
 #   hardware-type: hw-type-platform-1
 # ConfigMaps used:
 #   group-hardware-types-configmap.yaml: group-hardware-types-configmap
@@ -50,9 +50,9 @@ spec:
     ###
     - fileName: sriov-operator/SriovOperatorConfig.yaml # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
-      # For existing clusters with node selector set as "master", 
+      # For existing clusters with node selector set as "master",
       # change the complianceType to "mustonlyhave".
-      # After complying with the policy, the complianceType can 
+      # After complying with the policy, the complianceType can
       # be reverted to "musthave"
       complianceType: musthave
       spec:

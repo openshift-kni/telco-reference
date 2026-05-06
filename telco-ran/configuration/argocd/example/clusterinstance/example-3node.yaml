@@ -14,7 +14,7 @@ spec:
   clusterImageSetNameRef: "openshift-4.22"
   sshPublicKey: "ssh-rsa AAAA..."
   clusterName: "example-ai-3node"
-  clusterType: HighlyAvailable  
+  clusterType: HighlyAvailable
   networkType: "OVNKubernetes"
   cpuPartitioningMode: AllNodes
   # Include references to extraManifest ConfigMaps.
@@ -31,7 +31,7 @@ spec:
       group-du-3node: ""
       # ../policygentemplates/example-multinode-site.yaml will apply to all clusters with 'sites: "example-multinode"'
       # Normally this should match or contain the cluster name so it only applies to a single cluster
-      sites : "example-multinode"
+      sites: "example-multinode"
   clusterNetwork:
     - cidr: 1001:1::/48
       hostPrefix: 64
@@ -57,7 +57,7 @@ spec:
       bmcCredentialsName:
         name: "example-node1-bmh-secret"
       bootMACAddress: "AA:BB:CC:DD:EE:11"
-      # Use UEFISecureBoot to enable secure boot for this node, UEFI to disable 
+      # Use UEFISecureBoot to enable secure boot for this node, UEFI to disable
       bootMode: "UEFISecureBoot"
       rootDeviceHints:
         deviceName: "/dev/disk/by-path/pci-0000:01:00.0-scsi-0:2:0:0"
@@ -98,7 +98,7 @@ spec:
       bmcCredentialsName:
         name: "example-node2-bmh-secret"
       bootMACAddress: "AA:BB:CC:DD:EE:22"
-      # Use UEFISecureBoot to enable secure boot for this node, UEFI to disable 
+      # Use UEFISecureBoot to enable secure boot for this node, UEFI to disable
       bootMode: "UEFISecureBoot"
       rootDeviceHints:
         deviceName: "/dev/disk/by-path/pci-0000:01:00.0-scsi-0:2:0:0"
@@ -139,7 +139,7 @@ spec:
       bmcCredentialsName:
         name: "example-node3-bmh-secret"
       bootMACAddress: "AA:BB:CC:DD:EE:33"
-      # Use UEFISecureBoot to enable secure boot for this node, UEFI to disable 
+      # Use UEFISecureBoot to enable secure boot for this node, UEFI to disable
       bootMode: "UEFISecureBoot"
       rootDeviceHints:
         deviceName: "/dev/disk/by-path/pci-0000:01:00.0-scsi-0:2:0:0"

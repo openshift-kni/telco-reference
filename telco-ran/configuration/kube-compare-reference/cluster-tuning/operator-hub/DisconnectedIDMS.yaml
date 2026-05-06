@@ -3,7 +3,7 @@ kind: ImageDigestMirrorSet
 metadata:
   name: {{ .metadata.name }}
   annotations:
-      ran.openshift.io/ztp-deploy-wave: "1"
+    ran.openshift.io/ztp-deploy-wave: "1"
 spec:
   # imageDigestMirrors:
   # - $mirrors
