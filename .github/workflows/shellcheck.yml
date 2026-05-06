@@ -1,0 +1,28 @@
+---
+name: ShellCheck
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "**/*.sh"
+
+permissions:
+  contents: read
+
+jobs:
+  shellcheck:
+    name: Validate Shell Scripts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run ShellCheck
+        run: |
+          find . -name '*.sh' \
+            -not -path './.git/*' \
+            -not -path './venv/*' \
+            -not -path './.venv/*' \
+            -print0 | xargs -0 shellcheck --severity=error
