@@ -11,7 +11,7 @@ spec:
   configuration:
     nodeAgent:
       enable: false
-      uploaderType: restic
+      uploaderType: kopia
     velero:
       defaultPlugins:
         - aws
