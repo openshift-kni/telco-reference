@@ -4,18 +4,28 @@
     "automergeType": "pr",
     "prConcurrentLimit": 0,
     "pruneBranchAfterAutomerge": true,
+    "packageRules": [
+        {
+            "addLabels": [
+                "allow-automatic-merge"
+            ],
+            "matchFileNames": [
+                "**/rpms.lock.yaml"
+            ]
+        }
+    ],
     "tekton": {
-        "autoApprove": true,
-        "automerge": true,
-        "enabled": true,
-        "managerFilePatterns": [
-            "/\\.yaml$/",
-            "/\\.yml$/"
+        "addLabels": [
+            "allow-automatic-merge"
         ],
+        "enabled": true,
         "ignoreTests": false,
         "includePaths": [
             ".tekton/**"
         ],
-        "platformAutomerge": true
+        "managerFilePatterns": [
+            "/\\.yaml$/",
+            "/\\.yml$/"
+        ]
     }
 }
