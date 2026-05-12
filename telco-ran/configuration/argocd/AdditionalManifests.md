@@ -22,6 +22,8 @@ With this feature, via ClusterInstance, users can now have control over this pro
     - extra-manifest/08-set-rcu-normal-master.yaml
     - extra-manifest/08-set-rcu-normal-worker.yaml
     - extra-manifest/09-openshift-marketplace-ns.yaml
+    - extra-manifest/11-stalld-backend-master.yaml
+    - extra-manifest/11-stalld-backend-worker.yaml
     - extra-manifest/99-sync-time-once-master.yaml
     - extra-manifest/99-sync-time-once-worker.yaml
     - extra-manifest/enable-crun-master.yaml
