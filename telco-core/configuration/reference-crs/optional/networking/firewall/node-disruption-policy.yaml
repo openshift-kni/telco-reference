@@ -1,0 +1,30 @@
+# optional
+# count: 1
+# By default, the Machine Config Operator (MCO) drains and reboots nodes when certain MachineConfig fields change.
+# This node disruption policy defines a set of changes to nftables config objects that don't require disruption
+# to your workloads.
+#
+# Instructions:
+#   Verify current configuration:
+#     oc get -o yaml machineconfiguration cluster
+#   If you aren't currently defining any nodeDisruptionPolicies, apply this file directly:
+#     oc patch machineconfiguration cluster --type=merge --patch-file=node-disruption-policy.yaml
+#   Otherwise, manually add these entries to .spec.nodeDisruptionPolicy.units and .spec.nodeDisruptionPolicy.files.
+apiVersion: operator.openshift.io/v1
+kind: MachineConfiguration
+metadata:
+  name: cluster
+spec:
+  nodeDisruptionPolicy:
+    units:
+      - name: nftables.service
+        actions:
+          - type: Reload
+            reload:
+              serviceName: nftables.service
+    files:
+      - path: /etc/sysconfig/nftables.conf
+        actions:
+          - type: Restart
+            restart:
+              serviceName: nftables.service
