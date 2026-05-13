@@ -1,0 +1,31 @@
+{{- $requiredUnits := list (dict "name" "nftables.service" "actions" (list (dict "type" "Reload" "reload" (dict "serviceName" "nftables.service")))) }}
+{{- $requiredFiles := list (dict "path" "/etc/sysconfig/nftables.conf" "actions" (list (dict "type" "Restart" "restart" (dict "serviceName" "nftables.service")))) }}
+apiVersion: operator.openshift.io/v1
+kind: MachineConfiguration
+metadata:
+  name: cluster
+spec:
+  {{- if hasKey .spec "nodeDisruptionPolicy" }}
+  {{- $ndp := .spec.nodeDisruptionPolicy }}
+  nodeDisruptionPolicy:
+    {{- if hasKey $ndp "units" }}
+    units:
+      {{- template "requiredObjectList" (dict "inputList" $ndp.units "requiredList" $requiredUnits "keyName" "name") }}
+    {{- else }}
+    units:
+{{ $requiredUnits | toYaml | indent 6 }}
+    {{- end }}
+    {{- if hasKey $ndp "files" }}
+    files:
+      {{- template "requiredObjectList" (dict "inputList" $ndp.files "requiredList" $requiredFiles "keyName" "path") }}
+    {{- else }}
+    files:
+{{ $requiredFiles | toYaml | indent 6 }}
+    {{- end }}
+  {{- else }}
+  nodeDisruptionPolicy:
+    units:
+{{ $requiredUnits | toYaml | indent 6 }}
+    files:
+{{ $requiredFiles | toYaml | indent 6 }}
+  {{- end }}

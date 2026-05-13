@@ -94,6 +94,11 @@ parts:
           - path: optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
           - path: required/networking/metallb/community.yaml
           - path: optional/networking/nodeNetworkConfigurationPolicy.yaml
+      - name: networking-firewall
+        anyOf:
+          - path: optional/networking/firewall/node-disruption-policy.yaml
+            config:
+              ignore-unspecified-fields: true
   - name: required-other
     components:
       - name: disconnected-registry
@@ -224,6 +229,7 @@ templateFunctionFiles:
   - version_match.tmpl
   - unordered_list.tmpl
   - validate_base64_list.tmpl
+  - required-object-list.tmpl
 
 fieldsToOmit:
   defaultOmitRef: all
