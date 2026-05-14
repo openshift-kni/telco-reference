@@ -1,6 +1,9 @@
 .PHONY: check
-check: compare_crs missing_crs
+check: compare_crs missing_crs check_core_install_extra_manifest_sync
 
+.PHONY: check_core_install_extra_manifest_sync
+check_core_install_extra_manifest_sync:
+	bash ../../hack/check-core-install-extra-manifest-sync.sh
 
 .PHONY: compare_crs
 compare_crs:

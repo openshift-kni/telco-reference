@@ -1,0 +1,2 @@
+# compare_ignore lines are joined with basename(); CRLF breaks compare.sh on Windows/Git Bash
+telco-core/configuration/reference-crs-kube-compare/compare_ignore text eol=lf
