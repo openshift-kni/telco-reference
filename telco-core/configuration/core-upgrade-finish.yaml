@@ -17,7 +17,7 @@ policies:
       # Ensure propagation time
       ran.openshift.io/soak-seconds: "30"
     manifests:
-      - path: reference-crs/custom-manifests/mcp-worker-1.yaml
+      - path: ../install/extra-manifests/mcp-worker-1.yaml
         patches:
         - spec:
             paused: false
@@ -33,7 +33,7 @@ policies:
       # Ensure propagation time
       ran.openshift.io/soak-seconds: "30"
     manifests:
-      - path: reference-crs/custom-manifests/mcp-worker-2.yaml
+      - path: ../install/extra-manifests/mcp-worker-2.yaml
         patches:
         - spec:
             paused: false
@@ -49,7 +49,7 @@ policies:
       # Ensure propagation time
       ran.openshift.io/soak-seconds: "30"
     manifests:
-      - path: reference-crs/custom-manifests/mcp-worker-3.yaml
+      - path: ../install/extra-manifests/mcp-worker-3.yaml
         patches:
         - spec:
             paused: false

@@ -23,7 +23,6 @@ spec:
   # Reference configuration extra manifests
   extraManifestsRefs:
     - name: extra-manifests-configmap
-    - name: custom-manifests-configmap
   extraLabels:
     ManagedCluster:
       common: "core"

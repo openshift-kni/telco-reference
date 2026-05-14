@@ -19,7 +19,7 @@ policies:
     manifests:
       # The MCPs should be added as extra manifests at installation time. Their
       # inclusion here will reset the pause to false, allowing the MCPs to update
-      - path: reference-crs/custom-manifests/mcp-worker-1.yaml
+      - path: ../install/extra-manifests/mcp-worker-1.yaml
         patches:
         - spec:
             paused: false
@@ -31,7 +31,7 @@ policies:
             - type: Updating
               status: "False"
 
-      - path: reference-crs/custom-manifests/mcp-worker-2.yaml
+      - path: ../install/extra-manifests/mcp-worker-2.yaml
         patches:
         - spec:
             paused: false
@@ -43,7 +43,7 @@ policies:
             - type: Updating
               status: "False"
 
-      - path: reference-crs/custom-manifests/mcp-worker-3.yaml
+      - path: ../install/extra-manifests/mcp-worker-3.yaml
         patches:
         - spec:
             paused: false
@@ -60,15 +60,15 @@ policies:
       ran.openshift.io/ztp-deploy-wave: "201"
     manifests:
       # This sets the desired maxUnavailable on the customMCPs
-      - path: reference-crs/custom-manifests/mcp-worker-1.yaml
+      - path: ../install/extra-manifests/mcp-worker-1.yaml
         patches:
         - spec:
             maxUnavailable: 1
-      - path: reference-crs/custom-manifests/mcp-worker-2.yaml
+      - path: ../install/extra-manifests/mcp-worker-2.yaml
         patches:
         - spec:
             maxUnavailable: 1
-      - path: reference-crs/custom-manifests/mcp-worker-3.yaml
+      - path: ../install/extra-manifests/mcp-worker-3.yaml
         patches:
         - spec:
             maxUnavailable: 1
