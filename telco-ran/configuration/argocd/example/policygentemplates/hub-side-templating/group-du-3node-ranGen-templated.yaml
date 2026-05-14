@@ -59,7 +59,7 @@ spec:
     # they are applied after the operators have been successfully installed,
     # however, it's strongly recommended to include these CRs as day-0 extra manifests
     # to avoid the risky of an extra reboot.
-    - fileName: optional-extra-manifest/enable-crun-master.yaml
+    - fileName: extra-manifest/enable-crun-master.yaml
       policyName: "group-du-3nc-cfg-pc"
-    - fileName: optional-extra-manifest/enable-crun-worker.yaml
+    - fileName: extra-manifest/enable-crun-worker.yaml
       policyName: "group-du-3nc-cfg-pc"
