@@ -1,7 +1,11 @@
 
-.PHONY: check checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths
+.PHONY: check checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths checkRanCrunSync
 
-check: checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths
+check: checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths checkRanCrunSync
+
+.PHONY: checkRanCrunSync
+checkRanCrunSync:
+	bash ../../hack/check-ran-crun-extra-manifest-sync.sh
 
 checkExtraManifests:
 	$(MAKE) -C ./extra-manifests-builder check
