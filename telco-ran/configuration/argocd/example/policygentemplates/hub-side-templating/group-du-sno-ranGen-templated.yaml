@@ -34,6 +34,7 @@ spec:
     ###
     - fileName: cluster-tuning/DisableOLMPprof.yaml # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
+      complianceType: mustnothave
     ###
     - fileName: ptp-operator/configuration/PtpConfigSlave.yaml
       policyName: "gr-du-sno-cfg-pc-templated"
