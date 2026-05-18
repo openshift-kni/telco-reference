@@ -28,9 +28,22 @@ for pair in "${PAIRS[@]}"; do
   fi
 done
 
-# sctp_module_mc is templated in kube-compare; literal diff vs install is not expected.
+# sctp_module_mc is templated in kube-compare; validate install matches expected content.
+SCTP="${INSTALL}/sctp_module_mc.yaml"
 if ! grep -q '{{' "${KUBECMP}/optional/other/sctp_module_mc.yaml"; then
   echo "ERROR: expected templating in optional/other/sctp_module_mc.yaml" >&2
+  fail=1
+fi
+if ! grep -q 'version: 3.2.0' "${SCTP}"; then
+  echo "ERROR: ${SCTP} must use ignition version 3.2.0" >&2
+  fail=1
+fi
+if ! grep -q 'source: data:,sctp' "${SCTP}"; then
+  echo "ERROR: ${SCTP} must load sctp via data:,sctp" >&2
+  fail=1
+fi
+if grep -q 'version: 2.2.0' "${SCTP}" || grep -q 'filesystem: root' "${SCTP}"; then
+  echo "ERROR: ${SCTP} must not use legacy ignition 2.2.0 / filesystem fields" >&2
   fail=1
 fi
 
