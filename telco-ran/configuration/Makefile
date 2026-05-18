@@ -1,11 +1,11 @@
 
-.PHONY: check checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths checkRanCrunSync
+.PHONY: check checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths checkMachineConfigPolicyTree
 
-check: checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths checkRanCrunSync
+check: checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths checkMachineConfigPolicyTree
 
-.PHONY: checkRanCrunSync
-checkRanCrunSync:
-	bash ../../hack/check-ran-crun-extra-manifest-sync.sh
+.PHONY: checkMachineConfigPolicyTree
+checkMachineConfigPolicyTree:
+	$(MAKE) -C ../../telco-core/configuration compare_extra_manifests
 
 checkExtraManifests:
 	$(MAKE) -C ./extra-manifests-builder check

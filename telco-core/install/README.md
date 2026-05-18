@@ -37,7 +37,20 @@ same content is validated at day-N using the Hub **extra-manifests** policy
 (see `telco-hub/configuration/reference-crs/required/gitops/ztp-policies/extra-manifests-policy.yaml`).
 
 The cluster-compare reference under `../configuration/reference-crs-kube-compare/`
-is kept aligned with these files via `make check` in `../configuration`.
+is kept aligned with these files via `make compare_extra_manifests` in `../configuration`
+(part of `make check`).
+
+Reference `MachineConfig` files in this directory:
+
+- `control-plane-load-kernel-modules.yaml`
+- `worker-load-kernel-modules.yaml`
+- `mount_namespace_config_master.yaml`
+- `mount_namespace_config_worker.yaml`
+- `kdump-master.yaml`
+- `kdump-worker.yaml`
+- `mc_rootless_pods_selinux.yaml`
+- `sctp_module_mc.yaml`
+- `mcp-worker-1.yaml`, `mcp-worker-2.yaml`, `mcp-worker-3.yaml` (`MachineConfigPool`)
 
 ## custom-manifests
 
