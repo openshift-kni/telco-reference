@@ -12,6 +12,8 @@
 
 set -euo pipefail
 
+sedi() { sed --version 2>/dev/null | grep -q GNU && sed -i "$@" || sed -i '' "$@"; }
+
 if [[ ! -d "source-crs" ]]; then
   echo "Error: This script must be run from a directory containing 'source-crs' (e.g., the 'configuration' directory)." >&2
   exit 1
@@ -67,12 +69,12 @@ for source_file in "${source_files[@]}"; do
     # Choose the replacement strategy based on the file's content.
     if grep -q "source-crs/.*$file_name" "$target_file"; then
       # This file contains an incorrect 'source-crs' path. Fix it.
-      sed -i -e "s|source-crs/[^[:space:]\`[]*${escaped_file_name}|source-crs/$replacement_path|g" "$target_file"
+      sedi -e "s|source-crs/[^[:space:]\`[]*${escaped_file_name}|source-crs/$replacement_path|g" "$target_file"
     else
       # This file contains a different incorrect full path. Fix it.
       # This regex finds a path-like string ending in the filename.
       replacement_path=${replacement_path#%source-crs/}
-      sed -i -e "s|[^[:space:]\`[,]*${escaped_file_name}|${replacement_path}|g" "$target_file"
+      sedi -e "s|[^[:space:]\`[,]*${escaped_file_name}|${replacement_path}|g" "$target_file"
     fi
   done
 done

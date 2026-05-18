@@ -1,5 +1,7 @@
 #! /bin/bash
 
+sedi() { sed --version 2>/dev/null | grep -q GNU && sed -i "$@" || sed -i '' "$@"; }
+
 trap cleanup EXIT
 
 function cleanup() {
@@ -38,8 +40,8 @@ function compare_cr {
   while IFS= read -r file; do
     [[ ${file::1} != "#" ]] || continue # Skip any comment lines in the exclusionfile
     [[ -n ${file} ]] || continue # Skip empty lines
-    sed -i "/${file##*/}/d" source_file
-    sed -i "/${file##*/}/d" rendered_file
+    sedi "/${file##*/}/d" source_file
+    sedi "/${file##*/}/d" rendered_file
   done < "$exclusionfile"
 
   local source_cr rendered
@@ -65,8 +67,8 @@ function compare_cr {
   while IFS= read -r file; do
     [[ ${file::1} != "#" ]] || continue # Skip any comment lines in the exclusionfile
     [[ -n ${file} ]] || continue # Skip empty lines
-    sed -i "/${file##*/}/d" source_file
-    sed -i "/${file##*/}/d" rendered_file
+    sedi "/${file##*/}/d" source_file
+    sedi "/${file##*/}/d" rendered_file
   done < <(cat same_file "$exclusionfile")
 
   if [[ -s source_file || -s rendered_file ]]; then
