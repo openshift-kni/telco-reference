@@ -1,4 +1,4 @@
-# In this example, 2 ports of a single NIC are used in a active/standby configuration to synchronize to a 
+# In this example, 2 ports of a single NIC are used in a active/standby configuration to synchronize to a
 # remote grandmaster via interfaces $iface1 and $iface1
 apiVersion: ptp.openshift.io/v1
 kind: PtpConfig
@@ -121,7 +121,7 @@ spec:
       timeSource 0xA0
     ptp4lOpts: -2  --summary_interval -4
     ptpSchedulingPolicy: SCHED_FIFO
-    ptpSchedulingPriority: 10    
+    ptpSchedulingPriority: 10
     {{- if .ptpClockThreshold }}
     ptpClockThreshold:
       {{- .ptpClockThreshold | toYaml | nindent 6 }}
@@ -135,4 +135,4 @@ spec:
     {{- range .match }}
     - nodeLabel: {{ template "matchNodeSelectorValue" (list .nodeLabel "node-role.kubernetes.io" ) }}
     {{- end }}
-  {{- end }}    
+  {{- end }}
