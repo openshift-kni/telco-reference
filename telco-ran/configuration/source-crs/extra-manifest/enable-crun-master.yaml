@@ -1,10 +1,11 @@
+# Retained on release-4.21. Remove in main (4.23+) only; do not backport removal.
 apiVersion: machineconfiguration.openshift.io/v1
 kind: ContainerRuntimeConfig
 metadata:
- name: enable-crun-worker
+ name: enable-crun-master
 spec:
  machineConfigPoolSelector:
    matchLabels:
-     pools.operator.machineconfiguration.openshift.io/worker: ""
+     pools.operator.machineconfiguration.openshift.io/master: ""
  containerRuntimeConfig:
    defaultRuntime: crun

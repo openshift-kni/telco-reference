@@ -48,9 +48,9 @@ spec:
     # they are applied after the operators have been successfully installed,
     # however, it's strongly recommended to include these CRs as day-0 extra manifests
     # to avoid an extra reboot of the master nodes.
-    - fileName: optional-extra-manifest/enable-crun-master.yaml
+    - fileName: extra-manifest/enable-crun-master.yaml
       policyName: "config-policy"
-    - fileName: optional-extra-manifest/enable-crun-worker.yaml
+    - fileName: extra-manifest/enable-crun-worker.yaml
       policyName: "config-policy"
     #
     # NMState operator is used for IPsec configuration with NMState

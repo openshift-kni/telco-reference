@@ -30,22 +30,31 @@ SiteConfig defines:
 
 ## extra-manifests
 
-The CRs in extra-manifests are exact copies of some CRs from the
-../configuration tree. These CRs will be applied during installation to
-accelerate the time to cluster-ready.
+Reference `MachineConfig` and `MachineConfigPool` CRs for Telco Core live **only**
+in this directory. They are applied during installation (for example via
+`ClusterInstance.spec.extraManifestsRefs`) and are the single copy in git; the
+same content is validated at day-N using the Hub **extra-manifests** policy
+(see `telco-hub/configuration/reference-crs/required/gitops/ztp-policies/extra-manifests-policy.yaml`).
+
+The cluster-compare reference under `../configuration/reference-crs-kube-compare/`
+is kept aligned with these files via `make compare_extra_manifests` in `../configuration`
+(part of `make check`).
+
+Reference `MachineConfig` files in this directory:
+
+- `control-plane-load-kernel-modules.yaml`
+- `worker-load-kernel-modules.yaml`
+- `mount_namespace_config_master.yaml`
+- `mount_namespace_config_worker.yaml`
+- `kdump-master.yaml`
+- `kdump-worker.yaml`
+- `mc_rootless_pods_selinux.yaml`
+- `sctp_module_mc.yaml`
+- `mcp-worker-1.yaml`, `mcp-worker-2.yaml`, `mcp-worker-3.yaml` (`MachineConfigPool`)
 
 ## custom-manifests
 
-These CRs are an additional set of CRs which you want to apply to the cluster
-during installation. The CRs here are treated in the same way as the
-extra-manifests directory but are separated to make it easier to update the set
-of reference manifests when new versions are released.
-
-The example manifests included here define two Machine Config Pools for the
-cluster which bind nodes based on the node-role.kubernetes.io label. The
-examples here also set the Machine Config Pools to `paused: true` and
-`maxUnavailable: 100%`. This results in a significant improvement in install
-times by allowing all worker nodes to update simultaneously (before any workload
-is applied). The assumption is that post-installation the Machine Config Pools
-will be set to `paused: false` and when nodes are ready the MCP set to a
-reasonable `maxUnavailable: <value>` for your use case.
+Optional additional manifests you maintain locally (see `README.md` in this
+directory). Add a `ConfigMap` reference under `ClusterInstance.spec.extraManifestsRefs`
+when you use this directory. The example `ClusterInstance` only references the
+reference `extra-manifests-configmap` by default.

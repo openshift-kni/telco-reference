@@ -25,13 +25,8 @@ policies:
             - mirrors:
               - example.com/sample-path
               source: nomatch.io/sample-path
-      - path: reference-crs/optional/other/sctp_module_mc.yaml
-        complianceType: mustonlyhave
-      - path: reference-crs/optional/other/worker-load-kernel-modules.yaml
-        complianceType: mustonlyhave
-      - path: reference-crs/optional/other/control-plane-load-kernel-modules.yaml
-        complianceType: mustonlyhave
-      - path: reference-crs/optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
+      # MachineConfig CRs are applied at install time from telco-core/install/extra-manifests
+      # and kept in sync at day-N via the Hub extra-manifests policy (see telco-hub ztp-policies).
 
   # Custom networking, operator and cluster configuration
   - name: core-overlay-config-4.21

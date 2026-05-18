@@ -1,7 +1,11 @@
 
-.PHONY: check checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths
+.PHONY: check checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths checkMachineConfigPolicyTree
 
-check: checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths
+check: checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths checkMachineConfigPolicyTree
+
+.PHONY: checkMachineConfigPolicyTree
+checkMachineConfigPolicyTree:
+	$(MAKE) -C ../../telco-core/configuration compare_extra_manifests
 
 checkExtraManifests:
 	$(MAKE) -C ./extra-manifests-builder check
