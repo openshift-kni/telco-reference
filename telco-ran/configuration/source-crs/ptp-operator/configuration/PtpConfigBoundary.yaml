@@ -16,14 +16,16 @@ spec:
       logReduce: "true"
     ptp4lConf: |
       # The interface name is hardware-specific
-      [(?<iface_timeRx>[[:alnum:]]+)]
+      [ens1f0]
       masterOnly 0
-      [(?<iface_timeTx_1>[[:alnum:]]+)]
+      # Include one section for each TimeTransmitter port:
+      [ens1f1]
       masterOnly 1
-      [(?<iface_timeTx_2>[[:alnum:]]+)]
+      [ens1f2]
       masterOnly 1
-      [(?<iface_timeTx_3>[[:alnum:]]+)]
+      [ens1f3]
       masterOnly 1
+      # ...
       [global]
       #
       # Default Data Set

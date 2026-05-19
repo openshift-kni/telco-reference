@@ -108,14 +108,8 @@ spec:
       ts2phc.pin_index 1
       ts2phc.extts_correction 0
     ptp4lConf: |
-      [(?<iface_timeTx>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx_1>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx_2>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx_3>[[:alnum:]]+)]
-      masterOnly 1
+      (?<masterPorts>((\[[[:alnum:]]+\]
+      masterOnly 1| *#.*| *)(\n|$))+)
       [global]
       #
       # Default Data Set
