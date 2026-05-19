@@ -182,6 +182,23 @@ policies:
               name: kafka-open
               kafka:
                 url: '{{hub fromConfigMap "" "regional" (printf "%s-log-url" (index .ManagedClusterLabels "region")) | toLiteral hub}}'
+            # LokiStack local log storage (optional component)
+            # - name: loki-local
+            #   type: lokiStack
+            #   lokiStack:
+            #     target:
+            #       name: logging-loki
+            #       namespace: openshift-logging
+            #     authentication:
+            #       token:
+            #         from: serviceAccount
+            #   tls:
+            #     ca:
+            #       key: service-ca.crt
+            #       configMapName: openshift-service-ca.crt
+            # To add local Loki storage, uncomment the loki-local output above
+            # and add a second pipeline. See ClusterLogForwarder-LokiStack.yaml
+            # for a complete example.
             filters:
             - name: custom-labels
               type: openshiftLabels

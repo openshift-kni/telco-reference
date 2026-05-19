@@ -1,0 +1,45 @@
+---
+apiVersion: observability.openshift.io/v1
+kind: ClusterLogForwarder
+metadata:
+  name: instance
+  namespace: openshift-logging
+spec:
+  outputs:
+  - name: loki-local
+    type: lokiStack
+    lokiStack:
+      target:
+        name: logging-loki
+        namespace: openshift-logging
+      authentication:
+        token:
+          from: serviceAccount
+    tls:
+      ca:
+        key: service-ca.crt
+        configMapName: openshift-service-ca.crt
+
+  # - name: external-logs
+  #   type: <external_type>  # e.g., kafka, splunk, syslog
+  #   <external_type>:
+  #     url: <external_url>
+  pipelines:
+  - name: infra-audit-to-local-loki
+    inputRefs:
+    - audit
+    - infrastructure
+    outputRefs:
+    - loki-local
+  # - name: infra-audit-to-external
+  #   inputRefs:
+  #   - audit
+  #   - infrastructure
+  #   outputRefs:
+  #   - external-logs
+  serviceAccount:
+    name: collector
+status:
+  conditions:
+  - type: observability.openshift.io/Valid
+    status: "True"
