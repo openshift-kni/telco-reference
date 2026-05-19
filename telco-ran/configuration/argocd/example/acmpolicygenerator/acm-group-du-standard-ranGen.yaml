@@ -86,5 +86,5 @@ policies:
               machineconfiguration.openshift.io/role: "worker"
             priority: 18
             profile: ran-du-performance 
-    - path: source-crs/optional-extra-manifest/enable-crun-master.yaml
-    - path: source-crs/optional-extra-manifest/enable-crun-worker.yaml
+    - path: source-crs/extra-manifest/enable-crun-master.yaml
+    - path: source-crs/extra-manifest/enable-crun-worker.yaml

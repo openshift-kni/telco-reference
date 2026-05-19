@@ -13,7 +13,6 @@ checkSourceCRsAnnotation:
 		echo -n "  $${sourcefile}: "; \
 		case "$${sourcefile}" in \
 			*/extra-manifest/* | \
-			*/optional-extra-manifest/* | \
 			*/machine-config/* | \
 			*/validatorCRs/* | \
 			*/MachineConfig* | \
