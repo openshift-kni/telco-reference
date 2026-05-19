@@ -22,3 +22,19 @@ SiteConfig defines:
    attributes, etc
  - node attributes -- ignition config may be provided to partition disks per
    node
+
+## Workarounds
+
+### Cluster App shows diff in BMH ignition config override annotation
+Issue link: [OCPBUGS-63080](https://issues.redhat.com/browse/OCPBUGS-63080)
+
+When using a node level ignition config override in your siteconfig CR, the annotation is propagated to BMH and tracked by Argo. After installation, assisted service injects a certificate for MCS that is used by day-2 worker nodes. This may cause Argo to flag a diff on the clusters-app. Use one of the patches below as a workaround for this behavior.
+
+If no ignoreDifferences config is present for clusters-app, 
+```
+oc patch applications.argoproj.io "clusters-app-name" -n openshift-gitops --type merge -p '{"spec":{"ignoreDifferences":[{"group":"metal3.io","kind":"BareMetalHost","jsonPointers":["/metadata/annotations/bmac.agent-install.openshift.io~1ignition-config-overrides"]}]}}'
+```
+To append to an existing ignoreDifferences config,
+```
+oc patch applications.argoproj.io "clusters-app-name" -n openshift-gitops --type json -p '[{"op":"add","path":"/spec/ignoreDifferences/-","value":{"group":"metal3.io","kind":"BareMetalHost","jsonPointers":["/metadata/annotations/bmac.agent-install.openshift.io~1ignition-config-overrides"]}}]'
+```
