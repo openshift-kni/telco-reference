@@ -184,6 +184,9 @@ fieldsToOmit:
         isPrefix: true
       - pathToKey: metadata.annotations."installer.open-cluster-management.io"
         isPrefix: true
+      - pathToKey: metadata.annotations.createdAt
+      - pathToKey: metadata.annotations.createdBy
+      - pathToKey: metadata.annotations.oc-mirror_version
       - pathToKey: metadata.annotations."security.openshift.io/MinimallySufficientPodSecurityStandard"
       - pathToKey: metadata.labels."kubernetes.io/metadata.name"
       - pathToKey: metadata.labels."security.openshift.io/scc.podSecurityLabelSync"
