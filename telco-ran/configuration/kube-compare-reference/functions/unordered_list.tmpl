@@ -63,6 +63,8 @@
 {{- range $value := $expectedArgs }}
   {{- $result = append $result $value }}
 {{- end }}
+{{- if ne (index . 0) nil }}
     kubeletconfig.experimental: |
       {{ (dict "allowedUnsafeSysctls" $result) | toJson }}
+{{- end }}
 {{- end }}
