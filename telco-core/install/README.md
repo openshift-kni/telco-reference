@@ -52,6 +52,11 @@ Reference `MachineConfig` files in this directory:
 - `sctp_module_mc.yaml`
 - `mcp-worker-1.yaml`, `mcp-worker-2.yaml`, `mcp-worker-3.yaml` (`MachineConfigPool`)
 
+The same three MCP files are duplicated under
+`../configuration/reference-crs/custom-manifests/` for PolicyGenerator paths
+(the plugin cannot reference `../install/`). `compare.sh --check-extra-manifests`
+keeps install and custom-manifests copies in sync.
+
 ## custom-manifests
 
 Optional additional manifests you maintain locally (see `README.md` in this

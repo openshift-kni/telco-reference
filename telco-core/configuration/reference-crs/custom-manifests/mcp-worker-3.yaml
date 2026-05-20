@@ -1,0 +1,18 @@
+---
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfigPool
+metadata:
+  name: worker-3
+  labels:
+    machineconfiguration.openshift.io/role: worker-3
+spec:
+  machineConfigSelector:
+    matchExpressions:
+      - key: machineconfiguration.openshift.io/role
+        operator: In
+        values: [ worker, worker-3 ]
+  paused: true
+  maxUnavailable: 100%
+  nodeSelector:
+    matchLabels:
+      node-role.kubernetes.io/worker-3: ""
