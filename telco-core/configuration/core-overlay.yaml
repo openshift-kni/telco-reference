@@ -206,6 +206,8 @@ policies:
             nodeSelector:
               node-role.kubernetes.io/worker: ""
 
+      - path: reference-crs/required/networking/metallb/configurationstate.yaml
+
       # - path: reference-crs/required/networking/metallb/bfd-profile.yaml
       # - path: reference-crs/required/networking/metallb/addr-pool.yaml
       #   patches:
