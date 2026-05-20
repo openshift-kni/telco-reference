@@ -35,19 +35,19 @@ policies:
       #   patches:
       #   - data:
       #       ack-4.15-kube-1.29-api-removals-in-4.16: "true"
-      - path: ../install/extra-manifests/mcp-worker-1.yaml
+      - path: reference-crs/custom-manifests/mcp-worker-1.yaml
         patches:
         - spec:
             # Adjust as needed based on spare capacity, cluster design, and application requirements
             maxUnavailable: 100%
             paused: true
-      - path: ../install/extra-manifests/mcp-worker-2.yaml
+      - path: reference-crs/custom-manifests/mcp-worker-2.yaml
         patches:
         - spec:
             # Adjust as needed based on spare capacity, cluster design, and application requirements
             maxUnavailable: 100%
             paused: true
-      - path: ../install/extra-manifests/mcp-worker-3.yaml
+      - path: reference-crs/custom-manifests/mcp-worker-3.yaml
         patches:
         - spec:
             # Adjust as needed based on spare capacity, cluster design, and application requirements

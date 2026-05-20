@@ -18,7 +18,7 @@ policies:
       # Ensure propagation time
       ran.openshift.io/soak-seconds: "30"
     manifests:
-      - path: ../install/extra-manifests/mcp-worker-1.yaml
+      - path: reference-crs/custom-manifests/mcp-worker-1.yaml
         patches:
         - spec:
             # Using 100% maxUnavailable for the MCP requires the cluster and workload to be designed for
@@ -40,7 +40,7 @@ policies:
       # Ensure propagation time
       ran.openshift.io/soak-seconds: "30"
     manifests:
-      - path: ../install/extra-manifests/mcp-worker-2.yaml
+      - path: reference-crs/custom-manifests/mcp-worker-2.yaml
         patches:
         - spec:
             maxUnavailable: 100%
@@ -57,7 +57,7 @@ policies:
       # Ensure propagation time
       ran.openshift.io/soak-seconds: "30"
     manifests:
-      - path: ../install/extra-manifests/mcp-worker-3.yaml
+      - path: reference-crs/custom-manifests/mcp-worker-3.yaml
         patches:
         - spec:
             maxUnavailable: 100%

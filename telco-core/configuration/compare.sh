@@ -157,13 +157,29 @@ compare_install_extra_manifests() {
   return $fail
 }
 
+# PolicyGenerator manifest paths must stay under telco-core/configuration/ (no ../).
+# MCP CRs are duplicated here and must match install/extra-manifests.
+compare_install_custom_manifests_mcp() {
+  local root fail=0 f
+  root="$(git rev-parse --show-toplevel)"
+  local install="${root}/telco-core/install/extra-manifests"
+  local custom="${root}/telco-core/configuration/reference-crs/custom-manifests"
+  for f in mcp-worker-1.yaml mcp-worker-2.yaml mcp-worker-3.yaml; do
+    if ! diff -u "${install}/${f}" "${custom}/${f}"; then
+      echo "ERROR: install/extra-manifests/${f} differs from reference-crs/custom-manifests/${f}" >&2
+      fail=1
+    fi
+  done
+  return $fail
+}
+
 check_no_machineconfig_in_reference_crs() {
   local root fail=0 f
   root="$(git rev-parse --show-toplevel)"
   while IFS= read -r f; do
     echo "ERROR: MachineConfig must use install/extra-manifests, not reference-crs: ${f}" >&2
     fail=1
-  done < <(grep -rl '^kind: MachineConfig' "${root}/telco-core/configuration/reference-crs" 2>/dev/null || true)
+  done < <(grep -rl '^kind: MachineConfig$' "${root}/telco-core/configuration/reference-crs" 2>/dev/null || true)
   return $fail
 }
 
@@ -171,6 +187,8 @@ run_extra_manifest_checks() {
   local status=0
   echo "Checking install/extra-manifests alignment with kube-compare-reference..."
   compare_install_extra_manifests || status=1
+  echo "Checking install/extra-manifests MCPs match reference-crs/custom-manifests..."
+  compare_install_custom_manifests_mcp || status=1
   echo "Checking reference-crs does not contain MachineConfig CRs..."
   check_no_machineconfig_in_reference_crs || status=1
   if [[ $status -eq 0 ]]; then
