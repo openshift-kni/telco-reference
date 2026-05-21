@@ -789,6 +789,8 @@ sriov_operator_SriovOperatorConfig:
         "node-role.kubernetes.io/$mcp": ""
       enableInjector: false
       enableOperatorWebhook: false
+      featureGates:
+        mellanoxFirmwareReset: true
       logLevel: 0
 sriov_operator_SriovOperatorConfigForSNO:
   - spec:
@@ -796,6 +798,8 @@ sriov_operator_SriovOperatorConfigForSNO:
         "node-role.kubernetes.io/$mcp": ""
       enableInjector: false
       enableOperatorWebhook: false
+      featureGates:
+        mellanoxFirmwareReset: true
       logLevel: 0
 sriov_operator_SriovSubscription:
   - spec:
