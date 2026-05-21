@@ -1,0 +1,28 @@
+# Operator installation verification
+# This CR can be used to verify the installation/upgrade of the
+# Loki Operator by including status fields as shown in
+# examples below
+---
+apiVersion: operators.coreos.com/v1
+kind: Operator
+metadata:
+  name: loki-operator.openshift-operators-redhat
+status:
+#  components:
+#    refs:
+#    - kind: Subscription
+#      namespace: openshift-operators-redhat
+#      conditions:
+#      - type: CatalogSourcesUnhealthy
+#        status: "False"
+#    - kind: InstallPlan
+#      namespace: openshift-operators-redhat
+#      conditions:
+#      - type: Installed
+#        status: "True"
+#    - kind: ClusterServiceVersion
+#      namespace: openshift-operators-redhat
+#      conditions:
+#      - type: Succeeded
+#        status: "True"
+#        reason: InstallSucceeded
