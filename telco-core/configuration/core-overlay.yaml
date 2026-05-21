@@ -174,10 +174,14 @@ policies:
       #           profile: custom-worker-profile
 
       # Cluster Logging
+      # The base ClusterLogForwarder.yaml includes local Loki storage by default.
+      # This example patch adds external Kafka forwarding with custom labels.
       - path: reference-crs/optional/logging/ClusterLogForwarder.yaml
         patches:
         - spec:
             outputs:
+            # Loki output is already configured in the base CR
+            # Add external output for OSS/BSS systems
             - type: "kafka"
               name: kafka-open
               kafka:
@@ -190,7 +194,9 @@ policies:
                 siteuuid: '{{hub fromConfigMap "" .ManagedClusterName "logging-uuid" | toLiteral hub}}'
                 label3: 'other data'
             pipelines:
-            - name: all-to-default
+            # Loki pipeline is already configured in the base CR
+            # Add pipeline for external forwarding
+            - name: all-to-external
               inputRefs:
               - audit
               - infrastructure
