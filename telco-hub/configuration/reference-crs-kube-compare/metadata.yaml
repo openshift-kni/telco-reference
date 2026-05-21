@@ -87,6 +87,8 @@ parts:
           - path: required/acm/observabilityNS.yaml
           - path: required/acm/observabilityOBC.yaml
           - path: required/acm/observabilityMCSB.yaml
+          - path: required/acm/observabilityRoutePlacement.yaml
+          - path: required/acm/observabilityRoutePlacementBinding.yaml
             config:
               ignore-unspecified-fields: true
           - path: required/acm/observabilitySecret.yaml
