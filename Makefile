@@ -119,6 +119,28 @@ test-kustomize:  ## Validate all kustomization.yaml files can build
 test-shellcheck:  ## Validate shell scripts with shellcheck
 	./hack/test-shellcheck.sh
 
+.PHONY: generate-schema-config
+generate-schema-config:  ## Regenerate hack/crd-schema-config.json from Subscription CRs
+	python3 hack/generate-schema-config.py
+
+.PHONY: generate-openapi-schemas
+generate-openapi-schemas: generate-schema-config  ## Regenerate schema.openapi files from CRDs for ACM PolicyGenerator
+	python3 hack/extract-schema.py --config hack/crd-schema-config.json --component ran \
+		-o telco-ran/configuration/argocd/example/acmpolicygenerator/schema.openapi
+	python3 hack/extract-schema.py --config hack/crd-schema-config.json --component core \
+		-o telco-core/configuration/schema.openapi
+
+.PHONY: check-openapi-schemas
+check-openapi-schemas: generate-openapi-schemas  ## Verify schema.openapi files are up-to-date
+	@if ! git diff --exit-code hack/crd-schema-config.json \
+		telco-ran/configuration/argocd/example/acmpolicygenerator/schema.openapi \
+		telco-core/configuration/schema.openapi; then \
+		echo ""; \
+		echo "ERROR: OpenAPI schema files are out of date."; \
+		echo "Run 'make generate-openapi-schemas' and commit the result."; \
+		exit 1; \
+	fi
+
 ci-validate: lintCheck check-reference-core check-reference-ran check-reference-hub
 
 .PHONY: check-reference-core
