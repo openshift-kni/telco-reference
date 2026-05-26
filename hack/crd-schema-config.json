@@ -1,0 +1,140 @@
+{
+  "_comment": [
+    "Single source of truth for OpenAPI schema generation.",
+    "Static fields (source, merge_keys, version, package_name, ref_rule)",
+    "are manually maintained.",
+    "Dynamic fields (subscription_channel, components, source.github.ref)",
+    "are updated by: python3 hack/generate-schema-config.py",
+    "To regenerate schemas: make generate-openapi-schemas"
+  ],
+  "crds": [
+    {
+      "name": "PtpConfig",
+      "package_name": "ptp-operator",
+      "ref_rule": "release-ocp",
+      "components": [
+        "ran"
+      ],
+      "subscription_channel": "stable",
+      "source": {
+        "github": {
+          "owner": "openshift",
+          "repo": "ptp-operator",
+          "ref": "release-4.22",
+          "path": "config/crd/bases/ptp.openshift.io_ptpconfigs.yaml"
+        }
+      },
+      "merge_keys": {
+        "spec.profile": "name",
+        "spec.recommend": "profile",
+        "status.matchList": "nodeName"
+      }
+    },
+    {
+      "name": "ClusterLogForwarder",
+      "package_name": "cluster-logging",
+      "ref_rule": "release-channel",
+      "components": [
+        "core",
+        "ran"
+      ],
+      "subscription_channel": "stable-6.5",
+      "source": {
+        "github": {
+          "owner": "openshift",
+          "repo": "cluster-logging-operator",
+          "ref": "release-6.5",
+          "path": "config/crd/bases/observability.openshift.io_clusterlogforwarders.yaml"
+        }
+      },
+      "merge_keys": {
+        "spec.filters": "name",
+        "spec.inputs": "name",
+        "spec.outputs": "name",
+        "spec.pipelines": "name"
+      }
+    },
+    {
+      "name": "Tuned",
+      "ref_rule": "release-ocp",
+      "components": [
+        "core",
+        "ran"
+      ],
+      "subscription_channel": "built-in (NTO)",
+      "source": {
+        "github": {
+          "owner": "openshift",
+          "repo": "cluster-node-tuning-operator",
+          "ref": "release-4.22",
+          "path": "manifests/20-tuned.crd.yaml"
+        }
+      },
+      "merge_keys": {
+        "spec.profile": "name",
+        "spec.recommend": "profile"
+      }
+    },
+    {
+      "name": "PerformanceProfile",
+      "version": "v2",
+      "ref_rule": "release-ocp",
+      "components": [
+        "core",
+        "ran"
+      ],
+      "subscription_channel": "built-in (NTO)",
+      "source": {
+        "github": {
+          "owner": "openshift",
+          "repo": "cluster-node-tuning-operator",
+          "ref": "release-4.22",
+          "path": "manifests/20-performance-profile.crd.yaml"
+        }
+      },
+      "merge_keys": {
+        "spec.hugepages.pages": "size"
+      }
+    },
+    {
+      "name": "NUMAResourcesOperator",
+      "package_name": "numaresources-operator",
+      "ref_rule": "release-ocp",
+      "components": [
+        "core"
+      ],
+      "subscription_channel": "4.22",
+      "source": {
+        "github": {
+          "owner": "openshift-kni",
+          "repo": "numaresources-operator",
+          "ref": "release-4.22",
+          "path": "config/crd/bases/nodetopology.openshift.io_numaresourcesoperators.yaml"
+        }
+      },
+      "merge_keys": {
+        "spec.nodeGroups": "poolName"
+      }
+    },
+    {
+      "name": "ImageDigestMirrorSet",
+      "ref_rule": "release-ocp",
+      "components": [
+        "core",
+        "ran"
+      ],
+      "subscription_channel": "built-in (OCP)",
+      "source": {
+        "github": {
+          "owner": "openshift",
+          "repo": "api",
+          "ref": "release-4.22",
+          "path": "config/v1/zz_generated.crd-manifests/0000_10_config-operator_01_imagedigestmirrorsets.crd.yaml"
+        }
+      },
+      "merge_keys": {
+        "spec.imageDigestMirrors": "source"
+      }
+    }
+  ]
+}
