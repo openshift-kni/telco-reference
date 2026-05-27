@@ -6,8 +6,8 @@
           "properties": {
             "imageDigestMirrors": {
               "type": "array",
-              "x-kubernetes-patch-merge-key": "source",
-              "x-kubernetes-patch-strategy": "merge"
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "source"
             }
           },
           "type": "object"
@@ -32,8 +32,8 @@
                   "properties": {
                     "claims": {
                       "type": "array",
-                      "x-kubernetes-patch-merge-key": "name",
-                      "x-kubernetes-patch-strategy": "merge"
+                      "x-kubernetes-patch-strategy": "merge",
+                      "x-kubernetes-patch-merge-key": "name"
                     }
                   },
                   "type": "object"
@@ -43,23 +43,23 @@
             },
             "filters": {
               "type": "array",
-              "x-kubernetes-patch-merge-key": "name",
-              "x-kubernetes-patch-strategy": "merge"
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "name"
             },
             "inputs": {
               "type": "array",
-              "x-kubernetes-patch-merge-key": "name",
-              "x-kubernetes-patch-strategy": "merge"
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "name"
             },
             "outputs": {
               "type": "array",
-              "x-kubernetes-patch-merge-key": "name",
-              "x-kubernetes-patch-strategy": "merge"
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "name"
             },
             "pipelines": {
               "type": "array",
-              "x-kubernetes-patch-merge-key": "name",
-              "x-kubernetes-patch-strategy": "merge"
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "name"
             }
           },
           "type": "object"
@@ -82,8 +82,8 @@
               "properties": {
                 "pages": {
                   "type": "array",
-                  "x-kubernetes-patch-merge-key": "size",
-                  "x-kubernetes-patch-strategy": "merge"
+                  "x-kubernetes-patch-strategy": "merge",
+                  "x-kubernetes-patch-merge-key": "size"
                 }
               },
               "type": "object"
@@ -107,13 +107,13 @@
           "properties": {
             "profile": {
               "type": "array",
-              "x-kubernetes-patch-merge-key": "name",
-              "x-kubernetes-patch-strategy": "merge"
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "name"
             },
             "recommend": {
               "type": "array",
-              "x-kubernetes-patch-merge-key": "profile",
-              "x-kubernetes-patch-strategy": "merge"
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "profile"
             }
           },
           "type": "object"
@@ -122,8 +122,8 @@
           "properties": {
             "matchList": {
               "type": "array",
-              "x-kubernetes-patch-merge-key": "nodeName",
-              "x-kubernetes-patch-strategy": "merge"
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "nodeName"
             }
           },
           "type": "object"
@@ -144,13 +144,13 @@
           "properties": {
             "profile": {
               "type": "array",
-              "x-kubernetes-patch-merge-key": "name",
-              "x-kubernetes-patch-strategy": "merge"
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "name"
             },
             "recommend": {
               "type": "array",
-              "x-kubernetes-patch-merge-key": "profile",
-              "x-kubernetes-patch-strategy": "merge"
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "profile"
             }
           },
           "type": "object"

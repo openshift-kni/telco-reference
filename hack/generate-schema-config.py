@@ -66,6 +66,14 @@ def scan_subscriptions():
             if pkg_name and channel:
                 if pkg_name not in results:
                     results[pkg_name] = {"channel": channel, "components": set()}
+                elif results[pkg_name]["channel"] != channel:
+                    print(
+                        f"  WARNING: package '{pkg_name}' has different channels "
+                        f"across components: '{results[pkg_name]['channel']}' vs "
+                        f"'{channel}'. Split the entry in hack/crd-schema-config.json "
+                        f"into separate per-component entries.",
+                        file=sys.stderr,
+                    )
                 results[pkg_name]["components"].add(component)
 
     return results

@@ -183,6 +183,38 @@ When updating to a new OpenShift release, update the `ref` fields in
 then run `make generate-openapi-schemas`. The schema structure may change between
 operator versions.
 
+### Different operator versions across components
+
+If an operator uses different Subscription channels in `telco-ran` vs
+`telco-core` (e.g., `stable-6.4` in ran and `stable-6.5` in core), the
+generation script will warn about the conflict. To handle this, split the
+CRD entry in `hack/crd-schema-config.json` into two separate entries — one
+per component:
+
+```json
+{
+  "name": "ClusterLogForwarder",
+  "package_name": "cluster-logging",
+  "ref_rule": "release-channel",
+  "components": ["core"],
+  "subscription_channel": "stable-6.5",
+  "source": { "github": { "ref": "release-6.5", "...": "..." } },
+  "merge_keys": { "...": "..." }
+},
+{
+  "name": "ClusterLogForwarder",
+  "package_name": "cluster-logging",
+  "ref_rule": "release-channel",
+  "components": ["ran"],
+  "subscription_channel": "stable-6.4",
+  "source": { "github": { "ref": "release-6.4", "...": "..." } },
+  "merge_keys": { "...": "..." }
+}
+```
+
+Each entry is filtered by `--component` during schema generation, so they
+produce independent schemas for their respective components.
+
 # The ACM PolicyGenerator version of the DU reference configuration
 The ACM PolicyGenerator version of this reference configuration is functionally
 identical to the PolicyGenTemplate version. The following sections describe some

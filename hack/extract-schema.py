@@ -236,9 +236,10 @@ def prune_schema(schema):
     if "x-kubernetes-patch-strategy" in schema:
         result = {
             "type": schema.get("type", "array"),
-            "x-kubernetes-patch-merge-key": schema["x-kubernetes-patch-merge-key"],
             "x-kubernetes-patch-strategy": schema["x-kubernetes-patch-strategy"],
         }
+        if "x-kubernetes-patch-merge-key" in schema:
+            result["x-kubernetes-patch-merge-key"] = schema["x-kubernetes-patch-merge-key"]
         # Check for nested merge-annotated arrays inside items
         if "items" in schema:
             nested = prune_schema(schema["items"])
