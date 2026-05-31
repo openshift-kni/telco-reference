@@ -38,6 +38,11 @@ optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
 # Certificate Copying CRs
 optional/other/server-cert-openshift-config-copy.yaml
 
+# MachineConfigPool CRs for PolicyGenerator (canonical copies under install/extra-manifests).
+custom-manifests/mcp-worker-1.yaml
+custom-manifests/mcp-worker-2.yaml
+custom-manifests/mcp-worker-3.yaml
+
 # This is an object-template-raw used only to validate subscription state
 custom-manifests/subscription-validator.yaml
 
