@@ -22,6 +22,7 @@ spec:
             include:
               - openshift-ingress
               - openshift-config
+              - cert-manager
           remediationAction: inform
           severity: low
   remediationAction: inform

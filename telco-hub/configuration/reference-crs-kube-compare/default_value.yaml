@@ -479,6 +479,12 @@ optional_cert_manager_certManagerCertificatePolicy:
       include:
         - openshift-ingress
         - openshift-config
+        - cert-manager
+
+optional_cert_manager_certManagerHubCAConfigMap:
+- data:
+    ca-bundle.crt: |
+      <replace with root CA PEM>
 
 optional_cert_manager_certManagerSubscription:
 - spec:

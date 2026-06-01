@@ -31,6 +31,16 @@ parts:
         allOrNoneOf:
           - path: optional/cert-manager/apiServerCertificate.yaml
           - path: optional/cert-manager/apiServerConfig.yaml
+      - name: cert-manager-hub-spoke-trust
+        description: |-
+          Hub-spoke CA trust distribution via KlusterletConfig
+        allOrNoneOf:
+          - path: optional/cert-manager/certManagerHubCAConfigMap.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: optional/cert-manager/certManagerKlusterletConfig.yaml
+            config:
+              ignore-unspecified-fields: true
       - name: cert-manager-monitoring
         description: |-
           Certificate monitoring policy for RHACM
@@ -38,6 +48,12 @@ parts:
           - path: optional/cert-manager/certManagerCertificatePolicy.yaml
           - path: optional/cert-manager/certManagerCertificatePolicyPlacement.yaml
           - path: optional/cert-manager/certManagerCertificatePolicyPlacementBinding.yaml
+      - name: cert-manager-root-ca-monitoring
+        description: |-
+          Root CA expiration monitoring via PrometheusRule
+        allOrNoneOf:
+          - path: optional/cert-manager/certManagerRootCAExpirationPolicyPlacement.yaml
+          - path: optional/cert-manager/certManagerRootCAExpirationPolicyPlacementBinding.yaml
   - name: optional-storage
     components:
       - name: local-storage-operator
