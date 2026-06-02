@@ -1,0 +1,62 @@
+{{- define "requiredObjectList" }}
+{{- /* Usage: requiredObjectList (dict "inputList" <list> "requiredItems" <list> "keyName" <string>) */}}
+{{- /* Validates unordered list of objects ensuring required items are found and have exact content. */}}
+{{- /* Step a) Create a dictionary that stores if a required item was found in the inputList.
+{{- /* Step b) A required item is found if the value of .keyName is the same in the requiredItem and any inputItem. */}}
+{{- /*         In that case, append the entire requiredItem for rendering. Otherwise, append the inputItem for rendering. */}}
+{{- /* Step c) Any required item that was not found in the inputList will be appended for rendering. */}}
+{{- /* Step d) Render. */}}
+{{- /* */ -}}
+{{- /* Step a) */ -}}
+{{- /* Iterate over each entry in the requiredList */ -}}
+{{- /*   Get the requiredItemValue behind requiredItem[keyName], e.g. requiredItem["name"]="nftables.service" */ -}}
+{{- /*   Set dictionary "foundRequired"'s requiredItemValue to false, e.g. "nftables.service" -> false */ -}}
+{{- $foundRequired := dict }}
+{{- range $requiredItem := .requiredList }}
+  {{- $requiredItemValue := index $requiredItem $.keyName }}
+  {{- $_ := set $foundRequired $requiredItemValue false }}
+{{- end }}
+{{- /* */ -}}
+{{- /* Step b) */ -}}
+{{- /* Go over each inputItem in the inputList, for example over each unit */ -}}
+{{- /*   Get the inputItemValue behind inputItem[keyName], e.g. inputItem["name"]="nftables.service" */ -}}
+{{- /*   Go over each requiredItem in the .requiredList */ -}}
+{{- /*     Get the requiredItemValue behind requiredItem[keyName], e.g. requiredItem["name"]="nftables.service" */ -}}
+{{- /*     If the inputItemValue and the requiredItemValue match */ -}}
+{{- /*       Set foundInputItemInRequiredList to true */ -}}
+{{- /*       Set foundRequired[requiredItemValue] to true (e.g. foundRequired["nftables.service]=true) */ -}}
+{{- /*       Append the requiredItem to the result list (meaning we want this rendered exactly as the requiredItem) */ -}}
+{{- /*   If the inputItem was not found in requiredList  */ -}}
+{{- /*     Append the inputItem to the result for rendering */ -}}
+{{- $result := list }}
+{{- range $inputItem := .inputList }}
+  {{- $foundInputItemInRequiredList := false }}
+  {{- $inputItemValue := index $inputItem $.keyName }}
+  {{- range $requiredItem := $.requiredList }}
+    {{- $requiredItemValue := index $requiredItem $.keyName }}
+    {{- if eq $inputItemValue $requiredItemValue }}
+      {{- $foundInputItemInRequiredList = true }}
+      {{- $_ := set $foundRequired $requiredItemValue true }}
+      {{- $result = append $result $requiredItem }}
+    {{- end }}
+  {{- end }}
+  {{- if not $foundInputItemInRequiredList }}
+    {{- $result = append $result $inputItem }}
+  {{- end }}
+{{- end }}
+{{- /* */ -}}
+{{- /* Step c) */ -}}
+{{- /* Iterate over all required items */ -}}
+{{- /*   Get the requiredItemValue behind requiredItem[keyName], e.g. requiredItem["name"]="nftables.service" */ -}}
+{{- /*   If foundRequired[requiredItemValue] (e.g. foundRequired["nftables.service"]) is false */ -}}
+{{- /*     Append the requiredItem to the result for rendering */ -}}
+{{- range $requiredItem := .requiredList }}
+  {{- $requiredItemValue := index $requiredItem $.keyName }}
+  {{- if not (index $foundRequired $requiredItemValue) }}
+    {{- $result = append $result $requiredItem }}
+  {{- end }}
+{{- end }}
+{{- /* Step d) */ -}}
+{{- /* Render the expected results */ -}}
+{{- $result | toYaml | nindent 4 }}
+{{- end }}

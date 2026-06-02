@@ -103,6 +103,9 @@ policies:
 
       - path: reference-crs/required/networking/NMState.yaml
 
+      # Firewall node disruption policy
+      - path: reference-crs/optional/networking/firewall/node-disruption-policy.yaml
+
       # Scheduling
       - path: reference-crs/required/scheduling/sched.yaml
         patches:
