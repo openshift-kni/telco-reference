@@ -16,4 +16,5 @@ spec:
   disableDrain: false
   logLevel: 2
   featureGates:
+    mellanoxFirmwareReset: true
     resourceInjectorMatchCondition: true
