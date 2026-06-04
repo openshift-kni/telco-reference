@@ -1,1 +1,169 @@
-../schema.openapi
+{
+  "definitions": {
+    "io.openshift.config.v1.ImageDigestMirrorSet": {
+      "properties": {
+        "spec": {
+          "properties": {
+            "imageDigestMirrors": {
+              "type": "array",
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "source"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "config.openshift.io",
+          "kind": "ImageDigestMirrorSet",
+          "version": "v1"
+        }
+      ]
+    },
+    "io.openshift.observability.v1.ClusterLogForwarder": {
+      "properties": {
+        "spec": {
+          "properties": {
+            "collector": {
+              "properties": {
+                "resources": {
+                  "properties": {
+                    "claims": {
+                      "type": "array",
+                      "x-kubernetes-patch-strategy": "merge",
+                      "x-kubernetes-patch-merge-key": "name"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "filters": {
+              "type": "array",
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "name"
+            },
+            "inputs": {
+              "type": "array",
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "name"
+            },
+            "outputs": {
+              "type": "array",
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "name"
+            },
+            "pipelines": {
+              "type": "array",
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "name"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "observability.openshift.io",
+          "kind": "ClusterLogForwarder",
+          "version": "v1"
+        }
+      ]
+    },
+    "io.openshift.performance.v2.PerformanceProfile": {
+      "properties": {
+        "spec": {
+          "properties": {
+            "hugepages": {
+              "properties": {
+                "pages": {
+                  "type": "array",
+                  "x-kubernetes-patch-strategy": "merge",
+                  "x-kubernetes-patch-merge-key": "size"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "performance.openshift.io",
+          "kind": "PerformanceProfile",
+          "version": "v2"
+        }
+      ]
+    },
+    "io.openshift.ptp.v1.PtpConfig": {
+      "properties": {
+        "spec": {
+          "properties": {
+            "profile": {
+              "type": "array",
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "name"
+            },
+            "recommend": {
+              "type": "array",
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "profile"
+            }
+          },
+          "type": "object"
+        },
+        "status": {
+          "properties": {
+            "matchList": {
+              "type": "array",
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "nodeName"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "ptp.openshift.io",
+          "kind": "PtpConfig",
+          "version": "v1"
+        }
+      ]
+    },
+    "io.openshift.tuned.v1.Tuned": {
+      "properties": {
+        "spec": {
+          "properties": {
+            "profile": {
+              "type": "array",
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "name"
+            },
+            "recommend": {
+              "type": "array",
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "profile"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "tuned.openshift.io",
+          "kind": "Tuned",
+          "version": "v1"
+        }
+      ]
+    }
+  }
+}
