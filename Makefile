@@ -124,6 +124,8 @@ generate-schema-config:  ## Regenerate hack/crd-schema-config.json from Subscrip
 generate-openapi-schemas: generate-schema-config  ## Regenerate schema.openapi files from CRDs for ACM PolicyGenerator
 	python3 hack/extract-schema.py --config hack/crd-schema-config.json --component ran \
 		-o telco-ran/configuration/argocd/example/acmpolicygenerator/schema.openapi
+	cp telco-ran/configuration/argocd/example/acmpolicygenerator/schema.openapi \
+		telco-ran/configuration/argocd/example/acmpolicygenerator/hub-side-templating/schema.openapi
 	python3 hack/extract-schema.py --config hack/crd-schema-config.json --component core \
 		-o telco-core/configuration/schema.openapi
 
@@ -131,6 +133,7 @@ generate-openapi-schemas: generate-schema-config  ## Regenerate schema.openapi f
 check-openapi-schemas: generate-openapi-schemas  ## Verify schema.openapi files are up-to-date
 	@if ! git diff --exit-code hack/crd-schema-config.json \
 		telco-ran/configuration/argocd/example/acmpolicygenerator/schema.openapi \
+		telco-ran/configuration/argocd/example/acmpolicygenerator/hub-side-templating/schema.openapi \
 		telco-core/configuration/schema.openapi; then \
 		echo ""; \
 		echo "ERROR: OpenAPI schema files are out of date."; \
