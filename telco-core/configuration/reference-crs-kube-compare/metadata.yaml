@@ -84,7 +84,6 @@ parts:
       - name: optional-networking
         anyOf:
           - path: optional/networking/networkAttachmentDefinition.yaml
-          - path: optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
           - path: required/networking/metallb/community.yaml
           - path: optional/networking/nodeNetworkConfigurationPolicy.yaml
   - name: required-other
@@ -147,17 +146,17 @@ parts:
   - name: other
     description: |-
       https://docs.openshift.com/container-platform/4.17/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-crs.html#node-configuration-crs_ran-core-ref-design-crs
+
+      Reference MachineConfig CRs are validated from telco-core/install/extra-manifests
+      via compare.sh --check-extra-manifests, not from reference-crs.
     components:
       - name: other
         anyOf:
-          - path: optional/other/control-plane-load-kernel-modules.yaml
           - path: optional/other/monitoring-config-cm.yaml
             config:
               perField:
                 - pathToKey: data."config.yaml"
                   inlineDiffFunc: capturegroups
-          - path: optional/other/worker-load-kernel-modules.yaml
-          - path: optional/other/sctp_module_mc.yaml
   - name: logging
     description: |-
       https://docs.openshift.com/container-platform/4.17/scalability_and_performance/telco_ref_design_specs/core/telco-core-ref-crs.html#other-crs_ran-core-ref-design-crs
@@ -180,14 +179,6 @@ parts:
       - name: other
         anyOf:
           - path: optional/tuning/control-plane-system-reserved.yaml
-      - name: kdump-configuration
-        allOf:
-          - path: optional/other/kdump-master.yaml
-          - path: optional/other/kdump-worker.yaml
-      - name: mount-namespace-configuration
-        allOf:
-          - path: optional/other/mount_namespace_config_master.yaml
-          - path: optional/other/mount_namespace_config_worker.yaml
   - name: optional-cert-manager
     description: |-
       Cert-manager operator for automated certificate management
