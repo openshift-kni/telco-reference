@@ -31,6 +31,8 @@ spec:
   {{- if hasKey .spec "enableOperatorWebhook" }}
   enableOperatorWebhook: false
   {{- end }}
+  featureGates:
+    mellanoxFirmwareReset: true
   {{- if hasKey .spec "logLevel" }}
   logLevel: 0
   {{- end }}
