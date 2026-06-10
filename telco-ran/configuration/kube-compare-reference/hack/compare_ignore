@@ -80,3 +80,6 @@ fetch-only/Node.yaml
 # Reference only to ensure default has not been changed
 machine-config/cgroup-check.yaml
 machine-config/container-runtime.yaml
+
+# Platform check only, not included in source-crs
+platform/infrastructure.yaml
