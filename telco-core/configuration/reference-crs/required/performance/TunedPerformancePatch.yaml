@@ -13,6 +13,13 @@ spec:
       data: |
         [main]
         summary=Top-level core performance tuning overrides
+    - name: control-plane-profile
+      data: |
+        [main]
+        summary=Control plane core performance tuning overrides
+        include=openshift-node-performance-control-plane-profile
+        [sysctl]
+        kernel.panic_on_unrecovered_nmi=1
     - name: worker-profile-1
       data: |
         [main]
