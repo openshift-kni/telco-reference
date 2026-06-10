@@ -3,10 +3,29 @@
 apiVersion: performance.openshift.io/v2
 kind: PerformanceProfile
 metadata:
-  name: {{ .metadata.name }}
+  {{- $isControlPlane := false }}
+  {{- if hasKey .spec "machineConfigPoolSelector" }}
+    {{- if hasKey .spec.machineConfigPoolSelector "pools.operator.machineconfiguration.openshift.io/master" }}
+      {{- $isControlPlane = true }}
+    {{- end }}
+  {{- end }}
+  name: {{ if $isControlPlane }}control-plane-profile{{ else }}{{ .metadata.name }}{{ end }}
   annotations:
+    {{- if $isControlPlane }}
+    # systemReserved: when used, it should be tailored for each environment.
+    {{- $rawConfig := index (.metadata.annotations | default dict) "kubeletconfig.experimental" }}
+    {{- $config := $rawConfig | default "{}" | fromJson }}
+    {{- if hasKey $config "allowedUnsafeSysctls" }}
+      {{- if ne (len $config.allowedUnsafeSysctls) 0 }}
+        {{- fail "Control plane PerformanceProfile must not have any allowedUnsafeSysctls" }}
+      {{- end }}
+    {{- end }}
+    kubeletconfig.experimental: |
+      {
+       "systemReserved":{{ $config.systemReserved | toJson }}
+      }
+    {{- else }}
     # Some pods want the kernel stack to ignore IPv6 router Advertisement.
-    {{- if .metadata }}
       {{ $allowedSysctls := (list
           "net.ipv6.conf.default.accept_ra"
           "net.ipv6.conf.all.disable_ipv6"
@@ -30,17 +49,10 @@ spec:
       "intel_idle.max_cstate=0"
       ) ) }}
   cpu:
-    # node0 CPUs: 0-17,36-53
-    # node1 CPUs: 18-34,54-71
-    # siblings: (0,36), (1,37)...
-    # we want to reserve the first Core of each NUMA socket
-    #
-    # no CPU left behind! all-cpus == isolated + reserved
-    isolated: {{ .spec.cpu.isolated }} # eg 1-17,19-35,37-53,55-71
-    reserved: {{ .spec.cpu.reserved }} # eg 0,18,36,54
-  # Guaranteed QoS pods will disable IRQ balancing for cores allocated to the pod.
-  # default value of globallyDisableIrqLoadBalancing is false
+    isolated: {{ .spec.cpu.isolated }}
+    reserved: {{ .spec.cpu.reserved }}
   globallyDisableIrqLoadBalancing: false
+  {{- if hasKey .spec "hugepages" }}
   hugepages:
     defaultHugepagesSize: 1G
     pages:
@@ -51,20 +63,17 @@ spec:
           node: {{ .node }}
           {{- end }}
         {{- end }}
+  {{- end }}
   {{- if hasKey .spec "kernelPageSize" }}
   kernelPageSize: {{ .spec.kernelPageSize }}
   {{- end }}
   {{- if hasKey .spec "machineConfigPoolSelector" }}
   machineConfigPoolSelector:
     {{- .spec.machineConfigPoolSelector | toYaml | nindent 4 }}
-#    # For SNO: machineconfiguration.openshift.io/role: 'master'
-#    pools.operator.machineconfiguration.openshift.io/worker: ''
   {{- end }}
   {{- if hasKey .spec "nodeSelector" }}
   nodeSelector:
     {{- .spec.nodeSelector | toYaml | nindent 4 }}
-#    # For SNO: node-role.kubernetes.io/master: ""
-#    node-role.kubernetes.io/worker: ""
   {{- end }}
   workloadHints:
     realTime: false
@@ -77,5 +86,5 @@ spec:
     topologyPolicy: "single-numa-node"
   {{- if hasKey .spec.net "userLevelNetworking" }}
   net:
-    userLevelNetworking: false
+    userLevelNetworking: {{ if $isControlPlane }}true{{ else }}false{{ end }}
   {{- end }}

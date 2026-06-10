@@ -5,6 +5,9 @@ metadata:
   name: hw-types
   namespace: ztp-core-policies
 data:
+  control-plane-reserved: "0-7,36-43"
+  control-plane-isolated: "8-35,44-71"
+
   role-worker-1-reserved: "0-1,52-53"
   role-worker-1-isolated: "2-51,54-103"
   role-worker-1-hugepg-cnt: "4"
