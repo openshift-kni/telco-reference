@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eso-node-templates-v1
+  namespace: open-cluster-management
+  annotations:
+    argocd.argoproj.io/sync-wave: "-30"
+data:
+  BmcSecretExternalSecret: |-
+    apiVersion: external-secrets.io/v1
+    kind: ExternalSecret
+    metadata:
+      name: "{{ .SpecialVars.CurrentNode.BmcCredentialsName.Name }}"
+      namespace: "{{ .Spec.ClusterName }}"
+      annotations:
+        siteconfig.open-cluster-management.io/sync-wave: "1"
+    spec:
+      # refreshPolicy: OnChange updates the Secret only when THIS ExternalSecret CR changes.
+      # IMPORTANT: OnChange does NOT respond to changes in Vault data. If you rotate
+      # BMC credentials in Vault, the Secret will NOT automatically update.
+      #
+      # To refresh after rotating credentials in Vault, manually trigger sync:
+      #   oc annotate externalsecret <name> -n <namespace> force-sync=$(date +%s) --overwrite
+      #
+      # This policy minimizes Vault load by avoiding periodic polling while still allowing
+      # on-demand refresh when needed. For automatic freshness, use refreshPolicy: Periodic.
+      #
+      # When a BareMetalHost is deleted, ACM's ClusterInstance controller removes
+      # the ExternalSecret CR, which triggers deletion of the owned Secret via ownerReference.
+      refreshPolicy: OnChange
+      secretStoreRef:
+        name: ztp-secret-provider
+        kind: ClusterSecretStore
+      target:
+        name: "{{ .SpecialVars.CurrentNode.BmcCredentialsName.Name }}"
+        creationPolicy: Owner
+      data:
+        # VAULT STRUCTURE CONTRACT:
+        # This defines the required path and property structure in Vault (or alternative secret store).
+        # The secret store MUST conform to this structure:
+        #   Path: clusters/<ClusterName>/bmc/<HostName>
+        #   Required properties: "username", "password"
+        #
+        # Example for cluster "sno-site-1" with node "node1.sno-site-1.example.com":
+        #   secret/data/clusters/sno-site-1/bmc/node1.sno-site-1.example.com
+        #     username = "admin"
+        #     password = "secretpassword"
+        #
+        # Any deviation from this contract will cause BMC authentication to fail.
+        # This contract is documented in the telco-hub RDS.
+        - secretKey: username
+          remoteRef:
+            key: clusters/{{ .Spec.ClusterName }}/bmc/{{ .SpecialVars.CurrentNode.HostName }}
+            property: username
+        - secretKey: password
+          remoteRef:
+            key: clusters/{{ .Spec.ClusterName }}/bmc/{{ .SpecialVars.CurrentNode.HostName }}
+            property: password

@@ -1,0 +1,9 @@
+# Patch the NetworkPolicy to target your secret store namespace and port.
+# Update the namespace label and port to match your environment.
+- op: replace
+  path: /spec/egress/0/to/0/namespaceSelector/matchLabels/kubernetes.io~1metadata.name
+  value: "vault"
+
+- op: replace
+  path: /spec/egress/0/ports/0/port
+  value: 8200
