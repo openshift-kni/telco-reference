@@ -52,6 +52,11 @@ policies:
       # - path: reference-crs/optional/cert-manager/certManagerOperatorgroup.yaml
       # - path: reference-crs/optional/cert-manager/certManagerSubscription.yaml
 
+      # External Secrets Operator (optional component - included by default)
+      - path: reference-crs/optional/external-secrets/esoNS.yaml
+      - path: reference-crs/optional/external-secrets/esoOperatorgroup.yaml
+      - path: reference-crs/optional/external-secrets/esoSubscription.yaml
+
       - path: reference-crs/required/networking/sriov/SriovSubscriptionNS.yaml
       - path: reference-crs/required/networking/sriov/SriovSubscriptionOperGroup.yaml
       - path: reference-crs/required/networking/sriov/SriovSubscription.yaml
@@ -89,6 +94,12 @@ policies:
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "6"
     manifests:
+      # External Secrets Operator configuration (optional component - included by default)
+      - path: reference-crs/optional/external-secrets/esoExternalSecretsConfig.yaml
+      # Secret stores are site-specific; configure one separately before use.
+      # See examples/external-secrets/esoClusterSecretStore.yaml.
+      - path: reference-crs/optional/external-secrets/esoNetworkPolicy.yaml
+
       - path: reference-crs/optional/logging/ClusterLogServiceAccount.yaml
       - path: reference-crs/optional/logging/ClusterLogServiceAccountAuditBinding.yaml
       - path: reference-crs/optional/logging/ClusterLogServiceAccountInfrastructureBinding.yaml
