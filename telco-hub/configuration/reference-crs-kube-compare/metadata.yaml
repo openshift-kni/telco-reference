@@ -55,6 +55,7 @@ parts:
           - path: optional/odf-internal/odfNS.yaml
           - path: optional/odf-internal/odfOperatorGroup.yaml
           - path: optional/odf-internal/odfSubscription.yaml
+          - path: optional/odf-internal/observabilityOBC.yaml
           - path: optional/odf-internal/storageCluster.yaml
             config:
               ignore-unspecified-fields: true
@@ -85,7 +86,6 @@ parts:
             config:
               ignore-unspecified-fields: true
           - path: required/acm/observabilityNS.yaml
-          - path: required/acm/observabilityOBC.yaml
             config:
               ignore-unspecified-fields: true
           - path: required/acm/observabilityMCSB.yaml
