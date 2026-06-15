@@ -215,7 +215,7 @@ ptp_operator_configuration_PtpConfigBoundary:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
-      iface_timeRx: ens1f0
+      iface_timeRx: $iface_timeRx
       masterPorts: |-
         # Include one section for each TimeTransmitter port:
               [ens1f1]
@@ -240,7 +240,7 @@ ptp_operator_configuration_PtpConfigBoundaryForEvent:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
-      iface_timeRx: ens1f0
+      iface_timeRx: $iface_timeRx
       masterPorts: |-
         # Include one section for each TimeTransmitter port:
               [ens1f1]
