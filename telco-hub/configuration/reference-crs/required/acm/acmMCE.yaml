@@ -58,6 +58,9 @@ spec:
       name: cluster-api-provider-aws
     - configOverrides: {}
       enabled: false
+      name: cluster-api-provider-azure-preview
+    - configOverrides: {}
+      enabled: false
       name: cluster-api-provider-metal3
     - configOverrides: {}
       enabled: false
