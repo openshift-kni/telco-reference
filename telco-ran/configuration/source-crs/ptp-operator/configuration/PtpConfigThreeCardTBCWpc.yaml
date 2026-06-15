@@ -202,28 +202,30 @@ spec:
     ts2phcOpts: -s generic -a --ts2phc.rh_external_pps 1
   - name: tbc-3-card-tt
     ptp4lConf: |
-      [$iface_timeTx1_0]
+      # Include one section for each TimeTransmitter port on the WPC cards:
+      [ens1f0]
       masterOnly 1
-      [$iface_timeTx1_1]
+      [ens1f1]
       masterOnly 1
-      [$iface_timeTx1_2]
+      [ens1f2]
       masterOnly 1
-      [$iface_timeTx2_0]
+      [ens2f0]
       masterOnly 1
-      [$iface_timeTx2_1]
+      [ens2f1]
       masterOnly 1
-      [$iface_timeTx2_2]
+      [ens2f2]
       masterOnly 1
-      [$iface_timeTx2_3]
+      [ens2f3]
       masterOnly 1
-      [$iface_timeTx3_0]
+      [ens3f0]
       masterOnly 1
-      [$iface_timeTx3_1]
+      [ens3f1]
       masterOnly 1
-      [$iface_timeTx3_2]
+      [ens3f2]
       masterOnly 1
-      [$iface_timeTx3_3]
+      [ens3f3]
       masterOnly 1
+      # ...
       [global]
       #
       # Default Data Set
