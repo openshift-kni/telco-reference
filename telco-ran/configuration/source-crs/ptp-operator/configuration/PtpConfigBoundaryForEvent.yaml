@@ -16,7 +16,7 @@ spec:
       logReduce: "true"
     ptp4lConf: |
       # The interface name is hardware-specific
-      [ens1f0]
+      [$iface_timeRx]
       masterOnly 0
       # Include one section for each TimeTransmitter port:
       [ens1f1]
