@@ -11,9 +11,26 @@ general pattern shown here is recommended.
 The contents of this directory fall into 3 categories. Each of these are
 described in more detail in the following sections:
 
-- example-standard.yaml -- A SiteConfig CR which defines the cluster
+- example-standard-clusterinstance.yaml -- A ClusterInstance CR for installation
+- kustomization.yaml -- Builds `extra-manifests-configmap` from `extra-manifests/`
 - extra-manifests -- Additional reference CRs to apply to the cluster during installation
 - custom-manifests -- Additional custom/user specific CRs to apply to the cluster during installation
+
+## ClusterInstance and extra-manifests ConfigMap
+
+Reference `MachineConfig` and `MachineConfigPool` CRs are packaged for install using
+`kustomization.yaml`. The `configMapGenerator` lists every file under
+`extra-manifests/`; `example-standard-clusterinstance.yaml` references the result
+via `spec.extraManifestsRefs` (`extra-manifests-configmap`).
+
+```bash
+kubectl apply -k telco-core/install/
+```
+
+At day-N, the Hub **extra-manifests** policy keeps the cluster aligned with the
+ConfigMap content (see `telco-hub/.../ztp-policies/extra-manifests-policy.yaml`).
+PolicyGenerator CRs under `telco-core/configuration/` do not enumerate individual
+MachineConfig files.
 
 ## SiteConfig CRs
 

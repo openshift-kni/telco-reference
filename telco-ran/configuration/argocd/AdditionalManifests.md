@@ -4,6 +4,10 @@ Assisted Installer allows CRs to be applied to SNOs at install time. The applied
 
 With this feature, via ClusterInstance, users can now have control over this process and can inject manifets during installation by creating a configMap in a Kustomization file and later reference back the configMap name to `.spec.extraManifestsRefs` in ClusterInstance.
 
+`enable-crun-*.yaml` belong in the install ConfigMap only (day-0). Do not list them
+in PolicyGenerator CRs; the Hub extra-manifests policy monitors install-time
+MachineConfigs at day-N.
+
 * An example of a kustomization file, where the manifests are included in a configMap using configMapGenerator 
 
   ```yaml

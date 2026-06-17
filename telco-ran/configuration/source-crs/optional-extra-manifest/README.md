@@ -1,10 +1,11 @@
 # optional-extra-manifest (source-crs)
 
-`ContainerRuntimeConfig` manifests for **crun** (`enable-crun-*.yaml`) now live under
-`../extra-manifest/` together with the other install-time reference manifests so
-there is a single copy in git.
+`ContainerRuntimeConfig` manifests for **crun** (`enable-crun-*.yaml`) live under
+`../extra-manifest/` together with the other install-time reference manifests.
 
-Policy examples under `argocd/example/` reference `extra-manifest/enable-crun-*.yaml`.
+Apply them at **install** time via `ClusterInstance.spec.extraManifestsRefs`
+(see `argocd/example/clusterinstance/` and `argocd/AdditionalManifests.md`).
+Day-N alignment uses the Hub **extra-manifests** policy, not PolicyGenerator.
 
 Optional IPsec and other **example-only** content remains under
-`argocd/example/optional-extra-manifest/` (not this directory).
+`argocd/example/optional-extra-manifest/`.
