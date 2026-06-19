@@ -10,6 +10,7 @@
 #   If you aren't currently defining any nodeDisruptionPolicies, apply this file directly:
 #     oc patch machineconfiguration cluster --type=merge --patch-file=node-disruption-policy.yaml
 #   Otherwise, manually add these entries to .spec.nodeDisruptionPolicy.units and .spec.nodeDisruptionPolicy.files.
+---
 apiVersion: operator.openshift.io/v1
 kind: MachineConfiguration
 metadata:
