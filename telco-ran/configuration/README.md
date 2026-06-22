@@ -4,7 +4,7 @@
 This directory contains three components of the reference configuration:
  - source-crs contains the CRs which form the foundation of
    the RAN reference configuration.
- - extra-manifests-builder is used to create the extra-manifests in `source-crs/extra-manifest` directory.
+ - extra-manifests-builder renders install-time manifests into `../../install/extra-manifests/`.
  - kube-compare-reference contains the RAN reference configuration CRs with templating required for the kube-compare tool.
  - argocd contains documentation and templates in `examples`.
  - examples/policygentemplates has the reference manifests which define how CRs from the
