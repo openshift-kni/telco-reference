@@ -52,13 +52,3 @@ spec:
     ###
     - fileName: node-tuning-operator/TunedPerformancePatch.yaml # wave 10
       policyName: "group-du-standard-cfg-pc"
-    #
-    # These CRs are to enable crun on master and worker nodes for 4.13+ only
-    #
-    # Include these CRs in the group PGT instead of the common PGT to make sure they are applied
-    # after the operators have been successfully installed, however, it's strongly recommended
-    # to include these CRs as day-0 extra manifests to avoid an extra reboot.
-    - fileName: optional-extra-manifest/enable-crun-master.yaml
-      policyName: "group-du-standard-cfg-pc"
-    - fileName: optional-extra-manifest/enable-crun-worker.yaml
-      policyName: "group-du-standard-cfg-pc"

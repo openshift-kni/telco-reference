@@ -1,3 +1,4 @@
+# Retained on release-4.21. Remove in main (4.23+) only; do not backport removal.
 apiVersion: machineconfiguration.openshift.io/v1
 kind: ContainerRuntimeConfig
 metadata:
