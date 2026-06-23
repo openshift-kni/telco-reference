@@ -12,7 +12,7 @@ NC='\033[0m' # No Color
 EXCLUDED_DIRS=(
     "./telco-core/configuration"
     "./telco-ran/configuration/argocd/example/acmpolicygenerator"
-    "./telco-ran/configuration/argocd/example/clusterinstance"
+    "./telco-ran/install/clusterinstance"
     "./telco-ran/configuration/argocd/example/image-based-upgrades"
     "./telco-ran/configuration/argocd/example/policygentemplates"
     "./telco-ran/configuration/argocd/example/siteconfig"
