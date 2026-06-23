@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- example-sno.yaml
+- example-3node.yaml
+- example-standard.yaml
+# - namespace.yaml
+# - secret.yaml
+
+configMapGenerator:
+- files:
+  - ../extra-manifests/01-container-mount-ns-and-kubelet-conf-master.yaml
+  - ../extra-manifests/01-container-mount-ns-and-kubelet-conf-worker.yaml
+  - ../extra-manifests/01-disk-encryption-pcr-rebind-master.yaml
+  - ../extra-manifests/01-disk-encryption-pcr-rebind-worker.yaml
+  - ../extra-manifests/03-sctp-machine-config-master.yaml
+  - ../extra-manifests/03-sctp-machine-config-worker.yaml
+  - ../extra-manifests/06-kdump-master.yaml
+  - ../extra-manifests/06-kdump-worker.yaml
+  - ../extra-manifests/07-sriov-related-kernel-args-master.yaml
+  - ../extra-manifests/07-sriov-related-kernel-args-worker.yaml
+  - ../extra-manifests/08-set-rcu-normal-master.yaml
+  - ../extra-manifests/08-set-rcu-normal-worker.yaml
+  - ../extra-manifests/09-openshift-marketplace-ns.yaml
+  - ../extra-manifests/10-rename-gnrd-interfaces-master.yaml
+  - ../extra-manifests/10-rename-gnrd-interfaces-worker.yaml
+  - ../extra-manifests/99-sync-time-once-master.yaml
+  - ../extra-manifests/99-sync-time-once-worker.yaml
+  name: sno-extra-manifest-configmap
+  namespace: example-ai-sno
+generatorOptions:
+  disableNameSuffixHash: true
