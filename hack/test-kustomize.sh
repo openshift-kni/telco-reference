@@ -13,7 +13,7 @@ EXCLUDED_DIRS=(
     "./telco-core/configuration"
     "./telco-ran/configuration/acmpolicygenerator"
     "./telco-ran/configuration/policygentemplates"
-    "./telco-ran/configuration/argocd/example/clusterinstance"
+    "./telco-ran/install/clusterinstance"
     "./telco-ran/configuration/acmpolicygenerator/image-based-upgrades"
     "./telco-ran/configuration/argocd/example/siteconfig"
 )

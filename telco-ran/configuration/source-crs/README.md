@@ -5,8 +5,6 @@ This folder contains a full list of CRs for ZTP RAN solution.
 - ./ contains a set of directories which contain the configruation CRs to be deployed via the ACM policies
 - ./validatorCRs contains the validation CRs to be deployed via the ACM policies to validate some configuration
 
-Install-time MachineConfig CRs live under `../../install/extra-manifests/` (see `../../install/README.md`).
-
 ### Waves
 
 Each configuration CR has a default `ran.openshift.io/ztp-deploy-wave` annotation that represents the deployment order of the resources wrapped in the ACM inform policies generated via [PolicyGen](../policygenerator/README.md). The source CR wave annotation is used for determining and setting the policy wave annotation and it will be removed from the built CR included in the generated policy at runtime.
