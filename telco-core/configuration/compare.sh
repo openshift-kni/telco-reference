@@ -128,11 +128,28 @@ compare_install_extra_manifests() {
     "kdump-worker.yaml:optional/other/kdump-worker.yaml"
     "mc_rootless_pods_selinux.yaml:optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml"
   )
-  local pair inst ref
+  local pair inst ref refpath
   for pair in "${pairs[@]}"; do
     inst="${pair%%:*}"
     ref="${pair##*:}"
-    if ! diff -u "${install}/${inst}" "${kubecmp}/${ref}"; then
+    refpath="${kubecmp}/${ref}"
+    # kube-compare uses Go templates for some MCs; install holds rendered reference YAML.
+    if grep -q '{{' "${refpath}"; then
+      if ! grep -q 'validateBase64List' "${refpath}"; then
+        echo "ERROR: expected validateBase64List templating in kube-compare ${ref}" >&2
+        fail=1
+      fi
+      if ! grep -q 'version: 3.2.0' "${install}/${inst}"; then
+        echo "ERROR: ${install}/${inst} must use ignition version 3.2.0" >&2
+        fail=1
+      fi
+      if ! grep -q 'path: /etc/modules-load.d/kernel-load.conf' "${install}/${inst}"; then
+        echo "ERROR: ${install}/${inst} must configure kernel-load.conf" >&2
+        fail=1
+      fi
+      continue
+    fi
+    if ! diff -u "${install}/${inst}" "${refpath}"; then
       echo "ERROR: install/extra-manifests/${inst} differs from kube-compare ${ref}" >&2
       fail=1
     fi
