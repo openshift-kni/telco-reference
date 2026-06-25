@@ -53,7 +53,6 @@
 {{ $values := list}}
 {{- if ne (index . 0) nil }}
 {{- $values = ((index . 0) | fromJson).allowedUnsafeSysctls }}
-{{- end}}
 {{- range $value := $values }}
   {{- if or (has $value $expectedArgs) (has $value $optionalArgs) }}
     {{- $result = append $result $value }}
@@ -65,4 +64,5 @@
 {{- end }}
     kubeletconfig.experimental: |
       {{ (dict "allowedUnsafeSysctls" $result) | toJson }}
+{{- end }}
 {{- end }}
