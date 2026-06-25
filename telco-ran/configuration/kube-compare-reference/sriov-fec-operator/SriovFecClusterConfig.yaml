@@ -19,7 +19,7 @@ spec:
     {{- if .spec.acceleratorSelector.deviceID }}
     deviceID: {{ .spec.acceleratorSelector.deviceID }}
     {{- end }}
-  physicalFunction:  
+  physicalFunction:
     pfDriver: "vfio-pci"
     vfDriver: "vfio-pci"
     vfAmount: 16

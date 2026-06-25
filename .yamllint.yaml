@@ -3,6 +3,16 @@
 
 extends: default
 
+ignore: |
+  # Go-templated kube-compare reference directories — not valid YAML
+  telco-core/configuration/reference-crs-kube-compare/
+  telco-hub/configuration/reference-crs-kube-compare/
+  telco-ran/configuration/kube-compare-reference/
+  # Generated MachineConfig CRs with base64 ignition data exceeding line limits
+  telco-ran/configuration/source-crs/extra-manifest/
+  # Generated PolicyGenTemplate output with mixed indentation from the toolchain
+  telco-ran/configuration/argocd/example/policygentemplates/group-du-clo5-cleanup-policy.yaml
+
 rules:
   # Allow for whitespace in [] lists for readability, eg [ value, value ]
   brackets:
