@@ -77,14 +77,29 @@ patches:
 - Update PolicyGenerator placement specifications which use version
 - Policy generator policy names MUST use version numbers which match the OpenShift version number (e.g., `core-cluster-config-4.23`)
 
-### 3. Image references
+### 3. OpenAPI Schema for PolicyGenerator List Merging
+
+Regenerate the OpenAPI schemas for PolicyGenerator list merging:
+
+```bash
+make generate-openapi-schemas
+```
+
+This first regenerates `hack/crd-schema-config.json` from the Subscription CRs
+(picking up updated channels and refs), then regenerates the `schema.openapi`
+files in `telco-ran` and `telco-core` from upstream CRDs. If an operator's
+GitHub branch naming convention does not match its Subscription channel (e.g.,
+the branch is `v6.5` instead of `release-6.5`), manually update the `ref` field
+for that CRD entry in `hack/crd-schema-config.json`.
+
+### 4. Image references
 The reference configuration includes image pullspecs in several places which use version specific tags for the image. These must be updated. These pullspecs may be in the reference-crs or in PolicyGenerator patches. Common places where image tags are used include:
 - CatalogSource images -- Update both the reference-cr and the PolicyGenerator overlay patch to align with the OpenShift version
 - Numa Resources Operator (NROP) -- Update image spec in the Scheduler (sched.yaml) and PolicyGenerator overlay patch to align with the OpenShift version
 - Upgrade policy -- Update the version and image pull spec in the PolicyGenerator overlay patch to align with the OpenShift version
 - The telco-hub reference includes a plugins Policy CR with image pullspec references which must be updated to the correct versions. The ztp-site-generate image aligns with OpenShift. The multicluster-operator image aligns with MCE.
 
-### 4. ACM AgentServiceConfig
+### 5. ACM AgentServiceConfig
 
 Add new OpenShift version osImages entries and remove the oldest version to maintain only 3 versions:
 
@@ -115,7 +130,7 @@ osImages:
 
 **Note**: The kube-compare variant uses templating and doesn't require manual entry removal - it renders from the actual config.
 
-### 5. Mirror Registry Configuration
+### 6. Mirror Registry Configuration
 
 **File**: `telco-hub/install/mirror-registry/imageset-config.yaml`
 
@@ -123,7 +138,7 @@ The versions of each component in the mirror configuration must be updated. Thes
 - Mirroring versions MUST match the Subscription versions for each operator
 - The additional images MUST include the images specified in the Hub reference plugins Policy
 
-### 6. Installation Examples (ClusterInstance)
+### 7. Installation Examples (ClusterInstance)
 
 Find all ClusterInstance CRs (`kind: ClusterInstance`) and update clusterImageSetNameRef to align with the OpenShift version:
 
@@ -138,7 +153,7 @@ Find all ClusterInstance CRs (`kind: ClusterInstance`) and update clusterImageSe
 Change: `clusterImageSetNameRef: "openshift-4.22"` → `"openshift-4.23"`
 
 
-### 7. Other locations
+### 8. Other locations
 Other versioning information to be reviewed and updated
 - Annotations added in PolicyGenerator overlay patches to trigger non-compliance, eg `noop-for-triggering-noncompliance: "22"`
 - Descriptive text in metadata.yaml, eg `This reference was designed for OpenShift 4.22`
