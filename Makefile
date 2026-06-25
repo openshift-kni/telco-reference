@@ -1,4 +1,3 @@
-
 IMAGE_NAME ?= telco-reference
 
 CONTAINER_TOOL ?= podman
@@ -112,6 +111,27 @@ ocp-doc-check:  ## Download and run ocp-doc-checker against markdown files
 	./$$BINARY_NAME -dir . || true; \
 	rm -f ./$$BINARY_NAME; \
 	echo "ocp-doc-check completed"
+
+.PHONY: olm-annotation-lint
+olm-annotation-lint:  ## Download and run OLM annotation linter against YAML files
+	@OS=$$(uname -s | tr '[:upper:]' '[:lower:]'); \
+	ARCH=$$(uname -m); \
+	if [ "$$ARCH" = "x86_64" ]; then \
+		ARCH="amd64"; \
+	elif [ "$$ARCH" = "aarch64" ]; then \
+		ARCH="arm64"; \
+	fi; \
+	BINARY_NAME="olm-annotation-lint-$$OS-$$ARCH"; \
+	TMPBIN=$$(mktemp); \
+	trap "rm -f \"$$TMPBIN\"" EXIT; \
+	DOWNLOAD_URL="https://github.com/openshift-kni/olm-annotation-lint/releases/latest/download/$$BINARY_NAME"; \
+	echo "Downloading $$BINARY_NAME..."; \
+	if ! curl -sL -f -o "$$TMPBIN" "$$DOWNLOAD_URL"; then \
+		echo "Failed to download olm-annotation-lint binary"; \
+		exit 1; \
+	fi; \
+	chmod +x "$$TMPBIN"; \
+	"$$TMPBIN" --path . --exclude testdata,vendor
 
 test-kustomize:  ## Validate all kustomization.yaml files can build
 	./hack/test-kustomize.sh
