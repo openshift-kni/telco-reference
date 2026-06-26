@@ -1,13 +1,10 @@
 
-.PHONY: check checkExtraManifests checkInstallExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths
+.PHONY: check checkInstallExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths
 
-check: checkExtraManifests checkInstallExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths
+check: checkInstallExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths
 
 checkInstallExtraManifests:
 	./compare.sh --check-extra-manifests
-
-checkExtraManifests:
-	$(MAKE) -C ./extra-manifests-builder check
 
 checkSourceCRsAnnotation:
 	@failures=0; \

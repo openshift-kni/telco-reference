@@ -6,7 +6,7 @@ With this feature, via ClusterInstance, users can now have control over this pro
 
 Reference install manifests live under `telco-ran/install/extra-manifests/`. Optional manifests such as `enable-crun-*.yaml` live under `telco-ran/install/custom-manifests/` and must not be listed in PolicyGenerator CRs; the Hub extra-manifests policy monitors install-time MachineConfigs at day-N.
 
-* An example kustomization (`telco-ran/install/clusterinstance/kustomization.yaml`) builds a ConfigMap from the reference manifests:
+* An example kustomization (`telco-ran/install/kustomization.yaml`) builds a ConfigMap from the reference manifests:
 
   ```yaml
   configMapGenerator:
