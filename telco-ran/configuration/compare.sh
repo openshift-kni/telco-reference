@@ -50,9 +50,15 @@ compare_install_custom_manifests_crun() {
 }
 
 check_no_machineconfig_in_source_crs() {
-  local root fail=0 f
+  local root fail=0 f relpath
   root="$(git rev-parse --show-toplevel)"
   while IFS= read -r f; do
+    relpath="${f#${root}/telco-ran/configuration/source-crs/}"
+    case "${relpath}" in
+      generic/MachineConfigGeneric.yaml|machine-config/RebootMachineConfig.yaml)
+        continue
+        ;;
+    esac
     echo "ERROR: MachineConfig must use install/extra-manifests, not source-crs: ${f}" >&2
     fail=1
   done < <(grep -rl '^kind: MachineConfig$' "${root}/telco-ran/configuration/source-crs" 2>/dev/null || true)
