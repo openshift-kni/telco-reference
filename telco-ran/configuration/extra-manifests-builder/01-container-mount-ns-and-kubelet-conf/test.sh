@@ -1,7 +1,7 @@
 #!/bin/bash
 
 fatal() {
-    echo "FATAL: $@"
+    echo "FATAL: $*"
     exit 1
 }
 
