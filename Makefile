@@ -128,6 +128,7 @@ check-reference-core:
 .PHONY: check-reference-ran
 check-reference-ran:
 	$(MAKE) -C ./telco-ran/configuration check
+	$(MAKE) -C ./telco-ran/install check
 
 .PHONY: check-reference-hub
 check-reference-hub:

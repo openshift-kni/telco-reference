@@ -5,12 +5,13 @@ Reference install-time manifests for Telco RAN clusters using
 
 ## Layout
 
+- `extra-manifests-builder/` — renders reference MachineConfig CRs into `extra-manifests/`
 - `extra-manifests/` — reference MachineConfig and related CRs applied at cluster install
 - `custom-manifests/` — optional manifests (for example `enable-crun-*.yaml`) you add when needed
-- `clusterinstance/` — example ClusterInstance CRs and kustomization with `configMapGenerator`
+- `clusterinstance/` — example ClusterInstance CRs; `install/kustomization.yaml` builds the install ConfigMap
 
 Reference MachineConfig CRs are rendered into `extra-manifests/` by
-`telco-ran/configuration/extra-manifests-builder/`. At day-N, the Hub
+`telco-ran/install/extra-manifests-builder/`. At day-N, the Hub
 **extra-manifests** policy keeps the cluster aligned with the install ConfigMap
 (see `telco-hub/.../ztp-policies/extra-manifests-policy.yaml`).
 
