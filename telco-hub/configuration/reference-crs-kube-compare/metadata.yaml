@@ -4,7 +4,7 @@ parts:
   - name: version-check
     description: |-
       A mismatch here means you may be using the wrong reference.
-      This reference was designed for OpenShift 4.20.
+      This reference was designed for OpenShift 4.22.
     components:
       - name: version-check
         allOf:
@@ -42,7 +42,7 @@ parts:
     components:
       - name: local-storage-operator
         description: |-
-          https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-local-storage-operator_telco-hub
+          https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-local-storage-operator_telco-hub
         allOrNoneOf:
           - path: optional/lso/lsoNS.yaml
           - path: optional/lso/lsoOperatorGroup.yaml
@@ -50,7 +50,7 @@ parts:
           - path: optional/lso/lsoLocalVolume.yaml
       - name: odf-internal-operator
         description: |-
-          https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-openshift-data-foundation_telco-hub
+          https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-openshift-data-foundation_telco-hub
         allOrNoneOf:
           - path: optional/odf-internal/odfNS.yaml
           - path: optional/odf-internal/odfOperatorGroup.yaml
@@ -60,14 +60,14 @@ parts:
               ignore-unspecified-fields: true
   - name: required-talm
     description: |-
-      https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-topology-aware-lifecycle-manager-talm_telco-hub
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-topology-aware-lifecycle-manager-talm_telco-hub
     components:
       - name: talm-operator
         allOf:
           - path: required/talm/talmSubscription.yaml
   - name: required-acm
     description: |-
-      https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-red-hat-advanced-cluster-management-rhacm_telco-hub
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-red-hat-advanced-cluster-management-rhacm_telco-hub
     components:
       - name: acm-operator
         allOf:
@@ -88,11 +88,13 @@ parts:
           - path: required/acm/observabilityOBC.yaml
             config:
               ignore-unspecified-fields: true
+          - path: required/acm/observabilityMCSB.yaml
+          - path: required/acm/observabilityRoutePlacement.yaml
+          - path: required/acm/observabilityRoutePlacementBinding.yaml
           - path: required/acm/observabilitySecret.yaml
           - path: required/acm/pullSecretPolicy.yaml
           - path: required/acm/pullSecretPlacement.yaml
           - path: required/acm/pullSecretPlacementBinding.yaml
-          - path: required/acm/pullSecretMCSB.yaml
           - path: required/acm/thanosSecretPolicy.yaml
             config:
               ignore-unspecified-fields: true
@@ -102,7 +104,7 @@ parts:
           - path: required/acm/thanosSecretPlacementBinding.yaml
   - name: required-gitops
     description: |-
-      https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-gitops-operator-and-ztp-plugins_telco-hub
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-gitops-operator-and-ztp-plugins_telco-hub
     components:
       - name: gitops-operator
         allOf:
@@ -129,7 +131,7 @@ parts:
           - path: required/gitops/argocd-ssh-known-hosts-cm.yaml
   - name: required-registry
     description: |-
-      https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/disconnected_environments/mirroring-in-disconnected-environments
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/disconnected_environments/about-installing-oc-mirror-v2
     components:
       - name: registry-config
         allOf:
@@ -146,7 +148,7 @@ parts:
 
   - name: optional-logging
     description: |-
-      https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-logging_telco-hub
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-logging_telco-hub
     components:
       - name: cluster-logging-operator
         allOrNoneOf:
@@ -174,6 +176,7 @@ fieldsToOmit:
       - pathToKey: metadata.annotations."openshift.io/sa.scc.uid-range"
       - pathToKey: metadata.annotations."openshift.io/sa.scc.mcs"
       - pathToKey: metadata.annotations."openshift.io/sa.scc.supplemental-groups"
+      - pathToKey: metadata.annotations."ran.openshift.io/ztp-deploy-wave"
       - pathToKey: metadata.annotations."olm.providedAPIs"
       - pathToKey: metadata.annotations."argocd.argoproj.io"
         isPrefix: true
@@ -183,6 +186,9 @@ fieldsToOmit:
         isPrefix: true
       - pathToKey: metadata.annotations."installer.open-cluster-management.io"
         isPrefix: true
+      - pathToKey: metadata.annotations.createdAt
+      - pathToKey: metadata.annotations.createdBy
+      - pathToKey: metadata.annotations."oc-mirror_version"
       - pathToKey: metadata.annotations."security.openshift.io/MinimallySufficientPodSecurityStandard"
       - pathToKey: metadata.labels."kubernetes.io/metadata.name"
       - pathToKey: metadata.labels."security.openshift.io/scc.podSecurityLabelSync"

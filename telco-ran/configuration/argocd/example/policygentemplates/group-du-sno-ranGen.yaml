@@ -14,6 +14,7 @@ spec:
   sourceFiles:
     - fileName: cluster-tuning/DisableOLMPprof.yaml
       policyName: "config-policy"
+      complianceType: mustnothave
     # Set ClusterLogForwarder as example might be better to create another policyTemp-Group
     - fileName: cluster-logging/ClusterLogForwarder.yaml
       policyName: "config-policy"
@@ -31,9 +32,9 @@ spec:
             # below url is an example
             url: tcp://10.46.55.190:9092/test
     # The setting below overrides the default "worker" selector predefined in
-    # the source-crs. The change is recommended on SNOs configured with PTP 
+    # the source-crs. The change is recommended on SNOs configured with PTP
     # event notification for forward compatibility with possible SNO expansion.
-    # When the default setting is left intact, then in case of an SNO 
+    # When the default setting is left intact, then in case of an SNO
     # expansion with one or more workers, PTP operator
     # would not create linuxptp-daemon containers on the worker node(s). Any
     # attempt to change the daemonsetNodeSelector will result in ptp daemon
@@ -59,9 +60,9 @@ spec:
           phc2sysOpts: "-a -r -n 24"
     - fileName: sriov-operator/SriovOperatorConfigForSNO.yaml
       policyName: "config-policy"
-      # For existing clusters with node selector set as "master", 
+      # For existing clusters with node selector set as "master",
       # change the complianceType to "mustonlyhave".
-      # After complying with the policy, the complianceType can 
+      # After complying with the policy, the complianceType can
       # be reverted to "musthave"
       complianceType: musthave
       spec:

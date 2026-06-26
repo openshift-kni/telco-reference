@@ -163,17 +163,20 @@ spec:
       uds_address /var/run/ptp4l.0.socket
       [$iface_FirstPort]
       ts2phc.extts_polarity rising
+      ts2phc.pin_index 1
       ts2phc.extts_correction -10
       ts2phc.master 0
     ts2phcOpts: -s generic -a --ts2phc.rh_external_pps 1
   - name: tbc-tt
     ptp4lConf: |
-      [$iface_timeTx_0]
+      # Include one section for each TimeTransmitter port on the WPC card:
+      [ens1f0]
       masterOnly 1
-      [$iface_timeTx_1]
+      [ens1f1]
       masterOnly 1
-      [$iface_timeTx_2]
+      [ens1f2]
       masterOnly 1
+      # ...
       [global]
       #
       # Default Data Set

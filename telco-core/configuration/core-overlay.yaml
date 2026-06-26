@@ -2,18 +2,19 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: core-overlay-19
+  name: core-overlay-22
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
-    clusterSelectors:
-      common: "core"
-      version: "4.20"
+    labelSelector:
+      matchLabels:
+        common: "core"
+        version: "4.22"
   remediationAction: "inform"
 policies:
   # Baseline configuration with custom overlay content
-  - name: core-overlay-base-4.20
+  - name: core-overlay-base-4.22
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "2"
     manifests:
@@ -33,8 +34,32 @@ policies:
         complianceType: mustonlyhave
       - path: reference-crs/optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
 
+      # Cert-manager configuration (optional component)
+      # - path: reference-crs/optional/cert-manager/certManagerClusterIssuer.yaml
+      #   patches:
+      #   - spec:
+      #       acme:
+      #         server: https://acme-v02.api.letsencrypt.org/directory
+      #         email: your-email@example.com
+      #         privateKeySecretRef:
+      #           name: acme-account-key
+      # - path: reference-crs/optional/cert-manager/ingressCertificate.yaml
+      #   patches:
+      #   - spec:
+      #       commonName: "*.apps.example.com"
+      #       dnsNames:
+      #       - "*.apps.example.com"
+      # - path: reference-crs/optional/cert-manager/ingressControllerConfig.yaml
+      # - path: reference-crs/optional/cert-manager/apiServerCertificate.yaml
+      #   patches:
+      #   - spec:
+      #       commonName: "api.example.com"
+      #       dnsNames:
+      #       - "api.example.com"
+      # - path: reference-crs/optional/cert-manager/apiServerConfig.yaml
+
   # Custom networking, operator and cluster configuration
-  - name: core-overlay-config-4.20
+  - name: core-overlay-config-4.22
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "8"
     manifests:
@@ -181,6 +206,8 @@ policies:
             nodeSelector:
               node-role.kubernetes.io/worker: ""
 
+      - path: reference-crs/required/networking/metallb/configurationstate.yaml
+
       # - path: reference-crs/required/networking/metallb/bfd-profile.yaml
       # - path: reference-crs/required/networking/metallb/addr-pool.yaml
       #   patches:
@@ -268,7 +295,9 @@ policies:
 
   # reference-crs/optional/networking/nodeNetworkConfigurationPolicy.yaml
 
-  - name: config-monitoring-4.20
+  - name: config-monitoring-4.22
+    # For consistency the name of this policy will be updated in a future release:
+    # - name: core-overlay-monitoring-4.22
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "10"
     manifests:
@@ -302,31 +331,3 @@ policies:
                   apiVersion: "v1"
                   staticConfigs:
                   - "10.11.12.14:9999"
-
-  # Cert-manager configuration (optional component)
-  # - name: config-cert-manager-4.20
-  #   policyAnnotations:
-  #     ran.openshift.io/ztp-deploy-wave: "10"
-  #   manifests:
-  #     - path: reference-crs/optional/cert-manager/certManagerClusterIssuer.yaml
-  #       patches:
-  #       - spec:
-  #           acme:
-  #             server: https://acme-v02.api.letsencrypt.org/directory
-  #             email: your-email@example.com
-  #             privateKeySecretRef:
-  #               name: acme-account-key
-  #     - path: reference-crs/optional/cert-manager/ingressCertificate.yaml
-  #       patches:
-  #       - spec:
-  #           commonName: "*.apps.example.com"
-  #           dnsNames:
-  #           - "*.apps.example.com"
-  #     - path: reference-crs/optional/cert-manager/ingressControllerConfig.yaml
-  #     - path: reference-crs/optional/cert-manager/apiServerCertificate.yaml
-  #       patches:
-  #       - spec:
-  #           commonName: "api.example.com"
-  #           dnsNames:
-  #           - "api.example.com"
-  #     - path: reference-crs/optional/cert-manager/apiServerConfig.yaml

@@ -34,4 +34,3 @@ policies:
     ran.openshift.io/ztp-deploy-wave: "11"
   manifests:
     - path: source-crs/cluster-logging/ClusterLogging5Cleanup.yaml
-

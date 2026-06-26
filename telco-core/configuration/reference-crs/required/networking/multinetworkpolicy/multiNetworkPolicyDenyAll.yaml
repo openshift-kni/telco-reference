@@ -3,6 +3,7 @@ apiVersion: k8s.cni.cncf.io/v1beta1
 kind: MultiNetworkPolicy
 metadata:
   name: deny-all
+  namespace: $namespace
   annotations:
     k8s.v1.cni.cncf.io/policy-for: $networkName
 spec:

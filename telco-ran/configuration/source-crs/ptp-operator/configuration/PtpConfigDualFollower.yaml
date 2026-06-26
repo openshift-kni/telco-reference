@@ -1,4 +1,4 @@
-# In this example, 2 ports of a single NIC are used in a active/standby configuration to synchronize to a 
+# In this example, 2 ports of a single NIC are used in a active/standby configuration to synchronize to a
 # remote grandmaster via interfaces $iface1 and $iface1
 apiVersion: ptp.openshift.io/v1
 kind: PtpConfig

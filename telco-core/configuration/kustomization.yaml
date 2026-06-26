@@ -10,3 +10,6 @@ generators:
   - core-overlay.yaml
   - core-upgrade.yaml
   - core-finish.yaml
+  # Optional: pre-cache images ahead of the upgrade window using PinnedImageSet CRs.
+  # Label target clusters with upgrade-precache: "" to activate.
+  - core-upgrade-precache.yaml

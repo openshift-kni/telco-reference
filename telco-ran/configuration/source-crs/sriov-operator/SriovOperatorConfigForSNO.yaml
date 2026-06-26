@@ -25,4 +25,6 @@ spec:
   disableDrain: true
   enableInjector: false
   enableOperatorWebhook: false
+  featureGates:
+    mellanoxFirmwareReset: true
   logLevel: 0

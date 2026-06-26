@@ -1,0 +1,7 @@
+apiVersion: metallb.io/v1beta1
+kind: ConfigurationState
+metadata:
+  name: {{ .metadata.name }}
+  namespace: metallb-system
+status:
+  result: Valid

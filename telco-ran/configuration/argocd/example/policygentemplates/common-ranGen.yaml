@@ -87,7 +87,7 @@ spec:
         name: redhat-operators-disconnected
       spec:
         displayName: disconnected-redhat-operators
-        image: registry.example.com:5000/disconnected-redhat-operators/disconnected-redhat-operator-index:v4.9
+        image: registry.example.com:5000/disconnected-redhat-operators/disconnected-redhat-operator-index:v4.22
     - fileName: disconnected-registry/DisconnectedIDMS.yaml
       policyName: "config-policy"
       spec:

@@ -215,6 +215,16 @@ ptp_operator_configuration_PtpConfigBoundary:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
+      iface_timeRx: $iface_timeRx
+      masterPorts: |-
+        # Include one section for each TimeTransmitter port:
+              [ens1f1]
+              masterOnly 1
+              [ens1f2]
+              masterOnly 1
+              [ens1f3]
+              masterOnly 1
+              # ...
 ptp_operator_configuration_PtpConfigBoundaryForEvent:
   - spec:
       profile:
@@ -230,6 +240,16 @@ ptp_operator_configuration_PtpConfigBoundaryForEvent:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
+      iface_timeRx: $iface_timeRx
+      masterPorts: |-
+        # Include one section for each TimeTransmitter port:
+              [ens1f1]
+              masterOnly 1
+              [ens1f2]
+              masterOnly 1
+              [ens1f3]
+              masterOnly 1
+              # ...
 ptp_operator_configuration_PtpConfigDualCardGmWpc:
   - spec:
       profile:
@@ -262,6 +282,17 @@ ptp_operator_configuration_PtpConfigDualCardGmWpc:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
+      masterPorts: |-
+        # Include one section for each TimeTransmitter port on the WPC cards:
+              [ens1f0]
+              masterOnly 1
+              [ens1f1]
+              masterOnly 1
+              [ens2f0]
+              masterOnly 1
+              [ens2f1]
+              masterOnly 1
+              # ...
 ptp_operator_configuration_PtpConfigDualFollower:
   - spec:
       profile:
@@ -317,17 +348,35 @@ ptp_operator_configuration_PtpConfigThreeCardGmWpc:
       priority2: 128
       domainNumber: 24
       iface_timeTx1: $iface_timeTx1
-      iface_timeTx1_1: $iface_timeTx1_1
-      iface_timeTx1_2: $iface_timeTx1_2
-      iface_timeTx1_3: $iface_timeTx1_3
       iface_timeTx2: $iface_timeTx2
-      iface_timeTx2_1: $iface_timeTx2_1
-      iface_timeTx2_2: $iface_timeTx2_2
-      iface_timeTx2_3: $iface_timeTx2_3
       iface_timeTx3: $iface_timeTx3
-      iface_timeTx3_1: $iface_timeTx3_1
-      iface_timeTx3_2: $iface_timeTx3_2
-      iface_timeTx3_3: $iface_timeTx3_3
+      masterPorts: |-
+        # Include one section for each TimeTransmitter port on the WPC cards:
+              [ens1f0]
+              masterOnly 1
+              [ens1f1]
+              masterOnly 1
+              [ens1f2]
+              masterOnly 1
+              [ens1f3]
+              masterOnly 1
+              [ens2f0]
+              masterOnly 1
+              [ens2f1]
+              masterOnly 1
+              [ens2f2]
+              masterOnly 1
+              [ens2f3]
+              masterOnly 1
+              [ens3f0]
+              masterOnly 1
+              [ens3f1]
+              masterOnly 1
+              [ens3f2]
+              masterOnly 1
+              [ens3f3]
+              masterOnly 1
+              # ...
 ptp_operator_configuration_PtpConfigForHA:
   - spec:
       profile:
@@ -420,6 +469,17 @@ ptp_operator_configuration_PtpConfigGmWpc:
     captureGroup_defaults:
       priority2: 128
       domainNumber: 24
+      masterPorts: |-
+        # Include one section for each TimeTransmitter port on the WPC card:
+              [ens1f0]
+              masterOnly 1
+              [ens1f1]
+              masterOnly 1
+              [ens1f2]
+              masterOnly 1
+              [ens1f3]
+              masterOnly 1
+              # ...
 ptp_operator_configuration_PtpConfigSlaveForEvent:
   - spec:
       profile:
@@ -481,9 +541,15 @@ ptp_operator_configuration_PtpConfigTBCWpc:
       pi_integral_const: "0.0003"
       iface_timeRx: $iface_timeRx
       iface_FirstPort: $iface_FirstPort
-      iface_timeTx_0: $iface_timeTx_0
-      iface_timeTx_1: $iface_timeTx_1
-      iface_timeTx_2: $iface_timeTx_2
+      masterPorts: |-
+        # Include one section for each TimeTransmitter port on the WPC card:
+              [ens1f0]
+              masterOnly 1
+              [ens1f1]
+              masterOnly 1
+              [ens1f2]
+              masterOnly 1
+              # ...
 ptp_operator_configuration_PtpConfigDualCardTBCWpc:
   - spec:
       profile:
@@ -539,13 +605,23 @@ ptp_operator_configuration_PtpConfigDualCardTBCWpc:
       iface_timeRx: $iface_timeRx
       iface_FirstPort1: $iface_FirstPort1
       iface_FirstPort2: $iface_FirstPort2
-      iface_timeTx1_0: $iface_timeTx1_0
-      iface_timeTx1_1: $iface_timeTx1_1
-      iface_timeTx1_2: $iface_timeTx1_2
-      iface_timeTx2_0: $iface_timeTx2_0
-      iface_timeTx2_1: $iface_timeTx2_1
-      iface_timeTx2_2: $iface_timeTx2_2
-      iface_timeTx2_3: $iface_timeTx2_3
+      masterPorts: |-
+        # Include one section for each TimeTransmitter port on the WPC cards:
+              [ens1f0]
+              masterOnly 1
+              [ens1f1]
+              masterOnly 1
+              [ens1f2]
+              masterOnly 1
+              [ens2f0]
+              masterOnly 1
+              [ens2f1]
+              masterOnly 1
+              [ens2f2]
+              masterOnly 1
+              [ens2f3]
+              masterOnly 1
+              # ...
 ptp_operator_configuration_PtpConfigThreeCardTBCWpc:
   - spec:
       profile:
@@ -612,17 +688,31 @@ ptp_operator_configuration_PtpConfigThreeCardTBCWpc:
       iface_FirstPort1: $iface_FirstPort1
       iface_FirstPort2: $iface_FirstPort2
       iface_FirstPort3: $iface_FirstPort3
-      iface_timeTx1_0: $iface_timeTx1_0
-      iface_timeTx1_1: $iface_timeTx1_1
-      iface_timeTx1_2: $iface_timeTx1_2
-      iface_timeTx2_0: $iface_timeTx2_0
-      iface_timeTx2_1: $iface_timeTx2_1
-      iface_timeTx2_2: $iface_timeTx2_2
-      iface_timeTx2_3: $iface_timeTx2_3
-      iface_timeTx3_0: $iface_timeTx3_0
-      iface_timeTx3_1: $iface_timeTx3_1
-      iface_timeTx3_2: $iface_timeTx3_2
-      iface_timeTx3_3: $iface_timeTx3_3
+      masterPorts: |-
+        # Include one section for each TimeTransmitter port on the WPC cards:
+              [ens1f0]
+              masterOnly 1
+              [ens1f1]
+              masterOnly 1
+              [ens1f2]
+              masterOnly 1
+              [ens2f0]
+              masterOnly 1
+              [ens2f1]
+              masterOnly 1
+              [ens2f2]
+              masterOnly 1
+              [ens2f3]
+              masterOnly 1
+              [ens3f0]
+              masterOnly 1
+              [ens3f1]
+              masterOnly 1
+              [ens3f2]
+              masterOnly 1
+              [ens3f3]
+              masterOnly 1
+              # ...
 ptp_operator_configuration_PtpConfigTTSCWpc:
   - spec:
       profile:
@@ -738,10 +828,10 @@ cluster_tuning_monitoring_configuration_ReduceMonitoringFootprint:
   - metadata:
       name: cluster-monitoring-config
     captureGroup_defaults:
-      alertmanager_endpoint: '{{ `{{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{hub $route := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-alertmanager-route" hub}}{{hub if $route hub}}[{{hub $route hub}}]{{hub else hub}}[]{{hub end hub}}{{ else }}[]{{ end }}` }}'
-      managed_cluster: '{{ `{{ fromClusterClaim "id.openshift.io" }}` }}'
-      observability_alertmanager_accessor: '{{ `{{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{ $result := (regexFind "hub-cluster-id(.*)" ((fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml") | base64dec)) | replace "hub-cluster-id: " "observability-alertmanager-accessor-" }}{{ (empty $result) | ternary "observability-alertmanager-accessor" $result }}{{ else }}observability-alertmanager-accessor{{ end }}` }}'
-      hub_alertmanager_router_ca: '{{ `{{ if (lookup "v1" "Namespace" "" "open-cluster-management-addon-observability") }}{{ $result := (regexFind "hub-cluster-id(.*)" ((fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml") | base64dec)) | replace "hub-cluster-id: " "hub-alertmanager-router-ca-" }}{{ (empty $result) | ternary "hub-alertmanager-router-ca" $result }}{{ else }}hub-alertmanager-router-ca{{ end }}` }}'
+      alertmanager_endpoint: '{{ `{{hub $route := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-alertmanager-route" hub}}{{hub if $route hub}}[{{hub $route hub}}]{{hub else hub}}[]{{hub end hub}}` }}'
+      managed_cluster: '{{ `{{hub index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.labels "clusterID" hub}}` }}'
+      observability_alertmanager_accessor: '{{ `{{hub $hubID := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-hub-cluster-id" hub}}{{hub if $hubID hub}}observability-alertmanager-accessor-{{hub $hubID hub}}{{hub else hub}}observability-alertmanager-accessor{{hub end hub}}` }}'
+      hub_alertmanager_router_ca: '{{ `{{hub $hubID2 := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-hub-cluster-id" hub}}{{hub if $hubID2 hub}}hub-alertmanager-router-ca-{{hub $hubID2 hub}}{{hub else hub}}hub-alertmanager-router-ca{{hub end hub}}` }}'
 lca_LcaSubscription:
   - spec:
       source: redhat-operators-disconnected
@@ -789,6 +879,8 @@ sriov_operator_SriovOperatorConfig:
         "node-role.kubernetes.io/$mcp": ""
       enableInjector: false
       enableOperatorWebhook: false
+      featureGates:
+        mellanoxFirmwareReset: true
       logLevel: 0
 sriov_operator_SriovOperatorConfigForSNO:
   - spec:
@@ -796,6 +888,8 @@ sriov_operator_SriovOperatorConfigForSNO:
         "node-role.kubernetes.io/$mcp": ""
       enableInjector: false
       enableOperatorWebhook: false
+      featureGates:
+        mellanoxFirmwareReset: true
       logLevel: 0
 sriov_operator_SriovSubscription:
   - spec:

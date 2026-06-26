@@ -1,0 +1,11 @@
+# This resource is created automatically by MetalLB. Do not deploy manually.
+# It is included here as a reference for the expected state after successful configuration.
+# count: 1-N (1 controller + 1 per worker node)
+---
+apiVersion: metallb.io/v1beta1
+kind: ConfigurationState
+metadata:
+  name: controller
+  namespace: metallb-system
+status:
+  result: Valid

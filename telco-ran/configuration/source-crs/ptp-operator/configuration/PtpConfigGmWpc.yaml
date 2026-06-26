@@ -82,7 +82,7 @@ spec:
               - "1"
               - "-e"
               - "SURVEYIN,600,50000"
-            reportOutput: true  
+            reportOutput: true
           - args: #ubxtool -P 29.20 -p MON-HW
               - "-P"
               - "29.20"
@@ -110,16 +110,19 @@ spec:
       leapfile  /usr/share/zoneinfo/leap-seconds.list
       [(?<iface_timeTx>[[:alnum:]]+)]
       ts2phc.extts_polarity rising
+      ts2phc.pin_index 1
       ts2phc.extts_correction 0
     ptp4lConf: |
-      [(?<iface_timeTx>[[:alnum:]]+)]
+      # Include one section for each TimeTransmitter port on the WPC card:
+      [ens1f0]
       masterOnly 1
-      [(?<iface_timeTx_1>[[:alnum:]]+)]
+      [ens1f1]
       masterOnly 1
-      [(?<iface_timeTx_2>[[:alnum:]]+)]
+      [ens1f2]
       masterOnly 1
-      [(?<iface_timeTx_3>[[:alnum:]]+)]
+      [ens1f3]
       masterOnly 1
+      # ...
       [global]
       #
       # Default Data Set

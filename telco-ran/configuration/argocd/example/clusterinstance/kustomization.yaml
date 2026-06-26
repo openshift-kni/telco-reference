@@ -25,6 +25,8 @@ resources:
 #   - extra-manifest/08-set-rcu-normal-master.yaml
 #   - extra-manifest/08-set-rcu-normal-worker.yaml
 #   - extra-manifest/09-openshift-marketplace-ns.yaml
+#   - extra-manifest/10-rename-gnrd-interfaces-master.yaml
+#   - extra-manifest/10-rename-gnrd-interfaces-worker.yaml
 #   - extra-manifest/99-sync-time-once-master.yaml
 #   - extra-manifest/99-sync-time-once-worker.yaml
 #   - extra-manifest/enable-crun-master.yaml

@@ -106,42 +106,23 @@ spec:
       leapfile /usr/share/zoneinfo/leap-seconds.list
       [(?<iface_timeTx1>[[:alnum:]]+)]
       ts2phc.extts_polarity rising
+      ts2phc.pin_index 1
       ts2phc.extts_correction 0
       [(?<iface_timeTx2>[[:alnum:]]+)]
       ts2phc.master 0
       ts2phc.extts_polarity rising
+      ts2phc.pin_index 1
       #this is a measured value in nanoseconds to compensate for SMA cable delay
       ts2phc.extts_correction -10
       [(?<iface_timeTx3>[[:alnum:]]+)]
       ts2phc.master 0
       ts2phc.extts_polarity rising
+      ts2phc.pin_index 1
       #this is a measured value in nanoseconds to compensate for SMA cable delay
       ts2phc.extts_correction -10
     ptp4lConf: |
-      [(?<iface_timeTx1>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx1_1>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx1_2>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx1_3>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx2>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx2_1>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx2_2>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx2_3>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx3>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx3_1>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx3_2>[[:alnum:]]+)]
-      masterOnly 1
-      [(?<iface_timeTx3_3>[[:alnum:]]+)]
-      masterOnly 1
+      (?<masterPorts>((\[[[:alnum:]]+\]
+      masterOnly 1| *#.*| *)(\n|$))+)
       [global]
       #
       # Default Data Set

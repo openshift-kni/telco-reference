@@ -144,7 +144,7 @@ includes the statically generated Policy) or PolicyGenerator.
 
 ### Other
 
-The pgt2acmpg supports converting Policy Gen Templates to ACM Policy Generator templates. More details can be found at [link](https://github.com/openshift-kni/cnf-features-deploy/ztp/tools/pgt2acmpg/blob/main/README.md)
+The pgt2acmpg supports converting Policy Gen Templates to ACM Policy Generator templates. More details can be found at [link](https://github.com/openshift-kni/cnf-features-deploy/blob/master/ztp/tools/pgt2acmpg/README.md)
 
 ## Controlled reboot of a fleet of clusters
 

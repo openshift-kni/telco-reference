@@ -1,0 +1,11 @@
+# optional
+# count: 1
+---
+apiVersion: machineconfiguration.openshift.io/v1
+kind: PinnedImageSet
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: master
+  name: controlplane-olm-pinned-images
+spec:
+{{ .spec | toYaml | indent 2 }}

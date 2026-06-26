@@ -32,7 +32,7 @@ resources:
 # This policy removes Cluster Logging operator 5.x artifacts after upgrading to 6.x
 - group-du-clo5-cleanup-policy.yaml
 
-# Updates to the PerformanceProfile or MachineConfigurations may take a short period of time before 
+# Updates to the PerformanceProfile or MachineConfigurations may take a short period of time before
 # causing the MachineConfigPool to move to degraded. This patch adds an annotation to validator policy.
 # This soak time ensures that the upgrading status can be set prior to considering the validation policy
 # in compliance

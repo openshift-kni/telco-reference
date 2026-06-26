@@ -6,8 +6,6 @@ apiVersion: operators.coreos.com/v1
 kind: Operator
 metadata:
   name: cluster-logging.openshift-logging
-  annotations:
-    ran.openshift.io/ztp-deploy-wave: "2"
 status:
 #  components:
 #    refs:
