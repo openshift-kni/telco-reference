@@ -118,13 +118,118 @@ sync_cr() {
     git diff --cached --stat --exit-code
 }
 
+# Install-time MachineConfig CRs live only under telco-core/install/extra-manifests.
+# kube-compare-reference holds validation templates; non-templated files must match install.
+compare_install_extra_manifests() {
+  local root fail=0
+  root="$(git rev-parse --show-toplevel)"
+  local install="${root}/telco-core/install/extra-manifests"
+  local kubecmp="${root}/telco-core/configuration/reference-crs-kube-compare"
+  local -a pairs=(
+    "control-plane-load-kernel-modules.yaml:optional/other/control-plane-load-kernel-modules.yaml"
+    "worker-load-kernel-modules.yaml:optional/other/worker-load-kernel-modules.yaml"
+    "mount_namespace_config_master.yaml:optional/other/mount_namespace_config_master.yaml"
+    "mount_namespace_config_worker.yaml:optional/other/mount_namespace_config_worker.yaml"
+    "kdump-master.yaml:optional/other/kdump-master.yaml"
+    "kdump-worker.yaml:optional/other/kdump-worker.yaml"
+    "mc_rootless_pods_selinux.yaml:optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml"
+  )
+  local pair inst ref refpath
+  for pair in "${pairs[@]}"; do
+    inst="${pair%%:*}"
+    ref="${pair##*:}"
+    refpath="${kubecmp}/${ref}"
+    # kube-compare uses Go templates for some MCs; install holds rendered reference YAML.
+    if grep -q '{{' "${refpath}"; then
+      if ! grep -q 'validateBase64List' "${refpath}"; then
+        echo "ERROR: expected validateBase64List templating in kube-compare ${ref}" >&2
+        fail=1
+      fi
+      if ! grep -q 'version: 3.2.0' "${install}/${inst}"; then
+        echo "ERROR: ${install}/${inst} must use ignition version 3.2.0" >&2
+        fail=1
+      fi
+      if ! grep -q 'path: /etc/modules-load.d/kernel-load.conf' "${install}/${inst}"; then
+        echo "ERROR: ${install}/${inst} must configure kernel-load.conf" >&2
+        fail=1
+      fi
+      continue
+    fi
+    if ! diff -u "${install}/${inst}" "${refpath}"; then
+      echo "ERROR: install/extra-manifests/${inst} differs from kube-compare ${ref}" >&2
+      fail=1
+    fi
+  done
+  local sctp="${install}/sctp_module_mc.yaml"
+  if ! grep -q '{{' "${kubecmp}/optional/other/sctp_module_mc.yaml"; then
+    echo "ERROR: expected templating in optional/other/sctp_module_mc.yaml" >&2
+    fail=1
+  fi
+  if ! grep -q 'version: 3.2.0' "${sctp}"; then
+    echo "ERROR: ${sctp} must use ignition version 3.2.0" >&2
+    fail=1
+  fi
+  if ! grep -q 'source: data:,sctp' "${sctp}"; then
+    echo "ERROR: ${sctp} must load sctp via data:,sctp" >&2
+    fail=1
+  fi
+  if grep -q 'version: 2.2.0' "${sctp}" || grep -q 'filesystem: root' "${sctp}"; then
+    echo "ERROR: ${sctp} must not use legacy ignition 2.2.0 / filesystem fields" >&2
+    fail=1
+  fi
+  return $fail
+}
+
+# PolicyGenerator manifest paths must stay under telco-core/configuration/ (no ../).
+# MCP CRs are duplicated here and must match install/extra-manifests.
+compare_install_custom_manifests_mcp() {
+  local root fail=0 f
+  root="$(git rev-parse --show-toplevel)"
+  local install="${root}/telco-core/install/extra-manifests"
+  local custom="${root}/telco-core/configuration/reference-crs/custom-manifests"
+  for f in mcp-worker-1.yaml mcp-worker-2.yaml mcp-worker-3.yaml; do
+    if ! diff -u "${install}/${f}" "${custom}/${f}"; then
+      echo "ERROR: install/extra-manifests/${f} differs from reference-crs/custom-manifests/${f}" >&2
+      fail=1
+    fi
+  done
+  return $fail
+}
+
+check_no_machineconfig_in_reference_crs() {
+  local root fail=0 f
+  root="$(git rev-parse --show-toplevel)"
+  while IFS= read -r f; do
+    echo "ERROR: MachineConfig must use install/extra-manifests, not reference-crs: ${f}" >&2
+    fail=1
+  done < <(grep -rl '^kind: MachineConfig$' "${root}/telco-core/configuration/reference-crs" 2>/dev/null || true)
+  return $fail
+}
+
+run_extra_manifest_checks() {
+  local status=0
+  echo "Checking install/extra-manifests alignment with kube-compare-reference..."
+  compare_install_extra_manifests || status=1
+  echo "Checking install/extra-manifests MCPs match reference-crs/custom-manifests..."
+  compare_install_custom_manifests_mcp || status=1
+  echo "Checking reference-crs does not contain MachineConfig CRs..."
+  check_no_machineconfig_in_reference_crs || status=1
+  if [[ $status -eq 0 ]]; then
+    echo "extra-manifest checks: OK"
+  fi
+  return $status
+}
+
 usage() {
-    echo "$(basename "$0") [--sync] sourceDir renderDir"
+    echo "$(basename "$0") [--sync] sourceDir renderDir ignoreFile"
+    echo "$(basename "$0") --check-extra-manifests"
     echo
-    echo "Compares the rendered reference-based CRs to the CRs in the compare directory"
+    echo "Compares the rendered reference-based CRs to the CRs in the compare directory,"
+    echo "or validates install/extra-manifests vs kube-compare-reference."
 }
 
 DOSYNC=0
+CHECK_EXTRA_MANIFESTS=0
 for arg in "$@"; do
     case "$arg" in
         -h | --help)
@@ -135,8 +240,18 @@ for arg in "$@"; do
             DOSYNC=1
             shift
             ;;
+        --check-extra-manifests)
+            CHECK_EXTRA_MANIFESTS=1
+            shift
+            ;;
     esac
 done
+
+if [[ $CHECK_EXTRA_MANIFESTS == 1 ]]; then
+    run_extra_manifest_checks
+    exit $?
+fi
+
 SOURCEDIR=$1
 if [[ ! -d $SOURCEDIR ]]; then
     echo "No such source directory $SOURCEDIR"
