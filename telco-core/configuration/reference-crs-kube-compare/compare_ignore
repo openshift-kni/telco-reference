@@ -13,6 +13,9 @@ required/machine-config/container-runtime.yaml
 ClusterLogging5Cleanup.yaml
 ClusterLogOperatorStatus.yaml
 
+# Utility object for Loki Operator installation verification
+LokiOperatorStatus.yaml
+
 # Utility objects to wait for and acknowledge cluster ugprades
 ClusterVersion.yaml
 upgrade-ack.yaml
