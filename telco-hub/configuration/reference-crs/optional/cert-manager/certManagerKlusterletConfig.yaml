@@ -1,0 +1,16 @@
+---
+apiVersion: config.open-cluster-management.io/v1alpha1
+kind: KlusterletConfig
+metadata:
+  name: cert-manager-ca-config
+  annotations:
+    argocd.argoproj.io/sync-wave: "-29"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  hubKubeAPIServerConfig:
+    serverVerificationStrategy: UseCustomCABundles
+    trustedCABundles:
+    - name: cert-manager-ca-bundle
+      caBundle:
+        namespace: multicluster-engine
+        name: cert-manager-ca-bundle

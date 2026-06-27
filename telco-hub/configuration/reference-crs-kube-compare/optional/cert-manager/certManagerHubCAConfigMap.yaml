@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cert-manager-ca-bundle
+  namespace: multicluster-engine
+  labels:
+    import.open-cluster-management.io/ca-bundle: ""
+  annotations:
+    argocd.argoproj.io/sync-wave: "-29"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+data:
+{{- if .data }}
+  # Populate with the root CA PEM used by cert-manager to sign hub API/ingress certs.
+  # Extract from the hub: oc get secret root-ca-secret -n cert-manager -o jsonpath='{.data.tls\.crt}' | base64 -d
+  ca-bundle.crt: |
+{{ index .data "ca-bundle.crt" | trimSuffix "\n" | indent 4 }}
+{{- end }}
