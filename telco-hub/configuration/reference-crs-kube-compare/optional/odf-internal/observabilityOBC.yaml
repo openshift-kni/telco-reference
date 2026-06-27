@@ -2,7 +2,7 @@
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
 metadata:
-  name: observability-obc
+  name: observability-object-bucket
   annotations:
     argocd.argoproj.io/sync-wave: "-10"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
