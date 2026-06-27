@@ -1,10 +1,10 @@
 
-.PHONY: check checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths
+.PHONY: check checkInstallExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths
 
-check: checkExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths
+check: checkInstallExtraManifests checkSourceCRsAnnotation checkZtpPaths check-reference checkPolicyPaths
 
-checkExtraManifests:
-	$(MAKE) -C ./extra-manifests-builder check
+checkInstallExtraManifests:
+	./compare.sh --check-extra-manifests
 
 checkSourceCRsAnnotation:
 	@failures=0; \
@@ -12,7 +12,6 @@ checkSourceCRsAnnotation:
 	for sourcefile in $$(find ./source-crs/ -name '*.yaml'); do \
 		echo -n "  $${sourcefile}: "; \
 		case "$${sourcefile}" in \
-			*/extra-manifest/* | \
 			*/optional-extra-manifest/* | \
 			*/machine-config/* | \
 			*/validatorCRs/* | \

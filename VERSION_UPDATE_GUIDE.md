@@ -131,9 +131,9 @@ Find all ClusterInstance CRs (`kind: ClusterInstance`) and update clusterImageSe
 - `telco-core/install/example-standard-clusterinstace.yaml`
 
 **telco-ran**:
-- `telco-ran/configuration/argocd/example/clusterinstance/example-sno.yaml`
-- `telco-ran/configuration/argocd/example/clusterinstance/example-3node.yaml`
-- `telco-ran/configuration/argocd/example/clusterinstance/example-standard.yaml`
+- `telco-ran/install/clusterinstance/example-sno.yaml`
+- `telco-ran/install/clusterinstance/example-3node.yaml`
+- `telco-ran/install/clusterinstance/example-standard.yaml`
 
 Change: `clusterImageSetNameRef: "openshift-4.22"` → `"openshift-4.23"`
 
