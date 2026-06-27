@@ -1,14 +1,27 @@
+# This ClusterRoleBinding grants ArgoCD the ACM/OCM cluster management permissions
+# by binding the ArgoCD service account to the existing open-cluster-management:cluster-manager-admin ClusterRole.
+#
+# RBAC Permission Sources for ArgoCD:
+# 1. Default ArgoCD ClusterRole (automatic): Provides configmaps [*] and wildcard read access [get list watch]
+# 2. This binding → ACM ClusterRole: Provides secret's access and OCM cluster management permissions
+#
+# The open-cluster-management:cluster-manager-admin ClusterRole specifically provides:
+# - Full access to secrets: secrets [] [] [create get list watch update delete deletecollection patch]
+# - OCM cluster lifecycle and policy management permissions
+# - Other ACM/OCM related resource access
+#
+# The sync-wave annotation ensures this binding is applied after the core ArgoCD components are ready.
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: gitops-policy
+  name: hub-rds-gitops
   annotations:
     argocd.argoproj.io/sync-wave: "100"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: open-cluster-management:cluster-manager-admin
+  name: open-cluster-management:cluster-manager-admin  # Provides access to secrets
 subjects:
   - kind: ServiceAccount
     name: openshift-gitops-argocd-application-controller
