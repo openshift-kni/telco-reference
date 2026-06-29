@@ -157,3 +157,13 @@ spec:
     realTime: true
     highPowerConsumption: false
     perPodPowerManagement: {{ .spec.workloadHints.perPodPowerManagement | default false }}
+  {{- if .spec.net }}
+  net:
+    {{- if hasKey .spec.net "userLevelNetworking" }}
+    userLevelNetworking: {{ .spec.net.userLevelNetworking }}
+    {{- end }}
+    {{- if .spec.net.devices }}
+    devices:
+      {{- .spec.net.devices | toYaml | nindent 6 }}
+    {{- end }}
+  {{- end }}

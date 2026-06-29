@@ -57,3 +57,11 @@ spec:
     realTime: true
     highPowerConsumption: false
     perPodPowerManagement: false
+  # Optional: userLevelNetworking reduces NIC queues to the reserved CPU count.
+  # Enabling on a running cluster causes node drain and reboot.
+  # Validate NIC driver compatibility before enabling; silent failures are possible.
+  # When devices is omitted, applies to all network interfaces.
+  #net:
+  #  userLevelNetworking: true
+  #  devices:
+  #  - interfaceName: "eth0"
