@@ -3,6 +3,6 @@
 filters:
   ".*":
     reviewers:
-      - telco-reference-reviewers
+      - tnc-reference-reviewers
     approvers:
-      - telco-reference-approvers
+      - tnc-reference-approvers

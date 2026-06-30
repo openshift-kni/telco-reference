@@ -1,29 +1,16 @@
 # See the OWNERS docs at https://go.k8s.io/owners
 aliases:
-  telco-reference-approvers:
-    - MarSik
+  tnc-reference-approvers:
+    - a1bokhari
+    - sollinsnaya
+    - Ladanow
+    - clindo84
+    - git-shassan
     - imiller0
-    - irinamihai
-    - lack
-  telco-reference-reviewers:
-    - MarSik
-    - yanirq
-    - ffromani
+  tnc-reference-reviewers:
+    - a1bokhari
+    - sollinsnaya
+    - Ladanow
+    - clindo84
+    - git-shassan
     - imiller0
-    - irinamihai
-    - lack
-    - SchSeba
-    - fedepaol
-    - yuvalk
-    - cgoncalves
-    - sabbir-47
-  konflux-approvers:
-    - yanirq
-    - shajmakh
-    - fontivan
-    - rauhersu
-  konflux-reviewers:
-    - yanirq
-    - shajmakh
-    - fontivan
-    - rauhersu

@@ -1,8 +1,0 @@
----
-- op: replace
-  path: "/data"
-  value:
-    gitlab.cee.redhat.com: |
-      -----BEGIN CERTIFICATE-----
-      MIIGcjCCBFqgAwIBAgIFICIE...
-      -----END CERTIFICATE-----
