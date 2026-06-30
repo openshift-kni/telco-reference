@@ -92,9 +92,7 @@
           "path": "manifests/20-performance-profile.crd.yaml"
         }
       },
-      "merge_keys": {
-        "spec.hugepages.pages": "size"
-      }
+      "merge_keys": {}
     },
     {
       "name": "NUMAResourcesOperator",

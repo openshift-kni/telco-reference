@@ -96,33 +96,6 @@
         }
       ]
     },
-    "io.openshift.performance.v2.PerformanceProfile": {
-      "properties": {
-        "spec": {
-          "properties": {
-            "hugepages": {
-              "properties": {
-                "pages": {
-                  "type": "array",
-                  "x-kubernetes-patch-strategy": "merge",
-                  "x-kubernetes-patch-merge-key": "size"
-                }
-              },
-              "type": "object"
-            }
-          },
-          "type": "object"
-        }
-      },
-      "type": "object",
-      "x-kubernetes-group-version-kind": [
-        {
-          "group": "performance.openshift.io",
-          "kind": "PerformanceProfile",
-          "version": "v2"
-        }
-      ]
-    },
     "io.openshift.tuned.v1.Tuned": {
       "properties": {
         "spec": {
