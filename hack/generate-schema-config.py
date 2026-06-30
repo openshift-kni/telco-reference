@@ -89,7 +89,7 @@ def derive_ref(entry, channel, ocp_version):
     """
     ref_rule = entry.get("ref_rule")
     if not ref_rule:
-        return entry["source"]["github"].get("ref")
+        return entry.get("source", {}).get("github", {}).get("ref")
 
     if ref_rule == "release-ocp" and ocp_version:
         return f"release-{ocp_version}"
@@ -127,6 +127,9 @@ def main():
         if sub:
             entry["subscription_channel"] = sub["channel"]
             entry["components"] = sorted(sub["components"])
+        elif pkg:
+            entry.pop("subscription_channel", None)
+            entry["components"] = []
 
         new_ref = derive_ref(entry, sub["channel"] if sub else None, ocp_version)
         if new_ref:

@@ -83,7 +83,7 @@ def fetch_github_crd(owner, repo, ref, path):
         req.add_header("Authorization", f"token {token}")
 
     try:
-        resp = urllib.request.urlopen(req)
+        resp = urllib.request.urlopen(req, timeout=30)
     except urllib.error.HTTPError as e:
         url = f"https://github.com/{owner}/{repo}/tree/{ref}"
         raise RuntimeError(
@@ -114,7 +114,6 @@ def fetch_github_crd(owner, repo, ref, path):
             return [data]
     except (subprocess.CalledProcessError, FileNotFoundError):
         pass
-
     raise RuntimeError(
         f"Could not parse {raw_url}. Install yq (https://github.com/mikefarah/yq) "
         f"for YAML conversion, or provide JSON input."
@@ -188,10 +187,16 @@ def convert_schema(schema):
 
     # Auto-detected merge keys from CRD annotations
     if is_map_list and map_keys:
-        result["x-kubernetes-patch-merge-key"] = (
-            map_keys[0] if len(map_keys) == 1 else ",".join(map_keys)
-        )
-        result["x-kubernetes-patch-strategy"] = "merge"
+        if len(map_keys) == 1:
+            result["x-kubernetes-patch-merge-key"] = map_keys[0]
+            result["x-kubernetes-patch-strategy"] = "merge"
+        else:
+            print(
+                f"  WARNING: multi-key list-map {map_keys} cannot be represented "
+                f"with x-kubernetes-patch-merge-key (single key only), skipping. "
+                f"Add an explicit merge_keys override in crd-schema-config.json.",
+                file=sys.stderr,
+            )
 
     return result
 
@@ -295,6 +300,10 @@ def extract_crd_schema(crd, merge_keys=None, preferred_version=None):
         matching = [v for v in versions if v["name"] == preferred_version]
         if matching:
             versions = matching + [v for v in versions if v["name"] != preferred_version]
+    else:
+        storage = [v for v in versions if v.get("storage") and v.get("served", True)]
+        served = [v for v in versions if v.get("served", True) and v not in storage]
+        versions = storage + served
 
     # Use the first version with a schema
     for v in versions:
@@ -372,8 +381,12 @@ def process_config(config_path, component=None):
     components: list of component names this CRD belongs to (e.g. ["ran", "core"]).
                 Use --component to filter.
     """
-    with open(config_path) as f:
-        config = json.load(f)
+    try:
+        with open(config_path) as f:
+            config = json.load(f)
+    except FileNotFoundError:
+        print(f"ERROR: Config file not found: {config_path}", file=sys.stderr)
+        sys.exit(1)
 
     definitions = {}
 
