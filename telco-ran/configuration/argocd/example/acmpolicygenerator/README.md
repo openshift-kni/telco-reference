@@ -67,8 +67,153 @@ spec:
 ```
 
 # Patching CR objects containing lists
-Creating patches for CR objects containing lists is not currently supported by ACM the Generator Plugin. As a workwaround, the full content of final object must be contained in the patch. 
-The pgt2acmpg tool supports creating such a patch that contains the full content of the CR, see below.
+
+By default, ACM PolicyGenerator replaces entire lists when patching. To enable
+strategic merge (matching list elements by key and merging fields), a
+`schema.openapi` file must be referenced from the PolicyGenerator manifest:
+
+```yaml
+manifests:
+  - path: source-crs/ptp-operator/configuration/PtpConfigSlave.yaml
+    patches:
+      - spec:
+          profile:
+          - name: slave          # matched by merge key "name"
+            interface: ens5f0    # only this field is patched
+    openapi:
+      path: schema.openapi      # enables list merging
+```
+
+Without the `openapi` directive, the patch above would replace the entire
+`spec.profile` array. With it, PolicyGenerator matches the element where
+`name: slave` and merges only the `interface` field, preserving other fields
+and other array elements.
+
+## How the schema.openapi file works
+
+The `schema.openapi` file is a JSON document containing OpenAPI schema
+definitions with strategic merge patch directives:
+
+- `x-kubernetes-patch-strategy: merge` — marks an array as merge-capable
+- `x-kubernetes-patch-merge-key: <field>` — specifies which field in array
+  elements is used as the unique key for matching
+
+These are the same directives Kubernetes uses internally for strategic merge
+patch on built-in resources. PolicyGenerator reads them to determine how to
+merge list patches.
+
+## Atomic vs map-type lists
+
+Not all lists support merge-by-key. There are two types:
+
+- **Map-type lists** have elements with a natural unique key (e.g., PtpConfig
+  `spec.profile[]` where each element has a unique `name`). These support
+  strategic merge and have entries in `schema.openapi`.
+- **Atomic lists** are simple arrays (e.g., `spec.additionalKernelArgs[]` in
+  PerformanceProfile, or `spec.nicSelector.pfNames[]` in SriovNetworkNodePolicy).
+  These have no merge key — the entire list is always replaced. No schema
+  entry is needed for atomic lists.
+
+## Generating and updating the schema
+
+The `schema.openapi` files are **generated artifacts** produced by two scripts:
+
+1. `hack/generate-schema-config.py` — scans Subscription CRs in the repo to
+   auto-populate `hack/crd-schema-config.json` with CRD sources, channels,
+   components, and git refs. The `merge_keys` and `version` fields in the
+   config are **manually maintained** and preserved across regenerations.
+2. `hack/extract-schema.py` — downloads CRDs from GitHub, extracts minimal
+   merge directive schemas, and outputs `schema.openapi` files.
+
+To regenerate everything:
+
+```bash
+make generate-openapi-schemas
+```
+
+This first runs `generate-schema-config` (updating `hack/crd-schema-config.json`
+from Subscription CRs), then regenerates the `schema.openapi` files.
+
+The CRD sources use best-effort version mapping based on the Subscription
+channels in the reference configuration. Most CRDs do not include
+`x-kubernetes-list-type` annotations, so the merge keys are specified in the
+config based on domain knowledge of each CR's API.
+
+### Generating a schema for a single CRD
+
+You can use `hack/extract-schema.py` directly to generate a schema from a
+single CRD, without modifying the config file. This is useful for testing or
+for adding a one-off CRD to your deployment:
+
+```bash
+# From a running cluster
+oc get crd ptpconfigs.ptp.openshift.io -o json \
+  | ./hack/extract-schema.py --from-file -
+
+# From a local file (YAML requires yq to be installed)
+./hack/extract-schema.py --from-file /tmp/mycrd.json
+```
+
+This outputs the schema to stdout. Note that merge keys from CRD annotations
+are auto-detected, but most CRDs lack these annotations. To manually specify
+merge keys for a single CRD, add it to `hack/crd-schema-config.json` instead
+(see below).
+
+### Updating for your environment
+
+If your deployment uses CRs with lists not covered by the provided schema, you
+can extend it:
+
+1. Obtain the CRD for your CR (from a cluster or operator GitHub repo):
+   ```bash
+   oc get crd <name> -o json > /tmp/mycrd.json
+   ```
+2. Extract the schema and identify list fields that need merge keys
+3. Add the CRD to `hack/crd-schema-config.json` with appropriate merge keys
+4. Run `make generate-openapi-schemas` to regenerate
+
+The merge key for a list field is the field within each element that uniquely
+identifies it (typically `name`, but varies by API). Check the operator
+documentation or CRD source to determine the correct key.
+
+### Version updates
+
+When updating to a new OpenShift release, update the `ref` fields in
+`hack/crd-schema-config.json` to match the new operator release branches,
+then run `make generate-openapi-schemas`. The schema structure may change between
+operator versions.
+
+### Different operator versions across components
+
+If an operator uses different Subscription channels in `telco-ran` vs
+`telco-core` (e.g., `stable-6.4` in ran and `stable-6.5` in core), the
+generation script will warn about the conflict. To handle this, split the
+CRD entry in `hack/crd-schema-config.json` into two separate entries — one
+per component:
+
+```json
+{
+  "name": "ClusterLogForwarder",
+  "package_name": "cluster-logging",
+  "ref_rule": "release-channel",
+  "components": ["core"],
+  "subscription_channel": "stable-6.5",
+  "source": { "github": { "ref": "release-6.5", "...": "..." } },
+  "merge_keys": { "...": "..." }
+},
+{
+  "name": "ClusterLogForwarder",
+  "package_name": "cluster-logging",
+  "ref_rule": "release-channel",
+  "components": ["ran"],
+  "subscription_channel": "stable-6.4",
+  "source": { "github": { "ref": "release-6.4", "...": "..." } },
+  "merge_keys": { "...": "..." }
+}
+```
+
+Each entry is filtered by `--component` during schema generation, so they
+produce independent schemas for their respective components.
 
 # The ACM PolicyGenerator version of the DU reference configuration
 The ACM PolicyGenerator version of this reference configuration is functionally

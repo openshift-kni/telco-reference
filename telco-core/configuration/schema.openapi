@@ -22,6 +22,28 @@
         }
       ]
     },
+    "io.openshift.nodetopology.v1.NUMAResourcesOperator": {
+      "properties": {
+        "spec": {
+          "properties": {
+            "nodeGroups": {
+              "type": "array",
+              "x-kubernetes-patch-strategy": "merge",
+              "x-kubernetes-patch-merge-key": "poolName"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "nodetopology.openshift.io",
+          "kind": "NUMAResourcesOperator",
+          "version": "v1"
+        }
+      ]
+    },
     "io.openshift.observability.v1.ClusterLogForwarder": {
       "properties": {
         "spec": {
@@ -70,43 +92,6 @@
         {
           "group": "observability.openshift.io",
           "kind": "ClusterLogForwarder",
-          "version": "v1"
-        }
-      ]
-    },
-    "io.openshift.ptp.v1.PtpConfig": {
-      "properties": {
-        "spec": {
-          "properties": {
-            "profile": {
-              "type": "array",
-              "x-kubernetes-patch-strategy": "merge",
-              "x-kubernetes-patch-merge-key": "name"
-            },
-            "recommend": {
-              "type": "array",
-              "x-kubernetes-patch-strategy": "merge",
-              "x-kubernetes-patch-merge-key": "profile"
-            }
-          },
-          "type": "object"
-        },
-        "status": {
-          "properties": {
-            "matchList": {
-              "type": "array",
-              "x-kubernetes-patch-strategy": "merge",
-              "x-kubernetes-patch-merge-key": "nodeName"
-            }
-          },
-          "type": "object"
-        }
-      },
-      "type": "object",
-      "x-kubernetes-group-version-kind": [
-        {
-          "group": "ptp.openshift.io",
-          "kind": "PtpConfig",
           "version": "v1"
         }
       ]
