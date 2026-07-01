@@ -3,7 +3,6 @@
 This folder contains a full list of CRs for ZTP RAN solution.
 
 - ./ contains a set of directories which contain the configruation CRs to be deployed via the ACM policies
-- ./extra-manifest contains the MachineConfig CRs to be applied during the cluster installation
 - ./validatorCRs contains the validation CRs to be deployed via the ACM policies to validate some configuration
 
 ### Waves

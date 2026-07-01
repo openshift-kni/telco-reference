@@ -7,13 +7,13 @@ subdirectory follows the following conventions:
 
 - The name of the directory corresponds to the rendered filename, such that a
   directory called `03-sctp-machine-config` will be rendered into
-  `../source-crs/extra-manifest/03-sctp-machine-config-{master|worker}.yaml`
+  `../extra-manifests/03-sctp-machine-config-{master|worker}.yaml`
 - The directory must contain a `build.sh` which is run with $MCPROLE set to the
   expected MCP role to produce.  This script produces to stdout the rendered
   yaml identically every time it is called, provided that the input files
   remain the same (it must not include any date stamps or git commit hashes).
   This is used both to generate the rendered
-  `../source-crs/extra-manifest/*.yaml` and to do an integrity check as part of
+  `../extra-manifests/*.yaml` and to do an integrity check as part of
   the ci-job target which ensures the rendered yaml stays in-sync with the
   source content.
 - The directory may contain a `test.sh` which can additionally perform any unit
@@ -26,7 +26,7 @@ their own subdirectory.
 
 - Edit or create the appropriate directory and source components, with a
   `build.sh` (and `test.sh` as needed)
-- Run `make` to render the `../source-crs/extra-manifest/*.yaml`
+- Run `make` to render the `../extra-manifests/*.yaml`
 - Add the rendered file with the source changes in a single git commit
 
 Github CI 'ci-job' will fail if you don't commit the source changes and the

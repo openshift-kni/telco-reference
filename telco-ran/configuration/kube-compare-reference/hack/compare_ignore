@@ -67,9 +67,29 @@ machine-config/MachineConfigSctp.yaml
 machine-config/RebootMachineConfig.yaml
 validatorCRs/rebootMachineConfigPoolValidator.yaml
 
-# Not true CRs, but special site-config templates
-extra-manifest/disk-encryption.yaml.tmpl
-extra-manifest/image-registry-partition-mc.yaml.tmpl
+# Install-time manifests (canonical copy under telco-ran/install/); aligned via
+# telco-ran/configuration/compare.sh --check-extra-manifests
+01-container-mount-ns-and-kubelet-conf-master.yaml
+01-container-mount-ns-and-kubelet-conf-worker.yaml
+01-disk-encryption-pcr-rebind-master.yaml
+01-disk-encryption-pcr-rebind-worker.yaml
+03-sctp-machine-config-master.yaml
+03-sctp-machine-config-worker.yaml
+06-kdump-master.yaml
+06-kdump-worker.yaml
+07-sriov-related-kernel-args-master.yaml
+07-sriov-related-kernel-args-worker.yaml
+08-set-rcu-normal-master.yaml
+08-set-rcu-normal-worker.yaml
+09-openshift-marketplace-ns.yaml
+10-rename-gnrd-interfaces-master.yaml
+10-rename-gnrd-interfaces-worker.yaml
+99-sync-time-once-master.yaml
+99-sync-time-once-worker.yaml
+enable-crun-master.yaml
+enable-crun-worker.yaml
+disk-encryption.yaml.tmpl
+image-registry-partition-mc.yaml.tmpl
 
 # Exists in the reference only, to enforce version compatibility
 version-check/ClusterVersionOperator.yaml

@@ -9,7 +9,7 @@ ignore: |
   telco-hub/configuration/reference-crs-kube-compare/
   telco-ran/configuration/kube-compare-reference/
   # Generated MachineConfig CRs with base64 ignition data exceeding line limits
-  telco-ran/configuration/source-crs/extra-manifest/
+  telco-ran/install/extra-manifests/
   # Generated PolicyGenTemplate output with mixed indentation from the toolchain
   telco-ran/configuration/argocd/example/policygentemplates/group-du-clo5-cleanup-policy.yaml
 
