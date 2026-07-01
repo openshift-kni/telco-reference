@@ -91,7 +91,6 @@ parts:
       - name: optional-networking
         anyOf:
           - path: optional/networking/networkAttachmentDefinition.yaml
-          - path: optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
           - path: required/networking/metallb/community.yaml
           - path: optional/networking/nodeNetworkConfigurationPolicy.yaml
       - name: networking-firewall
@@ -159,17 +158,17 @@ parts:
   - name: other
     description: |-
       https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-core-ref-design-specs#node-configuration-crs
+
+      Reference MachineConfig CRs are validated from telco-core/install/extra-manifests
+      via compare.sh --check-extra-manifests, not from reference-crs.
     components:
       - name: other
         anyOf:
-          - path: optional/other/control-plane-load-kernel-modules.yaml
           - path: optional/other/monitoring-config-cm.yaml
             config:
               perField:
                 - pathToKey: data."config.yaml"
                   inlineDiffFunc: capturegroups
-          - path: optional/other/worker-load-kernel-modules.yaml
-          - path: optional/other/sctp_module_mc.yaml
       - name: precache
         anyOf:
           - path: optional/other/precache/controlplane-olm-pinned-images.yaml
@@ -198,14 +197,6 @@ parts:
       - name: other
         anyOf:
           - path: optional/tuning/control-plane-system-reserved.yaml
-      - name: kdump-configuration
-        allOf:
-          - path: optional/other/kdump-master.yaml
-          - path: optional/other/kdump-worker.yaml
-      - name: mount-namespace-configuration
-        allOf:
-          - path: optional/other/mount_namespace_config_master.yaml
-          - path: optional/other/mount_namespace_config_worker.yaml
   - name: optional-cert-manager
     description: |-
       Cert-manager operator for automated certificate management
