@@ -1,0 +1,49 @@
+# required
+# count: 1
+---
+apiVersion: performance.openshift.io/v2
+kind: PerformanceProfile
+metadata:
+  name: control-plane-profile
+  annotations:
+    # systemReserved: when used, it should be tailored for each environment.
+    kubeletconfig.experimental: |
+      {
+       "systemReserved":{"memory":"11Gi"}
+      }
+spec:
+  # Optional kernel arguments:
+  #   To enable acpi_idle CPUIdle driver
+  #     - intel_idle.max_cstate=0
+  additionalKernelArgs:
+  - module_blacklist=irdma
+  cpu:
+    # siblings: (0,36), (1,37)...
+    # we want to reserve 8 cores (16 CPUs with HT)
+    #
+    # no CPU left behind! all-cpus == isolated + reserved
+    isolated: 8-35,44-71
+    reserved: 0-7,36-43
+  # default value of globallyDisableIrqLoadBalancing is false
+  globallyDisableIrqLoadBalancing: false
+  # Hugepages may be configured as needed when using schedulable control planes
+  #hugepages:
+  #  defaultHugepagesSize: 1G
+  #  pages:
+  #  - count: 64
+  #    size: 1G
+  machineConfigPoolSelector:
+    pools.operator.machineconfiguration.openshift.io/master: ''
+  nodeSelector:
+    node-role.kubernetes.io/master: ""
+  workloadHints:
+    realTime: false
+    highPowerConsumption: false
+    perPodPowerManagement: true
+  realTimeKernel:
+    enabled: false
+  numa:
+    # All guaranteed QoS containers get resources from a single NUMA node
+    topologyPolicy: "single-numa-node"
+  net:
+    userLevelNetworking: true

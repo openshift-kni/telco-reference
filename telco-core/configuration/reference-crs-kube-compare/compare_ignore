@@ -38,3 +38,6 @@ custom-manifests/subscription-validator.yaml
 
 # This is an object-template-raw used only to validate pre-caching state
 custom-manifests/precache-validator.yaml
+
+# Control plane PerformanceProfile is merged into the main PerformanceProfile.yaml template
+required/performance/PerformanceProfile-control-plane.yaml
