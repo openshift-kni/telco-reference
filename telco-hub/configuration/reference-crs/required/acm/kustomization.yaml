@@ -12,7 +12,6 @@ resources:
   - acmPerfSearch.yaml
   - acmProvisioning.yaml
   - observabilityNS.yaml
-  - observabilityOBC.yaml
   - observabilityRoutePolicy.yaml
   - observabilityRoutePlacement.yaml
   - observabilityRoutePlacementBinding.yaml
