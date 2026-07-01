@@ -19,7 +19,7 @@ spec:
         spec:
           minimumDuration: {{ .spec.minimumDuration | default "720h" }}
           namespaceSelector:
-            include:{{- template "unorderedListAllowExtra" (list .spec.namespaceSelector.include (list "openshift-ingress" "openshift-config") ) }}
+            include:{{- template "unorderedListAllowExtra" (list .spec.namespaceSelector.include (list "openshift-ingress" "openshift-config" "cert-manager") ) }}
           remediationAction: inform
           severity: low
   remediationAction: inform

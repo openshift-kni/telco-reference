@@ -32,6 +32,10 @@ spec:
       # ../policygentemplates/example-multinode-site.yaml will apply to all clusters with 'sites: "example-multinode"'
       # Normally this should match or contain the cluster name so it only applies to a single cluster
       sites: "example-multinode"
+  # Uncomment to apply KlusterletConfig for cert-manager hub-spoke trust (optional)
+  # extraAnnotations:
+  #   ManagedCluster:
+  #     agent.open-cluster-management.io/klusterlet-config: "cert-manager-ca-config"
   clusterNetwork:
     - cidr: 1001:1::/48
       hostPrefix: 64
