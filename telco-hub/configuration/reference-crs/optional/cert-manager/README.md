@@ -107,23 +107,47 @@ When cert-manager issues certificates for the hub's API server and ingress, mana
 - `certManagerHubCAConfigMap.yaml` — ConfigMap in `multicluster-engine` namespace containing the cert-manager root CA, labeled for the import controller
 - `certManagerKlusterletConfig.yaml` — KlusterletConfig that switches spoke CA verification from auto-detected leaf cert to the custom root CA bundle
 
-After deploying these resources, annotate each managed cluster:
+### Why this is needed
+
+By default, ACM embeds the hub's leaf serving cert (`CA:FALSE`) in the klusterlet bootstrap kubeconfig. This means every cert rotation requires a ManifestWork update, and a full CA replacement breaks all spokes immediately. The `KlusterletConfig` with `UseCustomCABundles` replaces the leaf cert with the root CA (`CA:TRUE`), so any certificate signed by that root — current or rotated — is automatically trusted.
+
+### Applying the KlusterletConfig to managed clusters
+
+#### ZTP deployment (recommended)
+
+For fully automated ZTP deployments, configure the ManagedCluster annotation via ClusterInstance `extraAnnotations`:
+
+```yaml
+apiVersion: siteconfig.open-cluster-management.io/v1alpha1
+kind: ClusterInstance
+metadata:
+  name: spoke-cluster-name
+  namespace: spoke-cluster-namespace
+spec:
+  clusterName: spoke-cluster-name
+  extraAnnotations:
+    ManagedCluster:
+      agent.open-cluster-management.io/klusterlet-config: "cert-manager-ca-config"
+  # ... rest of ClusterInstance spec
+```
+
+The siteconfig operator automatically applies annotations from `extraAnnotations.ManagedCluster` to the generated ManagedCluster resource, eliminating manual post-deployment steps.
+
+#### Manual deployment
+
+For manual cluster imports or retrofitting existing clusters, annotate the managed cluster after deploying the hub-spoke trust files:
 
 ```bash
 oc annotate managedcluster <spoke-name> \
   agent.open-cluster-management.io/klusterlet-config=cert-manager-ca-config
 ```
 
-### Why this is needed
-
-By default, ACM embeds the hub's leaf serving cert (`CA:FALSE`) in the klusterlet bootstrap kubeconfig. This means every cert rotation requires a ManifestWork update, and a full CA replacement breaks all spokes immediately. The `KlusterletConfig` with `UseCustomCABundles` replaces the leaf cert with the root CA (`CA:TRUE`), so any certificate signed by that root — current or rotated — is automatically trusted.
-
 ### Greenfield (cert-manager before spoke deployment)
 
 1. Deploy cert-manager on the hub, create the CA, issue hub API/ingress certs
 2. Deploy `certManagerHubCAConfigMap.yaml` and `certManagerKlusterletConfig.yaml`
-3. Annotate the managed cluster with `agent.open-cluster-management.io/klusterlet-config=cert-manager-ca-config` as shown above
-4. Deploy spokes via ZTP — they register with the root CA in their trust store
+3. Ensure the KlusterletConfig annotation is configured on managed clusters (see [Applying the KlusterletConfig](#applying-the-klusterletconfig-to-managed-clusters) above)
+4. Deploy spokes — they register with the root CA in their trust store
 5. Cert rotations are seamless with no intervention required
 
 ### Brownfield (cert-manager on existing hub with connected spokes)
@@ -133,7 +157,7 @@ The order matters — distribute the CA **before** replacing the hub certs:
 1. Install cert-manager on the hub, create the CA — but **do not apply certs to the APIServer/IngressController yet**
 2. Deploy `certManagerHubCAConfigMap.yaml` with the root CA PEM
 3. Deploy `certManagerKlusterletConfig.yaml`
-4. Annotate all managed clusters with `agent.open-cluster-management.io/klusterlet-config=cert-manager-ca-config` as shown above
+4. Ensure the KlusterletConfig annotation is configured on all managed clusters (see [Applying the KlusterletConfig](#applying-the-klusterletconfig-to-managed-clusters) above)
 5. Wait for the import controller to regenerate bootstrap kubeconfigs (check logs for `create a new bootstrap kubeconfig`)
 6. **Now** apply the cert-manager certs to the APIServer and IngressController
 7. Spokes stay connected because they already trust the root CA
