@@ -1,12 +1,50 @@
 ---
-apiVersion: "observability.openshift.io/v1"
+apiVersion: observability.openshift.io/v1
 kind: ClusterLogForwarder
 metadata:
   name: instance
   namespace: openshift-logging
 spec:
-  # outputs: $outputs
-  # pipelines: $pipelines
+  outputs:
+  # Local Loki storage for troubleshooting
+  - name: loki-local
+    type: lokiStack
+    lokiStack:
+      target:
+        name: logging-loki
+        namespace: openshift-logging
+      authentication:
+        token:
+          from: serviceAccount
+    tls:
+      ca:
+        key: service-ca.crt
+        configMapName: openshift-service-ca.crt
+
+  # External log aggregation (OSS/BSS systems)
+  # Uncomment and configure for external forwarding
+  # - name: external-logs
+  #   type: kafka  # or splunk, syslog, etc.
+  #   kafka:
+  #     url: tcp://10.11.12.13:9092/test
+
+  pipelines:
+  # Infrastructure and audit logs to local Loki
+  - name: infra-audit-to-local-loki
+    inputRefs:
+    - audit
+    - infrastructure
+    outputRefs:
+    - loki-local
+
+  # Optional: Forward to external system (uncomment if needed)
+  # - name: infra-audit-to-external
+  #   inputRefs:
+  #   - audit
+  #   - infrastructure
+  #   outputRefs:
+  #   - external-logs
+
   serviceAccount:
     name: collector
 status:
@@ -14,35 +52,3 @@ status:
   conditions:
   - type: observability.openshift.io/Valid
     status: "True"
-
-# apiVersion: "observability.openshift.io/v1"
-# kind: ClusterLogForwarder
-# metadata:
-#   name: instance
-#   namespace: openshift-logging
-#  spec:
-#    outputs:
-#    - type: "kafka"
-#      name: kafka-open
-#      # below url is an example
-#      kafka:
-#        url: tcp://10.11.12.13:9092/test
-#    filters:
-#    - name: test-labels
-#      type: openshiftLabels
-#      openshiftLabels:
-#        label1: test1
-#        label2: test2
-#        label3: test3
-#        label4: test4
-#    pipelines:
-#    - name: all-to-default
-#      inputRefs:
-#      - audit
-#      - infrastructure
-#      filterRefs:
-#      - test-labels
-#      outputRefs:
-#      - kafka-open
-#    serviceAccount:
-#      name: collector
