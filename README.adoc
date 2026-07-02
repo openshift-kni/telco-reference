@@ -31,21 +31,18 @@ Make sure to pick the RDS reference CRs from the branch that aligns with the TNC
 ====
 
 * Clone the TNC repository/branch
-[source,bash]
-====
+```bash
 git clone https://github.com/openshift-kni/telco-reference.git -b tnc-6.1
-====
+```
 
 * Get the RDS reference CRs from the RDS branch that aligns with the TNC branch
-[source,bash]
-====
+```bash
 cd telco-reference
 git clone https://github.com/openshift-kni/telco-reference.git -b release-4.20
-====
+```
 
 * Copy the reference CRs and baseline policies
-[source,bash]
-====
+```bash
 # For TNC-CWL
 cp -R telco-reference/telco-core/configuration/reference-crs tnc-reference/tnc-cwl/configuration/reference-crs
 cp telco-reference/telco-core/configuration/core-baseline.yaml tnc-reference/tnc-cwl/configuration/core-baseline.yaml.rds
@@ -81,7 +78,7 @@ cp -R telco-reference/telco-core/configuration/reference-crs tnc-reference/tnc-a
 cp telco-reference/telco-core/configuration/core-finish.yaml tnc-reference/tnc-aiwl/configuration/
 cp telco-reference/telco-core/install/custom-manifests/* tnc-reference/tnc-aiwl/install/custom-manifests/
 cp telco-reference/telco-core/install/extra-manifests/* tnc-reference/tnc-aiwl/install/extra-manifests/
-====
+```
 
 [NOTE]
 ====
@@ -89,8 +86,7 @@ The baseline RDS policies (`core-baseline.yaml` and `core-overlay.yaml`) that ar
 ====
 
 * Delete the RDS source files
-[source,bash]
-====
+```bash
 rm-rf telco-reference
-====
+```
 
