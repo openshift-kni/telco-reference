@@ -1,0 +1,28 @@
+apiVersion: keda.sh/v1alpha1
+kind: KedaController
+metadata:
+  name: keda
+  namespace: openshift-keda
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "12"
+spec:
+  watchNamespace: '' 
+  operator:
+    logLevel: info 
+    logEncoder: console 
+  metricsServer:
+    logLevel: '0' 
+    auditConfig: 
+      logFormat: "json"
+      logOutputVolumeClaim: "pvc-audit-log"
+      policy:
+        rules:
+        - level: Metadata
+        omitStages: ["RequestReceived"]
+        omitManagedFields: false
+      lifetime:
+        maxAge: "2"
+        maxBackup: "1"
+        maxSize: "50"
+  serviceAccount: {}
+

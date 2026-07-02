@@ -1,0 +1,29 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: mgmt-optional-tnc61
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      mgmt: "true"
+      tnc-ver: "tnc6.1"
+      optional: "true"
+  remediationAction: "inform"
+policies:
+  - name: optional-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "20"
+    manifests:
+# AAP
+      - path: other-crs/optional/AAP/AapNS.yaml
+      - path: other-crs/optional/AAP/AapOperatorGroup.yaml
+      - path: other-crs/optional/AAP/AapSubscription.yaml
+      - path: other-crs/optional/AAP/AnsibleAutomationPlatform.yaml
+# ACS
+      - path: other-crs/optional/ACS/AcsNS.yaml
+      - path: other-crs/optional/ACS/AcsOperGroup.yaml
+      - path: other-crs/optional/ACS/AcsSubscription.yaml
+      - path: other-crs/optional/ACS/central.yaml
+      - path: other-crs/optional/ACS/secured.yaml

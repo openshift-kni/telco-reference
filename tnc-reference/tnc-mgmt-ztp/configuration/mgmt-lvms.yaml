@@ -1,0 +1,25 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: mgmt-lvms-tnc61
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      mgmt: "true"
+      tnc-ver: "tnc6.1"
+      lvms: "true"
+  remediationAction: "inform"
+policies:
+  - name: lvms-storage-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "5"
+    manifests:
+      - path: other-crs/optional/lvms/lvmNS.yaml
+      - path: other-crs/optional/lvms/lvmOperGroup.yaml
+      - path: other-crs/optional/lvms/lvmSubscription.yaml
+        patches:  
+          - spec:
+              installPlanApproval: Manual
+      - path: other-crs/optional/lvms/lvmCluster.yaml

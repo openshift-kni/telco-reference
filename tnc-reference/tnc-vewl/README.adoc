@@ -1,0 +1,4 @@
+= TNC Virtualization Enabled Workload Cluster
+
+This repository contains reference configuration CRs related to the TNC Virtualization Enabled Workload (VEWL) cluster sub-architecture.
+

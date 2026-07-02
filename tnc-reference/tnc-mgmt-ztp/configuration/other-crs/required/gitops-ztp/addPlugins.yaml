@@ -1,0 +1,70 @@
+---
+apiVersion: argoproj.io/v1beta1
+kind: ArgoCD
+metadata:
+  name: openshift-gitops
+  namespace: openshift-gitops
+spec:
+  controller:
+    resources:
+      limits:
+        cpu: "16"
+        memory: 32Gi
+      requests:
+        cpu: "1"
+        memory: 2Gi
+  kustomizeBuildOptions: "--enable-alpha-plugins"
+  # This is an optional workaround to override the health check for Policies.
+  # With this configuration, ArgoCD will not report the Application as unhealthy if the Policy is NonCompliant.
+  # resourceHealthChecks:
+  #   - check: |
+  #       hs = {}
+  #       hs.status = "Healthy"
+  #       hs.message = "Health check overridden"
+  #       return hs
+  #     group: policy.open-cluster-management.io
+  #     kind: Policy
+  repo:
+    resources:
+      limits:
+        cpu: "8"
+        memory: "16Gi"
+      requests:
+        cpu: "1"
+        memory: "2Gi"
+    volumes:
+      - name: "kustomize"
+        emptyDir: {}
+    initContainers:
+      - name: "kustomize-plugin"
+        command:
+          - "/exportkustomize.sh"
+        args:
+          - "/.config"
+        imagePullPolicy: "Always"
+        volumeMounts:
+          - name: "kustomize"
+            mountPath: "/.config"
+        terminationMessagePolicy: "File"
+        terminationMessagePath: "/dev/termination-log"
+        image: "registry.redhat.io/openshift4/ztp-site-generate-rhel8@sha256:6dbbde734bef29fdbbcc1b24c9dad5e9dd74144f12725c67b773e12792fb3aaa"
+      - name: "policy-generator-install"
+        image: "registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9@sha256:2c8f89fa9958f0422c6ce6a1acf6e6343967c78d0966937fca19e27e52e7a428"
+        imagePullPolicy: "Always"
+        volumeMounts:
+          - name: "kustomize"
+            mountPath: "/.config"
+        args:
+          - "-c"
+          - "mkdir -p /.config/kustomize/plugin/policy.open-cluster-management.io/v1/policygenerator && cp /policy-generator/PolicyGenerator-not-fips-compliant /.config/kustomize/plugin/policy.open-cluster-management.io/v1/policygenerator/PolicyGenerator"
+        command:
+          - "/bin/bash"
+    volumeMounts:
+      - name: "kustomize"
+        mountPath: "/.config"
+    env:
+      - name: "ARGOCD_EXEC_TIMEOUT"
+        value: "360s"
+      - name: "KUSTOMIZE_PLUGIN_HOME"
+        value: "/.config/kustomize/plugin"
+

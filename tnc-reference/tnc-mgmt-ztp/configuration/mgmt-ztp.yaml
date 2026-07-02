@@ -1,0 +1,248 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: mgmt-ztp-tnc61
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      mgmt: "true"
+      tnc-ver: "tnc6.1"
+  remediationAction: "inform"
+policies:
+  - name: ztp-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "20"
+    manifests:
+    - path: other-crs/required/reference/acm/acmNS.yaml
+    - path: other-crs/required/reference/acm/acmOperGroup.yaml
+    - path: other-crs/required/reference/acm/acmSubscription.yaml
+      patches:
+        - status:
+            state: AtLatestKnown
+    - path: other-crs/required/reference/acm/acmMCH.yaml
+    - path: other-crs/required/reference/acm/acmMCE.yaml
+    - path: other-crs/required/reference/acm/acmAgentServiceConfig.yaml
+      patches: 
+        - metadata:
+            annotations:
+              unsupported.agent-install.openshift.io/assisted-service-allow-unrestricted-image-pulls: true
+          spec:
+            databaseStorage:
+              storageClassName: ocs-storagecluster-ceph-rbd
+#              storageClassName: lvms-vg10
+            filesystemStorage:
+              storageClassName: ocs-storagecluster-ceph-rbd
+#              storageClassName: lvms-vg10
+            imageStorage:
+              storageClassName: ocs-storagecluster-ceph-rbd
+#              storageClassName: lvms-vg10
+            osImages:
+            - cpuArchitecture: x86_64
+              openshiftVersion: "4.18"
+              rootFSUrl: http://192.0.2.4/rhcos-live-rootfs.x86_64.img
+              url: http://192.0.2.4/rhcos-live.x86_64.iso
+              version: 418.94.202501221327-0
+            - cpuArchitecture: x86_64
+              openshiftVersion: "4.20"
+              rootFSUrl: http://192.0.2.4/rhcos-4.20.13-x86_64-live-rootfs.x86_64.img
+              url: http://192.0.2.4/rhcos-4.20.13-x86_64-live-iso.x86_64.iso
+              version: 9.6.20260112-0
+
+    - path: other-crs/required/reference/acm/acmMirrorRegistryCM.yaml
+      patches:
+        - data:
+            ca-bundle.crt: |
+              -----BEGIN CERTIFICATE-----
+              REDACTED
+              -----END CERTIFICATE-----
+              -----BEGIN CERTIFICATE-----
+              REDACTED
+              -----END CERTIFICATE-----   
+      
+            registries.conf: |
+              unqualified-search-registries = ["registry.access.redhat.com", "docker.io"]
+              [[registry]]
+                prefix = ""
+                location = "quay.io/openshift-release-dev/ocp-release"
+          
+                [[registry.mirror]]
+                  location = "registry.bastion.example.com:9500/ocp/ocp4/openshift/release-images"
+                  pull-from-mirror = "digest-only"
+          
+              [[registry]]
+                prefix = ""
+                location = "quay.io/openshift-release-dev/ocp-v4.0-art-dev"
+          
+                [[registry.mirror]]
+                  location = "registry.bastion.example.com:9500/ocp/ocp4/openshift/release"
+                  pull-from-mirror = "digest-only"
+          
+              [[registry]]
+                prefix = ""
+                location = "registry.redhat.io/multicluster-engine"
+          
+                [[registry.mirror]]
+                  location = "registry.bastion.example.com:9500/ocp/ocp4/multicluster-engine"
+                  pull-from-mirror = "digest-only"
+          
+              [[registry]]
+                prefix = ""
+                location = "registry.redhat.io/openshift4"
+          
+                [[registry.mirror]]
+                  location = "registry.bastion.example.com:9500/ocp/ocp4/openshift4"
+                  pull-from-mirror = "digest-only"
+          
+              [[registry]]
+                prefix = ""
+                location = "registry.redhat.io/rhacm2"
+          
+                [[registry.mirror]]
+                  location = "registry.bastion.example.com:9500/ocp/ocp4/rhacm2"
+                  pull-from-mirror = "digest-only"
+          
+    - path: other-crs/required/reference/acm/acmPerfSearch.yaml
+    - path: other-crs/required/reference/acm/acmProvisioning.yaml
+    - path: other-crs/required/reference/acm/observabilityNS.yaml
+    - path: other-crs/required/reference/acm/observabilityOBC.yaml
+    - path: other-crs/required/ACM/create-thanos-secret.yaml
+      patches: 
+        - stringData:
+            thanos.yaml: |
+              type: s3
+              config:
+                bucket: '{{fromConfigMap "open-cluster-management-observability" "observability-obc" "BUCKET_NAME"}}'
+                endpoint: '{{fromConfigMap "open-cluster-management-observability" "observability-obc" "BUCKET_HOST"}}'
+                insecure: true
+                access_key: '{{fromSecret "open-cluster-management-observability" "observability-obc" "AWS_ACCESS_KEY_ID" | base64dec}}'
+                secret_key: '{{fromSecret "open-cluster-management-observability" "observability-obc" "AWS_SECRET_ACCESS_KEY" | base64dec}}'
+    - path: other-crs/required/reference/acm/observabilityMCO.yaml
+      patches:
+        - spec:
+            storageConfig:
+              storageClass: ocs-storagecluster-cephfs
+
+  - name: argo-talm-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "25"
+    manifests:
+    - path: other-crs/required/reference/talm/talmSubscription.yaml
+      patches:
+        - spec:
+            installPlanApproval: Manual
+          status:
+            state: AtLatestKnown
+
+    - path: other-crs/required/reference/gitops/gitopsNS.yaml
+    - path: other-crs/required/reference/gitops/gitopsOperatorGroup.yaml
+    - path: other-crs/required/reference/gitops/gitopsSubscription.yaml
+      patches:
+        - spec:
+            installPlanApproval: Manual
+          status:
+            state: AtLatestKnown
+
+  - name: gitops-config-tnc61
+    policyAnnotations:
+        ran.openshift.io/ztp-deploy-wave: "30"
+    manifests:
+       #
+       # Change SHA digest for 2 images in the source CR
+       #
+    - path: other-crs/required/gitops-ztp/addPlugins.yaml
+      patches:
+        - spec:
+            repo:
+              initContainers:
+                - name: "kustomize-plugin"
+                  command:
+                    - "/exportkustomize.sh"
+                  args:
+                    - "/.config"
+                  imagePullPolicy: "Always"
+                  volumeMounts:
+                    - name: "kustomize"
+                      mountPath: "/.config"
+                  terminationMessagePolicy: "File"
+                  terminationMessagePath: "/dev/termination-log"
+                  image: "registry.redhat.io/openshift4/ztp-site-generate-rhel8@sha256:6dbbde734bef29fdbbcc1b24c9dad5e9dd74144f12725c67b773e12792fb3aaa"
+                - name: "policy-generator-install"
+                  image: "registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9@sha256:2c8f89fa9958f0422c6ce6a1acf6e6343967c78d0966937fca19e27e52e7a428"
+                  imagePullPolicy: "Always"
+                  volumeMounts:
+                    - name: "kustomize"
+                      mountPath: "/.config"
+                  args:
+                    - "-c"
+                    - "mkdir -p /.config/kustomize/plugin/policy.open-cluster-management.io/v1/policygenerator && cp /policy-generator/PolicyGenerator-not-fips-compliant /.config/kustomize/plugin/policy.open-cluster-management.io/v1/policygenerator/PolicyGenerator"
+                  command:
+                    - "/bin/bash"
+
+    - path: other-crs/required/reference/gitops/ztp-installation/app-project.yaml #cluster-app-project
+      patches:
+        - spec:
+            namespaceResourceWhitelist:
+              - group: ''
+                kind: ConfigMap
+              - group: ''
+                kind: Namespace
+              - group: ''
+                kind: Secret
+              - group: 'agent-install.openshift.io'
+                kind: InfraEnv
+              - group: 'agent-install.openshift.io'
+                kind: NMStateConfig
+              - group: 'extensions.hive.openshift.io'
+                kind: AgentClusterInstall
+              - group: 'extensions.hive.openshift.io'
+                kind: ImageClusterInstall
+              - group: 'hive.openshift.io'
+                kind: ClusterDeployment
+              - group: 'metal3.io'
+                kind: BareMetalHost
+              - group: 'metal3.io'
+                kind: HostFirmwareSettings
+              - group: 'metal3.io'
+                kind: DataImage
+              - group: 'agent.open-cluster-management.io'
+                kind: KlusterletAddonConfig
+              - group: 'cluster.open-cluster-management.io'
+                kind: ManagedCluster
+              - group: 'ran.openshift.io'
+                kind: SiteConfig
+              - group: 'siteconfig.open-cluster-management.io'
+                kind: ClusterInstance
+              - group: 'external-secrets.io'
+                kind: SecretStore
+              - group: 'external-secrets.io'
+                kind: ExternalSecret
+    - path: other-crs/required/reference/gitops/ztp-installation/policies-app-project.yaml
+    - path: other-crs/required/reference/gitops/ztp-installation/gitops-policy-rolebinding.yaml
+    - path: other-crs/required/reference/gitops/ztp-installation/gitops-cluster-rolebinding.yaml
+    - path: other-crs/required/gitops-ztp/clusters-app-ns.yaml
+    - path: other-crs/required/gitops-ztp/clusters-app.yaml
+      patches: 
+        - spec: 
+            source:
+              path: "tnc-reference/tnc-cwl/install"  #  ==> path for spoke clusters
+              repoURL: "https://github.com/openshift-kni/telco-reference.git" 
+              targetRevision: "tnc6.1-release-4.20"
+    - path: other-crs/required/gitops-ztp/policies-app-ns.yaml
+    - path: other-crs/required/gitops-ztp/policies-app.yaml
+      patches: 
+        - spec: 
+            source:
+              path: "tnc-reference/tnc-cwl/configuration"   #  ==> path for spoke clusters
+              repoURL: "https://github.com/openshift-kni/telco-reference.git" 
+              targetRevision: "tnc6.1-release-4.20"
+    - path: other-crs/required/gitops-ztp/ztp-repo-workload-secret.yaml
+      patches:
+        - stringData:
+            url: https://github.com/openshift-kni/telco-reference.git
+            insecure: "false"
+            username: <REDACTED>
+            password: <REDACTED>
+            forceHttpBasicAuth: "true"
+

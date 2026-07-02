@@ -1,0 +1,137 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: cwl-additions-tnc61
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      cwl: "true"
+      tnc-ver: "tnc6.1"
+  remediationAction: "inform"
+policies:
+  - name: cwl-cluster-config-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "1" 
+    manifests:
+      - path: reference-crs/required/other/catalog-source.yaml
+        patches:
+        - metadata:
+            name: certified-operators-disconnected
+          spec:
+            displayName:  Certified Disconnected Operators Catalog
+            image: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/redhat/certified-operator-index:v4.20'
+
+  # Operators added by TNC on top of RDS baseline
+  - name: cwl-operator-subs-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "5"
+    manifests:
+#COO - Pre-requisite for logging UI
+      - path: other-crs/optional/COO/CooSubscription.yaml 
+#LOKI
+      - path: other-crs/optional/LOG/LOKI/LokiNS.yaml
+      - path: other-crs/optional/LOG/LOKI/LokiOperGroup.yaml
+      - path: other-crs/optional/LOG/LOKI/LokiSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+            channel: stable-6.2
+#ESO
+      - path: other-crs/required/vault/ESO/ESONS.yaml
+      - path: other-crs/required/vault/ESO/ESOOperGroup.yaml
+      - path: other-crs/required/vault/ESO/ESOSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+#CMA
+      - path: other-crs/optional/CMA/CmaNS.yaml
+      - path: other-crs/optional/CMA/CmaOperGroup.yaml
+      - path: other-crs/optional/CMA/CmaSubscription.yaml
+        patches:
+          - spec:
+              installPlanApproval: Manual
+#SPO
+      - path: other-crs/optional/SPO/SpoNS.yaml
+      - path: other-crs/optional/SPO/SpoOperGroup.yaml
+      - path: other-crs/optional/SPO/SpoSubscription.yaml
+        patches:
+          - spec:
+              installPlanApproval: Manual
+#SNR
+      - path: other-crs/optional/AVAIL/NS.yaml
+      - path: other-crs/optional/AVAIL/OperGroup.yaml
+      - path: other-crs/optional/AVAIL/SelfNodeSubscription.yaml
+        patches:
+          - spec:
+              installPlanApproval: Manual
+#NHC
+      - path: other-crs/optional/AVAIL/NodeHealthSubscription.yaml
+        patches:
+          - spec:
+              installPlanApproval: Manual
+#TEMPO
+      - path: other-crs/optional/TEMPO/TempoNS.yaml
+      - path: other-crs/optional/TEMPO/TempoOperGroup.yaml
+      - path: other-crs/optional/TEMPO/TempoSubscription.yaml
+        patches:
+          - spec:
+              installPlanApproval: Manual
+
+  - name: cwl-operator-config-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "9"
+    manifests:
+### Configure ESO
+      - path: other-crs/required/vault/ESO/ExternalSecretConfig.yaml
+        #Following files are used to create the token needed for the 
+        #authentication of the cluster to the Vault server
+      - path: other-crs/required/vault/VaultNSfortokenreview.yaml
+      - path: other-crs/required/vault/VaultSAfortokenreview.yaml
+      - path: other-crs/required/vault/VaultCRBfortokenreview.yaml
+      - path: other-crs/required/vault/VaultSecretfortokenreview.yaml
+        
+        #Creating ClusterSecretStore for accessing secrets from Vault
+          # Get the vault CA cert and use below
+          # For Vault running on OpenShift, this can be the ingress certificate
+          # from the vault route
+      - path: other-crs/required/vault/VaultCertificate-ca.yaml
+        patches:
+        - data:
+            ca.crt: |
+              -----BEGIN CERTIFICATE-----
+              REDACTED
+              -----END CERTIFICATE-----
+              -----BEGIN CERTIFICATE-----
+              REDACTED
+              -----END CERTIFICATE-----
+      - path: other-crs/required/vault/ClusterSecretStore.yaml
+        patches:
+          - metadata:
+              name: 'vault-backend'
+            spec:
+              provider:
+                vault:
+                  auth:
+                    kubernetes:
+                      mountPath: 'kubernetes-{{hub (printf "%s" .ManagedClusterName) hub}}'
+                      role: '{{hub (printf "%s" .ManagedClusterName) hub}}'
+                  path: secrets
+                  server: '{{hub fromConfigMap "" .ManagedClusterName "vault-server" hub}}'
+### Configuring NHC
+      - path: other-crs/optional/AVAIL/NHC-worker.yaml
+      - path: other-crs/optional/AVAIL/NHC-controlPlane.yaml
+### Configure TEMPO
+      - path: other-crs/optional/TEMPO/TempoBucketClaim.yaml
+      - path: other-crs/optional/TEMPO/TempoS3Secret.yaml
+        patches:
+          - data:
+              access_key_id: '{{fromSecret "openshift-tempo-operator" "tempo-bucket-odf" "AWS_ACCESS_KEY_ID"}}'
+              access_key_secret: '{{fromSecret "openshift-tempo-operator" "tempo-bucket-odf" "AWS_SECRET_ACCESS_KEY"}}'
+              bucket: '{{fromConfigMap "openshift-tempo-operator" "tempo-bucket-odf" "BUCKET_NAME" | base64enc}}'
+              endpoint: '{{(printf "https://%s:%s" (fromConfigMap "openshift-tempo-operator" "tempo-bucket-odf" "BUCKET_HOST") (fromConfigMap "openshift-tempo-operator" "tempo-bucket-odf" "BUCKET_PORT")) | base64enc}}'
+      - path: other-crs/optional/TEMPO/ReadClusterRole.yaml
+      - path: other-crs/optional/TEMPO/ReadRoleBinding.yaml
+      - path: other-crs/optional/TEMPO/TempoStack.yaml
+

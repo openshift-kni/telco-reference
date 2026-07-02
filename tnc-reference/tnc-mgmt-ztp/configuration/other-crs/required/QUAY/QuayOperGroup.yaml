@@ -1,0 +1,11 @@
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  annotations:
+  name: quay-enterprise-operator-group
+  namespace: quay-enterprise
+spec:
+  targetNamespaces:
+  - quay-enterprise
+  upgradeStrategy: Default
+

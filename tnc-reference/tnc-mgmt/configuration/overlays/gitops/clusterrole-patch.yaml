@@ -1,0 +1,65 @@
+---
+- op: add 
+  path: "/rules/-"
+  value: 
+    apiGroups:
+    - lvm.topolvm.io
+    resources:
+    - lvmclusters
+    verbs:
+    - '*'
+
+- op: add 
+  path: "/rules/-"
+  value: 
+    apiGroups:
+    - external-secrets.io
+    resources:
+    - clustersecretstores
+    - secretstores
+    - externalsecrets
+    verbs:
+    - '*'
+
+- op: add 
+  path: "/rules/-"
+  value: 
+    apiGroups:
+    - operator.openshift.io
+    resources:
+    - externalsecretsconfigs
+    verbs:
+    - '*'
+
+- op: add 
+  path: "/rules/-"
+  value: 
+    apiGroups:
+    - opentelemetry.io
+    resources:
+    - opentelemetrycollectors
+    verbs:
+    - '*'
+
+- op: add 
+  path: "/rules/-"
+  value: 
+    apiGroups:
+    - kafka.strimzi.io
+    resources:
+    - kafkanodepools
+    - kafkatopics
+    - kafkas
+    verbs:
+    - '*'
+
+- op: add 
+  path: "/rules/-"
+  value: 
+    apiGroups:
+    - quay.redhat.com
+    resources:
+    - quayregistries
+    verbs:
+    - '*'
+

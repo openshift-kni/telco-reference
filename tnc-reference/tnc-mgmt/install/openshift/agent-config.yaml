@@ -1,0 +1,325 @@
+---
+apiVersion: v1alpha1
+kind: AgentConfig
+metadata:
+  name: mgmt1
+rendezvousIP: 172.31.61.6  # one of the master IP
+
+
+
+hosts:
+  - hostname: control-0
+    role: master
+    interfaces:
+      - name: "eno12399"
+        macAddress: "30:3E:A7:03:04:70"
+      - name: "eno12409"
+        macAddress: "30:3E:A7:03:04:71"
+      - name: "eno12419"
+        macAddress: "30:3E:A7:03:04:72"
+      - name: "eno12429"
+        macAddress: "30:3E:A7:03:04:73"
+    networkConfig:
+      interfaces:
+      - name: bond0
+        description: "Bond 0"
+        type: bond
+        state: up
+        mtu: 8950
+        ipv4:
+          address:
+          - ip: 10.63.63.6
+            prefix-length: 24
+          enabled: true
+        ipv6:
+          enabled: false
+        link-aggregation:
+          mode: '802.3ad'
+          options:
+            miimon: '1000'
+          port:
+            - eno12399
+            - eno12409
+      - name: bond0.61
+        type: vlan
+        state: up
+        mtu: 8950
+        vlan:
+          base-iface: bond0
+          id: 61
+        ipv4:
+          address:
+          - ip: 172.31.61.6
+            prefix-length: 24
+          enabled: true
+        ipv6:
+          enabled: false
+      - name: bond1
+        description: "Bond 1"
+        type: bond
+        state: up
+        mtu: 8950
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false
+        link-aggregation:
+          mode: '802.3ad'
+          options:
+            miimon: '1000'
+          port:
+            - eno12419
+            - eno12429
+      - name: eno12399
+        type: ethernet
+        state: up
+        mtu: 8950
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false
+      - name: eno12409
+        type: ethernet
+        state: up
+        mtu: 8950
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false
+      - name: eno12419
+        type: ethernet
+        state: up
+        mtu: 8950
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false
+      - name: eno12429
+        type: ethernet
+        state: up
+        mtu: 8950
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false
+      dns-resolver:
+        config:
+          server:
+            - 192.0.2.4
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: 172.31.61.1
+            next-hop-interface: bond0.61
+    rootDeviceHints:
+      deviceName: "/dev/disk/by-path/pci-0000:3f:00.0-scsi-0:0:1:0"
+  - hostname: control-1
+    role: master
+    interfaces:
+      - name: "eno12399"
+        macAddress: "30:3E:A7:02:FD:C0"
+      - name: "eno12409"
+        macAddress: "30:3E:A7:02:FD:C1"
+      - name: "eno12419"
+        macAddress: "30:3E:A7:02:FD:C2"
+      - name: "eno12429"
+        macAddress: "30:3E:A7:02:FD:C3"
+    networkConfig:
+      interfaces:
+      - name: bond0
+        description: "Bond 0"
+        type: bond
+        state: up
+        mtu: 8950
+        ipv4:
+          address:
+          - ip: 10.63.63.7
+            prefix-length: 24
+          enabled: true
+        ipv6:
+          enabled: false
+        link-aggregation:
+          mode: '802.3ad'
+          options:
+            miimon: '1000'
+          port:
+            - eno12399
+            - eno12409
+      - name: bond0.61
+        type: vlan
+        state: up
+        mtu: 8950
+        vlan:
+          base-iface: bond0
+          id: 61
+        ipv4:
+          address:
+          - ip: 172.31.61.7
+            prefix-length: 24
+          enabled: true
+        ipv6:
+          enabled: false
+      - name: bond1
+        description: "Bond 1"
+        type: bond
+        state: up
+        mtu: 8950
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false
+        link-aggregation:
+          mode: '802.3ad'
+          options:
+            miimon: '1000'
+          port:
+            - eno12419
+            - eno12429
+      - name: eno12399
+        type: ethernet
+        state: up
+        mtu: 8950
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false
+      - name: eno12409
+        type: ethernet
+        state: up
+        mtu: 8950
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false
+      - name: eno12419
+        type: ethernet
+        state: up
+        mtu: 8950
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false
+      - name: eno12429
+        type: ethernet
+        state: up
+        mtu: 8950
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false
+      dns-resolver:
+        config:
+          server:
+            - 192.0.2.4
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: 172.31.61.1
+            next-hop-interface: bond0.61
+    rootDeviceHints:
+      deviceName: "/dev/disk/by-path/pci-0000:3f:00.0-scsi-0:0:1:0"
+  - hostname: control-2
+    role: master
+    interfaces:
+      - name: "eno12399"
+        macAddress: "30:3E:A7:03:0A:40"
+      - name: "eno12409"
+        macAddress: "30:3E:A7:03:0A:41"
+      - name: "eno12419"
+        macAddress: "30:3E:A7:03:0A:42"
+      - name: "eno12429"
+        macAddress: "30:3E:A7:03:0A:43"
+    networkConfig:
+      interfaces:
+      - name: bond0
+        description: "Bond 0"
+        type: bond
+        state: up
+        mtu: 8950
+        ipv4:
+          address:
+          - ip: 10.63.63.8
+            prefix-length: 24
+          enabled: true
+        ipv6:
+          enabled: false
+        link-aggregation:
+          mode: '802.3ad'
+          options:
+            miimon: '1000'
+          port:
+            - eno12399
+            - eno12409
+      - name: bond0.61
+        type: vlan
+        state: up
+        mtu: 8950
+        vlan:
+          base-iface: bond0
+          id: 61
+        ipv4:
+          address:
+          - ip: 172.31.61.8
+            prefix-length: 24
+          enabled: true
+        ipv6:
+          enabled: false
+      - name: bond1
+        description: "Bond 1"
+        type: bond
+        state: up
+        mtu: 8950
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false
+        link-aggregation:
+          mode: '802.3ad'
+          options:
+            miimon: '1000'
+          port:
+            - eno12419
+            - eno12429
+      - name: eno12399
+        type: ethernet
+        state: up
+        mtu: 8950
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false
+      - name: eno12409
+        type: ethernet
+        state: up
+        mtu: 8950
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false
+      - name: eno12419
+        type: ethernet
+        state: up
+        mtu: 8950
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false
+      - name: eno12429
+        type: ethernet
+        state: up
+        mtu: 8950
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false
+      dns-resolver:
+        config:
+          server:
+            - 192.0.2.4
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: 172.31.61.1
+            next-hop-interface: bond0.61
+    rootDeviceHints:
+      deviceName: "/dev/disk/by-path/pci-0000:3f:00.0-scsi-0:0:1:0"

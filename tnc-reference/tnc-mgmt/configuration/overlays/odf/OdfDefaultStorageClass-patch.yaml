@@ -1,0 +1,7 @@
+---
+# patching ODF default storage class
+
+- op: replace
+  path: /metadata/name
+  value: ocs-storagecluster-ceph-rbd
+

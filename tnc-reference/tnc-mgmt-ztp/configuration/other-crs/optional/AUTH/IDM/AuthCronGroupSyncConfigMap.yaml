@@ -1,0 +1,35 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: ldap-group-sync-config
+  namespace: openshift-authentication
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+data:
+  ldap-group-sync.yaml: |
+    ---
+    kind: LDAPSyncConfig
+    apiVersion: v1
+    url: 'ldap://{{hub fromConfigMap "" .ManagedClusterName "ldap-server" hub}}'
+    insecure: true
+    bindDN: uid=ocp-bind-user,cn=users,cn=accounts,dc=example,dc=com
+    bindPassword:
+      file: /etc/secrets/bind_password
+    rfc2307:
+      groupsQuery:
+        baseDN: cn=groups,cn=accounts,dc=example,dc=com
+        derefAliases: never
+        filter: (objectClass=groupofnames)
+      groupUIDAttribute: dn
+      groupNameAttributes: [cn]
+      groupMembershipAttributes: [member]
+      usersQuery:
+        baseDN: cn=users,cn=accounts,dc=example,dc=com
+        derefAliases: never
+      userNameAttributes: [uid]
+      userUIDAttribute: dn
+  whitelist.txt: |
+    cn=ocpusers,cn=groups,cn=accounts,dc=example,dc=com
+    cn=ocpadmins,cn=groups,cn=accounts,dc=example,dc=com
+

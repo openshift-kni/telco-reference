@@ -1,0 +1,20 @@
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: comp1
+  namespace: openstack
+  labels:
+    role: nfv
+  annotations:
+    inspect.metal3.io: disabled
+spec:
+  online: false
+  bootMode: UEFI
+  bootMACAddress: 30:3E:A7:02:FE:20
+  bmc:
+    address: idrac-virtualmedia+https://192.0.2.155/redfish/v1/Systems/System.Embedded.1
+    credentialsName: comp1-secret
+    disableCertificateVerification: true
+  preprovisioningNetworkDataName: comp1-network-config
+  rootDeviceHints:
+    deviceName: /dev/sda

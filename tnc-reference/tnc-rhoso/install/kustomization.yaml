@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+generatorOptions:
+  disableNameSuffixHash: true
+configMapGenerator:
+- files:
+  name: extra-manifests-configmap
+  namespace: cwl-site2
+
+resources:
+  - ns/cwl-site2.yaml
+  - secrets/cwl-site2.yaml
+  - cwl-site2.yaml
+

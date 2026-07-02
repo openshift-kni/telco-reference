@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mgmt1
+  namespace: ztp-core-policies
+data:
+  kafka-broker: "mgmt-kafka-kafka-bootstrap-kafka-cluster.apps.mgmt1.example.com:443"
+  vault-server: "https://vault-server.apps.ghub.example.com"
+  ldap-server: "idm1mgmt1.example.com"
+  registry-fqdn: "registry.bastion.example.com:9500"

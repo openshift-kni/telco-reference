@@ -1,0 +1,27 @@
+apiVersion: remediation.medik8s.io/v1alpha1
+kind: NodeHealthCheck
+metadata:
+  name: nhc-worker
+  namespace: openshift-workload-availability
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  minHealthy: 90%
+  pauseRequests: []
+  remediationTemplate:
+    apiVersion: self-node-remediation.medik8s.io/v1alpha1
+    kind: SelfNodeRemediationTemplate
+    name: self-node-remediation-outofservicetaint-strategy-template
+    namespace: openshift-workload-availability
+  selector:
+    matchExpressions:
+    - key: node-role.kubernetes.io/worker
+      operator: Exists
+  unhealthyConditions:
+  - duration: 60s
+    status: 'False'
+    type: Ready
+  - duration: 60s
+    status: 'Unknown'
+    type: Ready
+

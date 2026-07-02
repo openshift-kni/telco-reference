@@ -1,0 +1,46 @@
+---
+kind: CronJob
+apiVersion: batch/v1
+metadata:
+  name: ldap-group-sync-cronjob
+  namespace: openshift-authentication
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  schedule: "0,15,30,45 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+          - name: ldap-group-sync
+            image: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn") hub}}/ocp/ocp4/openshift4/ose-tools-rhel8:latest'
+            command:
+            - /bin/bash
+            - -c
+            - oc --loglevel 5 adm groups sync --sync-config=/etc/config/ldap-group-sync.yaml --confirm
+              $([ -s /etc/config/whitelist.txt ] && echo --whitelist=/etc/config/whitelist.txt)
+            volumeMounts:
+            - mountPath: /etc/config
+              name: ldap-sync-volume
+            - mountPath: /etc/secrets
+              name: ldap-bind-password
+          volumes:
+          - name: ldap-sync-volume
+            configMap:
+              name: ldap-group-sync-config
+          - name: ldap-bind-password
+            secret:
+              secretName: ldap-group-sync-creds
+          restartPolicy: Never
+          terminationGracePeriodSeconds: 30
+          activeDeadlineSeconds: 500
+          dnsPolicy: ClusterFirst
+          serviceAccountName: ldap-group-sync-sa
+  startingDeadlineSeconds: 60
+
+

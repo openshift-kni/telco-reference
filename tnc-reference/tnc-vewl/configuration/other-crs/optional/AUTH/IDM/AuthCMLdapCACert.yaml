@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ldap-ca-cert
+  namespace: openshift-config
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+data:
+  #
+  # Retrieve LDAP / IDM CA certificate with this command:
+  #   scp -o StrictHostKeyChecking=no admin@idm1mgmt1.example.com:/etc/ipa/ca.crt ca.crt
+  #
+  ca.crt: |
+    -----BEGIN CERTIFICATE-----
+    REDACTED
+    -----END CERTIFICATE-----

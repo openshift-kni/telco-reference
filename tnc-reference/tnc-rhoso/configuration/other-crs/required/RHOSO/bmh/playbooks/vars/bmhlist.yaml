@@ -1,0 +1,42 @@
+---
+bmh_list:
+#  - name: comp1
+#    label: sriov
+#    bootMACAddress: 30:3E:A7:02:FE:20
+#    bmc_address: 192.0.2.155
+#    bmc_username: cm9vdA==              # base64 encoding
+#    bmc_password: <redacted>              # base64 encoding
+#    bond_name: bond0
+#    bond_port1: eno12399
+#    bond_port1_mac: 30:3E:A7:02:FE:20
+#    bond_port2: eno12409
+#    bond_port2_mac: 30:3E:A7:02:FE:21
+#    prelim_bond_ip_address: 10.1.1.100
+#    prelim_bond_ip_prefix_length: 24
+#    prelim_bond_gateway: 10.1.1.1
+#    prelim_dns_server: 192.0.2.4
+#    bond_ip_address: 10.62.62.100
+#    bond_ip_netmask: 255.255.255.0
+#    bond_gateway: 10.62.62.1
+#    dns_server: 10.62.62.80
+#    domain: cwl-site1.example.com
+  - name: comp2
+    label: dpdk
+    bootMACAddress: 30:3E:A7:02:F6:00
+    bmc_address: 192.0.2.162
+    bmc_username: cm9vdA==              # base64 encoding
+    bmc_password: <redacted>              # base64 encoding
+    bond_name: bond0
+    bond_port1: eno12399
+    bond_port1_mac: 30:3E:A7:02:F6:00
+    bond_port2: eno12409
+    bond_port2_mac: 30:3E:A7:02:F6:01
+    prelim_bond_ip_address: 10.1.1.101
+    prelim_bond_ip_prefix_length: 24
+    prelim_bond_gateway: 10.1.1.1
+    prelim_dns_server: 192.0.2.4
+    bond_ip_address: 10.62.62.101
+    bond_ip_netmask: 255.255.255.0
+    bond_gateway: 10.62.62.1
+    dns_server: 10.62.62.80
+    domain: cwl-site2.example.com

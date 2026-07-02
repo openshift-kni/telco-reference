@@ -1,0 +1,31 @@
+---
+apiVersion: aap.ansible.com/v1alpha1
+kind: AnsibleAutomationPlatform
+metadata:
+  name: tnc-aap
+  namespace: ansible-automation-platform
+spec:
+  database:
+    resource_requirements:
+      requests:
+        cpu: 200m
+        memory: 512Mi
+    storage_requirements:
+      requests:
+        storage: 100Gi
+
+  controller:
+    disabled: false
+
+  eda:
+    disabled: true
+
+  hub:
+    disabled: false
+    storage_type: file
+    file_storage_storage_class: ocs-storagecluster-cephfs
+    file_storage_size: 10Gi
+
+  lightspeed:
+    disabled: true
+

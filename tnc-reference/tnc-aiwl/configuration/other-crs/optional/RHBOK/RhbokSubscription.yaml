@@ -1,0 +1,14 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: kueue-operator
+  namespace: openshift-kueue-operator
+spec:
+  channel: "stable-v1.3"
+  installPlanApproval: Manual
+  name: kueue-operator
+  source: redhat-operators-disconnected
+  sourceNamespace: openshift-marketplace
+status:
+  state: AtLatestKnown
+

@@ -1,0 +1,15 @@
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    strimzi.io/cluster: mgmt-kafka
+  name: mgmt1-ocp-metrics
+  namespace: kafka-cluster
+spec:
+  config:
+    retention.ms: 180000
+  partitions: 3
+  replicas: 1
+  topicName: mgmt1-ocp-metrics
+

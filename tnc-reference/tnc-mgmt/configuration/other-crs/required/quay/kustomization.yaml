@@ -1,0 +1,13 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - quayNS.yaml
+  - quayOperatorGroup.yaml
+  - quaySubscription.yaml
+  - rbac_serviceAccount.yaml
+  - rbac_clusterRole.yaml
+  - rbac_clusterRoleBinding.yaml
+  - quay_secret.yaml
+  - quay_registry.yaml
+

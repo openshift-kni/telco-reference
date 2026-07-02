@@ -1,0 +1,51 @@
+---
+# Add annotation per https://redhat.atlassian.net/browse/ACM-21309
+# [unsupported.agent-install.openshift.io/assisted-service-allow-unrestricted-image-pulls=true|http://unsupported.agent-install.openshift.io/assisted-service-allow-unrestricted-image-pulls=true]
+- op: add
+  path: /metadata/annotations
+  value:
+    unsupported.agent-install.openshift.io/assisted-service-allow-unrestricted-image-pulls: true
+    argocd.argoproj.io/sync-wave: "-10"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+
+# patching mco StorageClass
+
+- op: replace
+  path: /spec/databaseStorage/storageClassName
+  # LVM Storage configures the name of the storage class and volume snapshot class in the format lvms-<device_class_name>, where, <device_class_name> is the value of the deviceClasses.name field in the LVMCluster CR. For example, if the deviceClasses.name field is set to vg100, the name of the storage class and volume snapshot class is lvms-vg10.
+  # value: "ocs-storagecluster-cephfs"  # filesystem StorageClass
+  value: "lvms-vg10"
+
+- op: replace
+  path: /spec/filesystemStorage/storageClassName
+  # value: "ocs-storagecluster-cephfs"  # filesystem StorageClass
+  value: "lvms-vg10"
+
+- op: replace
+  path: /spec/imageStorage/storageClassName
+  # value: "ocs-storagecluster-cephfs"  # filesystem StorageClass
+  value: "lvms-vg10"
+
+  # Configure the osImages urls.
+  # When disconnected, the urls should point to a mirrored registry.
+- op: replace
+  path: "/spec/osImages"
+  value:
+    - cpuArchitecture: x86_64
+      openshiftVersion: "4.18"
+      rootFSUrl: http://192.0.2.4/rhcos-live-rootfs.x86_64.img
+      url: http://192.0.2.4/rhcos-live.x86_64.iso
+      version: 418.94.202501221327-0
+    - cpuArchitecture: x86_64
+      openshiftVersion: "4.20"
+      rootFSUrl: http://192.0.2.4/rhcos-4.20.13-x86_64-live-rootfs.x86_64.img
+      url: http://192.0.2.4/rhcos-4.20.13-x86_64-live-iso.x86_64.iso
+      version: 9.6.20260112-0
+
+# when disconnected, the spoke clusters will need to use also a mirrored registry. That could be configured here:
+# https://issues.redhat.com/browse/CNF-17835
+
+# In case of connected enviroment we dont need neither to configure
+# nor use an internal registry on the spokes. So, uncomment below to remove it:
+# - op: remove
+#   path: /spec/mirrorRegistryRef

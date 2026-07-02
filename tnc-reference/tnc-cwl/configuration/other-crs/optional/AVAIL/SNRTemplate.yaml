@@ -1,0 +1,12 @@
+apiVersion: self-node-remediation.medik8s.io/v1alpha1
+kind: SelfNodeRemediationTemplate
+metadata:
+  name: self-node-remediation-outofservicetaint-strategy-template
+  namespace: openshift-workload-availability
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  template:
+    spec:
+      remediationStrategy: OutOfServiceTaint
+

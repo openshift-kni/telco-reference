@@ -1,0 +1,10 @@
+apiVersion: operator.openshift.io/v1
+kind: Console
+metadata:
+  name: cluster
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "7"
+spec:
+  plugins:
+    - odf-console
+

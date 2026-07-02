@@ -1,0 +1,106 @@
+# TNC configuration
+
+## Structure
+
+This directory contains five key components of the TNC configuration:
+
+- The `reference-crs` tree contains the baseline configuration CRs which make
+  up the RDS Core reference configuration. These are further separated into
+  optional vs required configuration.
+- The `other-crs` tree contains the configuration that is added by TNC 
+  to augment the baseline RDS configuration. These are further separated into 
+  optional vs required configuration.
+- The yaml files in this top level support application and ongoing management
+  of the reference configuration using Advanced Cluster Management (ACM)
+  Policy. These yaml serve as manifests which define how CRs from the
+  reference-crs tree are grouped into policies and apply certain use case
+  specific patches to the policy wrapped CRs.
+- The `template-values` directory holds ConfigMaps which provide values used in
+  the ACM Policies. See the "Templating" section below for more details.
+- (Future) The `tnc-crs-kube-compare` tree contains the template copy of the
+  TNC configuration for use by the
+  [cluster-compare tool](https://github.com/openshift/kube-compare).
+
+## Reference CRs
+
+**Note:** The reference CRs and/or the policyGerator YAMLs in this repo point to a private image registry at `registry.bastion.example.com:9500`. All those references need to be updated to point to the local private registry.
+
+### Policy generation CRs
+
+The repository includes several PolicyGenerator CRs named "core-xxx.yaml" and `cwl-xxx.yaml` at this
+top level. These CRs serve as manifests and customization of the `reference` and `other`
+configuration CRs. The PolicyGenerator CR is turned into ACM Policy CRs which
+can then be used to configure one or more clusters with the sub-architecture
+configuration. When these PolicyGenerator CRs and the reference-crs that they
+enumerate are stored in a Git repository the [PolicyGenerator
+GitOps/ArgoCD](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.15/html/governance/policy-deployment#policy-generator)
+plugin will automatically convert them when synchronizing to a hub cluster.
+
+#### Policy Generators
+
+The repository provides the following policy generators:
+
+* `core-baseline` contains fixed required content identified by the RDS
+* `core-overlay` contains RDS content where updates/patches are expected. This
+  reference also contains the optional components
+* `cwl-additions` contains configuration added by TNC
+* `cwl-odf-internal` configures the OpenShift cluster to use ODF in internal mode
+* `cwl-odf-external` configures the OpenShift cluster to use ODF in external mode
+* `cwl-kafka` configures OpenShift logs and metrics forwarding to kafka
+* `cwl-auth-idm.yaml` contains policies to configure OAUTH to use LDAP for authentication
+* `cwl-lab-only` Installs the security profile operator. Not recommended for production clusters
+* `core-finish` contains policies which release/un-pause MachineConfigPool worker
+  nodes. These are typically independent of version and only need to
+  be defined once.
+
+These policy generators use labels to apply the policies to the appropriate clusters.
+Apply the following labels to the clusters in order to configure them with the appropriate policies:
+
+- common: "core"       - To apply the RDS baseline and overlay policies
+- version: "4.20"      - To pick the RDS 4.20 policies
+- cwl: "true"          - To apply the TNC CWL policies
+- tnc-ver: "tnc6.1"    - To pick TNC 6.1 policies
+- Pick one the following:
+  - odf-ext: "true"    - To configure ODF in external mode
+  - odf-int: "true"    - To configure ODF in internal mode
+- kafka: "true"        - To configure logs and metrics to be sent to kafka
+- idm: "true"          - To configure OAUTH for LDAP authentication
+- lab: "true"          - To install optional components that are not suitable for production deployment
+- nic-config: "type-1" - Needed to select SR-IOV NIC configuration
+
+Other custom content can be added through additional PolicyGenerator CRs.
+
+
+#### Templating
+
+These PolicyGenerator CRs create Policies which include ACM hub side
+templates. These templates will pull values from 3 configmaps:
+
+`template-values/hw-types` -- Hardware dependent data.
+
+- Current set of keys are fixed valued based on hardware profiles (mcp names)
+  as defined in core-overlay.
+
+`template-values/regional` -- Values which may depend on the region/zone where a
+cluster is deployed.
+
+- keyed by a "region" label on the ManagedCluster
+- eg %s-log-url -- a cluster labeled 'region: abcd' would use abcd-log-url
+   from regional configmap
+
+`template-values/<clusterName>` -- Values which are cluster specific. One ConfigMap per cluster
+is needed. The ConfigMap name is the cluster name eg cluster-1234
+
+#### Vault for Secrets
+
+The policies in this repository rely on the presence of an external vault server, 
+which holds the different credentials (passwords, certificates etc.) used within the policies.
+Ensure that the following credentials exist in the vault:
+
+- ldap-ca-cert
+  - `ca.crt` - LDAP CA certificate
+- ldap-auth-secret
+  - `bindPassword` - to authenticate the OpenShift cluster with LDAP server
+- ldap-group-sync-creds
+  - `bindPassword` - to authenticate the OpenShift cluster with LDAP server
+

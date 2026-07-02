@@ -1,0 +1,35 @@
+apiVersion: config.openshift.io/v1
+kind: OAuth
+metadata:
+  name: cluster
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  identityProviders:
+  - htpasswd:
+      fileData:
+        name: htpasswd-secret
+    mappingMethod: claim
+    name: htpasswd
+    type: HTPasswd
+  - name: idm-ldap
+    mappingMethod: add 
+    type: LDAP
+    ldap:
+      attributes:
+        id: 
+        - dn
+        email: 
+        - mail
+        name: 
+        - cn
+        preferredUsername: 
+        - uid
+      bindDN: "uid=ocp-bind-user,cn=users,cn=accounts,dc=example,dc=com"
+      bindPassword:
+        name: "ldap-auth-secret"
+      ca: 
+        name: ldap-ca-cert
+      insecure: false
+      url: 'ldap://{{hub fromConfigMap "" .ManagedClusterName "ldap-server" hub}}/cn=accounts,dc=example,dc=com?uid'
+

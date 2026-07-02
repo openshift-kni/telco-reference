@@ -1,0 +1,11 @@
+---
+- op: replace
+  path: "/data"
+  value:
+    registry.bastion.example.com..9500: |
+      -----BEGIN CERTIFICATE-----
+      REDACTED
+      -----END CERTIFICATE-----
+      -----BEGIN CERTIFICATE-----
+      REDACTED
+      -----END CERTIFICATE-----

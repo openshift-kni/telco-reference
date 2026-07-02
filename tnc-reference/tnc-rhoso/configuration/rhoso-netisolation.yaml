@@ -1,0 +1,315 @@
+#
+# Optional policy to configure the RHOSO networks
+# on OpenShift nodes, if those networks were not
+# already configured during cluster deployment
+#
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: rhoso-networkisolation-tnc61
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      rhoso: "true"
+      tnc-ver: "tnc6.1"
+  remediationAction: "inform"
+policies:
+  - name: rhoso-config-networkisolation-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "8"
+    manifests:
+      - path: other-crs/optional/RHOSO/networkisolation/nncp_for_networkisolation.yaml
+        patches:
+          - metadata:
+              name: m1-networkisolation-rhoso
+            spec:
+              nodeSelector:
+                kubernetes.io/hostname: '{{hub printf "m1.%s.example.com" .ManagedClusterName hub}}'
+              desiredState:
+                interfaces:
+                  - name: bond0.92 
+                    description: "Bond0 - OSP_Ctlplane"
+                    type: vlan
+                    state: up
+                    mtu: 8950
+                    vlan:
+                      base-iface: bond0
+                      id: 92
+                    ipv4:
+                      enabled: true
+                      dhcp: false
+                      address:
+                        - ip: 10.62.62.10 #needs to be patched with the actual IP
+                          prefix-length: 24
+                    ipv6:
+                      enabled: false
+
+                  - name: bond1
+                    description: "Bond1 - OSP_External"
+                    type: bond
+                    state: up
+                    mtu: 8950
+                    ipv4:
+                      address:
+                        - ip: 192.0.2.132 #needs to be patched with the actual IP
+                          prefix-length: 28
+                      enabled: true
+                      dhcp: false
+                    ipv6:
+                      enabled: false
+                    link-aggregation:
+                      mode: 802.3ad
+                      options:
+                        miimon: "1000"
+                      port:
+                        - eno16515 #needs to be patched with the actual ports
+                        - eno16525 #needs to be patched with the actual ports
+
+                  - name: bond1.93
+                    description: "Bond1.93 - OSP_InternalAPI"
+                    type: vlan
+                    state: up
+                    mtu: 8950
+                    vlan:
+                      base-iface: bond1
+                      id: 93
+                    ipv4:
+                      enabled: true
+                      dhcp: false
+                      address:
+                        - ip: 10.2.120.10 #needs to be patched with the actual IP
+                          prefix-length: 24
+                    ipv6:
+                      enabled: false
+                  - name: bond1.94
+                    description: "Bond1.94 - OSP_storage"
+                    type: vlan
+                    state: up
+                    mtu: 8950
+                    vlan:
+                      base-iface: bond1
+                      id: 94
+                    ipv4:
+                      enabled: true
+                      dhcp: false
+                      address:
+                        - ip: 10.3.130.10 #needs to be patched with the actual IP
+                          prefix-length: 24
+                    ipv6:
+                      enabled: false
+
+                  - name: bond1.96
+                    description: "Bond1.96 - OSP_tenant"
+                    type: vlan
+                    state: up
+                    mtu: 8950
+                    vlan:
+                      base-iface: bond1
+                      id: 96
+                    ipv4:
+                      enabled: true
+                      dhcp: false
+                      address:
+                        - ip: 10.11.110.10 #needs to be patched with the actual IP
+                          prefix-length: 24
+                    ipv6:
+                      enabled: false
+      - path: other-crs/optional/RHOSO/networkisolation/nncp_for_networkisolation.yaml
+        patches:
+          - metadata:
+              name: m2-networkisolation-rhoso
+            spec:
+              nodeSelector:
+                kubernetes.io/hostname: '{{hub printf "m2.%s.example.com" .ManagedClusterName hub}}'
+              desiredState:
+                interfaces:
+                  - name: bond0.92 
+                    description: "Bond0 - OSP_Ctlplane"
+                    type: vlan
+                    state: up
+                    mtu: 8950
+                    vlan:
+                      base-iface: bond0
+                      id: 92
+                    ipv4:
+                      enabled: true
+                      dhcp: false
+                      address:
+                        - ip: 10.62.62.11 #needs to be patched with the actual IP
+                          prefix-length: 24
+                    ipv6:
+                      enabled: false
+
+                  - name: bond1
+                    description: "Bond1 - OSP_External"
+                    type: bond
+                    state: up
+                    mtu: 8950
+                    ipv4:
+                      address:
+                        - ip: 192.0.2.133 #needs to be patched with the actual IP
+                          prefix-length: 28
+                      enabled: true
+                      dhcp: false
+                    ipv6:
+                      enabled: false
+                    link-aggregation:
+                      mode: 802.3ad
+                      options:
+                        miimon: "1000"
+                      port:
+                        - ens3f0
+                        - ens3f1
+
+                  - name: bond1.93
+                    description: "Bond1.93 - OSP_InternalAPI"
+                    type: vlan
+                    state: up
+                    mtu: 8950
+                    vlan:
+                      base-iface: bond1
+                      id: 93
+                    ipv4:
+                      enabled: true
+                      dhcp: false
+                      address:
+                        - ip: 10.2.120.11 #needs to be patched with the actual IP
+                          prefix-length: 24
+                    ipv6:
+                      enabled: false
+                  - name: bond1.94
+                    description: "Bond1.94 - OSP_storage"
+                    type: vlan
+                    state: up
+                    mtu: 8950
+                    vlan:
+                      base-iface: bond1
+                      id: 94
+                    ipv4:
+                      enabled: true
+                      dhcp: false
+                      address:
+                        - ip: 10.3.130.11 #needs to be patched with the actual IP
+                          prefix-length: 24
+                    ipv6:
+                      enabled: false
+
+                  - name: bond1.96
+                    description: "Bond1.96 - OSP_tenant"
+                    type: vlan
+                    state: up
+                    mtu: 8950
+                    vlan:
+                      base-iface: bond1
+                      id: 96
+                    ipv4:
+                      enabled: true
+                      dhcp: false
+                      address:
+                        - ip: 10.11.110.11 #needs to be patched with the actual IP
+                          prefix-length: 24
+                    ipv6:
+                      enabled: false
+      - path: other-crs/optional/RHOSO/networkisolation/nncp_for_networkisolation.yaml
+        patches:
+          - metadata:
+              name: m3-networkisolation-rhoso
+            spec:
+              nodeSelector:
+                kubernetes.io/hostname: '{{hub printf "m3.%s.example.com" .ManagedClusterName hub}}'
+              desiredState:
+                interfaces:
+                  - name: bond0.92 
+                    description: "Bond0 - OSP_Ctlplane"
+                    type: vlan
+                    state: up
+                    mtu: 8950
+                    vlan:
+                      base-iface: bond0
+                      id: 92
+                    ipv4:
+                      enabled: true
+                      dhcp: false
+                      address:
+                        - ip: 10.62.62.12 #needs to be patched with the actual IP
+                          prefix-length: 24
+                    ipv6:
+                      enabled: false
+
+                  - name: bond1
+                    description: "Bond1 - OSP_External"
+                    type: bond
+                    state: up
+                    mtu: 8950
+                    ipv4:
+                      address:
+                        - ip: 192.0.2.134 #needs to be patched with the actual IP
+                          prefix-length: 28
+                      enabled: true
+                      dhcp: false
+                    ipv6:
+                      enabled: false
+                    link-aggregation:
+                      mode: 802.3ad
+                      options:
+                        miimon: "1000"
+                      port:
+                        - ens2f2
+                        - ens2f3
+
+
+                  - name: bond1.93
+                    description: "Bond1.93 - OSP_InternalAPI"
+                    type: vlan
+                    state: up
+                    mtu: 8950
+                    vlan:
+                      base-iface: bond1
+                      id: 93
+                    ipv4:
+                      enabled: true
+                      dhcp: false
+                      address:
+                        - ip: 10.2.120.12 #needs to be patched with the actual IP
+                          prefix-length: 24
+                    ipv6:
+                      enabled: false
+                  - name: bond1.94
+                    description: "Bond1.94 - OSP_storage"
+                    type: vlan
+                    state: up
+                    mtu: 8950
+                    vlan:
+                      base-iface: bond1
+                      id: 94
+                    ipv4:
+                      enabled: true
+                      dhcp: false
+                      address:
+                        - ip: 10.3.130.12 #needs to be patched with the actual IP
+                          prefix-length: 24
+                    ipv6:
+                      enabled: false
+
+                  - name: bond1.96
+                    description: "Bond1.96 - OSP_tenant"
+                    type: vlan
+                    state: up
+                    mtu: 8950
+                    vlan:
+                      base-iface: bond1
+                      id: 96
+                    ipv4:
+                      enabled: true
+                      dhcp: false
+                      address:
+                        - ip: 10.11.110.12 #needs to be patched with the actual IP
+                          prefix-length: 24
+                    ipv6:
+                      enabled: false
+                    
+                    
+                    

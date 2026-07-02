@@ -1,0 +1,31 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: cwl-lab-tnc61
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      cwl: "true"
+      tnc-ver: "tnc6.1"
+      lab: "true"
+  remediationAction: "inform"
+policies:
+  - name: operators-lab-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "5"
+    manifests:
+      - path: other-crs/optional/lab-only/COMPLIANCE/CoNS.yaml
+      - path: other-crs/optional/lab-only/COMPLIANCE/CoOperGroup.yaml
+      - path: other-crs/optional/lab-only/COMPLIANCE/CoSubscription.yaml
+        patches:
+          - spec:
+              installPlanApproval: Manual
+
+  - name: config-lab-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "8"
+    manifests:
+      - path: other-crs/optional/lab-only/COMPLIANCE/ScanSetting.yaml
+      - path: other-crs/optional/lab-only/COMPLIANCE/ScanSettingBinding.yaml

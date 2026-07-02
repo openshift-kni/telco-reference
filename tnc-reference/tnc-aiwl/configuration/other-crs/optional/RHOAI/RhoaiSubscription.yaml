@@ -1,0 +1,14 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: rhods-operator
+  namespace: redhat-ods-operator
+spec:
+  name: rhods-operator
+  channel: stable
+  installPlanApproval: Manual
+  source: redhat-operators-disconnected
+  sourceNamespace: openshift-marketplace
+status:
+  state: AtLatestKnown
+

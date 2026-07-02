@@ -1,0 +1,113 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: telco-core-upgrade-19
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      common: "core"
+      upgrade-version-4-19: ""
+  remediationAction: "inform"
+policies:
+  - name: core-upgrade-prep-19
+    policyAnnotations:
+      # Updates to the catalogsource take a few seconds to propagate
+      # to the status. The soak seconds gives time for that
+      # propagation to occur
+      ran.openshift.io/soak-seconds: "30"
+    manifests:
+      # Update catalogsource to point to latest versions
+      - path: reference-crs/required/other/catalog-source.yaml
+        patches:
+        - spec:
+            image: registry.redhat.io/redhat/redhat-operator-index:v4.20
+        - status:
+            connectionState:
+              lastObservedState: READY
+      # Provide the required acknowledgement of the upgrade. This
+      # assumes that the verification has been done during planning
+      # lab/certification phase of project
+      # - path: reference-crs/optional/other/upgrade-ack.yaml
+      #   patches:
+      #   - data:
+      #       ack-4.15-kube-1.29-api-removals-in-4.16: "true"
+      - path: reference-crs/custom-manifests/mcp-worker-1.yaml
+        patches:
+        - spec:
+            # Adjust as needed based on spare capacity, cluster design, and application requirements
+            maxUnavailable: 100%
+            paused: true
+      - path: reference-crs/custom-manifests/mcp-worker-2.yaml
+        patches:
+        - spec:
+            # Adjust as needed based on spare capacity, cluster design, and application requirements
+            maxUnavailable: 100%
+            paused: true
+      - path: reference-crs/custom-manifests/mcp-worker-3.yaml
+        patches:
+        - spec:
+            # Adjust as needed based on spare capacity, cluster design, and application requirements
+            maxUnavailable: 100%
+            paused: true
+  - name: core-upgrade-ocp-19
+    manifests:
+      - path: reference-crs/optional/other/ClusterVersion.yaml
+        patches:
+        - spec:
+            channel: stable-4.20
+            desiredUpdate:
+              # Replace version, image and status below with desired version
+              version: 4.20.0
+              image: quay.io/openshift-release-dev/ocp-release@sha256:3482dbdce3a6fb2239684d217bba6fc87453eff3bdb72f5237be4beb22a2160b
+              force: true
+        - status:
+            history:
+            - version: 4.20.0
+              state: "Completed"
+  - name: core-upgrade-olm-19
+    policyAnnotations:
+      # Ensure that status for OLM created operators has time to propagate
+      ran.openshift.io/soak-seconds: "60"
+    manifests:
+      - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
+        patches:
+        - metadata:
+            annotations:
+              noop-for-triggering-noncompliance: "19"
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/networking/sriov/SriovSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
+        patches:
+        - spec:
+            channel: stable-4.20
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/networking/NMStateSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/networking/metallb/metallbSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/scheduling/NROPSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+
+  # Ensure that all subscriptions are at the latest known, including
+  # subscriptions automatically created by OLM on behalf of higher
+  # level operators.
+  - name: core-upgrade-validate-19
+    policyAnnotations:
+      # Ensure that propagation to OLM created operators has time to propagate
+      ran.openshift.io/soak-seconds: "30"
+    manifests:
+      - path: reference-crs/custom-manifests/subscription-validator.yaml

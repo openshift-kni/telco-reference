@@ -1,0 +1,8 @@
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: rhacs-operator-operator-group
+  namespace: rhacs-operator
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "12"
+

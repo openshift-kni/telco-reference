@@ -1,0 +1,8 @@
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: workload-availability-operator-group
+  namespace: openshift-workload-availability
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"
+

@@ -1,0 +1,138 @@
+---
+- name: create secret for BMH {{ item.name }}
+  kubernetes.core.k8s:
+    username: "{{ rhocp_user }}"
+    password: "{{ rhocp_password }}"
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: "{{ item.name }}-secret"
+        namespace: openstack
+      type: Opaque
+      data:
+        # base64 encoding of username and password
+        username: "{{ item.bmc_username }}"
+        password: "{{ item.bmc_password }}"
+  retries: 5
+  delay: 10
+  until: not result.failed
+  register: result
+
+- name: create network config for BMH {{ item.name }}
+  kubernetes.core.k8s:
+    username: "{{ rhocp_user }}"
+    password: "{{ rhocp_password }}"
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+       name: "{{ item.name }}-network-config"
+       namespace: openstack
+      type: Opaque
+      stringData:
+       nmstate: |
+        interfaces:
+        - name: "{{ item.bond_name }}"
+          type: bond
+          state: up
+          mtu: 8950
+          ipv4:
+            address:
+            - ip: "{{ item.prelim_bond_ip_address }}"
+              prefix-length: "{{ item.prelim_bond_ip_prefix_length }}"
+            enabled: true
+          link-aggregation:
+            mode: 802.3ad
+            options:
+              miimon: "100"
+            port:
+            - "{{ item.bond_port1 }}"
+            - "{{ item.bond_port2 }}"
+        dns-resolver:
+          config:
+            server:
+            - "{{ item.prelim_dns_server }}"
+        routes:
+          config:
+          - destination: 0.0.0.0/0
+            next-hop-address: "{{ item.prelim_bond_gateway }}"
+            next-hop-interface: "{{ item.bond_name }}"
+  retries: 5
+  delay: 10
+  until: not result.failed
+  register: result
+
+- name: create BMH {{ item.name }}
+  kubernetes.core.k8s:
+    username: "{{ rhocp_user }}"
+    password: "{{ rhocp_password }}"
+    state: present
+    definition:
+      apiVersion: metal3.io/v1alpha1
+      kind: BareMetalHost
+      metadata:
+        name: "{{ item.name }}"
+        namespace: openstack
+        labels:
+          role: "{{ item.label }}"
+        annotations:
+          inspect.metal3.io: disabled
+      spec:
+        online: false
+        bootMode: UEFI
+        bootMACAddress: "{{ item.bootMACAddress }}"
+        bmc:
+          address: "idrac-virtualmedia+https://{{ item.bmc_address }}/redfish/v1/Systems/System.Embedded.1"
+          credentialsName: "{{ item.name }}-secret"
+          disableCertificateVerification: true
+        preprovisioningNetworkDataName: "{{ item.name }}-network-config"
+        rootDeviceHints:
+          deviceName: /dev/sda
+  retries: 5
+  delay: 10
+  until: not result.failed
+  register: result
+
+- name: ensures files dir exists
+  file: 
+    path: "files"
+    state: directory
+
+- name: Use the template module to resolve variables
+  template:
+    src: templates/network-data.yaml
+    dest: "files/{{ item.name }}-networkdata.yaml"
+
+- name: Read the content of the resolved file
+  slurp:
+    src: "files/{{ item.name }}-networkdata.yaml"
+  register: netdata
+
+- name: create secret for network data
+  kubernetes.core.k8s:
+    username: "{{ rhocp_user }}"
+    password: "{{ rhocp_password }}"
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: "nodeset-cloudinit-networkdata-{{ item.name }}"
+        namespace: openstack
+      type: Opaque
+      data:
+        networkData: "{{ netdata.content }}"
+  retries: 5
+  delay: 10
+  until: not result.failed
+  register: result
+
+- name: Debug the result of the create resource task in case of failure
+  ansible.builtin.debug:
+    var: result
+  when: result.failed
+
+

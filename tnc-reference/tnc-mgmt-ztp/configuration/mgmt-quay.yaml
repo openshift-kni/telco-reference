@@ -1,0 +1,39 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: mgmt-quay-tnc61
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      mgmt: "true"
+      tnc-ver: "tnc6.1"
+  remediationAction: "inform"
+policies:
+  - name: quay-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "20"
+    manifests:
+      - path: other-crs/required/QUAY/QuayNS.yaml
+      - path: other-crs/required/QUAY/QuayOperGroup.yaml
+      - path: other-crs/required/QUAY/QuaySubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+            channel: "stable-3.16" 
+
+      - path: other-crs/required/QUAY/QuaySecret.yaml
+        patches:
+        - spec:
+            dataFrom:
+            - extract:
+                conversionStrategy: Default
+                decodingStrategy: None
+                key: ztp/mgmt1/quay-config-bundle
+                metadataPolicy: None
+
+      - path: other-crs/required/QUAY/QuayServiceAccount.yaml
+      - path: other-crs/required/QUAY/QuayClusterRole.yaml
+      - path: other-crs/required/QUAY/QuayClusterRoleBinding.yaml
+      - path: other-crs/required/QUAY/QuayRegistery.yaml

@@ -1,0 +1,10 @@
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: kafka-operatorgroup
+  namespace: kafka-cluster
+spec:
+  targetNamespaces:
+    - kafka-cluster
+

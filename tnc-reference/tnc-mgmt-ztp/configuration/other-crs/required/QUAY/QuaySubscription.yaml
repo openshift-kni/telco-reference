@@ -1,0 +1,14 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: quay-operator
+  namespace: quay-enterprise
+spec:
+  channel: stable-3.17
+  installPlanApproval: Manual
+  name: quay-operator
+  source: redhat-operators-disconnected
+  sourceNamespace: openshift-marketplace
+status:
+  state: AtLatestKnown
+

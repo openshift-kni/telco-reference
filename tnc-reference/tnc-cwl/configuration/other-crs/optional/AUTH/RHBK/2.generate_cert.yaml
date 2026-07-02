@@ -1,0 +1,54 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: generate-keycloak-cert
+  namespace: keycloak
+spec:
+  template:
+    spec:
+      serviceAccountName: keycloak-job-sa
+      containers:
+        - name: certgen
+          image: {{hub fromConfigMap "ztp-workload-policy" "core-data" (printf "%s-quay-fqdn" .ManagedClust    erName) hub}}/ocp/ocp4/origin-cli:4.16
+          image: {{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/origin-cli:latest
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "[INFO] Getting apps domain..."
+              APPS_DOMAIN=$(kubectl get ingresses.config/cluster -o jsonpath='{.spec.domain}')
+              if [ -z "$APPS_DOMAIN" ]; then
+                echo "[ERROR] Failed to detect apps domain" && exit 1
+              fi
+
+              FQDN="keycloak-keycloak.apps.${APPS_DOMAIN}"
+              echo "[INFO] Using FQDN: $FQDN"
+
+              openssl req \
+                -subj "/CN=${FQDN}/O=Test Keycloak./C=US" \
+                -addext "subjectAltName=DNS:${FQDN}" \
+                -newkey rsa:2048 -nodes \
+                -keyout /tmp/key.pem \
+                -x509 -days 365 \
+                -out /tmp/certificate.pem
+
+              echo "[INFO] Creating secret with generated cert..."
+              kubectl create secret tls keycloak-cert \
+                --cert=/tmp/certificate.pem \
+                --key=/tmp/key.pem \
+                --namespace=keycloak \
+                --dry-run=client -o yaml | oc apply -f -
+
+              echo "[INFO] Creating configmap with CA cert..."
+              kubectl create configmap ca-kccwl-config-map \
+                --from-file=ca.crt=/tmp/certificate.pem \
+                --namespace=openshift-config \
+                --dry-run=client -o yaml | oc apply -f -
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      restartPolicy: Never
+      volumes:
+        - name: tmp
+          emptyDir: {}

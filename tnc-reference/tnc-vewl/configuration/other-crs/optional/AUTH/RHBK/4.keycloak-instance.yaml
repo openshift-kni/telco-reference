@@ -1,0 +1,30 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+  name: keycloak
+  namespace: keycloak
+spec:
+  db:
+    host: $host
+    port: $hosrport
+    passwordSecret:
+      key: password
+      name: keycloak-db-secret
+    usernameSecret:
+      key: username
+      name: keycloak-db-secret
+    vendor: postgres
+  hostname:
+    hostname: $hostname
+  http:
+    tlsSecret: keycloak-cert
+  ingress:
+    className: openshift-default
+  instances: 1
+  proxy:
+    headers: xforwarded
+  additionalOptions:
+    - name: http-relative-path
+      value: /auth  
