@@ -1,0 +1,19 @@
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: odf-cluster
+  namespace: openshift-storage
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: 8
+spec:
+  config: '{
+    "cniVersion": "0.3.1",
+    "type": "macvlan",
+    "master": "bond1.64",
+    "mode": "bridge",
+    "ipam": {
+       "type": "whereabouts",
+       "range": "10.0.64.0/24"
+    }
+  }'
+

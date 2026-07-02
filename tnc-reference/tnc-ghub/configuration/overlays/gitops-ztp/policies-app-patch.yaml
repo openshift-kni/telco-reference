@@ -1,0 +1,12 @@
+---
+- op: replace
+  path: "/spec/destination/namespace"
+  value: ztp-hub-policy
+
+- op: replace
+  path: "/spec/source"
+  value:
+    path: "tnc-reference/tnc-mgmt-ztp/configuration"
+    repoURL: "http://git.npss.bos2.lab:3300/syed/tnc-github.git"
+    targetRevision: "main"
+#

@@ -1,0 +1,10 @@
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: openshift-operators-redhat-opergrp
+  namespace: openshift-operators-redhat
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"
+spec:
+  upgradeStrategy: Default

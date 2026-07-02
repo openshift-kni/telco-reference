@@ -1,0 +1,8 @@
+apiVersion: metal3.io/v1alpha1
+kind: Provisioning
+metadata:
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"
+  name: provisioning-configuration
+spec:
+  watchAllNamespaces: true

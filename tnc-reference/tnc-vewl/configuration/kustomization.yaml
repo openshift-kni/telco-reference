@@ -1,0 +1,18 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+generators:
+- core-overlay.yaml
+- vewl-additions.yaml
+# - core-finish.yaml
+# - core-upgrade.yaml
+# - core-upgrade-finish.yaml
+# - core-overlay.yaml
+# - core-baseline.yaml
+# - vewl-odf-external.yaml
+resources:
+- template-values/cwl-site3.yaml
+#- clusterimageset42016.yaml
+#- template-values/regional.yaml
+#- template-values/hw-types.yaml

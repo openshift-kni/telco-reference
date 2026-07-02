@@ -1,0 +1,47 @@
+# optional
+# copies: 0-N (up to one per node)
+---
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: nmstate-config-1
+spec:
+  nodeSelector: {}
+  desiredState:
+    interfaces: []
+    # - name: ens8f0.169
+    #   type: vlan
+    #   state: up
+    #   ipv4:
+    #     address:
+    #     - ip: 192.168.1.1
+    #       prefix-length: 24
+    #     dhcp: false
+    #     enabled: true
+    #   vlan:
+    #     base-iface: ens8f0
+    #     id: 169
+
+    # Example, shared host networking.
+    # - name: ens5f0
+    #   description: Create VFs
+    #   type: ethernet
+    #   state: up
+    #   ethernet:
+    #     sr-iov:
+    #       total-vfs: 5
+    routes:
+      config: []
+      # - destination: 172.16.0.0/24
+      #   metric: 150
+      #   next-hop-address: 192.168.1.2
+      #   next-hop-interface: ens8f0.169
+      #   table-id: 254
+status:
+  conditions:
+  - status: "True"
+    type: Available
+  - status: "False"
+    type: Degraded
+  - status: "False"
+    type: Progressing

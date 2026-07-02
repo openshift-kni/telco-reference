@@ -1,0 +1,7 @@
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: observability-obc
+  namespace: open-cluster-management-observability
+$patch: delete

@@ -1,0 +1,11 @@
+---
+- op: replace
+  path: "/data/ca.crt"
+  value: |
+    -----BEGIN CERTIFICATE-----
+    REDACTED
+    -----END CERTIFICATE-----
+    -----BEGIN CERTIFICATE-----
+    REDACTED
+    -----END CERTIFICATE-----
+

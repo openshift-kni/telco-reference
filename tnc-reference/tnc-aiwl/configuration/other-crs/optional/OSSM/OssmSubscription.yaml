@@ -1,0 +1,17 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: servicemeshoperator
+  namespace: openshift-operators
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "12"
+  labels:
+    operators.coreos.com/servicemeshoperator.openshift-operators: ''
+spec:
+  source: redhat-operators-disconnected
+  sourceNamespace: openshift-marketplace
+  name: servicemeshoperator3
+  channel: "stable"
+  installPlanApproval: Manual
+status:
+  state: AtLatestKnown

@@ -1,0 +1,391 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: rhoso-additions
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      rhoso: "true"
+      tnc-ver: "tnc6.1"
+  remediationAction: "inform"
+policies:
+  - name: rhoso-cluster-config
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "1"
+    manifests:
+    - path: reference-crs/required/other/catalog-source.yaml
+      patches:
+        - metadata:
+            name: rhoso-operators-disconnected
+          spec:
+            displayName:  RHOSO Disconnected Operators Catalog    
+            image: registry.bastion.npss.bos2.lab:9500/ocp/ocp4-osp/redhat/redhat-operator-index:v4.18
+
+  - name: rhoso-operator-subs
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "5"
+    manifests:
+#CERTMANAGER
+      - path: other-crs/optional/CERT/CertMgrNS.yaml
+      - path: other-crs/optional/CERT/CertMgrOperGroup.yaml
+      - path: other-crs/optional/CERT/CertMgrSubscription.yaml
+#COO - Pre-requisite for logging UI
+      - path: other-crs/optional/COO/CooSubscription.yaml 
+#LOKI
+      - path: other-crs/optional/LOG/LOKI/LokiNS.yaml
+      - path: other-crs/optional/LOG/LOKI/LokiOperGroup.yaml
+      - path: other-crs/optional/LOG/LOKI/LokiSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+            channel: stable-6.2
+#ESO
+      - path: other-crs/required/vault/ESO/ESONS.yaml
+      - path: other-crs/required/vault/ESO/ESOOperGroup.yaml
+      - path: other-crs/required/vault/ESO/ESOSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+      # OpenStack operator
+      - path: other-crs/required/RHOSO/operator/RhosoNS.yaml
+        patches:
+          - metadata:
+              name: openstack-operators
+      - path: other-crs/required/RHOSO/operator/RhosoNS.yaml
+        patches:
+          - metadata:
+              name: openstack
+      - path: other-crs/required/RHOSO/operator/RhosoOperGroup.yaml
+      - path: other-crs/required/RHOSO/operator/RhosoSubscription.yaml
+      - path: other-crs/required/RHOSO/rhoso_instance.yaml
+
+  - name: rhoso-operator-config
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "9"
+    manifests:
+### Configure ESO
+      - path: other-crs/required/vault/ESO/ExternalSecretConfig.yaml
+        #Following files are used to create the token needed for the 
+        #authentication of the cluster to the Vault server
+      - path: other-crs/required/vault/VaultNSfortokenreview.yaml
+      - path: other-crs/required/vault/VaultSAfortokenreview.yaml
+      - path: other-crs/required/vault/VaultCRBfortokenreview.yaml
+      - path: other-crs/required/vault/VaultSecretfortokenreview.yaml
+        
+        #Creating ClusterSecretStore for accessing secrets from Vault
+          # Get the vault CA cert and use below
+          # For Vault running on OpenShift, this can be the ingress certificate
+          # from the vault route
+      - path: other-crs/required/vault/VaultCertificate-ca.yaml
+        patches:
+        - data:
+            ca.crt: |
+              -----BEGIN CERTIFICATE-----
+              REDACTED
+              -----END CERTIFICATE-----
+              -----BEGIN CERTIFICATE-----
+              REDACTED
+              -----END CERTIFICATE-----
+      - path: other-crs/required/vault/ClusterSecretStore.yaml
+        patches:
+          - metadata:
+              name: 'vault-backend'
+            spec:
+              provider:
+                vault:
+                  auth:
+                    kubernetes:
+                      mountPath: 'kubernetes-{{hub (printf "%s" .ManagedClusterName) hub}}'
+                      role: '{{hub (printf "%s" .ManagedClusterName) hub}}'
+                  path: secrets
+                  server: '{{hub fromConfigMap "" .ManagedClusterName "vault-server" hub}}'
+
+#
+# OpenStack / RHOSO
+#
+      - path: other-crs/optional/LOG/rhoso/LogFileMetricExporter.yaml
+      - path: other-crs/optional/LOG/rhoso/rbac.yaml
+      - path: other-crs/required/RHOSO/Provisioning.yaml
+      - path: other-crs/required/RHOSO/networking/OspNetAttach.yaml
+        patches:
+          - metadata:
+              name: ctlplane
+            spec:
+              config: |
+                {
+                  "cniVersion": "0.3.1",
+                  "name": "ctlplane",
+                  "type": "macvlan",
+                  "master": "{{hub fromConfigMap `` .ManagedClusterName `ctlplane-interface` hub}}",
+                  "ipam": {
+                    "type": "whereabouts",
+                    "range": "{{hub fromConfigMap `` .ManagedClusterName `ctlplane-cidr` hub}}",
+                    "range_start": "{{hub fromConfigMap `` .ManagedClusterName `ctlplane-cp-range-start` hub}}",
+                    "range_end": "{{hub fromConfigMap `` .ManagedClusterName `ctlplane-cp-range-end` hub}}"
+                  }
+                }  
+      - path: other-crs/required/RHOSO/networking/OspNetAttach.yaml
+        patches: 
+          - metadata:
+              name: internalapi
+            spec:
+              config: |
+                {
+                  "cniVersion": "0.3.1",
+                  "name": "internalapi",
+                  "type": "macvlan",
+                  "master": "{{hub fromConfigMap `` .ManagedClusterName `internalapi-interface` hub}}",
+                  "ipam": {
+                    "type": "whereabouts",
+                    "range": "{{hub fromConfigMap `` .ManagedClusterName `internalapi-cidr` hub}}",
+                    "range_start": "{{hub fromConfigMap `` .ManagedClusterName `internalapi-cp-range-start` hub}}",
+                    "range_end": "{{hub fromConfigMap `` .ManagedClusterName `internalapi-cp-range-end` hub}}"
+                  }
+                }
+      - path: other-crs/required/RHOSO/networking/OspNetAttach.yaml
+        patches:
+          - metadata:
+              name: storage
+            spec:
+              config: |
+                {
+                  "cniVersion": "0.3.1",
+                  "name": "storage",
+                  "type": "macvlan",
+                  "master": "{{hub fromConfigMap `` .ManagedClusterName `storage-interface` hub}}",
+                  "ipam": {
+                    "type": "whereabouts",
+                    "range": "{{hub fromConfigMap `` .ManagedClusterName `storage-cidr` hub}}",
+                    "range_start": "{{hub fromConfigMap `` .ManagedClusterName `storage-cp-range-start` hub}}",
+                    "range_end": "{{hub fromConfigMap `` .ManagedClusterName `storage-cp-range-end` hub}}",
+                    "routes":[
+                      {
+                         "dst": "{{hub fromConfigMap `` .ManagedClusterName `storage-route-dst` hub}}",
+                         "gw": "{{hub fromConfigMap `` .ManagedClusterName `storage-route-gw` hub}}"
+                      }
+                    ]
+                  }
+                }
+      - path: other-crs/required/RHOSO/networking/OspNetAttach.yaml
+        patches:
+          - metadata:
+              name: tenant
+            spec:
+              config: |
+                {
+                  "cniVersion": "0.3.1",
+                  "name": "tenant",
+                  "type": "macvlan",
+                  "master": "{{hub fromConfigMap `` .ManagedClusterName `tenant-interface` hub}}",
+                  "ipam": {
+                    "type": "whereabouts",
+                    "range": "{{hub fromConfigMap `` .ManagedClusterName `tenant-cidr` hub}}",
+                    "range_start": "{{hub fromConfigMap `` .ManagedClusterName `tenant-cp-range-start` hub}}",
+                    "range_end": "{{hub fromConfigMap `` .ManagedClusterName `tenant-cp-range-end` hub}}"
+                  }
+                }
+      - path: other-crs/required/RHOSO/networking/OspNetAttach.yaml
+        patches:
+          - metadata: 
+              name: external
+            spec:
+              config: |
+                {
+                  "cniVersion": "0.3.1",
+                  "name": "external",
+                  "type": "macvlan",
+                    "master": "{{hub fromConfigMap `` .ManagedClusterName `external-interface` hub}}",
+                  "ipam": {
+                    "type": "whereabouts",
+                    "range": "{{hub fromConfigMap `` .ManagedClusterName `external-cidr` hub}}",
+                    "range_start": "{{hub fromConfigMap `` .ManagedClusterName `external-cp-range-start` hub}}",
+                    "range_end": "{{hub fromConfigMap `` .ManagedClusterName `external-cp-range-end` hub}}"
+                  }
+                }
+      - path: reference-crs/required/networking/metallb/addr-pool.yaml
+        patches:
+          - metadata:
+              name: ctlplane
+              annotations:
+                metallb.universe.tf/address-pool: ctlplane
+            spec:
+              addresses:
+              - "{{hub fromConfigMap `` .ManagedClusterName `ctlplane-metallb-addrpool` hub}}"  
+      - path: reference-crs/required/networking/metallb/addr-pool.yaml
+        patches:
+          - metadata:
+              name: internalapi
+              annotations:
+                metallb.universe.tf/address-pool: internalapi
+            spec:
+              addresses:
+              - "{{hub fromConfigMap `` .ManagedClusterName `internalapi-metallb-addrpool` hub}}"
+      - path: reference-crs/required/networking/metallb/addr-pool.yaml
+        patches: 
+          - metadata:
+              name: storage
+              annotations:
+                metallb.universe.tf/address-pool: storage
+            spec:
+              addresses:
+              - "{{hub fromConfigMap `` .ManagedClusterName `storage-metallb-addrpool` hub}}"
+      - path: reference-crs/required/networking/metallb/addr-pool.yaml
+        patches:
+          - metadata:
+              name: tenant
+              annotations:
+                metallb.universe.tf/address-pool: tenant
+            spec:
+              addresses:
+              - "{{hub fromConfigMap `` .ManagedClusterName `tenant-metallb-addrpool` hub}}"
+      - path: other-crs/required/RHOSO/networking/Osp-metal-lb-l2-adv.yaml
+        patches:
+          - metadata:
+              name: ctlplane
+            spec:
+              ipAddressPools:
+              - ctlplane
+              interfaces:
+              - "{{hub fromConfigMap `` .ManagedClusterName `ctlplane-interface` hub}}"
+      - path: other-crs/required/RHOSO/networking/Osp-metal-lb-l2-adv.yaml
+        patches:
+          - metadata:
+              name: internalapi
+            spec:
+              ipAddressPools:
+              - internalapi
+              interfaces:
+              - "{{hub fromConfigMap `` .ManagedClusterName `internalapi-interface` hub}}"
+      - path: other-crs/required/RHOSO/networking/Osp-metal-lb-l2-adv.yaml
+        patches:
+          - metadata:
+              name: storage
+            spec:
+              ipAddressPools:
+              - storage
+              interfaces:
+              - "{{hub fromConfigMap `` .ManagedClusterName `storage-interface` hub}}"
+      - path: other-crs/required/RHOSO/networking/Osp-metal-lb-l2-adv.yaml
+        patches:
+          - metadata:
+              name: tenant
+            spec:
+              ipAddressPools:
+              - tenant
+              interfaces:
+              - "{{hub fromConfigMap `` .ManagedClusterName `tenant-interface` hub}}"
+      - path: other-crs/required/RHOSO/networking/Osp-dp-netconfig.yaml
+        patches:
+          - spec:
+              networks:
+              - name: ctlplane
+                dnsDomain: ctlplane.{{hub fromConfigMap "" .ManagedClusterName "dns-domain"  hub}}
+                subnets:
+                - name: subnet1
+                  allocationRanges:
+                  - end: '{{hub fromConfigMap "" .ManagedClusterName "ctlplane-dp-range-end"  hub}}'
+                    start: '{{hub fromConfigMap "" .ManagedClusterName "ctlplane-dp-range-start"  hub}}'
+                  cidr: '{{hub fromConfigMap "" .ManagedClusterName "ctlplane-cidr"  hub}}'
+                  gateway: '{{hub fromConfigMap "" .ManagedClusterName "ctlplane-gw"  hub}}'
+              - name: internalapi 
+                dnsDomain: internalapi.{{hub fromConfigMap "" .ManagedClusterName "dns-domain"  hub}}
+                mtu: 8900
+                subnets:
+                - name: subnet1
+                  allocationRanges:
+                  - end: '{{hub fromConfigMap "" .ManagedClusterName "internalapi-dp-range-end"  hub}}'
+                    start: '{{hub fromConfigMap "" .ManagedClusterName "internalapi-dp-range-start"  hub}}'
+                  cidr: '{{hub fromConfigMap "" .ManagedClusterName "internalapi-cidr"  hub}}'
+                  vlan: 93
+              - name: tenant
+                dnsDomain: tenant.{{hub fromConfigMap "" .ManagedClusterName "dns-domain"  hub}}
+                mtu: 8900
+                subnets:
+                - name: subnet1
+                  allocationRanges:
+                  - end: '{{hub fromConfigMap "" .ManagedClusterName "tenant-dp-range-end"  hub}}'
+                    start: '{{hub fromConfigMap "" .ManagedClusterName "tenant-dp-range-start"  hub}}'
+                  cidr: '{{hub fromConfigMap "" .ManagedClusterName "tenant-cidr"  hub}}'
+                  vlan: 96
+              - name: storage
+                dnsDomain: storage.{{hub fromConfigMap "" .ManagedClusterName "dns-domain"  hub}}
+                mtu: 8900
+                subnets:
+                - name: subnet1
+                  allocationRanges:
+                  - end: '{{hub fromConfigMap "" .ManagedClusterName "storage-dp-range-end"  hub}}'
+                    start: '{{hub fromConfigMap "" .ManagedClusterName "storage-dp-range-start"  hub}}'
+                  cidr: '{{hub fromConfigMap "" .ManagedClusterName "storage-cidr"  hub}}'
+                  vlan: 94
+                  routes:
+                    - destination: '{{hub fromConfigMap "" .ManagedClusterName "storage-route-dst"  hub}}'
+                      nexthop: '{{hub fromConfigMap "" .ManagedClusterName "storage-route-gw"  hub}}'
+              - name: external
+                dnsDomain: external.{{hub fromConfigMap "" .ManagedClusterName "dns-domain"  hub}}
+                subnets:
+                - name: subnet1
+                  allocationRanges:
+                  - end: '{{hub fromConfigMap "" .ManagedClusterName "external-dp-range-end"  hub}}'
+                    start: '{{hub fromConfigMap "" .ManagedClusterName "external-dp-range-start"  hub}}'
+                  cidr: '{{hub fromConfigMap "" .ManagedClusterName "external-cidr"  hub}}'
+                  vlan: 1022
+                  gateway: '{{hub fromConfigMap "" .ManagedClusterName "external-gw"  hub}}'
+
+      - path: other-crs/required/RHOSO/networking/Network.yaml
+      - path: other-crs/required/RHOSO/cephSecret.yaml
+        patches:
+        - spec:
+            dataFrom:
+            - extract:
+                key: '{{hub (printf "%s" .ManagedClusterName) hub}}/rhoso-ceph'
+      - path: other-crs/required/RHOSO/rhosoKeys.yaml
+        patches:
+        - spec:
+            dataFrom:
+            - extract:
+                key: '{{hub (printf "%s" .ManagedClusterName) hub}}/rhoso-keys'
+
+
+  - name: rhoso-ctlplane
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "20"
+    manifests:
+      - path: other-crs/required/RHOSO/ctlplane/osp-secrets.yaml
+      - path: other-crs/required/RHOSO/ctlplane/ceph-secret.yaml
+      - path: other-crs/required/RHOSO/ctlplane/osp-ctlplane.yaml
+
+  - name: rhoso-dataplane
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "30"
+    manifests:
+      - path: other-crs/required/RHOSO/dataplane/libvirtSecret.yaml
+      - path: other-crs/required/RHOSO/dataplane/ssh_secret.yaml
+        patches:
+          - metadata:  
+              name: dataplane-ansible-ssh-private-key-secret
+            data:
+              authorized_keys: "{{fromSecret `openstack` `rhoso-keys` `ansible-public`}}"
+              ssh-privatekey: "{{fromSecret `openstack` `rhoso-keys` `ansible-private`}}"
+              ssh-publickey: "{{fromSecret `openstack` `rhoso-keys` `ansible-public`}}"
+      - path: other-crs/required/RHOSO/dataplane/ssh_secret.yaml
+        patches:
+          - metadata:
+              name: nova-migration-ssh-key
+            data:
+              ssh-privatekey: "{{fromSecret `openstack` `rhoso-keys` `migration-private`}}"
+              ssh-publickey: "{{fromSecret `openstack` `rhoso-keys` `migration-public`}}"            
+      - path: other-crs/required/RHOSO/dataplane/ceph.yaml
+      - path: other-crs/required/RHOSO/dataplane/igmp.yaml
+      - path: other-crs/required/RHOSO/dataplane/osdp-srv-igmp.yaml
+      - path: other-crs/required/RHOSO/dataplane/sriov/cpu-pin-sriov.yaml
+      - path: other-crs/required/RHOSO/dataplane/sriov/sriov-nova.yaml
+      - path: other-crs/required/RHOSO/dataplane/sriov/osdp-srv-sriov.yaml
+      - path: other-crs/required/RHOSO/dataplane/sriov/osdp-nodeSet-sriov.yaml
+      - path: other-crs/required/RHOSO/dataplane/sriov/osdp-dep-sriov.yaml
+      - path: other-crs/required/RHOSO/dataplane/dpdk/cpu-pin-dpdk.yaml
+      - path: other-crs/required/RHOSO/dataplane/dpdk/osdp-srv-dpdk.yaml
+      - path: other-crs/required/RHOSO/dataplane/dpdk/osdp-nodeSet-dpdk.yaml
+      - path: other-crs/required/RHOSO/dataplane/dpdk/osdp-dep-dpdk.yaml
+

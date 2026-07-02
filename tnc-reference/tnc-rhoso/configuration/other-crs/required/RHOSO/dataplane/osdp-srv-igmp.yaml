@@ -1,0 +1,30 @@
+---
+apiVersion: dataplane.openstack.org/v1beta1
+kind: OpenStackDataPlaneService
+metadata:
+ name: neutron-ovn-igmp
+ namespace: openstack
+ annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+ caCerts: combined-ca-bundle
+ dataSources:
+ - configMapRef:
+     name: neutron-igmp
+ - secretRef:
+     name: neutron-ovn-agent-neutron-config
+ edpmServiceType: neutron-ovn
+ playbook: osp.edpm.neutron_ovn
+ tlsCerts:
+   default:
+     contents:
+     - dnsnames
+     - ips
+     issuer: osp-rootca-issuer-ovn
+     keyUsages:
+     - digital signature
+     - key encipherment
+     - client auth
+     networks:
+     - ctlplane
+

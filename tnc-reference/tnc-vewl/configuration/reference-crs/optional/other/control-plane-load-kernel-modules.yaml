@@ -1,0 +1,38 @@
+# optional
+# count: 1
+---
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: master
+  name: 40-load-kernel-modules-control-plane
+spec:
+  config:
+    # Release info found in https://github.com/coreos/butane/releases
+    ignition:
+      version: 3.2.0
+    storage:
+      files:
+      - contents:
+          source: data:,
+        mode: 420
+        overwrite: true
+        path: /etc/modprobe.d/kernel-blacklist.conf
+      - contents:
+          # Contents
+          # ip_gre
+          # nf_tables
+          # nf_conntrack
+          # nft_ct
+          # nft_limit
+          # nft_log
+          # nft_nat
+          # nft_chain_nat
+          # nf_reject_ipv4
+          # nf_reject_ipv6
+          # nfnetlink_log
+          source: data:text/plain;charset=utf-8;base64,aXBfZ3JlCm5mX3RhYmxlcwpuZl9jb25udHJhY2sKbmZ0X2N0Cm5mdF9saW1pdApuZnRfbG9nCm5mdF9uYXQKbmZ0X2NoYWluX25hdApuZl9yZWplY3RfaXB2NApuZl9yZWplY3RfaXB2NgpuZm5ldGxpbmtfbG9nCg==
+        mode: 420
+        overwrite: true
+        path: /etc/modules-load.d/kernel-load.conf

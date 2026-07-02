@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: regional
+  namespace: ztp-core-policies
+data:
+  zone-1-log-url: tcp://10.11.12.13:9002/test
+  zone-2-log-url: "tcp://192.168.100.100:9002/test"

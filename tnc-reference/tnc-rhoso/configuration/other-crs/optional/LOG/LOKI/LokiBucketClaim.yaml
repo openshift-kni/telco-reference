@@ -1,0 +1,10 @@
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: loki-bucket-odf
+  namespace: openshift-logging
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  generateBucketName: loki-bucket-odf
+  storageClassName: openshift-storage.noobaa.io

@@ -1,0 +1,17 @@
+---
+apiVersion: k8s.cni.cncf.io/v1beta1
+kind: MultiNetworkPolicy
+metadata:
+  name: allow-port-and-protocol
+  annotations:
+    k8s.v1.cni.cncf.io/policy-for: $networkName
+spec:
+  podSelector:
+    matchLabels:    # Define which pods are affected by this policy
+      $labelKey: $labelValue
+  policyTypes:
+  - Ingress
+  ingress:
+  - ports:
+    - protocol: TCP       # TCP,UDP,SCTP
+      port: $portNumber   # The port that needs to be reached

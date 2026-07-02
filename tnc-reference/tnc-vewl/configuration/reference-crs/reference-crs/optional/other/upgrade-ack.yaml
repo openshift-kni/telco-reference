@@ -1,0 +1,7 @@
+# Used only in the upgrade process to acknowledge upgrade conditions
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: admin-acks
+  namespace: openshift-config

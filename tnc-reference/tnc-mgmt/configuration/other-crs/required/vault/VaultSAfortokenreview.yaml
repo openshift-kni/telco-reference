@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vault-reviewer
+  namespace: vault
+  annotations:
+    argocd.argoproj.io/sync-wave: "-35"

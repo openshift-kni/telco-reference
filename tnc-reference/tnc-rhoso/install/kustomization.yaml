@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+generatorOptions:
+  disableNameSuffixHash: true
+configMapGenerator:
+- files:
+    - extra-manifests/control-plane-load-kernel-modules.yaml
+    - extra-manifests/worker-load-kernel-modules.yaml
+    - extra-manifests/mc_rootless_pods_selinux.yaml
+    - extra-manifests/kdump-master.yaml
+    - extra-manifests/kdump-worker.yaml
+    - extra-manifests/mount_namespace_config_master.yaml
+    - extra-manifests/mount_namespace_config_worker.yaml
+  name: extra-manifests-configmap
+  namespace: cwl-site2
+
+resources:
+  - ns/cwl-site2.yaml
+  - secrets/cwl-site2.yaml
+  - cwl-site2.yaml
+

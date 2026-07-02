@@ -1,0 +1,33 @@
+# networkData
+links:
+- name: {{ item.bond_port1 }}
+  id: {{ item.bond_port1 }}
+  type: phy
+  ethernet_mac_address: "{{ item.bond_port1_mac }}"
+- name: {{ item.bond_port2 }}
+  id: {{ item.bond_port2 }}
+  type: phy
+  ethernet_mac_address: "{{ item.bond_port2_mac }}"
+- name: {{ item.bond_name }}
+  id: {{ item.bond_name }}
+  type: bond
+  bond_mode: 802.3ad
+  bond_links:
+    - {{ item.bond_port1 }}
+    - {{ item.bond_port2 }}
+networks:
+- link: {{ item.bond_name }}
+  id: {{ item.bond_name }}
+  type: ipv4
+  ip_address: {{ item.bond_ip_address }}
+  netmask: {{ item.bond_ip_netmask }}
+  routes:
+  - network: 0.0.0.0
+    netmask: 0.0.0.0
+    gateway: {{ item.bond_gateway }}
+services:
+- type: dns-nameserver
+  address:
+    - {{ item.dns_server }}
+  search:
+    - ctlplane.{{ item.domain }}

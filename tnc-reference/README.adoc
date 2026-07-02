@@ -1,0 +1,38 @@
+= TNC Sub-Architectures
+
+* *tnc-ghub*
++
+Artificats to deploy and configure the Global Hub Cluster, part of the TNC Management Cluster Sub-Architecture
++
+Cluster deployed using Agent based installer and configured via GitOps.
+* *tnc-mgmt*
++
+Artificats to deploy and configure the Management Cluster, part of the TNC Management Cluster Sub-Architecture
++
+Cluster deployed using Agent based installer and configured via GitOps.
+* *tnc-mgmt-ztp*
++
+Artificats to deploy and configure the Management Cluster, part of the TNC Management Cluster Sub-Architecture
++
+Cluster deployed and configured via ACM ZTP from the global hub cluster
+* *tnc-cwl*
++
+Artificats to deploy and configure the Core Workload Cluster
++
+Cluster deployed and configured via ACM ZTP from the management cluster
+* *tnc-vewl*
++
+Artificats to deploy and configure the Virtualization Enabled Workload Cluster
++
+Cluster deployed and configured via ACM ZTP from the management cluster
+* *tnc-aiwl*
++
+Artificats to deploy and configure the AI Workload Cluster
++
+Cluster deployed and configured via ACM ZTP from the management cluster
+* *tnc-rhoso*
++
+Artificats to deploy and configure the RHOSO (Red Hat OpenStack Service on OpenShift) Workload Cluster
++
+Cluster deployed and configured via ACM ZTP from the management cluster
+

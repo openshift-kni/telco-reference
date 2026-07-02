@@ -1,8 +1,0 @@
----
-- op: replace
-  path: "/data"
-  value:
-    registry.example.com..8443: |
-      -----BEGIN CERTIFICATE-----
-      MIIGcjCCBFqgAwIBAgIFICIE...
-      -----END CERTIFICATE-----

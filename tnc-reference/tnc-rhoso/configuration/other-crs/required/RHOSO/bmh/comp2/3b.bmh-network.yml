@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Secret
+metadata:
+ name: comp2-network-config
+ namespace: openstack
+type: Opaque
+stringData:
+ nmstate: |
+  interfaces:
+  - name: bond0
+    type: bond
+    state: up
+    mtu: 8950
+    ipv4:
+      address:
+      - ip: 10.1.1.101
+        prefix-length: 24
+      enabled: true
+    link-aggregation:
+      mode: 802.3ad
+      options:
+        miimon: "100"
+      port:
+      - eno12399
+      - eno12409
+  dns-resolver:
+    config:
+      server:
+      - 192.168.22.4
+  routes:
+    config:
+    - destination: 0.0.0.0/0
+      next-hop-address: 10.1.1.1
+      next-hop-interface: bond0
+
+
+

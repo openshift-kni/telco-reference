@@ -1,0 +1,5 @@
+---
+- op: replace
+  path: "/spec/storage/deviceClasses/0/deviceSelector/paths"
+  value:  # add devices to be used by LVMS  operator
+    - /dev/disk/by-path/pci-0000:3f:00.0-scsi-0:0:3:0

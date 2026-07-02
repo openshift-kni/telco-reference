@@ -1,0 +1,168 @@
+apiVersion: core.openstack.org/v1beta1
+kind: OpenStackControlPlane
+metadata:
+  name: openstack
+  namespace: osp18
+spec:
+  #
+  # Extra mounts defined to integrate with external Ceph
+  #
+  extraMounts:
+    - name: v1
+      region: r1
+      extraVol:
+        - propagation:
+          - CinderVolume
+          - CinderBackup
+          - GlanceAPI
+          extraVolType: Ceph
+          volumes:
+          - name: ceph
+            projected:
+              sources:
+              - secret:
+                  name: ceph-conf-files
+          mounts:
+          - name: ceph
+            mountPath: "/etc/ceph"
+            readOnly: true
+  secret: osp-secret
+  storageClass: ocs-external-storagecluster-ceph-rbd
+  tls:
+    podLevel:
+      enabled: false
+    ingress:
+      enabled: false
+  cinder:
+    enabled: false
+    template:
+      cinderAPI: {}
+      cinderScheduler: {}
+      cinderBackup: {}
+      cinderVolumes: {}
+  nova:
+    enabled: false
+    template: {}
+  dns:
+    template:
+      options:
+      - key: server
+        values:
+        - 192.168.22.4
+      override:
+        service:
+          metadata:
+            annotations:
+              metallb.universe.tf/address-pool: ctlplane
+              metallb.universe.tf/allow-shared-ip: ctlplane
+              metallb.universe.tf/loadBalancerIPs: 10.62.62.185
+          spec:
+            type: LoadBalancer
+      replicas: 1
+  galera:
+    enabled: true
+    templates:
+      openstack:
+        storageRequest: 5000M
+        secret: osp-secret
+        replicas: 3
+      openstack-cell1:
+        storageRequest: 5000M
+        secret: osp-secret
+        replicas: 3
+  ironic:
+    enabled: false
+    template:
+      ironicConductors: []
+  keystone:
+    enabled: false
+    template: {}
+  manila:
+    enabled: false
+    template:
+      manilaAPI: {}
+      manilaScheduler: {}
+      manilaShares: {}
+  glance:
+    enabled: false
+    template:
+      glanceAPIs: {}
+  barbican:
+    enabled: false
+    template:
+      barbicanAPI: {}
+      barbicanWorker: {}
+      barbicanKeystoneListener: {}
+  memcached:
+    enabled: true
+    templates:
+      memcached:
+         replicas: 3
+  neutron:
+    enabled: false
+    template: {}
+  swift:
+    enabled: false
+    template:
+      swiftRing:
+        ringReplicas: 1
+      swiftStorage:
+        replicas: 0
+      swiftProxy:
+        replicas: 1
+  ovn:
+    enabled: false
+    template:
+      ovnController:
+        networkAttachment: tenant
+        nodeSelector:
+          node: non-existing-node-name
+      ovnNorthd:
+        replicas: 0
+      ovnDBCluster:
+        ovndbcluster-nb:
+          dbType: NB
+          networkAttachment: internalapi
+        ovndbcluster-sb:
+          dbType: SB
+          networkAttachment: internalapi
+  placement:
+    enabled: false
+    template: {}
+  rabbitmq:
+    templates:
+      rabbitmq:
+        override:
+          service:
+            metadata:
+              annotations:
+                metallb.universe.tf/address-pool: internalapi
+                metallb.universe.tf/loadBalancerIPs: 10.2.120.185
+            spec:
+              type: LoadBalancer
+      rabbitmq-cell1:
+        replicas: 3
+        override:
+          service:
+            metadata:
+              annotations:
+                metallb.universe.tf/address-pool: internalapi
+                metallb.universe.tf/loadBalancerIPs: 10.2.120.186
+            spec:
+              type: LoadBalancer
+  heat:
+    enabled: false
+    template: {}
+  telemetry:
+    enabled: false
+  horizon:
+    enabled: false
+    template: {}
+  octavia:
+    enabled: false
+    template:
+      databaseInstance: openstack
+      octaviaAPI:
+        replicas: 1
+      secret: osp-secret
+

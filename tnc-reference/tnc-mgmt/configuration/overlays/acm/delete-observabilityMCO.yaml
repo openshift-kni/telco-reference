@@ -1,0 +1,7 @@
+---
+apiVersion: observability.open-cluster-management.io/v1beta2
+kind: MultiClusterObservability
+metadata:
+  name: observability
+$patch: delete
+

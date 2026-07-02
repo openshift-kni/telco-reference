@@ -1,0 +1,10 @@
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: $name
+  namespace: openstack
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  config: $config
+---

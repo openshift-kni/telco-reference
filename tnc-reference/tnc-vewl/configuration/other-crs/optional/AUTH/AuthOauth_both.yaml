@@ -1,0 +1,53 @@
+apiVersion: config.openshift.io/v1
+kind: OAuth
+metadata:
+  annotations:
+    include.release.openshift.io/ibm-cloud-managed: "true"
+    include.release.openshift.io/self-managed-high-availability: "true"
+    release.openshift.io/create-only: "true"
+  name: cluster
+spec:
+  identityProviders:
+  - name: htpasswd
+    htpasswd:
+      fileData:
+        name: htpasswd-secret
+    mappingMethod: claim
+    type: HTPasswd
+  - name: idm-ldap
+    mappingMethod: add 
+    type: LDAP
+    ldap:
+      attributes:
+        id: 
+        - dn
+        email: 
+        - mail
+        name: 
+        - cn
+        preferredUsername: 
+        - uid
+      bindDN: "uid=ocp-bind-user,cn=users,cn=accounts,dc=npss,dc=bos2,dc=lab"
+      bindPassword:
+        name: "ldap-auth-secret"
+      ca: 
+        name: ldap-ca-cert
+      insecure: false
+      url: 'ldap://{{ fromClusterClaim "ldap-server" }}/cn=accounts,dc=npss,dc=bos2,dc=lab?uid'
+  - name: keycloak
+    mappingMethod: claim
+    openID:
+      ca:
+        name: ca-kccwl-config-map
+      claims:
+        email:
+        - email
+        name:
+        - name
+        preferredUsername:
+        - preferred_username
+      clientID: '{{hub fromConfigMap "ztp-core-policy" "core-data" (printf "%s-rhbk-client-id" .ManagedClusterName) hub}}'
+      clientSecret:
+        name: keycloak-client-secret
+      issuer: '{{hub fromConfigMap "ztp-core-policy" "core-data" (printf "%s-rhbk-openid-issuer" .ManagedClusterName) hub}}'
+    type: OpenID

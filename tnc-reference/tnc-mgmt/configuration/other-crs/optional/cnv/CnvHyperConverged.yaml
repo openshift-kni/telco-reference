@@ -1,0 +1,9 @@
+---
+apiVersion: hco.kubevirt.io/v1beta1
+kind: HyperConverged
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-35"
+  name: kubevirt-hyperconverged
+  namespace: openshift-cnv
+spec: {}

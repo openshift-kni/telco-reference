@@ -1,0 +1,13 @@
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: lvms
+  namespace: openshift-storage
+  annotations:
+    argocd.argoproj.io/sync-wave: "-40"
+spec:
+  installPlanApproval: Automatic
+  name: lvms-operator
+  source: redhat-operators-disconnected
+  sourceNamespace: openshift-marketplace

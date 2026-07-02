@@ -1,0 +1,230 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: otel-metrics-gateway
+  namespace: otel
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "7"
+spec:
+  mode: deployment
+  replicas: 1
+  resources:
+    requests:
+      memory: 1Gi
+      cpu: "500m"
+    limits:
+      memory: 2Gi
+      cpu: "2"
+  config:
+    receivers: 
+      prometheus/platform:
+        config:
+          scrape_configs:
+            - job_name: openshift-platform
+              scrape_interval: 60s
+              scheme: https
+              metrics_path: /federate
+              params:
+                'match[]':
+                  - '{__name__=~"acm_managed_cluster_labels|cluster_infrastructure_provider|cluster_operator_conditions|cluster_operator_up|cluster_version|cluster_version_payload|cluster_health_components_map|console_url|csv_abnormal|csv_succeeded|policyreport_info|prometheus_operator_reconcile_errors_total|prometheus_operator_reconcile_operations_total|up"}'
+                  - '{__name__=~"kube_node_labels|kube_node_role|kube_node_spec_unschedulable|kube_node_status_allocatable|kube_node_status_allocatable_cpu_cores|kube_node_status_allocatable_memory_bytes|kube_node_status_capacity|kube_node_status_capacity_cpu_cores|kube_node_status_capacity_pods|kube_node_status_condition|kube_pod_info|kube_pod_owner|kube_persistentvolume_status_phase|kube_resourcequota"}'
+                  - '{__name__=~"node_cpu_seconds_total|node_filesystem_avail_bytes|node_filesystem_free_bytes|node_filesystem_size_bytes|node_memory_MemAvailable_bytes|node_memory_MemTotal_bytes|machine_cpu_cores|machine_memory_bytes|node_netstat_Tcp_OutSegs|node_netstat_Tcp_RetransSegs|node_netstat_TcpExt_TCPSynRetrans"}'
+                  - '{__name__=~"apiserver_request_total|apiserver_request_duration_seconds_bucket|authenticated_user_requests|authentication_attempts|apiserver_current_inflight_requests|apiserver_request_count|apiserver_storage_objects"}'
+                  - '{__name__=~"etcd_debugging_mvcc_db_total_size_in_bytes|etcd_debugging_snap_save_total_duration_seconds_sum|etcd_disk_backend_commit_duration_seconds_bucket|etcd_disk_backend_commit_duration_seconds_sum|etcd_disk_wal_fsync_duration_seconds_bucket|etcd_disk_wal_fsync_duration_seconds_sum|etcd_mvcc_db_total_size_in_bytes|etcd_network_client_grpc_received_bytes_total|etcd_network_client_grpc_sent_bytes_total|etcd_network_peer_received_bytes_total|etcd_network_peer_sent_bytes_total|etcd_object_counts|etcd_server_client_requests_total|etcd_server_has_leader|etcd_server_health_failures|etcd_server_leader_changes_seen_total|etcd_server_proposals_applied_total|etcd_server_proposals_committed_total|etcd_server_proposals_failed_total|etcd_server_proposals_pending|etcd_server_quota_backend_bytes"}'
+                  - '{__name__=~"container_cpu_cfs_periods_total|container_cpu_cfs_throttled_periods_total|container_spec_cpu_quota|container_memory_working_set_bytes|grpc_server_started_total|http_requests_total|coredns_dns_request_duration_seconds_sum|coredns_dns_requests_total|coredns_forward_responses_total|haproxy_backend_connection_errors_total|haproxy_backend_connections_total|haproxy_backend_current_queue|haproxy_backend_http_average_response_latency_milliseconds|haproxy_backend_max_sessions|haproxy_backend_response_errors_total|haproxy_backend_up"}'
+                  - '{__name__="workqueue_queue_duration_seconds_bucket",job="apiserver"}'
+                  - '{__name__="workqueue_adds_total",job="apiserver"}'
+                  - '{__name__="workqueue_depth",job="apiserver"}'
+                  - '{__name__="go_goroutines",job="apiserver"}'
+                  - '{__name__="process_cpu_seconds_total",job="apiserver"}'
+                  - '{__name__="process_resident_memory_bytes",job=~"apiserver|etcd"}'
+                  - '{__name__="container_memory_cache",container!=""}'
+                  - '{__name__="container_memory_rss",container!=""}'
+                  - '{__name__="container_memory_swap",container!=""}'
+                  - '{__name__="container_memory_working_set_bytes",container!=""}'
+
+              static_configs:
+                - targets:
+                    - prometheus-k8s.openshift-monitoring.svc:9091
+              bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+              tls_config:
+                ca_file: /etc/otel/service-ca/service-ca.crt
+                insecure_skip_verify: false
+              
+              # Early cardinality reduction
+              metric_relabel_configs:
+                # Drop noisy metrics
+                - action: drop
+                  source_labels: [__name__]
+                  regex: "kube_pod_container_info|up|scrape_.*"
+
+                # Drop high-cardinality labels
+                - action: labeldrop
+                  regex: "(pod_uid|container_id|instance|endpoint)"
+
+      prometheus/user-workload:
+        config:
+          scrape_configs:
+            - job_name: openshift-user-workload
+              scrape_interval: 60s
+              scheme: https
+              metrics_path: /federate
+              params:
+                'match[]':
+                  - '{__name__=~"app_.*|service_latency.*|service:availability.*|service:error_rate.*"}'
+                  - '{__name__=~"ALERTS"}'
+                  - '{__name__="process_resident_memory_bytes",job=~"apiserver|etcd"}'
+                  - '{__name__="grpc_server_started_total",job="etcd"}'
+                  - '{__name__="grpc_server_handled_total",job="etcd"}'
+                  - '{__name__="go_goroutines",job="apiserver"}'
+                  - '{__name__="process_cpu_seconds_total",job="apiserver"}'
+                  - '{__name__="workqueue_adds_total",job="apiserver"}'
+                  - '{__name__="workqueue_depth",job="apiserver"}'
+                  - '{__name__="workqueue_queue_duration_seconds_bucket",job="apiserver"}'
+              static_configs:
+                - targets:
+                    - prometheus-user-workload.openshift-user-workload-monitoring.svc:9092
+              bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+              tls_config:
+                ca_file: /etc/otel/service-ca/service-ca.crt
+                insecure_skip_verify: false
+
+    processors: 
+      batch: 
+        timeout: 5s
+        send_batch_size: 200
+        send_batch_max_size: 400
+
+      memory_limiter:
+        limit_mib: 1600
+        spike_limit_mib: 300
+        check_interval: 1s
+
+      k8sattributes:
+          auth_type: serviceAccount
+
+      # Identify the metric type so that they can be
+      # forwarded with different kafka topics
+      
+      filter/application_metrics:
+        metrics:
+          include:
+            match_type: regexp
+            metric_names:
+              - "^http_.*"
+              - "^grpc_.*"
+              - "^rpc_.*"
+              - "^app_.*"
+
+      filter/slo_metrics:
+        metrics:
+          include:
+            match_type: regexp
+            metric_names:
+              - "^service_latency.*"
+              - "^service:availability.*"
+              - "^service:error_rate.*"
+
+    exporters: 
+      #debug:
+      #  verbosity: detailed
+      kafka/platform:
+        brokers:
+          - my-cluster-kafka-bootstrap.kafka.svc:9093
+        topic: otel-platform-metrics
+        encoding: otlp_proto
+        tls:
+          ca_file: /etc/kafka/secrets/ca-bundle.crt
+          cert_file: /etc/kafka/secrets/tls.crt
+          key_file: /etc/kafka/secrets/tls.key
+          insecure_skip_verify: false
+        producer:
+          max_message_bytes: 900000
+          compression: zstd
+        sending_queue:
+          enabled: true
+          queue_size: 1000
+        retry_on_failure:
+          enabled: true
+
+      kafka/app:
+        brokers:
+          - my-cluster-kafka-bootstrap.kafka.svc:9093
+        topic: otel-app-metrics
+        encoding: otlp_proto
+        tls:
+          ca_file: /etc/kafka/secrets/ca-bundle.crt
+          cert_file: /etc/kafka/secrets/tls.crt
+          key_file: /etc/kafka/secrets/tls.key
+          insecure_skip_verify: false
+        producer:
+          max_message_bytes: 900000
+          compression: zstd
+        sending_queue:
+          enabled: true
+          queue_size: 1000
+        retry_on_failure:
+          enabled: true
+
+      kafka/slo:
+        brokers:
+          - my-cluster-kafka-bootstrap.kafka.svc:9093
+        topic: otel-slo-metrics
+        encoding: otlp_proto
+        tls:
+          ca_file: /etc/kafka/secrets/ca-bundle.crt
+          cert_file: /etc/kafka/secrets/tls.crt
+          key_file: /etc/kafka/secrets/tls.key
+          insecure_skip_verify: false
+        producer:
+          max_message_bytes: 900000
+          compression: zstd
+        sending_queue:
+          enabled: true
+          queue_size: 1000
+        retry_on_failure:
+          enabled: true
+
+    service:
+      pipelines:
+        metrics/platform:
+          receivers: [prometheus/platform]
+          processors: 
+            - memory_limiter
+            - k8sattributes
+            - batch
+          exporters: [kafka/platform]
+          #exporters: [debug]
+
+        metrics/application:
+          receivers: [prometheus/user-workload]
+          processors:
+            - memory_limiter
+            - k8sattributes
+            - filter/application_metrics
+            - batch
+          exporters: [kafka/app]
+
+        metrics/slo:
+          receivers: [prometheus/user-workload]
+          processors:
+            - memory_limiter
+            - k8sattributes
+            - filter/slo_metrics
+            - batch
+          exporters: [kafka/slo]
+
+  volumeMounts:
+    - name: kafka-secrets
+      mountPath: /etc/kafka/secrets
+      readOnly: true
+    - name: openshift-service-ca
+      mountPath: /etc/otel/service-ca
+      readOnly: true
+  volumes:
+    - name: kafka-secrets
+      secret:
+        secretName: kafka-secret
+    - name: openshift-service-ca
+      configMap:
+        name: openshift-service-ca.crt

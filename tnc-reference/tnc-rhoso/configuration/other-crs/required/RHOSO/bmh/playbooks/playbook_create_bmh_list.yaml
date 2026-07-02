@@ -1,0 +1,12 @@
+- name: Create baremetal hosts from a list
+  hosts: localhost
+  vars_files:
+    - vars/secret.yaml
+    - vars/bmhlist.yaml
+  tasks:
+    - name: login to OCP cluster
+      include_tasks: "tasks/cluster_login.yml"
+
+    - name: create the baremetal hosts
+      include_tasks: "tasks/create_bmh.yaml"
+      loop: "{{ bmh_list }}"

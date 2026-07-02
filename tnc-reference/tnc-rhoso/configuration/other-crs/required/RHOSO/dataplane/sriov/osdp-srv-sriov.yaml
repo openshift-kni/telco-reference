@@ -1,0 +1,32 @@
+apiVersion: dataplane.openstack.org/v1beta1
+kind: OpenStackDataPlaneService
+metadata:
+  name: nova-custom-sriov-ceph
+  namespace: openstack
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  caCerts: combined-ca-bundle
+  dataSources:
+  - secretRef:
+      name: nova-cell1-compute-config
+  - secretRef:
+      name: nova-migration-ssh-key
+  - configMapRef:
+      name: cpu-pinning-nova-sriov
+  - configMapRef:
+      name: sriov-nova
+  - configMapRef:
+      name: ceph-nova
+  edpmServiceType: nova
+  #label: nova-custom-sriov-ceph
+  playbook: osp.edpm.nova
+  tlsCerts:
+   default:
+     contents:
+     - dnsnames
+     - ips
+     issuer: osp-rootca-issuer-internal
+     networks:
+     - ctlplane
+

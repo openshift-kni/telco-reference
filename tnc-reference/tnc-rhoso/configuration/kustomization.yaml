@@ -1,0 +1,19 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+generators:
+- core-baseline.yaml
+- core-overlay.yaml
+#- rhoso-netisolation.yaml    # Optional, in case OpenStack networks were not created during cluster installation
+- rhoso-additions.yaml
+- rhoso-odf-external.yaml
+- rhoso-odf-internal.yaml
+- rhoso-kafka.yaml
+- rhoso-auth-idm.yaml
+- core-finish.yaml
+resources:
+- clusterimageset42016.yaml
+- resources
+- template-values/regional.yaml
+- template-values/hw-types.yaml
+- template-values/cwl-site2.yaml

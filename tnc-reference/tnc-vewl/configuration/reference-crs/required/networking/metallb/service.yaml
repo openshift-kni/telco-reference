@@ -1,0 +1,18 @@
+# required
+# count: 1-N
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: $name
+  namespace: $ns
+  annotations:
+    metallb.universe.tf/address-pool: $pool  # eg addresspool3
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: $app  # eg server1
+  type: LoadBalancer
+  loadBalancerIP: $ip  # eg 3.3.3.5

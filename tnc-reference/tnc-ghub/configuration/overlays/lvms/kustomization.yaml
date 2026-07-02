@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../other-crs/optional/lvms/
+
+patches:
+  - target:
+      group: lvm.topolvm.io
+      version: v1alpha1
+      kind: LVMCluster
+      name: sno-lvmcluster
+    path: lvm-cluster-disks-patch.yaml

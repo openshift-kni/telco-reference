@@ -1,0 +1,17 @@
+# This policy allows validation of all operator subscriptions status
+# including subscriptions automatically created on behalf of other
+# subscriptions.
+object-templates-raw: |
+  {{- range (lookup "operators.coreos.com/v1alpha1" "Subscription" "" "").items }}
+  - complianceType: musthave
+    objectDefinition:
+      apiVersion: operators.coreos.com/v1alpha1
+      kind: Subscription
+      metadata:
+        name: {{ .metadata.name }}
+        namespace: {{ .metadata.namespace }}
+        annotations:
+          ztp-validated: "4.20"
+      status:
+        state: AtLatestKnown
+  {{- end }}

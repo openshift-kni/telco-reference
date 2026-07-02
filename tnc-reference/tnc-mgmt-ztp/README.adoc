@@ -1,0 +1,11 @@
+= TNC Management Cluster
+
+This repository contains reference configuration CRs related to the TNC Management (MGMT) cluster sub-architecture.
+
+This repo is for the case when the management cluster is NOT the first cluster being deployed and there is an existing global management cluster that can provide ACM for ZTP.
+
+* The cluster is installed via the Global Hub cluster, using ACM ZTP
+* The cluster is configured via ACM ZTP from the global hub cluster
+
+**Work In Progress**
+
