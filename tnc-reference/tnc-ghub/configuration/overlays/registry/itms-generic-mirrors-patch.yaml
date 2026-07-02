@@ -1,0 +1,31 @@
+---
+- op: replace
+  path: /spec/imageTagMirrors
+  value:
+  - mirrors:
+    - registry.bastion.npss.bos2.lab:9500/ocp/ocp4/nvidia/cloud-native
+    source: nvcr.io/nvidia/cloud-native
+  - mirrors:
+    - registry.bastion.npss.bos2.lab:9500/ocp/ocp4/rhel9
+    source: registry.redhat.io/rhel9
+  - mirrors:
+    - registry.bastion.npss.bos2.lab:9500/ocp/ocp4
+    source: registry.redhat.io
+  - mirrors:
+    - registry.bastion.npss.bos2.lab:9500/ocp/ocp4/nvidia
+    source: nvcr.io/nvidia
+  - mirrors:
+    - registry.bastion.npss.bos2.lab:9500/ocp/ocp4/nvidia/k8s
+    source: nvcr.io/nvidia/k8s
+  - mirrors:
+    - registry.bastion.npss.bos2.lab:9500/ocp/ocp4/ubi8
+    source: registry.redhat.io/ubi8
+  - mirrors:
+    - registry.bastion.npss.bos2.lab:9500/ocp/ocp4/cloudnative-pg
+    source: ghcr.io/cloudnative-pg
+  - mirrors:
+    - registry.bastion.npss.bos2.lab:9500/ocp/ocp4/ollama
+    source: docker.io/ollama
+  - mirrors:
+    - registry.bastion.npss.bos2.lab:9500/ocp/ocp4/openshift4
+    source: registry.redhat.io/openshift4

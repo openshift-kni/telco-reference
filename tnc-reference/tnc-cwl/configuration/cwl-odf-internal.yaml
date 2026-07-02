@@ -1,0 +1,109 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: odf-internal
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      cwl: "true"
+      tnc-ver: "tnc6.1"
+      odf-int: "true"
+  remediationAction: "inform"
+policies:
+  - name: operator-lso
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "5" 
+    manifests:
+      - path: other-crs/optional/LSO/LsoNS.yaml
+      - path: other-crs/optional/LSO/LsoOperGroup.yaml
+      - path: other-crs/optional/LSO/LsoSubscription.yaml
+        patches:  
+          - spec:
+              installPlanApproval: Manual
+
+  - name: config-lso
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "7"
+    manifests:
+      - path: other-crs/optional/LSO/LsoVolumeDiscoverySet.yaml
+      - path: other-crs/optional/LSO/LocalVolumeSet.yaml
+
+  - name: config-odf-int
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "8"
+    manifests:
+      - path: other-crs/optional/ODF/OdfStorageCluster.yaml
+      - path: other-crs/optional/ODF/OdfDefaultStorageClass.yaml
+        patches:
+          - metadata:
+              name: ocs-storagecluster-ceph-rbd
+      - path: other-crs/optional/ODF/OdfConsole.yaml
+      #
+      # Create dummy metallb address pool for ODF
+      #
+      - path: reference-crs/required/networking/metallb/addr-pool.yaml
+        patches:
+          - metadata:
+              name: dummy
+              annotations:
+                metallb.universe.tf/address-pool: dummy
+            spec:
+                addresses:
+                - 10.0.0.0-10.0.0.10
+
+  - name: config-other-int
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "12"
+    manifests:
+### Configure monitoring
+      - path: reference-crs/optional/other/monitoring-config-cm.yaml
+        complianceType: musthave
+        #patches:
+        #- data:
+        #    # The config is a single string value in this map and default
+        #    # content must be copied here in order to add custom content
+        #    # (additionalAlertmanagerConfigs)
+        #    config.yaml: |
+        #      alertmanagerMain:
+        #        volumeClaimTemplate:
+        #          spec:
+        #            storageClassName: ocs-storagecluster-ceph-rbd
+        #            resources:
+        #              requests:
+        #                storage: 20Gi
+        #      prometheusK8s:
+        #        retention: 15d
+        #        volumeClaimTemplate:
+        #          spec:
+        #            storageClassName: ocs-storagecluster-ceph-rbd
+        #            resources:
+        #              requests:
+        #                storage: 100Gi
+        #        #additionalAlertmanagerConfigs:
+        #        #- scheme: "http"
+        #        #  pathPrefix: "/"
+        #        #  timeout: "30s"
+        #        #  apiVersion: "v2"
+        #        #  staticConfigs:
+        #        #  - "10.11.12.14:9999"
+### Configure CMA
+      - path: other-crs/optional/CMA/CmaPvc.yaml
+        patches:
+          - spec:
+              storageClassName: ocs-storagecluster-cephfs
+      - path: other-crs/optional/CMA/CmaKedaCtrl.yaml
+### LOKI
+      - path: other-crs/optional/LOG/LOKI/LokiS3Secret.yaml
+        patches:
+          - data:
+              access_key_id: '{{fromSecret "openshift-logging" "loki-bucket-odf" "AWS_ACCESS_KEY_ID"}}'
+              access_key_secret: '{{fromSecret "openshift-logging" "loki-bucket-odf" "AWS_SECRET_ACCESS_KEY"}}'
+              bucketnames: '{{fromConfigMap "openshift-logging" "loki-bucket-odf" "BUCKET_NAME" | base64enc}}'
+              endpoint: '{{(printf "https://%s:%s" (fromConfigMap "openshift-logging" "loki-bucket-odf" "BUCKET_HOST") (fromConfigMap "openshift-logging" "loki-bucket-odf" "BUCKET_PORT")) | base64enc}}'
+      - path: other-crs/optional/LOG/LOKI/LokiStack.yaml
+        patches:
+          - spec:
+              storageClassName: ocs-storagecluster-ceph-rbd
+      - path: other-crs/optional/LOG/LOKI/LoggingConsole.yaml

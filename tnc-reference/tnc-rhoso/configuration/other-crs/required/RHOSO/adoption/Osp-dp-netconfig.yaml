@@ -1,0 +1,70 @@
+apiVersion: network.openstack.org/v1beta1
+kind: NetConfig
+metadata:
+  name: openstacknetconfig
+  namespace: openstack
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  networks:
+  - name: ctlplane
+    dnsDomain: ctlplane.osp.cwl-site1.npss.bos2.lab
+    subnets:
+    - name: subnet1
+      allocationRanges:
+      - end: 10.62.62.99
+        start: 10.62.62.10
+      cidr: 10.62.62.0/24
+      gateway: 10.62.62.1
+  - name: internalapi 
+    dnsDomain: internalapi.osp.cwl-site1.npss.bos2.lab
+    mtu: 8950
+    subnets:
+    - name: subnet1
+      allocationRanges:
+      - end: 10.2.120.99
+        start: 10.2.120.10
+      #excludeAddresses:
+      #- 10.2.120.10
+      #- 10.2.120.12
+      cidr: 10.2.120.0/24
+      vlan: 93
+  - name: tenant
+    dnsDomain: tenant.osp.cwl-site1.npss.bos2.lab
+    mtu: 8950
+    subnets:
+    - name: subnet1
+      allocationRanges:
+      - end: 10.1.110.250
+        start: 10.1.110.100
+      #excludeAddresses:
+      #- 10.1.110.10
+      #- 10.1.110.12
+      cidr: 10.1.110.0/24
+      vlan: 96
+  - name: storage
+    dnsDomain: storage.osp.cwl-site1.npss.bos2.lab
+    mtu: 8950
+    subnets:
+    - name: subnet1
+      allocationRanges:
+      - end: 10.3.130.250
+        start: 10.3.130.100
+      #excludeAddresses:
+      #- 10.3.130.10
+      #- 10.3.130.12
+      cidr: 10.3.130.0/24
+      vlan: 94
+      routes:
+        - destination: 192.168.22.16/28
+          nexthop: 10.3.130.1
+  - name: external
+    dnsDomain: external.osp.virtcwl.npss.bos2.lab
+    subnets:
+    - name: subnet1
+      allocationRanges:
+      - end: 192.168.22.139
+        start: 192.168.22.132
+      cidr: 192.168.22.128/25
+      vlan: 1022
+      gateway: 192.168.22.129

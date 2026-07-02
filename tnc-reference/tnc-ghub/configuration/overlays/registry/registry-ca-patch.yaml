@@ -1,0 +1,11 @@
+---
+- op: replace
+  path: "/data"
+  value:
+    registry.bastion.npss.bos2.lab..9500: |
+      -----BEGIN CERTIFICATE-----
+      REDACTED
+      -----END CERTIFICATE-----
+      -----BEGIN CERTIFICATE-----
+      REDACTED
+      -----END CERTIFICATE-----

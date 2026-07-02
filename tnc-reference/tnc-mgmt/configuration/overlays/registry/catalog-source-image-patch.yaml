@@ -1,0 +1,4 @@
+---
+- op: replace
+  path: /spec/image
+  value: registry.bastion.npss.bos2.lab:9500/ocp/ocp4/redhat/redhat-operator-index:v4.20

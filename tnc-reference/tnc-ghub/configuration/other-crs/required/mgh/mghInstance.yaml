@@ -1,0 +1,18 @@
+apiVersion: operator.open-cluster-management.io/v1alpha4
+kind: MulticlusterGlobalHub
+metadata:
+  name: multiclusterglobalhub
+  namespace: multicluster-global-hub
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    global-hub.open-cluster-management.io/strimzi-catalog-source-name: redhat-operators-disconnected 
+    global-hub.open-cluster-management.io/strimzi-catalog-source-namespace: openshift-marketplace
+    global-hub.open-cluster-management.io/strimzi-subscription-package-name: amq-streams
+    global-hub.open-cluster-management.io/strimzi-subscription-channel: stable
+spec:
+  availabilityConfig: High
+  dataLayer:
+    postgres:
+      retention: 18m
+        #    storageClass: lvms-vg10

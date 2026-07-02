@@ -1,0 +1,10 @@
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: tempo-bucket-odf
+  namespace: openshift-tempo-operator
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  generateBucketName: tempo-bucket-odf
+  storageClassName: openshift-storage.noobaa.io

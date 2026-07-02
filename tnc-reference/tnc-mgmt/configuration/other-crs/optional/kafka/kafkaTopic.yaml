@@ -1,0 +1,216 @@
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    strimzi.io/cluster: mgmt-kafka
+  name: mgmt1-platform-metrics
+  namespace: kafka-cluster
+  annotations:
+    argocd.argoproj.io/sync-wave: "12"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  config:
+    retention.ms: 180000
+  partitions: 3
+  replicas: 1
+  topicName: mgmt1-platform-metrics
+
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    strimzi.io/cluster: mgmt-kafka
+  name: mgmt1-infra-logs
+  namespace: kafka-cluster
+  annotations:
+    argocd.argoproj.io/sync-wave: "12"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  config:
+    retention.ms: 180000
+  partitions: 3
+  replicas: 1
+  topicName: mgmt1-infra-logs
+
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    strimzi.io/cluster: mgmt-kafka
+  name: mgmt1-app-logs
+  namespace: kafka-cluster
+  annotations:
+    argocd.argoproj.io/sync-wave: "12"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  config:
+    retention.ms: 180000
+  partitions: 3
+  replicas: 1
+  topicName: mgmt1-app-logs
+
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    strimzi.io/cluster: mgmt-kafka
+  name: mgmt1-audit-logs
+  namespace: kafka-cluster
+  annotations:
+    argocd.argoproj.io/sync-wave: "12"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  config:
+    retention.ms: 180000
+  partitions: 3
+  replicas: 1
+  topicName: mgmt1-audit-logs
+
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    strimzi.io/cluster: mgmt-kafka
+  name: mgmt2-platform-metrics
+  namespace: kafka-cluster
+  annotations:
+    argocd.argoproj.io/sync-wave: "12"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  config:
+    retention.ms: 180000
+  partitions: 3
+  replicas: 1
+  topicName: mgmt2-platform-metrics
+
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    strimzi.io/cluster: mgmt-kafka
+  name: mgmt2-infra-logs
+  namespace: kafka-cluster
+  annotations:
+    argocd.argoproj.io/sync-wave: "12"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  config:
+    retention.ms: 180000
+  partitions: 3
+  replicas: 1
+  topicName: mgmt2-infra-logs
+
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    strimzi.io/cluster: mgmt-kafka
+  name: mgmt2-app-logs
+  namespace: kafka-cluster
+  annotations:
+    argocd.argoproj.io/sync-wave: "12"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  config:
+    retention.ms: 180000
+  partitions: 3
+  replicas: 1
+  topicName: mgmt2-app-logs
+
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    strimzi.io/cluster: mgmt-kafka
+  name: mgmt2-audit-logs
+  namespace: kafka-cluster
+  annotations:
+    argocd.argoproj.io/sync-wave: "12"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  config:
+    retention.ms: 180000
+  partitions: 3
+  replicas: 1
+  topicName: mgmt2-audit-logs
+
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    strimzi.io/cluster: mgmt-kafka
+  name: cwl-site1-platform-metrics
+  namespace: kafka-cluster
+  annotations:
+    argocd.argoproj.io/sync-wave: "12"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  config:
+    retention.ms: 180000
+  partitions: 3
+  replicas: 1
+  topicName: cwl-site1-platform-metrics
+
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    strimzi.io/cluster: mgmt-kafka
+  name: cwl-site1-infra-logs
+  namespace: kafka-cluster
+  annotations:
+    argocd.argoproj.io/sync-wave: "12"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  config:
+    retention.ms: 180000
+  partitions: 3
+  replicas: 1
+  topicName: cwl-site1-infra-logs
+
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    strimzi.io/cluster: mgmt-kafka
+  name: cwl-site1-app-logs
+  namespace: kafka-cluster
+  annotations:
+    argocd.argoproj.io/sync-wave: "12"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  config:
+    retention.ms: 180000
+  partitions: 3
+  replicas: 1
+  topicName: cwl-site1-app-logs
+
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    strimzi.io/cluster: mgmt-kafka
+  name: cwl-site1-audit-logs
+  namespace: kafka-cluster
+  annotations:
+    argocd.argoproj.io/sync-wave: "12"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  config:
+    retention.ms: 180000
+  partitions: 3
+  replicas: 1
+  topicName: cwl-site1-audit-logs
+

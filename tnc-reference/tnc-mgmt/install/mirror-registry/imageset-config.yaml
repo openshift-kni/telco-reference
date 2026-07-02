@@ -1,0 +1,275 @@
+---
+kind: ImageSetConfiguration
+apiVersion: mirror.openshift.io/v2alpha1
+mirror:
+  platform:
+    channels:
+    - name: stable-4.20
+      type: ocp
+      # Adjust minVersion and maxVersion according to your required releases. This allows you to
+      # minimize the mirrored content to only what is needed for your deployment. Note that only
+      # versions which are mirrored to the disconnected registry can be installed, so only versions
+      # listed here should be referenced in installation CRs (eg ClusterImageSet / imageSetRef).
+      minVersion: 4.20.0
+      maxVersion: 4.20.2
+  operators:
+  - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.20
+    packages:
+    - name: advanced-cluster-management
+      defaultChannel: release-2.15
+      channels:
+      - name: release-2.15
+    - name: multicluster-engine
+      defaultChannel: stable-2.10
+      channels:
+      - name: stable-2.10
+    - name: openshift-gitops-operator
+      defaultChannel: gitops-1.18
+      channels:
+      - name: gitops-1.18
+    - name: redhat-oadp-operator
+      channels:
+      - name: stable
+    - name: topology-aware-lifecycle-manager
+      channels:
+      - name: stable
+    - name: local-storage-operator
+      channels:
+      - name: stable
+    - name: cluster-logging
+      defaultChannel: stable-6.2
+      channels:
+      - name: stable-6.2
+    - name: odf-operator
+      defaultChannel: stable-4.20
+      channels:
+      - name: stable-4.20
+    - name: odf-external-snapshotter-operator
+      defaultChannel: stable-4.20
+      channels:
+      - name: stable-4.20
+    - name: odf-dependencies
+      defaultChannel: stable-4.20
+      channels:
+      - name: stable-4.20
+    - name: odf-csi-addons-operator
+      defaultChannel: stable-4.20
+      channels:
+      - name: stable-4.20
+    - name: ocs-client-operator
+      defaultChannel: stable-4.20
+      channels:
+      - name: stable-4.20
+    - name: cephcsi-operator
+      defaultChannel: stable-4.20
+      channels:
+      - name: stable-4.20
+    - name: odf-prometheus-operator
+      defaultChannel: stable-4.20
+      channels:
+      - name: stable-4.20
+    - name: odf-multicluster-orchestrator
+      defaultChannel: stable-4.20
+      channels:
+      - name: stable-4.20
+    - name: ocs-operator
+      defaultChannel: stable-4.20
+      channels:
+      - name: stable-4.20
+    - name: rook-ceph-operator
+      defaultChannel: stable-4.20
+      channels:
+      - name: stable-4.20
+    - name: mcg-operator
+      defaultChannel: stable-4.20
+      channels:
+      - name: stable-4.20
+    - name: odr-hub-operator
+      defaultChannel: stable-4.20
+      channels:
+      - name: stable-4.20
+    - name: odr-cluster-operator
+      defaultChannel: stable-4.20
+      channels:
+      - name: stable-4.20
+    - name: recipe
+      defaultChannel: stable-4.20
+      channels:
+      - name: stable-4.20
+    - name: kubevirt-hyperconverged
+      channels:
+      - name: stable
+    - name: quay-operator
+      channels:
+      - name: "stable-3.16"
+      - name: "stable-3.17"
+    - name: sriov-network-operator
+      channels:
+      - name: stable
+    - name: metallb-operator
+      channels:
+      - name: stable
+    - name: kubernetes-nmstate-operator
+      channels:
+      - name: stable
+    - name: ptp-operator
+      channels:
+      - name: stable
+    - name: openshift-cert-manager-operator
+      channels:
+      - name: stable-v1
+    - name: openshift-custom-metrics-autoscaler-operator
+      channels:
+      - name: stable
+    - name: security-profiles-operator
+      channels:
+      - name: release-alpha-rhel-8
+    - name: numaresources-operator
+      channels:
+      - name: '4.20'
+    - name: lvms-operator
+      channels:
+      - name: "stable-4.20"
+    - name: loki-operator
+      defaultChannel: stable-6.2
+      channels:
+      - name: stable-6.2
+    - name: kernel-module-management
+      channels:
+      - name: stable
+      - name: release-2.1
+    - name: cluster-observability-operator
+      channels:
+      - name: stable
+    - name: openstack-operator
+      channels:
+      - name: stable-v1.0
+    - name: compliance-operator
+      channels:
+      - name: stable
+    - name: tempo-product
+      channels:
+      - name: stable
+    - name: file-integrity-operator
+      channels:
+      - name: stable
+    - name: node-healthcheck-operator
+      channels:
+      - name: stable
+    - name: self-node-remediation
+      channels:
+      - name: stable
+    - name: fence-agents-remediation
+      channels:
+      - name: stable
+    - name: topology-aware-lifecycle-manager
+      channels:
+      - name: stable
+    - name: multicluster-global-hub-operator-rh
+      channels:
+      - name: release-1.6
+      - name: release-1.7
+    - name: amq-streams
+      channels:
+      - name: stable
+      - name: amq-streams-3.x
+    - name: opentelemetry-product
+      channels:
+      - name: stable
+    - name: ansible-automation-platform-operator
+      channels:
+      - name: stable-2.7
+    - name: cincinnati-operator
+      channels:
+      - name: v1
+    - name: nfd
+      channels:
+      - name: stable
+    - name: servicemeshoperator
+      channels:
+      - name: stable
+    - name: servicemeshoperator3
+      channels:
+      - name: stable
+      - name: stable-3.1
+    - name: rhods-operator
+      channels:
+      - name: stable
+      - name: fast-3.x
+        minVersion: 3.3.0
+        maxVersion: 3.3.0
+    - name: kueue-operator
+      channels:
+      - name: stable-v1.3
+    - name: openshift-external-secrets-operator
+      channels:
+      - name: stable-v1
+    - name: authorino-operator
+      channels:
+      - name: stable
+    - name: limitador-operator
+      channels:
+      - name: stable
+    - name: leader-worker-set
+      channels:
+      - name: stable-v1.0
+    - name: trustee-operator
+      channels:
+      - name: stable
+    - name: costmanagement-metrics-operator
+      channels:
+      - name: stable
+    - name: gatekeeper-operator-product
+      channels:
+      - name: stable   
+    
+  - catalog: registry.redhat.io/redhat/certified-operator-index:v4.20
+    packages:
+    - name: gpu-operator-certified
+      channels:
+      - name: stable
+      - name: v26.3
+    - name: portworx-certified
+      defaultChannel: stable
+      channels:
+      - name: alpha
+    - name: cloudnative-pg
+      channels:
+      - name: stable-v1
+
+  additionalImages:
+  - name: registry.redhat.io/ubi8/ubi:latest
+  - name: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.20
+  - name: registry.redhat.io/rhel8/support-tools:latest
+  - name: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:v2.15.0-1
+  - name: registry.redhat.io/openshift4/ose-tools-rhel9:v4.20
+  - name: registry.redhat.io/openshift4/noderesourcetopology-scheduler-rhel9:v4.20
+      # following image require by the SPO operator
+  - name: registry.redhat.io/compliance/openshift-selinuxd-rhel9:0.10.0
+      ##
+      ## List of additional images for RHOAI 3.3
+      ##
+  - name: quay.io/modh/fms-hf-tuning@sha256:83f70e981657728ef9929fa50d06fe5c72f364e5ed41a9fc1331e99751f610e8
+  - name: quay.io/modh/ray@sha256:595b3acd10244e33fca1ed5469dccb08df66f470df55ae196f80e56edf35ad5a
+  - name: quay.io/modh/ray@sha256:6b135421b6e756593a58b4df6664f82fc4b55237ca81475f2867518f15fe6d84
+  - name: quay.io/modh/ray@sha256:28a8745be454b0e881ce6c200599ddfcb3366b707a5b53cfa73087d599555158
+  - name: quay.io/modh/ray@sha256:900c35ec2fe4279b958e044c781a179c8cfe0c584e8af16e253814dba01816e6
+  - name: registry.redhat.io/rhoai/odh-workbench-jupyter-minimal-cpu-py311-rhel9@sha256:2b00a5b676b07d4fd6ab894d5dcaeb5bf88ef35bde76cbf3b4c0951987e5aad6
+  - name: registry.redhat.io/rhoai/odh-workbench-jupyter-minimal-cuda-py311-rhel9@sha256:481c5f3749efb85300ed6076a5b05ca5be1ceda17518791db3a67c7b1fa24941
+  - name: registry.redhat.io/rhoai/odh-workbench-jupyter-minimal-rocm-py311-rhel9@sha256:4cc172aab8be2ba278a9525ef0878c68d76963beb9506c8526c07d5b90b1eb58
+  - name: registry.redhat.io/rhoai/odh-workbench-jupyter-datascience-cpu-py311-rhel9@sha256:bd6528eddad7106704c9f78bd25d47bd5a556ecc0e35db317a0e95428be6d025
+  - name: registry.redhat.io/rhoai/odh-workbench-jupyter-pytorch-cuda-py311-rhel9@sha256:384f2ea2df8ccf1978ba633a0b32332e12a4c8d026967ff93e7b8fb0928c8265
+  - name: registry.redhat.io/rhoai/odh-workbench-jupyter-pytorch-rocm-py311-rhel9@sha256:8270d5c58389d0f7ed086336c730060c3792453a4ddc08f0bc622677edd3e0fd
+  - name: registry.redhat.io/rhoai/odh-workbench-jupyter-tensorflow-cuda-py311-rhel9@sha256:a2f863e8df080b683f52453b3a3b8c1f70a50c9bbe9480d7a55da8f0d54fbee2
+  - name: registry.redhat.io/rhoai/odh-workbench-jupyter-tensorflow-rocm-py311-rhel9@sha256:4d1b945221fe7f3e7a486277f27529b9ba2b73b03b9a7e2a3382c133671fcff3
+  - name: registry.redhat.io/rhoai/odh-workbench-jupyter-trustyai-cpu-py311-rhel9@sha256:4331bd07ffb9676a3d9f387b56148e679e0bc50a05dbcc5e693df5aafb097bc0
+  - name: registry.redhat.io/rhoai/odh-workbench-codeserver-datascience-cpu-py311-rhel9@sha256:755f8dacf495f6abb29233edb422ca473ba82cc23370d4fcbaa4f938e90a9c25
+  - name: quay.io/modh/cuda-notebooks@sha256:6fadedc5a10f5a914bb7b27cd41bc644392e5757ceaf07d930db884112054265
+  - name: quay.io/modh/cuda-notebooks@sha256:88d80821ff8c5d53526794261d519125d0763b621d824f8c3222127dab7b6cc8
+  - name: quay.io/modh/cuda-notebooks@sha256:0e57a0b756872636489ccd713dc9f00ad69d0c481a66ee0de97860f13b4fedcd
+  - name: quay.io/modh/cuda-notebooks@sha256:3da74d732d158b92eaada0a27fb7067fa18c8bde5033c672e23caed0f21d6481
+    #
+    # Needed for cloudnative-pg - PostgreSQL DB
+    #
+  - name: ghcr.io/cloudnative-pg/postgresql:18.3-system-trixie
+  helm: {}

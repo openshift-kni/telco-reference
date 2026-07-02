@@ -1,0 +1,407 @@
+apiVersion: siteconfig.open-cluster-management.io/v1alpha1
+kind: ClusterInstance  
+metadata:
+  name: "cwl-site3"
+  namespace: "cwl-site3"
+spec:
+  baseDomain: "npss.bos2.lab"
+  pullSecretRef:
+    name: "assisted-deployment-pull-secret"
+  clusterImageSetNameRef: "openshift-4.20.16-disconnected"
+  sshPublicKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCxa6JYGCM239DEFRP/MrYJPtGOTXTQ5mAa5dNYUB17T3LQjCAGERWnHj6Om2dSxHY8gpM4TR3Gm1A64N9OgRbhOrRRxNTB5GE0ygawBVVkKn6qYnNcdv87TI+J7hckxwQANftTrMjRt+7EFV/Q9NAEwaHY0CUiN9lbOJoo/gs3z6V2wy1Ph9kl/TkFZvXCkm0fpG9SdPCY430UMfAdbfNXshM7qeZAzEfqKkuenHX/yF1f93K80JNmDLBKgRtxc5f3rMGI7nIpn1npkE8t32Cx2YwHCGCrhcm8WLQzx3zBzwEa0gD3C8L0w9TX86+JMgRj2bi/pOvb70mmtVIZGcP+ejM1wuiMrRj1UciJASS33rWExaHpAIt6csMOnWRme+GvEAjPXgCtdu/XwGu8nm1CdR2Xa4zL4zoFaITVQQIHSfnKfKN95Id2i3ET8bIsdMSI1pPt6QQnGf7oiWkTCFbQBfuwmRmYivIQ1Xi2bc1XCyqZTnAF746ywfDAyWd6zwk= cwl@bastion"
+  clusterName: "cwl-site3"
+  networkType: "OVNKubernetes"
+  clusterType: HighlyAvailable
+  cpuPartitioningMode: AllNodes
+  extraManifestsRefs:
+    - name: extra-manifests-configmap
+    - name: custom-manifests-configmap
+  extraLabels:
+    ManagedCluster:
+      common: "core"
+      version: "4.20"
+      region: "zone-1"
+      cwl: "true"
+      tnc-ver: "tnc6.1"
+      odf-ext: "true"
+      #odf-int: "true"
+  clusterNetwork:
+    - cidr: 10.128.0.0/14
+      hostPrefix: 23
+  machineNetwork:
+    - cidr: 172.31.61.0/24
+  # For 3-node and standard clusters with static IPs, the API and Ingress IPs must be configured here
+  apiVIPs: 
+    - 172.31.61.80
+  ingressVIPs: 
+    - 172.31.61.81
+  serviceNetwork:
+    - cidr: 172.30.0.0/16
+  additionalNTPSources:
+    - 172.31.61.2
+    - 192.168.22.2
+  templateRefs:
+    - name: ai-cluster-templates-v1
+      namespace: open-cluster-management
+##############################################################
+  nodes:
+# master1
+    - hostName: "m1.cwl-site3.npss.bos2.lab"
+      role: "master"
+      bmcAddress: "redfish-virtualmedia://192.168.22.156/redfish/v1/Systems/System.Embedded.1"
+      bmcCredentialsName:
+        name: "bmh-secret-dell"
+      bootMACAddress: "30:3e:a7:03:04:70"
+      bootMode: "UEFISecureBoot" 
+      automatedCleaningMode: "metadata"  
+      nodeLabels:
+        cluster.ocs.openshift.io/openshift-storage: "true"
+      templateRefs:
+        - name: ai-node-templates-v1
+          namespace: open-cluster-management
+      rootDeviceHints:
+        wwn: "0x6f4ee08057eacf0066f17e190eae333b"
+      nodeNetwork:
+        interfaces:
+          - name: "eno12399"
+            macAddress: "30:3e:a7:03:04:70"
+          - name: "eno12409"
+            macAddress: "30:3e:a7:03:04:71"
+          - name: "eno12419"
+            macAddress: "30:3e:a7:03:04:72"
+          - name: "eno12429"
+            macAddress: "30:3e:a7:03:04:73"
+        config:
+          interfaces:
+            - name: bond0
+              description: "Bond 0"
+              type: bond
+              state: up
+              mtu: 8900
+              ipv4:
+                address:
+                - ip: 172.31.61.82
+                  prefix-length: 24
+                enabled: true
+              ipv6:
+                enabled: false
+              link-aggregation:
+                mode: '802.3ad'
+                options:
+                  miimon: '1000'
+                port:
+                  - eno12399
+                  - eno12409
+            - name: eno12399
+              type: ethernet
+              state: up
+              mtu: 8900
+              ipv4:
+                enabled: false
+              ipv6:
+                enabled: false
+            - name: eno12409
+              type: ethernet
+              state: up
+              mtu: 8900
+              ipv4:
+                enabled: false
+              ipv6:
+                enabled: false
+          dns-resolver:
+            config:
+              server:
+                - 192.168.22.4
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 172.31.61.1
+                next-hop-interface: bond0
+# master2
+    - hostName: "m2.cwl-site3.npss.bos2.lab"
+      role: "master"
+      bmcAddress: "redfish-virtualmedia://192.168.22.157/redfish/v1/Systems/System.Embedded.1"
+      bmcCredentialsName:
+        name: "bmh-secret-dell"
+      bootMACAddress: "30:3e:a7:02:fd:c0"
+      bootMode: "UEFISecureBoot" 
+      automatedCleaningMode: "metadata"  
+      nodeLabels:
+        cluster.ocs.openshift.io/openshift-storage: "true"
+      templateRefs:
+        - name: ai-node-templates-v1
+          namespace: open-cluster-management
+      rootDeviceHints:
+        wwn: "0x6f4ee08057ea3d006682feecacb85a89"
+      nodeNetwork:
+        interfaces:
+          - name: "eno12399"
+            macAddress: "30:3e:a7:02:fd:c0"
+          - name: "eno12409"
+            macAddress: "30:3e:a7:02:fd:c1"
+          - name: "eno12419"
+            macAddress: "30:3e:a7:02:fd:c2"
+          - name: "eno12429"
+            macAddress: "30:3e:a7:02:fd:c3"
+        config:
+          interfaces:
+            - name: bond0
+              description: "Bond 0"
+              type: bond
+              state: up
+              mtu: 8900
+              ipv4:
+                address:
+                - ip: 172.31.61.83
+                  prefix-length: 24
+                enabled: true
+              ipv6:
+                enabled: false
+              link-aggregation:
+                mode: '802.3ad'
+                options:
+                  miimon: '1000'
+                port:
+                  - eno12399
+                  - eno12409
+            - name: eno12399
+              type: ethernet
+              state: up
+              mtu: 8900
+              ipv4:
+                enabled: false
+              ipv6:
+                enabled: false
+            - name: eno12409
+              type: ethernet
+              state: up
+              mtu: 8900
+              ipv4:
+                enabled: false
+              ipv6:
+                enabled: false
+          dns-resolver:
+            config:
+              server:
+                - 192.168.22.4
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 172.31.61.1
+                next-hop-interface: bond0
+# master3
+    - hostName: "m3.cwl-site3.npss.bos2.lab"
+      role: "master"
+      bmcAddress: "redfish-virtualmedia://192.168.22.159/redfish/v1/Systems/System.Embedded.1"
+      bmcCredentialsName:
+        name: "bmh-secret-dell"
+      bootMACAddress: "30:3e:a7:03:0a:40"
+      bootMode: "UEFISecureBoot" 
+      automatedCleaningMode: "metadata"  
+      nodeLabels:
+        cluster.ocs.openshift.io/openshift-storage: "true"
+      templateRefs:
+        - name: ai-node-templates-v1
+          namespace: open-cluster-management
+      rootDeviceHints:
+        wwn: "0x6f4ee08057eb45006682ff1bdcf241ac"
+      nodeNetwork:
+        interfaces:
+          - name: "eno12399"
+            macAddress: "30:3e:a7:03:0a:40"
+          - name: "eno12409"
+            macAddress: "30:3e:a7:03:0a:41"
+          - name: "eno12419"
+            macAddress: "30:3e:a7:03:0a:42"
+          - name: "eno12429"
+            macAddress: "30:3e:a7:03:0a:43"
+        config:
+          interfaces:
+            - name: bond0
+              description: "Bond 0"
+              type: bond
+              state: up
+              mtu: 8900
+              ipv4:
+                address:
+                - ip: 172.31.61.84
+                  prefix-length: 24
+                enabled: true
+              ipv6:
+                enabled: false
+              link-aggregation:
+                mode: '802.3ad'
+                options:
+                  miimon: '1000'
+                port:
+                  - eno12399
+                  - eno12409
+            - name: eno12399
+              type: ethernet
+              state: up
+              mtu: 8900
+              ipv4:
+                enabled: false
+              ipv6:
+                enabled: false
+            - name: eno12409
+              type: ethernet
+              state: up
+              mtu: 8900
+              ipv4:
+                enabled: false
+              ipv6:
+                enabled: false
+          dns-resolver:
+            config:
+              server:
+                - 192.168.22.4
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 172.31.61.1
+                next-hop-interface: bond0
+#worker1
+    - hostName: "w1.cwl-site3.npss.bos2.lab"
+      role: "worker"
+      bmcAddress: "redfish-virtualmedia://192.168.22.155/redfish/v1/Systems/System.Embedded.1"
+      bmcCredentialsName:
+        name: "bmh-secret-dell"
+      bootMACAddress: "30:3e:a7:02:fe:20"
+      bootMode: "UEFISecureBoot" 
+      automatedCleaningMode: "metadata"  
+      nodeLabels:
+        node-role.kubernetes.io/worker-1: ""
+      templateRefs:
+        - name: ai-node-templates-v1
+          namespace: open-cluster-management
+      rootDeviceHints:
+        wwn: "0x58ce38ee229177c5"
+      nodeNetwork:
+        interfaces:
+          - name: "eno12399"
+            macAddress: "30:3e:a7:02:fe:20"
+          - name: "eno12409"
+            macAddress: "30:3e:a7:02:fe:21"
+          - name: "eno12419"
+            macAddress: "30:3e:a7:02:fe:22"
+          - name: "eno12429"
+            macAddress: "30:3e:a7:02:fe:23"
+        config:
+          interfaces:
+            - name: bond0
+              description: "Bond 0"
+              type: bond
+              state: up
+              mtu: 8900
+              ipv4:
+                address:
+                - ip: 172.31.61.85
+                  prefix-length: 24
+                enabled: true
+              ipv6:
+                enabled: false
+              link-aggregation:
+                mode: '802.3ad'
+                options:
+                  miimon: '1000'
+                port:
+                  - eno12399
+                  - eno12409
+            - name: eno12399
+              type: ethernet
+              state: up
+              mtu: 8900
+              ipv4:
+                enabled: false
+              ipv6:
+                enabled: false
+            - name: eno12409
+              type: ethernet
+              state: up
+              mtu: 8900
+              ipv4:
+                enabled: false
+              ipv6:
+                enabled: false
+          dns-resolver:
+            config:
+              server:
+                - 192.168.22.4
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 172.31.61.1
+                next-hop-interface: bond0
+#worker2
+    #- hostName: "w2.cwl-site3.npss.bos2.lab"
+    #  role: "worker"
+    #  bmcAddress: "redfish-virtualmedia://192.168.22.167/redfish/v1/Systems/1"
+    #  bmcCredentialsName:
+    #    name: "bmh-secret-hp"
+    #  bootMACAddress: "50:7c:6f:4b:9b:5c"
+    #  bootMode: "UEFISecureBoot" 
+    #  automatedCleaningMode: "metadata"  
+    #  nodeLabels:
+    #    node-role.kubernetes.io/worker-1: ""
+    #  templateRefs:
+    #    - name: ai-node-templates-v1
+    #      namespace: open-cluster-management
+    #  rootDeviceHints:
+    #    wwn: "0x500a07513deb54b1"
+    #  nodeNetwork:
+    #    interfaces:
+    #      - name: "ens2f0"
+    #        macAddress: "50:7c:6f:4b:9b:5c"
+    #      - name: "ens2f1"
+    #        macAddress: "50:7c:6f:4b:9b:5d"
+    #      - name: "ens2f2"
+    #        macAddress: "50:7c:6f:4b:9b:5e"
+    #      - name: "ens2f3"
+    #        macAddress: "50:7c:6f:4b:9b:5f"
+    #    config:
+    #      interfaces:
+    #        - name: bond0
+    #          description: "Bond 0"
+    #          type: bond
+    #          state: up
+    #          mtu: 8900
+    #          ipv4:
+    #            address:
+    #            - ip: 172.31.61.86
+    #              prefix-length: 24
+    #            enabled: true
+    #          ipv6:
+    #            enabled: false
+    #          link-aggregation:
+    #            mode: '802.3ad'
+    #            options:
+    #              miimon: '1000'
+    #            port:
+    #              - ens2f0
+    #              - ens2f1
+    #        - name: ens2f0
+    #          type: ethernet
+    #          state: up
+    #          mtu: 8900
+    #          ipv4:
+    #            enabled: false
+    #          ipv6:
+    #            enabled: false
+    #        - name: ens2f1
+    #          type: ethernet
+    #          state: up
+    #          mtu: 8900
+    #          ipv4:
+    #            enabled: false
+    #          ipv6:
+    #            enabled: false
+    #      dns-resolver:
+    #        config:
+    #          server:
+    #            - 192.168.22.4
+    #      routes:
+    #        config:
+    #          - destination: 0.0.0.0/0
+    #            next-hop-address: 172.31.61.1
+    #            next-hop-interface: bond0

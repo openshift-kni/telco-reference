@@ -1,0 +1,13 @@
+# optional
+# count: 0-N
+---
+apiVersion: sriovnetwork.openshift.io/v1
+kind: SriovNetworkPoolConfig
+metadata:
+  name: $name
+  namespace: openshift-sriov-network-operator
+spec: {}
+  # maxUnavailable: $maxUnavailable
+  # nodeSelector:
+  #   matchLabels:
+  #     node-role.kubernetes.io/worker: ""

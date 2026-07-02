@@ -1,0 +1,28 @@
+apiVersion: loki.grafana.com/v1
+kind: LokiStack
+metadata:
+  name: logging-loki
+  namespace: openshift-logging
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  managementState: Managed
+  size: 1x.small
+  storage:
+    schemas:
+    - version: v13
+      effectiveDate: "2026-03-16"
+    secret:
+      name: logging-loki-odf
+      type: s3
+     #
+     # We had th efollowing tls params in the loki 5.9 config
+     # However, Loki 6.2 docs don't show these params
+     # Bring these back if Loki stack shows cert errors
+     #
+    #tls:
+    #  caName: openshift-service-ca.crt
+    #  caKey: service-ca.crt
+  storageClassName: ocs-storagecluster-ceph-rbd
+  tenants:
+    mode: openshift-logging

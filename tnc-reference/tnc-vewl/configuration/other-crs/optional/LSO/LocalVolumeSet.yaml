@@ -1,0 +1,24 @@
+apiVersion: local.storage.openshift.io/v1alpha1
+kind: LocalVolumeSet
+metadata:
+  name: local-block
+  namespace: openshift-local-storage
+spec:
+  nodeSelector:
+    nodeSelectorTerms:
+      - matchExpressions:
+          - key: cluster.ocs.openshift.io/openshift-storage
+            operator: In
+            values:
+              - "true"
+  storageClassName: localblock
+  volumeMode: Block
+    #  fstype: xfs
+  maxDeviceCount: 3  # <-- Maximum number of devices per node to be used
+  deviceInclusionSpec:
+    deviceTypes:
+    - disk
+    deviceMechanicalProperties:
+    - NonRotational
+
+

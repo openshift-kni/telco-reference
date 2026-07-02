@@ -1,0 +1,78 @@
+---
+# patching ClusterLogForwarder for mgmt1-specific configuration
+- op: replace
+  path: /metadata/annotations
+  value: 
+    argocd.argoproj.io/sync-wave: "20"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
+
+- op: replace
+  path: /spec
+  value: 
+    managementState: Managed
+    outputs:
+     - name: infra-logs
+       type: kafka
+       kafka:
+         url: tls://mgmt-kafka-kafka-bootstrap-kafka-cluster.apps.mgmt1.npss.bos2.lab:443/mgmt1-infra-logs
+       tls:
+         insecureSkipVerify: true
+         ca:
+           key: ca-bundle.crt
+           secretName: kafka-secret
+         certificate:
+           key: tls.crt
+           secretName: kafka-secret
+         key:
+           key: tls.key
+           secretName: kafka-secret
+     - name: audit-logs
+       type: kafka
+       kafka:
+         url: tls://mgmt-kafka-kafka-bootstrap-kafka-cluster.apps.mgmt1.npss.bos2.lab:443/mgmt1-audit-logs
+       tls:
+         insecureSkipVerify: true
+         ca:
+           key: ca-bundle.crt
+           secretName: kafka-secret
+         certificate:
+           key: tls.crt
+           secretName: kafka-secret
+         key:
+           key: tls.key
+           secretName: kafka-secret
+     - name: app-logs
+       type: kafka
+       kafka:
+         url: tls://mgmt-kafka-kafka-bootstrap-kafka-cluster.apps.mgmt1.npss.bos2.lab:443/mgmt1-app-logs
+       tls:
+         insecureSkipVerify: true
+         ca:
+           key: ca-bundle.crt
+           secretName: kafka-secret
+         certificate:
+           key: tls.crt
+           secretName: kafka-secret
+         key:
+           key: tls.key
+           secretName: kafka-secret
+    pipelines:
+     - name: infra-pipe
+       inputRefs:
+       - infrastructure
+       outputRefs:
+       - infra-logs
+     - name: audit-pipe
+       inputRefs:
+       - audit
+       outputRefs:
+       - audit-logs
+     - name: app-pipe
+       inputRefs:
+       - application
+       outputRefs:
+       - app-logs
+    serviceAccount:
+      name: collector
+

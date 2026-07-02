@@ -1,0 +1,29 @@
+# This CR can be used to verify the installation/upgrade of the
+# Cluster Logging Operator by including status fields as shown in
+# examples below
+---
+apiVersion: operators.coreos.com/v1
+kind: Operator
+metadata:
+  name: cluster-logging.openshift-logging
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"
+status:
+#  components:
+#    refs:
+#    - kind: Subscription
+#      namespace: openshift-logging
+#      conditions:
+#      - type: CatalogSourcesUnhealthy
+#        status: "False"
+#    - kind: InstallPlan
+#      namespace: openshift-logging
+#      conditions:
+#      - type: Installed
+#        status: "True"
+#    - kind: ClusterServiceVersion
+#      namespace: openshift-logging
+#      conditions:
+#      - type: Succeeded
+#        status: "True"
+#        reason: InstallSucceeded

@@ -1,0 +1,129 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: rhoso-kafka
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      rhoso: "true"
+      tnc-ver: "tnc6.1"
+      kafka: "true"
+  remediationAction: "inform"
+policies:    
+  - name: rhoso-kafka-step1
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "10"
+    manifests:
+        # Logging
+      - path: other-crs/optional/LOG/LOKI/LokiBucketClaim.yaml
+      - path: other-crs/optional/LOG/ClusterLogServiceAccountWriterBinding.yaml
+        # Metrics
+      #
+      # Install OTEL operator
+      #
+      - path: other-crs/optional/OTEL/OtelNS.yaml
+      - path: other-crs/optional/OTEL/OtelOperGroup.yaml
+      - path: other-crs/optional/OTEL/OtelSubscription.yaml
+      - path: other-crs/optional/OTEL/OtelCollectorNS.yaml
+      - path: other-crs/optional/OTEL/OtelRBAC-clusterRole.yaml
+      - path: other-crs/optional/OTEL/OtelRBAC-clusterRoleBinding.yaml
+
+  - name: rhoso-kafka-step2
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "15"
+    manifests:
+      - path: other-crs/optional/LOG/create-kafka-secret.yaml
+        patches:
+          - data:
+             ca-bundle.crt: '{{hub fromSecret "" "kafka-secret" "ca-bundle.crt" hub}}'
+             tls.crt: '{{hub fromSecret "" "kafka-secret" "tls.crt" hub}}'
+             tls.key: '{{hub fromSecret "" "kafka-secret" "tls.key" hub}}'
+      - path: reference-crs/optional/logging/ClusterLogForwarder.yaml
+        patches:
+          - spec:
+              outputs:
+                - name: default-lokistack
+                  type: lokiStack
+                  lokiStack:
+                    authentication:
+                      token:
+                        from: serviceAccount
+                    target:
+                      name: logging-loki
+                      namespace: openshift-logging
+                    #
+                    # Setting datamodel to "Viaq" which is the current default
+                    # Specifying the data model to ensure it does not automatically
+                    # switch to Otel in a future release when the default changes
+                    # to Otel
+                    #
+                    dataModel: Viaq
+                  tls:
+                    ca:
+                      key: service-ca.crt
+                      configMapName: openshift-service-ca.crt
+                - name: infra-logs
+                  type: kafka
+                  kafka:
+                    url: 'tls://{{hub fromConfigMap "" .ManagedClusterName "kafka-broker" hub}}/{{hub (printf "%s" .ManagedClusterName) hub}}-infra-logs'
+                  tls:
+                    insecureSkipVerify: true
+                    ca:
+                      key: ca-bundle.crt
+                      secretName: kafka-secret
+                    certificate:
+                      key: tls.crt
+                      secretName: kafka-secret
+                    key:
+                      key: tls.key
+                      secretName: kafka-secret
+                - name: audit-logs
+                  type: kafka
+                  kafka:
+                    url: 'tls://{{hub fromConfigMap "" .ManagedClusterName "kafka-broker" hub}}/{{hub (printf "%s" .ManagedClusterName) hub}}-audit-logs'
+                  tls:
+                    insecureSkipVerify: true
+                    ca:
+                      key: ca-bundle.crt
+                      secretName: kafka-secret
+                    certificate:
+                      key: tls.crt
+                      secretName: kafka-secret
+                    key:
+                      key: tls.key
+                      secretName: kafka-secret
+              pipelines:
+                - name: default-logstore
+                  inputRefs:
+                  - audit
+                  - infrastructure
+                  outputRefs:
+                  - default-lokistack
+                - name: '{{hub (printf "%s" .ManagedClusterName) hub}}-infra-logs'
+                  inputRefs:
+                  - infrastructure
+                  outputRefs:
+                  - infra-logs
+                - name: '{{hub (printf "%s" .ManagedClusterName) hub}}-audit-logs'
+                  inputRefs:
+                  - audit
+                  outputRefs:
+                  - audit-logs
+      - path: other-crs/optional/OTEL/create-kafka-secret.yaml
+        patches:
+          - data:
+             ca-bundle.crt: '{{hub fromSecret "" "kafka-secret" "ca-bundle.crt" hub}}'
+             tls.crt: '{{hub fromSecret "" "kafka-secret" "tls.crt" hub}}'
+             tls.key: '{{hub fromSecret "" "kafka-secret" "tls.key" hub}}'
+      - path: other-crs/optional/OTEL/OtelCollector.yaml
+        patches:
+          - spec:
+              config:
+                exporters:
+                  kafka/platform:
+                    brokers:
+                      - '{{hub fromConfigMap ""  .ManagedClusterName "kafka-broker" hub}}'
+                    topic: '{{hub (printf "%s" .ManagedClusterName) hub}}-platform-metrics'
+

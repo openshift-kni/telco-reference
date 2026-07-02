@@ -1,0 +1,21 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../other-crs/required/vault/
+
+patches:
+  - target:
+      group: external-secrets.io
+      version: v1
+      kind: ClusterSecretStore
+      name: vault-backend
+    path: ClusterSecretStore-patch.yaml
+  - target:
+      group: ""
+      version: v1
+      kind: ConfigMap
+      name: vault-ca
+    path: VaultCertificate-ca-patch.yaml
+

@@ -1,0 +1,53 @@
+- op: replace
+  path: /data/ca-bundle.crt
+  value: |
+    -----BEGIN CERTIFICATE-----
+    REDACTED
+    -----END CERTIFICATE-----
+    -----BEGIN CERTIFICATE-----
+    REDACTED
+    -----END CERTIFICATE-----
+- op: replace
+  path: /data/registries.conf
+  value: |
+    unqualified-search-registries = ["registry.access.redhat.com", "docker.io"]
+    [[registry]]
+      prefix = ""
+      location = "quay.io/openshift-release-dev/ocp-release"
+
+      [[registry.mirror]]
+        location = "registry.bastion.npss.bos2.lab:9500/ocp/ocp4/openshift/release-images"
+        pull-from-mirror = "digest-only"
+
+    [[registry]]
+      prefix = ""
+      location = "quay.io/openshift-release-dev/ocp-v4.0-art-dev"
+
+      [[registry.mirror]]
+        location = "registry.bastion.npss.bos2.lab:9500/ocp/ocp4/openshift/release"
+        pull-from-mirror = "digest-only"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/multicluster-engine"
+
+      [[registry.mirror]]
+        location = "registry.bastion.npss.bos2.lab:9500/ocp/ocp4/multicluster-engine"
+        pull-from-mirror = "digest-only"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4"
+
+      [[registry.mirror]]
+        location = "registry.bastion.npss.bos2.lab:9500/ocp/ocp4/openshift4"
+        pull-from-mirror = "digest-only"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2"
+
+      [[registry.mirror]]
+        location = "registry.bastion.npss.bos2.lab:9500/ocp/ocp4/rhacm2"
+        pull-from-mirror = "digest-only"
+

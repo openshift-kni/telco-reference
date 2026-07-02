@@ -1,0 +1,8 @@
+---
+- op: replace
+  path: "/spec/source"
+  value:
+    path: "tnc-reference/tnc-cwl/configuration"
+    repoURL: "http://git.npss.bos2.lab:3300/syed/tnc-github.git"
+    targetRevision: "main"
+#

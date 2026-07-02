@@ -1,0 +1,28 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../reference-crs/required/gitops/ztp-installation
+  - ../../other-crs/required/gitops-ztp/
+
+patches:
+  - target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: clusters
+    path: clusters-app-patch.yaml
+  - target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: policies
+    path: policies-app-patch.yaml
+  - target:
+      group: ""
+      version: v1
+      kind: Secret
+      name: ztp-repo-workload
+    path: ztp-repo-workload-secret-patch.yaml
+

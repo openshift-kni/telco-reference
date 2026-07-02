@@ -1,0 +1,6 @@
+- op: replace
+  path: "/spec/policy-templates/0/objectDefinition/spec/object-templates/0/objectDefinition/spec/repo/initContainers/0/image"
+  value: "registry.redhat.io/openshift4/ztp-site-generate-rhel8@sha256:6dbbde734bef29fdbbcc1b24c9dad5e9dd74144f12725c67b773e12792fb3aaa"
+- op: replace
+  path: "/spec/policy-templates/0/objectDefinition/spec/object-templates/0/objectDefinition/spec/repo/initContainers/1/image"
+  value: "registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9@sha256:2c8f89fa9958f0422c6ce6a1acf6e6343967c78d0966937fca19e27e52e7a428"

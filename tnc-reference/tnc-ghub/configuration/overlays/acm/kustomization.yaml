@@ -1,0 +1,89 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../reference-crs/required/acm/
+
+patches:
+  # configure AgentServiceConfig storage and OSImages
+  - target:
+      group: agent-install.openshift.io
+      version: v1beta1
+      kind: AgentServiceConfig
+      name: agent
+    path: options-agentserviceconfig-patch.yaml
+
+  # configure mirror registry for ACM
+  - target:
+      group: ""
+      version: v1
+      kind: ConfigMap
+      name: mirror-registry-config
+    path: acmMirrorRegistryCM-patch.yaml
+
+  ######
+  # For deployment of ghub on single node (SNO)
+  # disable multicluster observability
+  #####
+  - target:
+      group: "observability.open-cluster-management.io"
+      version: v1beta2
+      kind: MultiClusterObservability
+      name: observability
+    path: delete-observabilityMCO.yaml
+  - target:
+      group: ""
+      version: v1
+      kind: Namespace
+      name: open-cluster-management-observability
+    path: delete-observabilityNS.yaml
+  - target:
+      group: "objectbucket.io"
+      version: v1alpha1
+      kind: ObjectBucketClaim
+      name: observability-obc
+    path: delete-observabilityOBC.yaml
+  - target:
+      group: "policy.open-cluster-management.io"
+      version: v1
+      kind: PlacementBinding
+      name: obs-thanos-binding
+    path: delete-thanosSecretPlacementBinding.yaml
+  - target:
+      group: "cluster.open-cluster-management.io"
+      version: v1beta1
+      kind: Placement
+      name: obs-thanos-pl
+    path: delete-thanosSecretPlacement.yaml
+  - target:
+      group: "policy.open-cluster-management.io"
+      version: v1
+      kind: Policy
+      name: obs-thanos-secret
+    path: delete-thanosSecretPolicy.yaml
+  - target:
+      group: "policy.open-cluster-management.io"
+      version: v1
+      kind: PlacementBinding
+      name: pull-secret-copy
+    path: delete-pullSecretPlacementBinding.yaml
+  - target:
+      group: "cluster.open-cluster-management.io"
+      version: v1beta1
+      kind: Placement
+      name: pull-secret-copy
+    path: delete-pullSecretPlacement.yaml
+  - target:
+      group: "policy.open-cluster-management.io"
+      version: v1
+      kind: Policy
+      name: pull-secret-copy
+    path: delete-pullSecretPolicy.yaml
+  - target:
+      group: "cluster.open-cluster-management.io"
+      version: v1beta2
+      kind: ManagedClusterSetBinding
+      name: default
+    path: delete-pullSecretMCSB.yaml
+  ####

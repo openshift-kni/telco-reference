@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../other-crs/optional/kafka/
+
+patches:
+  - target:
+      group: kafka.strimzi.io
+      version: v1beta2
+      kind: KafkaNodePool
+      name: dual-role
+    path: kafkaNodePool-patch.yaml 

@@ -1,0 +1,4 @@
+= TNC Core Workload Cluster
+
+This repository contains reference configuration CRs related to the TNC Core Workload (CWL) cluster sub-architecture.
+

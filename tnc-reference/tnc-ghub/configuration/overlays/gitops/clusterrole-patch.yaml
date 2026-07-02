@@ -1,0 +1,20 @@
+---
+- op: add 
+  path: "/rules/-"
+  value: 
+    apiGroups:
+    - operator.open-cluster-management.io
+    resources:
+    - multiclusterglobalhubs
+    verbs:
+    - "*"
+
+- op: add 
+  path: "/rules/-"
+  value: 
+    apiGroups:
+    - lvm.topolvm.io
+    resources:
+    - lvmclusters
+    verbs:
+    - '*'
