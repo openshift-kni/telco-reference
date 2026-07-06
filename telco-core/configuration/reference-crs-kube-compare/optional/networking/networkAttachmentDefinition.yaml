@@ -12,8 +12,16 @@ spec:
   {{- if kindIs "string" .spec.config }}
     {{- $config := fromJson .spec.config }}
     {{- if and (eq $config.type "bond") }}
-      {{- if ne $config.mode "active-backup" }}
-        {{- $configWarnings = append $configWarnings (printf "Invalid mode: when type is 'bond', mode must be 'active-backup', but got '%s'" $config.mode) }}
+      {{- $validModes := list "active-backup" "balance-xor" }}
+      {{- if not (has $config.mode $validModes) }}
+        {{- $configWarnings = append $configWarnings (printf "Invalid mode: when type is 'bond', mode must be one of [active-backup, balance-xor], but got '%s'" $config.mode) }}
+      {{- end }}
+      {{- if eq $config.mode "balance-xor" }}
+        {{- $configWarnings = append $configWarnings "Note: balance-xor mode requires switch-side configuration (e.g. static LAG). All networking on the bond interfaces must use the same configuration (e.g. macvlan on the PF)" }}
+        {{- $validPolicies := list "layer2+3" "layer3+4" }}
+        {{- if not (has $config.xmitHashPolicy $validPolicies) }}
+          {{- $configWarnings = append $configWarnings (printf "Invalid xmitHashPolicy: when mode is 'balance-xor', xmitHashPolicy must be one of [layer2+3, layer3+4], but got '%s'" $config.xmitHashPolicy) }}
+        {{- end }}
       {{- end }}
       {{- if ne (int $config.linksInContainer) 1 }}
         {{- $configWarnings = append $configWarnings (printf "Invalid linksInContainer: when type is 'bond', linksInContainer must be '1', but got '%s'" $config.linksInContainer) }}
