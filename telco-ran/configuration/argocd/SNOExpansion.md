@@ -32,14 +32,14 @@ If from any reason workload partitioning manifests are created after the node is
 ### Applying the DU profile
 
 This procedure assumes the SNO cluster being expanded is provisioned with DU profile, as described in the [README.md](README.md)
-The DU profile is provisioned using `PolicyGenTemplate` resources partitioned into common, group and site-specific manifests.
+The DU profile is provisioned using `PolicyGenerator` resources partitioned into common, group and site-specific manifests.
 For example, for SNO, the git repository linked to the `policies` ArgoCD application will include:
 
-- [common-ranGen.yaml](example/policygentemplates/common-ranGen.yaml). This template usually contains a set of operator subscriptions and it's unlikely that it should be modified for a worker addition.
-- [group-du-sno-ranGen.yaml](example/policygentemplates/group-du-sno-ranGen.yaml)
-- [example-sno-site.yaml](example/policygentemplates/example-sno-site.yaml)
-- [ns.yaml](example/policygentemplates/ns.yaml)
-- [kustomization.yaml](example/policygentemplates/kustomization.yaml)
+- [ran-common.yaml](../acmpolicygenerator/ran-common.yaml). This template usually contains a set of operator subscriptions and it's unlikely that it should be modified for a worker addition.
+- [ran-group-du-sno-templated.yaml](../acmpolicygenerator/ran-group-du-sno-templated.yaml)
+- [ran-example-sno-site.yaml](../acmpolicygenerator/ran-example-sno-site.yaml)
+- [ns.yaml](../acmpolicygenerator/ns.yaml)
+- [kustomization.yaml](../acmpolicygenerator/kustomization.yaml)
 
 The procedure of configuring the DU profile on the worker node is considered as an upgrade. To initiate the upgrade flow, user must update the existing policies, or create an additional ones, and then create a ClusterGroupUpgrade to reconcile the policies in the group of clusters.
 
@@ -136,66 +136,93 @@ When synchronized to the hub, the correspondent policy will become non-compliant
 
 #### __Preparing worker node policies__
 
-Create the following policy template:
+Create the following PolicyGenerator CR:
 
 ```yaml
-apiVersion: ran.openshift.io/v1
-kind: PolicyGenTemplate
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
 metadata:
-  name: "cnfdf15-workers"
-  namespace: "ztp-cnfdf15-policies"
-spec:
-  bindingRules:
-    # These policies will correspond to all clusters with this label:
-    sites: "cnfdf15"
-  # Set MCP to "worker"
-  mcp: "worker"
-  sourceFiles:
+  name: cnfdf15-workers
+placementBindingDefaults:
+  name: cnfdf15-workers-pb
+policyDefaults:
+  namespace: ztp-cnfdf15-policies
+  placement:
+    labelSelector:
+      # These policies will correspond to all clusters with this label:
+      sites: "cnfdf15"
+  remediationAction: inform
+  severity: low
+  namespaceSelector:
+    exclude:
+      - kube-*
+    include:
+      - '*'
+  evaluationInterval:
+    compliant: 10m
+    noncompliant: 10s
+policies:
+- name: cnfdf15-workers-config-policy
+  policyAnnotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+  manifests:
     # This generic MachineConfig CR is used here to configure workload
     # partitioning on the worker node.
-    - fileName: generic/MachineConfigGeneric.yaml
-      policyName: "config-policy"
-      metadata:
-        labels:
-          machineconfiguration.openshift.io/role: worker
-        name: enable-workload-partitioning
-      spec:
-        config:
-          storage:
-            files:
-            - contents:
-                source: data:text/plain;charset=utf-8;base64,W2NyaW8ucnVudGltZS53b3JrbG9hZHMubWFuYWdlbWVudF0KYWN0aXZhdGlvbl9hbm5vdGF0aW9uID0gInRhcmdldC53b3JrbG9hZC5vcGVuc2hpZnQuaW8vbWFuYWdlbWVudCIKYW5ub3RhdGlvbl9wcmVmaXggPSAicmVzb3VyY2VzLndvcmtsb2FkLm9wZW5zaGlmdC5pbyIKcmVzb3VyY2VzID0geyAiY3B1c2hhcmVzIiA9IDAsICJjcHVzZXQiID0gIjAtMyIgfQo=
-              mode: 420
-              overwrite: true
-              path: /etc/crio/crio.conf.d/01-workload-partitioning
-              user:
-                name: root
-            - contents:
-                source: data:text/plain;charset=utf-8;base64,ewogICJtYW5hZ2VtZW50IjogewogICAgImNwdXNldCI6ICIwLTMiCiAgfQp9Cg==
-              mode: 420
-              overwrite: true
-              path: /etc/kubernetes/openshift-workload-pinning
-              user:
-                name: root
+    - path: source-crs/generic/MachineConfigGeneric.yaml
+      patches:
+      - metadata:
+          labels:
+            machineconfiguration.openshift.io/role: worker
+          name: enable-workload-partitioning
+        spec:
+          config:
+            storage:
+              files:
+              - contents:
+                  source: data:text/plain;charset=utf-8;base64,W2NyaW8ucnVudGltZS53b3JrbG9hZHMubWFuYWdlbWVudF0KYWN0aXZhdGlvbl9hbm5vdGF0aW9uID0gInRhcmdldC53b3JrbG9hZC5vcGVuc2hpZnQuaW8vbWFuYWdlbWVudCIKYW5ub3RhdGlvbl9wcmVmaXggPSAicmVzb3VyY2VzLndvcmtsb2FkLm9wZW5zaGlmdC5pbyIKcmVzb3VyY2VzID0geyAiY3B1c2hhcmVzIiA9IDAsICJjcHVzZXQiID0gIjAtMyIgfQo=
+                mode: 420
+                overwrite: true
+                path: /etc/crio/crio.conf.d/01-workload-partitioning
+                user:
+                  name: root
+              - contents:
+                  source: data:text/plain;charset=utf-8;base64,ewogICJtYW5hZ2VtZW50IjogewogICAgImNwdXNldCI6ICIwLTMiCiAgfQp9Cg==
+                mode: 420
+                overwrite: true
+                path: /etc/kubernetes/openshift-workload-pinning
+                user:
+                  name: root
     # PerformanceProfile.yaml is architecture-specific.  Replace x86_64 with aarch64 for ARM deployments
-    - fileName: node-tuning-operator/x86_64/PerformanceProfile.yaml
-      policyName: "config-policy"
-      metadata:
-        name: openshift-worker-node-performance-profile
-      spec:
-        cpu:
-          # These must be tailored for the specific hardware platform
-          isolated: "4-47"
-          reserved: "0-3"
-        hugepages:
-          defaultHugepagesSize: 1G
-          pages:
-            - size: 1G
-              count: 32
-    - fileName: node-tuning-operator/TunedPerformancePatch.yaml
-      policyName: "config-policy"
-      metadata:
-        name: performance-patch-worker
+    - path: source-crs/node-tuning-operator/x86_64/PerformanceProfile.yaml
+      patches:
+      - metadata:
+          name: openshift-worker-node-performance-profile
+        spec:
+          cpu:
+            # These must be tailored for the specific hardware platform
+            isolated: "4-47"
+            reserved: "0-3"
+          hugepages:
+            defaultHugepagesSize: 1G
+            pages:
+              - size: 1G
+                count: 32
+          machineConfigPoolSelector:
+            $patch: replace
+            pools.operator.machineconfiguration.openshift.io/worker: ""
+          nodeSelector:
+            $patch: replace
+            node-role.kubernetes.io/worker: ''
+    - path: source-crs/node-tuning-operator/TunedPerformancePatch.yaml
+      patches:
+      - metadata:
+          name: performance-patch-worker
+        spec:
+          recommend:
+          - machineConfigLabels:
+              machineconfiguration.openshift.io/role: "worker"
+            priority: 18
+            profile: ran-du-performance
 ```
 
 ##### __Creating content for workload partitioning machineconfig__
@@ -262,7 +289,7 @@ EOF
 
 ### Deploying a worker node ###
 
-1. Assuming your cluster was deployed using [this ClusterInstance CR](example/clusterinstance/example-sno.yaml), add your new worker node to `spec.clusters['example-sno'].nodes` list, for example:
+1. Assuming your cluster was deployed using [this ClusterInstance CR](example/clusterinstance/example-sno.yaml), add your new worker node to `spec.clusters['cnfdf15'].nodes` list, for example:
 
 ```yaml
       nodes:

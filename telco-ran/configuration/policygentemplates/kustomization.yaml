@@ -1,0 +1,28 @@
+# DEPRECATED: PolicyGenTemplate (PGT) is deprecated. Use PolicyGenerator CRs
+# in ../acmpolicygenerator/ instead. These PGT examples are provided for
+# reference only and will be removed in a future release.
+
+generators:
+# Common policies for all RAN deployments
+- common-ranGen.yaml
+# Add for multi-node OpenShift clusters (not used for SNO)
+# - common-mno-ranGen.yaml
+# Group policies use hub-side templating for hardware-type and zone-specific values
+- group-du-sno-ranGen-templated.yaml
+- group-du-sno-validator-ranGen.yaml
+- group-du-3node-ranGen-templated.yaml
+- group-du-3node-validator-ranGen.yaml
+- group-du-standard-ranGen-templated.yaml
+- group-du-standard-validator-ranGen.yaml
+# Site-level examples — replicate for every individual site
+- example-sno-site.yaml
+- example-multinode-site.yaml
+
+# Optional: reboot policy for triggering deferred Tuned changes
+# - example-reboot.yaml
+
+resources:
+- ns.yaml
+- ../template-values
+# Removes Cluster Logging operator 5.x artifacts after upgrading to 6.x
+- group-du-clo5-cleanup-policy.yaml

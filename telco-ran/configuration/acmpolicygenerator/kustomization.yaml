@@ -1,0 +1,24 @@
+generators:
+# Common policies for all SNO RAN deployments
+- ran-common.yaml
+# Add for multi-node OpenShift clusters (not used for SNO)
+# - ran-common-mno.yaml
+# Group policies use hub-side templating for hardware-type and zone-specific values
+- ran-group-du-sno-templated.yaml
+- ran-group-du-sno-validator.yaml
+- ran-group-du-3node-templated.yaml
+- ran-group-du-3node-validator.yaml
+- ran-group-du-standard-templated.yaml
+- ran-group-du-standard-validator.yaml
+# Site-level examples — replicate for every individual site
+- ran-example-sno-site.yaml
+- ran-example-multinode-site.yaml
+# Removes Cluster Logging operator 5.x artifacts after upgrading to 6.x
+- ran-group-du-clo5-cleanup.yaml
+
+# Optional: reboot policy for triggering deferred Tuned changes
+# - ran-example-reboot.yaml
+
+resources:
+- ns.yaml
+- ../template-values

@@ -6,7 +6,7 @@
 
 ### Obtaining the ZTP site generator container
 
-The GitOps ZTP infrastructure relies on the ztp-site-generator container to provide the tools which transform PolicyGenTemplate CRs into the underlying installation and configuration CRs. This container can be pulled from pre-build/official sources or built from source by following [Building the container](../../resource-generator/README.md)
+The GitOps ZTP infrastructure relies on the ztp-site-generator container to provide the tools which transform PolicyGenerator CRs into the underlying installation and configuration CRs. This container can be pulled from pre-build/official sources or built from source by following [Building the container](../../resource-generator/README.md)
 
 ## Obtaining pre-built image
 
@@ -18,7 +18,7 @@ The GitOps ZTP infrastructure relies on the ztp-site-generator container to prov
 
 Create a GIT repository for hosting site configuration data. The ZTP pipeline will require read access to this repository.
 
-1. Create a directory structure with separate paths for ClusterInstance and PolicyGenTemplate CRs
+1. Create a directory structure with separate paths for ClusterInstance and PolicyGenerator CRs
 2. Export the argocd directory from the ztp-site-generator container image by executing the following commands:
 
 ```
@@ -29,9 +29,9 @@ Create a GIT repository for hosting site configuration data. The ZTP pipeline wi
 3. Check the out directory that was created above. It should contain the following sub directories:
 
 - out/extra-manifest: contains the source CR files that ClusterInstance applies to a cluster during installation. 
-- out/source-crs: contains the source CR files that PolicyGenTemplate uses to generate the ACM policies.
+- out/source-crs: contains the source CR files that PolicyGenerator uses to generate the ACM policies.
 - out/argocd/deployment: contains patches and yaml files to apply on the hub cluster for use in the next steps of this procedure.
-- out/argocd/example: contains ClusterInstance and PolicyGenTemplate examples that represent our recommended configuration.
+- out/argocd/example: contains ClusterInstance and PolicyGenerator examples that represent our recommended configuration.
 
 ### Preparation of Hub cluster for ZTP
 
@@ -46,7 +46,7 @@ These steps configure your hub cluster with a set of ArgoCD Applications which g
 
 **Steps:**
 
-1. Install the [Topology Aware Lifecycle Operator](https://github.com/openshift-kni/cluster-group-upgrades-operator#readme), which will coordinate with any new sites added by ZTP and manage the application of the PGT-generated policies.
+1. Install the [Topology Aware Lifecycle Operator](https://github.com/openshift-kni/cluster-group-upgrades-operator#readme), which will coordinate with any new sites added by ZTP and manage the application of the PolicyGenerator-generated policies.
 
 2. Customize the ArgoCD patch ([link](deployment/argocd-openshift-gitops-patch.json)) for your environment:
    1. Select the multicluster-operators-subscription image to work with your ACM version.
@@ -130,7 +130,7 @@ These steps configure your hub cluster with a set of ArgoCD Applications which g
 - Modify the two ArgoCD Applications (*out/argocd/deployment/clusters-app.yaml* and *out/argocd/deployment/policies-app.yaml*) based on your GIT repository:
   - Update *URL* to point to git repository. The URL must end with .git, eg: <https://repo.example.com/repo.git>
   - The *targetRevision* should indicate which branch to monitor
-  - The path should specify the path to the directories holding ClusterInstance or PolicyGenTemplate CRs respectively
+  - The path should specify the path to the directories holding ClusterInstance or PolicyGenerator CRs respectively
 
 6. Apply pipeline configuration to your hub cluster using the following command.
 
@@ -197,7 +197,7 @@ The following steps prepare the hub cluster for site deployment and initiate ZTP
       - Ensure the cluster networking sections are defined correctly:
         - For SNO deployments, you must define a `MachineNetwork` section and not the `apiVIP` and `ingressVIP` values.
         - For 3-node and standard deployments, you must define the `apiVIP` and `ingressVIP` values and not the `MachineNetwork` section.
-      - The set of cluster labels that you define in the `extraLabels` section must correspond to the PolicyGenTemplate labels you will be defining in a later step.
+      - The set of cluster labels that you define in the `extraLabels` section must correspond to the PolicyGenerator labels you will be defining in a later step.
       - Ensure you have updated the hostnames, BMC address, BMC secret name and network configuration sections
       - Ensure you have the required number of host entries defined:
         - For SNO deployments, you must have exactly one host defined.
@@ -207,24 +207,24 @@ The following steps prepare the hub cluster for site deployment and initiate ZTP
 
    3. Add the ClusterInstance CR to the kustomization.yaml in the 'resources' section, much like in the example out/argocd/example/clusterinstance/kustomization.yaml
    4. Commit your ClusterInstance and associated kustomization.yaml in git.
-3. Create the PolicyGenTemplate CR for your site in your local clone of the git repository:
-   1. Begin by choosing an appropriate example from *out/argocd/example/policygentemplates*. This directory demonstrates a 3-level policy framework which represents a well-supported low-latency profile tuned for the needs of 5G Telco DU deployments:
-      - A single `common-ranGen.yaml` should be applied to SNO. DO NOT USE the `common-mno-ranGen.yaml` file for SNO clusters.
-      - For MNO clusters, it will require both `common-ranGen.yaml` and `common-mno-ranGen.yaml` file.
-      - A set of shared `group-du-*-ranGen.yaml`, each of which should be common across a set of similar clusters.
-      - An `example-*-site.yaml` which will normally be copied and updated for each individual site.
-   2. Ensure the labels defined in your PGTs `bindingRules` section correspond to the proper labels defined on the ClusterInstance file(s) of the clusters you are managing.
-   3. Ensure the content of the overlaid spec files matches your desired end state.  As a reference, the *out/source-crs* directory contains the full set of source-crs available to be included and overlayed by your PGT templates.
+3. Create the PolicyGenerator CR for your site in your local clone of the git repository:
+   1. Begin by choosing an appropriate example from the PolicyGenerator CRs in `configuration/acmpolicygenerator/`. This directory demonstrates a 3-level policy framework which represents a well-supported low-latency profile tuned for the needs of 5G Telco DU deployments:
+      - A single `ran-common.yaml` should be applied to SNO. DO NOT USE the `ran-common-mno.yaml` file for SNO clusters.
+      - For MNO clusters, it will require both `ran-common.yaml` and `ran-common-mno.yaml` file.
+      - A set of shared `ran-group-du-*-templated.yaml`, each of which should be common across a set of similar clusters. These use hub-side templating with ConfigMaps in `template-values/` for hardware-type and zone-specific values.
+      - An `ran-example-*-site.yaml` which will normally be copied and updated for each individual site.
+   2. Ensure the labels defined in your PolicyGenerator's `bindingRules` section correspond to the proper labels defined on the ClusterInstance file(s) of the clusters you are managing.
+   3. Ensure the content of the overlaid spec files matches your desired end state.  As a reference, the *out/source-crs* directory contains the full set of source-crs available to be included and overlayed by your PolicyGenerator templates.
       > **Note:** Depending on the specific requirements of your clusters, you may need more than just a single group policy per cluster type, especially considering the example group policies each has a single PerformancePolicy which can only be shared across a set of clusters if those clusters consist of identical hardware configurations.
-   4. Define all the policy namespaces in a yaml file much like in *example out/argocd/example/policygentemplates/ns.yaml*
-   5. Add all the PGTs and *ns.yaml* to the *kustomization.yaml* file, much like in the *out/argocd/example/policygentemplates/kustomization.yaml* example.
-   6. Commit the PolicyGenTemplate CRs, *ns.yaml*, and associated *kustomization.yaml* in git.
-4. Push your changes to the git repository and the ArgoCD pipeline will detect the changes and begin the site deployment. The ClusterInstance and PolicyGenTemplate CRs can be pushed simultaneously.
-    > **Note**: The policyGenTemplate CRs and associated *ns.yaml*, *kustomization.yaml* must be pushed to the git repository within the 20 mins after the ClusterInstance is pushed.
+   4. Define all the policy namespaces in a yaml file much like in *configuration/acmpolicygenerator/ns.yaml*
+   5. Add all the PolicyGenerator CRs and *ns.yaml* to the *kustomization.yaml* file, much like in the *configuration/acmpolicygenerator/kustomization.yaml* example.
+   6. Commit the PolicyGenerator CRs, *ns.yaml*, and associated *kustomization.yaml* in git.
+4. Push your changes to the git repository and the ArgoCD pipeline will detect the changes and begin the site deployment. The ClusterInstance and PolicyGenerator CRs can be pushed simultaneously.
+    > **Note**: The policyGenerator CRs and associated *ns.yaml*, *kustomization.yaml* must be pushed to the git repository within the 20 mins after the ClusterInstance is pushed.
 
 ### Monitoring progress
 
-The ArgoCD pipeline uses the ClusterInstance and PolicyGenTemplate CRs in GIT to generate the cluster configuration CRs & ACM policies, then sync them to the hub.
+The ArgoCD pipeline uses the ClusterInstance and PolicyGenerator CRs in GIT to generate the cluster configuration CRs & ACM policies, then sync them to the hub.
 
 The progress of this synchronization can be monitored in the ArgoCD dashboard.
 
@@ -267,21 +267,21 @@ After all policies become complaint, `ztp-done` label will be added to the clust
 
 ### Site Cleanup
 
-A site and the associated installation and configuration policy CRs can be removed by removing the ClusterInstance & PolicyGenTemplate file names from the *kustomization.yaml* file. The generated CRs will be removed as well.
+A site and the associated installation and configuration policy CRs can be removed by removing the ClusterInstance & PolicyGenerator file names from the *kustomization.yaml* file. The generated CRs will be removed as well.
 
 > **NOTE**: After removing the ClusterInstance file, if its corresponding clusters get stuck in the detach process, check [ARemoving a cluster frm management - ACM reference](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/latest/html/clusters/cluster_mce_overview#remove-managed-cluster) on how to clean detached managed cluster.
 
 ### Remove obsolete content
 
-If a change to PolicyGenTemplate configuration results in obsolete policies, for example by renaming policies, the steps in this section should be taken to remove those policies in an automated way.
+If a change to PolicyGenerator configuration results in obsolete policies, for example by renaming policies, the steps in this section should be taken to remove those policies in an automated way.
 
-1. Remove the affected PolicyGenTemplate(s) from GIT, commit and push to the remote repository.
+1. Remove the affected PolicyGenerator(s) from GIT, commit and push to the remote repository.
 1. Wait for the changes to synchronize through the application and the affected policies to be removed from the hub cluster.
-1. Add the updated PolicyGenTemplate(s) back to GIT, commit and push to the remote repository.
+1. Add the updated PolicyGenerator(s) back to GIT, commit and push to the remote repository.
 
 > **Note:** Removing the ZTP DU profile policies from GIT, and as a result also removing them from the hub cluster, will not affect any configuration of the managed spoke clusters. Removing a policy from the hub does not delete from the spoke cluster the CRs managed by that policy.
 
-As an alternative, after making changes to PolicyGenTemplates which result in obsolete policies, you may remove these policies from the hub cluster manually. You may delete policies from the ACM UI (under the Governance tab) or via the cli using the command:
+As an alternative, after making changes to PolicyGenerators which result in obsolete policies, you may remove these policies from the hub cluster manually. You may delete policies from the ACM UI (under the Governance tab) or via the cli using the command:
 
 ```
     oc delete policy -n <namespace> <policyName>
@@ -304,7 +304,7 @@ To upgrade an existing GitOps ZTP installation follow the [Upgrade Guide](Upgrad
 
 ## Troubleshooting GitOps ZTP
 
-As noted above, the ArgoCD pipeline uses the ClusterInstance and PolicyGenTemplate CRs from GIT to generate the cluster configuration CRs & ACM policies. The following steps can be used to troubleshoot issues that may occur in this process.
+As noted above, the ArgoCD pipeline uses the ClusterInstance and PolicyGenerator CRs from GIT to generate the cluster configuration CRs & ACM policies. The following steps can be used to troubleshoot issues that may occur in this process.
 
 ### Validate generation of installation CRs
 
@@ -384,7 +384,7 @@ syncResult:
 
 ### Validate generation of configuration policy CRs
 
-Policy CRs are generated in the same namespace as the PolicyGenTemplate from which they were created. The same troubleshooting flow applies to all policy CRs generated from PolicyGenTemplates, regardless of whether they are *ztp-common*, *ztp-group* or *ztp-site* based.  
+Policy CRs are generated in the same namespace as the PolicyGenerator from which they were created. The same troubleshooting flow applies to all policy CRs generated from PolicyGenerators, regardless of whether they are *ztp-common*, *ztp-group* or *ztp-site* based.  
 
 ```
     export NS=<namespace>
@@ -415,13 +415,13 @@ Error: failure in plugin configured via /tmp/kust-plugin-config-52463179; exit s
 Duplicate entries for the same file in the *kustomization.yaml* file will generate an error (found in event list) such as:
 
 ```
-Sync operation to  failed: ComparisonError: rpc error: code = Unknown desc = `kustomize build /tmp/https___gitlab.cee.redhat.com_ran_lab-ztp/policygentemplates --enable-alpha-plugins` failed exit status 1: Error: loading generator plugins: accumulation err='merging resources from 'common-cnfde13.yaml': may not add resource with an already registered id: ran.openshift.io_v1_PolicyGenTemplate|ztp-common-cnfde13|common-cnfde13': got file 'common-cnfde13.yaml', but '/tmp/https___gitlab.cee.redhat.com_ran_lab-ztp/policygentemplates/common-cnfde13.yaml' must be a directory to be a root
+Sync operation to  failed: ComparisonError: rpc error: code = Unknown desc = `kustomize build /tmp/https___gitlab.cee.redhat.com_ran_lab-ztp/configuration --enable-alpha-plugins` failed exit status 1: Error: loading generator plugins: accumulation err='merging resources from 'common-cnfde13.yaml': may not add resource with an already registered id: policy.open-cluster-management.io_v1_PolicyGenerator|ztp-common-cnfde13|common-cnfde13': got file 'common-cnfde13.yaml', but '/tmp/https___gitlab.cee.redhat.com_ran_lab-ztp/configuration/common-cnfde13.yaml' must be a directory to be a root
 ```
 
 Resources with different waves in the same policy will generate an error as below because all resources in the same policy must have the same wave. To fix it, you should move the mismatched CR to the matching policy if it exists or create a separate policy for the mismatched CR. Please see the [policy waves](../../policygenerator/README.md) for details.
 
 ```
-rpc error: code = Unknown desc = `kustomize build /tmp/http___registry.kni-qe-0.lab.eng.rdu2.redhat.com_3000_kni-qe_ztp-site-configs/policygentemplates --enable-alpha-plugins` failed exit status 1: Could not build the entire policy defined by /tmp/kust-plugin-config-274844375: ran.openshift.io/ztp-deploy-wave annotation in Resource sriov-operator/SriovSubscription.yaml (wave 2) doesn't match with Policy common-sriov-sub-policy (wave 1) Error: failure in plugin configured via /tmp/kust-plugin-config-274844375; exit status 1: exit status 1
+rpc error: code = Unknown desc = `kustomize build /tmp/http___registry.kni-qe-0.lab.eng.rdu2.redhat.com_3000_kni-qe_ztp-site-configs/configuration --enable-alpha-plugins` failed exit status 1: Could not build the entire policy defined by /tmp/kust-plugin-config-274844375: ran.openshift.io/ztp-deploy-wave annotation in Resource sriov-operator/SriovSubscription.yaml (wave 2) doesn't match with Policy common-sriov-sub-policy (wave 1) Error: failure in plugin configured via /tmp/kust-plugin-config-274844375; exit status 1: exit status 1
 ```
 
 1. Check for `Status: Sync:`. If there are log errors at `Status: Conditions:`, the `Sync: Status:` will be as `Unknown` or `Error`.
@@ -447,7 +447,7 @@ When ACM recognizes that policies apply to a ManagedCluster, the policy CR objec
     oc get policy -n <clusterName>
 ```
 
-All applicable policies should be copied here by ACM (ie should show *common*, *group* and *site* policies). The policy names are `<policyGenTemplate.Name>.<policyName>`
+All applicable policies should be copied here by ACM (ie should show *common*, *group* and *site* policies). The policy names are `<policyGenerator.Name>.<policyName>`
 
 3. For any policies not copied to the cluster namespace, check the placement rule.
 The matchSelector in the PlacementRule for those policies should match labels on the ManagedCluster.
@@ -499,4 +499,4 @@ A ClusterGroupUpgrade CR in the `UpgradeTimedOut` state will automatically resta
      oc delete clustergroupupgrades -n ztp-install $CLUSTER
 ```
 
-> **Note:** Once ClusterGroupUpgrade CR completes with status ```UpgradeCompleted``` and the managed spoke cluster has label ```ztp-done``` applied, if you would like to make additional configuration via PGT, deleting the existing ClusterGroupUpgrade CR will not make TALM generate a new CR. At this point ZTP has completed its interaction with the cluster and any further interactions should be treated as an upgrade. See the [Topology-Aware Lifecycle Operator](https://github.com/openshift-kni/cluster-group-upgrades-operator#readme) documentation for instructions on how to construct your own ClusterGroupUpgrade CR to apply the new changes.
+> **Note:** Once ClusterGroupUpgrade CR completes with status ```UpgradeCompleted``` and the managed spoke cluster has label ```ztp-done``` applied, if you would like to make additional configuration via PolicyGenerator, deleting the existing ClusterGroupUpgrade CR will not make TALM generate a new CR. At this point ZTP has completed its interaction with the cluster and any further interactions should be treated as an upgrade. See the [Topology-Aware Lifecycle Operator](https://github.com/openshift-kni/cluster-group-upgrades-operator#readme) documentation for instructions on how to construct your own ClusterGroupUpgrade CR to apply the new changes.

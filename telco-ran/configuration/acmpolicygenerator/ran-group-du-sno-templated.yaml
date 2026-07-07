@@ -177,6 +177,9 @@ policies:
           name: fec-config
         spec:
           drainSkip: true
+          nodeSelector:
+            node-role.kubernetes.io/master: ""
+            $patch: replace
           acceleratorSelector:
             pciAddress: '{{hub fromConfigMap "" "group-hardware-types-configmap" (printf "%s-sriov-fec-pciAddress" (index .ManagedClusterLabels "hardware-type")) hub}}'
           physicalFunction:

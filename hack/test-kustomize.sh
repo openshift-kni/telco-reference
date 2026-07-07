@@ -11,10 +11,10 @@ NC='\033[0m' # No Color
 # Excluded: these use ZTP kustomize plugins only available in OpenShift ArgoCD with ACM/MCE.
 EXCLUDED_DIRS=(
     "./telco-core/configuration"
-    "./telco-ran/configuration/argocd/example/acmpolicygenerator"
+    "./telco-ran/configuration/acmpolicygenerator"
+    "./telco-ran/configuration/policygentemplates"
     "./telco-ran/configuration/argocd/example/clusterinstance"
     "./telco-ran/configuration/argocd/example/image-based-upgrades"
-    "./telco-ran/configuration/argocd/example/policygentemplates"
     "./telco-ran/configuration/argocd/example/siteconfig"
 )
 

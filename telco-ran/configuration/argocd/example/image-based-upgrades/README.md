@@ -6,7 +6,7 @@ This directory contains examples of generating resources required for Image Base
 
 - Advanced Cluster Management (ACM) 2.10+
 - Before using the IBU examples, ensure that the following namespaces have been created:
-  - `ztp-group`: The ibu policies will be created in this namespace. If you use another name for the `group` namespace, please remember to add the namespace in [ns.yaml](../policygentemplates/ns.yaml)
+  - `ztp-group`: The ibu policies will be created in this namespace. If you use another name for the `group` namespace, please remember to add the namespace in [ns.yaml](../../../ns.yaml)
   - `openshift-adp`: The ConfigMap containing the related OpenShift API for Data Protection (OADP) Custom Resources (CRs) will be copied to this namespace on the applicable spoke cluster(s).
 
 ### Setup ArgoCD Application
@@ -82,7 +82,7 @@ spec:
   backupName: foobar-app
 ```
 
-Choose either [ibu-upgrade-ranGen.yaml](./ibu-upgrade-ranGen.yaml) example using ZTP `PolicyGenTemplate` or [acm-ibu-upgrade-ranGen.yaml](./acm-ibu-upgrade-ranGen.yaml) example using ACM `PolicyGenerator` to create policies for performing IBU. Both examples generate the same policies as following:
+Use the [acm-pg-ran-ibu-upgrade.yaml](./acm-pg-ran-ibu-upgrade.yaml) example using ACM `PolicyGenerator` to create policies for performing IBU, or [pgt-ibu-upgrade.yaml](./pgt-ibu-upgrade.yaml) using legacy `PolicyGenTemplate` (deprecated). Both examples generate the same policies as following:
 
 - group-ibu-oadp-cm-policy: propagate OADP configmap from hub cluster to target spoke clusters in the `openshift-adp` namespace
 - group-ibu-prep-policy: to transition ibu to Prep stage
@@ -94,10 +94,10 @@ Add the template to [kustomization.yaml](./kustomization.yaml) file in the `gene
 
 ```yaml
 generators:
-  # Use policygentemplate to create oadp cm and ibu policies
-  - ibu-upgrade-ranGen.yaml
-# Use acmpolicygenerator to create oadp cm and ibu policies
-# - acm-ibu-upgrade-ranGen.yaml
+  # Use PolicyGenerator to create oadp cm and ibu policies
+  - acm-pg-ran-ibu-upgrade.yaml
+# Legacy (deprecated): use PolicyGenTemplate to create oadp cm and ibu policies
+# - pgt-ibu-upgrade.yaml
 ```
 
 When `ibu-upgrade-ranGen.yaml` is used, override the oadp configmap data field with hub template using the Kustomize patches.

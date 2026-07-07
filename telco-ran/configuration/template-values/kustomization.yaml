@@ -1,0 +1,4 @@
+resources:
+- group-hardware-types-configmap.yaml
+- group-zones-configmap.yaml
+- site-data-configmap.yaml
