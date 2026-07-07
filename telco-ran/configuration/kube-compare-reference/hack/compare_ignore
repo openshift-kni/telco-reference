@@ -27,6 +27,7 @@ validatorCRs/informDuValidatorMaster.yaml
 validatorCRs/informDuValidatorWorker.yaml
 validatorCRs/informDuValidator.yaml
 sriov-fec-operator/AcceleratorsOperatorStatus.yaml
+cert-manager/certManagerOperatorStatus.yaml
 cluster-logging/ClusterLogOperatorStatus.yaml
 lca/LcaOperatorStatus.yaml
 storage-lvm/LVMOperatorStatus.yaml
@@ -34,6 +35,13 @@ nmstate/NMStateOperatorStatus.yaml
 ptp-operator/PtpOperatorStatus.yaml
 sriov-operator/SriovOperatorStatus.yaml
 storage-lso/StorageOperatorStatus.yaml
+
+# cert-manager config CRs (user-specific, nothing to validate)
+cert-manager/apiServerCertificate.yaml
+cert-manager/apiServerConfig.yaml
+cert-manager/certManagerClusterIssuer.yaml
+cert-manager/ingressCertificate.yaml
+cert-manager/ingressControllerConfig.yaml
 
 # ClusterLogging 5->6 upgrade helper-policy
 cluster-logging/ClusterLogging5Cleanup.yaml
