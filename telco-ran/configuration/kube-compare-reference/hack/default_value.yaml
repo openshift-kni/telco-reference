@@ -713,6 +713,59 @@ ptp_operator_configuration_PtpConfigThreeCardTBCWpc:
               [ens3f3]
               masterOnly 1
               # ...
+ptp_operator_configuration_PtpConfigDualTrTBC:
+  - spec:
+      profile:
+        - name: "tbc-tr"
+          plugins:
+            e810:
+              interconnections:
+                - gnssInput: false
+                  id: $iface_FirstPort
+                  part: E810-XXVDA4T
+                  phaseOutputConnectors:
+                    - SMA1
+                  upstreamPort: $iface_timeRx_FirstPort, $iface_timeRx_SecondPort
+              settings:
+                LocalMaxHoldoverOffSet: 1500
+                LocalHoldoverTimeout: 14400
+                MaxInSpecOffset: 100
+              pins:
+                $iface_FirstPort:
+                  SMA1: 2 1
+                  SMA2: 2 2
+                  U.FL1: 0 1
+                  U.FL2: 0 2
+          ptpSettings:
+            clockType: "T-BC"
+            inSyncConditionThreshold: "10"
+            inSyncConditionTimes: "12"
+            logReduce: "false"
+            leadingInterface: $iface_FirstPort
+            upstreamPort: $iface_timeRx_FirstPort, $iface_timeRx_SecondPort
+        - name: "tbc-tt"
+          ptpSettings:
+            controllingProfile: tbc-tr
+            logReduce: "false"
+      recommend:
+        - profile: "tbc-tr"
+          match:
+            - nodeLabel: "node-role.kubernetes.io/master"
+        - profile: "tbc-tt"
+          match:
+            - nodeLabel: "node-role.kubernetes.io/master"
+    captureGroup_defaults:
+      priority2: 128
+      domainNumber: 24
+      domainNumberTt: 25
+      pi_proportional_const: "0.60"
+      pi_integral_const: "0.0003"
+      iface_timeRx_FirstPort: $iface_timeRx_FirstPort
+      iface_timeRx_SecondPort: $iface_timeRx_SecondPort
+      iface_FirstPort: $iface_FirstPort
+      masterPorts: |-
+              [$iface_timeTx_N]
+                    masterOnly 1
 ptp_operator_configuration_PtpConfigTTSCWpc:
   - spec:
       profile:
