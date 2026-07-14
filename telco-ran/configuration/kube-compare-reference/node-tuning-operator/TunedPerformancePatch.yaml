@@ -26,6 +26,8 @@ spec:
         [bootloader]
         cmdline_ran_rcu=rcupdate.rcu_normal_after_boot=0
         cmdline_ran_efi=efi=runtime
+        [sysctl]
+        kernel.timer_migration=1
     - name: ran-du-common-aarch64
       data: |
         [main]

@@ -16,6 +16,10 @@ spec:
         summary=Top-level ran-du performance tuning overrides
         include=openshift-node-performance-openshift-node-performance-profile,ran-du-performance-architecture-common
     - name: ran-du-performance-architecture-common
+      # Timer migration is enabled by this profile explicitly to workaround
+      # https://redhat.atlassian.net/browse/OCPBUGS-86541.
+      # Once the NTO patch https://github.com/openshift/cluster-node-tuning-operator/pull/1542
+      # is backported to 4.21 you can remove this override.
       data: |
         [main]
         summary=Common cross-architecture performance tuning which also includes architecture-specific profiles
@@ -26,6 +30,8 @@ spec:
         [bootloader]
         cmdline_ran_rcu=rcupdate.rcu_normal_after_boot=0
         cmdline_ran_efi=efi=runtime
+        [sysctl]
+        kernel.timer_migration=1
     - name: ran-du-common-aarch64
       data: |
         [main]
