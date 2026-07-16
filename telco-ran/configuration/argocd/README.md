@@ -208,11 +208,10 @@ The following steps prepare the hub cluster for site deployment and initiate ZTP
    3. Add the ClusterInstance CR to the kustomization.yaml in the 'resources' section, much like in the example out/argocd/example/clusterinstance/kustomization.yaml
    4. Commit your ClusterInstance and associated kustomization.yaml in git.
 3. Create the PolicyGenerator CR for your site in your local clone of the git repository:
-   1. Begin by choosing an appropriate example from the PolicyGenerator CRs in `configuration/acmpolicygenerator/`. This directory demonstrates a 3-level policy framework which represents a well-supported low-latency profile tuned for the needs of 5G Telco DU deployments:
+   1. Begin by choosing an appropriate example from the PolicyGenerator CRs in `configuration/acmpolicygenerator/`. This directory demonstrates a policy framework which represents a well-supported low-latency profile tuned for the needs of 5G Telco DU deployments:
       - A single `ran-common.yaml` should be applied to SNO. DO NOT USE the `ran-common-mno.yaml` file for SNO clusters.
       - For MNO clusters, it will require both `ran-common.yaml` and `ran-common-mno.yaml` file.
-      - A set of shared `ran-group-du-*-templated.yaml`, each of which should be common across a set of similar clusters. These use hub-side templating with ConfigMaps in `template-values/` for hardware-type and zone-specific values.
-      - An `ran-example-*-site.yaml` which will normally be copied and updated for each individual site.
+      - A set of shared `ran-group-du-*-templated.yaml`, each of which should be common across a set of similar clusters. These use hub-side templating with ConfigMaps in `template-values/` for hardware-type, zone, and site-specific values — separate per-site PolicyGenerator CRs are not needed.
    2. Ensure the labels defined in your PolicyGenerator's `bindingRules` section correspond to the proper labels defined on the ClusterInstance file(s) of the clusters you are managing.
    3. Ensure the content of the overlaid spec files matches your desired end state.  As a reference, the *out/source-crs* directory contains the full set of source-crs available to be included and overlayed by your PolicyGenerator templates.
       > **Note:** Depending on the specific requirements of your clusters, you may need more than just a single group policy per cluster type, especially considering the example group policies each has a single PerformancePolicy which can only be shared across a set of clusters if those clusters consist of identical hardware configurations.
@@ -220,7 +219,7 @@ The following steps prepare the hub cluster for site deployment and initiate ZTP
    5. Add all the PolicyGenerator CRs and *ns.yaml* to the *kustomization.yaml* file, much like in the *configuration/acmpolicygenerator/kustomization.yaml* example.
    6. Commit the PolicyGenerator CRs, *ns.yaml*, and associated *kustomization.yaml* in git.
 4. Push your changes to the git repository and the ArgoCD pipeline will detect the changes and begin the site deployment. The ClusterInstance and PolicyGenerator CRs can be pushed simultaneously.
-    > **Note**: The policyGenerator CRs and associated *ns.yaml*, *kustomization.yaml* must be pushed to the git repository within the 20 mins after the ClusterInstance is pushed.
+    > **Note**: The PolicyGenerator CRs and associated *ns.yaml*, *kustomization.yaml* must be pushed to the git repository within the 20 mins after the ClusterInstance is pushed.
 
 ### Monitoring progress
 

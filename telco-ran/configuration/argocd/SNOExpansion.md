@@ -32,12 +32,11 @@ If from any reason workload partitioning manifests are created after the node is
 ### Applying the DU profile
 
 This procedure assumes the SNO cluster being expanded is provisioned with DU profile, as described in the [README.md](README.md)
-The DU profile is provisioned using `PolicyGenerator` resources partitioned into common, group and site-specific manifests.
+The DU profile is provisioned using `PolicyGenerator` resources partitioned into common and group manifests. Site-specific configuration (e.g. SR-IOV VLANs) is handled via hub-side templating in the group policies using ConfigMaps in `template-values/`, so separate per-site PolicyGenerator CRs are not needed.
 For example, for SNO, the git repository linked to the `policies` ArgoCD application will include:
 
 - [ran-common.yaml](../acmpolicygenerator/ran-common.yaml). This template usually contains a set of operator subscriptions and it's unlikely that it should be modified for a worker addition.
 - [ran-group-du-sno-templated.yaml](../acmpolicygenerator/ran-group-du-sno-templated.yaml)
-- [ran-example-sno-site.yaml](../acmpolicygenerator/ran-example-sno-site.yaml)
 - [ns.yaml](../acmpolicygenerator/ns.yaml)
 - [kustomization.yaml](../acmpolicygenerator/kustomization.yaml)
 
@@ -289,7 +288,7 @@ EOF
 
 ### Deploying a worker node ###
 
-1. Assuming your cluster was deployed using [this ClusterInstance CR](example/clusterinstance/example-sno.yaml), add your new worker node to `spec.clusters['cnfdf15'].nodes` list, for example:
+1. Assuming your cluster was deployed using [this ClusterInstance CR](example/clusterinstance/example-sno.yaml), add your new worker node to `spec.nodes` list, for example:
 
 ```yaml
       nodes:

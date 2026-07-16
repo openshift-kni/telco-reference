@@ -47,9 +47,6 @@ spec:
       # ran-group-du-sno-templated.yaml will apply to all clusters with 'group-du-sno-zone' and 'hardware-type'
       group-du-sno-zone: "zone-1"
       hardware-type: "hw-type-platform-1"
-      # ran-example-sno-site.yaml will apply to all clusters with 'site: "example-sno"'
-      # Normally this should match or contain the cluster name so it only applies to a single cluster
-      site: "example-sno"
   clusterNetwork:
     - cidr: 1001:1::/48
       hostPrefix: 64

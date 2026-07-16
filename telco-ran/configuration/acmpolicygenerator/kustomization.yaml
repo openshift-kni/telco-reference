@@ -10,9 +10,6 @@ generators:
 - ran-group-du-3node-validator.yaml
 - ran-group-du-standard-templated.yaml
 - ran-group-du-standard-validator.yaml
-# Site-level examples — replicate for every individual site
-- ran-example-sno-site.yaml
-- ran-example-multinode-site.yaml
 # Removes Cluster Logging operator 5.x artifacts after upgrading to 6.x
 - ran-group-du-clo5-cleanup.yaml
 

@@ -14,10 +14,6 @@ generators:
 - group-du-3node-validator-ranGen.yaml
 - group-du-standard-ranGen-templated.yaml
 - group-du-standard-validator-ranGen.yaml
-# Site-level examples — replicate for every individual site
-- example-sno-site.yaml
-- example-multinode-site.yaml
-
 # Optional: reboot policy for triggering deferred Tuned changes
 # - example-reboot.yaml
 

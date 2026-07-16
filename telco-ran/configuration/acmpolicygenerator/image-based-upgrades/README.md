@@ -6,7 +6,7 @@ This directory contains examples of generating resources required for Image Base
 
 - Advanced Cluster Management (ACM) 2.10+
 - Before using the IBU examples, ensure that the following namespaces have been created:
-  - `ztp-group`: The ibu policies will be created in this namespace. If you use another name for the `group` namespace, please remember to add the namespace in [ns.yaml](../../../ns.yaml)
+  - `ztp-group`: The ibu policies will be created in this namespace. If you use another name for the `group` namespace, please remember to add the namespace in [ns.yaml](../ns.yaml)
   - `openshift-adp`: The ConfigMap containing the related OpenShift API for Data Protection (OADP) Custom Resources (CRs) will be copied to this namespace on the applicable spoke cluster(s).
 
 ### Setup ArgoCD Application
@@ -23,7 +23,7 @@ Ensure that your Git repository, which will be used with the ArgoCD policies app
 │   │    ├── PlatformBackupRestoreLvms.yaml
 ├── ...
 ├── custom-oadp-workload-crs.yaml
-├── ibu-upgrade-ranGen.yaml
+├── acm-pg-ran-ibu-upgrade.yaml
 ├── kustomization.yaml
 ```
 
@@ -47,8 +47,8 @@ generatorOptions:
   disableNameSuffixHash: true
 ```
 
-- [PlatformBackupRestore.yaml](../../../../source-crs/ibu/PlatformBackupRestore.yaml) is provided to backup and restore ACM klusterlet related resources.
-- [PlatformBackupRestoreLvms.yaml](../../../../source-crs/ibu/PlatformBackupRestoreLvms.yaml)(optional) is provided for use cases when the LVMS is configured in the cluster as the storage solution.
+- [PlatformBackupRestore.yaml](../../source-crs/ibu/PlatformBackupRestore.yaml) is provided to backup and restore ACM klusterlet related resources.
+- [PlatformBackupRestoreLvms.yaml](../../source-crs/ibu/PlatformBackupRestoreLvms.yaml)(optional) is provided for use cases when the LVMS is configured in the cluster as the storage solution.
 - `custom-oadp-workload-crs.yaml`(optional) defines the OADP backup and restore CRs for the additional workload running on the target cluster. Ensure that the `custom-oadp-workload-crs.yaml` file includes a one-to-one mapping of OADP backup and restore CRs. It's important to note that these CRs can be stored either in separate YAML manifests or consolidated within a single YAML file (as shown below), with each CR section separated by the `---` directive.
 
 ```yaml
@@ -85,10 +85,10 @@ spec:
 Use the [acm-pg-ran-ibu-upgrade.yaml](./acm-pg-ran-ibu-upgrade.yaml) example using ACM `PolicyGenerator` to create policies for performing IBU, or [pgt-ibu-upgrade.yaml](./pgt-ibu-upgrade.yaml) using legacy `PolicyGenTemplate` (deprecated). Both examples generate the same policies as following:
 
 - group-ibu-oadp-cm-policy: propagate OADP configmap from hub cluster to target spoke clusters in the `openshift-adp` namespace
-- group-ibu-prep-policy: to transition ibu to Prep stage
-- group-ibu-upgrade-policy: to transition ibu to Upgrade stage
-- group-ibu-finalize-policy: to transition ibu to Idle stage
-- group-ibu-rollback-policy(optional): to transition ibu to Rollback stage
+- group-ibu-prep-stage-policy: to transition ibu to Prep stage
+- group-ibu-upgrade-stage-policy: to transition ibu to Upgrade stage
+- group-ibu-finalize-stage-policy: to transition ibu to Idle stage
+- group-ibu-rollback-stage-policy(optional): to transition ibu to Rollback stage
 
 Add the template to [kustomization.yaml](./kustomization.yaml) file in the `generators` object.
 
@@ -100,7 +100,7 @@ generators:
 # - pgt-ibu-upgrade.yaml
 ```
 
-When `ibu-upgrade-ranGen.yaml` is used, override the oadp configmap data field with hub template using the Kustomize patches.
+When [acm-pg-ran-ibu-upgrade.yaml](./acm-pg-ran-ibu-upgrade.yaml) is used, override the oadp configmap data field with hub template using the Kustomize patches.
 
 ```yaml
 patches:

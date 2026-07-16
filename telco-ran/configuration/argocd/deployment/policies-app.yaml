@@ -20,7 +20,7 @@ spec:
   source:
     path: telco-ran/configuration/acmpolicygenerator
     repoURL: https://github.com/openshift-kni/telco-reference
-    targetRevision: master
+    targetRevision: main
     # uncomment the below plugin if you will be adding the plugin binaries in the same repo->dir where
     # the PolicyGenerator .yaml files exist AND use the ../../hack/patch-argocd-dev.sh script to re-patch the deployment-repo-server
     #  plugin:
