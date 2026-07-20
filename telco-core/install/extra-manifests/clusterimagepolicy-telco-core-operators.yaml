@@ -1,0 +1,36 @@
+apiVersion: config.openshift.io/v1
+kind: ClusterImagePolicy
+metadata:
+  name: telco-core-operators
+spec:
+  policy:
+    rootOfTrust:
+      policyType: PublicKey
+      publicKey:
+        keyData: LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQ0lqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUEwQVN5dUgyVExXdkJVcVBIWjRJcAo3NWc3RW5jQmtnUUhkSm5qenhBVzVLUVRNaC9zaUJvQi9Cb1NydGlQTXduQ2hiVENuUU9JUWVadURpRm5odUo3Ck0vRDNiN0pvWDBtMTIzTmNDU242N21BZGpCYTZCZzZrdWtaZ0NQNFpVWmVFU2FqV1gvRWp5bEZjUkZPWFc1N3AKUkRDRU40MkovallsVnF0K2c5K0dya2VyOFN6ODZIM2wwdGJxT2RqYnovVnhIWWh3RjBjdFVNSHN5VlJEcTJRUAp0cXpOWGxtbE1oUy9Qb0ZyNlI0dS83SENuL0srTGVnY08yZkFGT2I0MEt2S1NLS1ZENmxld1VaRXJob3AxQ2dKClhqRHRHbW1POWRHTUY3MW1mNkhFZmFLU2R5K0VFNmlTRjJBMlZ2OVFoQmF3TWlxMmtPekVpTGc0bkFkSlQ4d2cKWnJNQW1QQ3FHSXNYTkdaNC9RK1lUd3dsY2UzZ2xxYjVMOXRmTm96RWRTUjlOODVERVNmUUxRRWRZM0NhbHdLTQpCVDFPRWhFWDF3SFJDVTRkck1PZWo2Qk5XMFZ0c2NHdEhtQ3JzNzRqUGV6aHdOVDh5cGt5UytUMHpUNFRzeTZmClZYa0o4WVNIeWVuU3pNQjJPcDJidnNFM2dyWStzNzRXaEc5VUlBNkRCeGNUaWUxNU5Tekt3Znphb05XT0RjTEYKcDdCWThhYUhFMk1xRnhZRlgrSWJqcGtRUmZhZVFRc291REZkQ2tYRUZWZlBwYkQyZGs2RmxlYU1UUHV5eHRJVApnalZFdEdRSzJxR0NGR2lRSEZkNGhmVitlQ0E2M0pybzF6MHpvQk01QmJJSVEzK2VWRnd0M0FsWnA1VVZ3cjZkCnNlY3FraS95cm12M1kwZHFaOVZPbjNVQ0F3RUFBUT09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQ==
+  scopes:
+    # openshift-cert-manager-operator
+    - registry.redhat.io/cert-manager
+    # openshift-external-secrets-operator
+    - registry.redhat.io/external-secrets-operator
+    # multicluster-engine
+    - registry.redhat.io/multicluster-engine
+    # cephcsi-operator, mcg-operator, ocs-client-operator, ocs-operator, odf-csi-addons-operator,
+    # odf-dependencies, odf-external-snapshotter-operator, odf-operator, odf-prometheus-operator, recipe,
+    # rook-ceph-operator
+    - registry.redhat.io/odf4
+    # cluster-logging, loki-operator
+    - registry.redhat.io/openshift-logging
+    # advanced-cluster-management, cephcsi-operator, kubernetes-nmstate-operator, metallb-operator,
+    # multicluster-engine, numaresources-operator, ocs-client-operator, ocs-operator,
+    # odf-csi-addons-operator, odf-operator, odf-prometheus-operator, rook-ceph-operator,
+    # sriov-network-operator, topology-aware-lifecycle-manager
+    - registry.redhat.io/openshift4
+    # advanced-cluster-management
+    - registry.redhat.io/rhacm2
+    # ocs-operator
+    - registry.redhat.io/rhceph
+    # advanced-cluster-management, mcg-operator, multicluster-engine, ocs-operator
+    - registry.redhat.io/rhel9
+    # node-healthcheck-operator, self-node-remediation
+    - registry.redhat.io/workload-availability
