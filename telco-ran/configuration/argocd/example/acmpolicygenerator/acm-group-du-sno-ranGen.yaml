@@ -63,6 +63,12 @@ policies:
 #      - spec:
 #          daemonNodeSelector:
 #            node-role.kubernetes.io/worker: ""
+    - path: source-crs/ptp-operator/PtpOperatorConfig-SetSelector.yaml
+      complianceType: "mustonlyhave"
+      patches:
+      - spec:
+          daemonNodeSelector:
+            node-role.kubernetes.io/master: ""
     - path: source-crs/ptp-operator/configuration/PtpConfigSlave.yaml
       patches:
         - metadata:
