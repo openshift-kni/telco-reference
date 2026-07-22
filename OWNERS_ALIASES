@@ -1,0 +1,16 @@
+# See the OWNERS docs at https://go.k8s.io/owners
+aliases:
+  tnc-reference-approvers:
+    - a1bokhari
+    - sollinsnaya
+    - Ladanow
+    - clindo84
+    - git-shassan
+    - imiller0
+  tnc-reference-reviewers:
+    - a1bokhari
+    - sollinsnaya
+    - Ladanow
+    - clindo84
+    - git-shassan
+    - imiller0
