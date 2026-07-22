@@ -3,7 +3,7 @@
 compare_install_extra_manifests() {
   local root fail=0 pair inst ref
   root="$(git rev-parse --show-toplevel)"
-  local install="${root}/telco-ran/install/extra-manifests"
+  local install="${root}/telco-ran/install/clusterinstance/extra-manifests"
   local kubecmp="${root}/telco-ran/configuration/kube-compare-reference"
   local -a pairs=(
     "01-container-mount-ns-and-kubelet-conf-master.yaml:machine-config/kubelet-configuration-and-container-mount-hiding/01-container-mount-ns-and-kubelet-conf-master.yaml"
@@ -28,7 +28,7 @@ compare_install_extra_manifests() {
     inst="${pair%%:*}"
     ref="${pair##*:}"
     if ! diff -u "${install}/${inst}" "${kubecmp}/${ref}"; then
-      echo "ERROR: install/extra-manifests/${inst} differs from kube-compare ${ref}" >&2
+      echo "ERROR: install/clusterinstance/extra-manifests/${inst} differs from kube-compare ${ref}" >&2
       fail=1
     fi
   done
@@ -59,7 +59,7 @@ check_no_machineconfig_in_source_crs() {
         continue
         ;;
     esac
-    echo "ERROR: MachineConfig must use install/extra-manifests, not source-crs: ${f}" >&2
+    echo "ERROR: MachineConfig must use install/clusterinstance/extra-manifests, not source-crs: ${f}" >&2
     fail=1
   done < <(grep -rl '^kind: MachineConfig$' "${root}/telco-ran/configuration/source-crs" 2>/dev/null || true)
   return $fail
@@ -67,7 +67,7 @@ check_no_machineconfig_in_source_crs() {
 
 run_extra_manifest_checks() {
   local status=0
-  echo "Checking install/extra-manifests alignment with kube-compare-reference..."
+  echo "Checking install/clusterinstance/extra-manifests alignment with kube-compare-reference..."
   compare_install_extra_manifests || status=1
   echo "Checking install/custom-manifests enable-crun vs kube-compare crun..."
   compare_install_custom_manifests_crun || status=1

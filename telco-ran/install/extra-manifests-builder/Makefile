@@ -4,7 +4,7 @@ export MCMAKER := $(GOBIN)/mcmaker
 # Set this flag below if using custom go.mod
 # export GOFLAGS ?= -mod=vendor
 
-DST := ../extra-manifests
+DST := ../clusterinstance/extra-manifests
 CHK := .chk
 
 GEN_DIRS := $(dir $(wildcard */build.sh))
