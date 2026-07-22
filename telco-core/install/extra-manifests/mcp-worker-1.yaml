@@ -11,8 +11,8 @@ spec:
     - key: machineconfiguration.openshift.io/role
       operator: In
       values: [ worker, worker-1 ]
-  paused: true
-  maxUnavailable: 100%
+  paused: false
+  maxUnavailable: 1
   nodeSelector:
     matchLabels:
       node-role.kubernetes.io/worker-1: ""
