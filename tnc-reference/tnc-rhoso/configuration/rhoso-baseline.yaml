@@ -211,6 +211,10 @@ policies:
                   path: secrets
                   server: '{{hub fromConfigMap "" .ManagedClusterName "vault-server" hub}}'
 
+  - name: rhoso-config-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "15"
+    manifests:
 #
 # OpenStack / RHOSO
 #
