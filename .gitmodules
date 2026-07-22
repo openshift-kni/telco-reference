@@ -1,0 +1,28 @@
+[submodule "tnc-reference/tnc-aiwl/configuration/telco-reference"]
+	path = tnc-reference/tnc-aiwl/configuration/telco-reference
+	url = git@github.com:openshift-kni/telco-reference.git
+	branch = release-4.20
+[submodule "tnc-reference/tnc-cwl/configuration/telco-reference"]
+	path = tnc-reference/tnc-cwl/configuration/telco-reference
+	url = git@github.com:openshift-kni/telco-reference.git
+	branch = release-4.20
+[submodule "tnc-reference/tnc-vewl/configuration/telco-reference"]
+	path = tnc-reference/tnc-vewl/configuration/telco-reference
+	url = git@github.com:openshift-kni/telco-reference.git
+	branch = release-4.20
+[submodule "tnc-reference/tnc-rhoso/configuration/telco-reference"]
+	path = tnc-reference/tnc-rhoso/configuration/telco-reference
+	url = git@github.com:openshift-kni/telco-reference.git
+	branch = release-4.20
+[submodule "tnc-reference/tnc-ghub/configuration/telco-reference"]
+	path = tnc-reference/tnc-ghub/configuration/telco-reference
+	url = git@github.com:openshift-kni/telco-reference.git
+	branch = release-4.20
+[submodule "tnc-reference/tnc-mgmt/configuration/telco-reference"]
+	path = tnc-reference/tnc-mgmt/configuration/telco-reference
+	url = git@github.com:openshift-kni/telco-reference.git
+	branch = release-4.20
+[submodule "tnc-reference/tnc-mgmt-ztp/configuration/telco-reference"]
+	path = tnc-reference/tnc-mgmt-ztp/configuration/telco-reference
+	url = git@github.com:openshift-kni/telco-reference.git
+	branch = release-4.20

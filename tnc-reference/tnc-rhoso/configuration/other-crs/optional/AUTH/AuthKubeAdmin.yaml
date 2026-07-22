@@ -1,0 +1,10 @@
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: kubeadmin
+  namespace: kube-system
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "99"
+type: Opaque
+

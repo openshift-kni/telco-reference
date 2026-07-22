@@ -1,0 +1,72 @@
+= Telco Network Cloud Reference
+
+[NOTE]
+====
+Ensure to include `--recurse-submodules` option while cloning this repo in order to pick the content from the git sub-modules included in the repository.
+
+```bash
+git clone --recurse-submodules https://github.com/openshift-kni/telco-reference.git -b tnc-6.1-release-4.20
+```
+
+====
+
+== Description
+
+This repository contains the reference configurations (installation artifacts as wells as configuration policies) for the different sub-architectures under the Telco Network Cloud (TNC) reference architecture. The figure below shows the high level view of the TNC reference architecture along with its sub-architectures:
+
+image::images/tnc-arch.png[]
+
+TNC uses the reference configuration, provided by the telco Reference Design Specification (RDS), as baseline and adds services/integrations to augment the RDS. 
+
+== How to Use
+
+The directories specific to each sub-architecture provide the configuration files needed to fully deploy and configure an OpenShift cluster with the design specified for the relevant sub-architecture. 
+
+Each sub-architecture uses the telco Reference Design Specification (RDS) as its base and adds the TNC sub-architecture components to the base. To ensure alignment with the RDS, the RDS reference CRs are being included in the TNC repo as GIT sub-modules. This allows users to pick the TNC+RDS artifacts as they were verified for the specific TNC release.
+
+[NOTE]
+====
+Users forking/cloning this GIT repository would need to remove the GIT sub-modules and copy the reference CRs locally within each `<sub-architecture>/configuration` directory before pushing the content to their private GIT repos, otherwise they may run into issues with ArgoCD not being able to sync content from GIT:
+
+```bash
+git clone --recurse-submodules https://github.com/openshift-kni/telco-reference.git -b tnc-6.1-release-4.20
+cd telco-reference
+#
+# For each sub-architecture in the repo, follow these steps:
+#
+cd tnc-reference/<sub-architecture>/configuration
+# Remove the soft link
+rm reference-crs
+
+# copy the reference-crs out of the sub-module content
+# For the MGMT-ZTP, CWL, AIWL, VEWL and RHOSO sub-architectures:
+cp -R telco-reference/telco-core/configuration/reference-crs .
+
+OR
+
+# For the GHUB and MGMT sub-architectures:
+cp -R telco-reference/telco-hub/configuration/reference-crs .
+
+# Remove the sub-module content
+rm -rf telco-reference
+
+# End repeat for each sub-architecture
+#
+# remove GIT sub-modules
+# Go back to the top level
+cd ../../..
+git submodule deinit tnc-reference/tnc-ghub/configuration/telco-reference
+git submodule deinit tnc-reference/tnc-mgmt/configuration/telco-reference
+git submodule deinit tnc-reference/tnc-mgmt-ztp/configuration/telco-reference
+git submodule deinit tnc-reference/tnc-cwl/configuration/telco-reference
+git submodule deinit tnc-reference/tnc-aiwl/configuration/telco-reference
+git submodule deinit tnc-reference/tnc-vewl/configuration/telco-reference
+git submodule deinit tnc-reference/tnc-rhoso/configuration/telco-reference
+rm .submodule
+rm -rf .git/modules
+```
+Now the repo has no sub-modules and 
+can be pushed to local/private git repo without causing issues for ArgoCD sync.
+
+====
+

@@ -1,0 +1,14 @@
+  #
+  # ESO cannot create config map from vault secret
+  # So we first created a secret and now
+  # we createa a configMap from the secret
+  #
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ldap-ca-cert
+  namespace: openshift-config
+data:
+  ca.crt: $cert
+

@@ -1,0 +1,11 @@
+apiVersion: dataplane.openstack.org/v1beta1
+kind: OpenStackDataPlaneDeployment
+metadata:
+  name: data-plane-deploy-sriov
+  namespace: openstack
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  nodeSets:
+    - nodeset-sriov
+

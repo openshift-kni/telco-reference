@@ -1,0 +1,72 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: aiwl-auth-idm-tnc61
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      aiwl: "true"
+      tnc-ver: "tnc6.1"
+      idm: "true"
+  remediationAction: "inform"
+policies:
+  - name: aiwl-auth-idm-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "50"  
+    manifests:
+    - path: other-crs/optional/AUTH/LOCAL/AuthSecretHTPasswd.yaml
+      patches:
+        - data:
+            htpasswd: >-
+              <<< REDACTED - provide htpasswd file in base64 >>>
+    - path: other-crs/optional/AUTH/LOCAL/AuthClusterRoleBinding.yaml
+    #- path: other-crs/optional/AUTH/IDM/AuthSecretLdapCACert.yaml
+    #  patches:
+    #    - spec:
+    #        dataFrom:
+    #        - extract:
+    #            key: '{{hub (printf "%s" .ManagedClusterName) hub}}/ldap-ca-cert'
+    #- path: other-crs/optional/AUTH/IDM/AuthCMLdapCACert.yaml
+    #  patches:
+    #    - data:
+    #        ca.crt: |-
+    #          {{ fromSecret "openshift-config" "ldap-ca-cert" "ca.crt" | base64dec }}
+    - path: other-crs/optional/AUTH/IDM/AuthCMLdapCACert.yaml
+      patches:
+        - data:
+            ca.crt: |
+              -----BEGIN CERTIFICATE-----
+              REDACTED
+              -----END CERTIFICATE-----
+    - path: other-crs/optional/AUTH/IDM/AuthCRBOCPAdmins.yaml
+    - path: other-crs/optional/AUTH/IDM/AuthCronGroupSyncRBAC.yaml
+    - path: other-crs/optional/AUTH/IDM/AuthCronGroupSyncConfigMap.yaml
+    - path: other-crs/optional/AUTH/IDM/AuthCronGroupSyncJob.yaml
+    - path: other-crs/optional/AUTH/IDM/AuthClusterClaim.yaml
+      patches:
+        - metadata:
+            name: ldap-server
+          spec:
+            value: '{{hub fromConfigMap "" .ManagedClusterName "ldap-server" hub}}'
+    - path: other-crs/optional/AUTH/IDM/LdapAuthSecret.yaml
+      patches:
+        - spec:
+            dataFrom:
+            - extract:
+                key: '{{hub (printf "%s" .ManagedClusterName) hub}}/ldap-auth-secret'
+    - path: other-crs/optional/AUTH/IDM/LdapGroupSyncSecret.yaml
+      patches:
+        - spec:
+            dataFrom:
+            - extract:
+                key: '{{hub (printf "%s" .ManagedClusterName) hub}}/ldap-group-sync-creds'
+    - path: other-crs/optional/AUTH/IDM/AuthOauth.yaml
+
+  - name: aiwl-post-auth-idm-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "99"  
+    complianceType: mustnothave
+    manifests:
+    - path: other-crs/optional/AUTH/AuthKubeAdmin.yaml

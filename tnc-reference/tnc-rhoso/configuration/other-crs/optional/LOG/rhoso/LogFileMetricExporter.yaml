@@ -1,0 +1,18 @@
+apiVersion: logging.openshift.io/v1alpha1
+kind: LogFileMetricExporter
+metadata:
+  name: instance
+  namespace: openshift-logging
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  nodeSelector: {}
+  resources:
+    limits:
+      cpu: 500m
+      memory: 256Mi
+    requests:
+      cpu: 200m
+      memory: 128Mi
+  tolerations: []
+

@@ -1,0 +1,41 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: hco.kubevirt.io/v1beta1
+kind: HyperConverged
+metadata:
+  annotations:
+    deployOVS: "false"
+  finalizers:
+  - kubevirt.io/hyperconverged
+  labels:
+    app: kubevirt-hyperconverged
+  name: kubevirt-hyperconverged
+  namespace: openshift-cnv
+spec:
+  certConfig:
+    ca:
+      duration: 48h0m0s
+      renewBefore: 24h0m0s
+    server:
+      duration: 24h0m0s
+      renewBefore: 12h0m0s
+  featureGates:
+    enableCommonBootImageImport: false
+      #    sriovLiveMigration: true
+    withHostPassthroughCPU: false
+  infra: {}
+  liveMigrationConfig:
+    completionTimeoutPerGiB: 800
+    parallelMigrationsPerCluster: 5
+    parallelOutboundMigrationsPerNode: 2
+    progressTimeout: 150
+  uninstallStrategy: BlockUninstallIfWorkloadsExist
+  workloadUpdateStrategy:
+    batchEvictionInterval: 1m0s
+    batchEvictionSize: 10
+    workloadUpdateMethods:
+    - LiveMigrate
+  workloads: {}
+

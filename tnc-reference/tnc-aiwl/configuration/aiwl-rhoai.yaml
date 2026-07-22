@@ -1,0 +1,74 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: rhoai-tnc61
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      aiwl: "true"
+      tnc-ver: "tnc6.1"
+  remediationAction: "inform"
+policies:
+  - name: rhoai-prereq-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "20"
+    manifests:
+       # START operators that may already be installed by other PGs
+# Cert manager
+    - path: other-crs/optional/CERT/CertMgrNS.yaml
+    - path: other-crs/optional/CERT/CertMgrOperGroup.yaml
+    - path: other-crs/optional/CERT/CertMgrSubscription.yaml
+# OTEL
+    - path: other-crs/optional/OTEL/OtelNS.yaml
+    - path: other-crs/optional/OTEL/OtelOperGroup.yaml
+    - path: other-crs/optional/OTEL/OtelSubscription.yaml
+       # END
+# Red Hat Build of kueue
+    - path: other-crs/optional/RHBOK/RhbokNS.yaml
+    - path: other-crs/optional/RHBOK/RhbokOperGroup.yaml
+    - path: other-crs/optional/RHBOK/RhbokSubscription.yaml
+# NFD
+    - path: other-crs/optional/NFD/NfdNS.yaml
+    - path: other-crs/optional/NFD/NfdOperGroup.yaml
+    - path: other-crs/optional/NFD/NfdSubscription.yaml
+#OSSM
+    - path: other-crs/optional/OSSM/OssmSubscription.yaml
+
+  - name: rhoai-prereq-config-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "25"
+    manifests:
+    - path: other-crs/optional/RHBOK/kueue.yaml
+    - path: other-crs/optional/NFD/NodeFeatureDiscovery.yaml
+      patches:
+        - spec:
+            operand:
+              image: registry.redhat.io/openshift4/ose-node-feature-discovery-rhel9@sha256:ae6e36fc085492e368a431d3d4df4088fe5b11d2f030e36662aa9001ea18c71e
+
+  - name: nvidia-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "30"
+    manifests:
+    - path: other-crs/optional/NVDIA/NvidiaNS.yaml
+    - path: other-crs/optional/NVDIA/NvidiaOperGroup.yaml
+    - path: other-crs/optional/NVDIA/NvidiaSubscription.yaml
+    - path: other-crs/optional/NVDIA/clusterPolicy.json
+
+  - name: rhoai-operator-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "35"
+    manifests:
+    - path: other-crs/optional/RHOAI/RhoaiNS.yaml
+    - path: other-crs/optional/RHOAI/RhoaiOperGroup.yaml
+    - path: other-crs/optional/RHOAI/RhoaiSubscription.yaml
+      patches:
+        - spec:
+            channel: stable-3.x
+
+  - name: rhoai-config-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "40"
+    manifests:
+    - path: other-crs/optional/RHOAI/01-DataScienceCluster.yaml 

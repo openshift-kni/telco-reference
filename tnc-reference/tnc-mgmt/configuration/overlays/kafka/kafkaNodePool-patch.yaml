@@ -1,0 +1,11 @@
+# Use the first patch when using ODF
+# Comment out the first patch and 
+# un-comment the seconds patch when using LVMS
+#
+- op: replace
+  path: "/spec/storage/volumes/0/class"
+  value: "ocs-storagecluster-ceph-rbd"
+
+#- op: replace
+#  path: "/spec/storage/volumes/0/class"
+#  value: "lvms-vg10"

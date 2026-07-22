@@ -1,0 +1,99 @@
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: rhoso-net-isolation
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: '{{hub printf "m1.%s.example.com" .ManagedClusterName hub}}' #needs to be patched with the actual hostname
+#  desiredState:
+#    interfaces:
+#      - name: bond0.92 
+#        description: "Bond0 - OSP_Ctlplane"
+#        type: vlan
+#        state: up
+#        mtu: 8950
+#        vlan:
+#          base-iface: bond0
+#          id: 92
+#        ipv4:
+#          enabled: true
+#          dhcp: false
+#          address:
+#            - ip: 10.62.62.10 #needs to be patched with the actual IP
+#              prefix-length: 24
+#        ipv6:
+#          enabled: false
+#
+#      - name: bond1
+#        description: "Bond1 - OSP_External"
+#        type: bond
+#        state: up
+#        mtu: 8950
+#        ipv4:
+#          address:
+#            - ip: 192.0.2.132 #needs to be patched with the actual IP
+#              prefix-length: 28
+#          enabled: true
+#          dhcp: false
+#        ipv6:
+#          enabled: false
+#        link-aggregation:
+#          mode: 802.3ad
+#          options:
+#            miimon: "1000"
+#          port:
+#            - eno16515 #needs to be patched with the actual ports
+#            - eno16525 #needs to be patched with the actual ports
+#
+#      - name: bond1.93
+#        description: "Bond1.93 - OSP_InternalAPI"
+#        type: vlan
+#        state: up
+#        mtu: 8950
+#        vlan:
+#          base-iface: bond1
+#          id: 93
+#        ipv4:
+#          enabled: true
+#          dhcp: false
+#          address:
+#            - ip: 10.2.120.10 #needs to be patched with the actual IP
+#              prefix-length: 24
+#        ipv6:
+#          enabled: false
+#      - name: bond1.94
+#        description: "Bond1.94 - OSP_storage"
+#        type: vlan
+#        state: up
+#        mtu: 8950
+#        vlan:
+#          base-iface: bond1
+#          id: 94
+#        ipv4:
+#          enabled: true
+#          dhcp: false
+#          address:
+#            - ip: 10.3.130.10 #needs to be patched with the actual IP
+#              prefix-length: 24
+#        ipv6:
+#          enabled: false
+#
+#      - name: bond1.96
+#        description: "Bond1.96 - OSP_tenant"
+#        type: vlan
+#        state: up
+#        mtu: 8950
+#        vlan:
+#          base-iface: bond1
+#          id: 96
+#        ipv4:
+#          enabled: true
+#          dhcp: false
+#          address:
+#            - ip: 10.11.110.10 #needs to be patched with the actual IP
+#              prefix-length: 24
+#        ipv6:
+#          enabled: false
+
+
+

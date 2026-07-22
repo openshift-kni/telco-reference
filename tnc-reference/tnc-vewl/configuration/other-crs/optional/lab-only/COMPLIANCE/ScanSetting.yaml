@@ -1,0 +1,42 @@
+apiVersion: compliance.openshift.io/v1alpha1
+autoApplyRemediations: false        
+autoUpdateRemediations: false
+debug: true
+kind: ScanSetting
+maxRetryOnTimeout: 3
+metadata:
+  name: cwl-compliance
+  namespace: openshift-compliance
+rawResultStorage:
+  nodeSelector:
+    node-role.kubernetes.io/worker: ""
+  pvAccessModes:
+  - ReadWriteMany
+  rotation: 5
+  size: 1Gi
+  storageClassName: csi-cephfs
+  tolerations:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+    operator: Exists
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoSchedule
+    key: node.kubernetes.io/memory-pressure
+    operator: Exists
+roles:
+- master
+- worker
+scanTolerations:
+- operator: Exists
+schedule: 0 
+showNotApplicable: false
+strictNodeScan: true
+suspend: false
+timeout: 30m

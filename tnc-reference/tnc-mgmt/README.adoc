@@ -1,0 +1,9 @@
+= TNC Management Cluster
+
+This repository contains reference configuration CRs related to the TNC Management (MGMT) cluster sub-architecture.
+
+This repo is for the case when the management cluster is the first cluster being deployed and hence there is no ACM available for ZTP.
+
+* The cluster is installed via the Agent based installer
+* The cluster is configured via GitOps using ArgoCD
+

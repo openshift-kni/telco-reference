@@ -1,0 +1,97 @@
+apiVersion: v1alpha1
+kind: AgentConfig
+metadata:
+  name: ghub
+rendezvousIP: 172.31.51.6
+additionalNTPSources:
+  - 172.31.51.2
+  - 192.0.2.2 
+hosts:
+  - hostname: ghub
+    interfaces:
+     - name: eno12399 
+       macAddress: 30:3E:A7:02:FB:B8
+    networkConfig:
+      interfaces:
+      - name: bond0
+        type: bond
+        state: up
+        mtu: 8950
+        link-aggregation:
+          mode: '802.3ad'
+          options:
+            miimon: "1500"
+          port:
+          - eno12399
+          - eno12409
+        ipv4:
+          address:
+          - ip: 172.31.51.6
+            prefix-length: 24
+          enabled: true
+          dhcp: false
+        ipv6:
+          address:
+          - ip: fd00:2023:51::6
+            prefix-length: 48
+          enabled: true
+          dhcp: false
+      - name: bond1
+        type: bond
+        state: up
+        mtu: 8950
+        link-aggregation:
+          mode: '802.3ad'
+          options:
+            miimon: "1500"
+          port:
+          - eno12419
+          - eno12429
+        ipv4:
+          enabled: true
+          dhcp: false
+        ipv6:
+          enabled: true
+          dhcp: false
+      - name: bond1.52
+        type: vlan
+        state: up
+        vlan:
+          base-iface: bond1
+          id: 52
+        ipv4:
+          enabled: true
+          dhcp: false
+        ipv6:
+          enabled: true
+          dhcp: false
+      - name: eno12399
+        type: ethernet
+        state: down
+        mac-address: 30:3E:A7:02:FB:B8
+      - name: eno12409
+        type: ethernet
+        state: down
+        mac-address: 30:3E:A7:02:FB:B9
+      - name: eno12419
+        type: ethernet
+        state: down
+        mac-address: 30:3E:A7:02:FB:BA
+      - name: eno12429
+        type: ethernet
+        state: down
+        mac-address: 30:3E:A7:02:FB:BB
+      dns-resolver:
+        config:
+          server:
+            - 192.0.2.4
+            - fd00:2023:22::4
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: 172.31.51.1
+            next-hop-interface: bond0
+            table-id: 254
+          - destination: ::/0
+            next-hop-address: fd00:2023:51::1
+            next-hop-interface: bond0

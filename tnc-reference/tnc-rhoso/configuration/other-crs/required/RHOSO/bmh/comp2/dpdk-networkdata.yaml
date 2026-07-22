@@ -1,0 +1,41 @@
+# networkData
+links:
+- name: eno12399
+  id: eno12399
+  type: phy
+  ethernet_mac_address: "30:3E:A7:02:F6:00"
+- name: eno12409
+  id: eno12409
+  type: phy
+  ethernet_mac_address: "30:3E:A7:02:F6:01"
+- name: eno12419
+  id: eno12419
+  type: phy
+  ethernet_mac_address: "30:3E:A7:02:F6:02"
+- name: eno12429
+  id: eno12429
+  type: phy
+  ethernet_mac_address: "30:3E:A7:02:F6:03"
+- name: bond0
+  id: bond0
+  type: bond
+  bond_mode: 802.3ad
+  bond_links:
+    - eno12399
+    - eno12409
+networks:
+- link: bond0
+  id: bond0
+  type: ipv4
+  ip_address: 10.62.62.101
+  netmask: "255.255.255.0"
+  routes:
+  - network: 0.0.0.0
+    netmask: 0.0.0.0
+    gateway: 10.62.62.1
+services:
+- type: dns-nameserver
+  address:
+    - 10.62.62.85
+  search:
+    - ctlplane.osp.virtcwl.example.com

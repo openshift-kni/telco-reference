@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cpu-pinning-nova-dpdk
+  namespace: openstack
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+data:
+  25-cpu-pinning-nova.conf: |
+    [DEFAULT]
+    reserved_host_memory_mb = {{hub fromConfigMap "" .ManagedClusterName "dpdk-host-mem" hub}}
+    reserved_huge_pages = node:0,size:1GB,count:{{hub fromConfigMap "" .ManagedClusterName "dpdk-0-hugepages" hub}}
+    reserved_huge_pages = node:1,size:1GB,count:{{hub fromConfigMap "" .ManagedClusterName "dpdk-1-hugepages" hub}}
+    #reserved_huge_pages = node:0,size:2M,count:50
+    #reserved_huge_pages = node:1,size:2M,count:50
+    [compute]
+    cpu_shared_set = {{hub fromConfigMap "" .ManagedClusterName "dpdk-cpu-shared" hub}}
+    cpu_dedicated_set = {{hub fromConfigMap "" .ManagedClusterName "dpdk-cpu-dedicated" hub}}
+    [neutron]
+    physnets = {{hub fromConfigMap "" .ManagedClusterName "dpdk-physnets" hub}}
+    [neutron_physnet_{{hub fromConfigMap "" .ManagedClusterName "dpdk-physnet1" hub}}]
+    numa_nodes = 0
+    [neutron_tunnel]
+    numa_nodes = 0
+    [libvirt]
+    cpu_power_management=false
+

@@ -1,0 +1,4 @@
+= TNC RHOSO Cluster
+
+This repository contains reference configuration CRs related to the TNC Red Hat OpenStack Service on OpenShift (RHOSO) cluster sub-architecture.
+

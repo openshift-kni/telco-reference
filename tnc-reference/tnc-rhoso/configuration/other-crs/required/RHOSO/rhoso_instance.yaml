@@ -1,0 +1,7 @@
+---
+apiVersion: operator.openstack.org/v1beta1
+kind: OpenStack
+metadata:
+   name: openstack
+   namespace: openstack-operators
+

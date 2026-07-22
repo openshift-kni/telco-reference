@@ -1,0 +1,4 @@
+= TNC Global Hub Cluster
+
+This repository contains reference configuration CRs related to the TNC Global Hub / Global Management cluster.
+

@@ -1,0 +1,23 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cwl-site3
+  namespace: ztp-core-policies
+data:
+  kafka-broker: "mgmt-kafka-kafka-bootstrap-kafka-cluster.apps.mgmt1.example.com:443"
+  vault-server: "https://vault-server.apps.ghub.example.com"
+  ldap-server: "idm1mgmt1.example.com"
+  registry-fqdn: "registry.bastion.example.com:9500"
+  # Metal LB parameters
+  metallb-peerAddr: "1.2.3.4"
+  metallb-myASN: "65450"
+  metallb-peerASN: "65435"
+  metallb-peerPort: "179"
+  metallb-communities: "7003:008"
+  metallb-routerid: "10.0.0.1"
+  # electing to add site specific sriovvalues here instead of hw-types due to lab config
+  nic-config-type-1-sriov-dev1: eno12419  
+  nic-config-type-1-sriov-dev2: eno12429
+  nic-config-type-1-sriov-numvf: "8"
+  vewl-namespace: "vewl-epa"

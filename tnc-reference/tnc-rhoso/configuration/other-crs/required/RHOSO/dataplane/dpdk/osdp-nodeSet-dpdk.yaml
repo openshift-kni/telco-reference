@@ -1,0 +1,225 @@
+apiVersion: dataplane.openstack.org/v1beta1
+kind: OpenStackDataPlaneNodeSet
+
+metadata:
+  name: nodeset-dpdk
+  namespace: openstack
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  tlsEnabled: true
+  env:
+    - name: ANSIBLE_FORCE_COLOR
+      value: "True"
+  services:
+  - bootstrap
+  - reboot-os
+  - configure-ovs-dpdk
+  - configure-network
+  - validate-network
+  - install-os
+  - configure-os
+  - ssh-known-hosts
+  - run-os
+  - install-certs
+  - ceph-client
+  - ovn
+  - neutron-ovn-igmp
+  - neutron-metadata
+  - libvirt
+  - nova-custom-ovsdpdk-ceph
+  - telemetry
+  preProvisioned: false
+  networkAttachments:
+    - ctlplane
+  baremetalSetTemplate:
+    #osContainerImageUrl: quay1.apps.mgmt1.example.com/ocp/ocp4/steveb/edpm-hardened-uefi:4k2
+    deploymentSSHSecret: dataplane-ansible-ssh-private-key-secret
+    bmhNamespace: openstack
+    cloudUserName: cloud-admin
+    bmhLabelSelector:
+      role: dpdk
+    ctlplaneInterface: bond0
+    #dnsSearchDomains:
+    #  - '{{hub fromConfigMap "" .ManagedClusterName "dns-domain" hub}}'
+  nodeTemplate:
+    ansibleSSHPrivateKeySecret: dataplane-ansible-ssh-private-key-secret
+    #
+    # Ceph related config
+    #
+    extraMounts:
+    - extraVolType: Ceph
+      mounts:
+      - mountPath: /etc/ceph
+        name: ceph
+        readOnly: true
+      volumes:
+      - name: ceph
+        secret:
+          secretName: ceph-conf-files
+    # End Ceph
+    managementNetwork: ctlplane
+    ansible:
+      ansibleUser: cloud-admin
+      ansiblePort: 22
+      ansibleVars:
+        edpm_bootstrap_release_version_package: []
+            # image pull fails from private quay becuase of lack of GPG key in private quay.
+            # Hence need to change policy.json
+            #
+            # Since we are using self signed certificates, podman login to quay
+            # fails with TLS errors. Need to add quay certificate to the compute node
+            #
+            # Update the commands below to point to the correct location for Quay Certs
+            # and to provide the correct quay credentials.
+            # See if this can be replaced with a secret instead
+            #
+        edpm_bootstrap_command: |
+          echo '{ "default": [{"type": "insecureAcceptAnything"}], "transports": { "docker-daemon": { "": [{"type": "insecureAcceptAnything"}] } } }' > /etc/containers/policy.json
+          echo ''
+          dnf localinstall -y http://{{hub fromConfigMap "" .ManagedClusterName "satellite-fqdn" hub}}/pub/katello-ca-consumer-latest.noarch.rpm
+          subscription-manager register --org="default" --activationkey="rhoso-dev" --release=9.4
+          echo ''
+          dnf install -y sshpass
+          mkdir -p /etc/docker/certs.d/{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}
+          sshpass -p "<redacted>" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no cwl@192.0.2.4:/home/cwl/TNC/virtual-rhoso/OCP/bastion-registry-ca.crt /etc/docker/certs.d/{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ca.crt
+          podman login -u quay -p <redacted> {{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}
+        edpm_container_registry_logins:
+          '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}':
+            quay: registry
+          #
+          # Define mirror registry
+          #
+        edpm_podman_registries:
+          - prefix: quay.io
+            insecure: true
+            location: quay.io
+            mirrors:
+            - location: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4'
+              insecure: true
+          - prefix: registry.redhat.io
+            insecure: true
+            location: registry.redhat.io
+            mirrors:
+            - location: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4'
+              insecure: true
+        neutron_physical_bridge_name: br-osp
+        #neutron_public_interface_name: eth0
+        edpm_network_config_template: |
+          ---
+          {{ `{% set mtu_list = [ctlplane_mtu] %}` }}
+          {{ `{% for network in nodeset_networks %}` }}
+          {{ `{{ mtu_list.append(lookup('vars', networks_lower[network] ~ '_mtu')) }}` }}
+          {{ `{%- endfor %}` }}
+          {{ `{% set min_viable_mtu = mtu_list | max %}` }}
+          network_config:
+            - type: linux_bond
+              name: bond0
+              bonding_options: "mode=802.3ad miimon=100"
+              mtu: {{ `{{ min_viable_mtu }}` }}
+              use_dhcp: false
+              use_dhcpv6: false
+              dns_servers: {{ `{{ ctlplane_dns_nameservers }}` }}
+              domain: {{ `{{ dns_search_domains }}` }}
+              addresses:
+                - ip_netmask: {{ `{{ ctlplane_ip }}` }}/{{ `{{ ctlplane_cidr }}` }}
+              routes: {{ `{{ ctlplane_host_routes }}` }}
+              members:
+              - type: interface
+                name: {{hub fromConfigMap "" .ManagedClusterName "dpdk-bond0-port1" hub}}
+                mtu: {{ `{{ min_viable_mtu }}` }}
+                primary: true
+              - type: interface
+                name: {{hub fromConfigMap "" .ManagedClusterName "dpdk-bond0-port2" hub}}
+                mtu: {{ `{{ min_viable_mtu }}` }}
+          {{ `{% for network in nodeset_networks if network not in ['external'] %}` }}
+            - type: vlan
+              device: bond0
+              mtu: {{ `{{ lookup('vars', networks_lower[network] ~ '_mtu') }}` }}
+              vlan_id: {{ `{{ lookup('vars', networks_lower[network] ~ '_vlan_id') }}` }}
+              addresses:
+                - ip_netmask: >-
+                    {{ `{{
+                      lookup('vars', networks_lower[network] ~ '_ip')
+                    }}` }}/{{ `{{
+                      lookup('vars', networks_lower[network] ~ '_cidr')
+                    }}` }}
+              routes: {{ `{{ lookup('vars', networks_lower[network] ~ '_host_routes') }}` }}
+          {{ `{% endfor %}` }}
+            - type: ovs_user_bridge
+              name: br-dpdk1
+              mtu: 8950
+              use_dhcp: false
+              use_dhcpv6: false
+              members:
+              - type: ovs_dpdk_bond
+                name: dpdkbond1
+                mtu: 8950
+                rx_queue: 3
+                ovs_options: "bond_mode=balance-tcp lacp=active other_config:lacp-time=fast other-config:lacp-fallback-ab=true other_config:lb-output-action=true"
+                members:
+                  - type: ovs_dpdk_port
+                    name: dpdk0
+                    members:
+                      - type: interface
+                        name: {{hub fromConfigMap "" .ManagedClusterName "dpdk-dpdkbond-port1" hub}}
+                        mtu: 8950
+                  - type: ovs_dpdk_port
+                    name: dpdk1
+                    members:
+                      - type: interface
+                        name: {{hub fromConfigMap "" .ManagedClusterName "dpdk-dpdkbond-port2" hub}}
+                        mtu: 8950
+        edpm_nodes_validation_validate_controllers_icmp: false
+        edpm_nodes_validation_validate_gateway_icmp: false
+        edpm_nova_libvirt_qemu_group: hugetlbfs
+        edpm_ovn_bridge_mappings:
+          - '{{hub fromConfigMap "" .ManagedClusterName "dpdk-physnet1" hub}}:br-dpdk1'
+        edpm_fips_mode: check
+        edpm_kernel_args: 'default_hugepagesz=1GB hugepagesz=1G hugepages=64 iommu=pt intel_iommu=on tsx=off isolcpus={{hub fromConfigMap "" .ManagedClusterName "dpdk-cpu-isolated" hub}}'
+        edpm_tuned_isolated_cores: '{{hub fromConfigMap "" .ManagedClusterName "dpdk-cpu-isolated" hub}}'
+        edpm_network_config_hide_sensitive_logs: false
+        edpm_ovs_dpdk_lcore_list: '{{hub fromConfigMap "" .ManagedClusterName "dpdk-cpu-shared" hub}}'
+        edpm_ovs_dpdk_memory_channels: '{{hub fromConfigMap "" .ManagedClusterName "dpdk-mem-channels" hub}}'
+        edpm_ovs_dpdk_pmd_auto_lb: "true"
+        edpm_ovs_dpdk_pmd_core_list: '{{hub fromConfigMap "" .ManagedClusterName "dpdk-pmd-cores" hub}}'
+        edpm_ovs_dpdk_pmd_improvement_threshold: "25"
+        edpm_ovs_dpdk_pmd_load_threshold: "70"
+        edpm_ovs_dpdk_pmd_rebal_interval: "2"
+        edpm_ovs_dpdk_socket_memory: '{{hub fromConfigMap "" .ManagedClusterName "dpdk-socket-mem" hub}}'
+        edpm_ovs_dpdk_vhost_postcopy_support: "true"
+        edpm_selinux_mode: enforcing
+        edpm_tuned_profile: cpu-partitioning-powersave
+        service_net_map:
+          nova_api_network: internalapi
+          nova_libvirt_network: internalapi
+        timesync_ntp_servers:
+        - hostname: '{{hub fromConfigMap "" .ManagedClusterName "ntp-server" hub}}'
+  nodes:
+    dpdk-compute-1:
+      hostName: dpdk-compute-1
+      #userData: 
+      #  name: nodeset-dpdk-cloudinit-userdata-comp2
+      #  namespace: openstack
+      networkData: 
+        name: nodeset-cloudinit-networkdata-comp2
+        namespace: openstack
+      networks:
+        - name: ctlplane
+          subnetName: subnet1
+          defaultRoute: true
+          fixedIP: 10.62.62.101
+        - name: internalapi
+          subnetName: subnet1
+        - name: storage
+          subnetName: subnet1
+        - name: external
+          subnetName: subnet1
+        - name: tenant
+          subnetName: subnet1
+      ansible:
+        ansibleHost: 10.62.62.101
+        ansibleUser: cloud-admin
+        ansibleVars:
+          fqdn_internal_api: dpdk-compute-1.{{hub fromConfigMap "" .ManagedClusterName "dns-domain" hub}}
+

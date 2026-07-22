@@ -1,0 +1,9 @@
+---
+- name: Login into the OpenShift cluster
+  ansible.builtin.shell: >
+    oc login -u {{ rhocp_user }} -p {{ rhocp_password }} --server={{ server }} --insecure-skip-tls-verify=true
+  register: result
+  retries: 5
+  delay: 10
+  until: not result.failed
+  changed_when: true

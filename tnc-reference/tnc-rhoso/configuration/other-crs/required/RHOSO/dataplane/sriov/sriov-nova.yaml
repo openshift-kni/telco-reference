@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sriov-nova
+  namespace: openstack
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+data:
+  26-sriov-nova.conf: |
+    [libvirt]
+    cpu_power_management=false
+    [pci]
+    passthrough_whitelist = {"address": "{{hub fromConfigMap "" .ManagedClusterName "sriov-physnet1-address" hub}}", "physical_network":"{{hub fromConfigMap "" .ManagedClusterName "sriov-physnet1" hub}}", "trusted":"true"}
+    passthrough_whitelist = {"address": "{{hub fromConfigMap "" .ManagedClusterName "sriov-physnet2-address" hub}}", "physical_network":"{{hub fromConfigMap "" .ManagedClusterName "sriov-physnet2" hub}}", "trusted":"true"}
+

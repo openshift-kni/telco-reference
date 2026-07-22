@@ -1,0 +1,10 @@
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  generateName: keycloak-
+  name: keycloak-7b46b
+  namespace: keycloak
+spec:
+  targetNamespaces:
+  - keycloak
+  upgradeStrategy: Default

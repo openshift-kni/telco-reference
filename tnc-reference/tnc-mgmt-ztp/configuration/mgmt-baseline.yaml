@@ -1,0 +1,143 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: mgmt-baseline-tnc61
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      mgmt: "true"
+      tnc-ver: "tnc6.1"
+  remediationAction: "inform"
+policies:
+  - name: mgmt-cluster-config-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "1" 
+    manifests:
+      - path: reference-crs/required/other/operator-hub.yaml
+      - path: reference-crs/required/other/catalog-source.yaml
+        patches:
+        - spec:
+            image: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/redhat/redhat-operator-index:v4.20'
+      - path: other-crs/required/manifests/idms.yaml
+
+
+  # Operators added by TNC on top of RDS baseline
+  - name: mgmt-operator-subs-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "5"
+    manifests:
+      - path: reference-crs/optional/logging/ClusterLogNS.yaml
+      - path: reference-crs/optional/logging/ClusterLogOperGroup.yaml
+      - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
+      - path: reference-crs/optional/logging/ClusterLogOperatorStatus.yaml
+        patches:
+        - status:
+            components:
+              refs:
+              - kind: ClusterServiceVersion
+                namespace: openshift-logging
+                # Update with specific target version
+                name: cluster-logging.v6.2.11
+                conditions:
+                  - type: Succeeded
+                    status: "True"
+                    reason: InstallSucceeded
+#LOKI
+      - path: other-crs/optional/LOG/LOKI/LokiNS.yaml
+      - path: other-crs/optional/LOG/LOKI/LokiOperGroup.yaml
+      - path: other-crs/optional/LOG/LOKI/LokiSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+            channel: stable-6.2
+#COO - Pre-requisite for logging UI
+      - path: other-crs/optional/COO/CooSubscription.yaml 
+#ESO
+      - path: other-crs/required/vault/ESO/ESONS.yaml
+      - path: other-crs/required/vault/ESO/ESOOperGroup.yaml
+      - path: other-crs/required/vault/ESO/ESOSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+#ODF
+      - path: reference-crs/required/storage/odf-external/odfNS.yaml
+      - path: reference-crs/required/storage/odf-external/odfOperGroup.yaml
+      - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+            channel: stable-4.20
+#NMState
+      - path: reference-crs/required/networking/NMStateNS.yaml
+      - path: reference-crs/required/networking/NMStateOperGroup.yaml
+      - path: reference-crs/required/networking/NMStateSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+#CNV
+      - path: other-crs/optional/CNV/CnvNS.yaml
+      - path: other-crs/optional/CNV/CnvOperGroup.yaml
+      - path: other-crs/optional/CNV/CnvSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+#CERT Manager
+      - path: other-crs/optional/CERT/CertMgrNS.yaml
+      - path: other-crs/optional/CERT/CertMgrOperGroup.yaml
+      - path: other-crs/optional/CERT/CertMgrSubscription.yaml
+        patches:
+        - spec:
+            installPlanApproval: Manual
+
+  - name: mgmt-operator-config-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "7"
+    manifests:
+### Configure logging
+      - path: reference-crs/optional/logging/ClusterLogServiceAccount.yaml
+      - path: reference-crs/optional/logging/ClusterLogServiceAccountAuditBinding.yaml
+      - path: reference-crs/optional/logging/ClusterLogServiceAccountInfrastructureBinding.yaml
+### Configure NMState
+      - path: reference-crs/required/networking/NMState.yaml
+### Configure ESO
+      - path: other-crs/required/vault/ESO/ExternalSecretConfig.yaml
+        #Following files are used to create the token needed for the 
+        #authentication of the cluster to the Vault server
+      - path: other-crs/required/vault/VaultNSfortokenreview.yaml
+      - path: other-crs/required/vault/VaultSAfortokenreview.yaml
+      - path: other-crs/required/vault/VaultCRBfortokenreview.yaml
+      - path: other-crs/required/vault/VaultSecretfortokenreview.yaml
+        
+        #Creating ClusterSecretStore for accessing secrets from Vault
+          # Get the vault CA cert and use below
+          # For Vault running on OpenShift, this can be the ingress certificate
+          # from the vault route
+      - path: other-crs/required/vault/VaultCertificate-ca.yaml
+        patches:
+        - data:
+            ca.crt: |
+              -----BEGIN CERTIFICATE-----
+              REDACTED
+              -----END CERTIFICATE-----
+              -----BEGIN CERTIFICATE-----
+              REDACTED
+              -----END CERTIFICATE-----
+      - path: other-crs/required/vault/ClusterSecretStore.yaml
+        patches:
+          - metadata:
+              name: 'vault-backend'
+            spec:
+              provider:
+                vault:
+                  auth:
+                    kubernetes:
+                      mountPath: 'kubernetes-{{hub (printf "%s" .ManagedClusterName) hub}}'
+                      role: '{{hub (printf "%s" .ManagedClusterName) hub}}'
+                  path: secrets
+                  server: '{{hub fromConfigMap "" .ManagedClusterName "vault-server" hub}}'
+      
+### Configure CNV
+      - path: other-crs/optional/CNV/CnvHyperConverged.yaml
+

@@ -1,0 +1,52 @@
+apiVersion: v1
+metadata:
+  name: ghub
+baseDomain: example.com
+compute:
+- architecture: amd64
+  hyperthreading: Enabled
+  name: worker
+  replicas: 0
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  replicas: 1
+metadata:
+  creationTimestamp: null
+  name: ghub
+networking:
+  # dual-stack is supported only on baremetal
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  - cidr: fd02::/48
+    hostPrefix: 64
+  machineNetwork:
+  - cidr: 172.31.51.0/24
+  - cidr: fd00:2023:51::/48
+  networkType: OVNKubernetes
+  serviceNetwork:
+  - 172.30.0.0/16
+  - fd03::/112
+platform:
+  none: {}
+imageDigestSources:
+  - mirrors:
+    - registry.bastion.example.com:9500/ocp/ocp4/openshift/release
+    source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+  - mirrors:
+    - registry.bastion.example.com:9500/ocp/ocp4/openshift/release-images
+    source: quay.io/openshift-release-dev/ocp-release
+additionalTrustBundle: |
+  -----BEGIN CERTIFICATE-----
+  REDACTED
+  -----END CERTIFICATE-----
+  -----BEGIN CERTIFICATE-----
+  REDACTED
+  -----END CERTIFICATE-----
+# Add the mirror registry credentials to the pull secret.
+pullSecret: '{"auths":{"<registry.bastion.example.com:9500>":{"auth": "aW5pdDo0R1XXXXXjdCbUoweUNuMWI1OTZBMmhkcEhjMw==","email": "user@redhat.com"},...}}}'
+# Add the SSH public key to connect to the OCP nodes
+sshKey: |
+  ssh-rsa AAAAB3NzaC1yc2EA...

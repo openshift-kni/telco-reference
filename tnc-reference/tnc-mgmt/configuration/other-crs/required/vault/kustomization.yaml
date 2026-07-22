@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ESO/ESONS.yaml
+  - ESO/ESOOperGroup.yaml
+  - ESO/ESOSubscription.yaml
+  - ESO/ExternalSecretConfig.yaml
+  - VaultNSfortokenreview.yaml
+  - VaultSAfortokenreview.yaml
+  - VaultCRBfortokenreview.yaml
+  - VaultCertificate-ca.yaml
+  - VaultSecretfortokenreview.yaml
+  - ClusterSecretStore-vault.yaml
+  - ClusterSecretStore-local.yaml
+

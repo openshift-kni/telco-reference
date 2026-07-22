@@ -1,0 +1,16 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: openshift-keda-subs
+  namespace: openshift-keda
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "12"
+spec:
+  source: redhat-operators-disconnected
+  sourceNamespace: openshift-marketplace
+  name: openshift-custom-metrics-autoscaler-operator
+  channel: "stable"
+  installPlanApproval: Manual
+status:
+  state: AtLatestKnown
+

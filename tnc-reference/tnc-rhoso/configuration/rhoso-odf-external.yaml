@@ -1,0 +1,90 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: rodf-ext-tnc61
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      rhoso: "true"
+      tnc-ver: "tnc6.1"
+      odf-ext: "true"
+  remediationAction: "inform"
+policies:
+  - name: rconfig-odf-ext-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "8"
+    manifests:
+      - path: reference-crs/required/storage/odf-external/01-rook-ceph-external-cluster-details.secret.yaml
+        patches:
+          - data:
+              external_cluster_details: W3sibmFtZSI6ICJyb29rLWNlcGgtbW9uLWVuZHBvaW50cyIsICJraW5kIjogIkNvbmZpZ01hcCIsICJkYXRhIjogeyJkYXRhIjogInN0b3IxPTE5Mi4xNjguMjIuMjE6Njc4OSIsICJtYXhNb25JZCI6ICIwIiwgIm1hcHBpbmciOiAie30ifX0sIHsibmFtZSI6ICJyb29rLWNlcGgtbW9uIiwgImtpbmQiOiAiU2VjcmV0IiwgImRhdGEiOiB7ImFkbWluLXNlY3JldCI6ICJhZG1pbi1zZWNyZXQiLCAiZnNpZCI6ICIxYWNjNGQxOC01MzMzLTExZWYtYmQyZi01MjU0MDA3M2ViMjMiLCAibW9uLXNlY3JldCI6ICJtb24tc2VjcmV0In19LCB7Im5hbWUiOiAicm9vay1jZXBoLW9wZXJhdG9yLWNyZWRzIiwgImtpbmQiOiAiU2VjcmV0IiwgImRhdGEiOiB7InVzZXJJRCI6ICJjbGllbnQuaGVhbHRoY2hlY2tlciIsICJ1c2VyS2V5IjogIkFRQmRsYkptcTJTSE5CQUFPWm1DQmViS1RCV2FGNGFkN0R5NklBPT0ifX0sIHsibmFtZSI6ICJtb25pdG9yaW5nLWVuZHBvaW50IiwgImtpbmQiOiAiQ2VwaENsdXN0ZXIiLCAiZGF0YSI6IHsiTW9uaXRvcmluZ0VuZHBvaW50IjogIjE5Mi4xNjguMjIuMjEiLCAiTW9uaXRvcmluZ1BvcnQiOiAiOTI4MyJ9fSwgeyJuYW1lIjogInJvb2stY3NpLXJiZC1ub2RlIiwgImtpbmQiOiAiU2VjcmV0IiwgImRhdGEiOiB7InVzZXJJRCI6ICJjc2ktcmJkLW5vZGUiLCAidXNlcktleSI6ICJBUUJkbGJKbTVKWFVOQkFBZWI0UFdvbVJ5bkpqVEdRRnVzN2RMdz09In19LCB7Im5hbWUiOiAicm9vay1jc2ktcmJkLXByb3Zpc2lvbmVyIiwgImtpbmQiOiAiU2VjcmV0IiwgImRhdGEiOiB7InVzZXJJRCI6ICJjc2ktcmJkLXByb3Zpc2lvbmVyIiwgInVzZXJLZXkiOiAiQVFCZGxiSm1jZzhVTlJBQTY1aVFUd3FaaytxaTk5UHR0RzdzcHc9PSJ9fSwgeyJuYW1lIjogInJvb2stY3NpLWNlcGhmcy1wcm92aXNpb25lciIsICJraW5kIjogIlNlY3JldCIsICJkYXRhIjogeyJhZG1pbklEIjogImNzaS1jZXBoZnMtcHJvdmlzaW9uZXIiLCAiYWRtaW5LZXkiOiAiQVFBUWZMTm1uV3g2S1JBQUZPVEdQRFRmOWE2YWR1TTRYL1VOa1E9PSJ9fSwgeyJuYW1lIjogInJvb2stY3NpLWNlcGhmcy1ub2RlIiwgImtpbmQiOiAiU2VjcmV0IiwgImRhdGEiOiB7ImFkbWluSUQiOiAiY3NpLWNlcGhmcy1ub2RlIiwgImFkbWluS2V5IjogIkFRQVFmTE5tMzJReUtSQUFBTlpVYk5zeUgvRnJ6a0Q1NjNlUXFRPT0ifX0sIHsibmFtZSI6ICJyb29rLWNlcGgtZGFzaGJvYXJkLWxpbmsiLCAia2luZCI6ICJTZWNyZXQiLCAiZGF0YSI6IHsidXNlcklEIjogImNlcGgtZGFzaGJvYXJkLWxpbmsiLCAidXNlcktleSI6ICJodHRwczovLzE5Mi4xNjguMjIuMjE6ODQ0My8ifX0sIHsibmFtZSI6ICJjZXBoLXJiZCIsICJraW5kIjogIlN0b3JhZ2VDbGFzcyIsICJkYXRhIjogeyJwb29sIjogIm9jcC1yYmQtcG9vbCIsICJjc2kuc3RvcmFnZS5rOHMuaW8vcHJvdmlzaW9uZXItc2VjcmV0LW5hbWUiOiAicm9vay1jc2ktcmJkLXByb3Zpc2lvbmVyIiwgImNzaS5zdG9yYWdlLms4cy5pby9jb250cm9sbGVyLWV4cGFuZC1zZWNyZXQtbmFtZSI6ICJyb29rLWNzaS1yYmQtcHJvdmlzaW9uZXIiLCAiY3NpLnN0b3JhZ2UuazhzLmlvL25vZGUtc3RhZ2Utc2VjcmV0LW5hbWUiOiAicm9vay1jc2ktcmJkLW5vZGUifX0sIHsibmFtZSI6ICJjZXBoZnMiLCAia2luZCI6ICJTdG9yYWdlQ2xhc3MiLCAiZGF0YSI6IHsiZnNOYW1lIjogIm9jcC1mcy1maWxlc3lzdGVtIiwgInBvb2wiOiAiY2VwaGZzLm9jcC1mcy1maWxlc3lzdGVtLmRhdGEiLCAiY3NpLnN0b3JhZ2UuazhzLmlvL3Byb3Zpc2lvbmVyLXNlY3JldC1uYW1lIjogInJvb2stY3NpLWNlcGhmcy1wcm92aXNpb25lciIsICJjc2kuc3RvcmFnZS5rOHMuaW8vY29udHJvbGxlci1leHBhbmQtc2VjcmV0LW5hbWUiOiAicm9vay1jc2ktY2VwaGZzLXByb3Zpc2lvbmVyIiwgImNzaS5zdG9yYWdlLms4cy5pby9ub2RlLXN0YWdlLXNlY3JldC1uYW1lIjogInJvb2stY3NpLWNlcGhmcy1ub2RlIn19LCB7Im5hbWUiOiAiY2VwaC1yZ3ciLCAia2luZCI6ICJTdG9yYWdlQ2xhc3MiLCAiZGF0YSI6IHsiZW5kcG9pbnQiOiAiMTkyLjE2OC4yMi4yMTo4MCIsICJwb29sUHJlZml4IjogImRlZmF1bHQifX0sIHsibmFtZSI6ICJyZ3ctYWRtaW4tb3BzLXVzZXIiLCAia2luZCI6ICJTZWNyZXQiLCAiZGF0YSI6IHsiYWNjZXNzS2V5IjogIlpITEZUUVFERTlTOEI3V1JGMTFXIiwgInNlY3JldEtleSI6ICJvcnpodFc1Wmk5Tm51NW5XZFhTaW54N3VmN0dSVHp3b0xabUtrVTJoIn19XQo=    
+
+      - path: reference-crs/required/storage/odf-external/02-ocs-external-storagecluster.yaml
+      - path: other-crs/optional/ODF/OdfDefaultStorageClass.yaml
+        patches:
+          - metadata:
+              name: ocs-external-storagecluster-ceph-rbd
+      - path: other-crs/optional/ODF/OdfConsole.yaml
+      #
+      # Create dummy metallb address pool for ODF
+      #
+      - path: reference-crs/required/networking/metallb/addr-pool.yaml
+        patches:
+          - metadata:
+              name: dummy 
+              annotations:
+                metallb.universe.tf/address-pool: dummy
+            spec:
+                addresses:
+                - 10.0.0.0-10.0.0.10
+
+  - name: rconfig-other-ext-tnc61
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "12"
+    manifests:
+### Configure monitoring
+      - path: reference-crs/optional/other/monitoring-config-cm.yaml
+        complianceType: musthave
+        #patches:
+        #- data:
+        #    # The config is a single string value in this map and default
+        #    # content must be copied here in order to add custom content
+        #    # (additionalAlertmanagerConfigs)
+        #    config.yaml: |
+        #      alertmanagerMain:
+        #        volumeClaimTemplate:
+        #          spec:
+        #            storageClassName: ocs-external-storagecluster-ceph-rbd
+        #            resources:
+        #              requests:
+        #                storage: 20Gi
+        #      prometheusK8s:
+        #        retention: 15d 
+        #        volumeClaimTemplate:
+        #          spec:
+        #            storageClassName: ocs-external-storagecluster-ceph-rbd
+        #            resources:
+        #              requests:
+        #                storage: 100Gi
+        #        additionalAlertmanagerConfigs:
+        #        - scheme: "http"
+        #          pathPrefix: "/" 
+        #          timeout: "30s"
+        #          apiVersion: "v2"
+        #          staticConfigs:
+        #          - "10.11.12.14:9999"
+### LOKI
+      - path: other-crs/optional/LOG/LOKI/LokiS3Secret.yaml
+        patches:
+          - data:
+              access_key_id: '{{fromSecret "openshift-logging" "loki-bucket-odf" "AWS_ACCESS_KEY_ID"}}'
+              access_key_secret: '{{fromSecret "openshift-logging" "loki-bucket-odf" "AWS_SECRET_ACCESS_KEY"}}'
+              bucketnames: '{{fromConfigMap "openshift-logging" "loki-bucket-odf" "BUCKET_NAME" | base64enc}}'
+              endpoint: '{{(printf "https://%s:%s" (fromConfigMap "openshift-logging" "loki-bucket-odf" "BUCKET_HOST") (fromConfigMap "openshift-logging" "loki-bucket-odf" "BUCKET_PORT")) | base64enc}}'
+      - path: other-crs/optional/LOG/LOKI/LokiStack.yaml
+        patches:
+          - spec:
+              storageClassName: ocs-external-storagecluster-ceph-rbd
+      - path: other-crs/optional/LOG/LOKI/LoggingConsole.yaml

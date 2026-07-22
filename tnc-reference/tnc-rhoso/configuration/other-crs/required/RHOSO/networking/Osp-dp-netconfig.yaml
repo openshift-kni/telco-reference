@@ -1,0 +1,60 @@
+apiVersion: network.openstack.org/v1beta1
+kind: NetConfig
+metadata:
+  name: openstacknetconfig
+  namespace: openstack
+spec:
+  networks:
+  - name: ctlplane
+    dnsDomain: $dns
+    subnets:
+    - name: subnet1
+      allocationRanges:
+      - end: $end
+        start: $start
+      cidr: $cidr
+      gateway: $gateway
+  - name: internalapi 
+    dnsDomain: $dns
+    mtu: $mtu
+    subnets:
+    - name: subnet1
+      allocationRanges:
+      - end: $end
+        start: $start
+      cidr: $cidr
+      vlan: $vlan
+  - name: tenant
+    dnsDomain: $dns
+    mtu: $mtu
+    subnets:
+    - name: subnet1
+      allocationRanges:
+      - end: $end
+        start: $start
+      cidr: $cidr
+      vlan: $vlan
+  - name: storage
+    dnsDomain: $dns
+    mtu: $mtu
+    subnets:
+    - name: subnet1
+      allocationRanges:
+      - end: $end
+        start: $start
+      cidr: $cidr
+      vlan: $vlan
+      routes:
+        - destination: $dest
+          nexthop: $nexthop
+  - name: external
+    dnsDomain: $dns
+    subnets:
+    - name: subnet1
+      allocationRanges:
+      - end: $end
+        start: $start
+      cidr: $cidr
+      vlan: $vlan
+      gateway: $gateway
+
