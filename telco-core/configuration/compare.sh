@@ -139,11 +139,11 @@ compare_install_extra_manifests() {
         echo "ERROR: expected validateBase64List templating in kube-compare ${ref}" >&2
         fail=1
       fi
-      if ! grep -q 'version: 3.2.0' "${install}/${inst}"; then
+      if ! grep -qF 'version: 3.2.0' "${install}/${inst}"; then
         echo "ERROR: ${install}/${inst} must use ignition version 3.2.0" >&2
         fail=1
       fi
-      if ! grep -q 'path: /etc/modules-load.d/kernel-load.conf' "${install}/${inst}"; then
+      if ! grep -qF 'path: /etc/modules-load.d/kernel-load.conf' "${install}/${inst}"; then
         echo "ERROR: ${install}/${inst} must configure kernel-load.conf" >&2
         fail=1
       fi
@@ -159,15 +159,15 @@ compare_install_extra_manifests() {
     echo "ERROR: expected templating in optional/other/sctp_module_mc.yaml" >&2
     fail=1
   fi
-  if ! grep -q 'version: 3.2.0' "${sctp}"; then
+  if ! grep -qF 'version: 3.2.0' "${sctp}"; then
     echo "ERROR: ${sctp} must use ignition version 3.2.0" >&2
     fail=1
   fi
-  if ! grep -q 'source: data:,sctp' "${sctp}"; then
+  if ! grep -qF 'source: data:,sctp' "${sctp}"; then
     echo "ERROR: ${sctp} must load sctp via data:,sctp" >&2
     fail=1
   fi
-  if grep -q 'version: 2.2.0' "${sctp}" || grep -q 'filesystem: root' "${sctp}"; then
+  if grep -qF 'version: 2.2.0' "${sctp}" || grep -qF 'filesystem: root' "${sctp}"; then
     echo "ERROR: ${sctp} must not use legacy ignition 2.2.0 / filesystem fields" >&2
     fail=1
   fi
