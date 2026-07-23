@@ -64,4 +64,4 @@ check-reference:
 	$(MAKE) -C ./kube-compare-reference check
 
 checkPolicyPaths:
-	./hack/checkpolicypaths.sh ./argocd/
+	./hack/checkpolicypaths.sh ./acmpolicygenerator/ ./policygentemplates/ ./argocd/

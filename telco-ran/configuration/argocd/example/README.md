@@ -1,10 +1,7 @@
 The directories in here contain examples for:
-* SiteConfig
-* the ACM PolicyGenerator
-* the ZTP PolicyGenTemplate
+* SiteConfig / ClusterInstance
 * Image based upgrades
+* Optional extra manifests (e.g. IPsec)
 
-The ```policygentemplates``` and ```acmpolicygenerator``` contain untemplated examples for all cluster configuration.
-Under each of the two directories there is also a ```hub-side-templating``` directory which contains examples for how to use hub templates for declaring the policies.
-
-The ```image-based-upgrades``` contain examples pertaining to image based upgrades.
+PolicyGenerator CRs are located in `configuration/acmpolicygenerator/`. Deprecated PolicyGenTemplate equivalents are in `configuration/policygentemplates/`.
+See the [configuration README](../../README.md) for details.

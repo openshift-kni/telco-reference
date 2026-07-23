@@ -51,7 +51,7 @@ jobs:
 
             ### Changed files
             - `hack/crd-schema-config.json` — updated channels / refs
-            - `telco-ran/.../acmpolicygenerator/schema.openapi`
+            - `telco-ran/configuration/acmpolicygenerator/schema.openapi`
             - `telco-core/configuration/schema.openapi`
 
             ### How to Review
