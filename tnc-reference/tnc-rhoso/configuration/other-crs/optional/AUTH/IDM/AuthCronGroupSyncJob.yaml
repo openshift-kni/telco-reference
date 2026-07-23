@@ -18,7 +18,7 @@ spec:
         spec:
           containers:
           - name: ldap-group-sync
-            image: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/openshift4/ose-tools-rhel8:latest'
+            image: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/openshift4/ose-tools-rhel9:v4.20'
             command:
             - /bin/bash
             - -c
@@ -28,12 +28,12 @@ spec:
             - mountPath: /etc/config
               name: ldap-sync-volume
             - mountPath: /etc/secrets
-              name: ldap-bind-password
+              name: bind-password
           volumes:
           - name: ldap-sync-volume
             configMap:
               name: ldap-group-sync-config
-          - name: ldap-bind-password
+          - name: bind-password
             secret:
               secretName: ldap-group-sync-creds
           restartPolicy: Never

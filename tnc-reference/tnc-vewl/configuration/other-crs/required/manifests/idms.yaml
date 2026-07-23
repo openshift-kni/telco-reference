@@ -186,7 +186,7 @@ spec:
     - '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/openshift-gitops-1'
     source: registry.redhat.io/openshift-gitops-1
   - mirrors:
-    - '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/ubi9'
+    - '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4-osp/ubi9'
     source: registry.redhat.io/ubi9
   - mirrors:
     - '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/portworx'

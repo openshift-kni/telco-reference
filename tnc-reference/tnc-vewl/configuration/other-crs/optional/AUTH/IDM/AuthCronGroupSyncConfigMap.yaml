@@ -15,7 +15,7 @@ data:
     insecure: true
     bindDN: uid=ocp-bind-user,cn=users,cn=accounts,dc=example,dc=com
     bindPassword:
-      file: /etc/secrets/bind_password
+      file: /etc/secrets/bindPassword
     rfc2307:
       groupsQuery:
         baseDN: cn=groups,cn=accounts,dc=example,dc=com

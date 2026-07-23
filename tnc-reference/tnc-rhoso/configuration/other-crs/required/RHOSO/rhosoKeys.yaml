@@ -2,7 +2,7 @@
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: rhsoso-keys
+  name: rhoso-keys
   namespace: openstack
 spec:
   dataFrom:

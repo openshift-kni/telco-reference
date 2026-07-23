@@ -4,4 +4,5 @@
   value:
     path: "tnc-reference/tnc-ghub/configuration"
     repoURL: "https://github.com/openshift-kni/telco-reference.git"
-    targetRevision: "tnc6.1-release-4.20""
+    targetRevision: "tnc6.1-release-4.20"
+
