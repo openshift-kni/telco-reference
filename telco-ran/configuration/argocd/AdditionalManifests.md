@@ -4,33 +4,39 @@ Assisted Installer allows CRs to be applied to SNOs at install time. The applied
 
 With this feature, via ClusterInstance, users can now have control over this process and can inject manifets during installation by creating a configMap in a Kustomization file and later reference back the configMap name to `.spec.extraManifestsRefs` in ClusterInstance.
 
-* An example of a kustomization file, where the manifests are included in a configMap using configMapGenerator 
+Reference install manifests live under `telco-ran/install/extra-manifests/`. Optional manifests such as `enable-crun-*.yaml` live under `telco-ran/install/custom-manifests/` and must not be listed in PolicyGenerator CRs; the Hub extra-manifests policy monitors install-time MachineConfigs at day-N.
+
+* An example kustomization (`telco-ran/install/kustomization.yaml`) builds a ConfigMap from the reference manifests:
 
   ```yaml
   configMapGenerator:
   - files:
-    - extra-manifest/01-container-mount-ns-and-kubelet-conf-master.yaml
-    - extra-manifest/01-container-mount-ns-and-kubelet-conf-worker.yaml
-    - extra-manifest/01-disk-encryption-pcr-rebind-master.yaml
-    - extra-manifest/01-disk-encryption-pcr-rebind-worker.yaml
-    - extra-manifest/03-sctp-machine-config-master.yaml
-    - extra-manifest/03-sctp-machine-config-worker.yaml
-    - extra-manifest/06-kdump-master.yaml
-    - extra-manifest/06-kdump-worker.yaml
-    - extra-manifest/07-sriov-related-kernel-args-master.yaml
-    - extra-manifest/07-sriov-related-kernel-args-worker.yaml
-    - extra-manifest/08-set-rcu-normal-master.yaml
-    - extra-manifest/08-set-rcu-normal-worker.yaml
-    - extra-manifest/09-openshift-marketplace-ns.yaml
-    - extra-manifest/99-sync-time-once-master.yaml
-    - extra-manifest/99-sync-time-once-worker.yaml
-    - extra-manifest/enable-crun-master.yaml
-    - extra-manifest/enable-crun-worker.yaml
-    name: sno-ran-du-extra-manifest-1
+    - extra-manifests/01-container-mount-ns-and-kubelet-conf-master.yaml
+    - extra-manifests/01-container-mount-ns-and-kubelet-conf-worker.yaml
+    - extra-manifests/01-disk-encryption-pcr-rebind-master.yaml
+    - extra-manifests/01-disk-encryption-pcr-rebind-worker.yaml
+    - extra-manifests/03-sctp-machine-config-master.yaml
+    - extra-manifests/03-sctp-machine-config-worker.yaml
+    - extra-manifests/06-kdump-master.yaml
+    - extra-manifests/06-kdump-worker.yaml
+    - extra-manifests/07-sriov-related-kernel-args-master.yaml
+    - extra-manifests/07-sriov-related-kernel-args-worker.yaml
+    - extra-manifests/08-set-rcu-normal-master.yaml
+    - extra-manifests/08-set-rcu-normal-worker.yaml
+    - extra-manifests/09-openshift-marketplace-ns.yaml
+    - extra-manifests/10-rename-gnrd-interfaces-master.yaml
+    - extra-manifests/10-rename-gnrd-interfaces-worker.yaml
+    - extra-manifests/99-sync-time-once-master.yaml
+    - extra-manifests/99-sync-time-once-worker.yaml
+    name: ran-extra-manifests-configmap
     namespace: <namespace>
   generatorOptions:
     disableNameSuffixHash: true
   ```
+
+  To include crun at install time, add `custom-manifests/enable-crun-master.yaml` and
+  `custom-manifests/enable-crun-worker.yaml` to a separate ConfigMap referenced from
+  `ClusterInstance.spec.extraManifestsRefs`.
 
 
 * A ClusterInstance example to reference back the configMap

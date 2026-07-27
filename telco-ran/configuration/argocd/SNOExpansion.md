@@ -288,7 +288,7 @@ EOF
 
 ### Deploying a worker node ###
 
-1. Assuming your cluster was deployed using [this ClusterInstance CR](example/clusterinstance/example-sno.yaml), add your new worker node to `spec.nodes` list, for example:
+1. Assuming your cluster was deployed using [this ClusterInstance CR](../../install/clusterinstance/example-sno.yaml), add your new worker node to `spec.nodes` list, for example:
 
 ```yaml
       nodes:
