@@ -24,6 +24,15 @@ parts:
         # If the matching CR exists it needs to match expected content
         anyOf:
           - path: machine-config/container-runtime.yaml
+  - name: required-platform
+    components:
+      - name: platform
+        allOf:
+          - path: platform/infrastructure.yaml
+            config:
+              ignore-unspecified-fields: true
+              fieldsToOmitRefs:
+                - allowStatusCheck
   - name: required-cluster-logging
     description: |-
       https://docs.openshift.com/container-platform/4.21/scalability_and_performance/telco_ref_design_specs/ran/telco-ran-ref-du-components.html#telco-ran-logging_ran-ref-design-components
