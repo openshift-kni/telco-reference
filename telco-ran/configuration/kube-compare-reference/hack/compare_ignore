@@ -94,8 +94,6 @@ validatorCRs/rebootMachineConfigPoolValidator.yaml
 10-rename-gnrd-interfaces-worker.yaml
 99-sync-time-once-master.yaml
 99-sync-time-once-worker.yaml
-enable-crun-master.yaml
-enable-crun-worker.yaml
 disk-encryption.yaml.tmpl
 image-registry-partition-mc.yaml.tmpl
 

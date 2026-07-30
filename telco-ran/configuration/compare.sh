@@ -35,20 +35,6 @@ compare_install_extra_manifests() {
   return $fail
 }
 
-compare_install_custom_manifests_crun() {
-  local root fail=0 f
-  root="$(git rev-parse --show-toplevel)"
-  local custom="${root}/telco-ran/install/custom-manifests"
-  local kubecmp="${root}/telco-ran/configuration/kube-compare-reference/machine-config/crun"
-  for f in enable-crun-master.yaml enable-crun-worker.yaml; do
-    if ! diff -u "${custom}/${f}" "${kubecmp}/${f}"; then
-      echo "ERROR: install/custom-manifests/${f} differs from kube-compare machine-config/crun/${f}" >&2
-      fail=1
-    fi
-  done
-  return $fail
-}
-
 check_no_machineconfig_in_source_crs() {
   local root fail=0 f relpath
   root="$(git rev-parse --show-toplevel)"
@@ -69,8 +55,6 @@ run_extra_manifest_checks() {
   local status=0
   echo "Checking install/clusterinstance/extra-manifests alignment with kube-compare-reference..."
   compare_install_extra_manifests || status=1
-  echo "Checking install/custom-manifests enable-crun vs kube-compare crun..."
-  compare_install_custom_manifests_crun || status=1
   echo "Checking source-crs does not contain MachineConfig CRs..."
   check_no_machineconfig_in_source_crs || status=1
   if [[ $status -eq 0 ]]; then
