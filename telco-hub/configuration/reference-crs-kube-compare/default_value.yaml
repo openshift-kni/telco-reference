@@ -479,6 +479,7 @@ optional_cert_manager_certManagerCertificatePolicy:
       include:
         - openshift-ingress
         - openshift-config
+        - cert-manager
 
 optional_cert_manager_certManagerSubscription:
 - spec:
