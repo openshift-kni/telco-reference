@@ -10,7 +10,7 @@ spec:
     type: None
 status:
   controlPlaneTopology: HighlyAvailable
-  cpuPartitioning: None
+  cpuPartitioning: AllNodes
   infrastructureTopology: HighlyAvailable
   platform: None
   platformStatus:
