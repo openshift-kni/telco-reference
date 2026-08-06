@@ -231,32 +231,6 @@ policies:
           resourceName: du_fh
           nodeSelector:
             node-role.kubernetes.io/master: ""
-#   --- sources needed for updating CRI-O workload-partitioning ----
-#    - path: source-crs/generic/MachineConfigGeneric.yaml
-#      complianceType: mustonlyhave # This is to update array entry as opposed to appending a new entry.
-#      patches:
-#      - metadata:
-#          name: 02-master-workload-partitioning
-#        spec:
-#          config:
-#            storage:
-#              files:
-#                - contents:
-#                    # crio cpuset config goes below. This value needs to be updated and matched with PerformanceProfile. Check the link for more info on the content.
-#                    source: '{{hub fromConfigMap "" "group-hardware-types-configmap" (printf "%s-machine-config-storage-source-1" (index .ManagedClusterLabels "hardware-type")) hub}}'
-#                  mode: 420
-#                  overwrite: true
-#                  path: /etc/crio/crio.conf.d/01-workload-partitioning
-#                  user:
-#                    name: root
-#                - contents:
-#                    # openshift cpuset config goes below. This value needs to be updated and matched with crio cpuset (array entry above this). Check the link for more info on the content.
-#                    source: '{{hub fromConfigMap "" "group-hardware-types-configmap" (printf "%s-machine-config-storage-source-2" (index .ManagedClusterLabels "hardware-type")) hub}}'
-#                  mode: 420
-#                  overwrite: true
-#                  path: /etc/kubernetes/openshift-workload-pinning
-#                  user:
-#                    name: root
 # --- START of source CRs needed for configuring OADP operator for SNO Image Based Upgrade ---
 # - name: oadp-config-policy
 #   policyAnnotations:
