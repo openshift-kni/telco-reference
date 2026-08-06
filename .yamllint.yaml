@@ -10,8 +10,6 @@ ignore: |
   telco-ran/configuration/kube-compare-reference/
   # Generated MachineConfig CRs with base64 ignition data exceeding line limits
   telco-ran/install/clusterinstance/extra-manifests/
-  # Generated PolicyGenTemplate output with mixed indentation from the toolchain
-  telco-ran/configuration/policygentemplates/group-du-clo5-cleanup-policy.yaml
 
 rules:
   # Allow for whitespace in [] lists for readability, eg [ value, value ]

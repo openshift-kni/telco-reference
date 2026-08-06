@@ -10,9 +10,6 @@ generators:
 - ran-group-du-3node-validator.yaml
 - ran-group-du-standard-templated.yaml
 - ran-group-du-standard-validator.yaml
-# Removes Cluster Logging operator 5.x artifacts after upgrading to 6.x
-- ran-group-du-clo5-cleanup.yaml
-
 # Optional: reboot policy for triggering deferred Tuned changes
 # - ran-example-reboot.yaml
 
