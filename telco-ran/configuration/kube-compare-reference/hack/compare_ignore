@@ -43,9 +43,6 @@ cert-manager/certManagerClusterIssuer.yaml
 cert-manager/ingressCertificate.yaml
 cert-manager/ingressControllerConfig.yaml
 
-# ClusterLogging 5->6 upgrade helper-policy
-cluster-logging/ClusterLogging5Cleanup.yaml
-
 # Set-Selector variants
 node-tuning-operator/PerformanceProfile-SetSelector.yaml
 ptp-operator/PtpOperatorConfig-SetSelector.yaml
