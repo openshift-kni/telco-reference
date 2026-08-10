@@ -191,37 +191,6 @@ spec:
         numVfs: 8
         priority: 10
         resourceName: du_fh
-#    ########################
-#    # workload-part-policy #
-#    ########################
-#    # --- START of source CRs needed for updating CRI-O workload-partitioning ----
-#    #     more info here: on the base64 content https://docs.openshift.com/container-platform/4.11/scalability_and_performance/sno-du-enabling-workload-partitioning-on-single-node-openshift.html
-#    - fileName: generic/MachineConfigGeneric.yaml
-#      policyName: "workload-policy"
-#      complianceType: mustonlyhave # This is to update array entry as opposed to appending a new entry.
-#      metadata:
-#        name: 02-master-workload-partitioning
-#      spec:
-#        config:
-#          storage:
-#            files:
-#              - contents:
-#                  # crio cpuset config goes below. This value needs to be updated and matched with PerformanceProfile. Check the link for more info on the content.
-#                  source: '{{hub fromConfigMap "" "group-hardware-types-configmap" (printf "%s-machine-config-storage-source-1" (index .ManagedClusterLabels "hardware-type")) hub}}'
-#                mode: 420
-#                overwrite: true
-#                path: /etc/crio/crio.conf.d/01-workload-partitioning
-#                user:
-#                  name: root
-#              - contents:
-#                  # openshift cpuset config goes below. This value needs to be updated and matched with crio cpuset (array entry above this). Check the link for more info on the content.
-#                  source: '{{hub fromConfigMap "" "group-hardware-types-configmap" (printf "%s-machine-config-storage-source-2" (index .ManagedClusterLabels "hardware-type")) hub}}'
-#                mode: 420
-#                overwrite: true
-#                path: /etc/kubernetes/openshift-workload-pinning
-#                user:
-#                  name: root
-#    # ---- END of source CRs needed for updating CRI-O workload-partitioning ends here ----
 #    ######################
 #    # oadp-config-policy #
 #    ######################
