@@ -20,5 +20,3 @@ generators:
 resources:
 - ns.yaml
 - ../template-values
-# Removes Cluster Logging operator 5.x artifacts after upgrading to 6.x
-- group-du-clo5-cleanup-policy.yaml

@@ -10,7 +10,6 @@ required/machine-config/cgroup-check.yaml
 required/machine-config/container-runtime.yaml
 
 # Utility objects used to migrate from CLO5->CLO6
-ClusterLogging5Cleanup.yaml
 ClusterLogOperatorStatus.yaml
 
 # Utility objects to wait for and acknowledge cluster ugprades
