@@ -10,9 +10,13 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "10"
     ran.openshift.io/reference-configuration: "ran-du.redhat.com"
     # systemReserved: when used, it should be tailored for each environment.
+    # shutdownGracePeriod: enables kubelet GracefulNodeShutdown to reduce
+    # IBU upgrade downtime. Non-critical pods get 20s, critical pods get 10s.
     kubeletconfig.experimental: |
       {
-       "systemReserved":{"memory":"11Gi"}
+       "systemReserved":{"memory":"11Gi"},
+       "shutdownGracePeriod":"30s",
+       "shutdownGracePeriodCriticalPods":"10s"
       }
 spec:
   # Note: The defaults here are for Grace Hopper systems. Other systems may alternative PCI or iommu settings such as:
