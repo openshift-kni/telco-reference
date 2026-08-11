@@ -14,7 +14,7 @@ metadata:
 spec:
   profile:
   - name: tbc-tr
-    phc2sysOpts: -r -n 24 -N 8 -R 16 -u 0 -m -s $iface_timeRx_FirstPort
+    phc2sysOpts: -r -n 24 -N 8 -R 16 -u 0 -m -w -s $iface_timeRx_FirstPort
     plugins:
       e810:
         enableDefaultConfig: false

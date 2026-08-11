@@ -16,7 +16,7 @@ spec:
   {{- range .spec.profile }}
   {{- if eq .name "tbc-tr" }}
   - name: tbc-tr
-    phc2sysOpts: -r -n (?<domainNumber>[0-9]+) -N 8 -R 16 -u 0 -m -s (?<iface_timeRx_FirstPort>[[:alnum:]]+)
+    phc2sysOpts: -r -n (?<domainNumber>[0-9]+) -N 8 -R 16 -u 0 -m -w -s (?<iface_timeRx_FirstPort>[[:alnum:]]+)
     plugins:
       e810:
         enableDefaultConfig: false
