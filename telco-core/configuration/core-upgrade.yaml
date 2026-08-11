@@ -87,7 +87,7 @@ policies:
       - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
         patches:
         - spec:
-            channel: stable-4.21
+            channel: stable-4.22
         - status:
             state: AtLatestKnown
       - path: reference-crs/required/networking/NMStateSubscription.yaml

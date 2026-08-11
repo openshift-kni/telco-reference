@@ -38,65 +38,65 @@ mirror:
       channels:
       - name: stable
     - name: cluster-logging
-      defaultChannel: stable-6.5
+      defaultChannel: stable-6.6
       channels:
-      - name: stable-6.5
+      - name: stable-6.6
     - name: odf-operator
-      defaultChannel: stable-4.21
+      defaultChannel: stable-4.22
       channels:
-      - name: stable-4.21
+      - name: stable-4.22
     - name: odf-external-snapshotter-operator
-      defaultChannel: stable-4.21
+      defaultChannel: stable-4.22
       channels:
-      - name: stable-4.21
+      - name: stable-4.22
     - name: odf-dependencies
-      defaultChannel: stable-4.21
+      defaultChannel: stable-4.22
       channels:
-      - name: stable-4.21
+      - name: stable-4.22
     - name: odf-csi-addons-operator
-      defaultChannel: stable-4.21
+      defaultChannel: stable-4.22
       channels:
-      - name: stable-4.21
+      - name: stable-4.22
     - name: ocs-client-operator
-      defaultChannel: stable-4.21
+      defaultChannel: stable-4.22
       channels:
-      - name: stable-4.21
+      - name: stable-4.22
     - name: cephcsi-operator
-      defaultChannel: stable-4.21
+      defaultChannel: stable-4.22
       channels:
-      - name: stable-4.21
+      - name: stable-4.22
     - name: odf-prometheus-operator
-      defaultChannel: stable-4.21
+      defaultChannel: stable-4.22
       channels:
-      - name: stable-4.21
+      - name: stable-4.22
     - name: odf-multicluster-orchestrator
-      defaultChannel: stable-4.21
+      defaultChannel: stable-4.22
       channels:
-      - name: stable-4.21
+      - name: stable-4.22
     - name: ocs-operator
-      defaultChannel: stable-4.21
+      defaultChannel: stable-4.22
       channels:
-      - name: stable-4.21
+      - name: stable-4.22
     - name: rook-ceph-operator
-      defaultChannel: stable-4.21
+      defaultChannel: stable-4.22
       channels:
-      - name: stable-4.21
+      - name: stable-4.22
     - name: mcg-operator
-      defaultChannel: stable-4.21
+      defaultChannel: stable-4.22
       channels:
-      - name: stable-4.21
+      - name: stable-4.22
     - name: odr-hub-operator
-      defaultChannel: stable-4.21
+      defaultChannel: stable-4.22
       channels:
-      - name: stable-4.21
+      - name: stable-4.22
     - name: odr-cluster-operator
-      defaultChannel: stable-4.21
+      defaultChannel: stable-4.22
       channels:
-      - name: stable-4.21
+      - name: stable-4.22
     - name: recipe
-      defaultChannel: stable-4.21
+      defaultChannel: stable-4.22
       channels:
-      - name: stable-4.21
+      - name: stable-4.22
     - name: openshift-cert-manager-operator
       defaultChannel: stable-v1
       channels:

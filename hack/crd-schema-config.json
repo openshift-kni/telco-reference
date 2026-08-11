@@ -38,12 +38,12 @@
         "core",
         "ran"
       ],
-      "subscription_channel": "stable-6.5",
+      "subscription_channel": "stable-6.6",
       "source": {
         "github": {
           "owner": "openshift",
           "repo": "cluster-logging-operator",
-          "ref": "release-6.5",
+          "ref": "release-6.6",
           "path": "config/crd/bases/observability.openshift.io_clusterlogforwarders.yaml"
         }
       },
