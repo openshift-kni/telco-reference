@@ -19,7 +19,7 @@ spec:
     namespace: clusters-sub
   project: ztp-app-project
   source:
-    path: telco-ran/configuration/argocd/example/clusterinstance
+    path: telco-ran/install/clusterinstance
     repoURL: https://github.com/openshift-kni/telco-reference
     targetRevision: main
     # uncomment the below plugin if you will be adding the plugin binaries in the same repo->dir where

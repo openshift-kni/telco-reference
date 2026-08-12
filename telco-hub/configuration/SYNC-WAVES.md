@@ -171,18 +171,18 @@ Zero Touch Provisioning installation components deployed after the platform is f
 
 **ZTP AppProjects:**
 
-- `required/gitops/ztp-installation/app-project.yaml` - AppProject
-- `required/gitops/ztp-installation/policies-app-project.yaml` - AppProject
+- `argocd/deployment/app-project.yaml` - AppProject
+- `argocd/deployment/policies-app-project.yaml` - AppProject
 
 **ZTP Applications:**
 
-- `required/gitops/ztp-installation/clusters-app.yaml` - Application/Namespace
-- `required/gitops/ztp-installation/policies-app.yaml` - Application/Namespace
+- `argocd/deployment/clusters-app.yaml` - Application/Namespace
+- `argocd/deployment/policies-app.yaml` - Application/Namespace
 
 **ZTP Roles and Bindings:**
 
-- `required/gitops/ztp-installation/gitops-cluster-clusterrole.yaml` - ClusterRole
-- `required/gitops/ztp-installation/gitops-policy-rolebinding.yaml` - ClusterRoleBinding
+- `argocd/deployment/gitops-cluster-clusterrole.yaml` - ClusterRole
+- `argocd/deployment/gitops-policy-rolebinding.yaml` - ClusterRoleBinding
 
 **Rationale:** ZTP components represent the final deployment phase when all platform services are ready.
 

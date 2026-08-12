@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: core-clusters-sub
+  annotations:
+    argocd.argoproj.io/sync-wave: "100"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: core-clusters
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "100"
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: core-clusters-sub
+  project: core-ztp-app-project
+  source:
+    path: telco-core/install/clusterinstance
+    repoURL: https://github.com/openshift-kni/telco-reference
+    targetRevision: main
+  ignoreDifferences:
+    - group: cluster.open-cluster-management.io
+      kind: ManagedCluster
+      managedFieldsManagers:
+        - controller
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=background
+      - RespectIgnoreDifferences=true

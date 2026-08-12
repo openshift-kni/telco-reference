@@ -1,0 +1,3 @@
+resources:
+  - regional.yaml
+  - hw-types.yaml

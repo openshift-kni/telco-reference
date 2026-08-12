@@ -7,9 +7,7 @@ This directory contains four key components of the reference configuration:
 - The `reference-crs` tree contains the baseline configuration CRs which make
   up the Core reference configuration. These are further separated into
   optional vs required configuration.
-- The yaml files in this top level support application and ongoing management
-  of the reference configuration using Advanced Cluster Management (ACM)
-  Policy. These yaml serve as manifests which define how CRs from the
+- The `acmpolicygenerator/` directory contains PolicyGenerator CR manifests which define how CRs from the
   reference-crs tree are grouped into policies and apply certain use case
   specific patches to the policy wrapped CRs.
 - The `template-values` directory holds ConfigMaps which provide values used in
@@ -22,8 +20,8 @@ This directory contains four key components of the reference configuration:
 
 ### Policy generation CRs
 
-The reference includes several PolicyGenerator CRs named "core-xxx.yaml" at this
-top level. These CRs serve as manifests and customization of the reference
+The reference includes several PolicyGenerator CRs named "core-xxx.yaml" in
+`acmpolicygenerator/`. These CRs serve as manifests and customization of the reference
 configuration CRs. The PolicyGenerator CR is turned into ACM Policy CRs which
 can then be used to configure one or more clusters with the reference
 configuration. When these PolicyGenerator CRs and the reference-crs that they

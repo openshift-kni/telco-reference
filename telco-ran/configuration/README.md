@@ -8,7 +8,7 @@ This directory contains the RAN reference configuration:
  - `template-values/` contains ConfigMaps used by hub-side templating to inject hardware-type, zone, and site-specific values into policies.
  - `kube-compare-reference/` contains the RAN reference configuration CRs with templating required for the kube-compare tool.
  - `argocd/` contains documentation and additional examples:
-   - `argocd/example/clusterinstance/` has ClusterInstance examples for SNO, 3-node, and standard clusters.
+   - `install/clusterinstance/` (under `telco-ran/install/`) has ClusterInstance examples for SNO, 3-node, and standard clusters.
    - `acmpolicygenerator/image-based-upgrades/` has examples pertaining to image based upgrades.
    - `argocd/example/optional-extra-manifest/` has optional extra-manifest examples (e.g. IPsec).
 

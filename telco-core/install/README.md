@@ -11,9 +11,9 @@ general pattern shown here is recommended.
 The contents of this directory fall into 3 categories. Each of these are
 described in more detail in the following sections:
 
-- example-standard.yaml -- A SiteConfig CR which defines the cluster
-- extra-manifests -- Additional reference CRs to apply to the cluster during installation
-- custom-manifests -- Additional custom/user specific CRs to apply to the cluster during installation
+- clusterinstance/example-standard-clusterinstance.yaml -- A ClusterInstance CR which defines the cluster
+- clusterinstance/extra-manifests -- Additional reference CRs to apply to the cluster during installation
+- clusterinstance/custom-manifests -- Additional custom/user specific CRs to apply to the cluster during installation
 
 ## SiteConfig CRs
 
@@ -30,7 +30,7 @@ SiteConfig defines:
 
 ## extra-manifests
 
-The CRs in extra-manifests are exact copies of some CRs from the
+The CRs in clusterinstance/extra-manifests are exact copies of some CRs from the
 ../configuration tree. These CRs will be applied during installation to
 accelerate the time to cluster-ready.
 

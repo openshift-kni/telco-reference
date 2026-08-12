@@ -106,7 +106,7 @@ Add new OpenShift version osImages entries and remove the oldest version to main
 **Files**:
 - `telco-hub/configuration/reference-crs/required/acm/acmAgentServiceConfig.yaml`
 - `telco-hub/configuration/reference-crs-kube-compare/default_value.yaml`
-- `telco-hub/configuration/example-overlays-config/acm/options-agentserviceconfig-patch.yaml`
+- `telco-hub/configuration/argocd/example/overlays-config/acm/options-agentserviceconfig-patch.yaml`
 
 **Important**: Keep only the **3 most recent versions** (current + 2 previous) in osImages.
 
@@ -143,7 +143,7 @@ The versions of each component in the mirror configuration must be updated. Thes
 Find all ClusterInstance CRs (`kind: ClusterInstance`) and update clusterImageSetNameRef to align with the OpenShift version:
 
 **telco-core**:
-- `telco-core/install/example-standard-clusterinstace.yaml`
+- `telco-core/install/clusterinstance/example-standard-clusterinstance.yaml`
 
 **telco-ran**:
 - `telco-ran/install/clusterinstance/example-sno.yaml`
@@ -228,7 +228,7 @@ grep -r "^kind: ClusterInstance"
 
 4. Ensure policy generator names are consistent:
    ```bash
-   grep "name: core-.*-4.23" telco-core/configuration/*.yaml
+   grep "name: core-.*-4.23" telco-core/configuration/acmpolicygenerator/*.yaml
    ```
 
 ## Commit Message Template
