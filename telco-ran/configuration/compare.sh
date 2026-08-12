@@ -4,7 +4,7 @@ compare_install_extra_manifests() {
   local root fail=0 pair inst ref
   root="$(git rev-parse --show-toplevel)"
   local install="${root}/telco-ran/install/clusterinstance/extra-manifests"
-  local kubecmp="${root}/telco-ran/configuration/kube-compare-reference"
+  local kubecmp="${root}/telco-ran/configuration/reference-crs-kube-compare"
   local -a pairs=(
     "01-container-mount-ns-and-kubelet-conf-master.yaml:machine-config/kubelet-configuration-and-container-mount-hiding/01-container-mount-ns-and-kubelet-conf-master.yaml"
     "01-container-mount-ns-and-kubelet-conf-worker.yaml:machine-config/kubelet-configuration-and-container-mount-hiding/01-container-mount-ns-and-kubelet-conf-worker.yaml"
@@ -35,28 +35,28 @@ compare_install_extra_manifests() {
   return $fail
 }
 
-check_no_machineconfig_in_source_crs() {
+check_no_machineconfig_in_reference_crs() {
   local root fail=0 f relpath
   root="$(git rev-parse --show-toplevel)"
   while IFS= read -r f; do
-    relpath="${f#${root}/telco-ran/configuration/source-crs/}"
+    relpath="${f#${root}/telco-ran/configuration/reference-crs/}"
     case "${relpath}" in
       generic/MachineConfigGeneric.yaml|machine-config/RebootMachineConfig.yaml)
         continue
         ;;
     esac
-    echo "ERROR: MachineConfig must use install/clusterinstance/extra-manifests, not source-crs: ${f}" >&2
+    echo "ERROR: MachineConfig must use install/clusterinstance/extra-manifests, not reference-crs: ${f}" >&2
     fail=1
-  done < <(grep -rl '^kind: MachineConfig$' "${root}/telco-ran/configuration/source-crs" 2>/dev/null || true)
+  done < <(grep -rl '^kind: MachineConfig$' "${root}/telco-ran/configuration/reference-crs" 2>/dev/null || true)
   return $fail
 }
 
 run_extra_manifest_checks() {
   local status=0
-  echo "Checking install/clusterinstance/extra-manifests alignment with kube-compare-reference..."
+  echo "Checking install/clusterinstance/extra-manifests alignment with reference-crs-kube-compare..."
   compare_install_extra_manifests || status=1
-  echo "Checking source-crs does not contain MachineConfig CRs..."
-  check_no_machineconfig_in_source_crs || status=1
+  echo "Checking reference-crs does not contain MachineConfig CRs..."
+  check_no_machineconfig_in_reference_crs || status=1
   if [[ $status -eq 0 ]]; then
     echo "extra-manifest checks: OK"
   fi

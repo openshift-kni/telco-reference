@@ -20,8 +20,8 @@ metadata_lint: kubectl-cluster_compare
 
 .PHONY: compare
 compare:
-	@./hack/compare.sh ../source-crs ./metadata.yaml ./hack/default_value.yaml ./hack/compare_ignore ./hack/arch/
+	@./hack/compare.sh ../reference-crs ./metadata.yaml ./hack/default_value.yaml ./hack/compare_ignore ./hack/arch/
 
 .PHONY: sync
 sync:
-	@./hack/compare.sh --sync ../source-crs ./metadata.yaml ./hack/default_value.yaml ./hack/compare_ignore ./hack/arch/
+	@./hack/compare.sh --sync ../reference-crs ./metadata.yaml ./hack/default_value.yaml ./hack/compare_ignore ./hack/arch/

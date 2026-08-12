@@ -2,6 +2,22 @@
 
 ![GitOps ZTP flow overview](ztp_gitops_flow.png)
 
+## Migration from cnf-features-deploy
+
+The default `clusters-app` in `deployment/clusters-app.yaml` now points at this
+repository instead of `openshift-kni/cnf-features-deploy`:
+
+| Setting | Before | After |
+|---------|--------|-------|
+| `repoURL` | `https://github.com/openshift-kni/cnf-features-deploy` | `https://github.com/openshift-kni/telco-reference` |
+| `path` | `ztp/gitops-subscriptions/argocd/example/clusterinstance` | `telco-ran/install/clusterinstance` |
+| `targetRevision` | `master` | `main` |
+
+If you forked the old layout, update `telco-ran/configuration/argocd/deployment/clusters-app.yaml`.
+Hub clusters deploying RAN spokes via ZTP should also update
+`telco-hub/configuration/argocd/deployment/clusters-app.yaml` to use the same
+`telco-ran/install/clusterinstance` path.
+
 ## Installing the GitOps Zero Touch Provisioning pipeline
 
 ### Obtaining the ZTP site generator container
@@ -28,10 +44,14 @@ Create a GIT repository for hosting site configuration data. The ZTP pipeline wi
 
 3. Check the out directory that was created above. It should contain the following sub directories:
 
-- out/extra-manifest: contains the source CR files that ClusterInstance applies to a cluster during installation. 
-- out/source-crs: contains the source CR files that PolicyGenerator uses to generate the ACM policies.
+- out/extra-manifest: contains the source CR files that ClusterInstance applies to a cluster during installation.
+- out/source-crs: contains the source CR files that PolicyGenerator uses to generate the ACM policies (upstream ztp-site-generator layout).
 - out/argocd/deployment: contains patches and yaml files to apply on the hub cluster for use in the next steps of this procedure.
 - out/argocd/example: contains ClusterInstance and PolicyGenerator examples that represent our recommended configuration.
+
+In **this repository**, the PolicyGenerator baseline CRs live under
+`telco-ran/configuration/reference-crs/` (renamed from the upstream `source-crs`
+directory name for alignment with telco-core and telco-hub).
 
 ### Preparation of Hub cluster for ZTP
 
@@ -213,7 +233,7 @@ The following steps prepare the hub cluster for site deployment and initiate ZTP
       - For MNO clusters, it will require both `ran-common.yaml` and `ran-common-mno.yaml` file.
       - A set of shared `ran-group-du-*-templated.yaml`, each of which should be common across a set of similar clusters. These use hub-side templating with ConfigMaps in `template-values/` for hardware-type, zone, and site-specific values — separate per-site PolicyGenerator CRs are not needed.
    2. Ensure the labels defined in your PolicyGenerator's `bindingRules` section correspond to the proper labels defined on the ClusterInstance file(s) of the clusters you are managing.
-   3. Ensure the content of the overlaid spec files matches your desired end state.  As a reference, the *out/source-crs* directory contains the full set of source-crs available to be included and overlayed by your PolicyGenerator templates.
+   3. Ensure the content of the overlaid spec files matches your desired end state. As a reference, the upstream *out/source-crs* directory (or `telco-ran/configuration/reference-crs/` in this repository) contains the full set of baseline CRs available to be included and overlayed by your PolicyGenerator templates.
       > **Note:** Depending on the specific requirements of your clusters, you may need more than just a single group policy per cluster type, especially considering the example group policies each has a single PerformancePolicy which can only be shared across a set of clusters if those clusters consist of identical hardware configurations.
    4. Define all the policy namespaces in a yaml file much like in *configuration/acmpolicygenerator/ns.yaml*
    5. Add all the PolicyGenerator CRs and *ns.yaml* to the *kustomization.yaml* file, much like in the *configuration/acmpolicygenerator/kustomization.yaml* example.
@@ -406,7 +426,7 @@ For example, setting an invalid `sourceFile->fileName:` will generate an error a
 Status:
   Conditions:
     Last Transition Time:  2021-11-26T17:21:39Z
-    Message:               rpc error: code = Unknown desc = `kustomize build /tmp/https___git.com/ran-sites/policies/ --enable-alpha-plugins` failed exit status 1: 2021/11/26 17:21:40 Error could not find test.yaml under source-crs/: no such file or directory
+    Message:               rpc error: code = Unknown desc = `kustomize build /tmp/https___git.com/ran-sites/policies/ --enable-alpha-plugins` failed exit status 1: 2021/11/26 17:21:40 Error could not find test.yaml under reference-crs/: no such file or directory
 Error: failure in plugin configured via /tmp/kust-plugin-config-52463179; exit status 1: exit status 1
     Type:  ComparisonError
 ```

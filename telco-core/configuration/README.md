@@ -2,7 +2,7 @@
 
 ## Structure
 
-This directory contains four key components of the reference configuration:
+This directory contains five key components of the reference configuration:
 
 - The `reference-crs` tree contains the baseline configuration CRs which make
   up the Core reference configuration. These are further separated into
@@ -15,6 +15,14 @@ This directory contains four key components of the reference configuration:
 - The `reference-crs-kube-compare` tree contains the template copy of the
   baseline configuration for use by the
   [cluster-compare tool](https://github.com/openshift/kube-compare).
+- The `argocd/deployment/` directory contains ArgoCD Applications and RBAC for
+  GitOps ZTP management of core cluster installation (`telco-core/install/clusterinstance`)
+  and policies (`acmpolicygenerator/`). Before syncing policies, apply
+  `argocd/deployment/argocd-openshift-gitops-patch.json` to the hub OpenShift GitOps
+  instance so PolicyGenerator kustomize plugins are available. See
+  [argocd/README.md](argocd/README.md) for core ZTP deployment steps and
+  [telco-ran/configuration/argocd/README.md](../../telco-ran/configuration/argocd/README.md)
+  for the full hub preparation and ZTP pipeline overview.
 
 ## Reference CRs
 

@@ -41,7 +41,7 @@ Update operator channel versions in subscription files across all three configur
   - Files: Multiple locations in telco-hub and telco-core
   - **Also update ALL ODF sub-operators** in mirror registry config (see below)
 
-**Remember**: Update both `reference-crs/` AND `reference-crs-kube-compare/` (or `source-crs/` and `kube-compare-reference/`) versions!
+**Remember**: Update both `reference-crs/` AND `reference-crs-kube-compare/` versions!
 
 ### 2. Policy Generator Files
 

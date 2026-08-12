@@ -2,7 +2,7 @@
 #
 # This script is designed to update file references within this project.
 # It should be run from the 'configuration' subdirectory.
-# It finds all '*.yaml' files under 'source-crs' and ensures that any
+# It finds all '*.yaml' files under 'reference-crs' and ensures that any
 # references to these files use a consistent, full path relative to the
 # 'configuration' directory.
 #
@@ -18,8 +18,8 @@ else
   sedi() { sed -i '' "$@"; }
 fi
 
-if [[ ! -d "source-crs" ]]; then
-  echo "Error: This script must be run from a directory containing 'source-crs' (e.g., the 'configuration' directory)." >&2
+if [[ ! -d "reference-crs" ]]; then
+  echo "Error: This script must be run from a directory containing 'reference-crs' (e.g., the 'configuration' directory)." >&2
   exit 1
 fi
 
@@ -27,14 +27,14 @@ if [[ $# == 0 || $1 == "--help" || $1 == "-h" ]]; then
   echo "Usage:"
   echo "  $(basename "$0") [target...]"
   echo
-  echo "Processes the directory structure under source-crs, and then visits"
+  echo "Processes the directory structure under reference-crs, and then visits"
   echo "every target file (or all files in each target directory) and updates"
-  echo "all paths to match the source-crs directory structure."
+  echo "all paths to match the reference-crs directory structure."
   exit 1
 fi
 
-# Find all .yaml files in the source-crs directory and store them in an array.
-readarray -t source_files < <(find source-crs -name "*.yaml")
+# Find all .yaml files in the reference-crs directory and store them in an array.
+readarray -t source_files < <(find reference-crs -name "*.yaml")
 
 # Iterate through the array of target files.
 for source_file in "${source_files[@]}"; do
@@ -44,7 +44,7 @@ for source_file in "${source_files[@]}"; do
   fi
 
   file_name=$(basename "$source_file")
-  replacement_path="${source_file#source-crs/}"
+  replacement_path="${source_file#reference-crs/}"
   # Escape the filename for use in sed regex (for the '.')
   escaped_file_name=${file_name//\./\\.}
 
@@ -71,13 +71,13 @@ for source_file in "${source_files[@]}"; do
     echo "  Updating references in: $target_file"
 
     # Choose the replacement strategy based on the file's content.
-    if grep -q "source-crs/.*$file_name" "$target_file"; then
-      # This file contains an incorrect 'source-crs' path. Fix it.
-      sedi -e "s|source-crs/[^[:space:]\`[]*${escaped_file_name}|source-crs/$replacement_path|g" "$target_file"
+    if grep -q "reference-crs/.*$file_name" "$target_file"; then
+      # This file contains an incorrect 'reference-crs' path. Fix it.
+      sedi -e "s|reference-crs/[^[:space:]\`[]*${escaped_file_name}|reference-crs/$replacement_path|g" "$target_file"
     else
       # This file contains a different incorrect full path. Fix it.
       # This regex finds a path-like string ending in the filename.
-      replacement_path=${replacement_path#%source-crs/}
+      replacement_path=${replacement_path#%reference-crs/}
       sedi -e "s|[^[:space:]\`[,]*${escaped_file_name}|${replacement_path}|g" "$target_file"
     fi
   done

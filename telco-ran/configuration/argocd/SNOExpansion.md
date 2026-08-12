@@ -167,7 +167,7 @@ policies:
   manifests:
     # This generic MachineConfig CR is used here to configure workload
     # partitioning on the worker node.
-    - path: source-crs/generic/MachineConfigGeneric.yaml
+    - path: reference-crs/generic/MachineConfigGeneric.yaml
       patches:
       - metadata:
           labels:
@@ -192,7 +192,7 @@ policies:
                 user:
                   name: root
     # PerformanceProfile.yaml is architecture-specific.  Replace x86_64 with aarch64 for ARM deployments
-    - path: source-crs/node-tuning-operator/x86_64/PerformanceProfile.yaml
+    - path: reference-crs/node-tuning-operator/x86_64/PerformanceProfile.yaml
       patches:
       - metadata:
           name: openshift-worker-node-performance-profile
@@ -212,7 +212,7 @@ policies:
           nodeSelector:
             $patch: replace
             node-role.kubernetes.io/worker: ''
-    - path: source-crs/node-tuning-operator/TunedPerformancePatch.yaml
+    - path: reference-crs/node-tuning-operator/TunedPerformancePatch.yaml
       patches:
       - metadata:
           name: performance-patch-worker

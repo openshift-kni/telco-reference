@@ -9,8 +9,8 @@ This repository contains reference design specifications (RDS) for OpenShift tel
 - **telco-ran**: RAN/edge cluster configuration (DU profile, low-latency workloads)
 
 Each configuration maintains two parallel directory structures:
-- `reference-crs/` or `source-crs/`: Deployable manifests
-- `reference-crs-kube-compare/` or `kube-compare-reference/`: Template versions with variables for validation
+- `reference-crs/`: Deployable manifests
+- `reference-crs-kube-compare/`: Template versions with variables for validation
 
 ## Version Updates
 

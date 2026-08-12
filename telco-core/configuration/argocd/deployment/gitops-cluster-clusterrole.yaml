@@ -11,7 +11,7 @@
 #    - Grants full access to secrets: secrets [] [] [create get list watch update delete deletecollection patch]
 #    - Referenced via ClusterRoleBinding in gitops-policy-rolebinding.yaml
 #
-# 3. This custom ClusterRole (hub-rds-cluster-role):
+# 3. This custom ClusterRole (core-rds-cluster-role):
 #    - Only grants write permissions for ClusterInstance (create, update, delete, patch)
 #    - Read permissions (get, list, watch) are already covered by the default ArgoCD wildcard rule
 #
@@ -21,7 +21,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: hub-rds-cluster-role
+  name: core-rds-cluster-role
   labels:
     rbac.authorization.k8s.io/aggregate-to-ocm-cluster-manager-admin: "true"
 rules:

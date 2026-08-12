@@ -24,7 +24,7 @@ policies:
   policyAnnotations:
     ran.openshift.io/soak-seconds: "120"
   manifests:
-  - path: source-crs/machine-config/RebootMachineConfig.yaml
+  - path: reference-crs/machine-config/RebootMachineConfig.yaml
     complianceType: mustonlyhave
     patches:
     - spec:
@@ -42,7 +42,7 @@ policies:
         name: "95-reboot-<mcp>"
         labels:
           machineconfiguration.openshift.io/role: "<mcp>"
-  - path: source-crs/validatorCRs/rebootMachineConfigPoolValidator.yaml
+  - path: reference-crs/validatorCRs/rebootMachineConfigPoolValidator.yaml
     complianceType: musthave
     patches:
     - metadata:

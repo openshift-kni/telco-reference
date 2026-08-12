@@ -8,7 +8,8 @@ Also available in OpenShift docs: [IPsec encryption for external traffic](https:
 
 * `butane` utility installed, minimal version 0.20.0.
 * Include `enable-ipsec.yaml` file in one of the additional install-time manifests directories defined in the `extraManifests.searchPaths` field in the SiteConfig file.
-More info about the `extraManifests.searchPaths` mechanism can be found in the [GitOps ZTP README](https://github.com/openshift-kni/cnf-features-deploy/blob/master/ztp/gitops-subscriptions/argocd/README.md)
+More info about the `extraManifests.searchPaths` mechanism can be found in the
+[GitOps ZTP README](../../../README.md)
 * Provide the following certificate files:
   - `left_server.p12`: The certificate bundle for the IPsec endpoints
   - `ca.pem`: The certificate authority that you signed your certificates with
@@ -40,7 +41,10 @@ Configure the following values in `ipsec-config-policy.yaml`:
 - `$externalHost` - the external host IP address or DNS hostname
 - `$externalAddress` - the IP address or subnet of the external host
 
-Include the config policy file `ipsec-config-policy.yaml` in source-crs directory in gitops and reference the file in one of the PolicyGenerator files.
+Include the config policy file `ipsec-config-policy.yaml` in your gitops
+repository (for example under `telco-ran/configuration/reference-crs/` or a
+site-specific overlay path) and reference the file in one of the PolicyGenerator
+files.
 
 ### IPsec configuration with a MachineConfig
 

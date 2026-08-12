@@ -15,7 +15,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: hub-rds-gitops
+  name: core-rds-gitops
   annotations:
     argocd.argoproj.io/sync-wave: "100"
 roleRef:

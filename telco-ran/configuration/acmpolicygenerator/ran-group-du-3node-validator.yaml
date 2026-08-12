@@ -39,4 +39,4 @@ policies:
     ran.openshift.io/soak-seconds: "30"
     ran.openshift.io/ztp-deploy-wave: "10000"
   manifests:
-    - path: source-crs/validatorCRs/informDuValidatorMaster.yaml
+    - path: reference-crs/validatorCRs/informDuValidatorMaster.yaml

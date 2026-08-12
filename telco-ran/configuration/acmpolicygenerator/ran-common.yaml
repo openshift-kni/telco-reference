@@ -30,15 +30,15 @@ policies:
   policyAnnotations:
     ran.openshift.io/ztp-deploy-wave: "1"
   manifests:
-    - path: source-crs/cluster-tuning/monitoring-configuration/ReduceMonitoringFootprint.yaml
-    - path: source-crs/disconnected-registry/DefaultCatsrc.yaml
+    - path: reference-crs/cluster-tuning/monitoring-configuration/ReduceMonitoringFootprint.yaml
+    - path: reference-crs/disconnected-registry/DefaultCatsrc.yaml
       patches:
       - metadata:
           name: redhat-operators-disconnected
         spec:
           displayName: disconnected-redhat-operators
           image: registry.example.com:5000/disconnected-redhat-operators/disconnected-redhat-operator-index:v4.22
-    - path: source-crs/disconnected-registry/DisconnectedIDMS.yaml
+    - path: reference-crs/disconnected-registry/DisconnectedIDMS.yaml
       patches:
       - spec:
           imageDigestMirrors:
@@ -50,43 +50,43 @@ policies:
     ran.openshift.io/ztp-deploy-wave: "2"
   manifests:
     # Logging operator
-    - path: source-crs/cluster-logging/ClusterLogNS.yaml
-    - path: source-crs/cluster-logging/ClusterLogOperGroup.yaml
-    - path: source-crs/cluster-logging/ClusterLogSubscription.yaml
-    - path: source-crs/cluster-logging/ClusterLogOperatorStatus.yaml
-    - path: source-crs/cluster-logging/ClusterLogServiceAccount.yaml
-    - path: source-crs/cluster-logging/ClusterLogServiceAccountAuditBinding.yaml
-    - path: source-crs/cluster-logging/ClusterLogServiceAccountInfrastructureBinding.yaml
+    - path: reference-crs/cluster-logging/ClusterLogNS.yaml
+    - path: reference-crs/cluster-logging/ClusterLogOperGroup.yaml
+    - path: reference-crs/cluster-logging/ClusterLogSubscription.yaml
+    - path: reference-crs/cluster-logging/ClusterLogOperatorStatus.yaml
+    - path: reference-crs/cluster-logging/ClusterLogServiceAccount.yaml
+    - path: reference-crs/cluster-logging/ClusterLogServiceAccountAuditBinding.yaml
+    - path: reference-crs/cluster-logging/ClusterLogServiceAccountInfrastructureBinding.yaml
     # Ptp operator
-    - path: source-crs/ptp-operator/PtpSubscriptionNS.yaml
-    - path: source-crs/ptp-operator/PtpSubscription.yaml
-    - path: source-crs/ptp-operator/PtpSubscriptionOperGroup.yaml
-    - path: source-crs/ptp-operator/PtpOperatorStatus.yaml
+    - path: reference-crs/ptp-operator/PtpSubscriptionNS.yaml
+    - path: reference-crs/ptp-operator/PtpSubscription.yaml
+    - path: reference-crs/ptp-operator/PtpSubscriptionOperGroup.yaml
+    - path: reference-crs/ptp-operator/PtpOperatorStatus.yaml
     # SRIOV operator
-    - path: source-crs/sriov-operator/SriovSubscriptionNS.yaml
-    - path: source-crs/sriov-operator/SriovSubscriptionOperGroup.yaml
-    - path: source-crs/sriov-operator/SriovSubscription.yaml
-    - path: source-crs/sriov-operator/SriovOperatorStatus.yaml
+    - path: reference-crs/sriov-operator/SriovSubscriptionNS.yaml
+    - path: reference-crs/sriov-operator/SriovSubscriptionOperGroup.yaml
+    - path: reference-crs/sriov-operator/SriovSubscription.yaml
+    - path: reference-crs/sriov-operator/SriovOperatorStatus.yaml
     # Storage operator
-    - path: source-crs/storage-lso/StorageNS.yaml
-    - path: source-crs/storage-lso/StorageOperGroup.yaml
-    - path: source-crs/storage-lso/StorageSubscription.yaml
-    - path: source-crs/storage-lso/StorageOperatorStatus.yaml
+    - path: reference-crs/storage-lso/StorageNS.yaml
+    - path: reference-crs/storage-lso/StorageOperGroup.yaml
+    - path: reference-crs/storage-lso/StorageSubscription.yaml
+    - path: reference-crs/storage-lso/StorageOperatorStatus.yaml
     #
     # LCA operator is used for orchestrating Image Based Upgrade for SNO
-    # - path: source-crs/lca/LcaSubscriptionNS.yaml
-    # - path: source-crs/lca/LcaSubscriptionOperGroup.yaml
-    # - path: source-crs/lca/LcaSubscription.yaml
-    # - path: source-crs/lca/LcaOperatorStatus.yaml
+    # - path: reference-crs/lca/LcaSubscriptionNS.yaml
+    # - path: reference-crs/lca/LcaSubscriptionOperGroup.yaml
+    # - path: reference-crs/lca/LcaSubscription.yaml
+    # - path: reference-crs/lca/LcaOperatorStatus.yaml
     #
     # OADP operator is used for backing up and restoring application during Image Based Upgrade
-    # - path: source-crs/data-protection/OadpSubscriptionNS.yaml
-    # - path: source-crs/data-protection/OadpSubscriptionOperGroup.yaml
-    # - path: source-crs/data-protection/OadpSubscription.yaml
-    # - path: source-crs/data-protection/OadpOperatorStatus.yaml
+    # - path: reference-crs/data-protection/OadpSubscriptionNS.yaml
+    # - path: reference-crs/data-protection/OadpSubscriptionOperGroup.yaml
+    # - path: reference-crs/data-protection/OadpSubscription.yaml
+    # - path: reference-crs/data-protection/OadpOperatorStatus.yaml
     #
     # cert-manager operator for managing TLS certificates
-    # - path: source-crs/cert-manager/certManagerNS.yaml
-    # - path: source-crs/cert-manager/certManagerOperatorgroup.yaml
-    # - path: source-crs/cert-manager/certManagerSubscription.yaml
-    # - path: source-crs/cert-manager/certManagerOperatorStatus.yaml
+    # - path: reference-crs/cert-manager/certManagerNS.yaml
+    # - path: reference-crs/cert-manager/certManagerOperatorgroup.yaml
+    # - path: reference-crs/cert-manager/certManagerSubscription.yaml
+    # - path: reference-crs/cert-manager/certManagerOperatorStatus.yaml

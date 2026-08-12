@@ -1,4 +1,4 @@
-# Deprecated source-crs:
+# Deprecated reference-crs:
 deprecated/PaoSubscriptionCatalogSource.yaml
 deprecated/PaoSubscriptionNS.yaml
 deprecated/PaoSubscriptionOperGroup.yaml
@@ -50,7 +50,7 @@ sriov-operator/SriovNetworkNodePolicy-SetSelector.yaml
 sriov-operator/SriovOperatorConfig-SetSelector.yaml
 ptp-operator/PtpOperatorConfigForEvent-SetSelector.yaml
 
-# IBU source-crs, intentionally excluded from the reference for now:
+# IBU reference-crs, intentionally excluded from the reference for now:
 ibu/ImageBasedUpgrade.yaml
 ibu/PlatformBackupRestoreLvms.yaml
 ibu/PlatformBackupRestore.yaml
@@ -68,7 +68,7 @@ ibu/ImageSignature.yaml
 machine-config/MachineConfigPool.yaml
 machine-config/MachineConfigSctp.yaml
 
-# Reboot source-crs
+# Reboot reference-crs
 machine-config/RebootMachineConfig.yaml
 validatorCRs/rebootMachineConfigPoolValidator.yaml
 
@@ -104,5 +104,5 @@ fetch-only/Node.yaml
 machine-config/cgroup-check.yaml
 machine-config/container-runtime.yaml
 
-# Platform check only, not included in source-crs
+# Platform check only, not included in reference-crs
 platform/infrastructure.yaml

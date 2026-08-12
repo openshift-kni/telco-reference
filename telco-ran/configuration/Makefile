@@ -8,8 +8,8 @@ checkInstallExtraManifests:
 
 checkSourceCRsAnnotation:
 	@failures=0; \
-	 echo 'Checking for ztp-deploy-wave in source-crs/**/*.yaml:';\
-	for sourcefile in $$(find ./source-crs/ -name '*.yaml'); do \
+	 echo 'Checking for ztp-deploy-wave in reference-crs/**/*.yaml:';\
+	for sourcefile in $$(find ./reference-crs/ -name '*.yaml'); do \
 		echo -n "  $${sourcefile}: "; \
 		case "$${sourcefile}" in \
 			*/optional-extra-manifest/* | \
@@ -55,12 +55,12 @@ checkFilePath:
 # This limitation comes from the ISO9660 standard with Rock Ridge extensions.
 # Related Issue: https://issues.redhat.com/browse/OCPBUGS-48244
 checkZtpPaths:
-	$(MAKE) CUSTOM_RESOURCE=source-crs checkFilePath
+	$(MAKE) CUSTOM_RESOURCE=reference-crs checkFilePath
 	$(MAKE) CUSTOM_RESOURCE=argocd checkFilePath
-	$(MAKE) CUSTOM_RESOURCE=kube-compare-reference checkFilePath
+	$(MAKE) CUSTOM_RESOURCE=reference-crs-kube-compare checkFilePath
 
 check-reference:
-	$(MAKE) -C ./kube-compare-reference check
+	$(MAKE) -C ./reference-crs-kube-compare check
 
 checkPolicyPaths:
 	./hack/checkpolicypaths.sh ./acmpolicygenerator/ ./policygentemplates/ ./argocd/

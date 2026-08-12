@@ -21,7 +21,7 @@ patches:
 
 configMapGenerator:
 - files:
-  - source-crs/ibu/PlatformBackupRestore.yaml
+  - ../../reference-crs/ibu/PlatformBackupRestore.yaml
   # - <add-workload-oadp-crs-here>
   name: oadp-cm
   namespace: ztp-group

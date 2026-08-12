@@ -1,4 +1,4 @@
-# Rendered .yaml for source-crs
+# Rendered .yaml for reference-crs
 
 The mechanisms in this makefile enable us to put plaintext files and systemd
 units into source control, generate the corresponding .yaml documents, and

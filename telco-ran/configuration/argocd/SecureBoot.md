@@ -61,7 +61,7 @@
 
 **Debugging mokutil**
 
-If you're not using the latest set of source-crs and are running the real-time kernel, `mokutil` may return the following error message:
+If you're not using the latest set of reference-crs and are running the real-time kernel, `mokutil` may return the following error message:
 
 ```shell
 mokutil --sb-state
