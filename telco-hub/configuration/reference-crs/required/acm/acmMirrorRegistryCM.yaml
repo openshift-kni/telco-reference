@@ -87,3 +87,9 @@ data:
       [[registry.mirror]]
         location = "<registry.example.com:8443>/ubi8"
         pull-from-mirror = "tag-only"
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/ubi9"
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/ubi9"
+        pull-from-mirror = "tag-only"
