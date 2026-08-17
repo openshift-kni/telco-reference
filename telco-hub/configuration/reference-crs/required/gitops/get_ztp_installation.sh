@@ -9,9 +9,9 @@ fi
 # This script is only needed to create the ztp-installation manifest
 # once per each Minor version.
 
-#CURRENT_OCP_VERSION=4.18
+#CURRENT_OCP_VERSION=5.0
 #ZTP_SITE_GENERATE_IMAGE=ztp-site-generate-rhel9:v${CURRENT_OCP_VERSION}
-#podman run --log-driver=none --rm registry.redhat.io/openshift4/${ZTP_SITE_GENERATE_IMAGE=ztp-site-generate-rhel9} extract /home/ztp/argocd/deployment --tar | tar x -C "ztp-installation"
+#podman run --log-driver=none --rm registry.redhat.io/openshift5/${ZTP_SITE_GENERATE_IMAGE=ztp-site-generate-rhel9} extract /home/ztp/argocd/deployment --tar | tar x -C "ztp-installation"
 
 rm ztp-installation/*
 cp ../../../../../telco-ran/configuration/argocd/deployment/* ztp-installation/
@@ -27,7 +27,7 @@ find ./ztp-installation/ -name "*.yaml" -exec yq -i eval '.metadata.annotations.
 
 # patch the ztp-site-generate version
 echo " - Patch ztp-site-generate version"
-sedi 's|quay.io/openshift-kni/ztp-site-generator:latest|registry.redhat.io/openshift4/ztp-site-generate-rhel9:v4.22|g' ztp-installation/argocd-openshift-gitops-patch.json
+sedi 's|quay.io/openshift-kni/ztp-site-generator:latest|registry.redhat.io/openshift5/ztp-site-generate-rhel9:v5.0|g' ztp-installation/argocd-openshift-gitops-patch.json
 
 echo  " - Adding elements to the whitelist"
 yq '.spec.namespaceResourceWhitelist += {"group": "'metal3.io'", "kind": "DataImage"}' ztp-installation/app-project.yaml
