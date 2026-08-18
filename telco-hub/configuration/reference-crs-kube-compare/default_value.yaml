@@ -235,6 +235,12 @@ required_acm_acmMirrorRegistryCM:
           pull-from-mirror = "digest-only"
       [[registry]]
         prefix = ""
+        location = "registry.redhat.io/openshift4"
+        [[registry.mirror]]
+          location = "<registry.example.com:8443>/openshift4"
+          pull-from-mirror = "digest-only"
+      [[registry]]
+        prefix = ""
         location = "registry.redhat.io/openshift5"
         [[registry.mirror]]
           location = "<registry.example.com:8443>/openshift5"
@@ -385,6 +391,9 @@ required_registry_idms_operator:
         - <registry.example.com:8443>/rhacm2
         source: registry.redhat.io/rhacm2
       - mirrors:
+        - <registry.example.com:8443>/openshift4
+        source: registry.redhat.io/openshift4
+      - mirrors:
         - <registry.example.com:8443>/openshift5
         source: registry.redhat.io/openshift5
       - mirrors:
@@ -420,6 +429,9 @@ required_registry_itms_generic:
       - mirrors:
         - <registry.example.com:8443>/ubi8
         source: registry.redhat.io/ubi8
+      - mirrors:
+        - <registry.example.com:8443>/openshift4
+        source: registry.redhat.io/openshift4
       - mirrors:
         - <registry.example.com:8443>/openshift5
         source: registry.redhat.io/openshift5
