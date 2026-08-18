@@ -1,3 +1,4 @@
+---
 apiVersion: sriovvrb.intel.com/v1
 kind: SriovVrbClusterConfig
 metadata:
@@ -6,10 +7,10 @@ metadata:
   annotations:
     ran.openshift.io/ztp-deploy-wave: "10"
 spec:
-  drainSkip: $drainSkip # use true for SNO, false by default
+  drainSkip: $drainSkip  # use true for SNO, false by default
   priority: 1
   nodeSelector:
-    node-role.kubernetes.io/$mcp: "" # use master for SNO
+    node-role.kubernetes.io/$mcp: ""  # use master for SNO
   acceleratorSelector:
     pciAddress: $pciAddress
   physicalFunction:

@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -22,8 +23,8 @@ spec:
           operator: In
           values:
           - ""
-        # Use the hostname if a specific node is used
-        # - key: kubernetes.io/hostname
-        #   operator: In
-        #   values:
-        #   - node1-example.com
+          # Use the hostname if a specific node is used
+          # - key: kubernetes.io/hostname
+          #   operator: In
+          #   values:
+          #   - node1-example.com

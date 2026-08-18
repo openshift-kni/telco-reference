@@ -1,3 +1,4 @@
+---
 apiVersion: "local.storage.openshift.io/v1"
 kind: "LocalVolume"
 metadata:
@@ -18,7 +19,7 @@ spec:
       fsType: xfs
       storageClassName: example-storage-class
       volumeMode: Filesystem
-#---
+# ---
 ## How to verify
 ## 1. Create a PVC
 # apiVersion: v1
@@ -33,7 +34,7 @@ spec:
 #     requests:
 #       storage: 100Gi
 #   storageClassName: example-storage-class
-#---
+# ---
 ## 2. Create a pod that mounts it
 # apiVersion: v1
 # kind: Pod

@@ -1,3 +1,4 @@
+---
 apiVersion: lca.openshift.io/v1
 kind: ImageBasedUpgrade
 metadata:

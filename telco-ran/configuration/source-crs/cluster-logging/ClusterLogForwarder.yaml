@@ -1,3 +1,4 @@
+---
 apiVersion: observability.openshift.io/v1
 kind: ClusterLogForwarder
 metadata:
@@ -31,9 +32,9 @@ status:
   - type: observability.openshift.io/Valid
     status: "True"
 
-#apiVersion: observability.openshift.io/v1
-#kind: ClusterLogForwarder
-#metadata:
+# apiVersion: observability.openshift.io/v1
+# kind: ClusterLogForwarder
+# metadata:
 #  name: instance
 #  namespace: openshift-logging
 # spec:

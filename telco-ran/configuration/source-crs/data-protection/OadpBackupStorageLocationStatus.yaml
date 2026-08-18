@@ -1,4 +1,5 @@
 # This CR verifies the availability of backup storage locations created by OADP
+---
 apiVersion: velero.io/v1
 kind: BackupStorageLocation
 metadata:

@@ -1,4 +1,5 @@
 # This CR verifies the installation/upgrade of the Sriov Network Operator
+---
 apiVersion: operators.coreos.com/v1
 kind: Operator
 metadata:

@@ -1,3 +1,4 @@
+---
 apiVersion: sriovfec.intel.com/v2
 kind: SriovFecClusterConfig
 metadata:
@@ -6,10 +7,10 @@ metadata:
   annotations:
     ran.openshift.io/ztp-deploy-wave: "10"
 spec:
-  drainSkip: $drainSkip # true if SNO, false by default
+  drainSkip: $drainSkip  # true if SNO, false by default
   priority: 1
   nodeSelector:
-    node-role.kubernetes.io/$mcp: "" # use master for SNO
+    node-role.kubernetes.io/$mcp: ""  # use master for SNO
   acceleratorSelector:
     pciAddress: $pciAddress
   physicalFunction:
@@ -18,5 +19,5 @@ spec:
     vfAmount: 16
     bbDevConfig:
       $bbDevConfig
-#Recommended configuration for Intel ACC100 eASIC here: https://github.com/intel/sriov-fec-operator/blob/main/spec/sriov-fec-operator.md#sample-cr-for-wireless-fec-acc100
-#Recommended configuration for Intel ACC200 (SPR-EE) here: https://github.com/intel/sriov-fec-operator/blob/main/spec/sriov-fec-operator.md#sample-cr-for-wireless-fec-acc200
+# Recommended configuration for Intel ACC100 eASIC here: https://github.com/intel/sriov-fec-operator/blob/main/spec/sriov-fec-operator.md#sample-cr-for-wireless-fec-acc100
+# Recommended configuration for Intel ACC200 (SPR-EE) here: https://github.com/intel/sriov-fec-operator/blob/main/spec/sriov-fec-operator.md#sample-cr-for-wireless-fec-acc200

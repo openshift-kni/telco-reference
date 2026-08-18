@@ -2,6 +2,7 @@
 # It is not installed on production clusters
 # In this example two cards (?<iface_timeTx1>[[:alnum:]]+) and (?<iface_timeTx2>[[:alnum:]]+) are connected via
 # SMA1 ports by a cable and (?<iface_timeTx2>[[:alnum:]]+) receives 1PPS signals from (?<iface_timeTx1>[[:alnum:]]+)
+---
 apiVersion: ptp.openshift.io/v1
 kind: PtpConfig
 metadata:
@@ -43,43 +44,43 @@ spec:
             U.FL1: 0 1
             U.FL2: 0 2
         ublxCmds:
-          - args: #ubxtool -P 29.20 -z CFG-HW-ANT_CFG_VOLTCTRL,1
+          - args:  # ubxtool -P 29.20 -z CFG-HW-ANT_CFG_VOLTCTRL,1
               - "-P"
               - "29.20"
               - "-z"
               - "CFG-HW-ANT_CFG_VOLTCTRL,1"
             reportOutput: false
-          - args: #ubxtool -P 29.20 -e GPS
+          - args:  # ubxtool -P 29.20 -e GPS
               - "-P"
               - "29.20"
               - "-e"
               - "GPS"
             reportOutput: false
-          - args: #ubxtool -P 29.20 -d Galileo
+          - args:  # ubxtool -P 29.20 -d Galileo
               - "-P"
               - "29.20"
               - "-d"
               - "Galileo"
             reportOutput: false
-          - args: #ubxtool -P 29.20 -d GLONASS
+          - args:  # ubxtool -P 29.20 -d GLONASS
               - "-P"
               - "29.20"
               - "-d"
               - "GLONASS"
             reportOutput: false
-          - args: #ubxtool -P 29.20 -d BeiDou
+          - args:  # ubxtool -P 29.20 -d BeiDou
               - "-P"
               - "29.20"
               - "-d"
               - "BeiDou"
             reportOutput: false
-          - args: #ubxtool -P 29.20 -d SBAS
+          - args:  # ubxtool -P 29.20 -d SBAS
               - "-P"
               - "29.20"
               - "-d"
               - "SBAS"
             reportOutput: false
-          - args: #ubxtool -P 29.20 -t -w 5 -v 1 -e SURVEYIN,600,50000
+          - args:  # ubxtool -P 29.20 -t -w 5 -v 1 -e SURVEYIN,600,50000
               - "-P"
               - "29.20"
               - "-t"
@@ -90,13 +91,13 @@ spec:
               - "-e"
               - "SURVEYIN,600,50000"
             reportOutput: true
-          - args: #ubxtool -P 29.20 -p MON-HW
+          - args:  # ubxtool -P 29.20 -p MON-HW
               - "-P"
               - "29.20"
               - "-p"
               - "MON-HW"
             reportOutput: true
-          - args: #ubxtool -P 29.20 -p CFG-MSG,1,38,248
+          - args:  # ubxtool -P 29.20 -p CFG-MSG,1,38,248
               - "-P"
               - "29.20"
               - "-p"

@@ -1,3 +1,4 @@
+---
 apiVersion: velero.io/v1
 kind: Backup
 metadata:

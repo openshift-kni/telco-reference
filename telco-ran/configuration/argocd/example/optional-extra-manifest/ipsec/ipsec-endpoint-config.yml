@@ -1,3 +1,4 @@
+---
 interfaces:
 - name: hosta_conn
   type: ipsec
