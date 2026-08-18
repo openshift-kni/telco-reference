@@ -39,7 +39,7 @@ spec:
         group.ice-gnss=0:f:10:*:ice-gnss.*
         group.ice-dplls=0:f:10:*:ice-dplls.*
         [bootloader]
-        cmdline_x86_blacklist=module_blacklist=mgag200
+        cmdline_x86_blacklist=module_blacklist=irdma,mgag200
   recommend:
     - machineConfigLabels:
         machineconfiguration.openshift.io/role: $mcp

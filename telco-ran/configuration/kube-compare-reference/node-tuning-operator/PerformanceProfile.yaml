@@ -82,9 +82,6 @@ spec:
       "earlycon"
     }}
     {{- if eq $arch "x86_64" }}
-      {{- $requiredArgs = concat $requiredArgs ( list
-        "module_blacklist=irdma"
-      ) }}
       {{- $optionalArgs = concat $optionalArgs ( list 
         "vfio_pci.disable_idle_d3=1"
         "vfio_pci.enable_sriov=1"
