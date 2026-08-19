@@ -63,34 +63,50 @@
 {{- range $value := $expectedArgs }}
   {{- $result = append $result $value }}
 {{- end }}
-{{- $systemReservedMemory := "\"$systemReservedMemory\"" }}
-{{- if hasKey $config "systemReserved" }}
-{{- $inputSystemReserved := $config.systemReserved }}
-{{- if hasKey $inputSystemReserved "memory" }}
-{{- $systemReservedMemory = printf "\"%s\"" $inputSystemReserved.memory }}
+{{- $systemReservedMemory := printf "\"%s\"" (dig "systemReserved" "memory" "$systemReservedMemory" $config) }}
+{{- /* The annotation value is a raw string, so kube-compare diffs it as literal text: the rendered
+       reference's field order must match whatever order the actual CR happens to use, or an
+       order-only diff appears even when every field's value is otherwise correct. Mirror the
+       requiredObjectList pattern: walk the actual field order (Step a/b), and append any required
+       field the actual CR didn't set at all (Step c). */}}
+{{- $textByKey := dict }}
+{{- $_ := set $textByKey "systemReserved" (printf "\"systemReserved\":{\"memory\":%s}" $systemReservedMemory) }}
+{{- $_ = set $textByKey "shutdownGracePeriod" (printf "\"shutdownGracePeriod\":\"%s\"" ($config.shutdownGracePeriod | default "$shutdownGracePeriod")) }}
+{{- $_ = set $textByKey "shutdownGracePeriodCriticalPods" (printf "\"shutdownGracePeriodCriticalPods\":\"%s\"" ($config.shutdownGracePeriodCriticalPods | default "$shutdownGracePeriodCriticalPods")) }}
+{{- $requiredKeys := list "systemReserved" "shutdownGracePeriod" "shutdownGracePeriodCriticalPods" }}
+{{- if $result }}
+{{- $_ = set $textByKey "allowedUnsafeSysctls" (printf "\"allowedUnsafeSysctls\":%s" ($result | toJson)) }}
+{{- $requiredKeys = append $requiredKeys "allowedUnsafeSysctls" }}
+{{- end }}
+{{- /* Step a) track whether each required key was found in the actual field order */}}
+{{- $foundRequired := dict }}
+{{- range $key := $requiredKeys }}
+  {{- $_ = set $foundRequired $key false }}
+{{- end }}
+{{- /* Step b) walk the actual field order (extracted from the raw annotation text, since fromJson
+         does not preserve key order) and render the required text for anything expected */}}
+{{- $actualKeyOrder := list }}
+{{- if ne (index . 0) nil }}
+{{- $keyPattern := `"(allowedUnsafeSysctls|shutdownGracePeriodCriticalPods|shutdownGracePeriod|systemReserved)":` }}
+{{- range $m := regexFindAll $keyPattern (index . 0) -1 }}
+{{- $actualKeyOrder = append $actualKeyOrder (trimSuffix "\":" (trimPrefix "\"" $m)) }}
 {{- end }}
 {{- end }}
-{{- $shutdownGracePeriod := "" }}
-{{- if hasKey $config "shutdownGracePeriod" }}
-{{- $shutdownGracePeriod = $config.shutdownGracePeriod }}
+{{- $fields := list }}
+{{- range $key := $actualKeyOrder }}
+  {{- if hasKey $foundRequired $key }}
+    {{- $_ = set $foundRequired $key true }}
+    {{- $fields = append $fields (get $textByKey $key) }}
+  {{- end }}
 {{- end }}
-{{- $shutdownGracePeriodCriticalPods := "" }}
-{{- if hasKey $config "shutdownGracePeriodCriticalPods" }}
-{{- $shutdownGracePeriodCriticalPods = $config.shutdownGracePeriodCriticalPods }}
+{{- /* Step c) append any required key the actual CR did not set at all */}}
+{{- range $key := $requiredKeys }}
+  {{- if not (index $foundRequired $key) }}
+    {{- $fields = append $fields (get $textByKey $key) }}
+  {{- end }}
 {{- end }}
     kubeletconfig.experimental: |
       {
-       {{- if $result }}
-       "allowedUnsafeSysctls":{{ $result | toJson }},
-       {{- end }}
-       {{- if $systemReservedMemory }}
-       "systemReserved":{"memory":{{ $systemReservedMemory }}},
-       {{- end }}
-       {{- if $shutdownGracePeriod }}
-       "shutdownGracePeriod":"{{ $shutdownGracePeriod }}",
-       {{- end }}
-       {{- if $shutdownGracePeriodCriticalPods }}
-       "shutdownGracePeriodCriticalPods":"{{ $shutdownGracePeriodCriticalPods }}"
-       {{- end }}
+       {{ join ",\n       " $fields }}
       }
 {{- end }}
