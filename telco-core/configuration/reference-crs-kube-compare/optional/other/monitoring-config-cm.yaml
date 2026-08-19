@@ -25,12 +25,19 @@ data:
         bearerToken:
           key: token
           name: (?<observability_alertmanager_accessor>.*)
+        pathPrefix: /api/alertmanager/v2/default
         scheme: https
-        staticConfigs: (?<alertmanager_endpoint>.*)
+        staticConfigs: (?<observatorium_api_endpoint>.*)
         tlsConfig:
           ca:
-            key: service-ca.crt
-            name: (?<hub_alertmanager_router_ca>.*)
+            key: ca.crt
+            name: (?<obs_alertmanager_mtls_ca>.*)
+          cert:
+            key: tls.crt
+            name: (?<obs_alertmanager_mtls_cert>.*)
+          key:
+            key: tls.key
+            name: (?<obs_alertmanager_mtls_cert_key>.*)
           insecureSkipVerify: false
       externalLabels:
         managed_cluster: (?<managed_cluster>.*)
