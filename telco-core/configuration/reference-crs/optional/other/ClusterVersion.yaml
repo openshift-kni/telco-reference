@@ -5,7 +5,7 @@ kind: ClusterVersion
 metadata:
   name: version
 spec:
-  channel: stable-4.22
+  channel: stable-5.0
   upstream: https://api.openshift.com/api/upgrades_info/v1/graph  # default upstream.
 # add these changes using PG overlay to generate the policy to perform and verify platform upgrade.
 #  desiredUpdate:

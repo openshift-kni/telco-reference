@@ -72,7 +72,7 @@ policies:
   # removes the 4 PinnedImageSet CRs created by core-upgrade-precache policies
   # after the upgrade completes. Safe to include even when pre-caching was not
   # used — mustnothave is compliant when the objects do not exist.
-  - name: core-upgrade-precache-cleanup-22
+  - name: core-upgrade-precache-cleanup-5-0
     policyAnnotations:
       ran.openshift.io/soak-seconds: "30"
     manifests:

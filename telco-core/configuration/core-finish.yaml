@@ -2,7 +2,7 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: core-customer-policies-22
+  name: core-customer-policies-5-0
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
@@ -10,11 +10,11 @@ policyDefaults:
     labelSelector:
       matchLabels:
         common: "core"
-        version: "4.22"
+        version: "5.0"
   remediationAction: "inform"
 policies:
   # unpause baseline configuration
-  - name: custom-mcp-unpause-22
+  - name: custom-mcp-unpause-5-0
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "200"
     placement:
@@ -27,7 +27,7 @@ policies:
           - key: version
             operator: In
             values:
-              - "4.22"
+              - "5.0"
           - key: ztp-done
             operator: DoesNotExist
     # The policy unpauses MCPs that were paused during initial creation
@@ -75,7 +75,7 @@ policies:
             - type: Updating
               status: "False"
 
-  - name: core-custom-mcp-set-maxavailable-22
+  - name: core-custom-mcp-set-maxavailable-5-0
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "201"
     manifests:

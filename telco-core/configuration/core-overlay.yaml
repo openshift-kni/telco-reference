@@ -2,7 +2,7 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: core-overlay-22
+  name: core-overlay-5-0
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
@@ -10,11 +10,11 @@ policyDefaults:
     labelSelector:
       matchLabels:
         common: "core"
-        version: "4.22"
+        version: "5.0"
   remediationAction: "inform"
 policies:
   # Baseline configuration with custom overlay content
-  - name: core-overlay-base-4.22
+  - name: core-overlay-base-5-0
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "2"
     manifests:
@@ -59,7 +59,7 @@ policies:
       # - path: reference-crs/optional/cert-manager/apiServerConfig.yaml
 
   # Custom networking, operator and cluster configuration
-  - name: core-overlay-config-4.22
+  - name: core-overlay-config-5-0
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "8"
     manifests:
@@ -307,9 +307,9 @@ policies:
 
   # reference-crs/optional/networking/nodeNetworkConfigurationPolicy.yaml
 
-  - name: config-monitoring-4.22
+  - name: config-monitoring-5-0
     # For consistency the name of this policy will be updated in a future release:
-    # - name: core-overlay-monitoring-4.22
+    # - name: core-overlay-monitoring-5-0
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "10"
     manifests:

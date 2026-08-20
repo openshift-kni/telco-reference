@@ -2,7 +2,7 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: telco-core-upgrade-precache-22
+  name: telco-core-upgrade-precache-5-0
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
@@ -16,7 +16,7 @@ policyDefaults:
         upgrade-precache: ""
   remediationAction: "inform"
 policies:
-  - name: core-upgrade-precache-controlplane-22
+  - name: core-upgrade-precache-controlplane-5-0
     policyAnnotations:
       ran.openshift.io/soak-seconds: "30"
     manifests:
@@ -36,7 +36,7 @@ policies:
             pinnedImages:
               - name: "quay.io/openshift-release-dev/ocp-release@sha256:<sha>"
               # - name: "<add remaining release images here>"
-  - name: core-upgrade-precache-worker-22
+  - name: core-upgrade-precache-worker-5-0
     policyAnnotations:
       ran.openshift.io/soak-seconds: "30"
     manifests:
@@ -56,7 +56,7 @@ policies:
             pinnedImages:
               - name: "quay.io/openshift-release-dev/ocp-release@sha256:<sha>"
               # - name: "<add remaining release images here>"
-  - name: core-upgrade-precache-validator-22
+  - name: core-upgrade-precache-validator-5-0
     policyAnnotations:
       ran.openshift.io/soak-seconds: "30"
     manifests:
