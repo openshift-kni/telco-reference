@@ -20,7 +20,7 @@
         "github": {
           "owner": "openshift",
           "repo": "ptp-operator",
-          "ref": "release-4.22",
+          "ref": "release-5.0",
           "path": "config/crd/bases/ptp.openshift.io_ptpconfigs.yaml"
         }
       },
@@ -38,12 +38,12 @@
         "core",
         "ran"
       ],
-      "subscription_channel": "stable-6.5",
+      "subscription_channel": "stable-6.6",
       "source": {
         "github": {
           "owner": "openshift",
           "repo": "cluster-logging-operator",
-          "ref": "release-6.5",
+          "ref": "release-6.6",
           "path": "config/crd/bases/observability.openshift.io_clusterlogforwarders.yaml"
         }
       },
@@ -66,7 +66,7 @@
         "github": {
           "owner": "openshift",
           "repo": "cluster-node-tuning-operator",
-          "ref": "release-4.22",
+          "ref": "release-5.0",
           "path": "manifests/20-tuned.crd.yaml"
         }
       },
@@ -88,7 +88,7 @@
         "github": {
           "owner": "openshift",
           "repo": "cluster-node-tuning-operator",
-          "ref": "release-4.22",
+          "ref": "release-5.0",
           "path": "manifests/20-performance-profile.crd.yaml"
         }
       },
@@ -101,12 +101,12 @@
       "components": [
         "core"
       ],
-      "subscription_channel": "4.22",
+      "subscription_channel": "5.0",
       "source": {
         "github": {
           "owner": "openshift-kni",
           "repo": "numaresources-operator",
-          "ref": "release-4.22",
+          "ref": "main",
           "path": "config/crd/bases/nodetopology.openshift.io_numaresourcesoperators.yaml"
         }
       },
@@ -126,7 +126,7 @@
         "github": {
           "owner": "openshift",
           "repo": "api",
-          "ref": "release-4.22",
+          "ref": "release-5.0",
           "path": "config/v1/zz_generated.crd-manifests/0000_10_config-operator_01_imagedigestmirrorsets.crd.yaml"
         }
       },
