@@ -11,10 +11,10 @@ spec:
 {{ .spec.addresses | toYaml | indent 2}}
 {{ end }}
   #- 3.3.3.0/24
-{{ if .spec.autoAssign }}
+{{ if hasKey .spec "autoAssign" }}
   autoAssign: {{ .spec.autoAssign }}
 {{ end }}
-{{ if .spec.avoidBuggyIPs }}
+{{ if hasKey .spec "avoidBuggyIPs" }}
   avoidBuggyIPs: {{ .spec.avoidBuggyIPs }}
 {{ end }}
 {{ if .spec.serviceAllocation }}

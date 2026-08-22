@@ -12,7 +12,7 @@ spec:
   echoInterval: {{ if .spec.echoInterval }} {{ .spec.echoInterval }} {{ else }} "50ms" {{ end }} # default 50ms
   {{ end }}
   detectMultiplier: {{ if .spec.detectMultiplier }} {{ .spec.detectMultiplier }} {{ else }} "3" {{ end }} # default 3
-  {{- if .spec.echoMode }}
+  {{- if hasKey .spec "echoMode" }}
   echoMode: {{ .spec.echoMode }}
   {{- end }}
   passiveMode: true
