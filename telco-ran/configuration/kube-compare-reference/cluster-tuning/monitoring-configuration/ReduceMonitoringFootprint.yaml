@@ -1,6 +1,7 @@
 ---
 # RAN Observability configuration
-# As a prerequisite for merging RAN Observability configuration with openshift-monitoring, apply the observabilityRoutePolicy on the HUB from the telco-hub required reference-crs. This is needed to copy the alert-manager URL from the hub side open-cluster-management-observability namespace and make it available in the openshift-monitoring configmap.
+# As a prerequisite for merging RAN Observability configuration with openshift-monitoring, apply the observabilityRoutePolicy on the HUB from the telco-hub required reference-crs. This is needed to copy the observatorium-api URL and hub cluster ID from the hub side open-cluster-management-observability namespace and make them available in the openshift-monitoring configmap.
+# ACM 5.0+: alert forwarding fans out through the hub observatorium-api route (path /api/alertmanager/v2/default) using mTLS. The spoke endpoint-observability operator creates the obs-alertmanager-mtls-ca-<hubID> and obs-alertmanager-mtls-cert-<hubID> secrets in openshift-monitoring; the legacy hub-alertmanager-router-ca-<hubID> secret is no longer created.
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -31,12 +32,19 @@ data:
         bearerToken:
           key: token
           name: (?<observability_alertmanager_accessor>.*)
+        pathPrefix: /api/alertmanager/v2/default
         scheme: https
-        staticConfigs: (?<alertmanager_endpoint>.*)
+        staticConfigs: (?<observatorium_api_endpoint>.*)
         tlsConfig:
           ca:
-            key: service-ca.crt
-            name: (?<hub_alertmanager_router_ca>.*)
+            key: ca.crt
+            name: (?<obs_alertmanager_mtls_ca>.*)
+          cert:
+            key: tls.crt
+            name: (?<obs_alertmanager_mtls_cert>.*)
+          key:
+            key: tls.key
+            name: (?<obs_alertmanager_mtls_cert_key>.*)
           insecureSkipVerify: false
       externalLabels:
         managed_cluster: (?<managed_cluster>.*)

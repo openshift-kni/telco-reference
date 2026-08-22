@@ -40,6 +40,6 @@ spec:
                 metadata:
                   name: {{ .metadata.name }}
                   annotations:
-                    acm-alertmanager-route: '{{ (lookup "route.openshift.io/v1" "Route" "open-cluster-management-observability" "alertmanager").spec.host }}'
+                    acm-observatorium-api-route: '{{ (lookup "route.openshift.io/v1" "Route" "open-cluster-management-observability" "observatorium-api").spec.host }}'
                     acm-hub-cluster-id: '{{ $hubID }}'
             {{- end }}

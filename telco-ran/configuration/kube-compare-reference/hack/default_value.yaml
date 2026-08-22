@@ -881,10 +881,12 @@ cluster_tuning_monitoring_configuration_ReduceMonitoringFootprint:
   - metadata:
       name: cluster-monitoring-config
     captureGroup_defaults:
-      alertmanager_endpoint: '{{ `{{hub $route := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-alertmanager-route" hub}}{{hub if $route hub}}[{{hub $route hub}}]{{hub else hub}}[]{{hub end hub}}` }}'
+      observatorium_api_endpoint: '{{ `{{hub $route := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-observatorium-api-route" hub}}{{hub if $route hub}}[{{hub $route hub}}]{{hub else hub}}[]{{hub end hub}}` }}'
       managed_cluster: '{{ `{{hub index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.labels "clusterID" hub}}` }}'
       observability_alertmanager_accessor: '{{ `{{hub $hubID := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-hub-cluster-id" hub}}{{hub if $hubID hub}}observability-alertmanager-accessor-{{hub $hubID hub}}{{hub else hub}}observability-alertmanager-accessor{{hub end hub}}` }}'
-      hub_alertmanager_router_ca: '{{ `{{hub $hubID2 := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-hub-cluster-id" hub}}{{hub if $hubID2 hub}}hub-alertmanager-router-ca-{{hub $hubID2 hub}}{{hub else hub}}hub-alertmanager-router-ca{{hub end hub}}` }}'
+      obs_alertmanager_mtls_ca: '{{ `{{hub if $hubID hub}}obs-alertmanager-mtls-ca-{{hub $hubID hub}}{{hub else hub}}obs-alertmanager-mtls-ca{{hub end hub}}` }}'
+      obs_alertmanager_mtls_cert: '{{ `{{hub if $hubID hub}}obs-alertmanager-mtls-cert-{{hub $hubID hub}}{{hub else hub}}obs-alertmanager-mtls-cert{{hub end hub}}` }}'
+      obs_alertmanager_mtls_cert_key: '{{ `{{hub if $hubID hub}}obs-alertmanager-mtls-cert-{{hub $hubID hub}}{{hub else hub}}obs-alertmanager-mtls-cert{{hub end hub}}` }}'
 lca_LcaSubscription:
   - spec:
       source: redhat-operators-disconnected
