@@ -50,6 +50,8 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "10"
     ran.openshift.io/reference-configuration: "ran-du.redhat.com"
     # systemReserved: when used, it should be tailored for each environment.
+    # shutdownGracePeriod: enables kubelet GracefulNodeShutdown to reduce
+    # IBU upgrade downtime. Non-critical pods get 20s, critical pods get 10s.
     {{- if .metadata }}
       {{- $allowedSysctls := (list
           "net.ipv6.conf.all.accept_ra"
