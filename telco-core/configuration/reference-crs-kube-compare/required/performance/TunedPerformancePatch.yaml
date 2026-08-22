@@ -10,8 +10,18 @@ spec:
       #   include=openshift-node-performance-${PerformanceProfile.metadata.name}
 {{- range .spec.profile }}
     - name: {{ .name }}
+{{- if contains "include=openshift-node-performance" .data }}
+      data: |
+        [main]
+        {{ .data | regexFind "summary=.*" }}
+        include=openshift-node-performance-{{ .name }}
+        [sysctl]
+        kernel.panic_on_unrecovered_nmi=1
+        kernel.timer_migration=1
+{{- else }}
       data: |
 {{- .data | nindent 8 }}
+{{- end }}
 {{- end }}
   recommend:
 {{- range .spec.recommend }}
