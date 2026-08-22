@@ -7,3 +7,4 @@ resources:
   - odfSubscription.yaml
   - storageCluster.yaml
   - odfReady.yaml
+  - observabilityOBC.yaml
