@@ -4,6 +4,7 @@
 #   - $iface_timeRx: Receives (Rx) PTP time from upstream source
 #   - $iface_FirstPort: First port on the card (used for WPC timing)
 #   - $iface_timeTx_N: Transmits (Tx) PTP time to downstream devices (N = 0-2)
+---
 apiVersion: ptp.openshift.io/v1
 kind: PtpConfig
 metadata:

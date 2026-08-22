@@ -2,6 +2,7 @@
 # For this GNR-D boundary clock configuration, we support one Time Reciever port on the NAC,
 # and up to 23 Time Transmitter ports including any other NAC ports and any additional
 # Carter Flats ports.
+---
 apiVersion: ptp.openshift.io/v1
 kind: PtpConfig
 metadata:

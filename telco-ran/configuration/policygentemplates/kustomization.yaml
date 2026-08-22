@@ -2,6 +2,7 @@
 # in ../acmpolicygenerator/ instead. These PGT examples are provided for
 # reference only and will be removed in a future release.
 
+---
 generators:
 # Common policies for all RAN deployments
 - common-ranGen.yaml

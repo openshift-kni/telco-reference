@@ -3,6 +3,7 @@
 #   hardware-type: hw-type-platform-1
 # ConfigMaps used:
 #   group-hardware-types-configmap.yaml: group-hardware-types-configmap
+---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:

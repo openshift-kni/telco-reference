@@ -1,3 +1,4 @@
+---
 apiVersion: ptp.openshift.io/v1
 kind: PtpOperatorConfig
 metadata:

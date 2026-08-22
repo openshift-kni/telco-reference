@@ -3,6 +3,7 @@
 #   hardware-type: hw-type-platform-1
 # ConfigMaps used:
 #   group-hardware-types-configmap.yaml: group-hardware-types-configmap
+---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
@@ -10,8 +11,8 @@ metadata:
 placementBindingDefaults:
   name: group-du-standard-pb
 policyDefaults:
-  #categories: []
-  #controls:
+  # categories: []
+  # controls:
   #  - PR.DS-1 Data-at-rest
   namespace: ztp-group
   # Use an existing placement rule so that placement bindings can be consolidated

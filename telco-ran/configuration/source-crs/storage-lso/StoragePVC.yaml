@@ -1,3 +1,4 @@
+---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -8,9 +9,9 @@ metadata:
 # User should supply all required content
 spec:
   {}
-  #accessModes:
+  # accessModes:
   #  - ReadWriteOnce
-  #resources:
+  # resources:
   #  requests:
   #    storage: 400Gi
-  #storageClassName: fs-lso
+  # storageClassName: fs-lso

@@ -8,6 +8,7 @@
 #   - $iface_timeTx1_N: Transmits (Tx) PTP time to downstream devices (N = 0-2)
 #   - $iface_timeTx2_N: Transmits (Tx) PTP time to downstream devices (N = 0-3)
 #   - $iface_timeTx3_N: Transmits (Tx) PTP time to downstream devices (N = 0-3)
+---
 apiVersion: ptp.openshift.io/v1
 kind: PtpConfig
 metadata:

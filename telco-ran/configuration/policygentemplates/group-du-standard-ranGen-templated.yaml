@@ -33,11 +33,11 @@ spec:
           ptp4lOpts: "-2 -s --summary_interval -4"
           phc2sysOpts: "-a -r -n 24"
     ###
-    - fileName: sriov-operator/SriovOperatorConfig.yaml # wave 10
+    - fileName: sriov-operator/SriovOperatorConfig.yaml  # wave 10
       policyName: "group-du-standard-cfg-pc"
     ###
     # PerformanceProfile.yaml is architecture-specific.  Replace x86_64 with aarch64 for ARM deployments
-    - fileName: node-tuning-operator/x86_64/PerformanceProfile.yaml # wave 10
+    - fileName: node-tuning-operator/x86_64/PerformanceProfile.yaml  # wave 10
       policyName: "group-du-standard-cfg-pc"
       spec:
         cpu:
@@ -50,5 +50,5 @@ spec:
             - size: '{{hub fromConfigMap "" "group-hardware-types-configmap" (printf "%s-hugepages-size" (index .ManagedClusterLabels "hardware-type")) hub}}'
               count: '{{hub fromConfigMap "" "group-hardware-types-configmap" (printf "%s-hugepages-count" (index .ManagedClusterLabels "hardware-type")) | toInt hub}}'
     ###
-    - fileName: node-tuning-operator/TunedPerformancePatch.yaml # wave 10
+    - fileName: node-tuning-operator/TunedPerformancePatch.yaml  # wave 10
       policyName: "group-du-standard-cfg-pc"

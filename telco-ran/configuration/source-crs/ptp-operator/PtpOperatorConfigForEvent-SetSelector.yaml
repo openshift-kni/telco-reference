@@ -1,3 +1,4 @@
+---
 apiVersion: ptp.openshift.io/v1
 kind: PtpOperatorConfig
 metadata:
@@ -7,7 +8,7 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "10"
 spec:
   daemonNodeSelector:
-#    node-role.kubernetes.io/worker: ""
+  #    node-role.kubernetes.io/worker: ""
   ptpEventConfig:
     enableEventPublisher: true
     transportHost: "http://ptp-event-publisher-service-NODE_NAME.openshift-ptp.svc.cluster.local:9043"

@@ -22,7 +22,7 @@ spec:
     ##############################
     # gr-du-sno-cfg-pc-templated #
     ##############################
-    - fileName: cluster-logging/ClusterLogForwarder.yaml # wave 10
+    - fileName: cluster-logging/ClusterLogForwarder.yaml  # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
       spec:
         filters:
@@ -32,7 +32,7 @@ spec:
               # below url is an example
               url: '{{hub fromConfigMap "" "group-zones-configmap" (printf "%s-cluster-log-fwd-outputs-url" (index .ManagedClusterLabels "group-du-sno-zone")) | toLiteral hub}}'
     ###
-    - fileName: cluster-tuning/DisableOLMPprof.yaml # wave 10
+    - fileName: cluster-tuning/DisableOLMPprof.yaml  # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
       complianceType: mustnothave
     ###
@@ -48,7 +48,7 @@ spec:
           ptp4lOpts: "-2 -s --summary_interval -4"
           phc2sysOpts: "-a -r -n 24"
     ###
-    - fileName: sriov-operator/SriovOperatorConfig.yaml # wave 10
+    - fileName: sriov-operator/SriovOperatorConfig.yaml  # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
       # For existing clusters with node selector set as "master",
       # change the complianceType to "mustonlyhave".
@@ -59,7 +59,7 @@ spec:
         configDaemonNodeSelector:
           node-role.kubernetes.io/worker: ""
     ###
-    - fileName: storage/StorageLV.yaml # wave 10
+    - fileName: storage/StorageLV.yaml  # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
       spec:
         storageClassDevices:
@@ -72,11 +72,11 @@ spec:
           fsType: xfs
           devicePaths: '{{hub fromConfigMap "" "group-hardware-types-configmap" (printf "%s-storagelv-devicepaths-2" (index .ManagedClusterLabels "hardware-type")) | toLiteral hub}}'
     ###
-    - fileName: cluster-tuning/disabling-network-diagnostics/DisableSnoNetworkDiag.yaml # wave 10
+    - fileName: cluster-tuning/disabling-network-diagnostics/DisableSnoNetworkDiag.yaml  # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
     ###
     # PerformanceProfile.yaml is architecture-specific.  Replace x86_64 with aarch64 for ARM deployments
-    - fileName: node-tuning-operator/x86_64/PerformanceProfile.yaml # wave 10
+    - fileName: node-tuning-operator/x86_64/PerformanceProfile.yaml  # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
       metadata:
         name: openshift-node-performance-profile
@@ -97,27 +97,27 @@ spec:
         realTimeKernel:
           enabled: true
     ###
-    - fileName: node-tuning-operator/TunedPerformancePatch.yaml # wave 10
+    - fileName: node-tuning-operator/TunedPerformancePatch.yaml  # wave 10
       policyName: "gr-du-sno-cfg-pc-templated"
     ###
-#    # ---- START OF source CRs needed for image registry
-#    - fileName: storage-lso/StorageClass.yaml # wave 10
-#      policyName: "gr-du-sno-cfg-pc-templated"
-#      metadata:
-#        name: image-registry-sc # FIXED
-#    - fileName: storage-lso/StoragePVC.yaml # wave 10
-#      policyName: "gr-du-sno-cfg-pc-templated"
-#      metadata:
-#        name: image-registry-pvc # FIXED
-#        namespace: openshift-image-registry
-#      spec:
-#        accessModes:
-#          - ReadWriteMany
-#        resources:
-#          requests:
-#            storage: '{{hub fromConfigMap "" "group-zones-configmap" (printf "%s-storagepvc-storage" (index .ManagedClusterLabels "group-du-sno-zone")) hub}}'
-#        storageClassName: image-registry-sc # FIXED
-#        volumeMode: Filesystem # FIXED
+    #    # ---- START OF source CRs needed for image registry
+    #    - fileName: storage-lso/StorageClass.yaml # wave 10
+    #      policyName: "gr-du-sno-cfg-pc-templated"
+    #      metadata:
+    #        name: image-registry-sc # FIXED
+    #    - fileName: storage-lso/StoragePVC.yaml # wave 10
+    #      policyName: "gr-du-sno-cfg-pc-templated"
+    #      metadata:
+    #        name: image-registry-pvc # FIXED
+    #        namespace: openshift-image-registry
+    #      spec:
+    #        accessModes:
+    #          - ReadWriteMany
+    #        resources:
+    #          requests:
+    #            storage: '{{hub fromConfigMap "" "group-zones-configmap" (printf "%s-storagepvc-storage" (index .ManagedClusterLabels "group-du-sno-zone")) hub}}'
+    #        storageClassName: image-registry-sc # FIXED
+    #        volumeMode: Filesystem # FIXED
     - fileName: sriov-fec-operator/SriovFecClusterConfig.yaml
       policyName: gr-du-sno-cfg-pc-templated
       metadata:
@@ -130,40 +130,40 @@ spec:
           pfDriver: '{{hub fromConfigMap "" "group-hardware-types-configmap" (printf "%s-sriov-fec-pfDriver" (index .ManagedClusterLabels "hardware-type")) hub}}'
           vfDriver: '{{hub fromConfigMap "" "group-hardware-types-configmap" (printf "%s-sriov-fec-vfDriver" (index .ManagedClusterLabels "hardware-type")) hub}}'
           vfAmount: 16
-#    #############
-#    # pv-policy #
-#    #############
-#    # The following usage of image-registry/ImageRegistryPV.yaml is assuming that mount_point is set to `/var/imageregistry` in SiteConfig
-#    # using StorageClass `image-registry-sc` (see the first sc-file)
-#    - fileName: image-registry/ImageRegistryPV.yaml  # wave 2
-#      policyName: "pv-policy"
-#    #############
-#    # irc-policy #
-#    #############
-#    - fileName: image-registry/ImageRegistryConfig.yaml # wave 11
-#      policyName: "irc-policy"
-#      spec:
-#        storage:
-#          pvc:
-#            claim: "image-registry-pvc" # FIXED
-#    # ---- END OF source CRs needed for image registry (check ImageRegistry.md for more details) ----
+    #    #############
+    #    # pv-policy #
+    #    #############
+    #    # The following usage of image-registry/ImageRegistryPV.yaml is assuming that mount_point is set to `/var/imageregistry` in SiteConfig
+    #    # using StorageClass `image-registry-sc` (see the first sc-file)
+    #    - fileName: image-registry/ImageRegistryPV.yaml  # wave 2
+    #      policyName: "pv-policy"
+    #    #############
+    #    # irc-policy #
+    #    #############
+    #    - fileName: image-registry/ImageRegistryConfig.yaml # wave 11
+    #      policyName: "irc-policy"
+    #      spec:
+    #        storage:
+    #          pvc:
+    #            claim: "image-registry-pvc" # FIXED
+    #    # ---- END OF source CRs needed for image registry (check ImageRegistry.md for more details) ----
     ################################
     # gr-du-sno-sriov-pc-templated #
     ################################
-    - fileName: sriov-operator/SriovNetwork.yaml # wave 100
+    - fileName: sriov-operator/SriovNetwork.yaml  # wave 100
       policyName: "gr-du-sno-sriov-pc-templated"
       metadata:
-        name: sriov-nw-du-fh # FIXED
+        name: sriov-nw-du-fh  # FIXED
       spec:
-        resourceName: du_fh # FIXED
+        resourceName: du_fh  # FIXED
         vlan: '{{hub fromConfigMap "" "site-data-configmap" (printf "%s-sriov-network-vlan-1" .ManagedClusterName) | toInt hub}}'
     ###
-    - fileName: sriov-operator/SriovNetworkNodePolicy.yaml # wave 100
+    - fileName: sriov-operator/SriovNetworkNodePolicy.yaml  # wave 100
       policyName: "gr-du-sno-sriov-pc-templated"
       metadata:
         name: sriov-nnp-du-fh
       spec:
-        deviceType: netdevice # FIXED
+        deviceType: netdevice  # FIXED
         isRdma: false
         nicSelector:
           pfNames: '{{hub fromConfigMap "" "group-hardware-types-configmap" (printf "%s-sriov-node-policy-pfNames-1" (index .ManagedClusterLabels "hardware-type")) | toLiteral hub}}'
@@ -171,20 +171,20 @@ spec:
         priority: 10
         resourceName: du_fh
     ###
-    - fileName: sriov-operator/SriovNetwork.yaml # wave 100
+    - fileName: sriov-operator/SriovNetwork.yaml  # wave 100
       policyName: "gr-du-sno-sriov-pc-templated"
       metadata:
-        name: sriov-nw-du-mh # FIXED
+        name: sriov-nw-du-mh  # FIXED
       spec:
-        resourceName: du_mh # FIXED
+        resourceName: du_mh  # FIXED
         vlan: '{{hub fromConfigMap "" "site-data-configmap" (printf "%s-sriov-network-vlan-2" .ManagedClusterName) | toInt hub}}'
     ###
-    - fileName: sriov-operator/SriovNetworkNodePolicy.yaml # wave 100
+    - fileName: sriov-operator/SriovNetworkNodePolicy.yaml  # wave 100
       policyName: "gr-du-sno-sriov-pc-templated"
       metadata:
         name: sriov-nw-du-fh
       spec:
-        deviceType: netdevice # FIXED
+        deviceType: netdevice  # FIXED
         isRdma: false
         nicSelector:
           pfNames: '{{hub fromConfigMap "" "group-hardware-types-configmap" (printf "%s-sriov-node-policy-pfNames-2" (index .ManagedClusterLabels "hardware-type")) | toLiteral hub}}'
