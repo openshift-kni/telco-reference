@@ -47,6 +47,12 @@ policies:
                     status: "True"
                     reason: InstallSucceeded
 
+      # Loki operator (optional component)
+      # - path: reference-crs/optional/logging/LokiOperatorNS.yaml
+      # - path: reference-crs/optional/logging/LokiOperatorGroup.yaml
+      # - path: reference-crs/optional/logging/LokiSubscription.yaml
+      # - path: reference-crs/optional/logging/LokiOperatorStatus.yaml
+
       # Cert-manager operator (optional component)
       # - path: reference-crs/optional/cert-manager/certManagerNS.yaml
       # - path: reference-crs/optional/cert-manager/certManagerOperatorgroup.yaml
@@ -92,6 +98,10 @@ policies:
       - path: reference-crs/optional/logging/ClusterLogServiceAccount.yaml
       - path: reference-crs/optional/logging/ClusterLogServiceAccountAuditBinding.yaml
       - path: reference-crs/optional/logging/ClusterLogServiceAccountInfrastructureBinding.yaml
+
+      # LokiStack log storage (optional component)
+      # - path: reference-crs/optional/logging/LokiSecret.yaml
+      # - path: reference-crs/optional/logging/LokiStack.yaml
 
       - path: reference-crs/required/networking/sriov/SriovOperatorConfig.yaml
         patches:

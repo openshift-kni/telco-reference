@@ -178,7 +178,7 @@ parts:
           - path: optional/other/precache/worker-releases-pinned-images.yaml
   - name: logging
     description: |-
-      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-core-ref-design-specs#resource-tuning-crs
+      https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-core-ref-design-specs#cluster-infrastructure-crs_telco-core
     components:
       - name: logging
         allOrNoneOf:
@@ -191,6 +191,15 @@ parts:
           - path: optional/logging/ClusterLogServiceAccount.yaml
           - path: optional/logging/ClusterLogServiceAccountAuditBinding.yaml
           - path: optional/logging/ClusterLogServiceAccountInfrastructureBinding.yaml
+      - name: logging-loki
+        allOrNoneOf:
+          - path: optional/logging/LokiOperatorNS.yaml
+          - path: optional/logging/LokiOperatorGroup.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: optional/logging/LokiSubscription.yaml
+          - path: optional/logging/LokiSecret.yaml
+          - path: optional/logging/LokiStack.yaml
   - name: tuning
     description: |-
       https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/telco-core-ref-design-specs#telco-core-cpu-partitioning-and-performance-tuning_telco-core
