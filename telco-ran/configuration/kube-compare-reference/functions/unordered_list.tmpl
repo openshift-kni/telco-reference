@@ -70,13 +70,27 @@
 {{- $systemReservedMemory = printf "\"%s\"" $inputSystemReserved.memory }}
 {{- end }}
 {{- end }}
+{{- $shutdownGracePeriod := "" }}
+{{- if hasKey $config "shutdownGracePeriod" }}
+{{- $shutdownGracePeriod = $config.shutdownGracePeriod }}
+{{- end }}
+{{- $shutdownGracePeriodCriticalPods := "" }}
+{{- if hasKey $config "shutdownGracePeriodCriticalPods" }}
+{{- $shutdownGracePeriodCriticalPods = $config.shutdownGracePeriodCriticalPods }}
+{{- end }}
     kubeletconfig.experimental: |
       {
        {{- if $result }}
        "allowedUnsafeSysctls":{{ $result | toJson }},
        {{- end }}
        {{- if $systemReservedMemory }}
-       "systemReserved":{"memory":{{ $systemReservedMemory }}}
+       "systemReserved":{"memory":{{ $systemReservedMemory }}},
+       {{- end }}
+       {{- if $shutdownGracePeriod }}
+       "shutdownGracePeriod":"{{ $shutdownGracePeriod }}",
+       {{- end }}
+       {{- if $shutdownGracePeriodCriticalPods }}
+       "shutdownGracePeriodCriticalPods":"{{ $shutdownGracePeriodCriticalPods }}"
        {{- end }}
       }
 {{- end }}
