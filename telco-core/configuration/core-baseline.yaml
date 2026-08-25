@@ -77,6 +77,11 @@ policies:
         patches:
         - spec:
             installPlanApproval: Manual
+            config:
+              env:
+              - name: SCHEDULER_IMAGE_DIGESTS
+                # This value must match the SHA provided in imageSpec for the NUMAResourcesScheduler configuration below
+                value: sha256:aa00bb11cc22dd33ee44ff55ab66cd77ef88bc1234123bbd5aa789aabb8c1234
       - path: reference-crs/required/networking/NMStateNS.yaml
       - path: reference-crs/required/networking/NMStateOperGroup.yaml
       - path: reference-crs/required/networking/NMStateSubscription.yaml
@@ -110,4 +115,4 @@ policies:
       - path: reference-crs/required/scheduling/sched.yaml
         patches:
         - spec:
-            imageSpec: registry.example.com/openshift5/noderesourcetopology-scheduler-rhel9:v5.0.0
+            imageSpec: "registry.example.com/openshift4/noderesourcetopology-scheduler-rhel9@sha256:aa00bb11cc22dd33ee44ff55ab66cd77ef88bc1234123bbd5aa789aabb8c1234"
