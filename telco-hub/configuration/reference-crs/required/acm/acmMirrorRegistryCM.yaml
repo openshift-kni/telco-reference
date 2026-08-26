@@ -59,6 +59,12 @@ data:
         pull-from-mirror = "digest-only"
     [[registry]]
       prefix = ""
+      location = "registry.redhat.io/openshift5"
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/openshift5"
+        pull-from-mirror = "digest-only"
+    [[registry]]
+      prefix = ""
       location = "registry.redhat.io/rhacm2"
       [[registry.mirror]]
         location = "<registry.example.com:8443>/rhacm2"
