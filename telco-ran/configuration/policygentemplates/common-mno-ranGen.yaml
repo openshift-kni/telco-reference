@@ -12,6 +12,6 @@ spec:
     common: "true"
     du-profile: "latest"
   sourceFiles:
-      # Create operators policies that will be installed in all clusters
+    # Create operators policies that will be installed in all clusters
     - fileName: cluster-tuning/operator-hub/OperatorHub.yaml
       policyName: "config-policy"

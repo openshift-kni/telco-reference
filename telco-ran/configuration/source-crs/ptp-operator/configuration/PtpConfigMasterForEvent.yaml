@@ -1,5 +1,6 @@
 # The grandmaster profile is provided for testing only
 # It is not installed on production clusters
+---
 apiVersion: ptp.openshift.io/v1
 kind: PtpConfig
 metadata:

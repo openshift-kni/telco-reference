@@ -1,3 +1,4 @@
+---
 apiVersion: performance.openshift.io/v2
 kind: PerformanceProfile
 metadata:
@@ -32,7 +33,7 @@ spec:
     isolated: 4-$lastcpu
     reserved: 0-3
   # hardwareTuning allows maximum CPU frequencies to be set for reserved and isolated CPUs
-  #hardwareTuning:
+  # hardwareTuning:
   #  isolatedCpuFreq: <max frequency in kHz>
   #  reservedCpuFreq: <max frequency in kHz>
   hugepages:
@@ -61,11 +62,11 @@ spec:
     realTime: true
     highPowerConsumption: false
     perPodPowerManagement: false
-  # Optional: userLevelNetworking reduces NIC queues to the reserved CPU count.
-  # Enabling on a running cluster causes node drain and reboot.
-  # Validate NIC driver compatibility before enabling; silent failures are possible.
-  # When devices is omitted, applies to all network interfaces.
-  #net:
-  #  userLevelNetworking: true
-  #  devices:
-  #  - interfaceName: "eth0"
+    # Optional: userLevelNetworking reduces NIC queues to the reserved CPU count.
+    # Enabling on a running cluster causes node drain and reboot.
+    # Validate NIC driver compatibility before enabling; silent failures are possible.
+    # When devices is omitted, applies to all network interfaces.
+    # net:
+    #  userLevelNetworking: true
+    #  devices:
+    #  - interfaceName: "eth0"

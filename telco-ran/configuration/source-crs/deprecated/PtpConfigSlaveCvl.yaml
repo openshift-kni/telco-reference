@@ -1,4 +1,5 @@
 # This configuration is tailored to ColumbiaVille NIC
+---
 apiVersion: ptp.openshift.io/v1
 kind: PtpConfig
 metadata:

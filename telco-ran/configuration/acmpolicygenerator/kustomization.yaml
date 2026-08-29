@@ -1,3 +1,4 @@
+---
 generators:
 # Common policies for all SNO RAN deployments
 - ran-common.yaml

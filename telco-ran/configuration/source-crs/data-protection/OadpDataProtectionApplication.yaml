@@ -1,5 +1,6 @@
 # The configuration CR for OADP operator
 # More information can be found in https://docs.openshift.com/container-platform/4.15/backup_and_restore/application_backup_and_restore/installing/installing-oadp-aws.html
+---
 apiVersion: oadp.openshift.io/v1alpha1
 kind: DataProtectionApplication
 metadata:
