@@ -41,7 +41,7 @@ policies:
               - kind: ClusterServiceVersion
                 namespace: openshift-logging
                 # Update with specific target version
-                name: cluster-logging.v6.5.0
+                name: cluster-logging.v6.6.0
                 conditions:
                   - type: Succeeded
                     status: "True"
@@ -64,7 +64,7 @@ policies:
         patches:
         - spec:
             installPlanApproval: Manual
-            channel: stable-4.21
+            channel: stable-4.22
       - path: reference-crs/required/networking/metallb/metallbNS.yaml
       - path: reference-crs/required/networking/metallb/metallbOperGroup.yaml
       - path: reference-crs/required/networking/metallb/metallbSubscription.yaml
