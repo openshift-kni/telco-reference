@@ -78,14 +78,6 @@
 
     [[registry]]
       prefix = ""
-      location = "registry.redhat.io/rhel8"
-
-      [[registry.mirror]]
-        location = "<registry.example.com:8443>/rhel8"
-        pull-from-mirror = "digest-only"
-
-    [[registry]]
-      prefix = ""
       location = "registry.redhat.io/rhel9"
 
       [[registry.mirror]]
@@ -98,14 +90,6 @@
 
       [[registry.mirror]]
         location = "<registry.example.com:8443>/ubi9"
-        pull-from-mirror = "tag-only"
-
-    [[registry]]
-      prefix = ""
-      location = "registry.redhat.io/ubi8"
-
-      [[registry.mirror]]
-        location = "<registry.example.com:8443>/ubi8"
         pull-from-mirror = "tag-only"
 
     [[registry]]
