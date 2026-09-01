@@ -13,6 +13,18 @@ spec:
       data: |
         [main]
         summary=Top-level core performance tuning overrides
+    - name: control-plane-profile
+      # Timer migration is enabled by this profile explicitly to workaround
+      # https://redhat.atlassian.net/browse/OCPBUGS-86541.
+      # Once the NTO patch https://github.com/openshift/cluster-node-tuning-operator/pull/1542
+      # is backported to 4.21 you can remove this override.
+      data: |
+        [main]
+        summary=Control plane core performance tuning overrides
+        include=openshift-node-performance-control-plane-profile
+        [sysctl]
+        kernel.panic_on_unrecovered_nmi=1
+        kernel.timer_migration=1
     - name: worker-profile-1
       # Timer migration is enabled by this profile explicitly to workaround
       # https://redhat.atlassian.net/browse/OCPBUGS-86541.
