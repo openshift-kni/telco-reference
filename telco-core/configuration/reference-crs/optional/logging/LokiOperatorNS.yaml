@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openshift-operators-redhat
+  labels:
+    # The cluster-monitoring label ensures Prometheus scrapes this namespace.
+    openshift.io/cluster-monitoring: "true"
