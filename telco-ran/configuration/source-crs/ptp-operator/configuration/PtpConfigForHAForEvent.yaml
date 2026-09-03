@@ -18,7 +18,6 @@ spec:
       ptpClockThreshold:
         holdOverTimeout: 5
         maxOffsetThreshold: 100
-        minOffsetThreshold: -100
   recommend:
   - profile: "boundary-ha"
     priority: 4
