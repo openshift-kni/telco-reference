@@ -10,6 +10,9 @@ resources:
   # if you use ODF, edit and configure storage settings
   - example-overlays-config/odf/
 
+  # external secrets operator (optional, included by default, customize before deploying)
+  - example-overlays-config/external-secrets/
+
   # other not optional overlays
   - example-overlays-config/gitops/
   - example-overlays-config/acm/
