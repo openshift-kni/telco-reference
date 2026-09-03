@@ -24,6 +24,8 @@ policies:
         - spec:
             image: registry.redhat.io/redhat/redhat-operator-index:v4.22
       - path: reference-crs/required/scheduling/Scheduler.yaml
+      - path: reference-crs/optional/other/mount_namespace_config_master.yaml
+      - path: reference-crs/optional/other/mount_namespace_config_worker.yaml
 
   # Core cluster OLM operators
   - name: core-operator-subs-4.22
