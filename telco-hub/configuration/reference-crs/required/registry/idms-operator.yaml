@@ -18,9 +18,6 @@ spec:
     - <registry.example.com:8443>/multicluster-engine
     source: registry.redhat.io/multicluster-engine
   - mirrors:
-    - <registry.example.com:8443>/rhel8
-    source: registry.redhat.io/rhel8
-  - mirrors:
     - <registry.example.com:8443>/odf4
     source: registry.redhat.io/odf4
   - mirrors:
@@ -39,8 +36,8 @@ spec:
     - <registry.example.com:8443>/rhacm2
     source: registry.redhat.io/rhacm2
   - mirrors:
-    - <registry.example.com:8443>/openshift4
-    source: registry.redhat.io/openshift4
+    - <registry.example.com:8443>/openshift5
+    source: registry.redhat.io/openshift5
   - mirrors:
     - <registry.example.com:8443>/multicluster-engine/assisted-installer-agent-rhel9
     source: registry.redhat.io/multicluster-engine/assisted-installer-agent-rhel9

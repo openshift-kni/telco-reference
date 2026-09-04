@@ -241,6 +241,12 @@ required_acm_acmMirrorRegistryCM:
           pull-from-mirror = "digest-only"
       [[registry]]
         prefix = ""
+        location = "registry.redhat.io/openshift5"
+        [[registry.mirror]]
+          location = "<registry.example.com:8443>/openshift5"
+          pull-from-mirror = "digest-only"
+      [[registry]]
+        prefix = ""
         location = "registry.redhat.io/rhacm2"
         [[registry.mirror]]
           location = "<registry.example.com:8443>/rhacm2"
@@ -253,21 +259,15 @@ required_acm_acmMirrorRegistryCM:
           pull-from-mirror = "digest-only"
       [[registry]]
         prefix = ""
-        location = "registry.redhat.io/rhel8"
-        [[registry.mirror]]
-          location = "<registry.example.com:8443>/rhel8"
-          pull-from-mirror = "digest-only"
-      [[registry]]
-        prefix = ""
         location = "registry.redhat.io/rhel9"
         [[registry.mirror]]
           location = "<registry.example.com:8443>/rhel9"
           pull-from-mirror = "digest-only"
       [[registry]]
         prefix = ""
-        location = "registry.redhat.io/ubi8"
+        location = "registry.redhat.io/ubi9"
         [[registry.mirror]]
-          location = "<registry.example.com:8443>/ubi8"
+          location = "<registry.example.com:8443>/ubi9"
           pull-from-mirror = "tag-only"
 
 required_acm_observabilitySecret:
@@ -364,9 +364,6 @@ required_registry_idms_operator:
         - <registry.example.com:8443>/multicluster-engine
         source: registry.redhat.io/multicluster-engine
       - mirrors:
-        - <registry.example.com:8443>/rhel8
-        source: registry.redhat.io/rhel8
-      - mirrors:
         - <registry.example.com:8443>/odf4
         source: registry.redhat.io/odf4
       - mirrors:
@@ -385,8 +382,8 @@ required_registry_idms_operator:
         - <registry.example.com:8443>/rhacm2
         source: registry.redhat.io/rhacm2
       - mirrors:
-        - <registry.example.com:8443>/openshift4
-        source: registry.redhat.io/openshift4
+        - <registry.example.com:8443>/openshift5
+        source: registry.redhat.io/openshift5
       - mirrors:
         - <registry.example.com:8443>/multicluster-engine/assisted-installer-agent-rhel9
         source: registry.redhat.io/multicluster-engine/assisted-installer-agent-rhel9
@@ -418,14 +415,14 @@ required_registry_itms_generic:
 - spec:
     imageTagMirrors:
       - mirrors:
-        - <registry.example.com:8443>/ubi8
-        source: registry.redhat.io/ubi8
+        - <registry.example.com:8443>/ubi9
+        source: registry.redhat.io/ubi9
       - mirrors:
-        - <registry.example.com:8443>/openshift4
-        source: registry.redhat.io/openshift4
+        - <registry.example.com:8443>/openshift5
+        source: registry.redhat.io/openshift5
       - mirrors:
-        - <registry.example.com:8443>/rhel8
-        source: registry.redhat.io/rhel8
+        - <registry.example.com:8443>/rhel9
+        source: registry.redhat.io/rhel9
 
 required_registry_itms_release:
 - spec:
