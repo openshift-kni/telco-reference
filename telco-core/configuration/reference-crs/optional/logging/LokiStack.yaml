@@ -1,0 +1,43 @@
+# Important: do not reuse the same LokiStack that is used for logging
+# See: https://docs.redhat.com/en/documentation/openshift_container_platform/4.21/html/network_observability/installing-network-observability-operators
+---
+apiVersion: loki.grafana.com/v1
+kind: LokiStack
+metadata:
+  name: logging-loki
+  namespace: openshift-logging
+spec:
+  managementState: Managed
+  limits:
+    global:
+      retention:
+        days: 5  # Default retention period. User-configurable.
+  # Sizing: uses Loki's built-in defaults for PVC sizing, which are determined
+  # by the operator based on the size profile.
+  # Important: sufficient storage must be provided according to data
+  # requirements and the retention period configured above.
+  size: 1x.extra-small  # 14 vCPUs, 31Gi memory, 430Gi disk, 100GB/day
+  storage:
+    schemas:
+    - version: v13
+      # effectiveDate controls when this schema version becomes active.
+      # CRITICAL: Must be set to a date in the PAST (at least 2 months before
+      # deployment) to ensure the schema is immediately active when Loki starts.
+      # Setting it in the future will prevent Loki from ingesting any logs.
+      # Setting it too recently may cause Loki to reject logs with timestamps
+      # that predate the effectiveDate. Cannot be changed retroactively.
+      # Example: If deploying in May 2026, set to "2026-03-01" or earlier.
+      effectiveDate: "<yyyy-mm-dd>"  # e.g., "2026-03-01"
+    # Object storage configuration (LONG-TERM LOG STORAGE)
+    # This secret contains S3-compatible object storage credentials where
+    # compressed log chunks and indexes are stored permanently.
+    secret:
+      name: logging-loki-s3
+      type: s3
+  # Block storage configuration (SHORT-TERM BUFFERING)
+  # storageClassName provisions PVCs for Loki component StatefulSets.
+  # Used for: Write-Ahead Logs (WAL), temporary chunk caching, ingester buffering.
+  # This is INDEPENDENT from object storage - both are required.
+  storageClassName: "ocs-storagecluster-ceph-rbd"  # Set to the cluster's available StorageClass
+  tenants:
+    mode: openshift-logging

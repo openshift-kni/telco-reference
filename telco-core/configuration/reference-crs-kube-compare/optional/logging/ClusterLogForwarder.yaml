@@ -6,10 +6,7 @@ metadata:
 spec:
   {{- if .spec.outputs }}
   outputs:
-  - name: {{ (index .spec.outputs 0).name }}
-    type: kafka
-    kafka:
-      url: {{ (index .spec.outputs 0).kafka.url }}
+    {{- .spec.outputs | toYaml | nindent 2 }}
   {{- end }}
   {{- if .spec.filters }}
   filters:
