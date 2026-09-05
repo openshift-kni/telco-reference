@@ -1,0 +1,29 @@
+---
+# Example: build the install-time extra-manifests ConfigMap for ClusterInstance.
+# Apply with: kubectl apply -k telco-core/install/
+# The ClusterInstance in example-standard-clusterinstance.yaml references
+# extraManifestsRefs: extra-manifests-configmap (see spec.extraManifestsRefs).
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - example-standard-clusterinstance.yaml
+
+configMapGenerator:
+  - name: extra-manifests-configmap
+    namespace: example-standard
+    files:
+      - extra-manifests/control-plane-load-kernel-modules.yaml
+      - extra-manifests/worker-load-kernel-modules.yaml
+      - extra-manifests/mount_namespace_config_master.yaml
+      - extra-manifests/mount_namespace_config_worker.yaml
+      - extra-manifests/kdump-master.yaml
+      - extra-manifests/kdump-worker.yaml
+      - extra-manifests/mc_rootless_pods_selinux.yaml
+      - extra-manifests/sctp_module_mc.yaml
+      - extra-manifests/mcp-worker-1.yaml
+      - extra-manifests/mcp-worker-2.yaml
+      - extra-manifests/mcp-worker-3.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true

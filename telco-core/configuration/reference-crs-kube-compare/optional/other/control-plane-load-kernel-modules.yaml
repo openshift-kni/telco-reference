@@ -1,5 +1,6 @@
 # optional
 # count: 1
+---
 apiVersion: machineconfiguration.openshift.io/v1
 kind: MachineConfig
 metadata:
