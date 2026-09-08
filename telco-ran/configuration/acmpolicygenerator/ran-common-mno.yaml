@@ -34,3 +34,4 @@ policies:
       ran.openshift.io/ztp-deploy-wave: "1"
     manifests:
       - path: source-crs/cluster-tuning/operator-hub/OperatorHub.yaml
+      - path: source-crs/cluster-tuning/iptables-alerter/IptablesAlerterConfig.yaml

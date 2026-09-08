@@ -108,6 +108,9 @@ policies:
 
       - path: reference-crs/required/networking/NMState.yaml
 
+      # Iptables-alerter disable configuration
+      - path: reference-crs/required/networking/IptablesAlerterConfig.yaml
+
       # Firewall node disruption policy
       - path: reference-crs/optional/networking/firewall/node-disruption-policy.yaml
 
