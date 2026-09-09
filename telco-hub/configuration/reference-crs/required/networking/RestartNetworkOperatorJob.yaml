@@ -2,36 +2,6 @@
 # Job to restart network-operator after iptables-alerter-config ConfigMap is created
 # Ensures the network operator picks up the new configuration (OCPBUGS-87026, OCPBUGS-73767)
 ---
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: network-operator-restarter
-  namespace: openshift-network-operator
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: network-operator-restarter
-  namespace: openshift-network-operator
-rules:
-  - apiGroups: [""]
-    resources: ["pods"]
-    verbs: ["list", "delete"]
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: network-operator-restarter
-  namespace: openshift-network-operator
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: network-operator-restarter
-subjects:
-  - kind: ServiceAccount
-    name: network-operator-restarter
-    namespace: openshift-network-operator
----
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -49,9 +19,21 @@ spec:
             - /bin/bash
             - -c
             - |
+              # Check if iptables-alerter-config ConfigMap exists
+              if ! oc get configmap iptables-alerter-config -n openshift-network-operator &>/dev/null; then
+                echo "ERROR: iptables-alerter-config ConfigMap not found"
+                exit 1
+              fi
+              echo "ConfigMap iptables-alerter-config found"
+
               # Delete network-operator pod to pick up iptables-alerter-config
-              oc delete pod -n openshift-network-operator -l name=network-operator --ignore-not-found=true
-              echo "Network operator pod deleted successfully"
+              # Check if pod exists before deleting
+              if oc get pod -n openshift-network-operator -l name=network-operator --no-headers 2>/dev/null | grep -q .; then
+                oc delete pod -n openshift-network-operator -l name=network-operator --ignore-not-found=true
+                echo "Network operator pod deleted successfully"
+              else
+                echo "No network-operator pods found, nothing to delete"
+              fi
       nodeSelector:
         node-role.kubernetes.io/master: ""
       tolerations:

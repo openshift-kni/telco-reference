@@ -1,0 +1,13 @@
+# Role for network-operator restart Job (OCPBUGS-87026, OCPBUGS-73767)
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: network-operator-restarter
+  namespace: openshift-network-operator
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["list", "delete"]

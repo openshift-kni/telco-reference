@@ -32,7 +32,10 @@ policies:
   manifests:
     - path: source-crs/cluster-tuning/monitoring-configuration/ReduceMonitoringFootprint.yaml
     - path: source-crs/cluster-tuning/iptables-alerter/IptablesAlerterConfig.yaml
-    - path: source-crs/cluster-tuning/iptables-alerter/RestartNetworkOperator.yaml
+    - path: source-crs/cluster-tuning/iptables-alerter/NetworkOperatorRestarterSA.yaml
+    - path: source-crs/cluster-tuning/iptables-alerter/NetworkOperatorRestarterRole.yaml
+    - path: source-crs/cluster-tuning/iptables-alerter/NetworkOperatorRestarterRoleBinding.yaml
+    - path: source-crs/cluster-tuning/iptables-alerter/RestartNetworkOperatorJob.yaml
     - path: source-crs/disconnected-registry/DefaultCatsrc.yaml
       patches:
       - metadata:
