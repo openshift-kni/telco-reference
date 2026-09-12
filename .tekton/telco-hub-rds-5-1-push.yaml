@@ -10,15 +10,15 @@ metadata:
     pipelinesascode.tekton.dev/on-cel-expression: |
       event == "push" &&
       target_branch == "main" &&
-      (".tekton/telco-core-rds-5-0-push.yaml".pathChanged() ||
-       ".tekton/build-pipeline-telco-core-rds.yaml".pathChanged() ||
-       "telco-core/***".pathChanged())
+      (".tekton/telco-hub-rds-5-1-push.yaml".pathChanged() ||
+       ".tekton/build-pipeline-telco-hub-rds.yaml".pathChanged() ||
+       "telco-hub/***".pathChanged())
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: telco-core-rds-5-0
-    appstudio.openshift.io/component: telco-core-rds-5-0
+    appstudio.openshift.io/application: telco-hub-rds-5-1
+    appstudio.openshift.io/component: telco-hub-rds-5-1
     pipelines.appstudio.openshift.io/type: build
-  name: telco-core-rds-5-0-on-push
+  name: telco-hub-rds-5-1-on-push
   namespace: telco-5g-tenant
 spec:
   params:
@@ -27,16 +27,16 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/telco-5g-tenant/telco-core-rds-5-0:{{revision}}
+    value: quay.io/redhat-user-workloads/telco-5g-tenant/telco-hub-rds-5-1:{{revision}}
   - name: build-platforms
     value:
     - linux/x86_64
   - name: dockerfile
-    value: telco-core/Dockerfile.telco-core
+    value: telco-hub/Dockerfile.telco-hub
   - name: build-source-image
     value: "true"
   - name: prefetch-input
-    value: '{"type": "rpm", "path": "build"}'
+    value: '{"type": "rpm", "path": "build/telco-hub"}'
   - name: hermetic
     value: "true"
   - name: skip-sast-coverity
@@ -44,9 +44,9 @@ spec:
   - name: additional-tags
     value: ["latest"]
   pipelineRef:
-    name: build-pipeline-telco-core-rds
+    name: build-pipeline-telco-hub-rds
   taskRunTemplate:
-    serviceAccountName: build-pipeline-telco-core-rds-5-0
+    serviceAccountName: build-pipeline-telco-hub-rds-5-1
   workspaces:
   - name: git-auth
     secret:

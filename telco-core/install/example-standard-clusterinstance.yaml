@@ -16,7 +16,7 @@ spec:
   baseDomain: example.com
   pullSecretRef:
     name: "assisted-deployment-pull-secret"
-  clusterImageSetNameRef: "openshift-v5.0"
+  clusterImageSetNameRef: "openshift-v5.1"
   sshPublicKey: "ssh-ed25519 AAAA...."
   clusterName: "example-standard"
   networkType: "OVNKubernetes"
@@ -29,7 +29,7 @@ spec:
   extraLabels:
     ManagedCluster:
       common: "core"
-      version: "5.0"
+      version: "5.1"
       region: "zone-1"
   clusterNetwork:
     - cidr: 10.128.0.0/14
