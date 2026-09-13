@@ -2,7 +2,9 @@
 # count: 1
 ---
 # Core Observability configuration
-# As a prerequisite for merging Core Observability configuration with openshift-monitoring, apply the observabilityRoutePolicy on the HUB from the telco-hub required reference-crs. This is needed to copy the alert-manager URL from the hub side open-cluster-management-observability namespace and make it available in the openshift-monitoring configmap.
+# ACM 5.0+: observatorium-api URL is available from the spoke side; alerts forward via observatorium-api with mTLS.
+# ACM 4.x:  requires the observabilityRoutePolicy from the telco-hub reference to propagate the alertmanager URL
+#            and hub cluster ID as ManagedCluster annotations; alerts forward via the alertmanager route with ingress CA.
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -26,14 +28,27 @@ data:
       - apiVersion: v2
         bearerToken:
           key: token
-          name: {{hub $hubID := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-hub-cluster-id" hub}}{{hub if $hubID hub}}observability-alertmanager-accessor-{{hub $hubID hub}}{{hub else hub}}observability-alertmanager-accessor{{hub end hub}}
+          name: {{ $hubInfo := fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml" | fromYaml }}{{ $hubID := index $hubInfo "hub-cluster-id" }}{{ $fwdRoute := index $hubInfo "hub-alerts-forwarding-route" }}{{ if $hubID }}observability-alertmanager-accessor-{{ $hubID }}{{ else }}observability-alertmanager-accessor{{ end }}
+        {{ if $fwdRoute }}pathPrefix: /api/alertmanager/v2/default
         scheme: https
-        staticConfigs: {{hub $route := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-alertmanager-route" hub}}{{hub if $route hub}}[{{hub $route hub}}]{{hub else hub}}[]{{hub end hub}}
+        staticConfigs: [{{ trimPrefix "https://" $fwdRoute | regexFind "^[^/]+" }}]
+        tlsConfig:
+          ca:
+            key: ca.crt
+            name: {{ if $hubID }}obs-alertmanager-mtls-ca-{{ $hubID }}{{ else }}obs-alertmanager-mtls-ca{{ end }}
+          cert:
+            key: tls.crt
+            name: {{ if $hubID }}obs-alertmanager-mtls-cert-{{ $hubID }}{{ else }}obs-alertmanager-mtls-cert{{ end }}
+          key:
+            key: tls.key
+            name: {{ if $hubID }}obs-alertmanager-mtls-cert-{{ $hubID }}{{ else }}obs-alertmanager-mtls-cert{{ end }}
+          insecureSkipVerify: false{{ else }}scheme: https
+        staticConfigs: {{hub $alertmanagerRoute := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-alertmanager-route" hub}}{{hub if $alertmanagerRoute hub}}[{{hub $alertmanagerRoute hub}}]{{hub else hub}}[]{{hub end hub}}
         tlsConfig:
           ca:
             key: service-ca.crt
             name: {{hub $hubID2 := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-hub-cluster-id" hub}}{{hub if $hubID2 hub}}hub-alertmanager-router-ca-{{hub $hubID2 hub}}{{hub else hub}}hub-alertmanager-router-ca{{hub end hub}}
-          insecureSkipVerify: false
+          insecureSkipVerify: false{{ end }}
       externalLabels:
         managed_cluster: {{hub index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.labels "clusterID" hub}}
       retention: 15d
