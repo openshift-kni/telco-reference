@@ -88,11 +88,13 @@ parts:
           - path: required/acm/observabilityOBC.yaml
             config:
               ignore-unspecified-fields: true
+          - path: required/acm/observabilityMCSB.yaml
+          - path: required/acm/observabilityRoutePlacement.yaml
+          - path: required/acm/observabilityRoutePlacementBinding.yaml
           - path: required/acm/observabilitySecret.yaml
           - path: required/acm/pullSecretPolicy.yaml
           - path: required/acm/pullSecretPlacement.yaml
           - path: required/acm/pullSecretPlacementBinding.yaml
-          - path: required/acm/pullSecretMCSB.yaml
           - path: required/acm/thanosSecretPolicy.yaml
             config:
               ignore-unspecified-fields: true
