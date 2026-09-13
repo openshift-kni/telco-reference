@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eso-cluster-templates-v1
+  namespace: open-cluster-management
+  annotations:
+    argocd.argoproj.io/sync-wave: "-30"
+data:
+  PullSecretExternalSecret: |-
+    apiVersion: external-secrets.io/v1
+    kind: ExternalSecret
+    metadata:
+      name: "{{ "{{ .Spec.PullSecretRef.Name }}" }}"
+      namespace: "{{ "{{ .Spec.ClusterName }}" }}"
+      annotations:
+        siteconfig.open-cluster-management.io/sync-wave: "1"
+    spec:
+      refreshPolicy: OnChange
+      secretStoreRef:
+        name: ztp-secret-provider
+        kind: ClusterSecretStore
+      target:
+        name: "{{ "{{ .Spec.PullSecretRef.Name }}" }}"
+        creationPolicy: Owner
+        template:
+          type: kubernetes.io/dockerconfigjson
+      data:
+        - secretKey: .dockerconfigjson
+          remoteRef:
+            key: clusters/{{ "{{ .Spec.ClusterName }}" }}/pull-secret
+            property: .dockerconfigjson
