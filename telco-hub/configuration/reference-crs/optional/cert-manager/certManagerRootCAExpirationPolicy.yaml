@@ -1,0 +1,59 @@
+---
+# ACM Policy to create a PrometheusRule that alerts on root CA
+# certificate expiration. Monitors the cert-manager certificate
+# expiration metric and fires warnings at 90 days and critical
+# alerts at 30 days before expiry.
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  name: root-ca-expiration-monitor
+  namespace: default
+  annotations:
+    policy.open-cluster-management.io/categories: SC System and Communications Protection
+    policy.open-cluster-management.io/controls: SC-8 Transmission Confidentiality and Integrity
+    policy.open-cluster-management.io/standards: NIST 800-53
+    argocd.argoproj.io/sync-wave: "-10"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  disabled: false
+  policy-templates:
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: root-ca-expiration-prometheusrule
+        spec:
+          remediationAction: enforce
+          severity: high
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: monitoring.coreos.com/v1
+                kind: PrometheusRule
+                metadata:
+                  name: cert-manager-root-ca-expiration
+                  namespace: cert-manager-operator
+                spec:
+                  groups:
+                    - name: cert-manager-root-ca
+                      rules:
+                        - alert: CertManagerRootCAExpiringSoon
+                          annotations:
+                            summary: 'Root CA certificate {{`{{ $labels.name }}`}} is expiring soon'
+                            description: 'The root CA certificate {{`{{ $labels.name }}`}} in namespace {{`{{ $labels.namespace }}`}} expires in less than 90 days.'
+                          # Update name="root-ca" if your cert-manager Certificate resource uses a different name
+                          expr: |
+                            certmanager_certificate_expiration_timestamp_seconds{name="root-ca",namespace="cert-manager"} - time() < 90 * 24 * 3600
+                          for: 1h
+                          labels:
+                            severity: warning
+                        - alert: CertManagerRootCAExpirationCritical
+                          annotations:
+                            summary: 'Root CA certificate {{`{{ $labels.name }}`}} is about to expire'
+                            description: 'The root CA certificate {{`{{ $labels.name }}`}} in namespace {{`{{ $labels.namespace }}`}} expires in less than 30 days. Immediate action required.'
+                          expr: |
+                            certmanager_certificate_expiration_timestamp_seconds{name="root-ca",namespace="cert-manager"} - time() < 30 * 24 * 3600
+                          for: 1h
+                          labels:
+                            severity: critical
+  remediationAction: enforce
