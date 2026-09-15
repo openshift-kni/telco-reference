@@ -37,3 +37,9 @@ patches:
       kind: ClusterRole
       name: hub-rds-argocd
     path: clusterrole-patch.yaml
+  - target: 
+      group: "operators.coreos.com"
+      version: v1alpha1
+      kind: Subscription
+      name: openshift-gitops-operator
+    path: gitopsSubscription-patch.yaml

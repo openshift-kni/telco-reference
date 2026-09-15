@@ -15,6 +15,9 @@ spec:
     spec:
       backoffLimit: 0
       template:
+        metadata:
+          labels:
+            app: ldap-group-sync
         spec:
           containers:
           - name: ldap-group-sync

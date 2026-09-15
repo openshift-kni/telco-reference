@@ -99,7 +99,7 @@ Ensure that the following credentials exist in the vault:
 - ldap-auth-secret
   - `bindPassword` - to authenticate the OpenShift cluster with LDAP server
 - ldap-group-sync-creds
-  - `bindPassword` - to authenticate the OpenShift cluster with LDAP server
+  - `bind_password` - to authenticate the OpenShift cluster with LDAP server
 - rhoso-ceph
   - `ceph-fsid` - FSID from the Ceph cluster
   - `ceph-keyring` - Content from `/etc/ceph/ceph.client.openstack.keyring` of the Ceph cluster

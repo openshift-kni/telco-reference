@@ -8,6 +8,7 @@ data:
   kafka-broker: "mgmt-kafka-kafka-bootstrap-kafka-cluster.apps.mgmt1.example.com:443"
   vault-server: "https://vault-server.apps.ghub.example.com"
   ldap-server: "idm1mgmt1.example.com"
+  ldap-server-ip: "10.0.42.5/32"
   registry-fqdn: "registry.bastion.example.com:9500"
   # RHOSO variables
   dns-domain: osp.cwl-site2.example.com
