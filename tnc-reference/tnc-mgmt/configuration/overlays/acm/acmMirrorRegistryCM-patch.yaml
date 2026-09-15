@@ -50,4 +50,3 @@
       [[registry.mirror]]
         location = "registry.bastion.example.com:9500/ocp/ocp4/rhacm2"
         pull-from-mirror = "digest-only"
-

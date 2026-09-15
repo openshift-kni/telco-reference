@@ -8,4 +8,3 @@ metadata:
   name: openshift-opentelemetry-operator
   annotations:
     argocd.argoproj.io/sync-wave: "-45"
-

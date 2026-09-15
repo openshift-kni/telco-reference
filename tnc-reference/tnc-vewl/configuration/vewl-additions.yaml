@@ -2,18 +2,18 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: vewl-additions-tnc61
+  name: vewl-additions-tnc70
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
     clusterSelectors:
-      tnc-ver: "tnc6.1"
+      tnc-ver: "tnc7.0"
       vewl: "true"
   remediationAction: "inform"
 policies:
   # vewl configuration
-  - name: vewl-config-tnc61
+  - name: vewl-config-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "-10"
     manifests:
@@ -27,7 +27,7 @@ policies:
 # CNV Operator
     - path: other-crs/required/CNV/CnvNS.yaml
     - path: other-crs/required/CNV/CnvOperGroup.yaml
-    - path: other-crs/required/CNV/CnvSubscription.yaml    
+    - path: other-crs/required/CNV/CnvSubscription.yaml
       patches:
         - spec:
             installPlanApproval: Manual

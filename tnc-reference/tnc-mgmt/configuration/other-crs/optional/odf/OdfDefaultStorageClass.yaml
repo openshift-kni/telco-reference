@@ -6,4 +6,3 @@ metadata:
     storageclass.kubernetes.io/is-default-class: "true"
     argocd.argoproj.io/sync-wave: "-20"
   name: default
-

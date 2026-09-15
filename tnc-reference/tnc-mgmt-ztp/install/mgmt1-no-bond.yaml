@@ -7,9 +7,9 @@ spec:
   holdInstallation: false
   baseDomain: "example.com"
   pullSecretRef:
-    name: "assisted-deployment-pull-secret" 
-  clusterImageSetNameRef: "openshift-4.20-disconnected"  
-  sshPublicKey: "ssh-rsa AAAA...."
+    name: "assisted-deployment-pull-secret"
+  clusterImageSetNameRef: "openshift-4.22.5-disconnected"
+  sshPublicKey: "ssh-rsa AAAAB3N...."
   clusterName: "mgmt1"
   networkType: "OVNKubernetes"
   clusterNetwork:
@@ -20,10 +20,10 @@ spec:
   machineNetwork:
     - cidr: 172.31.41.0/24
     - cidr: fd00:2023:41::/48
-  apiVIPs: 
+  apiVIPs:
     - 172.31.41.4
     - fd00:2023:41::4
-  ingressVIPs: 
+  ingressVIPs:
     - 172.31.41.5
     - fd00:2023:41::5
   serviceNetwork:
@@ -34,8 +34,8 @@ spec:
     - 192.0.2.2
   extraLabels:
     ManagedCluster:
-      mgmt: "true"  
-      tnc-ver: "tnc6.1"
+      mgmt: "true"
+      tnc-ver: "tnc7.0"
       odf-int: "true"
       #odf-ext: "true"
       #lvms: "true"
@@ -56,9 +56,9 @@ spec:
       bmcCredentialsName:
         name: "bmh-secret-v1"
       bootMACAddress: "30:3E:A7:03:08:F0"
-      bootMode: "UEFISecureBoot"  
+      bootMode: "UEFISecureBoot"
       rootDeviceHints:
-        wwn: "0x6f4ee08057eaa100662faace8b66cd52"      
+        wwn: "0x6f4ee08057eaa100662faace8b66cd52"
       automatedCleaningMode: "metadata"
       nodeLabels:
         cluster.ocs.openshift.io/openshift-storage: ""
@@ -103,7 +103,7 @@ spec:
                 address:
                 - ip: fd00:2023:41::6
                   prefix-length: 48
-                enabled: true                
+                enabled: true
             - name: eno12409
               type: ethernet
               state: down
@@ -161,7 +161,7 @@ spec:
       bmcCredentialsName:
         name: "bmh-secret-v1"
       bootMACAddress: "30:3E:A7:03:0A:90"
-      bootMode: "UEFISecureBoot" 
+      bootMode: "UEFISecureBoot"
       rootDeviceHints:
         wwn: "0x6f4ee08057eacd00662fab4e5c3b4263"
       automatedCleaningMode: "metadata"
@@ -208,7 +208,7 @@ spec:
                 address:
                 - ip: fd00:2023:41::7
                   prefix-length: 48
-                enabled: true                
+                enabled: true
             - name: eno12409
               type: ethernet
               state: down
@@ -266,7 +266,7 @@ spec:
       bmcCredentialsName:
         name: "bmh-secret-v1"
       bootMACAddress: "30:3E:A7:03:06:80"
-      bootMode: "UEFISecureBoot" 
+      bootMode: "UEFISecureBoot"
       rootDeviceHints:
         wwn: "0x6f4ee08057eac400662facdf274e95bb"
       automatedCleaningMode: "metadata"
@@ -313,7 +313,7 @@ spec:
                 address:
                 - ip: fd00:2023:41::8
                   prefix-length: 48
-                enabled: true                
+                enabled: true
             - name: eno12409
               type: ethernet
               state: down
@@ -367,14 +367,14 @@ spec:
     - hostName: "mgmt1-worker1"
       role: "worker"
       cpuArchitecture: x86_64
-      bmcAddress: "idrac-virtualmedia+https://192.0.2.153/redfish/v1/Systems/System.Embedded.1"        
+      bmcAddress: "idrac-virtualmedia+https://192.0.2.153/redfish/v1/Systems/System.Embedded.1"
       bmcCredentialsName:
         name: "bmh-secret-v1"
       bootMACAddress: "30:3E:A7:03:0F:10"
       # Disabling secure boot since NVIDIA operator installation fails otherwise
-      #bootMode: "UEFISecureBoot" 
+      #bootMode: "UEFISecureBoot"
       rootDeviceHints:
-        wwn: "0x6f4ee08057eabd00662fad1210ef738a"             
+        wwn: "0x6f4ee08057eabd00662fad1210ef738a"
       automatedCleaningMode: "metadata"
       nodeLabels:
         cluster.ocs.openshift.io/openshift-storage: ""
@@ -419,7 +419,7 @@ spec:
                 address:
                 - ip: fd00:2023:41::9
                   prefix-length: 48
-                enabled: true                
+                enabled: true
             - name: eno12409
               type: ethernet
               state: down
@@ -469,5 +469,4 @@ spec:
               - destination: ::/0
                 next-hop-address: fd00:2023:41::1
                 next-hop-interface: eno12399.41
-
 

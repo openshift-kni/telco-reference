@@ -4,4 +4,3 @@ kind: OpenStack
 metadata:
    name: openstack
    namespace: openstack-operators
-

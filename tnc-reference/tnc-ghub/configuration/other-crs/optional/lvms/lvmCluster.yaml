@@ -1,3 +1,4 @@
+---
 apiVersion: lvm.topolvm.io/v1alpha1
 kind: LVMCluster
 metadata:
@@ -11,11 +12,10 @@ spec:
     deviceClasses:
     - name: vg10
       default: true
-      deviceSelector: 
-        paths: 
+      deviceSelector:
+        paths:
           - /dev/disk/by-path/pci-0000:3f:00.0-scsi-0:0:3:0
       thinPoolConfig:
         name: thin-pool-10
         overprovisionRatio: 10
         sizePercent: 90
-

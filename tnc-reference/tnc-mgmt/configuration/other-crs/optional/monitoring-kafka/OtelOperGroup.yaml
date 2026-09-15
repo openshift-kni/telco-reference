@@ -8,4 +8,3 @@ metadata:
     argocd.argoproj.io/sync-wave: "-40"
 spec:
   upgradeStrategy: Default
-

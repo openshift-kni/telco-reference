@@ -1,3 +1,4 @@
+---
 apiVersion: operators.coreos.com/v1alpha1
 kind: CatalogSource
 metadata:
@@ -6,6 +7,5 @@ metadata:
   name: certified-operators-disconnected
   namespace: openshift-marketplace
 spec:
-  image: <registry.example.com:8443>/ocp/ocp4/redhat/certified-operator-index:v4.20
+  image: <registry.example.com:8443>/ocp/ocp4/redhat/certified-operator-index:v4.22
   sourceType: grpc
-

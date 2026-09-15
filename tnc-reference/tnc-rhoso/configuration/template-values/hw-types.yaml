@@ -5,8 +5,8 @@ metadata:
   name: hw-types
   namespace: ztp-core-policies
 data:
-  role-worker-1-reserved: "0-1,52-53"
-  role-worker-1-isolated: "2-51,54-103"
+  role-worker-1-reserved: "0-3,64-67"
+  role-worker-1-isolated: "4-63,68-127"
   role-worker-1-hugepg-cnt: "4"
 
   role-worker-2-reserved: "0-3"

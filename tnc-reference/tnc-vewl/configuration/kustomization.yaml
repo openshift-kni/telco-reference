@@ -8,11 +8,10 @@ generators:
 # - core-finish.yaml
 # - core-upgrade.yaml
 # - core-upgrade-finish.yaml
-# - core-overlay.yaml
-# - core-baseline.yaml
+#- core-baseline.yaml
 # - vewl-odf-external.yaml
 resources:
-- template-values/cwl-site3.yaml
-#- clusterimageset42016.yaml
+- template-values/vewl-conf.yaml
+#- clusterimageset.yaml
 #- template-values/regional.yaml
 #- template-values/hw-types.yaml

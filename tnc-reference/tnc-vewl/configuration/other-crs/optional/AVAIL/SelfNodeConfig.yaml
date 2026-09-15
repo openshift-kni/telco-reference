@@ -1,3 +1,4 @@
+---
 apiVersion: self-node-remediation.medik8s.io/v1alpha1
 kind: SelfNodeRemediationConfig
 metadata:
@@ -17,4 +18,3 @@ spec:
   peerRequestTimeout: 5s
   peerUpdateInterval: 15m
   hostPort: 30001
-

@@ -8,4 +8,3 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "2"
 spec:
   upgradeStrategy: Default
-

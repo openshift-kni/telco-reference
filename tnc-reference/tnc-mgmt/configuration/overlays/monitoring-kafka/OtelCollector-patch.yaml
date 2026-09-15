@@ -2,11 +2,10 @@
 - op: replace
    # using "~1" to specify a /
   path: /spec/config/exporters/kafka~1platform/brokers
-  value: 
+  value:
     - mgmt-kafka-kafka-bootstrap.kafka-cluster.svc:9093
 
 - op: replace
    # using "~1" to specify a /
   path: /spec/config/exporters/kafka~1platform/metrics/topic
   value: mgmt1-platform-metrics
-

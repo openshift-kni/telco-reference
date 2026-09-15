@@ -9,4 +9,3 @@ metadata:
 spec:
   targetNamespaces:
   - multicluster-global-hub
-

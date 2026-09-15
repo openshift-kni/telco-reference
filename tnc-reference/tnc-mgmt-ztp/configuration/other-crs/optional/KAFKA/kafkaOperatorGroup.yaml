@@ -7,4 +7,3 @@ metadata:
 spec:
   targetNamespaces:
     - kafka-cluster
-

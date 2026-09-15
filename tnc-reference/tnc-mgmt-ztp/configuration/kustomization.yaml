@@ -12,7 +12,10 @@ generators:
 - mgmt-ztp.yaml
 - mgmt-optional.yaml
 - mgmt-finish.yaml
+- mgmt-ztp-upgrade-21.yaml
+- mgmt-ztp-upgrade-22.yaml
+- mgmt-ztp-upgrade-finish.yaml
 resources:
-- clusterimageset42016.yaml
+- clusterimageset.yaml
 - resources
 - template-values/mgmt1.yaml

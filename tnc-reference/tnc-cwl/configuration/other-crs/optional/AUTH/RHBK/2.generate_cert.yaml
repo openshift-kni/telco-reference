@@ -1,3 +1,4 @@
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -9,7 +10,6 @@ spec:
       serviceAccountName: keycloak-job-sa
       containers:
         - name: certgen
-          image: {{hub fromConfigMap "ztp-workload-policy" "core-data" (printf "%s-quay-fqdn" .ManagedClust    erName) hub}}/ocp/ocp4/origin-cli:4.16
           image: {{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/origin-cli:latest
           command:
             - /bin/bash

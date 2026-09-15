@@ -10,7 +10,7 @@ generators:
 - rhoso-auth-idm.yaml
 - core-finish.yaml
 resources:
-- clusterimageset42016.yaml
+- clusterimageset.yaml
 - resources
 - template-values/regional.yaml
 - template-values/hw-types.yaml

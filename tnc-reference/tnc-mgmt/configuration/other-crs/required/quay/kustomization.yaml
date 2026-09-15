@@ -10,4 +10,3 @@ resources:
   - rbac_clusterRoleBinding.yaml
   - quay_secret.yaml
   - quay_registry.yaml
-

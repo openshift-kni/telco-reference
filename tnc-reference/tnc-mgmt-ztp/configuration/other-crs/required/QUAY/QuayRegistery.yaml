@@ -29,4 +29,3 @@ spec:
     - kind: clairpostgres
       managed: true
   configBundleSecret: quay-config-bundle-secret
-

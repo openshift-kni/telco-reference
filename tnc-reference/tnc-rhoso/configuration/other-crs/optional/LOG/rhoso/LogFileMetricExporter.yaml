@@ -1,3 +1,4 @@
+---
 apiVersion: logging.openshift.io/v1alpha1
 kind: LogFileMetricExporter
 metadata:
@@ -15,4 +16,3 @@ spec:
       cpu: 200m
       memory: 128Mi
   tolerations: []
-

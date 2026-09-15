@@ -10,10 +10,14 @@ generators:
 - cwl-kafka.yaml
 - cwl-lab-only.yaml
 - cwl-auth-idm.yaml
-- core-finish.yaml
+# - core-finish.yaml
+- cwl-upgrade-21.yaml
+- cwl-upgrade-22.yaml
+- cwl-upgrade-finish.yaml
 resources:
-- clusterimageset42016.yaml
+- clusterimageset.yaml
 - resources
 - template-values/regional.yaml
 - template-values/hw-types.yaml
 - template-values/cwl-site1.yaml
+- template-values/cw-test1.yaml

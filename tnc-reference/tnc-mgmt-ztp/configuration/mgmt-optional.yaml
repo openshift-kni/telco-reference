@@ -1,18 +1,19 @@
+---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: mgmt-optional-tnc61
+  name: mgmt-optional-tnc70
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
     clusterSelectors:
       mgmt: "true"
-      tnc-ver: "tnc6.1"
+      tnc-ver: "tnc7.0"
       optional: "true"
   remediationAction: "inform"
 policies:
-  - name: optional-tnc61
+  - name: optional-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "20"
     manifests:

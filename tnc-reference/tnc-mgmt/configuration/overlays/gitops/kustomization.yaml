@@ -31,7 +31,7 @@ patches:
       kind: Policy
       name: ztp-argocd-plugins-installer
     path: ztp-plugins.yaml
-  - target: 
+  - target:
       group: ""
       version: v1
       kind: ClusterRole

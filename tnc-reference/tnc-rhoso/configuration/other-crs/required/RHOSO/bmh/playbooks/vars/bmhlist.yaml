@@ -4,8 +4,8 @@ bmh_list:
 #    label: sriov
 #    bootMACAddress: 30:3E:A7:02:FE:20
 #    bmc_address: 192.0.2.155
-#    bmc_username: cm9vdA==              # base64 encoding
-#    bmc_password: <redacted>              # base64 encoding
+#    bmc_username: <REDACTED>            # base64 encoding
+#    bmc_password: <REDACTED>            # base64 encoding
 #    bond_name: bond0
 #    bond_port1: eno12399
 #    bond_port1_mac: 30:3E:A7:02:FE:20
@@ -20,12 +20,14 @@ bmh_list:
 #    bond_gateway: 10.62.62.1
 #    dns_server: 10.62.62.80
 #    domain: cwl-site1.example.com
-  - name: comp2
-    label: dpdk
+  #- name: comp2
+    #label: dpdk
+  - name: comp1
+    label: sriov
     bootMACAddress: 30:3E:A7:02:F6:00
     bmc_address: 192.0.2.162
-    bmc_username: cm9vdA==              # base64 encoding
-    bmc_password: <redacted>              # base64 encoding
+    bmc_username: <REDACTED>            # base64 encoding
+    bmc_password: <REDACTED>            # base64 encoding
     bond_name: bond0
     bond_port1: eno12399
     bond_port1_mac: 30:3E:A7:02:F6:00

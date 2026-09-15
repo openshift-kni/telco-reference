@@ -1,17 +1,18 @@
+---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: mgmt-ztp-tnc61
+  name: mgmt-ztp-tnc70
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
     clusterSelectors:
       mgmt: "true"
-      tnc-ver: "tnc6.1"
+      tnc-ver: "tnc7.0"
   remediationAction: "inform"
 policies:
-  - name: ztp-tnc61
+  - name: ztp-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "20"
     manifests:
@@ -23,8 +24,16 @@ policies:
             state: AtLatestKnown
     - path: other-crs/required/reference/acm/acmMCH.yaml
     - path: other-crs/required/reference/acm/acmMCE.yaml
+      patches:
+        - spec:
+            overrides:
+              components:
+              - name: hypershift-local-hosting
+                enabled: false
+              - name: hypershift
+                enabled: false
     - path: other-crs/required/reference/acm/acmAgentServiceConfig.yaml
-      patches: 
+      patches:
         - metadata:
             annotations:
               unsupported.agent-install.openshift.io/assisted-service-allow-unrestricted-image-pulls: true
@@ -40,15 +49,15 @@ policies:
 #              storageClassName: lvms-vg10
             osImages:
             - cpuArchitecture: x86_64
-              openshiftVersion: "4.18"
-              rootFSUrl: http://192.0.2.4/rhcos-live-rootfs.x86_64.img
-              url: http://192.0.2.4/rhcos-live.x86_64.iso
-              version: 418.94.202501221327-0
-            - cpuArchitecture: x86_64
               openshiftVersion: "4.20"
               rootFSUrl: http://192.0.2.4/rhcos-4.20.13-x86_64-live-rootfs.x86_64.img
               url: http://192.0.2.4/rhcos-4.20.13-x86_64-live-iso.x86_64.iso
               version: 9.6.20260112-0
+            - cpuArchitecture: "x86_64"
+              openshiftVersion: "4.22"
+              rootFSUrl: http://192.0.2.4/rhcos-4.22.0-x86_64-live-rootfs.x86_64.img
+              url: http://192.0.2.4/rhcos-4.22.0-x86_64-live-iso.x86_64.iso
+              version: "9.8.20260428-0"
 
     - path: other-crs/required/reference/acm/acmMirrorRegistryCM.yaml
       patches:
@@ -59,56 +68,56 @@ policies:
               -----END CERTIFICATE-----
               -----BEGIN CERTIFICATE-----
               REDACTED
-              -----END CERTIFICATE-----   
-      
+              -----END CERTIFICATE-----
+
             registries.conf: |
               unqualified-search-registries = ["registry.access.redhat.com", "docker.io"]
               [[registry]]
                 prefix = ""
                 location = "quay.io/openshift-release-dev/ocp-release"
-          
+
                 [[registry.mirror]]
                   location = "registry.bastion.example.com:9500/ocp/ocp4/openshift/release-images"
                   pull-from-mirror = "digest-only"
-          
+
               [[registry]]
                 prefix = ""
                 location = "quay.io/openshift-release-dev/ocp-v4.0-art-dev"
-          
+
                 [[registry.mirror]]
                   location = "registry.bastion.example.com:9500/ocp/ocp4/openshift/release"
                   pull-from-mirror = "digest-only"
-          
+
               [[registry]]
                 prefix = ""
                 location = "registry.redhat.io/multicluster-engine"
-          
+
                 [[registry.mirror]]
                   location = "registry.bastion.example.com:9500/ocp/ocp4/multicluster-engine"
                   pull-from-mirror = "digest-only"
-          
+
               [[registry]]
                 prefix = ""
                 location = "registry.redhat.io/openshift4"
-          
+
                 [[registry.mirror]]
                   location = "registry.bastion.example.com:9500/ocp/ocp4/openshift4"
                   pull-from-mirror = "digest-only"
-          
+
               [[registry]]
                 prefix = ""
                 location = "registry.redhat.io/rhacm2"
-          
+
                 [[registry.mirror]]
                   location = "registry.bastion.example.com:9500/ocp/ocp4/rhacm2"
                   pull-from-mirror = "digest-only"
-          
+
     - path: other-crs/required/reference/acm/acmPerfSearch.yaml
     - path: other-crs/required/reference/acm/acmProvisioning.yaml
     - path: other-crs/required/reference/acm/observabilityNS.yaml
     - path: other-crs/required/reference/acm/observabilityOBC.yaml
     - path: other-crs/required/ACM/create-thanos-secret.yaml
-      patches: 
+      patches:
         - stringData:
             thanos.yaml: |
               type: s3
@@ -124,7 +133,7 @@ policies:
             storageConfig:
               storageClass: ocs-storagecluster-cephfs
 
-  - name: argo-talm-tnc61
+  - name: argo-talm-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "25"
     manifests:
@@ -144,7 +153,7 @@ policies:
           status:
             state: AtLatestKnown
 
-  - name: gitops-config-tnc61
+  - name: gitops-config-tnc70
     policyAnnotations:
         ran.openshift.io/ztp-deploy-wave: "30"
     manifests:
@@ -223,20 +232,20 @@ policies:
     - path: other-crs/required/reference/gitops/ztp-installation/gitops-cluster-rolebinding.yaml
     - path: other-crs/required/gitops-ztp/clusters-app-ns.yaml
     - path: other-crs/required/gitops-ztp/clusters-app.yaml
-      patches: 
-        - spec: 
+      patches:
+        - spec:
             source:
-              path: "tnc-reference/tnc-cwl/install"  #  ==> path for spoke clusters
-              repoURL: "https://github.com/openshift-kni/telco-reference.git" 
-              targetRevision: "tnc6.1-release-4.20"
+              path: "tnc-reference/tnc-cwl/install"
+              repoURL: "https://github.com/openshift-kni/telco-reference.git"
+              targetRevision: "tnc7.0-release-4.22"
     - path: other-crs/required/gitops-ztp/policies-app-ns.yaml
     - path: other-crs/required/gitops-ztp/policies-app.yaml
-      patches: 
-        - spec: 
+      patches:
+        - spec:
             source:
-              path: "tnc-reference/tnc-cwl/configuration"   #  ==> path for spoke clusters
-              repoURL: "https://github.com/openshift-kni/telco-reference.git" 
-              targetRevision: "tnc6.1-release-4.20"
+              path: "tnc-reference/tnc-cwl/configuration"
+              repoURL: "https://github.com/openshift-kni/telco-reference.git"
+              targetRevision: "tnc7.0-release-4.22"
     - path: other-crs/required/gitops-ztp/ztp-repo-workload-secret.yaml
       patches:
         - stringData:
@@ -245,4 +254,3 @@ policies:
             username: <REDACTED>
             password: <REDACTED>
             forceHttpBasicAuth: "true"
-

@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: vewl-hw
+  name: vewl-conf
   namespace: ztp-core-policies
 data:
   role-worker-1-reserved: "0-1,52-53"
@@ -20,3 +20,4 @@ data:
   nic-config-type-1-sriov-dev1: eno12419
   nic-config-type-1-sriov-dev2: eno12429
   nic-config-type-1-sriov-numvf: "8"
+  vewl-namespace: "vewl-epa"

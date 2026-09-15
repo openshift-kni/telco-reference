@@ -1,3 +1,4 @@
+---
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
@@ -11,4 +12,3 @@ spec:
   name: opentelemetry-product
   source: redhat-operators-disconnected
   sourceNamespace: openshift-marketplace
-

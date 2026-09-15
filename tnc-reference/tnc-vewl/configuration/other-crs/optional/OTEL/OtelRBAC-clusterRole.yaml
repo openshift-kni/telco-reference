@@ -10,4 +10,3 @@ rules:
   - apiGroups: ['apps']
     resources: ['replicasets']
     verbs: ['get', 'watch', 'list']
-

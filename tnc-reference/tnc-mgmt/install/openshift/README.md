@@ -1,6 +1,6 @@
 # OpenShift installation with the Agent-based Installer
 
-1. [Download the Agent-based Installer](https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/installing_an_on-premise_cluster_with_the_agent-based_installer/installing-with-agent-basic#installing-ocp-agent-retrieve_installing-with-agent-basic)
+1. [Download the Agent-based Installer](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installing_an_on-premise_cluster_with_the_agent-based_installer/installing-with-agent-basic#installing-ocp-agent-retrieve_installing-with-agent-basic)
 2. Create a new directory `ocp`, copy the [install-config.yaml](install-config.yaml) and the [agent-config.yaml](agent-config.yaml) files and modify them to fit your environment.
    Read the inline comments for suggestions on which fields should be modified and how.
 3. Also copy the `openshift` directory and all its files to the `ocp` directory. Edit the `catalogSource-disconnected.yaml` and `idms.yaml` files to reflect the correct URL for the private registry.
@@ -22,4 +22,3 @@
    `oc get clusteroperators` (check that all the operators have been installed)
 
 For more information see [Installing an OpenShit cluster with the Agent-based Installer](https://docs.openshift.com/container-platform/4.18/installing/installing_with_agent_based_installer/installing-with-agent-based-installer.html).
-

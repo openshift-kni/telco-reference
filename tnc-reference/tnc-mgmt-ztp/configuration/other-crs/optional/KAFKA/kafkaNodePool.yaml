@@ -20,4 +20,3 @@ spec:
         size: 100Gi
         deleteClaim: false
         kraftMetadata: shared
-

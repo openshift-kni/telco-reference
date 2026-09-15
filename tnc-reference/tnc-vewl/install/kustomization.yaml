@@ -13,16 +13,15 @@ configMapGenerator:
     - extra-manifests/mount_namespace_config_master.yaml
     - extra-manifests/mount_namespace_config_worker.yaml
   name: extra-manifests-configmap
-  namespace: cwl-site3
+  namespace: cwl-site1
 - files:
     - custom-manifests/mcp-worker-1.yaml
     - custom-manifests/mcp-worker-2.yaml
     - custom-manifests/mcp-worker-3.yaml
   name: custom-manifests-configmap
-  namespace: cwl-site3
+  namespace: cwl-site1
 
 resources:
-  - ns/cwl-site3.yaml
-  - secrets/cwl-site3.yaml
-  - cwl-site3.yaml
-
+  - ns/cwl-site1.yaml
+  - secrets/cwl-site1.yaml
+  - cwl-site1.yaml

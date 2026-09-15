@@ -1,0 +1,26 @@
+apiVersion: ran.openshift.io/v1alpha1
+kind: ClusterGroupUpgrade
+metadata:
+  name: mgmt-upgrade-21
+  namespace: ztp-core-policies
+spec:
+  actions:
+    afterCompletion:
+      deleteClusterLabels:
+        upgrade-version-4-21: ""
+      deleteObjects: true
+  clusters:
+  - mgmt1
+  enable: true
+  managedPolicies:
+  - mgmt-ztp-upgrade-prep-21
+  - mgmt-ztp-upgrade-logging-uninstall-21
+  - mgmt-ztp-upgrade-logging-install-21
+  - mgmt-ztp-upgrade-ocp-21
+  - mgmt-ztp-upgrade-odf-uninstall-21
+  - mgmt-ztp-upgrade-odf-install-21
+  - mgmt-ztp-upgrade-olm-21
+  - mgmt-ztp-upgrade-validate-21
+  remediationStrategy:
+    maxConcurrency: 1
+    timeout: 480

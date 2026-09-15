@@ -8,4 +8,3 @@ metadata:
   name: openshift-opentelemetry-operator
   annotations:
     ran.openshift.io/ztp-deploy-wave: "5"
-

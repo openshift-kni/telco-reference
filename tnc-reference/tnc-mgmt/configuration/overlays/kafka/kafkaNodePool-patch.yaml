@@ -1,5 +1,5 @@
 # Use the first patch when using ODF
-# Comment out the first patch and 
+# Comment out the first patch and
 # un-comment the seconds patch when using LVMS
 #
 - op: replace

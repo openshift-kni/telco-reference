@@ -1,3 +1,4 @@
+---
 apiVersion: platform.stackrox.io/v1alpha1
 kind: SecuredCluster
 metadata:
@@ -45,4 +46,3 @@ spec:
     taintToleration: TolerateTaints
   clusterName: mgmt1-secured-cluster
   centralEndpoint: 'central-stackrox.apps.mgmt1.example.com:443'
-

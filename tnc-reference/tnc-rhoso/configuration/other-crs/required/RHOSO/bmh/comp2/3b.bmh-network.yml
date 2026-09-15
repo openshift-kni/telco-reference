@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Secret
 metadata:
@@ -32,6 +33,3 @@ stringData:
     - destination: 0.0.0.0/0
       next-hop-address: 10.1.1.1
       next-hop-interface: bond0
-
-
-

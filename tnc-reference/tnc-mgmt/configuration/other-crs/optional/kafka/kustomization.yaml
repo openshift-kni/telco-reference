@@ -6,6 +6,5 @@ resources:
   - kafkaOperatorGroup.yaml
   - kafkaSubscription.yaml
   - kafkaTopic.yaml
-  - kafkaNodePool.yaml 
+  - kafkaNodePool.yaml
   - kafka.yaml
-

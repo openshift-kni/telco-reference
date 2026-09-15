@@ -67,4 +67,3 @@ spec:
         value: "360s"
       - name: "KUSTOMIZE_PLUGIN_HOME"
         value: "/.config/kustomize/plugin"
-

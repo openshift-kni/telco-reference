@@ -15,5 +15,3 @@ subjects:
   - kind: ServiceAccount
     name: vault-reviewer
     namespace: vault
----
-

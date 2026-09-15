@@ -26,15 +26,14 @@ patches:
       name: ztp-repo
     path: ztp-repo-secret-patch.yaml
   - target:
-      group: ""
+      group: "policy.open-cluster-management.io"
       version: v1
       kind: Policy
       name: ztp-argocd-plugins-installer
     path: ztp-plugins.yaml
-  - target: 
+  - target:
       group: ""
       version: v1
       kind: ClusterRole
       name: hub-rds-argocd
     path: clusterrole-patch.yaml
-

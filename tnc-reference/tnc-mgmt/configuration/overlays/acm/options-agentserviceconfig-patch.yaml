@@ -32,15 +32,15 @@
   path: "/spec/osImages"
   value:
     - cpuArchitecture: x86_64
-      openshiftVersion: "4.18"
-      rootFSUrl: http://192.0.2.4/rhcos-live-rootfs.x86_64.img
-      url: http://192.0.2.4/rhcos-live.x86_64.iso
-      version: 418.94.202501221327-0
-    - cpuArchitecture: x86_64
       openshiftVersion: "4.20"
       rootFSUrl: http://192.0.2.4/rhcos-4.20.13-x86_64-live-rootfs.x86_64.img
       url: http://192.0.2.4/rhcos-4.20.13-x86_64-live-iso.x86_64.iso
       version: 9.6.20260112-0
+    - cpuArchitecture: "x86_64"
+      openshiftVersion: "4.22"
+      rootFSUrl: http://192.0.2.4/rhcos-4.22.0-x86_64-live-rootfs.x86_64.img
+      url: http://192.0.2.4/rhcos-4.22.0-x86_64-live-iso.x86_64.iso
+      version: "9.8.20260428-0"
 
 # when disconnected, the spoke clusters will need to use also a mirrored registry. That could be configured here:
 # https://issues.redhat.com/browse/CNF-17835

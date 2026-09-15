@@ -1,3 +1,4 @@
+---
 apiVersion: config.openshift.io/v1
 kind: OAuth
 metadata:
@@ -15,22 +16,22 @@ spec:
     mappingMethod: claim
     type: HTPasswd
   - name: idm-ldap
-    mappingMethod: add 
+    mappingMethod: add
     type: LDAP
     ldap:
       attributes:
-        id: 
+        id:
         - dn
-        email: 
+        email:
         - mail
-        name: 
+        name:
         - cn
-        preferredUsername: 
+        preferredUsername:
         - uid
       bindDN: "uid=ocp-bind-user,cn=users,cn=accounts,dc=example,dc=com"
       bindPassword:
         name: "ldap-auth-secret"
-      ca: 
+      ca:
         name: ldap-ca-cert
       insecure: false
       url: 'ldap://{{hub fromConfigMap "" .ManagedClusterName "ldap-server" hub}}/cn=accounts,dc=example,dc=com?uid'
@@ -51,4 +52,3 @@ spec:
         name: keycloak-client-secret
       issuer: '{{hub fromConfigMap "" .ManagedClusterName "rhbk-openid-issuer" hub}}'
     type: OpenID
-

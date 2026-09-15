@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 data:
  25-igmp.conf: |
@@ -9,4 +10,3 @@ metadata:
  namespace: openstack
  annotations:
     ran.openshift.io/ztp-deploy-wave: "10"
-

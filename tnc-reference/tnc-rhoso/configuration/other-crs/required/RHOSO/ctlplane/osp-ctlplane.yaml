@@ -1,3 +1,4 @@
+---
 apiVersion: core.openstack.org/v1beta1
 kind: OpenStackControlPlane
 metadata:
@@ -426,4 +427,3 @@ spec:
       octaviaAPI:
         replicas: 1
       secret: osp-secret
-

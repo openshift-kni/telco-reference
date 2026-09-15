@@ -23,7 +23,7 @@ This directory contains five key components of the TNC configuration:
 
 ## Reference CRs
 
-**Note:** The reference CRs and/or the policyGerator YAMLs in this repo point to a private image registry at `registry.bastion.example.com:9500`. All those references need to be updated to point to the local private registry.
+**Note:** The reference CRs and/or the policyGerator YAMLs in this repo point to a private image registry at `registry.bastion.example.com:9500`. All     those references need to be updated to point to the local private registry.
 
 ### Policy generation CRs
 
@@ -57,9 +57,9 @@ These policy generators use labels to apply the policies to the appropriate clus
 Apply the following labels to the clusters in order to configure them with the appropriate policies:
 
 - common: "core"       - To apply the RDS baseline and overlay policies
-- version: "4.20"      - To pick the RDS 4.20 policies
+- version: "4.22"      - To pick the RDS 4.22 policies
 - cwl: "true"          - To apply the TNC CWL policies
-- tnc-ver: "tnc6.1"    - To pick TNC 6.1 policies
+- tnc-ver: "tnc7.0"    - To pick TNC 7.0 policies
 - Pick one the following:
   - odf-ext: "true"    - To configure ODF in external mode
   - odf-int: "true"    - To configure ODF in internal mode
@@ -102,5 +102,4 @@ Ensure that the following credentials exist in the vault:
 - ldap-auth-secret
   - `bindPassword` - to authenticate the OpenShift cluster with LDAP server
 - ldap-group-sync-creds
-  - `bindPassword` - to authenticate the OpenShift cluster with LDAP server
-
+  - `bind_password` - to authenticate the OpenShift cluster with LDAP server

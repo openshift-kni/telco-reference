@@ -1,3 +1,4 @@
+---
 apiVersion: k8s.cni.cncf.io/v1
 kind: NetworkAttachmentDefinition
 metadata:
@@ -7,4 +8,3 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "10"
 spec:
   config: $config
----

@@ -1,18 +1,19 @@
+---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: mgmt-kafka-tnc61
+  name: mgmt-kafka-tnc70
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
     clusterSelectors:
       mgmt: "true"
-      tnc-ver: "tnc6.1"
+      tnc-ver: "tnc7.0"
       kafka: "true"
   remediationAction: "inform"
-policies:    
-  - name: kafka-subs-tnc61
+policies:
+  - name: kafka-subs-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "2"
     manifests:
@@ -24,7 +25,7 @@ policies:
       - path: other-crs/optional/OTEL/OtelOperGroup.yaml
       - path: other-crs/optional/OTEL/OtelSubscription.yaml
 
-  - name: kafka-config-tnc61
+  - name: kafka-config-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "7"
     manifests:
@@ -79,7 +80,7 @@ policies:
             spec:
               topicName: cwl-site1-audit-logs
 
-  - name: mgmt-kafka-step1-tnc61
+  - name: mgmt-kafka-step1-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "10"
     manifests:
@@ -87,7 +88,7 @@ policies:
       - path: other-crs/optional/LOG/LOKI/LokiBucketClaim.yaml
       - path: other-crs/optional/LOG/ClusterLogServiceAccountWriterBinding.yaml
 
-  - name: mgmt-kafka-step2-tnc61
+  - name: mgmt-kafka-step2-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "15"
     manifests:
@@ -192,4 +193,3 @@ policies:
                     metrics:
                       topic: '{{hub (printf "%s" .ManagedClusterName) hub}}-platform-metrics'
                       encoding: otlp_proto
-

@@ -2,18 +2,18 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: core-overlay-19
+  name: core-overlay-22
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
     clusterSelectors:
       common: "core"
-      version: "4.20"
+      version: "4.22"
   remediationAction: "inform"
 policies:
   # Baseline configuration with custom overlay content
-  - name: core-overlay-base-4.20
+  - name: core-overlay-base-4.22
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "2"
     manifests:
@@ -27,8 +27,32 @@ policies:
         complianceType: mustonlyhave
       - path: reference-crs/optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
 
+      # Cert-manager configuration (optional component)
+      # - path: reference-crs/optional/cert-manager/certManagerClusterIssuer.yaml
+      #   patches:
+      #   - spec:
+      #       acme:
+      #         server: https://acme-v02.api.letsencrypt.org/directory
+      #         email: your-email@example.com
+      #         privateKeySecretRef:
+      #           name: acme-account-key
+      # - path: reference-crs/optional/cert-manager/ingressCertificate.yaml
+      #   patches:
+      #   - spec:
+      #       commonName: "*.apps.example.com"
+      #       dnsNames:
+      #       - "*.apps.example.com"
+      # - path: reference-crs/optional/cert-manager/ingressControllerConfig.yaml
+      # - path: reference-crs/optional/cert-manager/apiServerCertificate.yaml
+      #   patches:
+      #   - spec:
+      #       commonName: "api.example.com"
+      #       dnsNames:
+      #       - "api.example.com"
+      # - path: reference-crs/optional/cert-manager/apiServerConfig.yaml
+
   # Custom networking, operator and cluster configuration
-  - name: core-overlay-config-4.20
+  - name: core-overlay-config-4.22
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "8"
     manifests:
@@ -101,6 +125,54 @@ policies:
             nodeSelector:
               node-role.kubernetes.io/worker-3: ""
 
+      # Control plane PerformanceProfile
+      - path: reference-crs/required/performance/PerformanceProfile-control-plane.yaml
+        patches:
+        - spec:
+            cpu:
+              reserved: '{{hub fromConfigMap "" "hw-types" "control-plane-reserved" | toLiteral hub}}'
+              isolated: '{{hub fromConfigMap "" "hw-types" "control-plane-isolated" | toLiteral hub}}'
+
+      # TuneD performance patches for core
+      - path: reference-crs/required/performance/TunedPerformancePatch.yaml
+        patches:
+        - metadata:
+            name: telco-core-performance-patch
+          spec:
+            recommend:
+              - machineConfigLabels:
+                  machineconfiguration.openshift.io/role: worker-1
+                priority: 18
+                profile: worker-profile-1
+              - machineConfigLabels:
+                  machineconfiguration.openshift.io/role: worker-2
+                priority: 18
+                profile: worker-profile-2
+              - machineConfigLabels:
+                  machineconfiguration.openshift.io/role: worker-3
+                priority: 18
+                profile: worker-profile-3
+
+      # Tuned performance patch template for usage with custom profile names
+
+      # - path: reference-crs/required/performance/TunedPerformancePatch.yaml
+      #   patches:
+      #   - metadata:
+      #       name: custom-telco-core-performance-patch
+      #     spec:
+      #       profile:
+      #         - name: custom-worker-profile
+      #           data: |
+      #             [main]
+      #             summary=Custom compute core performance tuning overrides
+      #             include=openshift-node-performance-worker-profile-x
+      #             [sysctl]
+      #             kernel.panic_on_unrecovered_nmi=1
+      #       recommend:
+      #         - machineConfigLabels:
+      #             machineconfiguration.openshift.io/role: worker-profile-x
+      #           priority: 18
+      #           profile: custom-worker-profile
 
       # Metal LB
       - path: reference-crs/required/networking/metallb/metallb.yaml
@@ -108,6 +180,8 @@ policies:
         - spec:
             nodeSelector:
               node-role.kubernetes.io/worker: ""
+
+      - path: reference-crs/required/networking/metallb/configurationstate.yaml
 
       # - path: reference-crs/required/networking/metallb/bfd-profile.yaml
       # - path: reference-crs/required/networking/metallb/addr-pool.yaml
@@ -182,4 +256,3 @@ policies:
       #      ipam: '{}'
       #      networkNamespace: signal-1
       #      resourceName: testSignaling
-

@@ -37,4 +37,3 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=background
       - RespectIgnoreDifferences=true
-

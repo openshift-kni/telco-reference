@@ -25,4 +25,3 @@ data:
     numa_nodes = 0
     [libvirt]
     cpu_power_management=false
-
