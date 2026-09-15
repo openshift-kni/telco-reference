@@ -1,0 +1,49 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ldap-group-sync-egress
+  namespace: openshift-authentication
+spec:
+  podSelector:
+    matchLabels:
+      app: ldap-group-sync
+  policyTypes:
+  - Egress
+  egress:
+
+  # OpenShift DNS
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: openshift-dns
+      podSelector:
+        matchLabels:
+          dns.operator.openshift.io/daemonset-dns: default
+    ports:
+    - protocol: UDP
+      port: 5353
+    - protocol: TCP
+      port: 5353
+
+  # Kubernetes API
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: openshift-kube-apiserver
+      podSelector:
+        matchLabels:
+          app: openshift-kube-apiserver
+    ports:
+    - protocol: TCP
+      port: 6443
+
+  # IDM LDAP/LDAPS
+  - to:
+    - ipBlock:
+        cidr: '{{hub fromConfigMap "" .ManagedClusterName "ldap-server-ip" hub}}'
+    ports:
+    - protocol: TCP
+      port: 389
+    - protocol: TCP
+      port: 636

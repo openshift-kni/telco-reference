@@ -140,6 +140,7 @@ policies:
     - path: other-crs/required/reference/gitops/gitopsSubscription.yaml
       patches:
         - spec:
+            channel: gitops-1.20
             installPlanApproval: Manual
           status:
             state: AtLatestKnown

@@ -10,7 +10,7 @@ spec:
           - key: cluster.ocs.openshift.io/openshift-storage
             operator: In
             values:
-              - "true"
+              - ""
   storageClassName: localblock
   volumeMode: Block
     #  fstype: xfs

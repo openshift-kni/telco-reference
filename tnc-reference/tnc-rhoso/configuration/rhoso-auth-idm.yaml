@@ -43,6 +43,7 @@ policies:
     - path: other-crs/optional/AUTH/IDM/AuthCRBOCPAdmins.yaml
     - path: other-crs/optional/AUTH/IDM/AuthCronGroupSyncRBAC.yaml
     - path: other-crs/optional/AUTH/IDM/AuthCronGroupSyncConfigMap.yaml
+    - path: other-crs/optional/AUTH/IDM/AuthCronGroupSyncNetPolicy.yaml
     - path: other-crs/optional/AUTH/IDM/AuthCronGroupSyncJob.yaml
     - path: other-crs/optional/AUTH/IDM/AuthClusterClaim.yaml
       patches:

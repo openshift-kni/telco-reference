@@ -16,7 +16,7 @@ spec:
     - key: cluster.ocs.openshift.io/openshift-storage
       operator: In
       values:
-      - "true"
+      - ""
   resources:
     mds:
       limits:

@@ -94,6 +94,6 @@ Ensure that the following credentials exist in the vault:
 - ldap-auth-secret
   - `bindPassword` - to authenticate the OpenShift cluster with LDAP server
 - ldap-group-sync-creds
-  - `bindPassword` - to authenticate the OpenShift cluster with LDAP server
+  - `bind_password` - to authenticate the OpenShift cluster with LDAP server
 
 
