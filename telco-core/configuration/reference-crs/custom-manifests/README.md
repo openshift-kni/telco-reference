@@ -1,7 +1,9 @@
 # Custom CRs
 
-This directory holds CRs referenced by PolicyGenerator manifests under
-`telco-core/configuration/`. Paths must stay under that directory tree because
+This directory is a placeholder for additional custom CRs which are
+outside the scope of the reference CRs.
+
+Paths must stay under the `telco-core/configuration/` directory tree because
 the PolicyGenerator kustomize plugin rejects manifest paths outside it (no `../`).
 
 ## MachineConfigPool examples
