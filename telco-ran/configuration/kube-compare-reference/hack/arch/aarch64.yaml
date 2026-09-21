@@ -3,7 +3,9 @@ node_tuning_operator_PerformanceProfile:
       annotations:
         kubeletconfig.experimental: |
           {
-            "systemReserved":{"memory":"11Gi"}
+            "systemReserved":{"memory":"11Gi"},
+            "shutdownGracePeriod":"30s",
+            "shutdownGracePeriodCriticalPods":"10s"
           }
     spec:
       additionalKernelArgs:
