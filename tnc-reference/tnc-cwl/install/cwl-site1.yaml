@@ -1,5 +1,5 @@
 apiVersion: siteconfig.open-cluster-management.io/v1alpha1
-kind: ClusterInstance  
+kind: ClusterInstance
 metadata:
   name: "cwl-site1"
   namespace: "cwl-site1"
@@ -7,8 +7,8 @@ spec:
   baseDomain: "example.com"
   pullSecretRef:
     name: "assisted-deployment-pull-secret"
-  clusterImageSetNameRef: "openshift-4.20.16-disconnected"
-  sshPublicKey: "ssh-rsa AAAAB3NzaC1yc2EA..."
+  clusterImageSetNameRef: "openshift-4.22.5-disconnected"
+  sshPublicKey: "ssh-rsa AAAAB3N....."
   clusterName: "cwl-site1"
   networkType: "OVNKubernetes"
   clusterType: HighlyAvailable
@@ -19,22 +19,23 @@ spec:
   extraLabels:
     ManagedCluster:
       common: "core"
-      version: "4.20"
+      version: "4.22"
       region: "zone-1"
       cwl: "true"
-      tnc-ver: "tnc6.1"
+      tnc-ver: "tnc7.0"
       odf-ext: "true"
       #odf-int: "true"
       kafka: "true"
+      idm: "true"
   clusterNetwork:
     - cidr: 10.128.0.0/14
       hostPrefix: 23
   machineNetwork:
     - cidr: 172.31.61.0/24
   # For 3-node and standard clusters with static IPs, the API and Ingress IPs must be configured here
-  apiVIPs: 
+  apiVIPs:
     - 172.31.61.80
-  ingressVIPs: 
+  ingressVIPs:
     - 172.31.61.81
   serviceNetwork:
     - cidr: 172.30.0.0/16
@@ -53,8 +54,8 @@ spec:
       bmcCredentialsName:
         name: "bmh-secret-dell"
       bootMACAddress: "30:3e:a7:03:04:70"
-      bootMode: "UEFISecureBoot" 
-      automatedCleaningMode: "metadata"  
+      bootMode: "UEFISecureBoot"
+      automatedCleaningMode: "metadata"
       nodeLabels:
         cluster.ocs.openshift.io/openshift-storage: "true"
       templateRefs:
@@ -125,8 +126,8 @@ spec:
       bmcCredentialsName:
         name: "bmh-secret-dell"
       bootMACAddress: "30:3e:a7:02:fd:c0"
-      bootMode: "UEFISecureBoot" 
-      automatedCleaningMode: "metadata"  
+      bootMode: "UEFISecureBoot"
+      automatedCleaningMode: "metadata"
       nodeLabels:
         cluster.ocs.openshift.io/openshift-storage: "true"
       templateRefs:
@@ -197,8 +198,8 @@ spec:
       bmcCredentialsName:
         name: "bmh-secret-dell"
       bootMACAddress: "30:3e:a7:03:0a:40"
-      bootMode: "UEFISecureBoot" 
-      automatedCleaningMode: "metadata"  
+      bootMode: "UEFISecureBoot"
+      automatedCleaningMode: "metadata"
       nodeLabels:
         cluster.ocs.openshift.io/openshift-storage: "true"
       templateRefs:
@@ -269,8 +270,8 @@ spec:
       bmcCredentialsName:
         name: "bmh-secret-dell"
       bootMACAddress: "30:3e:a7:02:fe:20"
-      bootMode: "UEFISecureBoot" 
-      automatedCleaningMode: "metadata"  
+      bootMode: "UEFISecureBoot"
+      automatedCleaningMode: "metadata"
       nodeLabels:
         node-role.kubernetes.io/worker-1: ""
       templateRefs:
@@ -341,8 +342,8 @@ spec:
     #  bmcCredentialsName:
     #    name: "bmh-secret-hp"
     #  bootMACAddress: "50:7c:6f:4b:9b:5c"
-    #  bootMode: "UEFISecureBoot" 
-    #  automatedCleaningMode: "metadata"  
+    #  bootMode: "UEFISecureBoot"
+    #  automatedCleaningMode: "metadata"
     #  nodeLabels:
     #    node-role.kubernetes.io/worker-1: ""
     #  templateRefs:

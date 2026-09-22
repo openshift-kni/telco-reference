@@ -1,5 +1,6 @@
+---
 apiVersion: compliance.openshift.io/v1alpha1
-autoApplyRemediations: false        
+autoApplyRemediations: false
 autoUpdateRemediations: false
 debug: true
 kind: ScanSetting
@@ -35,7 +36,7 @@ roles:
 - worker
 scanTolerations:
 - operator: Exists
-schedule: 0 
+schedule: 0
 showNotApplicable: false
 strictNodeScan: true
 suspend: false

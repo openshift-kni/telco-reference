@@ -7,4 +7,3 @@ metadata:
 spec:
   targetNamespaces:
     - ansible-automation-platform
-

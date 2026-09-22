@@ -1,0 +1,30 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: mgmt-ztp-upgrade-finish
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      mgmt: "true"
+      upgrade-finish: ""
+  remediationAction: "inform"
+policies:
+  - name: mgmt-ztp-upgrade-workers
+    policyAnnotations:
+      ran.openshift.io/soak-seconds: "30"
+    manifests:
+      - path: other-crs/custom-manifests/mcp-worker.yaml
+        patches:
+        - spec:
+            # Adjust as needed based on spare capacity, cluster design, and application requirements
+            maxUnavailable: 100%
+            paused: false
+          status:
+            conditions:
+            - type: Updated
+              status: "True"
+            - type: Updating
+              status: "False"

@@ -5,4 +5,3 @@ metadata:
   name: clusters-sub
   annotations:
     argocd.argoproj.io/sync-wave: "100"
-

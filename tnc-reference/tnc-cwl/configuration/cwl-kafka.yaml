@@ -1,18 +1,19 @@
+---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: cwl-kafka-tnc61
+  name: cwl-kafka-tnc70
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
     clusterSelectors:
       cwl: "true"
-      tnc-ver: "tnc6.1"
+      tnc-ver: "tnc7.0"
       kafka: "true"
   remediationAction: "inform"
-policies:    
-  - name: cwl-kafka-step1-tnc61
+policies:
+  - name: cwl-kafka-step1-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "10"
     manifests:
@@ -30,7 +31,7 @@ policies:
       - path: other-crs/optional/OTEL/OtelRBAC-clusterRole.yaml
       - path: other-crs/optional/OTEL/OtelRBAC-clusterRoleBinding.yaml
 
-  - name: cwl-kafka-step2-tnc61
+  - name: cwl-kafka-step2-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "15"
     manifests:
@@ -128,4 +129,3 @@ policies:
                     metrics:
                       topic: '{{hub (printf "%s" .ManagedClusterName) hub}}-platform-metrics'
                       encoding: otlp_proto
-

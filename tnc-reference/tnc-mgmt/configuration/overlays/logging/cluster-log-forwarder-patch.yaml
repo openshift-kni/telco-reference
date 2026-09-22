@@ -2,14 +2,14 @@
 # patching ClusterLogForwarder for mgmt1-specific configuration
 - op: replace
   path: /metadata/annotations
-  value: 
+  value:
     argocd.argoproj.io/sync-wave: "20"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
     argocd.argoproj.io/compare-options: IgnoreExtraneous
 
 - op: replace
   path: /spec
-  value: 
+  value:
     managementState: Managed
     outputs:
      - name: infra-logs
@@ -75,4 +75,3 @@
        - app-logs
     serviceAccount:
       name: collector
-

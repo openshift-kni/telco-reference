@@ -1,7 +1,7 @@
 ---
-- op: add 
+- op: add
   path: "/rules/-"
-  value: 
+  value:
     apiGroups:
     - lvm.topolvm.io
     resources:
@@ -9,9 +9,9 @@
     verbs:
     - '*'
 
-- op: add 
+- op: add
   path: "/rules/-"
-  value: 
+  value:
     apiGroups:
     - external-secrets.io
     resources:
@@ -21,9 +21,9 @@
     verbs:
     - '*'
 
-- op: add 
+- op: add
   path: "/rules/-"
-  value: 
+  value:
     apiGroups:
     - operator.openshift.io
     resources:
@@ -31,9 +31,9 @@
     verbs:
     - '*'
 
-- op: add 
+- op: add
   path: "/rules/-"
-  value: 
+  value:
     apiGroups:
     - opentelemetry.io
     resources:
@@ -41,9 +41,9 @@
     verbs:
     - '*'
 
-- op: add 
+- op: add
   path: "/rules/-"
-  value: 
+  value:
     apiGroups:
     - kafka.strimzi.io
     resources:
@@ -53,13 +53,12 @@
     verbs:
     - '*'
 
-- op: add 
+- op: add
   path: "/rules/-"
-  value: 
+  value:
     apiGroups:
     - quay.redhat.com
     resources:
     - quayregistries
     verbs:
     - '*'
-

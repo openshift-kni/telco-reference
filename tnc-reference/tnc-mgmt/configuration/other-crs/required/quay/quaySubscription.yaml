@@ -7,9 +7,8 @@ metadata:
   name: quay-operator
   namespace: quay-enterprise
 spec:
-  channel: "stable-3.16"
+  channel: "stable-3.18"
   name: quay-operator
   source: redhat-operators-disconnected
   sourceNamespace: openshift-marketplace
   installPlanApproval: Automatic
-

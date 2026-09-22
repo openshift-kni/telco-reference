@@ -18,4 +18,3 @@ patches:
       kind: ConfigMap
       name: vault-ca
     path: VaultCertificate-ca-patch.yaml
-

@@ -97,7 +97,7 @@
   register: result
 
 - name: ensures files dir exists
-  file: 
+  file:
     path: "files"
     state: directory
 
@@ -134,5 +134,4 @@
   ansible.builtin.debug:
     var: result
   when: result.failed
-
 

@@ -10,7 +10,7 @@ The full TNC Global Management (g-mgmt) cluster configuration can be applied usi
 * All files/directories in this tree are available in a git repository along with any necessary kustomize overlay for your environment.
 * Configured and existing Openshift CatalogSources for `redhat-operators-disconnected` and `certified-operators-disconnected`.
 
-**Note:** The reference CRs and/or the policyGerator YAMLs in this repo point to a private image registry at `registry.bastion.example.com:9500`. All those references need to be updated to point to the local private registry.
+**Note:** The reference CRs and/or the policyGerator YAMLs in this repo point to a private image registry at `registry.bastion.example.com:9500`. All     those references need to be updated to point to the local private registry.
 
 ## Init phase (install ArgoCD or Openshift GitOps)
 
@@ -146,15 +146,15 @@ Edit the file `overlays/odf/options-agentserviceconfig-patch.yaml` to configure 
   path: "/spec/osImages"
   value:
     - cpuArchitecture: x86_64
-      openshiftVersion: "4.18"
-      rootFSUrl: http://192.0.2.4/rhcos-live-rootfs.x86_64.img
-      url: http://192.0.2.4/rhcos-live.x86_64.iso
-      version: 418.94.202501221327-0
-    - cpuArchitecture: x86_64
       openshiftVersion: "4.20"
       rootFSUrl: http://192.0.2.4/rhcos-4.20.13-x86_64-live-rootfs.x86_64.img
       url: http://192.0.2.4/rhcos-4.20.13-x86_64-live-iso.x86_64.iso
       version: 9.6.20260112-0
+    - cpuArchitecture: "x86_64"
+      openshiftVersion: "4.22"
+      rootFSUrl: http://192.0.2.4/rhcos-4.22.0-x86_64-live-rootfs.x86_64.img
+      url: http://192.0.2.4/rhcos-4.22.0-x86_64-live-iso.x86_64.iso
+      version: "9.8.20260428-0"
 
 # when disconnected, the spoke clusters will need to use also a mirrored registry. That could be configured here:
 # https://issues.redhat.com/browse/CNF-17835
@@ -179,7 +179,7 @@ You have to edit the gitops patch overlay (`overlays/gitops/init-argocd-app.yaml
   value:
     - repoURL: "tnc-reference/tnc-mgmt/configuration"
       path: "https://github.com/openshift-kni/telco-reference.git"
-      targetRevision: "tnc6.1-release-4.20"
+      targetRevision: "tnc7.0-release-4.22"
 ```
 
 ### Provide the GIT repo credentials for the local cluster configuration
@@ -196,7 +196,7 @@ You have to edit the gitops-ztp patch overlay (`overlays/gitops-ztp/clusters-app
   value:
     - repoURL: "tnc-reference/tnc-cwl/install"
       path: "https://github.com/openshift-kni/telco-reference.git"
-      targetRevision: "tnc6.1-release-4.20"
+      targetRevision: "tnc7.0-release-4.22"
 ```
 
 ### Configure the `policies` ArgoCD Application for ZTP configuration of workload clusters
@@ -209,7 +209,7 @@ You have to edit the gitops-ztp patch overlay (`overlays/gitops-ztp/policies-app
   value:
     - repoURL: "tnc-reference/tnc-cwl/configuration"
       path: "https://github.com/openshift-kni/telco-reference.git"
-      targetRevision: "tnc6.1-release-4.20"
+      targetRevision: "tnc7.0-release-4.22"
 ````
 
 ### Provide the GIT repo credentials for the workload cluster ZTP
@@ -237,4 +237,3 @@ application.argoproj.io/hub-config created
 ```
 
 The ArgoCD application will be created on your cluster and will start installing and configuring all the needed g-mgmt cluster components. Note that at this point the ArgoCD application is also being managed via gitops and any changes to the application should be done in git as well.
-

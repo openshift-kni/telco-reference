@@ -1,18 +1,19 @@
+---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: cwl-lab-tnc61
+  name: cwl-lab-tnc70
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
     clusterSelectors:
       cwl: "true"
-      tnc-ver: "tnc6.1"
+      tnc-ver: "tnc7.0"
       lab: "true"
   remediationAction: "inform"
 policies:
-  - name: operators-lab-tnc61
+  - name: operators-lab-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "5"
     manifests:
@@ -23,7 +24,7 @@ policies:
           - spec:
               installPlanApproval: Manual
 
-  - name: config-lab-tnc61
+  - name: config-lab-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "8"
     manifests:

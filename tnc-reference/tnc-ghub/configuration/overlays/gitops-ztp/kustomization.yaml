@@ -25,4 +25,3 @@ patches:
       kind: Secret
       name: ztp-repo-workload
     path: ztp-repo-workload-secret-patch.yaml
-

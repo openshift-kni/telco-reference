@@ -1,26 +1,27 @@
+---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: mgmt-auth-idm-tnc61
+  name: mgmt-auth-idm-tnc70
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
     clusterSelectors:
       mgmt: "true"
-      tnc-ver: "tnc6.1"
+      tnc-ver: "tnc7.0"
       idm: "true"
   remediationAction: "inform"
 policies:
-  - name: mgmt-auth-idm-tnc61
+  - name: mgmt-auth-idm-tnc70
     policyAnnotations:
-      ran.openshift.io/ztp-deploy-wave: "50"  
+      ran.openshift.io/ztp-deploy-wave: "50"
     manifests:
     - path: other-crs/optional/AUTH/LOCAL/AuthSecretHTPasswd.yaml
       patches:
         - data:
             htpasswd: >-
-              <redacted>
+              <REDACTED>
     - path: other-crs/optional/AUTH/LOCAL/AuthClusterRoleBinding.yaml
     #- path: other-crs/optional/AUTH/IDM/AuthSecretLdapCACert.yaml
     #  patches:
@@ -43,6 +44,7 @@ policies:
     - path: other-crs/optional/AUTH/IDM/AuthCRBOCPAdmins.yaml
     - path: other-crs/optional/AUTH/IDM/AuthCronGroupSyncRBAC.yaml
     - path: other-crs/optional/AUTH/IDM/AuthCronGroupSyncConfigMap.yaml
+    - path: other-crs/optional/AUTH/IDM/AuthCronGroupSyncNetPolicy.yaml
     - path: other-crs/optional/AUTH/IDM/AuthCronGroupSyncJob.yaml
     - path: other-crs/optional/AUTH/IDM/AuthClusterClaim.yaml
       patches:
@@ -64,9 +66,9 @@ policies:
                 key: '{{hub (printf "%s" .ManagedClusterName) hub}}/ldap-group-sync-creds'
     - path: other-crs/optional/AUTH/IDM/AuthOauth.yaml
 
-  - name: mgmt-post-auth-idm-tnc61
+  - name: mgmt-post-auth-idm-tnc70
     policyAnnotations:
-      ran.openshift.io/ztp-deploy-wave: "99"  
+      ran.openshift.io/ztp-deploy-wave: "99"
     complianceType: mustnothave
     manifests:
     - path: other-crs/optional/AUTH/AuthKubeAdmin.yaml

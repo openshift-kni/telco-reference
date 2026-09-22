@@ -1,3 +1,4 @@
+---
 apiVersion: self-node-remediation.medik8s.io/v1alpha1
 kind: SelfNodeRemediationTemplate
 metadata:
@@ -9,4 +10,3 @@ spec:
   template:
     spec:
       remediationStrategy: OutOfServiceTaint
-

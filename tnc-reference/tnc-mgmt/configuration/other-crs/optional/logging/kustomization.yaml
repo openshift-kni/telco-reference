@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - sa-appBinding.yaml
   - kafka-secret.yaml
-

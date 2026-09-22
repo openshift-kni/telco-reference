@@ -9,12 +9,12 @@ policyDefaults:
   placement:
     clusterSelectors:
       common: "core"
-      version: "4.20"
+      version: "4.22"
       vewl: "true"
   remediationAction: "inform"
 policies:
   # Baseline configuration with custom overlay content
-  - name: vewl-overlay-base-4.20
+  - name: vewl-overlay-base-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "2"
     manifests:
@@ -29,7 +29,7 @@ policies:
       - path: reference-crs/optional/networking/multus/tap_cni/mc_rootless_pods_selinux.yaml
 
   # Custom networking, operator and cluster configuration
-  - name: vewl-overlay-config-4.20
+  - name: vewl-overlay-config-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "8"
     manifests:
@@ -102,6 +102,14 @@ policies:
             nodeSelector:
               node-role.kubernetes.io/worker-3: ""
 
+      # Control plane PerformanceProfile
+      - path: reference-crs/required/performance/PerformanceProfile-control-plane.yaml
+        patches:
+        - spec:
+            cpu:
+              reserved: '{{hub fromConfigMap "" "hw-types" "control-plane-reserved" | toLiteral hub}}'
+              isolated: '{{hub fromConfigMap "" "hw-types" "control-plane-isolated" | toLiteral hub}}'
+
       # TuneD performance patches for core
 #      - path: reference-crs/required/performance/TunedPerformancePatch.yaml
 #        patches:
@@ -170,11 +178,13 @@ policies:
 #              - kafka-open
 
       # Metal LB
-#      - path: reference-crs/required/networking/metallb/metallb.yaml
-#        patches:
-#        - spec:
-#            nodeSelector:
-#              node-role.kubernetes.io/worker: ""
+      - path: reference-crs/required/networking/metallb/metallb.yaml
+        patches:
+        - spec:
+            nodeSelector:
+              node-role.kubernetes.io/worker: ""
+
+      - path: reference-crs/required/networking/metallb/configurationstate.yaml
 
       # - path: reference-crs/required/networking/metallb/bfd-profile.yaml
       # - path: reference-crs/required/networking/metallb/addr-pool.yaml
@@ -232,10 +242,10 @@ policies:
             deviceType: vfio-pci
             nicSelector:
               pfNames:
-                - '{{hub fromConfigMap "" "cwl-site3" "nic-config-type-1-sriov-dev2" | toLiteral hub}}'
+                - '{{hub fromConfigMap "" "vewl-conf" "nic-config-type-1-sriov-dev2" | toLiteral hub}}'
             nodeSelector:
               node-role.kubernetes.io/worker-1: ""
-            numVfs: '{{hub fromConfigMap "" "cwl-site3" "nic-config-type-1-sriov-numvf" | toInt hub}}'
+            numVfs: '{{hub fromConfigMap "" "vewl-conf" "nic-config-type-1-sriov-numvf" | toInt hub}}'
             priority: 99
             # excludeTopology: true
             resourceName: vmsriovnet
@@ -247,7 +257,7 @@ policies:
           spec:
             capabilities: '{ "ips": true }'
             ipam: '{}'
-            networkNamespace: '{{hub fromConfigMap "" "cwl-site3" "vewl-namespace" | default "vewl-epa" | toLiteral hub}}'
+            networkNamespace: '{{hub fromConfigMap "" "vewl-conf" "vewl-namespace" | default "vewl-epa" | toLiteral hub}}'
             resourceName: vmsriovnet
             trust: "on"
             vlan: 64
@@ -255,17 +265,17 @@ policies:
       #
       # Configure ODF
       #
-      - path: reference-crs/required/storage/odf-external/01-rook-ceph-external-cluster-details.secret.yaml
-        patches:
-          - data:
-              # encoded content has been made generic
-              external_cluster_details: eyJuYW1lIjoicm9vay1jZXBoLW1vbi1lbmRwb2ludHMiLCJraW5kIjoiQ29uZmlnTWFwIiwiZGF0YSI6eyJkYXRhIjoiY2VwaG5vZGUxPTEuMi4zLjQ6Njc4OSIsIm1heE1vbklkIjoiMCIsIm1hcHBpbmciOiJ7fSJ9fSx7Im5hbWUiOiJyb29rLWNlcGgtbW9uIiwia2luZCI6IlNlY3JldCIsImRhdGEiOnsiYWRtaW4tc2VjcmV0IjoiYWRtaW4tc2VjcmV0IiwiZnNpZCI6IjExMTExMTExLTExMTEtMTExMS0xMTExLTExMTExMTExMTExMSIsIm1vbi1zZWNyZXQiOiJtb24tc2VjcmV0In19LHsibmFtZSI6InJvb2stY2VwaC1vcGVyYXRvci1jcmVkcyIsImtpbmQiOiJTZWNyZXQiLCJkYXRhIjp7InVzZXJJRCI6ImNsaWVudC5oZWFsdGhjaGVja2VyIiwidXNlcktleSI6ImMyVmpjbVYwIn19LHsibmFtZSI6Im1vbml0b3JpbmctZW5kcG9pbnQiLCJraW5kIjoiQ2VwaENsdXN0ZXIiLCJkYXRhIjp7Ik1vbml0b3JpbmdFbmRwb2ludCI6IjEuMi4zLjQsMS4yLjMuMywxLjIuMy4yIiwiTW9uaXRvcmluZ1BvcnQiOiI5MjgzIn19LHsibmFtZSI6ImNlcGgtcmJkIiwia2luZCI6IlN0b3JhZ2VDbGFzcyIsImRhdGEiOnsicG9vbCI6Im9kZl9wb29sIn19LHsibmFtZSI6InJvb2stY3NpLXJiZC1ub2RlIiwia2luZCI6IlNlY3JldCIsImRhdGEiOnsidXNlcklEIjoiY3NpLXJiZC1ub2RlIiwidXNlcktleSI6IiJ9fSx7Im5hbWUiOiJyb29rLWNzaS1yYmQtcHJvdmlzaW9uZXIiLCJraW5kIjoiU2VjcmV0IiwiZGF0YSI6eyJ1c2VySUQiOiJjc2ktcmJkLXByb3Zpc2lvbmVyIiwidXNlcktleSI6ImMyVmpjbVYwIn19LHsibmFtZSI6InJvb2stY3NpLWNlcGhmcy1wcm92aXNpb25lciIsImtpbmQiOiJTZWNyZXQiLCJkYXRhIjp7ImFkbWluSUQiOiJjc2ktY2VwaGZzLXByb3Zpc2lvbmVyIiwiYWRtaW5LZXkiOiIifX0seyJuYW1lIjoicm9vay1jc2ktY2VwaGZzLW5vZGUiLCJraW5kIjoiU2VjcmV0IiwiZGF0YSI6eyJhZG1pbklEIjoiY3NpLWNlcGhmcy1ub2RlIiwiYWRtaW5LZXkiOiJjMlZqY21WMCJ9fSx7Im5hbWUiOiJjZXBoZnMiLCJraW5kIjoiU3RvcmFnZUNsYXNzIiwiZGF0YSI6eyJmc05hbWUiOiJjZXBoZnMiLCJwb29sIjoibWFuaWxhX2RhdGEifX0K
-
-      - path: reference-crs/required/storage/odf-external/02-ocs-external-storagecluster.yaml
+#      - path: reference-crs/required/storage/odf-external/01-rook-ceph-external-cluster-details.secret.yaml
+#        patches:
+#          - data:
+#              # encoded content has been made generic
+#              external_cluster_details: eyJuYW1lIjoicm9vay1jZXBoLW1vbi1lbmRwb2ludHMiLCJraW5kIjoiQ29uZmlnTWFwIiwiZGF0YSI6eyJkYXRhIjoiY2VwaG5vZGUxPTEuMi4zLjQ6Njc4OSIsIm1heE1vbklkIjoiMCIsIm1hcHBpbmciOiJ7fSJ9fSx7Im5hbWUiOiJyb29rLWNlcGgtbW9uIiwia2luZCI6IlNlY3JldCIsImRhdGEiOnsiYWRtaW4tc2VjcmV0IjoiYWRtaW4tc2VjcmV0IiwiZnNpZCI6IjExMTExMTExLTExMTEtMTExMS0xMTExLTExMTExMTExMTExMSIsIm1vbi1zZWNyZXQiOiJtb24tc2VjcmV0In19LHsibmFtZSI6InJvb2stY2VwaC1vcGVyYXRvci1jcmVkcyIsImtpbmQiOiJTZWNyZXQiLCJkYXRhIjp7InVzZXJJRCI6ImNsaWVudC5oZWFsdGhjaGVja2VyIiwidXNlcktleSI6ImMyVmpjbVYwIn19LHsibmFtZSI6Im1vbml0b3JpbmctZW5kcG9pbnQiLCJraW5kIjoiQ2VwaENsdXN0ZXIiLCJkYXRhIjp7Ik1vbml0b3JpbmdFbmRwb2ludCI6IjEuMi4zLjQsMS4yLjMuMywxLjIuMy4yIiwiTW9uaXRvcmluZ1BvcnQiOiI5MjgzIn19LHsibmFtZSI6ImNlcGgtcmJkIiwia2luZCI6IlN0b3JhZ2VDbGFzcyIsImRhdGEiOnsicG9vbCI6Im9kZl9wb29sIn19LHsibmFtZSI6InJvb2stY3NpLXJiZC1ub2RlIiwia2luZCI6IlNlY3JldCIsImRhdGEiOnsidXNlcklEIjoiY3NpLXJiZC1ub2RlIiwidXNlcktleSI6IiJ9fSx7Im5hbWUiOiJyb29rLWNzaS1yYmQtcHJvdmlzaW9uZXIiLCJraW5kIjoiU2VjcmV0IiwiZGF0YSI6eyJ1c2VySUQiOiJjc2ktcmJkLXByb3Zpc2lvbmVyIiwidXNlcktleSI6ImMyVmpjbVYwIn19LHsibmFtZSI6InJvb2stY3NpLWNlcGhmcy1wcm92aXNpb25lciIsImtpbmQiOiJTZWNyZXQiLCJkYXRhIjp7ImFkbWluSUQiOiJjc2ktY2VwaGZzLXByb3Zpc2lvbmVyIiwiYWRtaW5LZXkiOiIifX0seyJuYW1lIjoicm9vay1jc2ktY2VwaGZzLW5vZGUiLCJraW5kIjoiU2VjcmV0IiwiZGF0YSI6eyJhZG1pbklEIjoiY3NpLWNlcGhmcy1ub2RlIiwiYWRtaW5LZXkiOiJjMlZqY21WMCJ9fSx7Im5hbWUiOiJjZXBoZnMiLCJraW5kIjoiU3RvcmFnZUNsYXNzIiwiZGF0YSI6eyJmc05hbWUiOiJjZXBoZnMiLCJwb29sIjoibWFuaWxhX2RhdGEifX0K
+#
+#      - path: reference-crs/required/storage/odf-external/02-ocs-external-storagecluster.yaml
 
   # reference-crs/optional/networking/nodeNetworkConfigurationPolicy.yaml
 
-  - name: config-monitoring-4.20
+  - name: vewl-config-monitoring-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "10"
     manifests:
@@ -301,7 +311,7 @@ policies:
                   - "10.11.12.14:9999"
 
   # Cert-manager configuration (optional component)
-  # - name: config-cert-manager-4.20
+  # - name: config-cert-manager-4.22
   #   policyAnnotations:
   #     ran.openshift.io/ztp-deploy-wave: "10"
   #   manifests:
@@ -327,3 +337,4 @@ policies:
   #           dnsNames:
   #           - "api.example.com"
   #     - path: reference-crs/optional/cert-manager/apiServerConfig.yaml
+  #

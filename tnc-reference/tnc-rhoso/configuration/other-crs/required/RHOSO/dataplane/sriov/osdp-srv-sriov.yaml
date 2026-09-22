@@ -29,4 +29,3 @@ spec:
      issuer: osp-rootca-issuer-internal
      networks:
      - ctlplane
-

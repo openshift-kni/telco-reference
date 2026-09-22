@@ -7,9 +7,9 @@ spec:
   holdInstallation: false
   baseDomain: "example.com"
   pullSecretRef:
-    name: "assisted-deployment-pull-secret" 
-  clusterImageSetNameRef: "openshift-4.18-disconnected"  
-  sshPublicKey: "ssh-rsa AAAA...."
+    name: "assisted-deployment-pull-secret"
+  clusterImageSetNameRef: "openshift-4.22-disconnected"
+  sshPublicKey: "ssh-rsa AAAAB3N....."
   clusterName: "mgmt1"
   networkType: "OVNKubernetes"
   clusterNetwork:
@@ -20,10 +20,10 @@ spec:
   machineNetwork:
     - cidr: 172.31.141.0/24
     - cidr: fd00:2023:141::/48
-  apiVIPs: 
+  apiVIPs:
     - 172.31.141.4
     - fd00:2023:141::4
-  ingressVIPs: 
+  ingressVIPs:
     - 172.31.141.5
     - fd00:2023:141::5
   serviceNetwork:
@@ -34,8 +34,8 @@ spec:
     - 192.0.2.2
   extraLabels:
     ManagedCluster:
-      mgmt: "true"  
-      tnc-ver: "tnc6.1"
+      mgmt: "true"
+      tnc-ver: "tnc7.0"
       odf-int: "true"
       #odf-ext: "true"
       #lvms: "true"
@@ -45,8 +45,8 @@ spec:
   templateRefs:
     - name: ai-cluster-templates-v1
       namespace: open-cluster-management
-#  extraManifestsRefs:
-#    - name: extra-manifests-mgmt1 
+  extraManifestsRefs:
+    - name: extra-manifests-mgmt1
 #################################################################
   nodes:
     - hostName: "mgmt1-m1"
@@ -55,9 +55,9 @@ spec:
       bmcCredentialsName:
         name: "bmh-secret-v1"
       bootMACAddress: "30:3E:A7:03:08:F0"
-      bootMode: "UEFISecureBoot"  
+      bootMode: "UEFISecureBoot"
       rootDeviceHints:
-        wwn: "0x6f4ee08057eaa100662faace8b66cd52"      
+        wwn: "0x6f4ee08057eaa100662faace8b66cd52"
       automatedCleaningMode: "metadata"
       nodeLabels:
         cluster.ocs.openshift.io/openshift-storage: ""
@@ -85,7 +85,7 @@ spec:
                 enabled: true
                 dhcp: false
               ipv6:
-                enabled: true              
+                enabled: true
                 dhcp: false
               link-aggregation:
                 mode: '802.3ad'
@@ -101,7 +101,7 @@ spec:
               mtu: 8950
               vlan:
                 base-iface: bond0
-                id: 141              
+                id: 141
               ipv4:
                 address:
                 - ip: 172.31.141.6
@@ -111,7 +111,7 @@ spec:
                 address:
                 - ip: fd00:2023:141::6
                   prefix-length: 48
-                enabled: true                
+                enabled: true
             #- name: bond0.142
             #  type: vlan
             #  state: up
@@ -176,7 +176,7 @@ spec:
       bmcCredentialsName:
         name: "bmh-secret-v1"
       bootMACAddress: "30:3E:A7:03:0A:90"
-      bootMode: "UEFISecureBoot" 
+      bootMode: "UEFISecureBoot"
       rootDeviceHints:
         wwn: "0x6f4ee08057eacd00662fab4e5c3b4263"
       automatedCleaningMode: "metadata"
@@ -206,7 +206,7 @@ spec:
                 enabled: true
                 dhcp: false
               ipv6:
-                enabled: true                
+                enabled: true
                 dhcp: false
               link-aggregation:
                 mode: '802.3ad'
@@ -222,7 +222,7 @@ spec:
               mtu: 8950
               vlan:
                 base-iface: bond0
-                id: 141                
+                id: 141
               ipv4:
                 address:
                 - ip: 172.31.141.7
@@ -232,7 +232,7 @@ spec:
                 address:
                 - ip: fd00:2023:141::7
                   prefix-length: 48
-                enabled: true                
+                enabled: true
             #- name: bond0.142
             #  type: vlan
             #  state: up
@@ -297,7 +297,7 @@ spec:
       bmcCredentialsName:
         name: "bmh-secret-v1"
       bootMACAddress: "30:3E:A7:03:06:80"
-      bootMode: "UEFISecureBoot" 
+      bootMode: "UEFISecureBoot"
       rootDeviceHints:
         wwn: "0x6f4ee08057eac400662facdf274e95bb"
       automatedCleaningMode: "metadata"
@@ -327,7 +327,7 @@ spec:
                 enabled: true
                 dhcp: false
               ipv6:
-                enabled: true                
+                enabled: true
                 dhcp: false
               link-aggregation:
                 mode: '802.3ad'
@@ -343,7 +343,7 @@ spec:
               mtu: 8950
               vlan:
                 base-iface: bond0
-                id: 141                      
+                id: 141
               ipv4:
                 address:
                 - ip: 172.31.141.8
@@ -353,7 +353,7 @@ spec:
                 address:
                 - ip: fd00:2023:141::8
                   prefix-length: 48
-                enabled: true                
+                enabled: true
             #- name: bond0.142
             #  type: vlan
             #  state: up
@@ -414,13 +414,13 @@ spec:
 ##########################################################
     - hostName: "mgmt1-worker1"
       role: "worker"
-      bmcAddress: "idrac-virtualmedia+https://192.0.2.153/redfish/v1/Systems/System.Embedded.1"        
+      bmcAddress: "idrac-virtualmedia+https://192.0.2.153/redfish/v1/Systems/System.Embedded.1"
       bmcCredentialsName:
         name: "bmh-secret-v1"
       bootMACAddress: "30:3E:A7:03:0F:10"
-      bootMode: "UEFISecureBoot" 
+      bootMode: "UEFISecureBoot"
       rootDeviceHints:
-        wwn: "0x6f4ee08057eabd00662fad1210ef738a"             
+        wwn: "0x6f4ee08057eabd00662fad1210ef738a"
       automatedCleaningMode: "metadata"
       nodeLabels:
         cluster.ocs.openshift.io/openshift-storage: ""
@@ -448,7 +448,7 @@ spec:
                 enabled: true
                 dhcp: false
               ipv6:
-                enabled: true                
+                enabled: true
                 dhcp: false
               link-aggregation:
                 mode: '802.3ad'
@@ -464,7 +464,7 @@ spec:
               mtu: 8950
               vlan:
                 base-iface: bond0
-                id: 141                  
+                id: 141
               ipv4:
                 address:
                 - ip: 172.31.141.9
@@ -474,7 +474,7 @@ spec:
                 address:
                 - ip: fd00:2023:141::9
                   prefix-length: 48
-                enabled: true                
+                enabled: true
             #- name: bond0.142
             #  type: vlan
             #  state: up
@@ -532,5 +532,4 @@ spec:
               - destination: ::/0
                 next-hop-address: fd00:2023:141::1
                 next-hop-interface: bond0.141
-
 

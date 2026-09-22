@@ -7,4 +7,3 @@ metadata:
   name: openshift-local-storage
   annotations:
     ran.openshift.io/ztp-deploy-wave: "5"
-

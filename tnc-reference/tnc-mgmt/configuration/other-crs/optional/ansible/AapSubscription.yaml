@@ -12,4 +12,3 @@ spec:
   name: ansible-automation-platform-operator
   source: redhat-operators-disconnected
   sourceNamespace: openshift-marketplace
-

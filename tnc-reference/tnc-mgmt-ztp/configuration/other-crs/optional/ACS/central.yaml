@@ -1,3 +1,4 @@
+---
 apiVersion: platform.stackrox.io/v1alpha1
 kind: Central
 metadata:
@@ -55,4 +56,3 @@ spec:
         maxReplicas: 5
         minReplicas: 2
         replicas: 3
-

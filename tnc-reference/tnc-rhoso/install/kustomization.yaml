@@ -4,6 +4,7 @@ generatorOptions:
   disableNameSuffixHash: true
 configMapGenerator:
 - files:
+    - extra-manifests/idms.yaml
   name: extra-manifests-configmap
   namespace: cwl-site2
 
@@ -11,4 +12,3 @@ resources:
   - ns/cwl-site2.yaml
   - secrets/cwl-site2.yaml
   - cwl-site2.yaml
-

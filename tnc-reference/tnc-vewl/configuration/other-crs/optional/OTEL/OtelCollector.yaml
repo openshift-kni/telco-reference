@@ -1,3 +1,4 @@
+---
 apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
@@ -16,7 +17,7 @@ spec:
       memory: 2Gi
       cpu: "2"
   config:
-    receivers: 
+    receivers:
       prometheus/platform:
         config:
           scrape_configs:
@@ -50,7 +51,7 @@ spec:
               tls_config:
                 ca_file: /etc/otel/service-ca/service-ca.crt
                 insecure_skip_verify: false
-              
+
               # Early cardinality reduction
               metric_relabel_configs:
                 # Drop noisy metrics
@@ -62,35 +63,35 @@ spec:
                 - action: labeldrop
                   regex: "(pod_uid|container_id|instance|endpoint)"
 
-      prometheus/user-workload:
-        config:
-          scrape_configs:
-            - job_name: openshift-user-workload
-              scrape_interval: 60s
-              scheme: https
-              metrics_path: /federate
-              params:
-                'match[]':
-                  - '{__name__=~"app_.*|service_latency.*|service:availability.*|service:error_rate.*"}'
-                  - '{__name__=~"ALERTS"}'
-                  - '{__name__="process_resident_memory_bytes",job=~"apiserver|etcd"}'
-                  - '{__name__="grpc_server_started_total",job="etcd"}'
-                  - '{__name__="grpc_server_handled_total",job="etcd"}'
-                  - '{__name__="go_goroutines",job="apiserver"}'
-                  - '{__name__="process_cpu_seconds_total",job="apiserver"}'
-                  - '{__name__="workqueue_adds_total",job="apiserver"}'
-                  - '{__name__="workqueue_depth",job="apiserver"}'
-                  - '{__name__="workqueue_queue_duration_seconds_bucket",job="apiserver"}'
-              static_configs:
-                - targets:
-                    - prometheus-user-workload.openshift-user-workload-monitoring.svc:9092
-              bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-              tls_config:
-                ca_file: /etc/otel/service-ca/service-ca.crt
-                insecure_skip_verify: false
+      #prometheus/user-workload:
+      #  config:
+      #    scrape_configs:
+      #      - job_name: openshift-user-workload
+      #        scrape_interval: 60s
+      #        scheme: https
+      #        metrics_path: /federate
+      #        params:
+      #          'match[]':
+      #            - '{__name__=~"app_.*|service_latency.*|service:availability.*|service:error_rate.*"}'
+      #            - '{__name__=~"ALERTS"}'
+      #            - '{__name__="process_resident_memory_bytes",job=~"apiserver|etcd"}'
+      #            - '{__name__="grpc_server_started_total",job="etcd"}'
+      #            - '{__name__="grpc_server_handled_total",job="etcd"}'
+      #            - '{__name__="go_goroutines",job="apiserver"}'
+      #            - '{__name__="process_cpu_seconds_total",job="apiserver"}'
+      #            - '{__name__="workqueue_adds_total",job="apiserver"}'
+      #            - '{__name__="workqueue_depth",job="apiserver"}'
+      #            - '{__name__="workqueue_queue_duration_seconds_bucket",job="apiserver"}'
+      #        static_configs:
+      #          - targets:
+      #              - prometheus-user-workload.openshift-user-workload-monitoring.svc:9092
+      #        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+      #        tls_config:
+      #          ca_file: /etc/otel/service-ca/service-ca.crt
+      #          insecure_skip_verify: false
 
-    processors: 
-      batch: 
+    processors:
+      batch:
         timeout: 5s
         send_batch_size: 200
         send_batch_max_size: 400
@@ -105,27 +106,27 @@ spec:
 
       # Identify the metric type so that they can be
       # forwarded with different kafka topics
-      
-      filter/application_metrics:
-        metrics:
-          include:
-            match_type: regexp
-            metric_names:
-              - "^http_.*"
-              - "^grpc_.*"
-              - "^rpc_.*"
-              - "^app_.*"
 
-      filter/slo_metrics:
-        metrics:
-          include:
-            match_type: regexp
-            metric_names:
-              - "^service_latency.*"
-              - "^service:availability.*"
-              - "^service:error_rate.*"
+      #filter/application_metrics:
+      #  metrics:
+      #    include:
+      #      match_type: regexp
+      #      metric_names:
+      #        - "^http_.*"
+      #        - "^grpc_.*"
+      #        - "^rpc_.*"
+      #        - "^app_.*"
 
-    exporters: 
+      #filter/slo_metrics:
+      #  metrics:
+      #    include:
+      #      match_type: regexp
+      #      metric_names:
+      #        - "^service_latency.*"
+      #        - "^service:availability.*"
+      #        - "^service:error_rate.*"
+
+    exporters:
       #debug:
       #  verbosity: detailed
       kafka/platform:
@@ -192,7 +193,7 @@ spec:
       pipelines:
         metrics/platform:
           receivers: [prometheus/platform]
-          processors: 
+          processors:
             - memory_limiter
             - k8sattributes
             - batch
@@ -231,4 +232,3 @@ spec:
     - name: openshift-service-ca
       configMap:
         name: openshift-service-ca.crt
-

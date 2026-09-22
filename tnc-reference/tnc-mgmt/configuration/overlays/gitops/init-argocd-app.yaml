@@ -3,5 +3,5 @@
   path: "/spec/source"
   value:
     path: "tnc-reference/tnc-mgmt/configuration"
-    repoURL: "https://github.com/openshift-kni/telco-reference.git"
-    targetRevision: "tnc6.1-release-4.20"
+    repoURL: "http://git.example.com:3300/tnc-github.git"
+    targetRevision: "tnc7.0-release-4.22"

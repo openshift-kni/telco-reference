@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -6,4 +7,3 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "2"
   labels:
     openshift.io/cluster-monitoring: "true"
-

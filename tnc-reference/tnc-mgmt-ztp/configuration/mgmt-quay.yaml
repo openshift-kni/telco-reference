@@ -1,17 +1,18 @@
+---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: mgmt-quay-tnc61
+  name: mgmt-quay-tnc70
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
     clusterSelectors:
       mgmt: "true"
-      tnc-ver: "tnc6.1"
+      tnc-ver: "tnc7.0"
   remediationAction: "inform"
 policies:
-  - name: quay-tnc61
+  - name: quay-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "20"
     manifests:
@@ -21,7 +22,7 @@ policies:
         patches:
         - spec:
             installPlanApproval: Manual
-            channel: "stable-3.16" 
+            channel: "stable-3.18"
 
       - path: other-crs/required/QUAY/QuaySecret.yaml
         patches:
@@ -30,7 +31,7 @@ policies:
             - extract:
                 conversionStrategy: Default
                 decodingStrategy: None
-                key: ztp/mgmt1/quay-config-bundle
+                key: ztp/{{hub (printf "%s" .ManagedClusterName) hub}}/quay-config-bundle
                 metadataPolicy: None
 
       - path: other-crs/required/QUAY/QuayServiceAccount.yaml

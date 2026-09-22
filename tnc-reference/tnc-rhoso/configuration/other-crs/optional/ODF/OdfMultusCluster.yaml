@@ -1,3 +1,4 @@
+---
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
@@ -16,4 +17,3 @@ spec:
        "range": "10.0.64.0/24"
     }
   }'
-

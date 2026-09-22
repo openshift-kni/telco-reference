@@ -12,4 +12,3 @@ spec:
   partitions: 3
   replicas: 1
   topicName: mgmt1-ocp-metrics
-

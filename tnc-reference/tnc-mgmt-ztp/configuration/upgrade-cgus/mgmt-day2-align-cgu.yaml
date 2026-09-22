@@ -1,0 +1,34 @@
+apiVersion: ran.openshift.io/v1alpha1
+kind: ClusterGroupUpgrade
+metadata:
+  name: mgmt-day2-align
+  namespace: ztp-core-policies
+spec:
+  actions:
+    afterCompletion:
+      deleteObjects: true
+  clusters:
+  - mgmt1
+  enable: true
+  managedPolicies:
+  - mgmt-cluster-config-tnc70
+  - kafka-subs-tnc70
+  - mgmt-operator-subs-tnc70
+  - kafka-config-tnc70
+  - mgmt-operator-config-tnc70
+  - operator-lso-tnc70
+  - config-lso-tnc70
+  - config-odf-int-tnc70
+  - mgmt-kafka-step1-tnc70
+  - config-other-int-tnc70
+  - mgmt-kafka-step2-tnc70
+  - quay-tnc70
+  - optional-tnc70
+  - ztp-tnc70
+  - argo-talm-tnc70
+  - gitops-config-tnc70
+  - mgmt-auth-idm-tnc70
+  - mgmt-post-auth-idm-tnc70
+  remediationStrategy:
+    maxConcurrency: 1
+    timeout: 480

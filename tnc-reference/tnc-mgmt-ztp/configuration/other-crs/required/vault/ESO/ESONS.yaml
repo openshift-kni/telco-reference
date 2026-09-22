@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -7,4 +8,3 @@ metadata:
   labels:
     openshift.io/cluster-monitoring: "true"
     kubernetes.io/metadata.name: external-secrets-operator
-

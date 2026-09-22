@@ -5,7 +5,7 @@
 Ensure to include `--recurse-submodules` option while cloning this repo in order to pick the content from the git sub-modules included in the repository.
 
 ```bash
-git clone --recurse-submodules https://github.com/openshift-kni/telco-reference.git -b tnc-6.1-release-4.20
+git clone --recurse-submodules https://github.com/openshift-kni/telco-reference.git -b tnc7.0-release-4.22
 ```
 
 ====
@@ -29,7 +29,7 @@ Each sub-architecture uses the telco Reference Design Specification (RDS) as its
 Users forking/cloning this GIT repository would need to remove the GIT sub-modules and copy the reference CRs locally within each `<sub-architecture>/configuration` directory before pushing the content to their private GIT repos, otherwise they may run into issues with ArgoCD not being able to sync content from GIT:
 
 ```bash
-git clone --recurse-submodules https://github.com/openshift-kni/telco-reference.git -b tnc-6.1-release-4.20
+git clone --recurse-submodules https://github.com/openshift-kni/telco-reference.git -b tnc-7.0-release-4.22
 cd telco-reference
 #
 # For each sub-architecture in the repo, follow these steps:

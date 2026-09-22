@@ -5,4 +5,3 @@ metadata:
   name: otel
   annotations:
     ran.openshift.io/ztp-deploy-wave: "5"
-

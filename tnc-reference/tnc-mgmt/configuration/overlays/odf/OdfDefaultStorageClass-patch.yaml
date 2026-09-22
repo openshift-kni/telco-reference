@@ -4,4 +4,3 @@
 - op: replace
   path: /metadata/name
   value: ocs-storagecluster-ceph-rbd
-

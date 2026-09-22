@@ -1,0 +1,167 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: mgmt-ztp-upgrade-22
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      mgmt: "true"
+      upgrade-version-4-22: ""
+  remediationAction: "inform"
+policies:
+  - name: mgmt-ztp-upgrade-prep-22
+    policyAnnotations:
+      ran.openshift.io/soak-seconds: "30"
+    manifests:
+      - path: reference-crs/required/other/catalog-source.yaml
+        patches:
+        - spec:
+            image: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/redhat/redhat-operator-index:v4.22'
+        - status:
+            connectionState:
+              lastObservedState: READY
+      - path: reference-crs/required/other/catalog-source.yaml
+        patches:
+        - metadata:
+            name: certified-operators-disconnected
+          spec:
+            displayName: Certified Disconnected Operators Catalog
+            image: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/redhat/certified-operator-index:v4.22'
+      - path: reference-crs/custom-manifests/mcp-worker-1.yaml
+        patches:
+        - spec:
+            maxUnavailable: 100%
+            paused: true
+      - path: reference-crs/custom-manifests/mcp-worker-2.yaml
+        patches:
+        - spec:
+            maxUnavailable: 100%
+            paused: true
+      - path: reference-crs/custom-manifests/mcp-worker-3.yaml
+        patches:
+        - spec:
+            maxUnavailable: 100%
+            paused: true
+  - name: mgmt-ztp-upgrade-ocp-22
+    manifests:
+      - path: reference-crs/optional/other/ClusterVersion.yaml
+        patches:
+        - spec:
+            channel: stable-4.22
+            desiredUpdate:
+              version: 4.22.5
+              image: registry.bastion.example.com:9500/ocp/ocp4/openshift/release-images@sha256:e6467b367dd26e4c3d49ef8b949dba403df5bb9274fe045faf651377541f401a
+              force: true
+        - status:
+            history:
+            - version: 4.22.5
+              state: "Completed"
+  - name: mgmt-ztp-upgrade-odf-uninstall-22
+    policyAnnotations:
+      ran.openshift.io/soak-seconds: "60"
+    evaluationInterval:
+      compliant: never
+    manifests:
+      - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
+        complianceType: mustnothave
+      - path: other-crs/optional/ODF/OdfOperatorCSV.yaml
+        complianceType: mustnothave
+        objectSelector:
+          matchLabels:
+            odf.openshift.io/odf-operator: "true"
+  - name: mgmt-ztp-upgrade-odf-install-22
+    policyAnnotations:
+      ran.openshift.io/soak-seconds: "60"
+    extraDependencies:
+      - name: mgmt-ztp-upgrade-odf-uninstall-22
+        namespace: ztp-core-policies
+        compliance: Compliant
+    manifests:
+      - path: reference-crs/required/storage/odf-external/odfNS.yaml
+      - path: reference-crs/required/storage/odf-external/odfOperGroup.yaml
+      - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
+        patches:
+        - spec:
+            channel: stable-4.22
+            installPlanApproval: Automatic
+        - status:
+            state: AtLatestKnown
+  - name: mgmt-ztp-upgrade-olm-22
+    policyAnnotations:
+      ran.openshift.io/soak-seconds: "60"
+    manifests:
+      - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
+        patches:
+        - metadata:
+            annotations:
+              noop-for-triggering-noncompliance: "22"
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/optional/LOG/LOKI/LokiSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/required/reference/acm/acmSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/required/reference/gitops/gitopsSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/required/reference/talm/talmSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/networking/NMStateSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/optional/LSO/LsoSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/optional/cert-manager/certManagerSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/required/vault/ESO/ESOSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/optional/CNV/CnvSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/optional/COO/CooSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/required/QUAY/QuaySubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/optional/KAFKA/kafkaSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/optional/OTEL/OtelSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/optional/AAP/AapSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/optional/ACS/AcsSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+  - name: mgmt-ztp-upgrade-validate-22
+    policyAnnotations:
+      ran.openshift.io/soak-seconds: "30"
+    manifests:
+      - path: reference-crs/custom-manifests/subscription-validator.yaml

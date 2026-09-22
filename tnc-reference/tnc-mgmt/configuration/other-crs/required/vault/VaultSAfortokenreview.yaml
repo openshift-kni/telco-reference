@@ -6,4 +6,3 @@ metadata:
   namespace: vault
   annotations:
     argocd.argoproj.io/sync-wave: "-35"
-

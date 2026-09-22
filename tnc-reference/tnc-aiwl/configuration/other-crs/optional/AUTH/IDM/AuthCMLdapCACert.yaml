@@ -11,4 +11,3 @@ metadata:
   namespace: openshift-config
 data:
   ca.crt: $cert
-

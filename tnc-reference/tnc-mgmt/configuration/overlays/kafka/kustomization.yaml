@@ -11,4 +11,4 @@ patches:
       version: v1beta2
       kind: KafkaNodePool
       name: dual-role
-    path: kafkaNodePool-patch.yaml 
+    path: kafkaNodePool-patch.yaml

@@ -1,3 +1,4 @@
+---
 apiVersion: nmstate.io/v1
 kind: NodeNetworkConfigurationPolicy
 metadata:
@@ -11,4 +12,3 @@ spec:
       - localnet: localnet1
         bridge: br-ex
         state: present
-

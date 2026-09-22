@@ -5,4 +5,3 @@ metadata:
   name: kafka-cluster
   labels:
     openshift.io/cluster-monitoring: "true"
-

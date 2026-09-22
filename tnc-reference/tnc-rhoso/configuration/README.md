@@ -23,7 +23,7 @@ This directory contains five key components of the TNC configuration:
 
 ## Reference CRs
 
-**Note:** The reference CRs and/or the policyGerator YAMLs in this repo point to a private image registry at `registry.bastion.example.com:9500`. All those references need to be updated to point to the local private registry.
+**Note:** The reference CRs and/or the policyGerator YAMLs in this repo point to a private image registry at `registry.bastion.example.com:9500`. All     those references need to be updated to point to the local private registry.
 
 ### Policy generation CRs
 
@@ -56,9 +56,9 @@ These policy generators use labels to apply the policies to the appropriate clus
 Apply the following labels to the clusters in order to configure them with the appropriate policies:
 
 - common: "core"  - To apply the RDS baseline and overlay policies
-- version: "4.20" - To pick the RDS 4.20 policies
+- version: "4.22" - To pick the RDS 4.22 policies
 - rhoso: "true"        - To apply the TNC RHOSO policies
-- tnc-ver: "tnc6.1"  - To pick TNC 6.1 policies
+- tnc-ver: "tnc7.0"  - To pick TNC 7.0 policies
 - Pick one the following:
   - odf-ext: "true"    - To configure ODF in external mode
   - odf-int: "true"    - To configure ODF in internal mode
@@ -89,8 +89,8 @@ cluster is deployed.
 is needed. The ConfigMap name is the cluster name eg cluster-1234
 
 #### Vault for Secrets
-
-The policies in this repository rely on the presence of an external vault server, 
+  
+The policies in this repository rely on the presence of an external vault server,
 which holds the different credentials (passwords, SSH keys etc.) used within the policies.
 Ensure that the following credentials exist in the vault:
 
@@ -99,7 +99,7 @@ Ensure that the following credentials exist in the vault:
 - ldap-auth-secret
   - `bindPassword` - to authenticate the OpenShift cluster with LDAP server
 - ldap-group-sync-creds
-  - `bindPassword` - to authenticate the OpenShift cluster with LDAP server
+  - `bind_password` - to authenticate the OpenShift cluster with LDAP server
 - rhoso-ceph
   - `ceph-fsid` - FSID from the Ceph cluster
   - `ceph-keyring` - Content from `/etc/ceph/ceph.client.openstack.keyring` of the Ceph cluster
@@ -113,4 +113,3 @@ Ensure that the following credentials exist in the vault:
   - Define secret for each OpenStack service
 - libvirt-secret
   - `LibvirtPassword` - password to be used by libvirt
-

@@ -32,10 +32,10 @@ ClusterInstance defines:
 Apply the following labels to the clusters in order to configure them with the appropriate policies:
 
 - common: "core"       - To apply the RDS baseline and overlay policies
-- version: "4.20"      - To pick the RDS 4.20 policies
+- version: "4.22"      - To pick the RDS 4.22 policies
 - region: "zone-1"     - Choose the appropriate zone name/number to pick the template variable values from `template-values/regional.yaml`
 - rhoso: "true"          - To apply the TNC RHOSO policies
-- tnc-ver: "tnc6.1"    - To pick TNC 6.1 policies
+- tnc-ver: "tnc7.0"    - To pick TNC 7.0 policies
 - Pick one the following:
   - odf-ext: "true"    - To configure ODF in external mode
   - odf-int: "true"    - To configure ODF in internal mode
@@ -73,4 +73,3 @@ Cluster installation requires access to the following credentials at a minimum:
 These secrets should be stored in a vault server and retrieved during cluster installation. This means that the presence of a vault server is a pre-requisite for installing the OpenShift cluster via ACM GitOps procedure as captured in this repository. 
 
 If a vault server is not available then the CR(s) created in the `secrets` directory need to be updated to provide the credentials locally. However, this approach will result in pushing those credentials to the GIT server and hence appropriate procedures need to be put in place to protect the data in the GIT server, or the credentials need to be manually created prior to stating the GitOps process in order to avoid pushing them to the GIT server.
-

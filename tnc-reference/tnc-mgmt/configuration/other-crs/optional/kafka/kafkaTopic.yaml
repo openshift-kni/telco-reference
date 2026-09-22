@@ -213,4 +213,3 @@ spec:
   partitions: 3
   replicas: 1
   topicName: cwl-site1-audit-logs
-

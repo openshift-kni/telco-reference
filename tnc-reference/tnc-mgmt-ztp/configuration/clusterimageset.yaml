@@ -1,0 +1,7 @@
+---
+apiVersion: hive.openshift.io/v1
+kind: ClusterImageSet
+metadata:
+  name: openshift-4.22.5-disconnected
+spec:
+  releaseImage: registry.bastion.example.com:9500/ocp/ocp4/openshift/release-images:4.22.5-x86_64

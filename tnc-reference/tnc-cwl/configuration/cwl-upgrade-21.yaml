@@ -1,0 +1,152 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: cwl-upgrade-21
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      common: "core"
+      upgrade-version-4-21: ""
+  remediationAction: "inform"
+policies:
+  - name: cwl-upgrade-prep-21
+    policyAnnotations:
+      # Updates to the catalogsource take a few seconds to propagate
+      # to the status. The soak seconds gives time for that
+      # propagation to occur
+      ran.openshift.io/soak-seconds: "30"
+    manifests:
+      # Update Red Hat catalogsource to point to latest versions (disconnected)
+      - path: reference-crs/required/other/catalog-source.yaml
+        patches:
+        - spec:
+            image: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/redhat/redhat-operator-index:v4.21'
+        - status:
+            connectionState:
+              lastObservedState: READY
+      # Update certified catalogsource (same shape as cwl-additions)
+      - path: reference-crs/required/other/catalog-source.yaml
+        patches:
+        - metadata:
+            name: certified-operators-disconnected
+          spec:
+            displayName: Certified Disconnected Operators Catalog
+            image: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/redhat/certified-operator-index:v4.21'
+      # Provide the required acknowledgement of the upgrade. This
+      # assumes that the verification has been done during planning
+      # lab/certification phase of project
+      - path: reference-crs/optional/other/upgrade-ack.yaml
+        patches:
+        - data:
+            "ack-4.20-sigstore-in-4.21": "true"
+      # Preemptively upgrade logging operators to 6.5 before the 4.21 platform hop
+      - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
+        patches:
+        - spec:
+            channel: stable-6.5
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/optional/LOG/LOKI/LokiSubscription.yaml
+        patches:
+        - spec:
+            channel: stable-6.5
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/custom-manifests/mcp-worker-1.yaml
+        patches:
+        - spec:
+            # Adjust as needed based on spare capacity, cluster design, and application requirements
+            maxUnavailable: 100%
+            paused: true
+      - path: reference-crs/custom-manifests/mcp-worker-2.yaml
+        patches:
+        - spec:
+            # Adjust as needed based on spare capacity, cluster design, and application requirements
+            maxUnavailable: 100%
+            paused: true
+      - path: reference-crs/custom-manifests/mcp-worker-3.yaml
+        patches:
+        - spec:
+            # Adjust as needed based on spare capacity, cluster design, and application requirements
+            maxUnavailable: 100%
+            paused: true
+  - name: cwl-upgrade-ocp-21
+    manifests:
+      - path: reference-crs/optional/other/ClusterVersion.yaml
+        patches:
+        - spec:
+            channel: stable-4.21
+            desiredUpdate:
+              version: 4.21.24
+              image: registry.bastion.example.com:9500/ocp/ocp4/openshift/release-images@sha256:9ed4f92ef5d48054797e08789b9a09ebeb9bfd9c6cb6ebba2876e4e81aa09c73
+              force: true
+        - status:
+            history:
+            - version: 4.21.24
+              state: "Completed"
+  - name: cwl-upgrade-olm-21
+    policyAnnotations:
+      # Ensure that status for OLM created operators has time to propagate
+      ran.openshift.io/soak-seconds: "60"
+    manifests:
+      - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
+        patches:
+        - metadata:
+            annotations:
+              noop-for-triggering-noncompliance: "21"
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/optional/LOG/LOKI/LokiSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/optional/AVAIL/SelfNodeSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/optional/TEMPO/TempoSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/networking/sriov/SriovSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
+        patches:
+        - spec:
+            channel: stable-4.21
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/networking/NMStateSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/networking/metallb/metallbSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/scheduling/NROPSubscription.yaml
+        patches:
+        - spec:
+            channel: "4.21"
+        - status:
+            state: AtLatestKnown
+      # NUMA-aware secondary scheduler image
+      - path: reference-crs/required/scheduling/sched.yaml
+        patches:
+        - spec:
+            imageSpec: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/openshift4/noderesourcetopology-scheduler-rhel9:v4.21'
+
+  # Ensure that all subscriptions are at the latest known, including
+  # subscriptions automatically created by OLM on behalf of higher
+  # level operators.
+  - name: cwl-upgrade-validate-21
+    policyAnnotations:
+      # Ensure that propagation to OLM created operators has time to propagate
+      ran.openshift.io/soak-seconds: "30"
+    manifests:
+      - path: reference-crs/custom-manifests/subscription-validator.yaml

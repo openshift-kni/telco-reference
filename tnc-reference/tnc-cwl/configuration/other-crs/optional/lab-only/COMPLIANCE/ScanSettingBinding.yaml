@@ -1,3 +1,4 @@
+---
 apiVersion: compliance.openshift.io/v1alpha1
 kind: ScanSettingBinding
 metadata:
@@ -11,4 +12,3 @@ settingsRef:
   name: cwl-compliance
   kind: ScanSetting
   apiGroup: compliance.openshift.io/v1alpha1
-

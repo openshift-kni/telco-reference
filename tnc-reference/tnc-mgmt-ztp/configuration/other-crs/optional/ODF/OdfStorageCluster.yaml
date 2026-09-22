@@ -1,3 +1,4 @@
+---
 apiVersion: ocs.openshift.io/v1
 kind: StorageCluster
 metadata:
@@ -16,7 +17,7 @@ spec:
     - key: cluster.ocs.openshift.io/openshift-storage
       operator: In
       values:
-      - "true"
+      - ""
   resources:
     mds:
       limits:
@@ -29,7 +30,8 @@ spec:
   managedResources:
     cephBlockPools:
       reconcileStrategy: manage   # <-- Default value is manage
-    cephConfig: {}
+    #cephConfig line is deprecated at 4.22 so it has been commented out after aligning to tnc 7.0
+    #cephConfig: {}
     cephFilesystems: {}
     cephObjectStoreUsers: {}
     cephObjectStores: {}
@@ -57,4 +59,3 @@ spec:
       requests:
         cpu: "2"
         memory: "5Gi"
-

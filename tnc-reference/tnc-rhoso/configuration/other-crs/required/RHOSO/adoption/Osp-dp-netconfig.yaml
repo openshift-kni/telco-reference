@@ -1,3 +1,4 @@
+---
 apiVersion: network.openstack.org/v1beta1
 kind: NetConfig
 metadata:
@@ -16,7 +17,7 @@ spec:
         start: 10.62.62.10
       cidr: 10.62.62.0/24
       gateway: 10.62.62.1
-  - name: internalapi 
+  - name: internalapi
     dnsDomain: internalapi.osp.cwl-site1.example.com
     mtu: 8950
     subnets:

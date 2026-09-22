@@ -1,0 +1,115 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: cwl-upgrade-22
+policyDefaults:
+  namespace: ztp-core-policies
+  policySets: []
+  placement:
+    clusterSelectors:
+      common: "core"
+      upgrade-version-4-22: ""
+  remediationAction: "inform"
+policies:
+  - name: cwl-upgrade-prep-22
+    policyAnnotations:
+      ran.openshift.io/soak-seconds: "30"
+    manifests:
+      - path: reference-crs/required/other/catalog-source.yaml
+        patches:
+        - spec:
+            image: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/redhat/redhat-operator-index:v4.22'
+        - status:
+            connectionState:
+              lastObservedState: READY
+      # Update certified catalogsource (same shape as cwl-additions)
+      - path: reference-crs/required/other/catalog-source.yaml
+        patches:
+        - metadata:
+            name: certified-operators-disconnected
+          spec:
+            displayName: Certified Disconnected Operators Catalog
+            image: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/redhat/certified-operator-index:v4.22'
+      # Workers remain paused across both control-plane hops
+      - path: reference-crs/custom-manifests/mcp-worker-1.yaml
+        patches:
+        - spec:
+            maxUnavailable: 100%
+            paused: true
+      - path: reference-crs/custom-manifests/mcp-worker-2.yaml
+        patches:
+        - spec:
+            maxUnavailable: 100%
+            paused: true
+      - path: reference-crs/custom-manifests/mcp-worker-3.yaml
+        patches:
+        - spec:
+            maxUnavailable: 100%
+            paused: true
+  - name: cwl-upgrade-ocp-22
+    manifests:
+      - path: reference-crs/optional/other/ClusterVersion.yaml
+        patches:
+        - spec:
+            channel: stable-4.22
+            desiredUpdate:
+              version: 4.22.5
+              image: registry.bastion.example.com:9500/ocp/ocp4/openshift/release-images@sha256:e6467b367dd26e4c3d49ef8b949dba403df5bb9274fe045faf651377541f401a
+              force: true
+        - status:
+            history:
+            - version: 4.22.5
+              state: "Completed"
+  - name: cwl-upgrade-olm-22
+    policyAnnotations:
+      ran.openshift.io/soak-seconds: "60"
+    manifests:
+      - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
+        patches:
+        - metadata:
+            annotations:
+              noop-for-triggering-noncompliance: "22"
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/optional/AVAIL/SelfNodeSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/optional/TEMPO/TempoSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/networking/sriov/SriovSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
+        patches:
+        - spec:
+            channel: stable-4.22
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/networking/NMStateSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/networking/metallb/metallbSubscription.yaml
+        patches:
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/scheduling/NROPSubscription.yaml
+        patches:
+        - spec:
+            channel: "4.22"
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/scheduling/sched.yaml
+        patches:
+        - spec:
+            imageSpec: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/openshift4/noderesourcetopology-scheduler-rhel9:v4.22'
+  - name: cwl-upgrade-validate-22
+    policyAnnotations:
+      ran.openshift.io/soak-seconds: "30"
+    manifests:
+      - path: reference-crs/custom-manifests/subscription-validator.yaml

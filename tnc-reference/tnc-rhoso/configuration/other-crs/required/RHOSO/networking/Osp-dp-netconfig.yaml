@@ -1,3 +1,4 @@
+---
 apiVersion: network.openstack.org/v1beta1
 kind: NetConfig
 metadata:
@@ -14,7 +15,7 @@ spec:
         start: $start
       cidr: $cidr
       gateway: $gateway
-  - name: internalapi 
+  - name: internalapi
     dnsDomain: $dns
     mtu: $mtu
     subnets:
@@ -57,4 +58,3 @@ spec:
       cidr: $cidr
       vlan: $vlan
       gateway: $gateway
-

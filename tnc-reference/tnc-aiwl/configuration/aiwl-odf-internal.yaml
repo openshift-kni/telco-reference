@@ -1,36 +1,37 @@
+---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: aodf-internal-tnc61
+  name: aodf-internal-tnc70
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
     clusterSelectors:
       aiwl: "true"
-      tnc-ver: "tnc6.1"
+      tnc-ver: "tnc7.0"
       odf-int: "true"
   remediationAction: "inform"
 policies:
-  - name: aoperator-lso-tnc61
+  - name: aoperator-lso-tnc70
     policyAnnotations:
-      ran.openshift.io/ztp-deploy-wave: "5" 
+      ran.openshift.io/ztp-deploy-wave: "5"
     manifests:
       - path: other-crs/optional/LSO/LsoNS.yaml
       - path: other-crs/optional/LSO/LsoOperGroup.yaml
       - path: other-crs/optional/LSO/LsoSubscription.yaml
-        patches:  
+        patches:
           - spec:
               installPlanApproval: Manual
 
-  - name: aconfig-lso-tnc61
+  - name: aconfig-lso-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "7"
     manifests:
       - path: other-crs/optional/LSO/LsoVolumeDiscoverySet.yaml
       - path: other-crs/optional/LSO/LocalVolumeSet.yaml
 
-  - name: aconfig-odf-int-tnc61
+  - name: aconfig-odf-int-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "8"
     manifests:
@@ -53,7 +54,7 @@ policies:
                 addresses:
                 - 10.0.0.0-10.0.0.10
 
-  - name: aconfig-other-int-tnc61
+  - name: aconfig-other-int-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "12"
     manifests:

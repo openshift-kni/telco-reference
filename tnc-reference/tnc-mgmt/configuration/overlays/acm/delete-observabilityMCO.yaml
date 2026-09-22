@@ -4,4 +4,3 @@ kind: MultiClusterObservability
 metadata:
   name: observability
 $patch: delete
-

@@ -80,8 +80,8 @@ spec:
           echo ''
           dnf install -y sshpass
           mkdir -p /etc/docker/certs.d/{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}
-          sshpass -p "<redacted>" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no cwl@192.0.2.4:/home/cwl/TNC/virtual-rhoso/OCP/bastion-registry-ca.crt /etc/docker/certs.d/{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ca.crt
-          podman login -u quay -p <redacted> {{hub fromConfigMap "" .ManagedClusterName  "registry-fqdn" hub}}
+          sshpass -p "redhat" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no cwl@192.0.2.4:/home/cwl/TNC/virtual-rhoso/OCP/bastion-registry-ca.crt /etc/docker/certs.d/{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ca.crt
+          podman login -u quay -p registry {{hub fromConfigMap "" .ManagedClusterName  "registry-fqdn" hub}}
         edpm_container_registry_logins:
           '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}':
             quay: registry
@@ -172,17 +172,17 @@ spec:
   nodes:
     sriov-compute-1:
       hostName: sriov-compute-1
-      #userData: 
+      #userData:
       #  name: nodeset-sriov-cloudinit-userdata-comp1
       #  namespace: openstack
-      networkData: 
+      networkData:
         name: nodeset-cloudinit-networkdata-comp1
         namespace: openstack
       networks:
         - name: ctlplane
           subnetName: subnet1
           defaultRoute: true
-          fixedIP: 10.62.62.100
+          fixedIP: 10.62.62.101
         - name: internalapi
           subnetName: subnet1
         - name: storage
@@ -192,8 +192,7 @@ spec:
         - name: tenant
           subnetName: subnet1
       ansible:
-        ansibleHost: 10.62.62.100
+        ansibleHost: 10.62.62.101
         ansibleUser: cloud-admin
         ansibleVars:
           fqdn_internal_api: sriov-compute-1.{{hub fromConfigMap "" .ManagedClusterName "dns-domain" hub}}
-

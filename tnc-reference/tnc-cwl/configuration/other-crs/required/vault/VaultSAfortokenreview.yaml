@@ -4,4 +4,3 @@ kind: ServiceAccount
 metadata:
   name: vault-reviewer
   namespace: vault
-

@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 data:
   ca.crt: $cert
@@ -7,4 +8,3 @@ metadata:
   namespace: external-secrets
   annotations:
     argocd.argoproj.io/sync-wave: "-35"
-

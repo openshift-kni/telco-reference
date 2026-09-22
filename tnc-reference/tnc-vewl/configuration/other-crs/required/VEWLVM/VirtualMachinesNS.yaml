@@ -7,4 +7,3 @@ metadata:
     vewl-network: "true"
   annotations:
     ran.openshift.io/ztp-deploy-wave: "5"
-

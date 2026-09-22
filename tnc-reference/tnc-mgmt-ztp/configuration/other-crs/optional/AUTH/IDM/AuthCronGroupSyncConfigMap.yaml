@@ -32,4 +32,3 @@ data:
   whitelist.txt: |
     cn=ocpusers,cn=groups,cn=accounts,dc=example,dc=com
     cn=ocpadmins,cn=groups,cn=accounts,dc=example,dc=com
-

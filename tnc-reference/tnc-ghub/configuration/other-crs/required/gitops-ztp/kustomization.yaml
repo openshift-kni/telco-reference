@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - ztp-repo-workload-secret.yaml
   - clusterimageset.yaml
-

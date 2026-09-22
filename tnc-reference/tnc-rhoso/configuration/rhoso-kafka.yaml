@@ -1,18 +1,19 @@
+---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: rhoso-kafka-tnc61
+  name: rhoso-kafka-tnc70
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
     clusterSelectors:
       rhoso: "true"
-      tnc-ver: "tnc6.1"
+      tnc-ver: "tnc7.0"
       kafka: "true"
   remediationAction: "inform"
-policies:    
-  - name: rhoso-kafka-step1-tnc61
+policies:
+  - name: rhoso-kafka-step1-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "10"
     manifests:
@@ -30,7 +31,7 @@ policies:
       - path: other-crs/optional/OTEL/OtelRBAC-clusterRole.yaml
       - path: other-crs/optional/OTEL/OtelRBAC-clusterRoleBinding.yaml
 
-  - name: rhoso-kafka-step2-tnc61
+  - name: rhoso-kafka-step2-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "15"
     manifests:

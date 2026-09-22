@@ -1,3 +1,4 @@
+---
 apiVersion: quay.redhat.com/v1
 kind: QuayRegistry
 metadata:
@@ -31,4 +32,3 @@ spec:
     - kind: clairpostgres
       managed: true
   configBundleSecret: quay-config-bundle-secret
-

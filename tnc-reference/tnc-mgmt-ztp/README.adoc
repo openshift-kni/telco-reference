@@ -6,4 +6,3 @@ This repo is for the case when the management cluster is NOT the first cluster b
 
 * The cluster is installed via the Global Hub cluster, using ACM ZTP
 * The cluster is configured via ACM ZTP from the global hub cluster
-

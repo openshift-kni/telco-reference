@@ -27,4 +27,3 @@ spec:
      - client auth
      networks:
      - ctlplane
-

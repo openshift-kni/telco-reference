@@ -25,4 +25,3 @@ data:
     numa_nodes = 0,1
     [neutron_tunnel]
     numa_nodes = 0,1
-

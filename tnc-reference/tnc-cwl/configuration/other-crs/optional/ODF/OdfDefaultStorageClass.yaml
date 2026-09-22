@@ -6,4 +6,3 @@ metadata:
     storageclass.kubernetes.io/is-default-class: "true"
     ran.openshift.io/ztp-deploy-wave: "7"
   name: $name
-

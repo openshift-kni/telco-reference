@@ -1,3 +1,4 @@
+---
 apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
@@ -16,7 +17,7 @@ spec:
       memory: 2Gi
       cpu: "2"
   config:
-    receivers: 
+    receivers:
       prometheus/platform:
         config:
           scrape_configs:
@@ -50,7 +51,7 @@ spec:
               tls_config:
                 ca_file: /etc/otel/service-ca/service-ca.crt
                 insecure_skip_verify: false
-              
+
               # Early cardinality reduction
               metric_relabel_configs:
                 # Drop noisy metrics
@@ -89,8 +90,8 @@ spec:
       #          ca_file: /etc/otel/service-ca/service-ca.crt
       #          insecure_skip_verify: false
 
-    processors: 
-      batch: 
+    processors:
+      batch:
         timeout: 5s
         send_batch_size: 200
         send_batch_max_size: 400
@@ -105,7 +106,7 @@ spec:
 
       # Identify the metric type so that they can be
       # forwarded with different kafka topics
-      
+
       #filter/application_metrics:
       #  metrics:
       #    include:
@@ -125,7 +126,7 @@ spec:
       #        - "^service:availability.*"
       #        - "^service:error_rate.*"
 
-    exporters: 
+    exporters:
       #debug:
       #  verbosity: detailed
       kafka/platform:
@@ -192,7 +193,7 @@ spec:
       pipelines:
         metrics/platform:
           receivers: [prometheus/platform]
-          processors: 
+          processors:
             - memory_limiter
             - k8sattributes
             - batch
@@ -231,4 +232,3 @@ spec:
     - name: openshift-service-ca
       configMap:
         name: openshift-service-ca.crt
-

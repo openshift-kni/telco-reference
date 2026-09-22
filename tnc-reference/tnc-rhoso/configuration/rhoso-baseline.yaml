@@ -1,17 +1,18 @@
+---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: rhoso-baseline-tnc61
+  name: rhoso-baseline-tnc70
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
   placement:
     clusterSelectors:
       rhoso: "true"
-      tnc-ver: "tnc6.1"
+      tnc-ver: "tnc7.0"
   remediationAction: "inform"
 policies:
-  - name: rhoso-cluster-config-tnc61
+  - name: rhoso-cluster-config-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "1"
     manifests:
@@ -19,17 +20,17 @@ policies:
       - path: reference-crs/required/other/catalog-source.yaml
         patches:
         - spec:
-            image: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/redhat/redhat-operator-index:v4.20'
+            image: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/redhat/redhat-operator-index:v4.22'
       - path: reference-crs/required/other/catalog-source.yaml
         patches:
           - metadata:
               name: rhoso-operators-disconnected
             spec:
-              displayName:  RHOSO Disconnected Operators Catalog    
+              displayName:  RHOSO Disconnected Operators Catalog
               image: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4-osp/redhat/redhat-operator-index:v4.18'
       - path: other-crs/required/manifests/idms.yaml
 
-  - name: rhoso-operator-subs-tnc61
+  - name: rhoso-operator-subs-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "5"
     manifests:
@@ -44,7 +45,7 @@ policies:
               - kind: ClusterServiceVersion
                 namespace: openshift-logging
                 # Update with specific target version
-                name: cluster-logging.v6.2.11
+                name: cluster-logging.v6.6.1
                 conditions:
                   - type: Succeeded
                     status: "True"
@@ -56,7 +57,7 @@ policies:
         patches:
         - spec:
             installPlanApproval: Manual
-            channel: stable-6.2
+            channel: stable-6.6
 #SR-IOV
       - path: reference-crs/required/networking/sriov/SriovSubscriptionNS.yaml
       - path: reference-crs/required/networking/sriov/SriovSubscriptionOperGroup.yaml
@@ -71,7 +72,7 @@ policies:
         patches:
         - spec:
             installPlanApproval: Manual
-            channel: stable-4.20
+            channel: stable-4.22
 #METALLB
       - path: reference-crs/required/networking/metallb/metallbNS.yaml
       - path: reference-crs/required/networking/metallb/metallbOperGroup.yaml
@@ -91,7 +92,7 @@ policies:
       - path: other-crs/optional/CERT/CertMgrOperGroup.yaml
       - path: other-crs/optional/CERT/CertMgrSubscription.yaml
 #COO - Pre-requisite for logging UI
-      - path: other-crs/optional/COO/CooSubscription.yaml 
+      - path: other-crs/optional/COO/CooSubscription.yaml
 #ESO
       - path: other-crs/required/vault/ESO/ESONS.yaml
       - path: other-crs/required/vault/ESO/ESOOperGroup.yaml
@@ -112,7 +113,7 @@ policies:
       - path: other-crs/required/RHOSO/operator/RhosoSubscription.yaml
       - path: other-crs/required/RHOSO/rhoso_instance.yaml
 
-  - name: rhoso-operator-config-tnc61
+  - name: rhoso-operator-config-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "7"
     manifests:
@@ -140,15 +141,17 @@ policies:
             nodeSelector:
               node-role.kubernetes.io/worker: ""
 
+      - path: reference-crs/required/networking/metallb/configurationstate.yaml
+
 ### Configure ESO
       - path: other-crs/required/vault/ESO/ExternalSecretConfig.yaml
-        #Following files are used to create the token needed for the 
+        #Following files are used to create the token needed for the
         #authentication of the cluster to the Vault server
       - path: other-crs/required/vault/VaultNSfortokenreview.yaml
       - path: other-crs/required/vault/VaultSAfortokenreview.yaml
       - path: other-crs/required/vault/VaultCRBfortokenreview.yaml
       - path: other-crs/required/vault/VaultSecretfortokenreview.yaml
-        
+
         #Creating ClusterSecretStore for accessing secrets from Vault
           # Get the vault CA cert and use below
           # For Vault running on OpenShift, this can be the ingress certificate
@@ -158,44 +161,10 @@ policies:
         - data:
             ca.crt: |
               -----BEGIN CERTIFICATE-----
-              MIIDaTCCAlGgAwIBAgIIVFiy0Peih3gwDQYJKoZIhvcNAQELBQAwJjEkMCIGA1UE
-              AwwbaW5ncmVzcy1vcGVyYXRvckAxNzUzMjQ1MDk1MB4XDTI1MDcyMzA0MzEzNFoX
-              DTI3MDcyMzA0MzEzNVowJDEiMCAGA1UEAwwZKi5hcHBzLmdodWIubnBzcy5ib3My
-              LmxhYjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJX/wG2Ag3P9XmYi
-              vNICh4WJHDCgNWZrlbRmt/rqmKNJutrkqKEKU/aTpaI5dsVxxRCSgJa1in/AoFb6
-              qpDcPbwjmlPw3jPIM8er+/bwa+573Yp9gdCI86FUpQpZ7VH0fZsc7IrczNP8o/Dn
-              euSHoHPFGGv3KQhLZDfApq8TmcxAL0kxgjFxAouHPwvkBhX2+e/0ZhaaYgqbNWIE
-              DC1JCDWYZJt4B9Cr95aotGJNTEF8AN6oigZSNjzRiIDTWhP14JpLHlt13adixSF0
-              yda1s9zaLhhpcYJcGR9rsEv5FnEln88ON3ZmgxHaNeWF16z7DoMRTFVqYare/xQ0
-              GIPdApsCAwEAAaOBnDCBmTAOBgNVHQ8BAf8EBAMCBaAwEwYDVR0lBAwwCgYIKwYB
-              BQUHAwEwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUzQtSUyHRltNP9PKHms6YB3v1
-              IR4wHwYDVR0jBBgwFoAUYxNEz1TJ9tKp6XAljgKHcU9sftswJAYDVR0RBB0wG4IZ
-              Ki5hcHBzLmdodWIubnBzcy5ib3MyLmxhYjANBgkqhkiG9w0BAQsFAAOCAQEAZHzs
-              58B8OuqB2dNIBQtJjVkU8NoXKBuBadEyKg/4MQue6twtNPKss71uFqQ3SxLTNIbd
-              GP/iOdZmaRgGlRUkk7+L/sfHnM6Kp2ZWB4/CSVt+O8WNgfRfesxj+QNjFwQvfnJk
-              rfOG0qO8ZV62sXRAZmLssQD4M7swZTCWo/F2qIixwdkJpANLe6RI5hG8DbJ7fmTC
-              odB4dEqZl1XpZzxyvYf0r/nNcwIiN+17w2jShyFORvac0Gx7wobv/aWLB6GbK8sZ
-              Teh6IAzgiw4m4p5zf7kAxsHYTP/jvQ4cCOJ0k07DeApFYMwZi9PJzZyxuDykBy+j
-              ALGWQDVokI/+MazCsA==
+              REDACTED
               -----END CERTIFICATE-----
               -----BEGIN CERTIFICATE-----
-              MIIDDDCCAfSgAwIBAgIBATANBgkqhkiG9w0BAQsFADAmMSQwIgYDVQQDDBtpbmdy
-              ZXNzLW9wZXJhdG9yQDE3NTMyNDUwOTUwHhcNMjUwNzIzMDQzMTM0WhcNMjcwNzIz
-              MDQzMTM1WjAmMSQwIgYDVQQDDBtpbmdyZXNzLW9wZXJhdG9yQDE3NTMyNDUwOTUw
-              ggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDGni0WqcZTZNQWXAUcIzK4
-              kIjAR34X/K6m1y2XjVso9xjmF3bpLoinYoGckTSrDH3BOQLY5g1Yp9NUspL85FbZ
-              8YuoS4F/uohytl+TKOW16rsJnpqA7fL6zHXBtSSUSQiF3MMf/Kss3r/eHAd36wNL
-              +Dno06WHKfvBoD56QSo1uANpGw6L3qYY8fG08Cqk4E4LyPCDti66oFLAcM+wUitc
-              YuAGQ1icstYp1/H62qMaO2D0YR3sCV/uaTw1gFL7+IDvVuB9G/KuK8uWDYA39HF4
-              fedAKHeA7lndz3lyFTCDOIj/jk25pscSqsj8GZr7DKG/y468NBNu/4CuWnT8Aepv
-              AgMBAAGjRTBDMA4GA1UdDwEB/wQEAwICpDASBgNVHRMBAf8ECDAGAQH/AgEAMB0G
-              A1UdDgQWBBRjE0TPVMn20qnpcCWOAodxT2x+2zANBgkqhkiG9w0BAQsFAAOCAQEA
-              EtL37/8fKXzRwq73GGZgLhwS9jGpIIIGdfiCIPp1iqmJhKyfV1rFk3JCnGXtbKhB
-              46960nv2rm0hYa6GaiYLO8l8KJkiIbqUn8ZbmHD68Ej+S+BGofyHL1hbCD6XjFC8
-              aAfzldJU/yX108a9jm8cL/ZJhyWuVJfRGi+Whrw4V1roUzkiti5eqZfnudAKzEUw
-              l18qoF8pM75XPQg9NEAVtPGR9iw3wsdkGbEiVhz07FKv0WHdSvYvzVlWV1NhSn9d
-              xffzyOqSaCkTXY+/aeUyTmyZimih85Pfc6MV1+rQ9Z0HcRNx2d3w6pIRux2fLYmh
-              TgxO+QlMJId22BeyR2dktg==
+              REDACTED
               -----END CERTIFICATE-----
       - path: other-crs/required/vault/ClusterSecretStore.yaml
         patches:
@@ -211,7 +180,7 @@ policies:
                   path: secrets
                   server: '{{hub fromConfigMap "" .ManagedClusterName "vault-server" hub}}'
 
-  - name: rhoso-config-tnc61
+  - name: rhoso-config-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "15"
     manifests:
@@ -238,9 +207,9 @@ policies:
                     "range_start": "{{hub fromConfigMap `` .ManagedClusterName `ctlplane-cp-range-start` hub}}",
                     "range_end": "{{hub fromConfigMap `` .ManagedClusterName `ctlplane-cp-range-end` hub}}"
                   }
-                }  
+                }
       - path: other-crs/required/RHOSO/networking/OspNetAttach.yaml
-        patches: 
+        patches:
           - metadata:
               name: internalapi
             spec:
@@ -301,7 +270,7 @@ policies:
                 }
       - path: other-crs/required/RHOSO/networking/OspNetAttach.yaml
         patches:
-          - metadata: 
+          - metadata:
               name: external
             spec:
               config: |
@@ -325,7 +294,7 @@ policies:
                 metallb.universe.tf/address-pool: ctlplane
             spec:
               addresses:
-              - "{{hub fromConfigMap `` .ManagedClusterName `ctlplane-metallb-addrpool` hub}}"  
+              - "{{hub fromConfigMap `` .ManagedClusterName `ctlplane-metallb-addrpool` hub}}"
       - path: reference-crs/required/networking/metallb/addr-pool.yaml
         patches:
           - metadata:
@@ -336,7 +305,7 @@ policies:
               addresses:
               - "{{hub fromConfigMap `` .ManagedClusterName `internalapi-metallb-addrpool` hub}}"
       - path: reference-crs/required/networking/metallb/addr-pool.yaml
-        patches: 
+        patches:
           - metadata:
               name: storage
               annotations:
@@ -402,7 +371,7 @@ policies:
                     start: '{{hub fromConfigMap "" .ManagedClusterName "ctlplane-dp-range-start"  hub}}'
                   cidr: '{{hub fromConfigMap "" .ManagedClusterName "ctlplane-cidr"  hub}}'
                   gateway: '{{hub fromConfigMap "" .ManagedClusterName "ctlplane-gw"  hub}}'
-              - name: internalapi 
+              - name: internalapi
                 dnsDomain: internalapi.{{hub fromConfigMap "" .ManagedClusterName "dns-domain"  hub}}
                 mtu: 8900
                 subnets:
@@ -461,7 +430,7 @@ policies:
                 key: '{{hub (printf "%s" .ManagedClusterName) hub}}/rhoso-keys'
 
 
-  - name: rhoso-ctlplane-tnc61
+  - name: rhoso-ctlplane-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "20"
     manifests:
@@ -474,7 +443,7 @@ policies:
       - path: other-crs/required/RHOSO/ctlplane/ceph-secret.yaml
       - path: other-crs/required/RHOSO/ctlplane/osp-ctlplane.yaml
 
-  - name: rhoso-dataplane-tnc61
+  - name: rhoso-dataplane-tnc70
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "30"
     manifests:
@@ -486,7 +455,7 @@ policies:
                 key: '{{hub (printf "%s" .ManagedClusterName) hub}}/libvirt-secret'
       - path: other-crs/required/RHOSO/dataplane/ssh_secret.yaml
         patches:
-          - metadata:  
+          - metadata:
               name: dataplane-ansible-ssh-private-key-secret
             data:
               authorized_keys: "{{fromSecret `openstack` `rhoso-keys` `ansible-public`}}"
@@ -498,7 +467,7 @@ policies:
               name: nova-migration-ssh-key
             data:
               ssh-privatekey: "{{fromSecret `openstack` `rhoso-keys` `migration-private`}}"
-              ssh-publickey: "{{fromSecret `openstack` `rhoso-keys` `migration-public`}}"            
+              ssh-publickey: "{{fromSecret `openstack` `rhoso-keys` `migration-public`}}"
       - path: other-crs/required/RHOSO/dataplane/ceph.yaml
       - path: other-crs/required/RHOSO/dataplane/igmp.yaml
       - path: other-crs/required/RHOSO/dataplane/osdp-srv-igmp.yaml
@@ -511,4 +480,3 @@ policies:
       #- path: other-crs/required/RHOSO/dataplane/dpdk/osdp-srv-dpdk.yaml
       #- path: other-crs/required/RHOSO/dataplane/dpdk/osdp-nodeSet-dpdk.yaml
       #- path: other-crs/required/RHOSO/dataplane/dpdk/osdp-dep-dpdk.yaml
-      #

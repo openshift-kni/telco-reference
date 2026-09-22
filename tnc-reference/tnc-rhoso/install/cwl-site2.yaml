@@ -1,5 +1,5 @@
 apiVersion: siteconfig.open-cluster-management.io/v1alpha1
-kind: ClusterInstance  
+kind: ClusterInstance
 metadata:
   name: "cwl-site2"
   namespace: "cwl-site2"
@@ -7,8 +7,8 @@ spec:
   baseDomain: "example.com"
   pullSecretRef:
     name: "assisted-deployment-pull-secret"
-  clusterImageSetNameRef: "openshift-4.20.16-disconnected"
-  sshPublicKey: "ssh-rsa AAAAB3NzaC1yc2EA..."
+  clusterImageSetNameRef: "openshift-4.22.5-disconnected"
+  sshPublicKey: "ssh-rsa AAAAB3N......"
   clusterName: "cwl-site2"
   networkType: "OVNKubernetes"
   clusterType: HighlyAvailable
@@ -18,23 +18,24 @@ spec:
   extraLabels:
     ManagedCluster:
       common: "core"
-      version: "4.20"
+      version: "4.22"
       region: "zone-1"
       rhoso: "true"
-      tnc-ver: "tnc6.1"
+      tnc-ver: "tnc7.0"
       odf-ext: "true"
       #odf-int: "true"
       kafka: "true"
+      idm: "true"
   clusterNetwork:
     - cidr: 10.128.0.0/14
       hostPrefix: 23
   machineNetwork:
     - cidr: 172.31.61.0/24
   # For 3-node and standard clusters with static IPs, the API and Ingress IPs must be configured here
-  apiVIPs: 
-    - 172.31.61.80
-  ingressVIPs: 
-    - 172.31.61.81
+  apiVIPs:
+    - 172.31.61.101
+  ingressVIPs:
+    - 172.31.61.102
   serviceNetwork:
     - cidr: 172.30.0.0/16
   additionalNTPSources:
@@ -52,8 +53,8 @@ spec:
       bmcCredentialsName:
         name: "bmh-secret-dell"
       bootMACAddress: "50:7c:6f:55:40:3c"
-      bootMode: "UEFISecureBoot" 
-      automatedCleaningMode: "metadata"  
+      bootMode: "UEFISecureBoot"
+      automatedCleaningMode: "metadata"
       templateRefs:
         - name: ai-node-templates-v1
           namespace: open-cluster-management
@@ -76,7 +77,7 @@ spec:
                 description: "Bond0 - OSP_Ctlplane"
                 type: bond
                 state: up
-                mtu: 8900
+                mtu: 8950
                 ipv4:
                   address:
                   - ip: 10.62.62.10
@@ -94,7 +95,7 @@ spec:
               - name: bond0.61
                 type: vlan
                 state: up
-                mtu: 8900
+                mtu: 8950
                 vlan:
                   base-iface: bond0
                   id: 61
@@ -109,7 +110,7 @@ spec:
                 description: "Bond 1 - OSP_External"
                 type: bond
                 state: up
-                mtu: 8900
+                mtu: 8950
                 ipv4:
                   address:
                   - ip: 192.0.2.132
@@ -128,7 +129,7 @@ spec:
               - name: bond1.93
                 type: vlan
                 state: up
-                mtu: 8900
+                mtu: 8950
                 vlan:
                   base-iface: bond1
                   id: 93
@@ -143,7 +144,7 @@ spec:
               - name: bond1.94
                 type: vlan
                 state: up
-                mtu: 8900
+                mtu: 8950
                 vlan:
                   base-iface: bond1
                   id: 94
@@ -158,7 +159,7 @@ spec:
               - name: bond1.96
                 type: vlan
                 state: up
-                mtu: 8900
+                mtu: 8950
                 vlan:
                   base-iface: bond1
                   id: 96
@@ -173,7 +174,7 @@ spec:
               - name: eno16495
                 type: ethernet
                 state: up
-                mtu: 8900
+                mtu: 8950
                 ipv4:
                   enabled: false
                 ipv6:
@@ -181,7 +182,7 @@ spec:
               - name: eno16505
                 type: ethernet
                 state: up
-                mtu: 8900
+                mtu: 8950
                 ipv4:
                   enabled: false
                 ipv6:
@@ -189,7 +190,7 @@ spec:
               - name: eno16515
                 type: ethernet
                 state: up
-                mtu: 8900
+                mtu: 8950
                 ipv4:
                   enabled: false
                 ipv6:
@@ -197,7 +198,7 @@ spec:
               - name: eno16525
                 type: ethernet
                 state: up
-                mtu: 8900
+                mtu: 8950
                 ipv4:
                   enabled: false
                 ipv6:
@@ -218,8 +219,8 @@ spec:
       bmcCredentialsName:
         name: "bmh-secret-dell"
       bootMACAddress: "50:7c:6f:55:3e:78"
-      bootMode: "UEFISecureBoot" 
-      automatedCleaningMode: "metadata"  
+      bootMode: "UEFISecureBoot"
+      automatedCleaningMode: "metadata"
       templateRefs:
         - name: ai-node-templates-v1
           namespace: open-cluster-management
@@ -242,7 +243,7 @@ spec:
               description: "Bond0 - OSP_Ctlplane"
               type: bond
               state: up
-              mtu: 8900
+              mtu: 8950
               ipv4:
                 address:
                 - ip: 10.62.62.11
@@ -260,7 +261,7 @@ spec:
             - name: bond0.61
               type: vlan
               state: up
-              mtu: 8900
+              mtu: 8950
               vlan:
                 base-iface: bond0
                 id: 61
@@ -275,7 +276,7 @@ spec:
               description: "Bond 1 - OSP_External"
               type: bond
               state: up
-              mtu: 8900
+              mtu: 8950
               ipv4:
                 address:
                 - ip: 192.0.2.133
@@ -294,7 +295,7 @@ spec:
             - name: bond1.93
               type: vlan
               state: up
-              mtu: 8900
+              mtu: 8950
               vlan:
                 base-iface: bond1
                 id: 93
@@ -309,7 +310,7 @@ spec:
             - name: bond1.94
               type: vlan
               state: up
-              mtu: 8900
+              mtu: 8950
               vlan:
                 base-iface: bond1
                 id: 94
@@ -324,7 +325,7 @@ spec:
             - name: bond1.96
               type: vlan
               state: up
-              mtu: 8900
+              mtu: 8950
               vlan:
                 base-iface: bond1
                 id: 96
@@ -339,7 +340,7 @@ spec:
             - name: ens2f0
               type: ethernet
               state: up
-              mtu: 8900
+              mtu: 8950
               ipv4:
                 enabled: false
               ipv6:
@@ -347,7 +348,7 @@ spec:
             - name: ens2f1
               type: ethernet
               state: up
-              mtu: 8900
+              mtu: 8950
               ipv4:
                 enabled: false
               ipv6:
@@ -355,7 +356,7 @@ spec:
             - name: ens3f0
               type: ethernet
               state: up
-              mtu: 8900
+              mtu: 8950
               ipv4:
                 enabled: false
               ipv6:
@@ -363,7 +364,7 @@ spec:
             - name: ens3f1
               type: ethernet
               state: up
-              mtu: 8900
+              mtu: 8950
               ipv4:
                 enabled: false
               ipv6:
@@ -384,8 +385,8 @@ spec:
       bmcCredentialsName:
         name: "bmh-secret-hp"
       bootMACAddress: "50:7c:6f:4a:d4:5c"
-      bootMode: "UEFISecureBoot" 
-      automatedCleaningMode: "metadata"  
+      bootMode: "UEFISecureBoot"
+      automatedCleaningMode: "metadata"
       templateRefs:
         - name: ai-node-templates-v1
           namespace: open-cluster-management
@@ -408,7 +409,7 @@ spec:
               description: "Bond0 - OSP_Ctlplane"
               type: bond
               state: up
-              mtu: 8900
+              mtu: 8950
               ipv4:
                 address:
                 - ip: 10.62.62.12
@@ -426,7 +427,7 @@ spec:
             - name: bond0.61
               type: vlan
               state: up
-              mtu: 8900
+              mtu: 8950
               vlan:
                 base-iface: bond0
                 id: 61
@@ -441,7 +442,7 @@ spec:
               description: "Bond 1 - OSP_External"
               type: bond
               state: up
-              mtu: 8900
+              mtu: 8950
               ipv4:
                 address:
                 - ip: 192.0.2.134
@@ -460,7 +461,7 @@ spec:
             - name: bond1.93
               type: vlan
               state: up
-              mtu: 8900
+              mtu: 8950
               vlan:
                 base-iface: bond1
                 id: 93
@@ -475,7 +476,7 @@ spec:
             - name: bond1.94
               type: vlan
               state: up
-              mtu: 8900
+              mtu: 8950
               vlan:
                 base-iface: bond1
                 id: 94
@@ -490,7 +491,7 @@ spec:
             - name: bond1.96
               type: vlan
               state: up
-              mtu: 8900
+              mtu: 8950
               vlan:
                 base-iface: bond1
                 id: 96
@@ -505,7 +506,7 @@ spec:
             - name: ens2f0
               type: ethernet
               state: up
-              mtu: 8900
+              mtu: 8950
               ipv4:
                 enabled: false
               ipv6:
@@ -513,7 +514,7 @@ spec:
             - name: ens2f1
               type: ethernet
               state: up
-              mtu: 8900
+              mtu: 8950
               ipv4:
                 enabled: false
               ipv6:
@@ -521,7 +522,7 @@ spec:
             - name: ens2f2
               type: ethernet
               state: up
-              mtu: 8900
+              mtu: 8950
               ipv4:
                 enabled: false
               ipv6:
@@ -529,7 +530,7 @@ spec:
             - name: ens2f3
               type: ethernet
               state: up
-              mtu: 8900
+              mtu: 8950
               ipv4:
                 enabled: false
               ipv6:

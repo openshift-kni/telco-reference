@@ -26,7 +26,7 @@ This directory contains the key components of the TNC Virtualized Enabled Worklo
 
 ## Reference CRs
 
-**Note:** The reference CRs and/or the policyGerator YAMLs in this repo point to a private image registry at `registry.bastion.example.com:9500`. All those references need to be updated to point to the local private registry.
+**Note:** The reference CRs and/or the policyGerator YAMLs in this repo point to a private image registry at `registry.bastion.example.com:9500`. All     those references need to be updated to point to the local private registry.
 
 ### Policy generation CRs
 
@@ -78,9 +78,9 @@ Apply the following labels to ManagedClusters to configure them with the
 appropriate VEWL policies:
 
 - `common: "core"` — To apply the RDS baseline and overlay policies
-- `version: "4.20"` — To pick the RDS 4.20 policies
+- `version: "4.22"` — To pick the RDS 4.22 policies
 - `vewl: "true"` — To apply the TNC VEWL policies
-- `tnc-ver: "tnc6.1"` — To pick TNC 6.1 policies
+- `tnc-ver: "tnc7.0"` — To pick TNC 7.0 policies
 - Pick one of the following:
   - `odf-ext: "true"` — To configure ODF in external mode
   - `odf-int: "true"` — To configure ODF in internal mode

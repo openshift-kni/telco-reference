@@ -1,7 +1,7 @@
 ---
-- op: add 
+- op: add
   path: "/rules/-"
-  value: 
+  value:
     apiGroups:
     - operator.open-cluster-management.io
     resources:
@@ -9,9 +9,9 @@
     verbs:
     - "*"
 
-- op: add 
+- op: add
   path: "/rules/-"
-  value: 
+  value:
     apiGroups:
     - lvm.topolvm.io
     resources:
