@@ -58,6 +58,8 @@ parts:
           - path: cluster-tuning/disabling-network-diagnostics/DisableSnoNetworkDiag.yaml
             config:
               ignore-unspecified-fields: true
+          - path: cluster-tuning/monitoring-configuration/HubInfoSecretReaderRole.yaml
+          - path: cluster-tuning/monitoring-configuration/HubInfoSecretReaderRoleBinding.yaml
           - path: cluster-tuning/monitoring-configuration/ReduceMonitoringFootprint.yaml
             config:
               perField:

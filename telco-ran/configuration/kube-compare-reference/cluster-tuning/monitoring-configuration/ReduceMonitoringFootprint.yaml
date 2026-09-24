@@ -1,15 +1,14 @@
 ---
 # RAN Observability configuration
-# ACM 5.0+: observatorium-api URL is available from the spoke side; alerts forward via observatorium-api with mTLS.
-# ACM 4.x:  requires the observabilityRoutePolicy from the telco-hub reference to propagate the alertmanager URL
-#            and hub cluster ID as ManagedCluster annotations; alerts forward via the alertmanager route with ingress CA.
+# ACM 5.0+: reads the observatorium route from the spoke hub-info-secret and forwards with mTLS.
+# ACM 4.x: requires observabilityRoutePolicy in the 4.x hub reference for the alertmanager route and hub ID.
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: cluster-monitoring-config
   namespace: openshift-monitoring
   annotations:
-    ran.openshift.io/ztp-deploy-wave: "1"
+    ran.openshift.io/ztp-deploy-wave: "2"
 data:
   config.yaml: |
     alertmanagerMain:
@@ -32,14 +31,7 @@ data:
       - apiVersion: v2
         bearerToken:
           key: token
-          name: (?<observability_alertmanager_accessor>.*)
-        scheme: https
-        staticConfigs: (?<alertmanager_endpoint>.*)
-        tlsConfig:
-          ca:
-            key: service-ca.crt
-            name: (?<hub_alertmanager_router_ca>.*)
-          insecureSkipVerify: false
+          (?<alertmanager_config>(?s:.*?))
       externalLabels:
         managed_cluster: (?<managed_cluster>.*)
       retention: 24h

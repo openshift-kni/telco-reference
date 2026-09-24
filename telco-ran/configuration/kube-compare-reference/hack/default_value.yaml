@@ -881,10 +881,29 @@ cluster_tuning_monitoring_configuration_ReduceMonitoringFootprint:
   - metadata:
       name: cluster-monitoring-config
     captureGroup_defaults:
-      alertmanager_endpoint: '{{ `{{hub $route := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-alertmanager-route" hub}}{{hub if $route hub}}[{{hub $route hub}}]{{hub else hub}}[]{{hub end hub}}` }}'
+      alertmanager_config: |-
+        name: {{ `{{ $hubInfo := fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml" | base64dec | fromYaml }}{{ $hubID := index $hubInfo "hub-cluster-id" }}{{ $fwdRoute := index $hubInfo "hub-alerts-forwarding-route" }}{{ if $hubID }}observability-alertmanager-accessor-{{ $hubID }}{{ else }}observability-alertmanager-accessor{{ end }}` }}
+                {{ `{{ if $fwdRoute }}` }}pathPrefix: /api/alertmanager/v2/default
+                scheme: https
+                staticConfigs: [{{ `{{ trimPrefix "https://" $fwdRoute | regexFind "^[^/]+" }}` }}]
+                tlsConfig:
+                  ca:
+                    key: ca.crt
+                    name: {{ `{{ if $hubID }}` }}obs-alertmanager-mtls-ca-{{ `{{ $hubID }}` }}{{ `{{ else }}` }}obs-alertmanager-mtls-ca{{ `{{ end }}` }}
+                  cert:
+                    key: tls.crt
+                    name: {{ `{{ if $hubID }}` }}obs-alertmanager-mtls-cert-{{ `{{ $hubID }}` }}{{ `{{ else }}` }}obs-alertmanager-mtls-cert{{ `{{ end }}` }}
+                  key:
+                    key: tls.key
+                    name: {{ `{{ if $hubID }}` }}obs-alertmanager-mtls-cert-{{ `{{ $hubID }}` }}{{ `{{ else }}` }}obs-alertmanager-mtls-cert{{ `{{ end }}` }}
+                  insecureSkipVerify: false{{ `{{ else }}` }}scheme: https
+                staticConfigs: {{ `{{hub $alertmanagerRoute := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-alertmanager-route" hub}}{{hub if $alertmanagerRoute hub}}[{{hub $alertmanagerRoute hub}}]{{hub else hub}}[]{{hub end hub}}` }}
+                tlsConfig:
+                  ca:
+                    key: service-ca.crt
+                    name: {{ `{{hub $hubID2 := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-hub-cluster-id" hub}}{{hub if $hubID2 hub}}hub-alertmanager-router-ca-{{hub $hubID2 hub}}{{hub else hub}}hub-alertmanager-router-ca{{hub end hub}}` }}
+                  insecureSkipVerify: false{{ `{{ end }}` }}
       managed_cluster: '{{ `{{hub index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.labels "clusterID" hub}}` }}'
-      observability_alertmanager_accessor: '{{ `{{hub $hubID := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-hub-cluster-id" hub}}{{hub if $hubID hub}}observability-alertmanager-accessor-{{hub $hubID hub}}{{hub else hub}}observability-alertmanager-accessor{{hub end hub}}` }}'
-      hub_alertmanager_router_ca: '{{ `{{hub $hubID2 := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-hub-cluster-id" hub}}{{hub if $hubID2 hub}}hub-alertmanager-router-ca-{{hub $hubID2 hub}}{{hub else hub}}hub-alertmanager-router-ca{{hub end hub}}` }}'
 lca_LcaSubscription:
   - spec:
       source: redhat-operators-disconnected
