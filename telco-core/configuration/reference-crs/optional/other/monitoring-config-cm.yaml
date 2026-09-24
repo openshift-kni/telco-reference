@@ -28,7 +28,7 @@ data:
       - apiVersion: v2
         bearerToken:
           key: token
-          name: {{ $hubInfo := fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml" | fromYaml }}{{ $hubID := index $hubInfo "hub-cluster-id" }}{{ $fwdRoute := index $hubInfo "hub-alerts-forwarding-route" }}{{ if $hubID }}observability-alertmanager-accessor-{{ $hubID }}{{ else }}observability-alertmanager-accessor{{ end }}
+          name: {{ $hubInfo := fromSecret "open-cluster-management-addon-observability" "hub-info-secret" "hub-info.yaml" | base64dec | fromYaml }}{{ $hubID := index $hubInfo "hub-cluster-id" }}{{ $fwdRoute := index $hubInfo "hub-alerts-forwarding-route" }}{{ if $hubID }}observability-alertmanager-accessor-{{ $hubID }}{{ else }}observability-alertmanager-accessor{{ end }}
         {{ if $fwdRoute }}pathPrefix: /api/alertmanager/v2/default
         scheme: https
         staticConfigs: [{{ trimPrefix "https://" $fwdRoute | regexFind "^[^/]+" }}]
