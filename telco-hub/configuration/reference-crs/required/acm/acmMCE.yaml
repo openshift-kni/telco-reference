@@ -65,6 +65,12 @@ spec:
     - configOverrides: {}
       enabled: false
       name: cluster-api-provider-openshift-assisted
+    - configOverrides: {}
+      enabled: true
+      name: cluster-permission
+    - configOverrides: {}
+      enabled: false
+      name: maestro-preview
   targetNamespace: multicluster-engine
   tolerations:
   - effect: NoSchedule
