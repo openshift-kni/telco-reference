@@ -138,7 +138,7 @@ spec:
   {{- end }}
   {{- if eq .name "01-bc-tr" }}
     - name: 01-bc-tr
-      phc2sysOpts: -r -n (?<domainNumber>[0-9]+) -N 8 -R 16 -u 0 -m -s (?<upstreamInterface>[[:alnum:]]+)
+      phc2sysOpts: -r -n (?<domainNumber>[0-9]+) -N 8 -R 16 -u 0 -m -w -s (?<upstreamInterface>[[:alnum:]]+)
       ptp4lConf: |
         [(?<upstreamInterface>[[:alnum:]]+)]
         masterOnly 0

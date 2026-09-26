@@ -181,7 +181,7 @@ spec:
         controllingProfile: 01-bc-tr
         logReduce: "true"
     - name: 01-bc-tr
-      phc2sysOpts: -r -n 24 -N 8 -R 16 -u 0 -m -s $upstreamInterface
+      phc2sysOpts: -r -n 24 -N 8 -R 16 -u 0 -m -w -s $upstreamInterface
       ptp4lConf: |
         [$upstreamInterface]
         masterOnly 0
