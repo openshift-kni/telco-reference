@@ -84,6 +84,8 @@ validatorCRs/rebootMachineConfigPoolValidator.yaml
 09-openshift-marketplace-ns.yaml
 10-rename-gnrd-interfaces-master.yaml
 10-rename-gnrd-interfaces-worker.yaml
+99-enable-i2c-dev-master.yaml
+99-enable-i2c-dev-worker.yaml
 99-sync-time-once-master.yaml
 99-sync-time-once-worker.yaml
 disk-encryption.yaml.tmpl
