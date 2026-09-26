@@ -13,6 +13,9 @@ resources:
   - acmProvisioning.yaml
   - observabilityNS.yaml
   - observabilityOBC.yaml
+  - observabilityRoutePolicy.yaml
+  - observabilityRoutePlacement.yaml
+  - observabilityRoutePlacementBinding.yaml
   - thanosSecretPolicy.yaml
   - thanosSecretPlacement.yaml
   - thanosSecretPlacementBinding.yaml
@@ -20,6 +23,6 @@ resources:
   - pullSecretPolicy.yaml
   - pullSecretPlacement.yaml
   - pullSecretPlacementBinding.yaml
-  - pullSecretMCSB.yaml
+  - observabilityMCSB.yaml
 
   - observabilityMCO.yaml
