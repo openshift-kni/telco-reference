@@ -70,8 +70,14 @@ spec:
     # - fileName: data-protection/OadpOperatorStatus.yaml
     #   policyName: "subscriptions-policy"
     #
+    - fileName: cluster-tuning/monitoring-configuration/HubInfoSecretReaderRole.yaml
+      policyName: "hub-info-secret-rbac-policy"
+      remediationAction: enforce
+    - fileName: cluster-tuning/monitoring-configuration/HubInfoSecretReaderRoleBinding.yaml
+      policyName: "hub-info-secret-rbac-policy"
+      remediationAction: enforce
     - fileName: cluster-tuning/monitoring-configuration/ReduceMonitoringFootprint.yaml
-      policyName: "config-policy"
+      policyName: "monitoring-config-policy"
     #
     # These CRs are in support of installation from a disconnected registry
     #

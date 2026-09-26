@@ -26,11 +26,17 @@ policyDefaults:
     compliant: 10m
     noncompliant: 10s
 policies:
+- name: common-latest-hub-info-secret-rbac-policy
+  remediationAction: enforce
+  policyAnnotations:
+    ran.openshift.io/ztp-deploy-wave: "1"
+  manifests:
+    - path: source-crs/cluster-tuning/monitoring-configuration/HubInfoSecretReaderRole.yaml
+    - path: source-crs/cluster-tuning/monitoring-configuration/HubInfoSecretReaderRoleBinding.yaml
 - name: common-latest-config-policy
   policyAnnotations:
     ran.openshift.io/ztp-deploy-wave: "1"
   manifests:
-    - path: source-crs/cluster-tuning/monitoring-configuration/ReduceMonitoringFootprint.yaml
     - path: source-crs/disconnected-registry/DefaultCatsrc.yaml
       patches:
       - metadata:
@@ -45,6 +51,11 @@ policies:
           - mirrors:
             - registry.example.com:5000
             source: registry.redhat.io
+- name: common-latest-monitoring-config-policy
+  policyAnnotations:
+    ran.openshift.io/ztp-deploy-wave: "2"
+  manifests:
+    - path: source-crs/cluster-tuning/monitoring-configuration/ReduceMonitoringFootprint.yaml
 - name: common-latest-subscriptions-policy
   policyAnnotations:
     ran.openshift.io/ztp-deploy-wave: "2"
