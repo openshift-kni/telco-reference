@@ -182,9 +182,9 @@ required_acm_acmAgentServiceConfig:
       url: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.22/latest/rhcos-live-iso.x86_64.iso
       version: "9.6.20251212-1"
     - cpuArchitecture: "x86_64"
-      openshiftVersion: "5.0"
-      rootFSUrl: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/5.0/latest/rhcos-live-rootfs.x86_64.img
-      url: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/5.0/latest/rhcos-live-iso.x86_64.iso
+      openshiftVersion: "5.1"
+      rootFSUrl: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/5.1/latest/rhcos-live-rootfs.x86_64.img
+      url: https://mirror.example.com/pub/openshift-v4/x86_64/dependencies/rhcos/5.1/latest/rhcos-live-iso.x86_64.iso
       version: "9.6.YYYYMMDD-0"
     osImageVersion: {}
 
@@ -352,7 +352,7 @@ required_gitops_argocd_tls_certs_cm:
 # Registry defaults
 required_registry_catalog_source:
 - spec:
-    image: <registry.example.com:8443>/openshift-marketplace/redhat-operators-disconnected:v5.0
+    image: <registry.example.com:8443>/openshift-marketplace/redhat-operators-disconnected:v5.1
 
 required_registry_idms_operator:
 - spec:
