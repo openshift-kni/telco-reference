@@ -35,7 +35,7 @@ spec:
       data: |
         [main]
         summary=Configuration specific to x86_64 performance
-        include=${f:exec:/bin/sh:-c:if vendor=$(cat /sys/class/dmi/id/sys_vendor 2>/dev/null) && product=$(cat /sys/class/dmi/id/product_name 2>/dev/null) && [ "$vendor" = "HPE" ] && [ "$product" = "HPE ProLiant Compute EL140 Gen12" ]; then printf ran-du-hpe-el140; else printf ran-du-hardware-default; fi}
+        include=${f:exec:/bin/sh:-c:grep -Fqsx 'HPE ProLiant Compute EL140 Gen12' /sys/class/dmi/id/product_name && printf ran-du-hpe-el140 || printf ran-du-hardware-default}
         # Note: If processor family-specific tuning is needed, uncomment this line and add appropriate profiles for 'ran-du-intel' and 'ran-du-amd'
         #include=ran-du-${f:lscpu_check:Vendor ID\:\s*GenuineIntel:intel:Vendor ID\:\s*AuthenticAMD:amd}
         [scheduler]
