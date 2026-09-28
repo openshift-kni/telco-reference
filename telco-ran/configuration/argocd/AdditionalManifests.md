@@ -4,7 +4,7 @@ Assisted Installer allows CRs to be applied to SNOs at install time. The applied
 
 With this feature, via ClusterInstance, users can now have control over this process and can inject manifets during installation by creating a configMap in a Kustomization file and later reference back the configMap name to `.spec.extraManifestsRefs` in ClusterInstance.
 
-Reference install manifests live under `telco-ran/install/clusterinstance/extra-manifests/`. Optional manifests live under `telco-ran/install/clusterinstance/custom-manifests/` and must not be listed in PolicyGenerator CRs; the Hub extra-manifests policy monitors install-time MachineConfigs at day-N.
+Reference install manifests live under `telco-ran/install/clusterinstance/extra-manifests/`. Optional manifests live under `telco-ran/install/clusterinstance/extra-manifests/optional/` and must not be listed in PolicyGenerator CRs; the Hub extra-manifests policy monitors install-time MachineConfigs selected through `ClusterInstance.spec.extraManifestsRefs` at day-N.
 
 * An example kustomization (`telco-ran/install/clusterinstance/kustomization.yaml`) builds a ConfigMap from the reference manifests:
 
@@ -34,9 +34,9 @@ Reference install manifests live under `telco-ran/install/clusterinstance/extra-
     disableNameSuffixHash: true
   ```
 
-  To include optional install-time manifests, place them under
-  `custom-manifests/` and add them to a separate ConfigMap referenced from
-  `ClusterInstance.spec.extraManifestsRefs`.
+  To include optional install-time manifests, select them from
+  `extra-manifests/optional/`, add them to a separate ConfigMap, and reference
+  that ConfigMap from `ClusterInstance.spec.extraManifestsRefs`.
 
 * A ClusterInstance example to reference back the configMap
 
@@ -51,4 +51,3 @@ Reference install manifests live under `telco-ran/install/clusterinstance/extra-
     extraManifestsRefs:
     - name: sno-ran-du-extra-manifest-1
   ```
-
