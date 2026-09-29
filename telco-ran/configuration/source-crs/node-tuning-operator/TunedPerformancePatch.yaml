@@ -35,6 +35,7 @@ spec:
       data: |
         [main]
         summary=Configuration specific to x86_64 performance
+        include=${f:exec:/bin/sh:-c:grep -Fqsx 'HPE ProLiant Compute EL140 Gen12' /sys/class/dmi/id/product_name && printf ran-du-hpe-el140 || printf ran-du-hardware-default}
         # Note: If processor family-specific tuning is needed, uncomment this line and add appropriate profiles for 'ran-du-intel' and 'ran-du-amd'
         #include=ran-du-${f:lscpu_check:Vendor ID\:\s*GenuineIntel:intel:Vendor ID\:\s*AuthenticAMD:amd}
         [scheduler]
@@ -46,6 +47,16 @@ spec:
         cmdline_x86_iavf=rd.driver.pre=iavf
         [sysctl]
         kernel.panic_on_unrecovered_nmi=1
+    - name: ran-du-hardware-default
+      data: |
+        [main]
+        summary=No hardware-specific RAN tuning
+    - name: ran-du-hpe-el140
+      data: |
+        [main]
+        summary=HPE ProLiant Compute EL140 Gen12 tuning
+        [bootloader]
+        cmdline_hpe_el140_ice=ice.rh_phys_port_name=1
   recommend:
     - machineConfigLabels:
         machineconfiguration.openshift.io/role: $mcp
