@@ -1,0 +1,13 @@
+---
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 10-hpe-ice-phys-port-name-kernel-worker
+  labels:
+    machineconfiguration.openshift.io/role: worker
+spec:
+  config:
+    ignition:
+      version: 3.2.0
+  kernelArguments:
+    - ice.rh_phys_port_name=1
