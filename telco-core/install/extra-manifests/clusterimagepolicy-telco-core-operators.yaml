@@ -26,6 +26,8 @@ spec:
     # odf-csi-addons-operator, odf-operator, odf-prometheus-operator, rook-ceph-operator,
     # sriov-network-operator, topology-aware-lifecycle-manager
     - registry.redhat.io/openshift4
+    # metallb-operator, kubernetes-nmstate-operator, sriov-network-operator
+    - registry.redhat.io/openshift5
     # advanced-cluster-management
     - registry.redhat.io/rhacm2
     # ocs-operator
