@@ -34,60 +34,25 @@ policies:
         patches:
         - data:
             "ack-4.20-sigstore-in-4.21": "true"
+      # Preemptively upgrade logging operators to 6.5 before the 4.21 platform hop
+      - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
+        patches:
+        - spec:
+            channel: stable-6.5
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/optional/LOG/LOKI/LokiSubscription.yaml
+        patches:
+        - spec:
+            channel: stable-6.5
+        - status:
+            state: AtLatestKnown
       - path: other-crs/custom-manifests/mcp-worker.yaml
         patches:
         - spec:
             # Adjust as needed based on spare capacity, cluster design, and application requirements
             maxUnavailable: 100%
             paused: true
-  - name: mgmt-ztp-upgrade-logging-uninstall-21
-    policyAnnotations:
-      ran.openshift.io/soak-seconds: "60"
-    evaluationInterval:
-      compliant: never
-    manifests:
-      - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
-        complianceType: mustnothave
-      - path: other-crs/optional/LOG/LOKI/LokiSubscription.yaml
-        complianceType: mustnothave
-  - name: mgmt-ztp-upgrade-logging-install-21
-    policyAnnotations:
-      ran.openshift.io/soak-seconds: "60"
-    extraDependencies:
-      - name: mgmt-ztp-upgrade-logging-uninstall-21
-        namespace: ztp-core-policies
-        compliance: Compliant
-    manifests:
-      - path: reference-crs/optional/logging/ClusterLogNS.yaml
-      - path: reference-crs/optional/logging/ClusterLogOperGroup.yaml
-      - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
-        patches:
-        - spec:
-            channel: stable-6.5
-            installPlanApproval: Automatic
-        - status:
-            state: AtLatestKnown
-      - path: reference-crs/optional/logging/ClusterLogOperatorStatus.yaml
-        patches:
-        - status:
-            components:
-              refs:
-              - kind: ClusterServiceVersion
-                namespace: openshift-logging
-                name: cluster-logging.v6.5.0
-                conditions:
-                  - type: Succeeded
-                    status: "True"
-                    reason: InstallSucceeded
-      - path: other-crs/optional/LOG/LOKI/LokiNS.yaml
-      - path: other-crs/optional/LOG/LOKI/LokiOperGroup.yaml
-      - path: other-crs/optional/LOG/LOKI/LokiSubscription.yaml
-        patches:
-        - spec:
-            channel: stable-6.5
-            installPlanApproval: Automatic
-        - status:
-            state: AtLatestKnown
   - name: mgmt-ztp-upgrade-ocp-21
     manifests:
       - path: reference-crs/optional/other/ClusterVersion.yaml
@@ -102,6 +67,7 @@ policies:
             history:
             - version: 4.21.24
               state: "Completed"
+  # ODF policies uninstall and reinstall pair if needed to ensure ODF upgrade completes
   - name: mgmt-ztp-upgrade-odf-uninstall-21
     policyAnnotations:
       ran.openshift.io/soak-seconds: "60"
@@ -115,7 +81,7 @@ policies:
         objectSelector:
           matchLabels:
             odf.openshift.io/odf-operator: "true"
-  - name: mgmt-ztp-upgrade-odf-install-21
+  - name: mgmt-ztp-upgrade-odf-reinstall-21
     policyAnnotations:
       ran.openshift.io/soak-seconds: "60"
     extraDependencies:
@@ -136,6 +102,26 @@ policies:
     policyAnnotations:
       ran.openshift.io/soak-seconds: "60"
     manifests:
+      - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
+        patches:
+        - metadata:
+            annotations:
+              noop-for-triggering-noncompliance: "21"
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/optional/LOG/LOKI/LokiSubscription.yaml
+        patches:
+        - metadata:
+            annotations:
+              noop-for-triggering-noncompliance: "21"
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
+        patches:
+        - spec:
+            channel: stable-4.21
+        - status:
+            state: AtLatestKnown
       - path: other-crs/required/reference/acm/acmSubscription.yaml
         patches:
         - spec:

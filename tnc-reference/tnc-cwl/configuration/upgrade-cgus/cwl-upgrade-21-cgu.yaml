@@ -1,25 +1,26 @@
+---
 apiVersion: ran.openshift.io/v1alpha1
 kind: ClusterGroupUpgrade
 metadata:
-  name: mgmt-upgrade-22
+  name: cwl-upgrade-21
   namespace: ztp-core-policies
 spec:
   actions:
     afterCompletion:
       deleteClusterLabels:
-        upgrade-version-4-22: ""
+        upgrade-version-4-21: ""
       deleteObjects: true
   clusters:
-  - mgmt1
+  - cwl-site1
   enable: true
   managedPolicies:
-  - mgmt-ztp-upgrade-prep-22
-  - mgmt-ztp-upgrade-ocp-22
-  - mgmt-ztp-upgrade-olm-22
-  - mgmt-ztp-upgrade-validate-22
+  - cwl-upgrade-prep-21
+  - cwl-upgrade-ocp-21
+  - cwl-upgrade-olm-21
+  - cwl-upgrade-validate-21
   # ODF uninstall/reinstall policy pair only to be used if ODF subscription fails to upgrade
-  #- mgmt-ztp-upgrade-odf-uninstall-22
-  #- mgmt-ztp-upgrade-odf-reinstall-22
+  #- cwl-upgrade-odf-uninstall-21
+  #- cwl-upgrade-odf-reinstall-21
   remediationStrategy:
     maxConcurrency: 1
     timeout: 480

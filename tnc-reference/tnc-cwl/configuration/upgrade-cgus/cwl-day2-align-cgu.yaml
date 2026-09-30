@@ -1,0 +1,24 @@
+---
+apiVersion: ran.openshift.io/v1alpha1
+kind: ClusterGroupUpgrade
+metadata:
+  name: cwl-day2-align
+  namespace: ztp-core-policies
+spec:
+  actions:
+    afterCompletion:
+      deleteObjects: true
+  clusters:
+  - cwl-site1
+  enable: true
+  managedPolicies:
+  - core-overlay-base-4.22
+  - core-operator-subs-4.22
+  - core-operator-config-4.22
+  - core-overlay-config-4.22
+  - config-odf-ext-tnc70
+  - config-other-ext-tnc70
+  - cwl-auth-idm-tnc70
+  remediationStrategy:
+    maxConcurrency: 1
+    timeout: 480

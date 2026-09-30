@@ -46,7 +46,7 @@ policies:
       patches:
         - spec:
             operand:
-              image: registry.redhat.io/openshift4/ose-node-feature-discovery-rhel9@sha256:ae6e36fc085492e368a431d3d4df4088fe5b11d2f030e36662aa9001ea18c71e
+              image: registry.redhat.io/openshift4/ose-node-feature-discovery-rhel9@sha256:099dbe23123dc302f2309324ed406db39e010e5b78019a6aae4e7526da1c98b3
 
   - name: nvidia-tnc70
     policyAnnotations:

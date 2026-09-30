@@ -59,6 +59,7 @@ policies:
             history:
             - version: 4.22.5
               state: "Completed"
+  # ODF policies uninstall and reinstall pair if needed to ensure ODF upgrade completes
   - name: mgmt-ztp-upgrade-odf-uninstall-22
     policyAnnotations:
       ran.openshift.io/soak-seconds: "60"
@@ -72,7 +73,7 @@ policies:
         objectSelector:
           matchLabels:
             odf.openshift.io/odf-operator: "true"
-  - name: mgmt-ztp-upgrade-odf-install-22
+  - name: mgmt-ztp-upgrade-odf-reinstall-22
     policyAnnotations:
       ran.openshift.io/soak-seconds: "60"
     extraDependencies:
@@ -102,6 +103,15 @@ policies:
             state: AtLatestKnown
       - path: other-crs/optional/LOG/LOKI/LokiSubscription.yaml
         patches:
+        - metadata:
+            annotations:
+              noop-for-triggering-noncompliance: "22"
+        - status:
+            state: AtLatestKnown
+      - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
+        patches:
+        - spec:
+            channel: stable-4.22
         - status:
             state: AtLatestKnown
       - path: other-crs/required/reference/acm/acmSubscription.yaml

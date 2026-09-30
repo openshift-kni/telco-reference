@@ -1,0 +1,11 @@
+# required: no
+# Used by upgrade policies with complianceType: mustnothave and objectSelector.
+# Do not set metadata.name — PolicyGenerator ignores objectSelector when name is set.
+# Matches the odf-operator CSV via label odf.openshift.io/odf-operator.
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  namespace: openshift-storage
+  labels:
+    odf.openshift.io/odf-operator: "true"
