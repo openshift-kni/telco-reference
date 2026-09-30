@@ -30,19 +30,10 @@ policies:
           spec:
             displayName: Certified Disconnected Operators Catalog
             image: '{{hub fromConfigMap "" .ManagedClusterName "registry-fqdn" hub}}/ocp/ocp4/redhat/certified-operator-index:v4.22'
-      - path: reference-crs/custom-manifests/mcp-worker-1.yaml
+      - path: other-crs/custom-manifests/mcp-worker.yaml
         patches:
         - spec:
-            maxUnavailable: 100%
-            paused: true
-      - path: reference-crs/custom-manifests/mcp-worker-2.yaml
-        patches:
-        - spec:
-            maxUnavailable: 100%
-            paused: true
-      - path: reference-crs/custom-manifests/mcp-worker-3.yaml
-        patches:
-        - spec:
+            # Adjust as needed based on spare capacity, cluster design, and application requirements
             maxUnavailable: 100%
             paused: true
   - name: mgmt-ztp-upgrade-ocp-22
