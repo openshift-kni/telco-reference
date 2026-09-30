@@ -1,0 +1,24 @@
+---
+apiVersion: tuned.openshift.io/v1
+kind: Tuned
+metadata:
+  name: configuration-nic
+  namespace: openshift-cluster-node-tuning-operator
+spec:
+  profile:
+  - data: |
+      [main]
+      summary=Configuration to set to 32 the nb of interrupt per NIC
+      # Make sure the include name matches the PerformanceProfile
+      include=openshift-node-performance-{{ .metadata.name }}
+      [net]
+      type=net
+      # Update the NIC name pattern
+      devices_udev_regex=^INTERFACE=ens1f(0|1)
+      channels=combined 32
+    name: configuration-nic
+  recommend:
+  - machineConfigLabels:
+      machineconfiguration.openshift.io/role: "worker"
+    priority: 19
+    profile: configuration-nic
