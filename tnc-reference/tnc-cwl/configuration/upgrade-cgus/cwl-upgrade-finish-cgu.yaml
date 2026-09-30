@@ -1,0 +1,25 @@
+---
+apiVersion: ran.openshift.io/v1alpha1
+kind: ClusterGroupUpgrade
+metadata:
+  name: cwl-upgrade-finish
+  namespace: ztp-core-policies
+spec:
+  actions:
+    afterCompletion:
+      deleteClusterLabels:
+        upgrade-finish: ""
+      deleteObjects: true
+  clusters:
+  - cwl-site1
+  enable: true
+  managedPolicies:
+  - cwl-upgrade-workers-1
+  - cwl-upgrade-workers-2
+  - cwl-upgrade-workers-3
+  remediationStrategy:
+    maxConcurrency: 1
+    timeout: 480
+  blockingCRs:
+  - name: cwl-upgrade-22
+    namespace: ztp-core-policies

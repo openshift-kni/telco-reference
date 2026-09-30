@@ -61,11 +61,49 @@ policies:
             history:
             - version: 4.22.5
               state: "Completed"
+  # ODF policies uninstall and reinstall pair if needed to ensure ODF upgrade completes
+  - name: cwl-upgrade-odf-uninstall-22
+    policyAnnotations:
+      ran.openshift.io/soak-seconds: "60"
+    evaluationInterval:
+      compliant: never
+    manifests:
+      - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
+        complianceType: mustnothave
+      - path: other-crs/optional/ODF/OdfOperatorCSV.yaml
+        complianceType: mustnothave
+        objectSelector:
+          matchLabels:
+            odf.openshift.io/odf-operator: "true"
+  - name: cwl-upgrade-odf-reinstall-22
+    policyAnnotations:
+      ran.openshift.io/soak-seconds: "60"
+    extraDependencies:
+      - name: cwl-upgrade-odf-uninstall-22
+        namespace: ztp-core-policies
+        compliance: Compliant
+    manifests:
+      - path: reference-crs/required/storage/odf-external/odfNS.yaml
+      - path: reference-crs/required/storage/odf-external/odfOperGroup.yaml
+      - path: reference-crs/required/storage/odf-external/odfSubscription.yaml
+        patches:
+        - spec:
+            channel: stable-4.22
+            installPlanApproval: Automatic
+        - status:
+            state: AtLatestKnown
   - name: cwl-upgrade-olm-22
     policyAnnotations:
       ran.openshift.io/soak-seconds: "60"
     manifests:
       - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
+        patches:
+        - metadata:
+            annotations:
+              noop-for-triggering-noncompliance: "22"
+        - status:
+            state: AtLatestKnown
+      - path: other-crs/optional/LOG/LOKI/LokiSubscription.yaml
         patches:
         - metadata:
             annotations:

@@ -14,13 +14,12 @@ spec:
   enable: true
   managedPolicies:
   - mgmt-ztp-upgrade-prep-21
-  - mgmt-ztp-upgrade-logging-uninstall-21
-  - mgmt-ztp-upgrade-logging-install-21
   - mgmt-ztp-upgrade-ocp-21
-  - mgmt-ztp-upgrade-odf-uninstall-21
-  - mgmt-ztp-upgrade-odf-install-21
   - mgmt-ztp-upgrade-olm-21
   - mgmt-ztp-upgrade-validate-21
+  # ODF uninstall/reinstall policy pair only to be used if ODF subscription fails to upgrade
+  #- mgmt-ztp-upgrade-odf-uninstall-21
+  #- mgmt-ztp-upgrade-odf-reinstall-21
   remediationStrategy:
     maxConcurrency: 1
     timeout: 480
