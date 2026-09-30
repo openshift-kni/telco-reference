@@ -1,0 +1,13 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  name: root-ca-expiration-monitor
+  namespace: default
+  annotations:
+    policy.open-cluster-management.io/categories: SC System and Communications Protection
+    policy.open-cluster-management.io/controls: SC-8 Transmission Confidentiality and Integrity
+    policy.open-cluster-management.io/standards: NIST 800-53
+spec:
+  disabled: false
+  remediationAction: enforce
