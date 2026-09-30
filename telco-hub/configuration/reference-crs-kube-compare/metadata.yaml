@@ -38,6 +38,28 @@ parts:
           - path: optional/cert-manager/certManagerCertificatePolicy.yaml
           - path: optional/cert-manager/certManagerCertificatePolicyPlacement.yaml
           - path: optional/cert-manager/certManagerCertificatePolicyPlacementBinding.yaml
+  - name: optional-external-secrets
+    description: |-
+      External Secrets Operator for secure secret management via external stores
+    components:
+      - name: external-secrets-operator
+        allOrNoneOf:
+          - path: optional/external-secrets/esoNS.yaml
+          - path: optional/external-secrets/esoOperatorgroup.yaml
+          - path: optional/external-secrets/esoSubscription.yaml
+          - path: optional/external-secrets/esoExternalSecretsConfig.yaml
+          - path: optional/external-secrets/esoClusterSecretStore.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: optional/external-secrets/esoNetworkPolicy.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: optional/external-secrets/esoClusterTemplates.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: optional/external-secrets/esoNodeTemplates.yaml
+            config:
+              ignore-unspecified-fields: true
   - name: optional-storage
     components:
       - name: local-storage-operator

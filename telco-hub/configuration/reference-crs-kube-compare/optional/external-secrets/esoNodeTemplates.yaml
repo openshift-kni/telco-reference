@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eso-node-templates-v1
+  namespace: open-cluster-management
+  annotations:
+    argocd.argoproj.io/sync-wave: "-30"
+data:
+  BmcSecretExternalSecret: |-
+    apiVersion: external-secrets.io/v1
+    kind: ExternalSecret
+    metadata:
+      name: "{{ "{{ .SpecialVars.CurrentNode.BmcCredentialsName.Name }}" }}"
+      namespace: "{{ "{{ .Spec.ClusterName }}" }}"
+      annotations:
+        siteconfig.open-cluster-management.io/sync-wave: "1"
+    spec:
+      refreshPolicy: OnChange
+      secretStoreRef:
+        name: ztp-secret-provider
+        kind: ClusterSecretStore
+      target:
+        name: "{{ "{{ .SpecialVars.CurrentNode.BmcCredentialsName.Name }}" }}"
+        creationPolicy: Owner
+      data:
+        - secretKey: username
+          remoteRef:
+            key: clusters/{{ "{{ .Spec.ClusterName }}" }}/bmc/{{ "{{ .SpecialVars.CurrentNode.HostName }}" }}
+            property: username
+        - secretKey: password
+          remoteRef:
+            key: clusters/{{ "{{ .Spec.ClusterName }}" }}/bmc/{{ "{{ .SpecialVars.CurrentNode.HostName }}" }}
+            property: password
