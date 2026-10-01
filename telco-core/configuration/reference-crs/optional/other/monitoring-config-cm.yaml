@@ -42,7 +42,9 @@ data:
           key:
             key: tls.key
             name: {{ if $hubID }}obs-alertmanager-mtls-cert-{{ $hubID }}{{ else }}obs-alertmanager-mtls-cert{{ end }}
-          insecureSkipVerify: false{{ else }}{{hub $hubID := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-hub-cluster-id" hub}}{{hub if $hubID hub}}observability-alertmanager-accessor-{{hub $hubID hub}}{{hub else hub}}observability-alertmanager-accessor{{hub end hub}}
+          insecureSkipVerify: false
+          {{- else -}}
+          {{hub $hubID := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-hub-cluster-id" hub}}{{hub if $hubID hub}}observability-alertmanager-accessor-{{hub $hubID hub}}{{hub else hub}}observability-alertmanager-accessor{{hub end hub}}
         scheme: https
         staticConfigs: {{hub $alertmanagerRoute := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-alertmanager-route" hub}}{{hub if $alertmanagerRoute hub}}[{{hub $alertmanagerRoute hub}}]{{hub else hub}}[]{{hub end hub}}
         tlsConfig:
