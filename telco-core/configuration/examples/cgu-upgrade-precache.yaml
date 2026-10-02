@@ -1,0 +1,35 @@
+---
+# Optional pre-caching stage, run in a maintenance window ahead of the upgrade
+# itself. Pulls the release and OLM images onto the nodes using PinnedImageSet
+# CRs so that the upgrade window is not spent waiting on image pulls.
+#
+# Target clusters carry common=core and upgrade-precache="". That label is
+# deliberately version independent: in a multi-hop upgrade the PinnedImageSets
+# hold the images for every hop of the path.
+#
+# Before enabling this, populate the pinnedImages lists in the four
+# PinnedImageSet CRs patched by core-upgrade-precache.yaml with the real image
+# digests for the target release.
+apiVersion: ran.openshift.io/v1alpha1
+kind: ClusterGroupUpgrade
+metadata:
+  name: core-upgrade-precache
+  namespace: default
+spec:
+  clusterLabelSelectors:
+    - matchLabels:
+        common: "core"
+        upgrade-precache: ""
+  enable: true
+  managedPolicies:
+    - core-upgrade-precache-controlplane-5-1
+    - core-upgrade-precache-worker-5-1
+    - core-upgrade-precache-validator-5-1
+  actions:
+    afterCompletion:
+      removeClusterLabels:
+        - upgrade-precache
+      deleteObjects: true
+  remediationStrategy:
+    maxConcurrency: 1
+    timeout: 480
