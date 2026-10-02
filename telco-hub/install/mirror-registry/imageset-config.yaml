@@ -101,6 +101,10 @@ mirror:
       defaultChannel: stable-v1
       channels:
       - name: stable-v1
+    - name: cluster-observability-operator
+      defaultChannel: stable
+      channels:
+      - name: stable
   additionalImages:
   - name: registry.redhat.io/ubi9/ubi:latest
   - name: registry.redhat.io/openshift5/ztp-site-generate-rhel9:v5.0
