@@ -8,7 +8,13 @@ resources:
 generators:
   - core-baseline.yaml
   - core-overlay.yaml
-  - core-upgrade.yaml
+  # Release specific upgrade policies. Include the copy from each release the
+  # cluster is upgrading through.
+  - core-upgrade-policies.yaml
+  # Releases the worker MachineConfigPools once the control plane upgrade is
+  # complete. These policies describe the cluster's own MCP layout rather than
+  # anything release specific, so only one copy is needed across all releases.
+  - core-upgrade-mcps.yaml
   - core-finish.yaml
   # Optional: pre-cache images ahead of the upgrade window using PinnedImageSet CRs.
   # Label target clusters with upgrade-precache: "" to activate.

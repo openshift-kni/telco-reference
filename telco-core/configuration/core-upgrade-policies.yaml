@@ -112,3 +112,31 @@ policies:
       ran.openshift.io/soak-seconds: "30"
     manifests:
       - path: reference-crs/custom-manifests/subscription-validator.yaml
+
+  # Optional cleanup policy for pre-caching PinnedImageSets. When enforced,
+  # removes the 4 PinnedImageSet CRs created by core-upgrade-precache policies
+  # after the upgrade completes. Safe to include even when pre-caching was not
+  # used -- mustnothave is compliant when the objects do not exist.
+  #
+  # This policy is release specific, so it lives here, but it must stay bound
+  # until the worker nodes have finished updating -- the PinnedImageSets hold
+  # the worker release images. The placement is therefore overridden to
+  # upgrade-finish rather than the upgrade-version label used by the policies
+  # above, which the upgrade CGU removes on completion.
+  - name: core-upgrade-precache-cleanup-5-1
+    policyAnnotations:
+      ran.openshift.io/soak-seconds: "30"
+    placement:
+      labelSelector:
+        matchLabels:
+          common: "core"
+          upgrade-finish: ""
+    manifests:
+      - path: reference-crs/optional/other/precache/controlplane-olm-pinned-images.yaml
+        complianceType: mustnothave
+      - path: reference-crs/optional/other/precache/controlplane-releases-pinned-images.yaml
+        complianceType: mustnothave
+      - path: reference-crs/optional/other/precache/worker-olm-pinned-images.yaml
+        complianceType: mustnothave
+      - path: reference-crs/optional/other/precache/worker-releases-pinned-images.yaml
+        complianceType: mustnothave
