@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-monitoring-config
+  namespace: openshift-monitoring
+data:
+  config.yaml: |
+    nodeExporter:
+      collectors:
+        softirqs:
+          enabled: true
+        zoneinfo:
+          enabled: true
+        interrupts:
+          include:
+          - ".*;.*;(eth|eno|ens|em[0-9]|bond|team|mlx|.*TxRx.*).*"
