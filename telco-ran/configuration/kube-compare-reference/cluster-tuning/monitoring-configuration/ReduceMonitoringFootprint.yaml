@@ -2,6 +2,7 @@
 # RAN Observability configuration
 # ACM 5.0+: reads the observatorium route from the spoke hub-info-secret and forwards with mTLS.
 # ACM 4.x: requires observabilityRoutePolicy in the 4.x hub reference for the alertmanager route and hub ID.
+# When MCO is disabled and no route is available, omit alert forwarding.
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -27,11 +28,7 @@ data:
         systemd: {}
         tcpstat: {}
     prometheusK8s:
-      additionalAlertmanagerConfigs:
-      - apiVersion: v2
-        bearerToken:
-          key: token
-          (?<alertmanager_config>(?s:.*?))
+      (?<alertmanager_config>(?s:.*?))
       externalLabels:
         managed_cluster: (?<managed_cluster>.*)
       retention: 24h

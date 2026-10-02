@@ -882,7 +882,12 @@ cluster_tuning_monitoring_configuration_ReduceMonitoringFootprint:
       name: cluster-monitoring-config
     captureGroup_defaults:
       alertmanager_config: |-
-        name: {{ `{{ $hubInfo := dict }}{{ with (lookup "v1" "Secret" "open-cluster-management-addon-observability" "hub-info-secret") }}{{ $hubInfo = (index .data "hub-info.yaml" | base64dec | fromYaml) }}{{ end }}{{ $fwdRoute := index $hubInfo "hub-alerts-forwarding-route" }}{{ if $fwdRoute }}{{ $hubID := index $hubInfo "hub-cluster-id" }}{{ if $hubID }}observability-alertmanager-accessor-{{ $hubID }}{{ else }}observability-alertmanager-accessor{{ end }}` }}
+        {{ `{{ $hubInfo := dict }}{{ with (lookup "v1" "Secret" "open-cluster-management-addon-observability" "hub-info-secret") }}{{ $hubInfo = (index .data "hub-info.yaml" | base64dec | fromYaml) }}{{ end }}{{ $fwdRoute := index $hubInfo "hub-alerts-forwarding-route" }}{{ if $fwdRoute }}` }}
+              additionalAlertmanagerConfigs:
+              - apiVersion: v2
+                bearerToken:
+                  key: token
+                  name: {{ `{{ $hubID := index $hubInfo "hub-cluster-id" }}{{ if $hubID }}observability-alertmanager-accessor-{{ $hubID }}{{ else }}observability-alertmanager-accessor{{ end }}` }}
                 pathPrefix: /api/alertmanager/v2/default
                 scheme: https
                 staticConfigs: [{{ `{{ trimPrefix "https://" $fwdRoute | regexFind "^[^/]+" }}` }}]
@@ -897,15 +902,21 @@ cluster_tuning_monitoring_configuration_ReduceMonitoringFootprint:
                     key: tls.key
                     name: {{ `{{ if $hubID }}` }}obs-alertmanager-mtls-cert-{{ `{{ $hubID }}` }}{{ `{{ else }}` }}obs-alertmanager-mtls-cert{{ `{{ end }}` }}
                   insecureSkipVerify: false
-                  {{ `{{- else -}}` }}
-                  {{ `{{hub $hubID := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-hub-cluster-id" hub}}{{hub if $hubID hub}}observability-alertmanager-accessor-{{hub $hubID hub}}{{hub else hub}}observability-alertmanager-accessor{{hub end hub}}` }}
+              {{ `{{ else }}` }}
+              {{ `{{hub $alertmanagerRoute := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-alertmanager-route" hub}}{{hub if and $alertmanagerRoute (contains "." $alertmanagerRoute) hub}}` }}
+              additionalAlertmanagerConfigs:
+              - apiVersion: v2
+                bearerToken:
+                  key: token
+                  name: {{ `{{hub $hubID := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-hub-cluster-id" hub}}{{hub if $hubID hub}}observability-alertmanager-accessor-{{hub $hubID hub}}{{hub else hub}}observability-alertmanager-accessor{{hub end hub}}` }}
                 scheme: https
-                staticConfigs: {{ `{{hub $alertmanagerRoute := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-alertmanager-route" hub}}{{hub if $alertmanagerRoute hub}}[{{hub $alertmanagerRoute hub}}]{{hub else hub}}[]{{hub end hub}}` }}
+                staticConfigs: [{{ `{{hub $alertmanagerRoute hub}}` }}]
                 tlsConfig:
                   ca:
                     key: service-ca.crt
                     name: {{ `{{hub $hubID2 := index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.annotations "acm-hub-cluster-id" hub}}{{hub if $hubID2 hub}}hub-alertmanager-router-ca-{{hub $hubID2 hub}}{{hub else hub}}hub-alertmanager-router-ca{{hub end hub}}` }}
-                  insecureSkipVerify: false{{ `{{ end }}` }}
+                  insecureSkipVerify: false
+              {{ `{{hub end hub}}{{ end }}` }}
       managed_cluster: '{{ `{{hub index (lookup "cluster.open-cluster-management.io/v1" "ManagedCluster" "" .ManagedClusterName).metadata.labels "clusterID" hub}}` }}'
 lca_LcaSubscription:
   - spec:
