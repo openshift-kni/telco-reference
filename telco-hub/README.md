@@ -52,6 +52,8 @@ They should be installed in the order presented here to ensure that the resource
 
 ### Optional configuration
 
+#### [Cluster Observability Operator](configuration/reference-crs/optional/cluster-observability/README.md)
+
 #### Backup and recovery
 
 [Backup and recovery process](configuration/reference-crs/optional/backup-recovery/README.md)
