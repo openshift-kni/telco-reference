@@ -13,4 +13,4 @@ data:
           enabled: true
         interrupts:
           include:
-          - ".*;.*;(eth|eno|ens|em[0-9]|bond|team|mlx|.*TxRx.*).*"
+          - ".*;.*;(eth|eno|ens|enp|em[0-9]|bond|team|mlx|.*TxRx.*).*"

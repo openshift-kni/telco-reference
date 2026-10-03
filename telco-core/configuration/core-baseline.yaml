@@ -53,7 +53,7 @@ policies:
       # - path: reference-crs/optional/cert-manager/certManagerSubscription.yaml
 
       # ClusterMonitoringOperator (optional component)
-      # - path: configuration/reference-crs/optional/cluster-monitoring-operator/ClusterMonitoringCM.yaml
+      # - path: reference-crs/optional/cluster-monitoring-operator/ClusterMonitoringCM.yaml
 
       - path: reference-crs/required/networking/sriov/SriovSubscriptionNS.yaml
       - path: reference-crs/required/networking/sriov/SriovSubscriptionOperGroup.yaml
