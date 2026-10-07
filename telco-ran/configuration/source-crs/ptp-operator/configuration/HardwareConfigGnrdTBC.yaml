@@ -1,0 +1,36 @@
+---
+apiVersion: ptp.openshift.io/v2alpha1
+kind: HardwareConfig
+metadata:
+  name: t-bc-e830
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  profile:
+    name: GNR-D-T-BC-E830
+    clockType: T-BC
+    clockChain:
+      structure:
+      - name: leader
+        # Specifies the target hardware platform.
+        # Supported values:
+        # - dell/XR8720t
+        # - hpe/EL140-Gen12
+        hardwareSpecificDefinitions: dell/XR8720t
+        dpll:
+          # Note: Holdover parameters must be tuned according to the time error budget of your specific deployment.
+          # maxInSpecOffset is the in-spec threshold; localMaxHoldoverOffset is the freerun threshold.
+          holdoverParameters:
+            maxInSpecOffset: 40
+            localMaxHoldoverOffset: 1500
+            localHoldoverTimeout: 14400
+      - name: cf1
+        hardwareSpecificDefinitions: intel/e830
+        dpll:
+          networkInterface: $iface_default_e830_1
+      - name: cf2
+        hardwareSpecificDefinitions: intel/e830
+        dpll:
+          networkInterface: $iface_default_e830_2
+  # Must match the related T-BC time receiver profile name.
+  relatedPtpProfileName: 01-tbc-tr
