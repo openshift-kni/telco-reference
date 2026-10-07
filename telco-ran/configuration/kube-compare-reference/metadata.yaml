@@ -274,6 +274,17 @@ parts:
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.1.ts2phcConf
                   inlineDiffFunc: capturegroups
+          - path: ptp-operator/configuration/PtpConfigGnrdDualTrTBC.yaml
+            config:
+              perField:
+                - pathToKey: spec.profile.0.ptp4lConf
+                  inlineDiffFunc: capturegroups
+                - pathToKey: spec.profile.1.ptp4lConf
+                  inlineDiffFunc: capturegroups
+                - pathToKey: spec.profile.1.phc2sysOpts
+                  inlineDiffFunc: capturegroups
+                - pathToKey: spec.profile.1.ts2phcConf
+                  inlineDiffFunc: capturegroups
           - path: ptp-operator/configuration/PtpConfigBoundary.yaml
             config:
               perField:
@@ -415,6 +426,17 @@ parts:
                 - pathToKey: spec.profile.0.ts2phcConf
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.0.ptp4lConf
+                  inlineDiffFunc: capturegroups
+      - name: ptp-hardware-config
+        anyOf:
+          - path: ptp-operator/configuration/HardwareConfigGnrdTBC.yaml
+            config:
+              perField:
+                - pathToKey: spec.profile.clockChain.structure.0.hardwareSpecificDefinitions
+                  inlineDiffFunc: capturegroups
+                - pathToKey: spec.profile.clockChain.structure.1.dpll.networkInterface
+                  inlineDiffFunc: capturegroups
+                - pathToKey: spec.profile.clockChain.structure.2.dpll.networkInterface
                   inlineDiffFunc: capturegroups
   - name: optional-console-disable
     description: |-

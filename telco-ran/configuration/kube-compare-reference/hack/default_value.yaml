@@ -203,6 +203,34 @@ ptp_operator_configuration_PtpConfigGnrdBcNoHoldover:
                 masterOnly 1
                 [enp110s0f7]
                 masterOnly 1
+ptp_operator_configuration_PtpConfigGnrdDualTrTBC:
+  - spec:
+      profile:
+        - name: 00-tbc-tt
+        - name: 01-tbc-tr
+      recommend:
+        - profile: 00-tbc-tt
+          priority: 4
+          match:
+            - nodeLabel: node-role.kubernetes.io/master
+        - profile: 01-tbc-tr
+          priority: 4
+          match:
+            - nodeLabel: node-role.kubernetes.io/master
+    captureGroup_defaults:
+      timeTxPorts: |-
+        [$iface_timeTx_N]
+              masterOnly 1
+      timeRx1: $iface_timeRx_1
+      timeRx2: $iface_timeRx_2
+      defaultE825: $iface_default_e825
+      defaultE830_1: $iface_default_e830_1
+      defaultE830_2: $iface_default_e830_2
+ptp_operator_configuration_HardwareConfigGnrdTBC:
+  - captureGroup_defaults:
+      platform: dell/XR8720t
+      cf1Interface: $iface_default_e830_1
+      cf2Interface: $iface_default_e830_2
 ptp_operator_configuration_PtpConfigBoundary:
   - spec:
       profile:
