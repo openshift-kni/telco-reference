@@ -1,0 +1,27 @@
+---
+apiVersion: ols.openshift.io/v1alpha1
+kind: OLSConfig
+metadata:
+  name: cluster
+spec:
+  llm:
+    providers:
+      - name: openai
+        type: openai
+        credentialsSecretRef:
+          name: llm-credentials
+        models:
+          - name: gpt-4o
+        url: https://api.openai.com/v1
+  ols:
+    defaultModel: gpt-4o
+    defaultProvider: openai
+    logLevel: INFO
+    conversationCache:
+      type: postgres
+    introspectionEnabled: false
+    userDataCollection:
+      feedbackDisabled: true
+      transcriptsDisabled: true
+    deployment:
+      replicas: 1

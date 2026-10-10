@@ -224,6 +224,24 @@ parts:
         allOrNoneOf:
           - path: optional/cert-manager/apiServerCertificate.yaml
           - path: optional/cert-manager/apiServerConfig.yaml
+  - name: optional-lightspeed
+    description: |-
+      https://docs.redhat.com/en/documentation/red_hat_openshift_lightspeed/1.0
+    components:
+      - name: lightspeed-operator
+        allOrNoneOf:
+          - path: optional/lightspeed/LightspeedNS.yaml
+          - path: optional/lightspeed/LightspeedOperatorGroup.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: optional/lightspeed/LightspeedSubscription.yaml
+          - path: optional/lightspeed/LightspeedOLSConfig.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: optional/lightspeed/LightspeedClusterRoleBinding.yaml
+          - path: optional/lightspeed/LightspeedPrometheusRules.yaml
+            config:
+              ignore-unspecified-fields: true
 
 templateFunctionFiles:
   - version_match.tmpl

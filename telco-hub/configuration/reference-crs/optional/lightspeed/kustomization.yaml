@@ -1,0 +1,10 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - lightspeedNS.yaml
+  - lightspeedOperatorGroup.yaml
+  - lightspeedSubscription.yaml
+  - lightspeedOLSConfig.yaml
+  - lightspeedClusterRoleBinding.yaml
+  - lightspeedPrometheusRules.yaml

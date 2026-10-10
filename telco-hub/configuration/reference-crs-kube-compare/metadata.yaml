@@ -146,6 +146,24 @@ parts:
           - path: required/registry/registry-ca.yaml
           - path: required/registry/image-config.yaml
 
+  - name: optional-lightspeed
+    description: |-
+      https://docs.redhat.com/en/documentation/red_hat_openshift_lightspeed/1.0
+    components:
+      - name: lightspeed-operator
+        allOrNoneOf:
+          - path: optional/lightspeed/lightspeedNS.yaml
+          - path: optional/lightspeed/lightspeedOperatorGroup.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: optional/lightspeed/lightspeedSubscription.yaml
+          - path: optional/lightspeed/lightspeedOLSConfig.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: optional/lightspeed/lightspeedClusterRoleBinding.yaml
+          - path: optional/lightspeed/lightspeedPrometheusRules.yaml
+            config:
+              ignore-unspecified-fields: true
   - name: optional-logging
     description: |-
       https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/scalability_and_performance/telco-hub-ref-design-specs#telco-hub-logging_telco-hub
