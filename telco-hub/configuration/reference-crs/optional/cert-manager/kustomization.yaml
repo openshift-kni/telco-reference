@@ -13,3 +13,6 @@ resources:
   - certManagerCertificatePolicy.yaml
   - certManagerCertificatePolicyPlacement.yaml
   - certManagerCertificatePolicyPlacementBinding.yaml
+  - certManagerRootCAExpirationPolicy.yaml
+  - certManagerRootCAExpirationPolicyPlacement.yaml
+  - certManagerRootCAExpirationPolicyPlacementBinding.yaml

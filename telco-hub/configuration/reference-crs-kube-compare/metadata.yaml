@@ -38,6 +38,17 @@ parts:
           - path: optional/cert-manager/certManagerCertificatePolicy.yaml
           - path: optional/cert-manager/certManagerCertificatePolicyPlacement.yaml
           - path: optional/cert-manager/certManagerCertificatePolicyPlacementBinding.yaml
+      - name: cert-manager-root-ca-monitoring
+        description: |-
+          Root CA expiration monitoring via PrometheusRule
+        allOrNoneOf:
+          - path: optional/cert-manager/certManagerRootCAExpirationPolicy.yaml
+            config:
+              ignore-unspecified-fields: true
+              fieldsToOmitRefs:
+                - templates
+          - path: optional/cert-manager/certManagerRootCAExpirationPolicyPlacement.yaml
+          - path: optional/cert-manager/certManagerRootCAExpirationPolicyPlacementBinding.yaml
   - name: optional-storage
     components:
       - name: local-storage-operator
