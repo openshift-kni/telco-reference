@@ -1,0 +1,16 @@
+# required
+# RoleBinding for network-operator restart Job (OCPBUGS-87026, OCPBUGS-73767)
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: network-operator-restarter
+  namespace: openshift-network-operator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: network-operator-restarter
+subjects:
+  - kind: ServiceAccount
+    name: network-operator-restarter
+    namespace: openshift-network-operator
