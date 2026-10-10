@@ -24,14 +24,7 @@ data:
       - apiVersion: v2
         bearerToken:
           key: token
-          name: (?<observability_alertmanager_accessor>.*)
-        scheme: https
-        staticConfigs: (?<alertmanager_endpoint>.*)
-        tlsConfig:
-          ca:
-            key: service-ca.crt
-            name: (?<hub_alertmanager_router_ca>.*)
-          insecureSkipVerify: false
+          (?<alertmanager_config>(?s:.*?))
       externalLabels:
         managed_cluster: (?<managed_cluster>.*)
       retention: 15d
