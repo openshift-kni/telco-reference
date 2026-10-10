@@ -4,26 +4,26 @@ apiVersion: mirror.openshift.io/v2alpha1
 mirror:
   platform:
     channels:
-    - name: stable-5.0
+    - name: stable-5.1
       type: ocp
       # Adjust minVersion and maxVersion according to your required releases. This allows you to
       # minimize the mirrored content to only what is needed for your deployment. Note that only
       # versions which are mirrored to the disconnected registry can be installed, so only versions
       # listed here should be referenced in installation CRs (eg ClusterImageSet / imageSetRef).
-      minVersion: 5.0.0
-      maxVersion: 5.0.2
+      minVersion: 5.1.0
+      maxVersion: 5.1.2
   operators:
-  - catalog: registry.redhat.io/redhat/redhat-operator-index:v5.0
+  - catalog: registry.redhat.io/redhat/redhat-operator-index:v5.1
     targetCatalog: openshift-marketplace/redhat-operators-disconnected
     packages:
     - name: advanced-cluster-management
-      defaultChannel: release-5.0
+      defaultChannel: release-5.1
       channels:
-      - name: release-5.0
+      - name: release-5.1
     - name: multicluster-engine
-      defaultChannel: stable-5.0
+      defaultChannel: stable-5.1
       channels:
-      - name: stable-5.0
+      - name: stable-5.1
     - name: openshift-gitops-operator
       defaultChannel: gitops-1.21
       channels:
@@ -42,68 +42,68 @@ mirror:
       channels:
       - name: stable-6.6
     - name: odf-operator
-      defaultChannel: stable-5.0
+      defaultChannel: stable-5.1
       channels:
-      - name: stable-5.0
+      - name: stable-5.1
     - name: odf-external-snapshotter-operator
-      defaultChannel: stable-5.0
+      defaultChannel: stable-5.1
       channels:
-      - name: stable-5.0
+      - name: stable-5.1
     - name: odf-dependencies
-      defaultChannel: stable-5.0
+      defaultChannel: stable-5.1
       channels:
-      - name: stable-5.0
+      - name: stable-5.1
     - name: odf-csi-addons-operator
-      defaultChannel: stable-5.0
+      defaultChannel: stable-5.1
       channels:
-      - name: stable-5.0
+      - name: stable-5.1
     - name: ocs-client-operator
-      defaultChannel: stable-5.0
+      defaultChannel: stable-5.1
       channels:
-      - name: stable-5.0
+      - name: stable-5.1
     - name: cephcsi-operator
-      defaultChannel: stable-5.0
+      defaultChannel: stable-5.1
       channels:
-      - name: stable-5.0
+      - name: stable-5.1
     - name: odf-prometheus-operator
-      defaultChannel: stable-5.0
+      defaultChannel: stable-5.1
       channels:
-      - name: stable-5.0
+      - name: stable-5.1
     - name: odf-multicluster-orchestrator
-      defaultChannel: stable-5.0
+      defaultChannel: stable-5.1
       channels:
-      - name: stable-5.0
+      - name: stable-5.1
     - name: ocs-operator
-      defaultChannel: stable-5.0
+      defaultChannel: stable-5.1
       channels:
-      - name: stable-5.0
+      - name: stable-5.1
     - name: rook-ceph-operator
-      defaultChannel: stable-5.0
+      defaultChannel: stable-5.1
       channels:
-      - name: stable-5.0
+      - name: stable-5.1
     - name: mcg-operator
-      defaultChannel: stable-5.0
+      defaultChannel: stable-5.1
       channels:
-      - name: stable-5.0
+      - name: stable-5.1
     - name: odr-hub-operator
-      defaultChannel: stable-5.0
+      defaultChannel: stable-5.1
       channels:
-      - name: stable-5.0
+      - name: stable-5.1
     - name: odr-cluster-operator
-      defaultChannel: stable-5.0
+      defaultChannel: stable-5.1
       channels:
-      - name: stable-5.0
+      - name: stable-5.1
     - name: recipe
-      defaultChannel: stable-5.0
+      defaultChannel: stable-5.1
       channels:
-      - name: stable-5.0
+      - name: stable-5.1
     - name: openshift-cert-manager-operator
       defaultChannel: stable-v1
       channels:
       - name: stable-v1
   additionalImages:
   - name: registry.redhat.io/ubi9/ubi:latest
-  - name: registry.redhat.io/openshift5/ztp-site-generate-rhel9:v5.0
+  - name: registry.redhat.io/openshift5/ztp-site-generate-rhel9:v5.1
   - name: registry.redhat.io/rhel9/support-tools:latest
   - name: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:v2.17.0-1
   helm: {}
