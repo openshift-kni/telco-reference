@@ -163,6 +163,22 @@ parts:
           - path: optional/logging/clusterLogServiceAccount.yaml
           - path: optional/logging/clusterLogServiceAccountAuditBinding.yaml
           - path: optional/logging/clusterLogServiceAccountInfrastructureBinding.yaml
+  - name: optional-cluster-observability
+    description: |-
+      https://docs.redhat.com/en/documentation/red_hat_openshift_cluster_observability_operator/1-latest/html/installing_red_hat_openshift_cluster_observability_operator/index
+    components:
+      - name: cluster-observability-operator
+        allOrNoneOf:
+          - path: optional/cluster-observability/cooNS.yaml
+          - path: optional/cluster-observability/cooOperatorGroup.yaml
+          - path: optional/cluster-observability/cooSubscription.yaml
+      - name: cluster-observability-uiplugin
+        description: |-
+          Monitoring UIPlugin with RHACM Observability integration
+        allOrNoneOf:
+          - path: optional/cluster-observability/cooUIPlugin.yaml
+            config:
+              ignore-unspecified-fields: true
 
 templateFunctionFiles:
   - version_match.tmpl
@@ -197,6 +213,7 @@ fieldsToOmit:
       - pathToKey: metadata.labels."operators.coreos.com/topology-aware-lifecycle-manager.openshift-operators"
       - pathToKey: metadata.labels."operators.coreos.com/advanced-cluster-management.open-cluster-management"
       - pathToKey: metadata.labels."operators.coreos.com/openshift-gitops-operator.openshift-gitops-operator"
+      - pathToKey: metadata.labels."operators.coreos.com/cluster-observability-operator.openshift-cluster-observability-operator"
       - pathToKey: metadata.labels."agent-install.openshift.io/watch"
       - pathToKey: metadata.labels."cluster.open-cluster-management.io/backup"
       - pathToKey: metadata.labels."pod-security.kubernetes.io"
