@@ -1,0 +1,11 @@
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  annotations:
+    operatorframework.io/bundle-unpack-timeout: "10m"
+    operatorframework.io/bundle-unpack-min-retry-interval: 10m
+  name: openshift-external-secrets-operator
+  namespace: external-secrets-operator
+spec:
+  upgradeStrategy: Default
