@@ -438,6 +438,15 @@ parts:
                   inlineDiffFunc: capturegroups
                 - pathToKey: spec.profile.clockChain.structure.2.dpll.networkInterface
                   inlineDiffFunc: capturegroups
+          - path: ptp-operator/configuration/HardwareConfigGnrdTGM.yaml
+            config:
+              perField:
+                - pathToKey: spec.profile.clockChain.structure.0.hardwareSpecificDefinitions
+                  inlineDiffFunc: capturegroups
+                - pathToKey: spec.profile.clockChain.structure.1.dpll.networkInterface
+                  inlineDiffFunc: capturegroups
+                - pathToKey: spec.profile.clockChain.structure.2.dpll.networkInterface
+                  inlineDiffFunc: capturegroups
   - name: optional-console-disable
     description: |-
       https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/scalability_and_performance/telco-ran-du-ref-design-specs#telco-ran-cluster-tuning_telco-ran-du

@@ -1,7 +1,13 @@
-# Note:  This example configuration should be customized to match the desired
-# configuration For this GNR-D T-GM configuration, we support GNSS incoming to
-# the onboard connection, and up to 24 Time Transmitter ports including any NAC
-# ports and any additional Carter Flats ports.
+# GNR-D (Granite Rapids) telecom grandmaster (T-GM) configuration.
+# NOTE: This feature is Tech Preview only in OCP-5.0 and earlier
+# The server recieves time from the GNSS signal and distributes it to downstream devices.
+# Interface variables:
+#   - $iface_default_e825: Default e825 interface exposing the PTP device.
+#   - $iface_default_e830_1, $iface_default_e830_2: Default e830 interfaces
+#     exposing the PTP devices.
+#   - $iface_timeTx_N: Time transmitter ports (N = 1-24).
+# Apply this configuration with HardwareConfigGnrdTGM.yaml, which defines the
+# hardware-specific clock chain required by this profile.
 apiVersion: ptp.openshift.io/v1
 kind: PtpConfig
 metadata:
@@ -11,86 +17,14 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "10"
 spec:
   profile:
-    - name: "grandmaster"
+      # This name must match HardwareConfigGnrdTGM.spec.relatedPtpProfileName.
+    - name: "gnrd-tgm"
       ptp4lOpts: "-2 --summary_interval -4"
-      phc2sysOpts: -r -u 0 -m -N 8 -R 16 -n 24 -s eno8703
+      phc2sysOpts: -r -u 0 -m -N 8 -R 16 -n 24 -s $iface_default_e825
       ptpSchedulingPolicy: SCHED_FIFO
       ptpSchedulingPriority: 10
       ptpSettings:
         logReduce: "true"
-      plugins:
-        e830:
-          devices:
-            - enp108s0f0
-            - enp110s0f0
-        e825:
-          devices:
-            - eno8703
-          settings:
-            LocalMaxHoldoverOffSet: 1500
-            LocalHoldoverTimeout: 14400
-            MaxInSpecOffset: 100
-          ublxCmds:
-            - args: #ubxtool -P 29.20 -z CFG-HW-ANT_CFG_VOLTCTRL,1
-                - "-P"
-                - "29.25"
-                - "-z"
-                - "CFG-HW-ANT_CFG_VOLTCTRL,1"
-              reportOutput: false
-            - args: #ubxtool -P 29.20 -e GPS
-                - "-P"
-                - "29.25"
-                - "-e"
-                - "GPS"
-              reportOutput: false
-            - args: #ubxtool -P 29.20 -d Galileo
-                - "-P"
-                - "29.25"
-                - "-d"
-                - "Galileo"
-              reportOutput: false
-            - args: #ubxtool -P 29.20 -d GLONASS
-                - "-P"
-                - "29.25"
-                - "-d"
-                - "GLONASS"
-              reportOutput: false
-            - args: #ubxtool -P 29.20 -d BeiDou
-                - "-P"
-                - "29.25"
-                - "-d"
-                - "BeiDou"
-              reportOutput: false
-            - args: #ubxtool -P 29.20 -d SBAS
-                - "-P"
-                - "29.25"
-                - "-d"
-                - "SBAS"
-              reportOutput: false
-            - args: #ubxtool -P 29.20 -t -w 5 -v 1 -e SURVEYIN,600,50000
-                - "-P"
-                - "29.25"
-                - "-t"
-                - "-w"
-                - "5"
-                - "-v"
-                - "1"
-                - "-e"
-                - "SURVEYIN,600,50000"
-              reportOutput: true
-            - args: #ubxtool -P 29.20 -p MON-HW
-                - "-P"
-                - "29.25"
-                - "-p"
-                - "MON-HW"
-              reportOutput: true
-            - args: #ubxtool -P 29.20 -p CFG-MSG,1,38,300
-                - "-P"
-                - "29.25"
-                - "-p"
-                - "CFG-MSG,1,38,248"
-              reportOutput: true
-      #ts2phcOpts: "--ts2phc.holdover 10 --servo_offset_threshold 5 --servo_num_offset_values 10"
       ts2phcOpts: "-m"
       ts2phcConf: |
         [nmea]
@@ -101,20 +35,19 @@ spec:
         logging_level 7
         ts2phc.pulsewidth 100000000
         ts2phc.nmea_serialport /dev/ttyACM0
-        [eno8703]
+        [$iface_default_e825]
         ts2phc.extts_polarity rising
         ts2phc.extts_correction 0
-        ts2phc.master  0
         ts2phc.channel 0
         ts2phc.pin_index 1
         # This should be one section per Carter Flats (e830) card:
-        [enp108s0f0]
+        [$iface_default_e830_1]
         ts2phc.extts_polarity rising
         ts2phc.extts_correction 0
         ts2phc.master 0
         ts2phc.channel 0
         ts2phc.pin_index 1
-        [enp110s0f0]
+        [$iface_default_e830_2]
         ts2phc.extts_polarity rising
         ts2phc.extts_correction 0
         ts2phc.master 0
@@ -122,53 +55,53 @@ spec:
         ts2phc.pin_index 1
       ptp4lConf: |
         # All TimeTransmitter ports should be outlined here with 'masterOnly 1'
-        #[eno8303]
-        # ** Host management interface
-        [eno8403]
+        [$iface_timeTx_1]
         masterOnly 1
-        [eno8503]
+        [$iface_timeTx_2]
         masterOnly 1
-        [eno8603]
+        [$iface_timeTx_3]
         masterOnly 1
-        [eno8703]
+        [$iface_timeTx_4]
         masterOnly 1
-        [eno8803]
+        [$iface_timeTx_5]
         masterOnly 1
-        [eno8903]
+        [$iface_timeTx_6]
         masterOnly 1
-        [eno9003]
+        [$iface_timeTx_7]
         masterOnly 1
-        [enp108s0f0]
+        [$iface_timeTx_8]
         masterOnly 1
-        [enp108s0f1]
+        [$iface_timeTx_9]
         masterOnly 1
-        [enp108s0f2]
+        [$iface_timeTx_10]
         masterOnly 1
-        [enp108s0f3]
+        [$iface_timeTx_11]
         masterOnly 1
-        [enp108s0f4]
+        [$iface_timeTx_12]
         masterOnly 1
-        [enp108s0f5]
+        [$iface_timeTx_13]
         masterOnly 1
-        [enp108s0f6]
+        [$iface_timeTx_14]
         masterOnly 1
-        [enp108s0f7]
+        [$iface_timeTx_15]
         masterOnly 1
-        [enp110s0f0]
+        [$iface_timeTx_16]
         masterOnly 1
-        [enp110s0f1]
+        [$iface_timeTx_17]
         masterOnly 1
-        [enp110s0f2]
+        [$iface_timeTx_18]
         masterOnly 1
-        [enp110s0f3]
+        [$iface_timeTx_19]
         masterOnly 1
-        [enp110s0f4]
+        [$iface_timeTx_20]
         masterOnly 1
-        [enp110s0f5]
+        [$iface_timeTx_21]
         masterOnly 1
-        [enp110s0f6]
+        [$iface_timeTx_22]
         masterOnly 1
-        [enp110s0f7]
+        [$iface_timeTx_23]
+        masterOnly 1
+        [$iface_timeTx_24]
         masterOnly 1
         [global]
         #
@@ -272,4 +205,4 @@ spec:
     - match:
       - nodeLabel: node-role.kubernetes.io/$mcp
       priority: 4
-      profile: grandmaster
+      profile: gnrd-tgm

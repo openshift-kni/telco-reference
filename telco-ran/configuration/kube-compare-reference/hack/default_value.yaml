@@ -27,32 +27,24 @@ ptp_operator_configuration_PtpConfigGnrdTGM:
       profile:
       - ptpSettings:
           logReduce: "true"
-        plugins:
-          e825:
-            devices:
-              - eno8703
-          e830:
-            devices:
-              - enp108s0f0
-              - enp110s0f0
       recommend:
-      - profile: grandmaster
+      - profile: gnrd-tgm
         priority: 4
         match:
           - nodeLabel: "node-role.kubernetes.io/$mcp"
     captureGroup_defaults:
-      leadingInterface: eno8703
+      leadingInterface: $iface_default_e825
       priority2: 128
       domainNumber: 24
       ts2phcPortConfig: |-
         # This should be one section per Carter Flats (e830) card:
-                [enp108s0f0]
+                [$iface_default_e830_1]
                 ts2phc.extts_polarity rising
                 ts2phc.extts_correction 0
                 ts2phc.master 0
                 ts2phc.channel 0
                 ts2phc.pin_index 1
-                [enp110s0f0]
+                [$iface_default_e830_2]
                 ts2phc.extts_polarity rising
                 ts2phc.extts_correction 0
                 ts2phc.master 0
@@ -60,53 +52,53 @@ ptp_operator_configuration_PtpConfigGnrdTGM:
                 ts2phc.pin_index 1
       masterPorts: |-
         # All TimeTransmitter ports should be outlined here with 'masterOnly 1'
-                #[eno8303]
-                # ** Host management interface
-                [eno8403]
+                [$iface_timeTx_1]
                 masterOnly 1
-                [eno8503]
+                [$iface_timeTx_2]
                 masterOnly 1
-                [eno8603]
+                [$iface_timeTx_3]
                 masterOnly 1
-                [eno8703]
+                [$iface_timeTx_4]
                 masterOnly 1
-                [eno8803]
+                [$iface_timeTx_5]
                 masterOnly 1
-                [eno8903]
+                [$iface_timeTx_6]
                 masterOnly 1
-                [eno9003]
+                [$iface_timeTx_7]
                 masterOnly 1
-                [enp108s0f0]
+                [$iface_timeTx_8]
                 masterOnly 1
-                [enp108s0f1]
+                [$iface_timeTx_9]
                 masterOnly 1
-                [enp108s0f2]
+                [$iface_timeTx_10]
                 masterOnly 1
-                [enp108s0f3]
+                [$iface_timeTx_11]
                 masterOnly 1
-                [enp108s0f4]
+                [$iface_timeTx_12]
                 masterOnly 1
-                [enp108s0f5]
+                [$iface_timeTx_13]
                 masterOnly 1
-                [enp108s0f6]
+                [$iface_timeTx_14]
                 masterOnly 1
-                [enp108s0f7]
+                [$iface_timeTx_15]
                 masterOnly 1
-                [enp110s0f0]
+                [$iface_timeTx_16]
                 masterOnly 1
-                [enp110s0f1]
+                [$iface_timeTx_17]
                 masterOnly 1
-                [enp110s0f2]
+                [$iface_timeTx_18]
                 masterOnly 1
-                [enp110s0f3]
+                [$iface_timeTx_19]
                 masterOnly 1
-                [enp110s0f4]
+                [$iface_timeTx_20]
                 masterOnly 1
-                [enp110s0f5]
+                [$iface_timeTx_21]
                 masterOnly 1
-                [enp110s0f6]
+                [$iface_timeTx_22]
                 masterOnly 1
-                [enp110s0f7]
+                [$iface_timeTx_23]
+                masterOnly 1
+                [$iface_timeTx_24]
                 masterOnly 1
 ptp_operator_configuration_PtpConfigGnrdBcNoHoldover:
   - spec:
@@ -227,6 +219,11 @@ ptp_operator_configuration_PtpConfigGnrdDualTrTBC:
       defaultE830_1: $iface_default_e830_1
       defaultE830_2: $iface_default_e830_2
 ptp_operator_configuration_HardwareConfigGnrdTBC:
+  - captureGroup_defaults:
+      platform: dell/XR8720t
+      cf1Interface: $iface_default_e830_1
+      cf2Interface: $iface_default_e830_2
+ptp_operator_configuration_HardwareConfigGnrdTGM:
   - captureGroup_defaults:
       platform: dell/XR8720t
       cf1Interface: $iface_default_e830_1

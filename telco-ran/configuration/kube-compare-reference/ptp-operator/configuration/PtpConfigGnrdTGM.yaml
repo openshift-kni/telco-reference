@@ -1,7 +1,13 @@
-# Note:  This example configuration should be customized to match the desired
-# configuration For this GNR-D T-GM configuration, we support GNSS incoming to
-# the onboard connection, and up to 24 Time Transmitter ports including any NAC
-# ports and any additional Carter Flats ports.
+# GNR-D (Granite Rapids) telecom grandmaster (T-GM) configuration.
+# NOTE: This feature is Tech Preview only in OCP-5.0 and earlier
+# The server recieves time from the GNSS signal and distributes it to downstream devices.
+# Interface variables:
+#   - $iface_default_e825: Default e825 interface exposing the PTP device.
+#   - $iface_default_e830_1, $iface_default_e830_2: Default e830 interfaces
+#     exposing the PTP devices.
+#   - $iface_timeTx_N: Time transmitter ports (N = 1-24).
+# Apply this configuration with HardwareConfigGnrdTGM.yaml, which defines the
+# hardware-specific clock chain required by this profile.
 apiVersion: ptp.openshift.io/v1
 kind: PtpConfig
 metadata:
@@ -12,87 +18,14 @@ metadata:
 spec:
   profile:
   {{- range .spec.profile }}
-    - name: "grandmaster"
+      # This name must match HardwareConfigGnrdTGM.spec.relatedPtpProfileName.
+    - name: "gnrd-tgm"
       ptp4lOpts: "-2 --summary_interval -4"
       phc2sysOpts: -r -u 0 -m -N 8 -R 16 -n (?<domainNumber>[0-9]+) -s (?<leadingInterface>[[:alnum:]]+)
       ptpSchedulingPolicy: SCHED_FIFO
       ptpSchedulingPriority: 10
       ptpSettings:
         logReduce: {{ template "mustReMatchOneOf" (list .ptpSettings.logReduce "^true" "^enhanced")}}
-      plugins:
-        {{- if .plugins.e830 }}
-        e830:
-          devices:
-            {{- .plugins.e830.devices | toYaml | nindent 12 }}
-        {{- end }}
-        e825:
-          devices:
-            {{- .plugins.e825.devices | toYaml | nindent 12 }}
-          settings:
-            LocalMaxHoldoverOffSet: 1500
-            LocalHoldoverTimeout: 14400
-            MaxInSpecOffset: 100
-          ublxCmds:
-            - args: #ubxtool -P 29.20 -z CFG-HW-ANT_CFG_VOLTCTRL,1
-                - "-P"
-                - "29.25"
-                - "-z"
-                - "CFG-HW-ANT_CFG_VOLTCTRL,1"
-              reportOutput: false
-            - args: #ubxtool -P 29.20 -e GPS
-                - "-P"
-                - "29.25"
-                - "-e"
-                - "GPS"
-              reportOutput: false
-            - args: #ubxtool -P 29.20 -d Galileo
-                - "-P"
-                - "29.25"
-                - "-d"
-                - "Galileo"
-              reportOutput: false
-            - args: #ubxtool -P 29.20 -d GLONASS
-                - "-P"
-                - "29.25"
-                - "-d"
-                - "GLONASS"
-              reportOutput: false
-            - args: #ubxtool -P 29.20 -d BeiDou
-                - "-P"
-                - "29.25"
-                - "-d"
-                - "BeiDou"
-              reportOutput: false
-            - args: #ubxtool -P 29.20 -d SBAS
-                - "-P"
-                - "29.25"
-                - "-d"
-                - "SBAS"
-              reportOutput: false
-            - args: #ubxtool -P 29.20 -t -w 5 -v 1 -e SURVEYIN,600,50000
-                - "-P"
-                - "29.25"
-                - "-t"
-                - "-w"
-                - "5"
-                - "-v"
-                - "1"
-                - "-e"
-                - "SURVEYIN,600,50000"
-              reportOutput: true
-            - args: #ubxtool -P 29.20 -p MON-HW
-                - "-P"
-                - "29.25"
-                - "-p"
-                - "MON-HW"
-              reportOutput: true
-            - args: #ubxtool -P 29.20 -p CFG-MSG,1,38,300
-                - "-P"
-                - "29.25"
-                - "-p"
-                - "CFG-MSG,1,38,248"
-              reportOutput: true
-      #ts2phcOpts: "--ts2phc.holdover 10 --servo_offset_threshold 5 --servo_num_offset_values 10"
       ts2phcOpts: "-m"
       ts2phcConf: |
         [nmea]
@@ -106,7 +39,6 @@ spec:
         [(?<leadingInterface>[[:alnum:]]+)]
         ts2phc.extts_polarity rising
         ts2phc.extts_correction 0
-        ts2phc.master  0
         ts2phc.channel 0
         ts2phc.pin_index 1
         (?<ts2phcPortConfig>((\[[[:alnum:]]+\]
