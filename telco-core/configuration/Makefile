@@ -1,6 +1,9 @@
 .PHONY: check
-check: compare_crs missing_crs
+check: compare_crs missing_crs compare_extra_manifests
 
+.PHONY: compare_extra_manifests
+compare_extra_manifests:
+	./compare.sh --check-extra-manifests
 
 .PHONY: compare_crs
 compare_crs:

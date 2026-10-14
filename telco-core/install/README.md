@@ -11,9 +11,26 @@ general pattern shown here is recommended.
 The contents of this directory fall into 3 categories. Each of these are
 described in more detail in the following sections:
 
-- example-standard.yaml -- A SiteConfig CR which defines the cluster
+- example-standard-clusterinstance.yaml -- A ClusterInstance CR for installation
+- kustomization.yaml -- Builds `extra-manifests-configmap` from `extra-manifests/`
 - extra-manifests -- Additional reference CRs to apply to the cluster during installation
 - custom-manifests -- Additional custom/user specific CRs to apply to the cluster during installation
+
+## ClusterInstance and extra-manifests ConfigMap
+
+Reference `MachineConfig` and `MachineConfigPool` CRs are packaged for install using
+`kustomization.yaml`. The `configMapGenerator` lists every file under
+`extra-manifests/`; `example-standard-clusterinstance.yaml` references the result
+via `spec.extraManifestsRefs` (`extra-manifests-configmap`).
+
+```bash
+kubectl apply -k telco-core/install/
+```
+
+At day-N, the Hub **extra-manifests** policy keeps the cluster aligned with the
+ConfigMap content (see `telco-hub/.../ztp-policies/extra-manifests-policy.yaml`).
+PolicyGenerator CRs under `telco-core/configuration/` do not enumerate individual
+MachineConfig files.
 
 ## SiteConfig CRs
 
@@ -30,22 +47,36 @@ SiteConfig defines:
 
 ## extra-manifests
 
-The CRs in extra-manifests are exact copies of some CRs from the
-../configuration tree. These CRs will be applied during installation to
-accelerate the time to cluster-ready.
+Reference `MachineConfig` and `MachineConfigPool` CRs for Telco Core live **only**
+in this directory. They are applied during installation (for example via
+`ClusterInstance.spec.extraManifestsRefs`) and are the single copy in git; the
+same content is validated at day-N using the Hub **extra-manifests** policy
+(see `telco-hub/configuration/reference-crs/required/gitops/ztp-policies/extra-manifests-policy.yaml`).
+
+The cluster-compare reference under `../configuration/reference-crs-kube-compare/`
+is kept aligned with these files via `make compare_extra_manifests` in `../configuration`
+(part of `make check`).
+
+Reference `MachineConfig` files in this directory:
+
+- `control-plane-load-kernel-modules.yaml`
+- `worker-load-kernel-modules.yaml`
+- `mount_namespace_config_master.yaml`
+- `mount_namespace_config_worker.yaml`
+- `kdump-master.yaml`
+- `kdump-worker.yaml`
+- `mc_rootless_pods_selinux.yaml`
+- `sctp_module_mc.yaml`
+- `mcp-worker-1.yaml`, `mcp-worker-2.yaml`, `mcp-worker-3.yaml` (`MachineConfigPool`)
+
+The same three MCP files are duplicated under
+`../configuration/reference-crs/custom-manifests/` for PolicyGenerator paths
+(the plugin cannot reference `../install/`). `compare.sh --check-extra-manifests`
+keeps install and custom-manifests copies in sync.
 
 ## custom-manifests
 
-These CRs are an additional set of CRs which you want to apply to the cluster
-during installation. The CRs here are treated in the same way as the
-extra-manifests directory but are separated to make it easier to update the set
-of reference manifests when new versions are released.
-
-The example manifests included here define two Machine Config Pools for the
-cluster which bind nodes based on the node-role.kubernetes.io label. The
-examples here also set the Machine Config Pools to `paused: true` and
-`maxUnavailable: 100%`. This results in a significant improvement in install
-times by allowing all worker nodes to update simultaneously (before any workload
-is applied). The assumption is that post-installation the Machine Config Pools
-will be set to `paused: false` and when nodes are ready the MCP set to a
-reasonable `maxUnavailable: <value>` for your use case.
+Optional additional manifests you maintain locally (see `README.md` in this
+directory). Add a `ConfigMap` reference under `ClusterInstance.spec.extraManifestsRefs`
+when you use this directory. The example `ClusterInstance` only references the
+reference `extra-manifests-configmap` by default.
