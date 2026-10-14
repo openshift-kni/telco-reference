@@ -20,7 +20,7 @@ spec:
   {{- range .spec.profile }}
   {{- if eq .name "tbc-3-card-tr" }}
   - name: tbc-3-card-tr
-    phc2sysOpts: -r -n (?<domainNumber>[0-9]+) -N 8 -R 16 -u 0 -m -s (?<iface_timeRx>[[:alnum:]]+)
+    phc2sysOpts: -r -n (?<domainNumber>[0-9]+) -N 8 -R 16 -u 0 -m -w -s (?<iface_timeRx>[[:alnum:]]+)
     plugins:
       e810:
         enableDefaultConfig: false
