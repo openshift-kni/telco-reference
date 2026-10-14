@@ -42,6 +42,7 @@ ptp_operator_configuration_PtpConfigGnrdTGM:
           - nodeLabel: "node-role.kubernetes.io/$mcp"
     captureGroup_defaults:
       leadingInterface: eno8703
+      gnssDevice: /dev/ttyACM0
       priority2: 128
       domainNumber: 24
       ts2phcPortConfig: |-
