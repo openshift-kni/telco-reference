@@ -1,0 +1,26 @@
+# This CR verifies the installation/upgrade of the cert-manager Operator
+apiVersion: operators.coreos.com/v1
+kind: Operator
+metadata:
+  name: openshift-cert-manager-operator.cert-manager-operator
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"
+status:
+  components:
+    refs:
+    - kind: Subscription
+      namespace: cert-manager-operator
+      conditions:
+      - type: CatalogSourcesUnhealthy
+        status: "False"
+    - kind: InstallPlan
+      namespace: cert-manager-operator
+      conditions:
+      - type: Installed
+        status: "True"
+    - kind: ClusterServiceVersion
+      namespace: cert-manager-operator
+      conditions:
+      - type: Succeeded
+        status: "True"
+        reason: InstallSucceeded
