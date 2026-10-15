@@ -42,61 +42,61 @@ mirror:
       channels:
       - name: stable-6.6
     - name: odf-operator
-      defaultChannel: stable-5.1
+      defaultChannel: stable-5.0
       channels:
-      - name: stable-5.1
+      - name: stable-5.0
     - name: odf-external-snapshotter-operator
-      defaultChannel: stable-5.1
+      defaultChannel: stable-5.0
       channels:
-      - name: stable-5.1
+      - name: stable-5.0
     - name: odf-dependencies
-      defaultChannel: stable-5.1
+      defaultChannel: stable-5.0
       channels:
-      - name: stable-5.1
+      - name: stable-5.0
     - name: odf-csi-addons-operator
-      defaultChannel: stable-5.1
+      defaultChannel: stable-5.0
       channels:
-      - name: stable-5.1
+      - name: stable-5.0
     - name: ocs-client-operator
-      defaultChannel: stable-5.1
+      defaultChannel: stable-5.0
       channels:
-      - name: stable-5.1
+      - name: stable-5.0
     - name: cephcsi-operator
-      defaultChannel: stable-5.1
+      defaultChannel: stable-5.0
       channels:
-      - name: stable-5.1
+      - name: stable-5.0
     - name: odf-prometheus-operator
-      defaultChannel: stable-5.1
+      defaultChannel: stable-5.0
       channels:
-      - name: stable-5.1
+      - name: stable-5.0
     - name: odf-multicluster-orchestrator
-      defaultChannel: stable-5.1
+      defaultChannel: stable-5.0
       channels:
-      - name: stable-5.1
+      - name: stable-5.0
     - name: ocs-operator
-      defaultChannel: stable-5.1
+      defaultChannel: stable-5.0
       channels:
-      - name: stable-5.1
+      - name: stable-5.0
     - name: rook-ceph-operator
-      defaultChannel: stable-5.1
+      defaultChannel: stable-5.0
       channels:
-      - name: stable-5.1
+      - name: stable-5.0
     - name: mcg-operator
-      defaultChannel: stable-5.1
+      defaultChannel: stable-5.0
       channels:
-      - name: stable-5.1
+      - name: stable-5.0
     - name: odr-hub-operator
-      defaultChannel: stable-5.1
+      defaultChannel: stable-5.0
       channels:
-      - name: stable-5.1
+      - name: stable-5.0
     - name: odr-cluster-operator
-      defaultChannel: stable-5.1
+      defaultChannel: stable-5.0
       channels:
-      - name: stable-5.1
+      - name: stable-5.0
     - name: recipe
-      defaultChannel: stable-5.1
+      defaultChannel: stable-5.0
       channels:
-      - name: stable-5.1
+      - name: stable-5.0
     - name: openshift-cert-manager-operator
       defaultChannel: stable-v1
       channels:
