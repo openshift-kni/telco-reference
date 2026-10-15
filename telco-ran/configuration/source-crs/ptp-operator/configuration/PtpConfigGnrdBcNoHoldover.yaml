@@ -14,53 +14,52 @@ spec:
     - name: 00-bc-tt
       ptp4lConf: |
         # All TimeTransmitter ports should be outlined here with 'masterOnly 1'
-        #[eno8303]
-        # ** Host management interface
-        [eno8403]
+        # The host interface and the time receiver port should be omitted
+        [$iface_timeTx_1]
         masterOnly 1
-        #[eno8503]
-        # ** TR port (see 01-bc-tr profile)
-        [eno8603]
+        [$iface_timeTx_2]
         masterOnly 1
-        [eno8703]
+        [$iface_timeTx_3]
         masterOnly 1
-        [eno8803]
+        [$iface_timeTx_4]
         masterOnly 1
-        [eno8903]
+        [$iface_timeTx_5]
         masterOnly 1
-        [eno9003]
+        [$iface_timeTx_6]
         masterOnly 1
-        [enp108s0f0]
+        [$iface_timeTx_7]
         masterOnly 1
-        [enp108s0f1]
+        [$iface_timeTx_8]
         masterOnly 1
-        [enp108s0f2]
+        [$iface_timeTx_9]
         masterOnly 1
-        [enp108s0f3]
+        [$iface_timeTx_10]
         masterOnly 1
-        [enp108s0f4]
+        [$iface_timeTx_11]
         masterOnly 1
-        [enp108s0f5]
+        [$iface_timeTx_12]
         masterOnly 1
-        [enp108s0f6]
+        [$iface_timeTx_13]
         masterOnly 1
-        [enp108s0f7]
+        [$iface_timeTx_14]
         masterOnly 1
-        [enp110s0f0]
+        [$iface_timeTx_15]
         masterOnly 1
-        [enp110s0f1]
+        [$iface_timeTx_16]
         masterOnly 1
-        [enp110s0f2]
+        [$iface_timeTx_17]
         masterOnly 1
-        [enp110s0f3]
+        [$iface_timeTx_18]
         masterOnly 1
-        [enp110s0f4]
+        [$iface_timeTx_19]
         masterOnly 1
-        [enp110s0f5]
+        [$iface_timeTx_20]
         masterOnly 1
-        [enp110s0f6]
+        [$iface_timeTx_21]
         masterOnly 1
-        [enp110s0f7]
+        [$iface_timeTx_22]
+        masterOnly 1
+        [$iface_timeTx_23]
         masterOnly 1
         [global]
         #
@@ -181,9 +180,9 @@ spec:
         controllingProfile: 01-bc-tr
         logReduce: "true"
     - name: 01-bc-tr
-      phc2sysOpts: -r -n 24 -N 8 -R 16 -u 0 -m -w -s $upstreamInterface
+      phc2sysOpts: -r -n 24 -N 8 -R 16 -u 0 -m -w -s $iface_timeRx
       ptp4lConf: |
-        [$upstreamInterface]
+        [$iface_timeRx]
         masterOnly 0
         [global]
         #
@@ -305,20 +304,20 @@ spec:
         inSyncConditionThreshold: "10"
         inSyncConditionTimes: "12"
         logReduce: "true"
-        leadingInterface: eno8703
-        upstreamPort: $upstreamInterface
+        leadingInterface: $iface_default_e825
+        upstreamPort: $iface_timeRx
       plugins:
         e825:
           devices:
-            - eno8703
+            - $iface_default_e825
           settings:
             LocalMaxHoldoverOffSet: 500
             LocalHoldoverTimeout: 0
             MaxInSpecOffset: 100
         e830:
           devices:
-            - enp108s0f0
-            - enp110s0f0
+            - $iface_default_e830_1
+            - $iface_default_e830_2
       ts2phcConf: |
         [global]
         use_syslog  0
@@ -328,19 +327,19 @@ spec:
         leapfile  /usr/share/zoneinfo/leap-seconds.list
         domainNumber 24
         uds_address /var/run/ptp4l.1.socket
-        [eno8703]
+        [$iface_default_e825]
         ts2phc.extts_correction 0
         ts2phc.master 0
         ts2phc.channel 0
         ts2phc.pin_index 1
         # This should be one section per Carter Flats (e830) card:
-        [enp108s0f0]
+        [$iface_default_e830_1]
         ts2phc.extts_polarity rising
         ts2phc.extts_correction 0
         ts2phc.master 0
         ts2phc.channel 0
         ts2phc.pin_index 1
-        [enp110s0f0]
+        [$iface_default_e830_2]
         ts2phc.extts_polarity rising
         ts2phc.extts_correction 0
         ts2phc.master 0
