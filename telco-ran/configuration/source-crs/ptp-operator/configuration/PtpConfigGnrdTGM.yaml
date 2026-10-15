@@ -1,7 +1,6 @@
-# Note:  This example configuration should be customized to match the desired
-# configuration For this GNR-D T-GM configuration, we support GNSS incoming to
-# the onboard connection, and up to 24 Time Transmitter ports including any NAC
-# ports and any additional Carter Flats ports.
+# GNR-D (Granite Rapids) telecom grandmaster (T-GM) configuration.
+# The server recieves time from the GNSS signal and distributes it to downstream devices.
+# NOTE: This feature is Tech Preview only in OCP-5.0 and earlier
 apiVersion: ptp.openshift.io/v1
 kind: PtpConfig
 metadata:
@@ -31,43 +30,33 @@ spec:
             LocalHoldoverTimeout: 14400
             MaxInSpecOffset: 100
           ublxCmds:
-            - args: #ubxtool -P 29.20 -z CFG-HW-ANT_CFG_VOLTCTRL,1
+            - args: #ubxtool -P 29.25 -z CFG-HW-ANT_CFG_VOLTCTRL,1
                 - "-P"
                 - "29.25"
                 - "-z"
                 - "CFG-HW-ANT_CFG_VOLTCTRL,1"
               reportOutput: false
-            - args: #ubxtool -P 29.20 -e GPS
+            - args: #ubxtool -P 29.25 -z CFG-SIGNAL-GPS_ENA,1 -z CFG-SIGNAL-QZSS_ENA,1
                 - "-P"
                 - "29.25"
-                - "-e"
-                - "GPS"
+                - "-z"
+                - "CFG-SIGNAL-GPS_ENA,1"
+                - "-z"
+                - "CFG-SIGNAL-QZSS_ENA,1"
               reportOutput: false
-            - args: #ubxtool -P 29.20 -d Galileo
+            - args: #ubxtool -P 29.25 -z CFG-SIGNAL-GAL_ENA,0 -z CFG-SIGNAL-GLO_ENA,0 -z CFG-SIGNAL-BDS_ENA,0 -z CFG-SIGNAL-SBAS_ENA,0
                 - "-P"
                 - "29.25"
-                - "-d"
-                - "Galileo"
+                - "-z"
+                - "CFG-SIGNAL-GAL_ENA,0"
+                - "-z"
+                - "CFG-SIGNAL-GLO_ENA,0"
+                - "-z"
+                - "CFG-SIGNAL-BDS_ENA,0"
+                - "-z"
+                - "CFG-SIGNAL-SBAS_ENA,0"
               reportOutput: false
-            - args: #ubxtool -P 29.20 -d GLONASS
-                - "-P"
-                - "29.25"
-                - "-d"
-                - "GLONASS"
-              reportOutput: false
-            - args: #ubxtool -P 29.20 -d BeiDou
-                - "-P"
-                - "29.25"
-                - "-d"
-                - "BeiDou"
-              reportOutput: false
-            - args: #ubxtool -P 29.20 -d SBAS
-                - "-P"
-                - "29.25"
-                - "-d"
-                - "SBAS"
-              reportOutput: false
-            - args: #ubxtool -P 29.20 -t -w 5 -v 1 -e SURVEYIN,600,50000
+            - args: #ubxtool -P 29.20 -t -w 5 -v 1 -z CFG-TMODE-SVIN_MIN_DUR,86400 -z CFG-TMODE-SVIN_ACC_LIMIT,1000 -z CFG-TMODE-MODE,1
                 - "-P"
                 - "29.25"
                 - "-t"
@@ -75,8 +64,12 @@ spec:
                 - "5"
                 - "-v"
                 - "1"
-                - "-e"
-                - "SURVEYIN,600,50000"
+                - "-z"
+                - "CFG-TMODE-SVIN_MIN_DUR,86400"
+                - "-z"
+                - "CFG-TMODE-SVIN_ACC_LIMIT,1000"
+                - "-z"
+                - "CFG-TMODE-MODE,1"
               reportOutput: true
             - args: #ubxtool -P 29.20 -p MON-HW
                 - "-P"
@@ -100,11 +93,10 @@ spec:
         verbose 1
         logging_level 7
         ts2phc.pulsewidth 100000000
-        ts2phc.nmea_serialport /dev/ttyACM0 
+        ts2phc.nmea_serialport /dev/ttyACM0
         [eno8703]
         ts2phc.extts_polarity rising
         ts2phc.extts_correction 0
-        ts2phc.master  0
         ts2phc.channel 0
         ts2phc.pin_index 1
         # This should be one section per Carter Flats (e830) card:
