@@ -256,7 +256,6 @@ ptp_operator_configuration_PtpConfigBoundaryForEvent:
         - ptpClockThreshold:
             holdOverTimeout: 5
             maxOffsetThreshold: 100
-            minOffsetThreshold: -100
           ptpSettings:
             logReduce: "true"
       recommend:
@@ -298,7 +297,6 @@ ptp_operator_configuration_PtpConfigDualCardGmWpc:
           ptpClockThreshold:
             holdOverTimeout: 5
             maxOffsetThreshold: 100
-            minOffsetThreshold: -100
           ptpSettings:
             logReduce: "true"
       recommend:
@@ -324,7 +322,6 @@ ptp_operator_configuration_PtpConfigDualFollower:
         - ptpClockThreshold:
             holdOverTimeout: 5
             maxOffsetThreshold: 100
-            minOffsetThreshold: -100
           ptpSettings:
             logReduce: "true"
       recommend:
@@ -363,7 +360,6 @@ ptp_operator_configuration_PtpConfigThreeCardGmWpc:
           ptpClockThreshold:
             holdOverTimeout: 5
             maxOffsetThreshold: 100
-            minOffsetThreshold: -100
           ptpSettings:
             logReduce: "true"
       recommend:
@@ -419,7 +415,6 @@ ptp_operator_configuration_PtpConfigForHAForEvent:
         - ptpClockThreshold:
             holdOverTimeout: 5
             maxOffsetThreshold: 100
-            minOffsetThreshold: -100
           ptpSettings:
             logReduce: "true"
       recommend:
@@ -446,7 +441,6 @@ ptp_operator_configuration_PtpConfigMasterForEvent:
           ptpClockThreshold:
             holdOverTimeout: 5
             maxOffsetThreshold: 100
-            minOffsetThreshold: -100
           ptpSettings:
             logReduce: "true"
       recommend:
@@ -485,7 +479,6 @@ ptp_operator_configuration_PtpConfigGmWpc:
           ptpClockThreshold:
             holdOverTimeout: 5
             maxOffsetThreshold: 100
-            minOffsetThreshold: -100
           ptpSettings:
             logReduce: "true"
       recommend:
@@ -512,7 +505,6 @@ ptp_operator_configuration_PtpConfigSlaveForEvent:
           ptpClockThreshold:
             holdOverTimeout: 5
             maxOffsetThreshold: 100
-            minOffsetThreshold: -100
           ptpSettings:
             logReduce: "true"
       recommend:
