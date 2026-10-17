@@ -6,6 +6,7 @@ resources:
   - optional/lso/
   - optional/odf-internal/
   # - optional/cert-manager/
+  # - optional/cluster-observability/
   # everything under required is mandatory
   - required/gitops/
   - required/acm/
