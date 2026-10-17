@@ -18,10 +18,12 @@ spec:
           name: policy-monitor-certificates
         spec:
           minimumDuration: 720h
+          minimumCADuration: 2160h
           namespaceSelector:
             include:
               - openshift-ingress
               - openshift-config
+              - cert-manager
           remediationAction: inform
           severity: low
   remediationAction: inform
