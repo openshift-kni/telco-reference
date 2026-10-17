@@ -1,0 +1,17 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PlacementBinding
+metadata:
+  name: obs-route-policy-placementbinding
+  namespace: open-cluster-management-observability
+  annotations:
+    argocd.argoproj.io/sync-wave: "-25"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+placementRef:
+  name: obs-route-policy-placement
+  kind: Placement
+  apiGroup: cluster.open-cluster-management.io
+subjects:
+  - name: obs-route-policy
+    kind: Policy
+    apiGroup: policy.open-cluster-management.io
