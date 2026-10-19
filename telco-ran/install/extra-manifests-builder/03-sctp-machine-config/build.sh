@@ -8,23 +8,22 @@ echo "\
 apiVersion: machineconfiguration.openshift.io/v1
 kind: MachineConfig
 metadata:
+  name: load-sctp-module-${MCPROLE}
   labels:
     machineconfiguration.openshift.io/role: ${MCPROLE}
-  name: load-sctp-module-${MCPROLE}
 spec:
   config:
     ignition:
-      version: 2.2.0
+      version: 3.2.0
     storage:
       files:
-        - contents:
+        - path: /etc/modprobe.d/sctp-blacklist.conf
+          mode: 420
+          overwrite: true
+          contents:
             source: data:,
-            verification: {}
-          filesystem: root
+        - path: /etc/modules-load.d/sctp-load.conf
           mode: 420
-          path: /etc/modprobe.d/sctp-blacklist.conf
-        - contents:
-            source: data:text/plain;charset=utf-8,sctp
-          filesystem: root
-          mode: 420
-          path: /etc/modules-load.d/sctp-load.conf"
+          overwrite: true
+          contents:
+            source: data:,sctp"
