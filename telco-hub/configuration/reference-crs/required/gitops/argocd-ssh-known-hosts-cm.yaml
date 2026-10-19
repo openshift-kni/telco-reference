@@ -4,6 +4,8 @@ kind: ConfigMap
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-40"
+  labels:
+    cluster.open-cluster-management.io/backup: ""
   name: argocd-ssh-known-hosts-cm
   namespace: openshift-gitops
 data:
