@@ -10,6 +10,7 @@ metadata:
   namespace: openshift-monitoring
   annotations:
     ran.openshift.io/ztp-deploy-wave: "1"
+    observability.open-cluster-management.io/unmanaged: "true"
 data:
   config.yaml: |
     alertmanagerMain:
