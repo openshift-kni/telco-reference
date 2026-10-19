@@ -41,8 +41,6 @@ mirror:
       defaultChannel: stable-6.6
       channels:
       - name: stable-6.6
-    # ODF disconnected y-stream upgrades require both the current and prior
-    # release in the same mirrored catalog: https://access.redhat.com/solutions/7128211
     - name: odf-operator
       defaultChannel: stable-5.0
       channels:
