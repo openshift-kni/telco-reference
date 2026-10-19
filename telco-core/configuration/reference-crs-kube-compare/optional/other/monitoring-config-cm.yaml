@@ -6,6 +6,8 @@ kind: ConfigMap
 metadata:
   name: cluster-monitoring-config
   namespace: openshift-monitoring
+  annotations:
+    observability.open-cluster-management.io/unmanaged: "true"
 data:
   config.yaml: |
     nodeExporter:
