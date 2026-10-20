@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eso-cluster-templates-v1
+  namespace: open-cluster-management
+  annotations:
+    argocd.argoproj.io/sync-wave: "-30"
+data:
+  PullSecretExternalSecret: |-
+    apiVersion: external-secrets.io/v1
+    kind: ExternalSecret
+    metadata:
+      name: "{{ .Spec.PullSecretRef.Name }}"
+      namespace: "{{ .Spec.ClusterName }}"
+      annotations:
+        siteconfig.open-cluster-management.io/sync-wave: "1"
+    spec:
+      # refreshPolicy: OnChange updates the Secret only when THIS ExternalSecret CR changes.
+      # IMPORTANT: OnChange does NOT respond to changes in Vault data. If you rotate
+      # credentials in Vault, the Secret will NOT automatically update.
+      #
+      # To refresh after rotating credentials in Vault, manually trigger sync:
+      #   oc annotate externalsecret <name> -n <namespace> force-sync=$(date +%s) --overwrite
+      #
+      # This policy minimizes Vault load by avoiding periodic polling while still allowing
+      # on-demand refresh when needed. For automatic freshness, use refreshPolicy: Periodic.
+      #
+      # When a ClusterInstance is deleted, ACM removes the ExternalSecret CR,
+      # which triggers deletion of the owned Secret via ownerReference.
+      refreshPolicy: OnChange
+      secretStoreRef:
+        name: ztp-secret-provider
+        kind: ClusterSecretStore
+      target:
+        name: "{{ .Spec.PullSecretRef.Name }}"
+        creationPolicy: Owner
+        template:
+          type: kubernetes.io/dockerconfigjson
+      data:
+        # VAULT STRUCTURE CONTRACT:
+        # This defines the required path and property structure in Vault (or alternative secret store).
+        # The secret store MUST conform to this structure:
+        #   Path: clusters/<ClusterName>/pull-secret
+        #   Required property: ".dockerconfigjson" (full docker config JSON as string)
+        #
+        # Example for cluster "sno-site-1":
+        #   secret/data/clusters/sno-site-1/pull-secret
+        #     .dockerconfigjson = '{"auths":{"registry.example.com":{"auth":"..."}}}'
+        #
+        # Any deviation from this contract will cause image pull authentication to fail.
+        # This contract is documented in the telco-hub RDS.
+        - secretKey: .dockerconfigjson
+          remoteRef:
+            key: clusters/{{ .Spec.ClusterName }}/pull-secret
+            property: .dockerconfigjson
