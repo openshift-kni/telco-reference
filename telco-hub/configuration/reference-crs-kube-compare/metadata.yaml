@@ -31,6 +31,16 @@ parts:
         allOrNoneOf:
           - path: optional/cert-manager/apiServerCertificate.yaml
           - path: optional/cert-manager/apiServerConfig.yaml
+      - name: cert-manager-hub-spoke-trust
+        description: |-
+          Hub-spoke CA trust distribution via KlusterletConfig
+        allOrNoneOf:
+          - path: optional/cert-manager/certManagerHubCAConfigMap.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: optional/cert-manager/certManagerKlusterletConfig.yaml
+            config:
+              ignore-unspecified-fields: true
       - name: cert-manager-monitoring
         description: |-
           Certificate monitoring policy for RHACM

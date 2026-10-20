@@ -30,6 +30,10 @@ spec:
       # ran-group-du-standard-templated.yaml will apply to all clusters with 'group-du-standard-zone' and 'hardware-type'
       group-du-standard-zone: "zone-1"
       hardware-type: "hw-type-platform-1"
+  # Uncomment to apply KlusterletConfig for cert-manager hub-spoke trust (optional)
+  # extraAnnotations:
+  #   ManagedCluster:
+  #     agent.open-cluster-management.io/klusterlet-config: "cert-manager-ca-config"
   clusterNetwork:
     - cidr: 1001:1::/48
       hostPrefix: 64
