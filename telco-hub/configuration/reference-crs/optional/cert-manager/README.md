@@ -27,6 +27,13 @@ Cert-manager automates the management and issuance of TLS certificates from vari
 - `apiServerConfig.yaml` - Configures OpenShift to use the cert-manager generated API Server certificate
 - `ingressControllerConfig.yaml` - Configures OpenShift to use the cert-manager generated Ingress certificate
 
+### Certificate Monitoring
+- `certManagerCertificatePolicy.yaml` - RHACM CertificatePolicy that reports certificates in the `openshift-ingress`, `openshift-config` and `cert-manager` namespaces as noncompliant when they are close to expiring:
+  - Leaf certificates with less than 30 days remaining (`minimumDuration: 720h`)
+  - CA certificates with less than 90 days remaining (`minimumCADuration: 2160h`), for example the root CA secret of a CA issuer in the `cert-manager` namespace. The reference ACME issuer does not create a CA certificate.
+- `certManagerCertificatePolicyPlacement.yaml` - Targets managed clusters with the `common` label and the hub (`local-cluster`)
+- `certManagerCertificatePolicyPlacementBinding.yaml` - Binds the CertificatePolicy to the Placement
+
 ## Customization Required
 
 Before applying these configurations, you must customize the following:
