@@ -10,5 +10,4 @@ generators:
 
 resources:
   - ns.yaml
-  - ../template-values/regional.yaml
-  - ../template-values/hw-types.yaml
+  - ../template-values
