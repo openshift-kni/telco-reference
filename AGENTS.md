@@ -33,8 +33,9 @@ Documented, reference-specific exceptions (no cross-reference analog):
   to `reference-crs-kube-compare/`), and `source-crs/` remains as a
   compatibility symlink to `reference-crs/` for the ztp-site-generate pipeline.
   `policygentemplates/` and `install/extra-manifests-builder/` are RAN-only.
-- **telco-core** keeps `ns.yaml` and the generated `schema.openapi` at
-  `configuration/` (wired into the shared schema tooling).
+- **telco-core** places its `ns.yaml` and the generated `schema.openapi`
+  under `acmpolicygenerator/` (as in telco-ran); backwards-compatibility
+  symlinks at the `configuration/` root keep the shared schema tooling working.
 - **telco-hub** `install/` installs the *hub* cluster (`mirror-registry/`,
   `openshift/`) — a different function from the managed-cluster
   `install/clusterinstance/` — and has no `template-values/`.
