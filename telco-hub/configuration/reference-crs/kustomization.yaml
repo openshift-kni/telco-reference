@@ -11,7 +11,8 @@ resources:
   - required/acm/
   - required/talm/
   - required/registry/
-  # but, include this content if you want to include the argocd
-  # configuration and apps for gitops ztp management of cluster
-  # installation and configuration
-  # - required/gitops/ztp-installation
+  # the argocd configuration and apps for gitops ztp management of cluster
+  # installation and configuration now live at the top-level
+  # configuration/argocd/deployment/ (a compatibility symlink remains at
+  # required/gitops/ztp-installation); include them from
+  # configuration/kustomization.yaml
