@@ -38,7 +38,7 @@ ZTP_HOME=/home/ztp/
 checkFilePath:
 	@failures=0; \
 	echo 'Checking for filename path length in $(CUSTOM_RESOURCE):'; \
-	for cr in $(shell find $(CUSTOM_RESOURCE) -type f); do \
+	for cr in $(shell find $(CUSTOM_RESOURCE)/ -type f); do \
 		path="${ZTP_HOME}$$cr"; \
 		echo -n "  $$path: "; \
 		path_length=$$(echo -n $$path | wc -c); \
