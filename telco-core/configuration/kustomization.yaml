@@ -1,15 +1,5 @@
 ---
+# The PolicyGenerator CRs, namespaces, and template-values are owned by the
+# self-contained acmpolicygenerator/ kustomization (aligned with telco-ran).
 resources:
-  - ns.yaml
-  - template-values/regional.yaml
-  - template-values/hw-types.yaml
-  # - cluster-1.yaml
-
-generators:
-  - acmpolicygenerator/core-baseline.yaml
-  - acmpolicygenerator/core-overlay.yaml
-  - acmpolicygenerator/core-upgrade.yaml
-  - acmpolicygenerator/core-finish.yaml
-  # Optional: pre-cache images ahead of the upgrade window using PinnedImageSet CRs.
-  # Label target clusters with upgrade-precache: "" to activate.
-  - acmpolicygenerator/core-upgrade-precache.yaml
+  - acmpolicygenerator

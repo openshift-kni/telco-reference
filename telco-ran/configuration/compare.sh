@@ -39,15 +39,15 @@ check_no_machineconfig_in_source_crs() {
   local root fail=0 f relpath
   root="$(git rev-parse --show-toplevel)"
   while IFS= read -r f; do
-    relpath="${f#${root}/telco-ran/configuration/source-crs/}"
+    relpath="${f#${root}/telco-ran/configuration/reference-crs/}"
     case "${relpath}" in
       generic/MachineConfigGeneric.yaml|machine-config/RebootMachineConfig.yaml)
         continue
         ;;
     esac
-    echo "ERROR: MachineConfig must use install/clusterinstance/extra-manifests, not source-crs: ${f}" >&2
+    echo "ERROR: MachineConfig must use install/clusterinstance/extra-manifests, not reference-crs: ${f}" >&2
     fail=1
-  done < <(grep -rl '^kind: MachineConfig$' "${root}/telco-ran/configuration/source-crs" 2>/dev/null || true)
+  done < <(grep -rl '^kind: MachineConfig$' "${root}/telco-ran/configuration/reference-crs" 2>/dev/null || true)
   return $fail
 }
 
@@ -55,7 +55,7 @@ run_extra_manifest_checks() {
   local status=0
   echo "Checking install/clusterinstance/extra-manifests alignment with kube-compare-reference..."
   compare_install_extra_manifests || status=1
-  echo "Checking source-crs does not contain MachineConfig CRs..."
+  echo "Checking reference-crs does not contain MachineConfig CRs..."
   check_no_machineconfig_in_source_crs || status=1
   if [[ $status -eq 0 ]]; then
     echo "extra-manifest checks: OK"
