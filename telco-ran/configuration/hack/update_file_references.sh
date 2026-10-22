@@ -71,9 +71,13 @@ for source_file in "${source_files[@]}"; do
     echo "  Updating references in: $target_file"
 
     # Choose the replacement strategy based on the file's content.
-    if grep -q "reference-crs/.*$file_name" "$target_file"; then
-      # This file contains an incorrect 'reference-crs' path. Fix it.
-      sedi -e "s|reference-crs/[^[:space:]\`[]*${escaped_file_name}|reference-crs/$replacement_path|g" "$target_file"
+    if grep -q "reference-crs/.*$file_name" "$target_file" || grep -q "source-crs/.*$file_name" "$target_file"; then
+      # This file contains an incorrect 'reference-crs' or legacy 'source-crs'
+      # path. Rewrite either form to the relocated 'reference-crs' path.
+      sedi \
+        -e "s|reference-crs/[^[:space:]\`[]*${escaped_file_name}|reference-crs/$replacement_path|g" \
+        -e "s|source-crs/[^[:space:]\`[]*${escaped_file_name}|reference-crs/$replacement_path|g" \
+        "$target_file"
     else
       # This file contains a different incorrect full path. Fix it.
       # This regex finds a path-like string ending in the filename.
