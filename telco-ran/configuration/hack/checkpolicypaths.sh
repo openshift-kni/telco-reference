@@ -10,9 +10,9 @@ for BASEDIR in "$@"; do
     readarray -t files < <(find "$BASEDIR" -name '*.yaml')
   fi
   for file in "${files[@]}"; do
-    readarray -t references < <(grep -e 'path:' -e 'fileName:' "$file" | grep -v schema.openapi | cut -d ':' -f 2 | sed 's/ *#.*$//' | grep 'yaml$' | sed 's/^ *//' | sed 's|source-crs/||')
+    readarray -t references < <(grep -e 'path:' -e 'fileName:' "$file" | grep -v schema.openapi | cut -d ':' -f 2 | sed 's/ *#.*$//' | grep 'yaml$' | sed 's/^ *//' | sed 's|reference-crs/||')
     for ref in "${references[@]}"; do
-      if [[ ! -f "source-crs/$ref" ]]; then
+      if [[ ! -f "reference-crs/$ref" ]]; then
         echo "  $file: Misplaced reference to $ref"
         ERRORS=$((ERRORS + 1))
       fi
