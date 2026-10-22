@@ -10,6 +10,15 @@ spec:
   config:
     ignition:
       version: 3.2.0
+    storage:
+      files:
+        # Workaround for https://redhat.atlassian.net/browse/RHEL-288724
+        # Remove the idxd exclusion once the fix is merged in RHEL.
+        - path: /etc/kdump.conf
+          mode: 420
+          overwrite: true
+          contents:
+            source: data:text/plain;charset=utf-8,path%20/var/crash%0Acore_collector%20makedumpfile%20-l%20--message-level%207%20-d%2031%0Adracut_args%20--omit-drivers%20%22idxd%22%0A
     systemd:
       units:
       - enabled: true
