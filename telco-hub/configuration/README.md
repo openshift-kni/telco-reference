@@ -179,7 +179,7 @@ Edit the file `options-agentserviceconfig-patch.yaml` to configure the different
 You have to edit the gitops patch overlay (`argocd/example/overlays-config/gitops/init-argocd-app.yaml`) to configure it properly. By default, it directly points to the upstream repository:
 
 ```yaml
-> cat required/gitops/overlays/init_installation_app.yaml
+> cat argocd/example/overlays-config/gitops/init-argocd-app.yaml
 - op: replace
   path: "/spec/source"
   value:

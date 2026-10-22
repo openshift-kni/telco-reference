@@ -24,7 +24,7 @@ detail in the following sections:
 
 ## SiteConfig CRs
 
-The example-standard.yaml file contains a SiteConfig CR which defines the
+The clusterinstance/example-standard-clusterinstance.yaml file contains a SiteConfig CR which defines the
 topology and specific attributes of a cluster. This CR may be rendered into MCE
 installation CRs using the [SiteGen
 utility](https://github.com/openshift-kni/cnf-features-deploy/tree/master/ztp/siteconfig-generator). The
