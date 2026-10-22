@@ -64,14 +64,14 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   # if you use LocalStorage operator, edit and configure the patch
-  - example-overlays-config/lso/
+  - argocd/example/overlays-config/lso/
 
   # if you use ODF, edit and configure storage settings
-  - example-overlays-config/odf/
+  - argocd/example/overlays-config/odf/
 
   # other not optional overlays
-  - example-overlays-config/gitops/
-  - example-overlays-config/acm/
+  - argocd/example/overlays-config/gitops/
+  - argocd/example/overlays-config/acm/
 
   # mandatory resources not managed by any overlay
   - reference-crs/required/talm/
@@ -79,13 +79,13 @@ resources:
   # include this content if you want to include the argocd
   # configuration and apps for gitops ztp management of cluster
   # installation and configuration
-  # - reference-crs/required/gitops/ztp-installation
+  # - argocd/deployment
 ```
 Comment/uncomment the different optional components. For any of these directories, there could be optional configurations that needs to be set depending on your needs. The following sections describe the different options to configure.
 
 ### (Optional) Configure the LocalStorage 
 
-Edit the file `example-overlays-config/lso/local-storage-disks-patch.yaml` to use the disks you want to be used for the LocalStorage operator. Example:
+Edit the file `argocd/example/overlays-config/lso/local-storage-disks-patch.yaml` to use the disks you want to be used for the LocalStorage operator. Example:
 
 ```
 # patching ODF StorageCluster
@@ -100,7 +100,7 @@ Edit the file `example-overlays-config/lso/local-storage-disks-patch.yaml` to us
 ```
 
 ### (Optional) Configure ODF 
-Edit the file `example-overlays-config/odf/options-storage-cluster.yaml` to configure the storage backend for ODF. Example:
+Edit the file `argocd/example/overlays-config/odf/options-storage-cluster.yaml` to configure the storage backend for ODF. Example:
 
 ```yaml
 # patching ODF StorageCluster
@@ -116,7 +116,7 @@ Edit the file `example-overlays-config/odf/options-storage-cluster.yaml` to conf
 
 ### Configure the MultiClusterObservability Storage
 
-Edit the file `example-overlays-config/acm/storage-mco-patch.yaml` to select an StorageClass of kind FileSystem. Example:
+Edit the file `argocd/example/overlays-config/acm/storage-mco-patch.yaml` to select an StorageClass of kind FileSystem. Example:
 
 ```yaml
 # patching mco StorageClass
@@ -176,7 +176,7 @@ Edit the file `options-agentserviceconfig-patch.yaml` to configure the different
 
 ### Configure the `hub-config` ArgoCD Application
 
-You have to edit the gitops patch overlay (`example-overlays-config/gitops/init-argocd-app.yaml`) to configure it properly. By default, it directly points to the upstream repository:
+You have to edit the gitops patch overlay (`argocd/example/overlays-config/gitops/init-argocd-app.yaml`) to configure it properly. By default, it directly points to the upstream repository:
 
 ```yaml
 > cat required/gitops/overlays/init_installation_app.yaml
@@ -204,7 +204,7 @@ Make any necessary change. In general, you will point to the forked repository w
 Having ArgoCD ready and the git repository with all the overlays configured. It is time to install the ArgoCD Application that will trigger the deployment of the telco hub.
 
 ```bash
-> kustomize build example-overlays-config/gitops/ | oc apply -f -
+> kustomize build argocd/example/overlays-config/gitops/ | oc apply -f -
 configmap/argocd-ssh-known-hosts-cm configured
 secret/ztp-repo created
 appproject.argoproj.io/infra created
