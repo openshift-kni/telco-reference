@@ -34,7 +34,7 @@ if [[ $# == 0 || $1 == "--help" || $1 == "-h" ]]; then
 fi
 
 # Find all .yaml files in the source-crs directory and store them in an array.
-readarray -t source_files < <(find source-crs -name "*.yaml")
+readarray -t source_files < <(find source-crs/ -name "*.yaml")
 
 # Iterate through the array of target files.
 for source_file in "${source_files[@]}"; do
