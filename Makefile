@@ -128,13 +128,13 @@ generate-openapi-schemas: generate-schema-config  ## Regenerate schema.openapi f
 	python3 hack/extract-schema.py --config hack/crd-schema-config.json --component ran \
 		-o telco-ran/configuration/acmpolicygenerator/schema.openapi
 	python3 hack/extract-schema.py --config hack/crd-schema-config.json --component core \
-		-o telco-core/configuration/schema.openapi
+		-o telco-core/configuration/acmpolicygenerator/schema.openapi
 
 .PHONY: check-openapi-schemas
 check-openapi-schemas: generate-openapi-schemas  ## Verify schema.openapi files are up-to-date
 	@if ! git diff --exit-code hack/crd-schema-config.json \
 		telco-ran/configuration/acmpolicygenerator/schema.openapi \
-		telco-core/configuration/schema.openapi; then \
+		telco-core/configuration/acmpolicygenerator/schema.openapi; then \
 		echo ""; \
 		echo "ERROR: OpenAPI schema files are out of date."; \
 		echo "Run 'make generate-openapi-schemas' and commit the result."; \
