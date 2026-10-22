@@ -13,10 +13,10 @@ The `cluster-log-forwarder-patch.yaml` customizes (not limited to):
 
 ```bash
 # Test the overlay
-kubectl kustomize telco-hub/configuration/example-overlays-config/logging/
+kubectl kustomize telco-hub/configuration/argocd/example/overlays-config/logging/
 
 # Apply the overlay
-kubectl apply -k telco-hub/configuration/example-overlays-config/logging/
+kubectl apply -k telco-hub/configuration/argocd/example/overlays-config/logging/
 ```
 
 ## Key Configuration
