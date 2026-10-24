@@ -2,9 +2,9 @@
 
 ## Structure
 This directory contains the RAN reference configuration:
- - `acmpolicygenerator/` contains PolicyGenerator CRs (`ran-*.yaml`) that define how CRs from `source-crs/` are patched with use-case specific values and grouped into ordered policies. Group policies use hub-side templating with ConfigMaps in `template-values/` for hardware-type and zone-specific values. [policy-generator-plugin](https://github.com/stolostron/policy-generator-plugin) constructs Advanced Cluster Management Policies.
+ - `acmpolicygenerator/` contains PolicyGenerator CRs (`ran-*.yaml`) that define how CRs from `reference-crs/` are patched with use-case specific values and grouped into ordered policies. Group policies use hub-side templating with ConfigMaps in `template-values/` for hardware-type and zone-specific values. [policy-generator-plugin](https://github.com/stolostron/policy-generator-plugin) constructs Advanced Cluster Management Policies.
  - `policygentemplates/` contains deprecated PolicyGenTemplate (PGT) equivalents of the hub-side-templated group policies, provided for reference only.
- - `source-crs/` contains the CRs which form the foundation of the RAN reference configuration.
+ - `reference-crs/` contains the CRs which form the foundation of the RAN reference configuration. A compatibility `source-crs/` symlink points at `reference-crs/` so existing extracted-image and external consumer paths keep resolving.
  - `template-values/` contains ConfigMaps used by hub-side templating to inject hardware-type, zone, and site-specific values into policies.
  - `kube-compare-reference/` contains the RAN reference configuration CRs with templating required for the kube-compare tool.
  - `argocd/` contains documentation and additional examples:
