@@ -1,5 +1,4 @@
 # GNR-D (Granite Rapids) telecom grandmaster (T-GM) configuration.
-# NOTE: This feature is Tech Preview only in OCP-5.0 and earlier
 # The server recieves time from the GNSS signal and distributes it to downstream devices.
 # Interface variables:
 #   - $iface_default_e825: Default e825 interface exposing the PTP device.
