@@ -213,13 +213,19 @@ required_acm_acmMirrorRegistryCM:
         prefix = ""
         location = "quay.io/openshift-release-dev/ocp-release"
         [[registry.mirror]]
-          location = "<registry.example.com:8443>/openshift-release-dev/ocp-release"
+          location = "<registry.example.com:8443>/openshift/release-images"
           pull-from-mirror = "digest-only"
       [[registry]]
         prefix = ""
         location = "quay.io/openshift-release-dev/ocp-v4.0-art-dev"
         [[registry.mirror]]
-          location = "<registry.example.com:8443>/openshift-release-dev/ocp-v4.0-art-dev"
+          location = "<registry.example.com:8443>/openshift/release"
+          pull-from-mirror = "digest-only"
+      [[registry]]
+        prefix = ""
+        location = "quay.io/openshift-release-dev/ocp-v5.0-art-dev"
+        [[registry.mirror]]
+          location = "<registry.example.com:8443>/openshift/release"
           pull-from-mirror = "digest-only"
       [[registry]]
         prefix = ""
@@ -232,6 +238,12 @@ required_acm_acmMirrorRegistryCM:
         location = "registry.redhat.io/odf4"
         [[registry.mirror]]
           location = "<registry.example.com:8443>/odf4"
+          pull-from-mirror = "digest-only"
+      [[registry]]
+        prefix = ""
+        location = "registry.redhat.io/odf5"
+        [[registry.mirror]]
+          location = "<registry.example.com:8443>/odf5"
           pull-from-mirror = "digest-only"
       [[registry]]
         prefix = ""
@@ -367,6 +379,9 @@ required_registry_idms_operator:
         - <registry.example.com:8443>/odf4
         source: registry.redhat.io/odf4
       - mirrors:
+        - <registry.example.com:8443>/odf5
+        source: registry.redhat.io/odf5
+      - mirrors:
         - <registry.example.com:8443>/rhel9
         source: registry.redhat.io/rhel9
       - mirrors:
@@ -402,8 +417,14 @@ required_registry_idms_release:
         - <registry.example.com:8443>/openshift-release-dev
         source: quay.io/openshift-release-dev
       - mirrors:
-        - <registry.example.com:8443>/openshift-release-dev/ocp-v4.0-art-dev
+        - <registry.example.com:8443>/openshift/release
         source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+      - mirrors:
+        - <registry.example.com:8443>/openshift/release
+        source: quay.io/openshift-release-dev/ocp-v5.0-art-dev
+      - mirrors:
+        - <registry.example.com:8443>/openshift/release-images
+        source: quay.io/openshift-release-dev/ocp-release
       - mirrors:
         - <registry.example.com:8443>/multicluster-engine/assisted-installer-agent-rhel9
         source: registry.redhat.io/multicluster-engine/assisted-installer-agent-rhel9
@@ -428,8 +449,11 @@ required_registry_itms_release:
 - spec:
     imageTagMirrors:
       - mirrors:
-        - <registry.example.com:8443>/openshift-release-dev/ocp-v4.0-art-dev
+        - <registry.example.com:8443>/openshift/release
         source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+      - mirrors:
+        - <registry.example.com:8443>/openshift/release
+        source: quay.io/openshift-release-dev/ocp-v5.0-art-dev
 
 # cert-manager defaults
 optional_cert_manager_certManagerClusterIssuer:
