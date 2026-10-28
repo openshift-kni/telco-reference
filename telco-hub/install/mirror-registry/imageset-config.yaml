@@ -38,9 +38,9 @@ mirror:
       channels:
       - name: stable
     - name: cluster-logging
-      defaultChannel: stable-6.6
+      defaultChannel: stable-6.7
       channels:
-      - name: stable-6.6
+      - name: stable-6.7
     - name: odf-operator
       defaultChannel: stable-5.0
       channels:

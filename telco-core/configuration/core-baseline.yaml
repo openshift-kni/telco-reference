@@ -41,7 +41,7 @@ policies:
               - kind: ClusterServiceVersion
                 namespace: openshift-logging
                 # Update with specific target version
-                name: cluster-logging.v6.6.1
+                name: cluster-logging.v6.7.1
                 conditions:
                   - type: Succeeded
                     status: "True"
