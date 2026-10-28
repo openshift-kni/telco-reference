@@ -3,6 +3,8 @@
 # ACM 5.0+: reads the observatorium route from the spoke hub-info-secret and forwards with mTLS.
 # ACM 4.x: requires observabilityRoutePolicy in the 4.x hub reference for the alertmanager route and hub ID.
 # When MCO is disabled and no route is available, omit alert forwarding.
+# Keep the hub-info lookup and route guard on one line: the policy engine
+# JSON-escapes config.yaml before rendering, so split actions add blank lines.
 apiVersion: v1
 kind: ConfigMap
 metadata:
