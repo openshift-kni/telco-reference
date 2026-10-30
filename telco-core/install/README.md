@@ -8,16 +8,23 @@ CRs contained here are examples and must be tuned/configured to your particular
 hardware and environment. However these represent the best-practices and the
 general pattern shown here is recommended.
 
-The contents of this directory fall into 3 categories. Each of these are
-described in more detail in the following sections:
+The installation artifacts live under `clusterinstance/`, aligning this
+reference with the `install/clusterinstance/` layout used by telco-ran.
+Backwards-compatibility symlinks are kept at the previous top-level paths
+(`extra-manifests`, `custom-manifests`,
+`example-standard-clusterinstance.yaml`) so existing consumers and the
+extracted container payload continue to resolve the old locations unchanged.
 
-- example-standard.yaml -- A SiteConfig CR which defines the cluster
-- extra-manifests -- Additional reference CRs to apply to the cluster during installation
-- custom-manifests -- Additional custom/user specific CRs to apply to the cluster during installation
+The contents fall into 3 categories. Each of these are described in more
+detail in the following sections:
+
+- clusterinstance/example-standard-clusterinstance.yaml -- A SiteConfig CR which defines the cluster
+- clusterinstance/extra-manifests -- Additional reference CRs to apply to the cluster during installation
+- clusterinstance/custom-manifests -- Additional custom/user specific CRs to apply to the cluster during installation
 
 ## SiteConfig CRs
 
-The example-standard.yaml file contains a SiteConfig CR which defines the
+The clusterinstance/example-standard-clusterinstance.yaml file contains a SiteConfig CR which defines the
 topology and specific attributes of a cluster. This CR may be rendered into MCE
 installation CRs using the [SiteGen
 utility](https://github.com/openshift-kni/cnf-features-deploy/tree/master/ztp/siteconfig-generator). The
