@@ -86,7 +86,7 @@ policies:
         complianceType: mustnothave
 
   # Restore original value for maxUnavailable
-  - name: core-custom-mcp-restore-maxavailable-22
+  - name: core-custom-mcp-restore-maxavailable-5-1
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "31"
     manifests:

@@ -37,16 +37,20 @@ convert these CRs to Policy locally using the same binary. For example:
 
 #### Policy Generators
 
-There are three reference PolicyGenerator CRs.
+There are six reference PolicyGenerator CRs.
 
 * `core-baseline` contains fixed required content
 * `core-overlay` contains content where updates/patches are expected. This
   reference also contains the optional components
 * `core-upgrade` contains policies which can be used to upgrade a cluster from
   the prior release to the current release.
+* `core-upgrade-precache` contains optional policies which pre-pull the release
+  and OLM images onto the nodes ahead of the upgrade maintenance window.
 * `core-upgrade-finish` contains policies which release MachineConfigPool worker
   nodes for upgrade. These are typically independent of version and only need to
   be defined once.
+* `core-finish` contains customer policies applied once the cluster is in its
+  steady state.
 
 Other custom content can be added through additional PolicyGenerator CRs.
 
@@ -75,7 +79,7 @@ is needed. The ConfigMap name is the cluster name eg cluster-1234
 ### Upgrading
 The `core-upgrade.yaml` PolicyGenerator generates policies which support an
 automated upgrade of the Core cluster. These policies can be used in support of
-a single release upgrade or for an EUS-EUS upgrade which involves a double
+a single release upgrade or for an EUS/ELC upgrade which involves a double
 upgrade. In the case of a double upgrade the worker nodes remain paused while
 the control plane is upgraded twice using the `core-upgrade.yaml` policies from
 both releases. When both control plane upgrades are complete the worker nodes
@@ -121,11 +125,11 @@ its `ManagedCluster` resource. This label is independent of the version labels
 used by the upgrade policies, allowing pre-caching to begin before the upgrade
 maintenance window.
 
-The `core-upgrade-precache-validator-22` policy checks that pre-caching has
+The `core-upgrade-precache-validator-5-1` policy checks that pre-caching has
 completed on all nodes by verifying that `currentGeneration == desiredGeneration`
 for each `PinnedImageSet`.
 
-After the upgrade completes, the `core-upgrade-precache-cleanup-22` policy in
+After the upgrade completes, the `core-upgrade-precache-cleanup-5-1` policy in
 `core-upgrade-finish.yaml` removes the four `PinnedImageSet` CRs. This policy
 uses `mustnothave` compliance so it is safe to include even when pre-caching was
 not used — it is compliant when the objects do not exist.
@@ -157,120 +161,41 @@ specific:
 
 #### Orchestrating upgrade
 With the prep, ocp, olm and completion policies defined the upgrade can be
-orchestrated by enforcing those policies in the correct order. This can be done
-with the Topology Aware Lifecycle Manager operator. This operator works by
-reconciling ClusterGroupUpgrade CRs in which the set of policies, and the order
-in which to enforce them, is defined. For a double upgrade scenario which
-updates the worker nodes after the second control-plane upgrade the set of CGU
-CRs to use would look similar to these:
+orchestrated by enforcing those policies in the correct order. This is done with
+the Topology Aware Lifecycle Manager (TALM) operator, which reconciles
+ClusterGroupUpgrade (CGU) CRs defining the set of policies and the order in
+which to enforce them.
 
-First control plane upgrade:
-```
----
-apiVersion: ran.openshift.io/v1alpha1
-kind: ClusterGroupUpgrade
-metadata:
-  name: upgrade-19
-  namespace: default
-spec:
-  actions:
-    afterCompletion:
-      deleteClusterLabels:
-        upgrade-version-4-19: ""
-      deleteObjects: true
-  clusters:
-  - test-cluster
-  enable: true
-  managedPolicies:
-    - core-upgrade-prep-19
-    - core-upgrade-ocp-19
-    - core-upgrade-olm-19
-    - core-upgrade-validate-19
-  remediationStrategy:
-    maxConcurrency: 1
-    timeout: 480
+Reference CGU CRs are provided in [examples/](examples/):
+
+| File | Use |
+|------|-----|
+| `cgu-upgrade-precache.yaml` | Optional pre-caching prestage, run in an earlier maintenance window. |
+| `cgu-upgrade-5-1.yaml` | Single release upgrade of the control plane. |
+| `cgu-upgrade-double-hop-5-0-to-5-1.yaml` | Double hop: two chained control plane upgrades with the workers held paused across both. |
+| `cgu-upgrade-finish.yaml` | Release the worker MCPs, clean up the pre-cache CRs and restore `maxUnavailable`. Required after either upgrade path. |
+
+Each CGU selects its target clusters by label and removes its own stage label
+in its `afterCompletion` action. Apply all of the labels the upgrade will need
+to the `ManagedCluster` up front, then apply each CGU in turn:
+
+```bash
+oc label managedcluster <cluster> upgrade-version-5-1= upgrade-finish=
+oc apply -f examples/cgu-upgrade-5-1.yaml
+oc apply -f examples/cgu-upgrade-finish.yaml
 ```
 
-Second control plane upgrade:
-```
----
-apiVersion: ran.openshift.io/v1alpha1
-kind: ClusterGroupUpgrade
-metadata:
-  name: upgrade-20
-  namespace: default
-spec:
-  actions:
-    afterCompletion:
-      deleteClusterLabels:
-        upgrade-version-4-20: ""
-      deleteObjects: true
-  clusters:
-  - test-cluster
-  enable: true
-  managedPolicies:
-    - core-upgrade-prep-20
-    - core-upgrade-ocp-20
-    - core-upgrade-olm-20
-    - core-upgrade-validate-20
-  remediationStrategy:
-    maxConcurrency: 1
-    timeout: 480
-  blockingCRs:
-  - name: upgrade-19
-    namespace: default
-```
+A CGU must not add the next stage's label, because the placement binding and
+policies take time to propagate and the following CGU can start before its
+policies are bound. Labelling up front is safe because each CGU names only
+its own stage's policies, and those names are unique per release.
 
-Release worker nodes:
-```
----
-apiVersion: ran.openshift.io/v1alpha1
-kind: ClusterGroupUpgrade
-metadata:
-  name: upgrade-finish
-  namespace: default
-spec:
-  clusters:
-  - test-cluster
-  enable: true
-  managedPolicies:
-    # These policies unpause the MCP
-    - core-upgrade-workers-1
-    - core-upgrade-workers-2
-    - core-upgrade-workers-3
-  remediationStrategy:
-    maxConcurrency: 1
-    timeout: 480
-  blockingCRs:
-  - name: upgrade-20
-    namespace: default
-```
+The double hop path needs both generations of upgrade policies present on
+the hub at once. The `-5-0` policies are rendered from the `release-5.0` branch
+of this repository and the `-5-1` policies from this branch, so point a second
+Argo CD policies Application at `release-5.0` before enabling the first hop.
 
-(Optional) In case you want to add pre-caching as a prestage step before the 
-standard upgrade CGUs, a typical CGU sequence run in a previous maintenance window
-would look similar to:
-
-```
----
-apiVersion: ran.openshift.io/v1alpha1
-kind: ClusterGroupUpgrade
-metadata:
-  name: upgrade-precache
-  namespace: default
-spec:
-  actions:
-    afterCompletion:
-      deleteObjects: true
-  clusters:
-  - test-cluster
-  enable: true
-  managedPolicies:
-    - core-upgrade-precache-controlplane-22
-    - core-upgrade-precache-worker-22
-  remediationStrategy:
-    maxConcurrency: 1
-    timeout: 480
-```
+See [examples/README.md](examples/README.md) for the full label reference.
 
 
 ## Contributing
