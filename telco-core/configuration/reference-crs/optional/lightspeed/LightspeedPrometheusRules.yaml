@@ -1,0 +1,66 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: lightspeed-alerts
+  namespace: openshift-lightspeed
+spec:
+  groups:
+    - name: ols.alerts
+      rules:
+        - alert: OLSAppServerDown
+          annotations:
+            summary: OLS application server is down.
+            description: >-
+              The OLS application server in namespace {{ $labels.namespace }}
+              has been unreachable for more than 5 minutes.
+          expr: up{job="lightspeed-app-server-monitor"} == 0
+          for: 5m
+          labels:
+            severity: critical
+        - alert: OLSLLMCallFailuresHigh
+          annotations:
+            summary: High rate of LLM call failures.
+            description: >-
+              More than 10% of LLM calls in namespace {{ $labels.namespace }}
+              have failed over the last 15 minutes.
+          expr: >-
+            rate(ols_llm_calls_failures_total[15m])
+            / rate(ols_llm_calls_total[15m]) > 0.1
+          for: 15m
+          labels:
+            severity: warning
+        - alert: OLS5xxErrorRateHigh
+          annotations:
+            summary: High rate of 5xx errors from OLS API.
+            description: >-
+              More than 5% of OLS REST API responses in namespace
+              {{ $labels.namespace }} returned 5xx status over the last 15 minutes.
+          expr: >-
+            rate(ols_rest_api_calls_total{status_code=~"5.."}[15m])
+            / rate(ols_rest_api_calls_total[15m]) > 0.05
+          for: 15m
+          labels:
+            severity: warning
+        - alert: OLSOperatorReconcileErrors
+          annotations:
+            summary: OLS operator reconciliation errors.
+            description: >-
+              The OLS operator controller-manager in namespace
+              {{ $labels.namespace }} is experiencing reconciliation errors.
+          expr: >-
+            rate(controller_runtime_reconcile_errors_total{job="controller-manager-metrics-monitor"}[15m]) > 0
+          for: 15m
+          labels:
+            severity: warning
+        - alert: OLSResponseLatencyHigh
+          annotations:
+            summary: OLS response latency is high.
+            description: >-
+              The 95th percentile response duration for OLS queries in
+              namespace {{ $labels.namespace }} exceeds 30 seconds.
+          expr: >-
+            histogram_quantile(0.95, rate(ols_response_duration_seconds_bucket[15m])) > 30
+          for: 15m
+          labels:
+            severity: warning

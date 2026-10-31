@@ -1,0 +1,9 @@
+---
+apiVersion: ols.openshift.io/v1alpha1
+kind: OLSConfig
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-30"
+  name: cluster
+spec:
+  {{ .spec | toYaml | indent 2 }}

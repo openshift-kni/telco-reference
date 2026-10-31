@@ -1,0 +1,10 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-30"
+  name: lightspeed-alerts
+  namespace: openshift-lightspeed
+spec:
+  {{ .spec | toYaml | indent 2 }}
