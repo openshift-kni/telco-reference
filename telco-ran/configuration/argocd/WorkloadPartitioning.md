@@ -22,7 +22,7 @@ spec:
 - Update PerformanceProfile in the PolicyGenerator CR. See the `PerformanceProfile-SetSelector` reference in [`ran-group-du-sno-templated.yaml`](../acmpolicygenerator/ran-group-du-sno-templated.yaml).
 - In this context we will look at [`reserved`](../acmpolicygenerator/ran-group-du-sno-templated.yaml#L128) in the PerformanceProfile spec
   - The value here is of CPU core numbers (e.g `0-3`) and is dependent on the hardware.
-- You can put the values as you see fit. But you can use "Performance Profile Creator" [tool](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html-single/scalability_and_performance/index#cnf-create-performance-profiles_cnf-tuning-low-latency-nodes-with-perf-profile) to assist with selecting cores in `reserved` to maximize the benefit and ensure correctness (see WARNING).
+- You can put the values as you see fit. But you can use "Performance Profile Creator" [tool](https://docs.redhat.com/en/documentation/openshift_container_platform/5.1/html-single/scalability_and_performance/index#cnf-create-performance-profiles_cnf-tuning-low-latency-nodes-with-perf-profile) to assist with selecting cores in `reserved` to maximize the benefit and ensure correctness (see WARNING).
   - look for `--reserved-cpu-count` when using Performance Profile Creator cli.
 - WARNING: PerformanceProfile's `reserved` and `isolated` must span ALL AVAILABLE CORES and not doing so will result in an undefined behaviour (generating it with tool above should take care of this behind-the-scenes)
 
@@ -45,5 +45,5 @@ ssh into the node (e.g `oc debug node/<NODE_NAME>` followed by `chroot /host`) a
 
 ## Additional readings
 
-- [Performance Profile](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/cnf-tuning-low-latency-nodes-with-perf-profile#cnf-telco-ran-reference-design-performance-profile-template_cnf-low-latency-perf-profile)
-- [Workload Partitioning in SNO](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/enabling-workload-partitioning#enabling-workload-partitioning_enabling-workload-partitioning)
+- [Performance Profile](https://docs.redhat.com/en/documentation/openshift_container_platform/5.1/html/scalability_and_performance/cnf-tuning-low-latency-nodes-with-perf-profile#cnf-telco-ran-reference-design-performance-profile-template_cnf-low-latency-perf-profile)
+- [Workload Partitioning in SNO](https://docs.redhat.com/en/documentation/openshift_container_platform/5.1/html/scalability_and_performance/enabling-workload-partitioning#enabling-workload-partitioning_enabling-workload-partitioning)
