@@ -12,7 +12,7 @@ spec:
       files:
         - contents:
             source: data:,
-          mode: 420
+          mode: 0644
           overwrite: true
           path: /etc/modprobe.d/sctp-blacklist.conf
         - contents:
@@ -26,6 +26,6 @@ spec:
               {{- end }}
             {{- end }}
             source: {{ $sctpData }}
-          mode: 420
+          mode: 0644
           overwrite: true
           path: /etc/modules-load.d/sctp-load.conf

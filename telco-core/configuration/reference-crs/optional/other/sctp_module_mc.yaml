@@ -1,5 +1,7 @@
 # optional
 # count: 1
+# Follows OpenShift Advanced networking: Enabling SCTP.
+# https://github.com/openshift/openshift-docs/blob/main/modules/nw-sctp-enabling.adoc
 ---
 apiVersion: machineconfiguration.openshift.io/v1
 kind: MachineConfig
@@ -14,12 +16,12 @@ spec:
     storage:
       files:
         - path: /etc/modprobe.d/sctp-blacklist.conf
-          mode: 420
+          mode: 0644
           overwrite: true
           contents:
             source: data:,
         - path: /etc/modules-load.d/sctp-load.conf
-          mode: 420
+          mode: 0644
           overwrite: true
           contents:
             source: data:,sctp
