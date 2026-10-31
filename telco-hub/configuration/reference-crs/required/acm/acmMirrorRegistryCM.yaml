@@ -31,13 +31,19 @@ data:
       prefix = ""
       location = "quay.io/openshift-release-dev/ocp-release"
       [[registry.mirror]]
-        location = "<registry.example.com:8443>/openshift-release-dev/ocp-release"
+        location = "<registry.example.com:8443>/openshift/release-images"
         pull-from-mirror = "digest-only"
     [[registry]]
       prefix = ""
       location = "quay.io/openshift-release-dev/ocp-v4.0-art-dev"
       [[registry.mirror]]
-        location = "<registry.example.com:8443>/openshift-release-dev/ocp-v4.0-art-dev"
+        location = "<registry.example.com:8443>/openshift/release"
+        pull-from-mirror = "digest-only"
+    [[registry]]
+      prefix = ""
+      location = "quay.io/openshift-release-dev/ocp-v5.0-art-dev"
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/openshift/release"
         pull-from-mirror = "digest-only"
     [[registry]]
       prefix = ""
@@ -50,6 +56,12 @@ data:
       location = "registry.redhat.io/odf4"
       [[registry.mirror]]
         location = "<registry.example.com:8443>/odf4"
+        pull-from-mirror = "digest-only"
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/odf5"
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/odf5"
         pull-from-mirror = "digest-only"
     [[registry]]
       prefix = ""
