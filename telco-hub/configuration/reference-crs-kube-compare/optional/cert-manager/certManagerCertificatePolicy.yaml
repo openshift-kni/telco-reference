@@ -18,8 +18,9 @@ spec:
           name: policy-monitor-certificates
         spec:
           minimumDuration: {{ .spec.minimumDuration | default "720h" }}
+          minimumCADuration: {{ .spec.minimumCADuration | default "2160h" }}
           namespaceSelector:
-            include:{{- template "unorderedListAllowExtra" (list .spec.namespaceSelector.include (list "openshift-ingress" "openshift-config") ) }}
+            include:{{- template "unorderedListAllowExtra" (list .spec.namespaceSelector.include (list "openshift-ingress" "openshift-config" "cert-manager") ) }}
           remediationAction: inform
           severity: low
   remediationAction: inform
