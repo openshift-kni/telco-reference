@@ -26,6 +26,8 @@ Reference install manifests live under `telco-ran/install/clusterinstance/extra-
     - extra-manifests/09-openshift-marketplace-ns.yaml
     - extra-manifests/10-rename-gnrd-interfaces-master.yaml
     - extra-manifests/10-rename-gnrd-interfaces-worker.yaml
+    - extra-manifests/99-enable-i2c-dev-master.yaml
+    - extra-manifests/99-enable-i2c-dev-worker.yaml
     - extra-manifests/99-sync-time-once-master.yaml
     - extra-manifests/99-sync-time-once-worker.yaml
     name: ran-extra-manifests-configmap

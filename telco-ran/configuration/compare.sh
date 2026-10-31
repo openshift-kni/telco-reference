@@ -19,6 +19,8 @@ compare_install_extra_manifests() {
     "08-set-rcu-normal-master.yaml:machine-config/set-rcu-normal/08-set-rcu-normal-master.yaml"
     "08-set-rcu-normal-worker.yaml:machine-config/set-rcu-normal/08-set-rcu-normal-worker.yaml"
     "09-openshift-marketplace-ns.yaml:cluster-tuning/09-openshift-marketplace-ns.yaml"
+    "99-enable-i2c-dev-master.yaml:machine-config/enable-i2c-dev/99-enable-i2c-dev-master.yaml"
+    "99-enable-i2c-dev-worker.yaml:machine-config/enable-i2c-dev/99-enable-i2c-dev-worker.yaml"
     "10-rename-gnrd-interfaces-master.yaml:machine-config/rename-gnrd-interfaces/10-rename-gnrd-interfaces-master.yaml"
     "10-rename-gnrd-interfaces-worker.yaml:machine-config/rename-gnrd-interfaces/10-rename-gnrd-interfaces-worker.yaml"
     "99-sync-time-once-master.yaml:machine-config/one-shot-time-sync/99-sync-time-once-master.yaml"
