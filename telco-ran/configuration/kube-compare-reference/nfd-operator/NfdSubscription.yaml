@@ -9,7 +9,7 @@ metadata:
 spec:
   channel: stable
   name: nfd
-  source: nfd-operators
+  source: {{ .spec.source }}
   sourceNamespace: openshift-marketplace
   installPlanApproval: Manual
 status:

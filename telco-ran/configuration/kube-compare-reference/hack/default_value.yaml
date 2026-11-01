@@ -1013,7 +1013,3 @@ global:
           labels:
             kubernetes.io/arch: any
         spec: spec
-
-nfd_operator_NfdCatalogSource:
-  - spec:
-      image: registry.example.com/openshift-marketplace/nfd-operators:v5.1

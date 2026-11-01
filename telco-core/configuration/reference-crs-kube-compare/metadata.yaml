@@ -212,9 +212,6 @@ parts:
     components:
       - name: nfd
         allOrNoneOf:
-          - path: optional/nfd/NfdCatalogSource.yaml
-            config:
-              ignore-unspecified-fields: true
           - path: optional/nfd/NfdSubscriptionNS.yaml
           - path: optional/nfd/NfdSubscriptionOperGroup.yaml
             config:
