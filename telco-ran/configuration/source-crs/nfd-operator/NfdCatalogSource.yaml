@@ -1,0 +1,17 @@
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: nfd-operators
+  namespace: openshift-marketplace
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "1"
+spec:
+  sourceType: grpc
+  # Replace with the customer's mirrored NFD catalog image.
+  image: registry.example.com/openshift-marketplace/nfd-operators:v5.1
+  displayName: Node Feature Discovery
+  publisher: Red Hat
+  updateStrategy:
+    registryPoll:
+      interval: 1h

@@ -38,6 +38,11 @@ policies:
         spec:
           displayName: disconnected-redhat-operators
           image: registry.example.com:5000/disconnected-redhat-operators/disconnected-redhat-operator-index:v5.1
+    # Optional: dedicated NFD catalog, when it is not in the shared catalog.
+    # - path: source-crs/nfd-operator/NfdCatalogSource.yaml
+    #   patches:
+    #   - spec:
+    #       image: registry.example.com/openshift-marketplace/nfd-operators:v5.1
     - path: source-crs/disconnected-registry/DisconnectedIDMS.yaml
       patches:
       - spec:
@@ -72,6 +77,13 @@ policies:
     - path: source-crs/storage-lso/StorageOperGroup.yaml
     - path: source-crs/storage-lso/StorageSubscription.yaml
     - path: source-crs/storage-lso/StorageOperatorStatus.yaml
+    # Optional: shared NFD for NVIDIA GPUs and ConnectX-8 NICs.
+    # Enable the NFD catalog above or patch the Subscription to use an existing
+    # catalog containing nfd/stable. Configure discovery in the group policy.
+    # - path: source-crs/nfd-operator/NfdSubscriptionNS.yaml
+    # - path: source-crs/nfd-operator/NfdSubscriptionOperGroup.yaml
+    # - path: source-crs/nfd-operator/NfdSubscription.yaml
+    # - path: source-crs/nfd-operator/NfdOperatorStatus.yaml
     #
     # LCA operator is used for orchestrating Image Based Upgrade for SNO
     # - path: source-crs/lca/LcaSubscriptionNS.yaml

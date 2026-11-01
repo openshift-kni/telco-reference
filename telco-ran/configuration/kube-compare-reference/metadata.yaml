@@ -82,6 +82,24 @@ parts:
                 - subscriptions
           - path: lca/LcaSubscriptionNS.yaml
           - path: lca/LcaSubscriptionOperGroup.yaml
+  - name: optional-nfd
+    description: |-
+      Shared Node Feature Discovery for NVIDIA GPUs and ConnectX-8 NICs.
+    components:
+      - name: nfd
+        allOrNoneOf:
+          - path: nfd-operator/NfdCatalogSource.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: nfd-operator/NfdSubscriptionNS.yaml
+          - path: nfd-operator/NfdSubscriptionOperGroup.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: nfd-operator/NfdSubscription.yaml
+            config:
+              fieldsToOmitRefs:
+                - subscriptions
+          - path: nfd-operator/NodeFeatureDiscovery.yaml
   - name: optional-nmstate-operator
     description: |-
       The nmstate operator is only used in multinode clusters when required by IPSec:

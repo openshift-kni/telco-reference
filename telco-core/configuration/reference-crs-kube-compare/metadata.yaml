@@ -206,6 +206,21 @@ parts:
         allOf:
           - path: optional/other/mount_namespace_config_master.yaml
           - path: optional/other/mount_namespace_config_worker.yaml
+  - name: optional-nfd
+    description: |-
+      Shared Node Feature Discovery for NVIDIA GPUs and ConnectX-8 NICs.
+    components:
+      - name: nfd
+        allOrNoneOf:
+          - path: optional/nfd/NfdCatalogSource.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: optional/nfd/NfdSubscriptionNS.yaml
+          - path: optional/nfd/NfdSubscriptionOperGroup.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: optional/nfd/NfdSubscription.yaml
+          - path: optional/nfd/NodeFeatureDiscovery.yaml
   - name: optional-cert-manager
     description: |-
       Cert-manager operator for automated certificate management
