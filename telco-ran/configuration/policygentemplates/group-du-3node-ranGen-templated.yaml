@@ -18,6 +18,9 @@ spec:
   # the Performance Profile needs to be set up to apply to the master MCP:
   mcp: "master"
   sourceFiles:
+    # Optional: enable with the NFD installation resources in common-ranGen.yaml.
+    # - fileName: nfd-operator/NodeFeatureDiscovery.yaml
+    #   policyName: "group-du-3nc-cfg-pc"
     #######################
     # group-du-3nc-cfg-pc #
     #######################
