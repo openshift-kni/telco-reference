@@ -2,15 +2,19 @@
 aliases:
   telco-reference-approvers:
     - MarSik
+    - browsell
     - imiller0
     - irinamihai
+    - javierpena
     - lack
   telco-reference-reviewers:
     - MarSik
+    - browsell
     - yanirq
     - ffromani
     - imiller0
     - irinamihai
+    - javierpena
     - lack
     - SchSeba
     - fedepaol
