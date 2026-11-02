@@ -9,7 +9,7 @@ metadata:
 spec:
   channel: stable
   name: nfd
-  source: {{ .spec.source }}
+  source: redhat-operators-disconnected
   sourceNamespace: openshift-marketplace
   installPlanApproval: Manual
 status:
