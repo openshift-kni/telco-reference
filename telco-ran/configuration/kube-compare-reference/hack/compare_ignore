@@ -101,3 +101,5 @@ machine-config/container-runtime.yaml
 
 # Platform check only, not included in source-crs
 platform/infrastructure.yaml
+
+nvidia-gpu-operator/NvidiaGpuOperatorStatus.yaml
