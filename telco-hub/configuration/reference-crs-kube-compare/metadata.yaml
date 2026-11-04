@@ -13,6 +13,11 @@ parts:
               ignore-unspecified-fields: true
               fieldsToOmitRefs:
                 - allowStatusCheck
+  - name: required-networking
+    components:
+      - name: networking-iptables-alerter
+        allOf:
+          - path: required/networking/IptablesAlerterConfig.yaml
   - name: optional-cert-manager
     components:
       - name: cert-manager-operator
