@@ -99,6 +99,9 @@ parts:
           - path: optional/networking/firewall/node-disruption-policy.yaml
             config:
               ignore-unspecified-fields: true
+      - name: networking-iptables-alerter
+        allOf:
+          - path: required/networking/IptablesAlerterConfig.yaml
   - name: required-other
     components:
       - name: disconnected-registry

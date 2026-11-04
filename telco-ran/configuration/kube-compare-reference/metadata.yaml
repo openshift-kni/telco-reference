@@ -66,6 +66,7 @@ parts:
           - path: cluster-tuning/operator-hub/DefaultCatsrc.yaml
           - path: cluster-tuning/09-openshift-marketplace-ns.yaml
           - path: cluster-tuning/operator-hub/DisconnectedIDMS.yaml
+          - path: cluster-tuning/iptables-alerter/IptablesAlerterConfig.yaml
       - name: optional-cluster-tuning
         anyOf:
           - path: cluster-tuning/operator-hub/OperatorHub.yaml
