@@ -74,8 +74,6 @@ policies:
       ran.openshift.io/soak-seconds: "60"
     manifests:
       # Optional: enable for clusters using NFD from core-baseline.yaml.
-      # Include its Manual Subscription so TALM can approve its InstallPlan
-      # before the final validator checks all Subscriptions for AtLatestKnown.
       # - path: reference-crs/optional/nfd/NfdSubscription.yaml
       - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
         patches:

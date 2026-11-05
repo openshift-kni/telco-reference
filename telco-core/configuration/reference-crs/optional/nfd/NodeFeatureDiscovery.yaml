@@ -8,7 +8,7 @@ spec:
   # Share this instance between GPU and Network Operators on each cluster.
   operand:
     # Use the operand image supplied by the installed Red Hat NFD Operator.
-    imagePullPolicy: IfNotPresent
+    imagePullPolicy: Always
     servicePort: 12000
   topologyUpdater: false
   workerConfig:

@@ -51,8 +51,6 @@ spec:
       policyName: "subscriptions-policy"
     #
     # Optional: shared NFD for NVIDIA GPUs and ConnectX-8 NICs.
-    # Mirror nfd/stable in the shared Red Hat catalog and enable discovery
-    # in the applicable group PolicyGenTemplate.
     # - fileName: nfd-operator/NfdSubscriptionNS.yaml
     #   policyName: "subscriptions-policy"
     # - fileName: nfd-operator/NfdSubscriptionOperGroup.yaml
