@@ -154,4 +154,4 @@ check-reference-ran:
 
 .PHONY: check-reference-hub
 check-reference-hub:
-	$(MAKE) -C ./telco-hub/configuration/reference-crs-kube-compare check
+	$(MAKE) -C ./telco-hub/configuration/kube-compare-reference check
