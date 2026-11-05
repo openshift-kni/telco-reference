@@ -13,7 +13,7 @@ This repository contains reference design specifications (RDS) for OpenShift tel
 The three references share a common `configuration/` layout:
 
 - `reference-crs/`: Deployable manifests
-- `reference-crs-kube-compare/`: Template versions with variables for validation
+- `kube-compare-reference/`: Template versions with variables for validation
 - `acmpolicygenerator/`: ACM PolicyGenerator CRs
 - `argocd/deployment/` and `argocd/example/`: GitOps app-of-apps/RBAC and
   user-facing examples (overlays, cluster-install examples)
@@ -29,10 +29,12 @@ these symlinks, so shipped content is byte-for-byte unchanged.
 
 Documented, reference-specific exceptions (no cross-reference analog):
 
-- **telco-ran** keeps `kube-compare-reference/` (its templates are not renamed
-  to `reference-crs-kube-compare/`), and `source-crs/` remains as a
-  compatibility symlink to `reference-crs/` for the ztp-site-generate pipeline.
-  `policygentemplates/` and `install/extra-manifests-builder/` are RAN-only.
+- **telco-ran** keeps `source-crs/` as a compatibility symlink to
+  `reference-crs/` for the ztp-site-generate pipeline. `policygentemplates/`
+  and `install/extra-manifests-builder/` are RAN-only. (The shared
+  `kube-compare-reference/` name is now used by all three references; telco-core
+  and telco-hub keep a `reference-crs-kube-compare/` compatibility symlink at
+  the previous path.)
 - **telco-core** places its `ns.yaml` and the generated `schema.openapi`
   under `acmpolicygenerator/` (as in telco-ran); backwards-compatibility
   symlinks at the `configuration/` root keep the shared schema tooling working.
