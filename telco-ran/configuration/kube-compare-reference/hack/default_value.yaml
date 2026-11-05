@@ -900,7 +900,7 @@ cluster_tuning_operator_hub_DefaultCatsrc:
       image: $imageUrl
 cluster_tuning_operator_hub_DisconnectedIDMS:
   - metadata:
-      name: fec-disconnected-idms
+      name: disconnected-idms
     spec: {}
 cluster_tuning_monitoring_configuration_ReduceMonitoringFootprint:
   - metadata:
