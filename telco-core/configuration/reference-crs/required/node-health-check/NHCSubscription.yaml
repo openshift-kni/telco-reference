@@ -1,0 +1,16 @@
+# required
+# count: 1
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: node-healthcheck-operator
+  namespace: openshift-workload-availability
+spec:
+  channel: "stable"
+  name: node-healthcheck-operator
+  source: redhat-operators-disconnected
+  sourceNamespace: openshift-marketplace
+  installPlanApproval: Manual
+status:
+  state: AtLatestKnown
