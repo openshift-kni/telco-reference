@@ -1,0 +1,23 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../reference-crs/optional/external-secrets/
+
+patches:
+  # Customize ClusterSecretStore for your secret store backend
+  - target:
+      group: external-secrets.io
+      version: v1
+      kind: ClusterSecretStore
+      name: ztp-secret-provider
+    path: cluster-secret-store-patch.yaml
+
+  # Customize NetworkPolicy target for your secret store namespace/port
+  - target:
+      group: networking.k8s.io
+      version: v1
+      kind: NetworkPolicy
+      name: allow-secret-store-egress
+    path: network-policy-patch.yaml
