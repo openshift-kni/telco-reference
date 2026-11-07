@@ -30,6 +30,14 @@
 
     [[registry]]
       prefix = ""
+      location = "quay.io/openshift-release-dev/ocp-v5.0-art-dev"
+
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/openshift/release"
+        pull-from-mirror = "digest-only"
+
+    [[registry]]
+      prefix = ""
       location = "registry.redhat.io/multicluster-engine"
 
       [[registry.mirror]]
@@ -42,6 +50,14 @@
 
       [[registry.mirror]]
         location = "<registry.example.com:8443>/odf4"
+        pull-from-mirror = "digest-only"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/odf5"
+
+      [[registry.mirror]]
+        location = "<registry.example.com:8443>/odf5"
         pull-from-mirror = "digest-only"
 
     [[registry]]
