@@ -8,8 +8,8 @@ checkInstallExtraManifests:
 
 checkSourceCRsAnnotation:
 	@failures=0; \
-	 echo 'Checking for ztp-deploy-wave in source-crs/**/*.yaml:';\
-	for sourcefile in $$(find ./source-crs/ -name '*.yaml'); do \
+	 echo 'Checking for ztp-deploy-wave in reference-crs/**/*.yaml:';\
+	for sourcefile in $$(find ./reference-crs/ -name '*.yaml'); do \
 		echo -n "  $${sourcefile}: "; \
 		case "$${sourcefile}" in \
 			*/optional-extra-manifest/* | \
@@ -38,7 +38,7 @@ ZTP_HOME=/home/ztp/
 checkFilePath:
 	@failures=0; \
 	echo 'Checking for filename path length in $(CUSTOM_RESOURCE):'; \
-	for cr in $(shell find $(CUSTOM_RESOURCE) -type f); do \
+	for cr in $(shell find $(CUSTOM_RESOURCE)/ -type f); do \
 		path="${ZTP_HOME}$$cr"; \
 		echo -n "  $$path: "; \
 		path_length=$$(echo -n $$path | wc -c); \
@@ -55,7 +55,7 @@ checkFilePath:
 # This limitation comes from the ISO9660 standard with Rock Ridge extensions.
 # Related Issue: https://issues.redhat.com/browse/OCPBUGS-48244
 checkZtpPaths:
-	$(MAKE) CUSTOM_RESOURCE=source-crs checkFilePath
+	$(MAKE) CUSTOM_RESOURCE=reference-crs checkFilePath
 	$(MAKE) CUSTOM_RESOURCE=argocd checkFilePath
 	$(MAKE) CUSTOM_RESOURCE=kube-compare-reference checkFilePath
 
