@@ -1013,3 +1013,13 @@ global:
           labels:
             kubernetes.io/arch: any
         spec: spec
+
+nvidia_gpu_operator_ClusterPolicy:
+  - spec:
+      driver:
+        repository: registry.example.com:5000/nvidia
+        version: 610.57.04
+
+nvidia_gpu_operator_NvidiaGpuCatalogSource:
+  - spec:
+      image: registry.example.com:5000/openshift-marketplace/certified-operators-disconnected:v4.22
