@@ -44,58 +44,72 @@ mirror:
       defaultChannel: stable-4.21
       channels:
       - name: stable-4.21
+      - name: stable-4.20
     - name: odf-external-snapshotter-operator
       defaultChannel: stable-4.21
       channels:
       - name: stable-4.21
+      - name: stable-4.20
     - name: odf-dependencies
       defaultChannel: stable-4.21
       channels:
       - name: stable-4.21
+      - name: stable-4.20
     - name: odf-csi-addons-operator
       defaultChannel: stable-4.21
       channels:
       - name: stable-4.21
+      - name: stable-4.20
     - name: ocs-client-operator
       defaultChannel: stable-4.21
       channels:
       - name: stable-4.21
+      - name: stable-4.20
     - name: cephcsi-operator
       defaultChannel: stable-4.21
       channels:
       - name: stable-4.21
+      - name: stable-4.20
     - name: odf-prometheus-operator
       defaultChannel: stable-4.21
       channels:
       - name: stable-4.21
+      - name: stable-4.20
     - name: odf-multicluster-orchestrator
       defaultChannel: stable-4.21
       channels:
       - name: stable-4.21
+      - name: stable-4.20
     - name: ocs-operator
       defaultChannel: stable-4.21
       channels:
       - name: stable-4.21
+      - name: stable-4.20
     - name: rook-ceph-operator
       defaultChannel: stable-4.21
       channels:
       - name: stable-4.21
+      - name: stable-4.20
     - name: mcg-operator
       defaultChannel: stable-4.21
       channels:
       - name: stable-4.21
+      - name: stable-4.20
     - name: odr-hub-operator
       defaultChannel: stable-4.21
       channels:
       - name: stable-4.21
+      - name: stable-4.20
     - name: odr-cluster-operator
       defaultChannel: stable-4.21
       channels:
       - name: stable-4.21
+      - name: stable-4.20
     - name: recipe
       defaultChannel: stable-4.21
       channels:
       - name: stable-4.21
+      - name: stable-4.20
     - name: openshift-cert-manager-operator
       defaultChannel: stable-v1
       channels:
