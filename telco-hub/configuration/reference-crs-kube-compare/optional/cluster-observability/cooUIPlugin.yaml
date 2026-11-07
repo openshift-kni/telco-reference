@@ -1,0 +1,22 @@
+---
+# UIPlugin enables the Monitoring console plugin with RHACM integration.
+# Requires Cluster Observability Operator and ACM Observability to be installed.
+apiVersion: observability.openshift.io/v1alpha1
+kind: UIPlugin
+metadata:
+  name: monitoring
+  annotations:
+    # Deploy after cluster-observability-operator is ready
+    argocd.argoproj.io/sync-wave: "-30"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  type: Monitoring
+  monitoring:
+    acm:
+      enabled: true
+      alertmanager:
+        url: 'https://alertmanager.open-cluster-management-observability.svc:9095'
+      thanosQuerier:
+        url: 'https://rbac-query-proxy.open-cluster-management-observability.svc:8443'
+    clusterHealthAnalyzer:
+      enabled: true
