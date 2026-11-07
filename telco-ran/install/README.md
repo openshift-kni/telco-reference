@@ -7,7 +7,7 @@ Reference install-time manifests for Telco RAN clusters using
 
 - `extra-manifests-builder/` — renders reference MachineConfig CRs into `clusterinstance/extra-manifests/`
 - `clusterinstance/extra-manifests/` — reference MachineConfig and related CRs applied at cluster install
-- `clusterinstance/custom-manifests/` — optional manifests you add when needed
+- `clusterinstance/extra-manifests/optional/` — opt-in manifests you add when needed
 - `clusterinstance/` — example ClusterInstance CRs; `install/kustomization.yaml` builds the install ConfigMap
 
 Reference MachineConfig CRs are rendered into `clusterinstance/extra-manifests/` by

@@ -26,6 +26,8 @@ configMapGenerator:
   - extra-manifests/10-rename-gnrd-interfaces-worker.yaml
   - extra-manifests/99-sync-time-once-master.yaml
   - extra-manifests/99-sync-time-once-worker.yaml
+  # - extra-manifests/optional/10-hpe-ice-phys-port-name-kernel-master.yaml
+  # - extra-manifests/optional/10-hpe-ice-phys-port-name-kernel-worker.yaml
   name: sno-extra-manifest-configmap
   namespace: example-ai-sno
 generatorOptions:
