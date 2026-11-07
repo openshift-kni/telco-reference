@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    # Allow NFD pods to use the management CPU partition. The NFD Operator's
+    # deployment and operand pod templates must also set:
+    # target.workload.openshift.io/management: '{"effect": "PreferredDuringScheduling"}'
+    # This namespace annotation alone does not pin pods to management CPUs.
+    workload.openshift.io/allowed: management
+    ran.openshift.io/ztp-deploy-wave: "2"
+  name: openshift-nfd
+  labels:
+    openshift.io/cluster-monitoring: "true"

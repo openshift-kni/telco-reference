@@ -19,6 +19,9 @@ spec:
     hardware-type: "hw-type-platform-1"
   mcp: "master"
   sourceFiles:
+    # Optional: enable with the NFD installation resources in common-ranGen.yaml.
+    # - fileName: nfd-operator/NodeFeatureDiscovery.yaml
+    #   policyName: "gr-du-sno-cfg-pc-templated"
     ##############################
     # gr-du-sno-cfg-pc-templated #
     ##############################
