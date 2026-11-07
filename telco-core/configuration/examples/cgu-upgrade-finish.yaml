@@ -1,0 +1,69 @@
+---
+# Release the worker MachineConfigPools after the final control plane upgrade,
+# and clean up the pre-caching PinnedImageSet CRs.
+#
+# Target clusters carry common=core and upgrade-finish="". That label is
+# applied up front alongside the other stage labels, not added by the
+# preceding CGU.
+#
+# Each core-upgrade-workers-N policy unpauses one worker MCP in turn, so the
+# nodes in that pool cordon, drain and reboot while the other pools continue to
+# carry workload. Policies are remediated in the order listed.
+apiVersion: ran.openshift.io/v1alpha1
+kind: ClusterGroupUpgrade
+metadata:
+  name: core-upgrade-finish
+  namespace: default
+spec:
+  clusterLabelSelectors:
+    - matchLabels:
+        common: "core"
+        upgrade-finish: ""
+  enable: true
+  managedPolicies:
+    - core-upgrade-workers-1
+    - core-upgrade-workers-2
+    - core-upgrade-workers-3
+    # Removes the PinnedImageSet CRs created by the pre-caching policies. These
+    # manifests use complianceType mustnothave, so this policy is compliant --
+    # and this step a no-op -- when pre-caching was not used.
+    - core-upgrade-precache-cleanup-5-1
+  actions:
+    afterCompletion:
+      deleteObjects: true
+  remediationStrategy:
+    maxConcurrency: 1
+    timeout: 480
+---
+# Restore the steady state maxUnavailable on the worker MachineConfigPools.
+#
+# This is a separate CGU on purpose. core-upgrade-workers-N enforces
+# maxUnavailable: 100% and core-custom-mcp-restore-maxavailable-5-1 enforces
+# maxUnavailable: 1. TALM keeps every policy in a CGU enforced for the lifetime
+# of that CGU, so placing both in one CGU leaves the two policies fighting over
+# the same field. Chaining with blockingCRs lets the first CGU delete its
+# enforced copies before this one begins.
+apiVersion: ran.openshift.io/v1alpha1
+kind: ClusterGroupUpgrade
+metadata:
+  name: core-upgrade-restore-maxunavailable
+  namespace: default
+spec:
+  clusterLabelSelectors:
+    - matchLabels:
+        common: "core"
+        upgrade-finish: ""
+  enable: true
+  managedPolicies:
+    - core-custom-mcp-restore-maxavailable-5-1
+  actions:
+    afterCompletion:
+      removeClusterLabels:
+        - upgrade-finish
+      deleteObjects: true
+  remediationStrategy:
+    maxConcurrency: 1
+    timeout: 240
+  blockingCRs:
+    - name: core-upgrade-finish
+      namespace: default

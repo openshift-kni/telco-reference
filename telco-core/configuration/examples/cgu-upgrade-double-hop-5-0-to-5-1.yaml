@@ -1,0 +1,81 @@
+---
+# Double hop upgrade: two control plane upgrades with the worker
+# MachineConfigPools held paused across both, followed by a single worker
+# update driven by cgu-upgrade-finish.yaml.
+#
+# Note that 5.0 and 5.1 are not EUS/ELC releases, so this particular example is
+# not an EUS upgrade. It is the same pattern one uses: when the final release
+# of the chain is an EUS/ELC release, this is how that upgrade is orchestrated.
+#
+# This requires BOTH generations of upgrade policies to be present on the hub
+# at the same time:
+#   core-upgrade-*-5-0  rendered from the release-5.0 branch of this repository
+#   core-upgrade-*-5-1  rendered from this branch
+# Point a second Argo CD policies Application at the release-5.0 branch, or
+# apply the 5.0 PolicyGenerator output manually, before enabling hop 1.
+#
+# Apply every stage label to the ManagedCluster before starting. Each CGU then
+# removes only its own label on completion; a CGU must not add the next
+# stage's label, because the placement binding and policies take time to
+# propagate and the following CGU can start before its policies are bound.
+#
+#   oc label managedcluster <cluster> \
+#     upgrade-version-5-0= upgrade-version-5-1= upgrade-finish=
+#
+# Hop 1: upgrade the control plane to 5.0.
+apiVersion: ran.openshift.io/v1alpha1
+kind: ClusterGroupUpgrade
+metadata:
+  name: core-upgrade-5-0
+  namespace: default
+spec:
+  clusterLabelSelectors:
+    - matchLabels:
+        common: "core"
+        upgrade-version-5-0: ""
+  enable: true
+  managedPolicies:
+    - core-upgrade-prep-5-0
+    - core-upgrade-ocp-5-0
+    - core-upgrade-olm-5-0
+    - core-upgrade-validate-5-0
+  actions:
+    afterCompletion:
+      # Drop this stage's label only. The hop 2 and finish labels are already
+      # on the cluster. The workers stay paused between hops:
+      # core-upgrade-prep-5-1 re-asserts paused=true before hop 2 starts.
+      removeClusterLabels:
+        - upgrade-version-5-0
+      deleteObjects: true
+  remediationStrategy:
+    maxConcurrency: 1
+    timeout: 480
+---
+# Hop 2: upgrade the control plane to 5.1. Blocked until hop 1 completes.
+apiVersion: ran.openshift.io/v1alpha1
+kind: ClusterGroupUpgrade
+metadata:
+  name: core-upgrade-5-1
+  namespace: default
+spec:
+  clusterLabelSelectors:
+    - matchLabels:
+        common: "core"
+        upgrade-version-5-1: ""
+  enable: true
+  managedPolicies:
+    - core-upgrade-prep-5-1
+    - core-upgrade-ocp-5-1
+    - core-upgrade-olm-5-1
+    - core-upgrade-validate-5-1
+  actions:
+    afterCompletion:
+      removeClusterLabels:
+        - upgrade-version-5-1
+      deleteObjects: true
+  remediationStrategy:
+    maxConcurrency: 1
+    timeout: 480
+  blockingCRs:
+    - name: core-upgrade-5-0
+      namespace: default
