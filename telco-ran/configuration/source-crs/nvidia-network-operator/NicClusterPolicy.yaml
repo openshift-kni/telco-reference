@@ -11,6 +11,10 @@ spec:
     image: doca-driver-rhel10
     version: sha256:02792cf44b818d2f1bb319a3df5907c4510331318e2add0152e723a5013050cf
     forcePrecompiled: true
+    # Verify RDMA storage is unused before allowing its modules to unload.
+    env:
+      - name: UNLOAD_STORAGE_MODULES
+        value: "true"
     terminationGracePeriodSeconds: 300
     startupProbe:
       initialDelaySeconds: 10
