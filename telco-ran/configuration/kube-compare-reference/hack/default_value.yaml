@@ -1018,7 +1018,7 @@ nvidia_gpu_operator_ClusterPolicy:
   - spec:
       driver:
         repository: registry.example.com:5000/nvidia
-        version: 610.57.04
+        version: 595.91.07
 
 nvidia_gpu_operator_NvidiaGpuCatalogSource:
   - spec:

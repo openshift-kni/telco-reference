@@ -48,7 +48,7 @@ spec:
     usePrecompiled: true
     repository: registry.example.com:5000/nvidia
     image: gpu-driver-rhel10
-    version: 610.57.04
+    version: 595.91.07
   dcgmExporter:
     enabled: true
     config:
