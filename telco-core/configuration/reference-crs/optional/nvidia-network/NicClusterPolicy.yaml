@@ -1,0 +1,27 @@
+---
+apiVersion: mellanox.com/v1alpha1
+kind: NicClusterPolicy
+metadata:
+  name: nic-cluster-policy
+spec:
+  ofedDriver:
+    repository: registry.example.com:5000/nvidia
+    image: doca-driver-rhel10
+    version: sha256:02792cf44b818d2f1bb319a3df5907c4510331318e2add0152e723a5013050cf
+    forcePrecompiled: true
+    terminationGracePeriodSeconds: 300
+    startupProbe:
+      initialDelaySeconds: 10
+      periodSeconds: 20
+    livenessProbe:
+      initialDelaySeconds: 30
+      periodSeconds: 30
+    readinessProbe:
+      initialDelaySeconds: 10
+      periodSeconds: 30
+  docaTelemetryService:
+    repository: nvcr.io/nvidia/doca
+    image: doca_telemetry
+    version: sha256:3ec2bb66428e5a6c7137ed9680c03dba03618b03521d92bdcbdb2d7e2e53e029
+status:
+  state: ready
