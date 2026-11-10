@@ -14,6 +14,8 @@ Backwards-compatibility symlinks are kept at the previous top-level paths
 (`extra-manifests`, `custom-manifests`,
 `example-standard-clusterinstance.yaml`) so existing consumers and the
 extracted container payload continue to resolve the old locations unchanged.
+These compatibility symlinks are transitional and will be removed in a future
+release; consumers should migrate to the `clusterinstance/` paths.
 
 The contents fall into 3 categories. Each of these are described in more
 detail in the following sections:

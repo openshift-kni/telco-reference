@@ -1,5 +1,5 @@
 ---
 # The PolicyGenerator CRs, namespaces, and template-values are owned by the
-# self-contained acmpolicygenerator/ kustomization (aligned with telco-ran).
+# self-contained acmpolicygenerator/ kustomization.
 resources:
   - acmpolicygenerator
