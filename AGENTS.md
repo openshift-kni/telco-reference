@@ -40,7 +40,15 @@ Documented, reference-specific exceptions (no cross-reference analog):
   symlinks at the `configuration/` root keep the shared schema tooling working.
 - **telco-hub** `install/` installs the *hub* cluster (`mirror-registry/`,
   `openshift/`) — a different function from the managed-cluster
-  `install/clusterinstance/` — and has no `template-values/`.
+  `install/clusterinstance/` — and has no `template-values/`. Its GitOps
+  Applications live in the reference tree at
+  `reference-crs/required/gitops-apps/` (a peer of the GitOps infrastructure in
+  `reference-crs/required/gitops/`); backwards-compatibility symlinks at
+  `argocd/deployment` and `reference-crs/required/gitops/ztp-installation` keep
+  the previous paths working. Per-hub ArgoCD overlays live under
+  `argocd/example/overlays/<openshift-cluster-name>/` (the reference example
+  uses `overlays/hub/`), with a compatibility symlink at
+  `argocd/example/overlays-config`.
 
 ## Version Updates
 
