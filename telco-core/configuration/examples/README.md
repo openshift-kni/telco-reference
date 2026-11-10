@@ -56,6 +56,13 @@ name in both `cgu-upgrade.yaml` and the final hop of
 block on one name regardless of the path taken. If you rename either, rename
 both and update the `blockingCRs` in the finish CGU.
 
+Within `core-upgrade-5-1`, `core-overlay-registry-5-1` (catalog source and
+IDMS/ITMS for the current release) runs first, before anything is paused. In
+the double hop it also runs in `core-upgrade-5-0` for the same reason --
+completing the upgrade typically needs the final target's updated IDMS, not
+an intermediate one -- see the comments in `cgu-upgrade-double-hop.yaml` and
+`core-overlay.yaml`.
+
 ## Cluster labels
 
 The CGUs select clusters by label. The labels match the placements in the
@@ -64,7 +71,7 @@ upgrade PolicyGenerators:
 | Label | Selects |
 |-------|---------|
 | `common: core` | All core clusters. Set at install time, see `install/example-standard-clusterinstance.yaml`. |
-| `version: "5.1"` | The current release's configuration policies, including `core-custom-mcp-set-maxavailable-5-1` in `core-finish.yaml`. |
+| `version: "5.1"` | The current release's configuration policies, including `core-overlay-registry-5-1` in `core-overlay.yaml` and `core-custom-mcp-set-maxavailable-5-1` in `core-finish.yaml`. |
 | `upgrade-precache: ""` | `core-upgrade-precache.yaml` policies. Version independent. |
 | `upgrade-version-5-1: ""` | `core-upgrade-policies.yaml` policies for the 5.1 hop. |
 | `upgrade-version-5-0: ""` | The same policies from the `release-5.0` branch, for the first hop of a double hop. |
@@ -106,10 +113,20 @@ policies from this branch. Point a second Argo CD policies Application at
 `release-5.0`, or apply that branch's PolicyGenerator output manually, before
 starting the first hop.
 
-That second Application must render **only** `core-upgrade-policies.yaml` from
-`release-5.0`. The rest of that branch, in particular its MCP and finish
-policies, uses the same policy names in the same `ztp-core-policies` namespace
-and would collide with this branch's copies.
+That second Application must render **only** the previous release's upgrade
+policy generator -- `core-upgrade-policies.yaml`, or `core-upgrade.yaml` on a
+branch cut before that file was split out -- not its full `configuration/`
+tree. The worker-release policies (`core-upgrade-workers-N`) are deliberately
+not version-suffixed, the same on every release branch by design, so
+rendering the previous branch's copy of those would collide with this
+branch's in the same `ztp-core-policies` namespace.
+
+Hop 1 uses `release-5.0`'s `core-upgrade-prep-5-0` unmodified for the control
+plane steps, but also enforces this branch's `core-overlay-registry-5-1`
+first, since completing the upgrade typically needs the final target's
+updated IDMS rather than an intermediate one. See the note in
+`cgu-upgrade-double-hop.yaml` for the rarer case where the workers genuinely
+need different IDMS content between the two hops.
 
 See the "Orchestrating upgrade" section of [../README.md](../README.md) for the
 full procedure.

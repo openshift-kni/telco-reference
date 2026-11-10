@@ -14,20 +14,7 @@ policyDefaults:
   remediationAction: "inform"
 policies:
   - name: core-upgrade-prep-5-1
-    policyAnnotations:
-      # Updates to the catalogsource take a few seconds to propagate
-      # to the status. The soak seconds gives time for that
-      # propagation to occur
-      ran.openshift.io/soak-seconds: "30"
     manifests:
-      # Update catalogsource to point to latest versions
-      - path: reference-crs/required/other/catalog-source.yaml
-        patches:
-        - spec:
-            image: registry.redhat.io/redhat/redhat-operator-index:v5.1
-        - status:
-            connectionState:
-              lastObservedState: READY
       # Provide the required acknowledgement of the upgrade. This
       # assumes that the verification has been done during planning
       # lab/certification phase of project

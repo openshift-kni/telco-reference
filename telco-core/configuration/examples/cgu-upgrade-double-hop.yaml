@@ -20,6 +20,15 @@
 # starting, and for why the CGUs must not add each other's labels.
 #
 # Hop 1: upgrade the control plane to 5.0.
+#
+# core-overlay-registry-5-1 runs first, ahead of hop 1's own release-5.0
+# content. Completing the upgrade typically needs the final target's updated
+# IDMS, not an intermediate one, and that update needs to reach every node,
+# including the worker MCPs, before they are paused for the rest of the
+# double hop. It is safe to enforce here even though the rest of this CGU is
+# from the prior release: core-overlay-registry-5-1 is already bound via its
+# own version label (see "version" in examples/README.md) from the start of
+# the upgrade.
 apiVersion: ran.openshift.io/v1alpha1
 kind: ClusterGroupUpgrade
 metadata:
@@ -32,6 +41,7 @@ spec:
         upgrade-version-5-0: ""
   enable: true
   managedPolicies:
+    - core-overlay-registry-5-1
     - core-upgrade-prep-5-0
     - core-upgrade-ocp-5-0
     - core-upgrade-olm-5-0
@@ -50,6 +60,15 @@ spec:
 # Hop 2: upgrade the control plane to 5.1. Blocked until hop 1 completes.
 # Named core-upgrade-5-1, matching cgu-upgrade.yaml, so that
 # cgu-upgrade-finish.yaml blocks on the same name for either path.
+#
+# core-overlay-registry-5-1 and core-upgrade-prep-5-1 are redundant here --
+# the registry content and the worker pause were already applied in hop 1 --
+# but are included as a defensive re-assertion.
+#
+# If the workers genuinely need DIFFERENT IDMS/ITMS content between the two
+# hops, one answer is to not pause across both hops at all: run each hop as
+# an independent single-hop upgrade (prep through finish), releasing the
+# worker pause between them.
 apiVersion: ran.openshift.io/v1alpha1
 kind: ClusterGroupUpgrade
 metadata:
@@ -62,6 +81,7 @@ spec:
         upgrade-version-5-1: ""
   enable: true
   managedPolicies:
+    - core-overlay-registry-5-1
     - core-upgrade-prep-5-1
     - core-upgrade-ocp-5-1
     - core-upgrade-olm-5-1

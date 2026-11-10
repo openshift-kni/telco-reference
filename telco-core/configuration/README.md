@@ -87,7 +87,17 @@ the control plane is upgraded twice using the `core-upgrade-policies.yaml` polic
 both releases. When both control plane upgrades are complete the worker nodes
 are released to upgrade once. Regardless of single or double release upgrade the
 sequence for each release upgrade are the same:
- * **Upgrade prep**: Prepare for the upgrade by moving CatalogSource, pausing worker
+ * **Update registry**: Update IDMS/ITMS mirror content and the CatalogSource to
+   the target release's index image, done before the OpenShift upgrade so that
+   control plane pods and any worker node daemonsets updated during the
+   control plane upgrade can pull the images they need. This is the
+   `core-overlay-registry-##` policy in `core-overlay.yaml`, and it runs
+   before worker MachineConfigPools are paused so that an IDMS/ITMS change
+   reaches every node immediately. In a two-release upgrade this step also
+   runs ahead of the first hop, not just the second, since completing the
+   upgrade typically needs the final target's updated IDMS rather than an
+   intermediate one; see `examples/cgu-upgrade-double-hop.yaml`.
+ * **Upgrade prep**: Prepare for the upgrade by pausing worker
    MachineConfigPools and any other pre-work. This is the `core-upgrade-prep-##`
    policy in `core-upgrade-policies.yaml`
  * **Upgrade OpenShift**: Upgrade the OpenShift control plane to the desired target
