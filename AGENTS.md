@@ -46,8 +46,8 @@ Documented, reference-specific exceptions (no cross-reference analog):
   `reference-crs/required/gitops/`); backwards-compatibility symlinks at
   `argocd/deployment` and `reference-crs/required/gitops/ztp-installation` keep
   the previous paths working. Per-hub ArgoCD overlays live under
-  `argocd/example/overlays/<openshift-cluster-name>/` (the reference example
-  uses `overlays/hub/`), with a compatibility symlink at
+  `argocd/overlays/<openshift-cluster-name>/` (the reference example
+  uses `argocd/overlays/hub/`), with a compatibility symlink at
   `argocd/example/overlays-config`.
 
 ## Version Updates

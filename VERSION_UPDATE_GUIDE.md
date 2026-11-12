@@ -106,7 +106,7 @@ Add new OpenShift version osImages entries and remove the oldest version to main
 **Files**:
 - `telco-hub/configuration/reference-crs/required/acm/acmAgentServiceConfig.yaml`
 - `telco-hub/configuration/kube-compare-reference/default_value.yaml`
-- `telco-hub/configuration/argocd/example/overlays/hub/acm/options-agentserviceconfig-patch.yaml`
+- `telco-hub/configuration/argocd/overlays/hub/acm/options-agentserviceconfig-patch.yaml`
 
 **Important**: Keep only the **3 most recent versions** (current + 2 previous) in osImages.
 

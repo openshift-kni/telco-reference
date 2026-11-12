@@ -54,7 +54,7 @@ openshift-gitops-server-845d6798-9c5tv                        1/1     Running   
 
 Before creating the Telco Hub ArgoCD Application, you have to select the different optional component, and configure all of them.
 
-Per-hub overlays live under `argocd/example/overlays/<openshift-cluster-name>/`, where the directory name matches the hub's OpenShift cluster name from its `install-config.yaml`. The reference example uses the cluster name `hub`, so its overlay is `argocd/example/overlays/hub/`; a real deployment with cluster name `hub-east` would use `argocd/example/overlays/hub-east/`. A compatibility symlink `argocd/example/overlays-config` still resolves to `overlays/hub` for existing consumers.
+Per-hub overlays live under `argocd/overlays/<openshift-cluster-name>/`, where the directory name matches the hub's OpenShift cluster name from its `install-config.yaml`. The reference example uses the cluster name `hub`, so its overlay is `argocd/overlays/hub/`; a real deployment with cluster name `hub-east` would use `argocd/overlays/hub-east/`. A compatibility symlink `argocd/example/overlays-config` still resolves to `argocd/overlays/hub` for existing consumers.
 
 At this point, you will need to fork this repo to tune the different kustomize patches and to select the optional components. There exists a root `kustomize.yaml` with all the information:
 
@@ -65,17 +65,17 @@ At this point, you will need to fork this repo to tune the different kustomize p
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # per-hub overlays live under argocd/example/overlays/<cluster-name>/;
+  # per-hub overlays live under argocd/overlays/<cluster-name>/;
   # the reference example uses the "hub" cluster name
   # if you use LocalStorage operator, edit and configure the patch
-  - argocd/example/overlays/hub/lso/
+  - argocd/overlays/hub/lso/
 
   # if you use ODF, edit and configure storage settings
-  - argocd/example/overlays/hub/odf/
+  - argocd/overlays/hub/odf/
 
   # other not optional overlays
-  - argocd/example/overlays/hub/gitops/
-  - argocd/example/overlays/hub/acm/
+  - argocd/overlays/hub/gitops/
+  - argocd/overlays/hub/acm/
 
   # mandatory resources not managed by any overlay
   - reference-crs/required/talm/
@@ -89,7 +89,7 @@ Comment/uncomment the different optional components. For any of these directorie
 
 ### (Optional) Configure the LocalStorage 
 
-Edit the file `argocd/example/overlays/hub/lso/local-storage-disks-patch.yaml` to use the disks you want to be used for the LocalStorage operator. Example:
+Edit the file `argocd/overlays/hub/lso/local-storage-disks-patch.yaml` to use the disks you want to be used for the LocalStorage operator. Example:
 
 ```
 # patching ODF StorageCluster
@@ -104,7 +104,7 @@ Edit the file `argocd/example/overlays/hub/lso/local-storage-disks-patch.yaml` t
 ```
 
 ### (Optional) Configure ODF 
-Edit the file `argocd/example/overlays/hub/odf/options-storage-cluster.yaml` to configure the storage backend for ODF. Example:
+Edit the file `argocd/overlays/hub/odf/options-storage-cluster.yaml` to configure the storage backend for ODF. Example:
 
 ```yaml
 # patching ODF StorageCluster
@@ -120,7 +120,7 @@ Edit the file `argocd/example/overlays/hub/odf/options-storage-cluster.yaml` to 
 
 ### Configure the MultiClusterObservability Storage
 
-Edit the file `argocd/example/overlays/hub/acm/storage-mco-patch.yaml` to select an StorageClass of kind FileSystem. Example:
+Edit the file `argocd/overlays/hub/acm/storage-mco-patch.yaml` to select an StorageClass of kind FileSystem. Example:
 
 ```yaml
 # patching mco StorageClass
@@ -180,10 +180,10 @@ Edit the file `options-agentserviceconfig-patch.yaml` to configure the different
 
 ### Configure the `hub-config` ArgoCD Application
 
-You have to edit the gitops patch overlay (`argocd/example/overlays/hub/gitops/init-argocd-app.yaml`) to configure it properly. By default, it directly points to the upstream repository:
+You have to edit the gitops patch overlay (`argocd/overlays/hub/gitops/init-argocd-app.yaml`) to configure it properly. By default, it directly points to the upstream repository:
 
 ```yaml
-> cat argocd/example/overlays/hub/gitops/init-argocd-app.yaml
+> cat argocd/overlays/hub/gitops/init-argocd-app.yaml
 - op: replace
   path: "/spec/source"
   value:
@@ -208,7 +208,7 @@ Make any necessary change. In general, you will point to the forked repository w
 Having ArgoCD ready and the git repository with all the overlays configured. It is time to install the ArgoCD Application that will trigger the deployment of the telco hub.
 
 ```bash
-> kustomize build argocd/example/overlays/hub/gitops/ | oc apply -f -
+> kustomize build argocd/overlays/hub/gitops/ | oc apply -f -
 configmap/argocd-ssh-known-hosts-cm configured
 secret/ztp-repo created
 appproject.argoproj.io/infra created

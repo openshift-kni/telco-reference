@@ -4,18 +4,18 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # per-hub overlays live under argocd/example/overlays/<cluster-name>/;
+  # per-hub overlays live under argocd/overlays/<cluster-name>/;
   # the reference example uses the "hub" cluster name
   # if you use LocalStorage operator, edit and configure the patch
-  - argocd/example/overlays/hub/lso/
+  - argocd/overlays/hub/lso/
 
   # if you use ODF, edit and configure storage settings
-  - argocd/example/overlays/hub/odf/
+  - argocd/overlays/hub/odf/
 
   # other not optional overlays
-  - argocd/example/overlays/hub/gitops/
-  - argocd/example/overlays/hub/acm/
-  - argocd/example/overlays/hub/registry/
+  - argocd/overlays/hub/gitops/
+  - argocd/overlays/hub/acm/
+  - argocd/overlays/hub/registry/
 
   # mandatory resources not managed by any overlay
   - reference-crs/required/talm/
