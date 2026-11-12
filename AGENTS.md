@@ -43,12 +43,12 @@ Documented, reference-specific exceptions (no cross-reference analog):
   `install/clusterinstance/` — and has no `template-values/`. Its GitOps
   Applications live in the reference tree at
   `reference-crs/required/gitops-apps/` (a peer of the GitOps infrastructure in
-  `reference-crs/required/gitops/`); backwards-compatibility symlinks at
-  `argocd/deployment` and `reference-crs/required/gitops/ztp-installation` keep
-  the previous paths working. Per-hub ArgoCD overlays live under
+  `reference-crs/required/gitops/`); a backwards-compatibility symlink at
+  `reference-crs/required/gitops/ztp-installation` keeps the previous path
+  working. Per-hub ArgoCD overlays live under
   `argocd/overlays/<openshift-cluster-name>/` (the reference example
-  uses `argocd/overlays/hub/`), with a compatibility symlink at
-  `argocd/example/overlays-config`.
+  uses `argocd/overlays/hub/`), with a compatibility symlink at the previous
+  `example-overlays-config` path.
 
 ## Version Updates
 

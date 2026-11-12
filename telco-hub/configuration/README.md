@@ -54,7 +54,7 @@ openshift-gitops-server-845d6798-9c5tv                        1/1     Running   
 
 Before creating the Telco Hub ArgoCD Application, you have to select the different optional component, and configure all of them.
 
-Per-hub overlays live under `argocd/overlays/<openshift-cluster-name>/`, where the directory name matches the hub's OpenShift cluster name from its `install-config.yaml`. The reference example uses the cluster name `hub`, so its overlay is `argocd/overlays/hub/`; a real deployment with cluster name `hub-east` would use `argocd/overlays/hub-east/`. A compatibility symlink `argocd/example/overlays-config` still resolves to `argocd/overlays/hub` for existing consumers.
+Per-hub overlays live under `argocd/overlays/<openshift-cluster-name>/`, where the directory name matches the hub's OpenShift cluster name from its `install-config.yaml`. The reference example uses the cluster name `hub`, so its overlay is `argocd/overlays/hub/`; a real deployment with cluster name `hub-east` would use `argocd/overlays/hub-east/`. A compatibility symlink at the previous `example-overlays-config` path still resolves to `argocd/overlays/hub` for existing consumers.
 
 At this point, you will need to fork this repo to tune the different kustomize patches and to select the optional components. There exists a root `kustomize.yaml` with all the information:
 

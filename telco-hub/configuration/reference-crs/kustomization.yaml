@@ -13,6 +13,6 @@ resources:
   - required/registry/
   # the argocd apps for gitops ztp management of cluster installation and
   # configuration live alongside the gitops infrastructure at
-  # required/gitops-apps/ (compatibility symlinks remain at
-  # required/gitops/ztp-installation and configuration/argocd/deployment);
+  # required/gitops-apps/ (a compatibility symlink remains at
+  # required/gitops/ztp-installation);
   # include them from configuration/kustomization.yaml
