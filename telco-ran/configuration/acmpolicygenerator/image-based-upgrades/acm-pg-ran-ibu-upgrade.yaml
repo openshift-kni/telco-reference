@@ -24,7 +24,7 @@ policies:
 # The policy to propagate oadp configmap
 - name: "group-ibu-oadp-cm-policy"
   manifests:
-  - path: source-crs/generic/ConfigMapGeneric.yaml
+  - path: reference-crs/generic/ConfigMapGeneric.yaml
     patches:
     - metadata:
         name: oadp-cm
@@ -33,7 +33,7 @@ policies:
 # The policy for Prep stage transition
 - name: "group-ibu-prep-stage-policy"
   manifests:
-  - path: source-crs/ibu/ImageBasedUpgrade.yaml
+  - path: reference-crs/ibu/ImageBasedUpgrade.yaml
     patches:
     - spec:
         stage: Prep
@@ -52,7 +52,7 @@ policies:
 # The policy for Upgrade stage transition
 - name: "group-ibu-upgrade-stage-policy"
   manifests:
-  - path: source-crs/ibu/ImageBasedUpgrade.yaml
+  - path: reference-crs/ibu/ImageBasedUpgrade.yaml
     patches:
     - spec:
         stage: Upgrade
@@ -64,12 +64,12 @@ policies:
 # The policy for Idle stage transition
 - name: "group-ibu-finalize-stage-policy"
   manifests:
-  - path: source-crs/ibu/ImageBasedUpgrade.yaml
+  - path: reference-crs/ibu/ImageBasedUpgrade.yaml
     complianceType: mustonlyhave
     patches:
     - spec:
         stage: Idle
-  - path: source-crs/ibu/ImageBasedUpgrade.yaml
+  - path: reference-crs/ibu/ImageBasedUpgrade.yaml
     patches:
     - status:
         conditions:
@@ -79,7 +79,7 @@ policies:
 # The policy for Rollback stage transition
 - name: "group-ibu-rollback-stage-policy"
   manifests:
-  - path: source-crs/ibu/ImageBasedUpgrade.yaml
+  - path: reference-crs/ibu/ImageBasedUpgrade.yaml
     patches:
     - spec:
         stage: Rollback
