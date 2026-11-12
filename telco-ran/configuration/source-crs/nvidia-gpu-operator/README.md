@@ -4,6 +4,8 @@ The optional installation uses package `gpu-operator-certified`, channel `v26.7`
 
 Mirror the certified catalog using the Hub image set configuration. Reuse an existing certified CatalogSource or enable the optional shared certified CatalogSource. Replace its registry image placeholder and configure registry trust, credentials, and mirror rules from the actual mirror output. Do not install a second NFD instance: use the shared Red Hat NFD deployment.
 
+NVIDIA GPU Operator container images are not signed, which can cause signature-related failures when mirroring with `oc-mirror` v2. Follow the [Red Hat procedure for disabling signature verification for the affected mirror source](https://access.redhat.com/solutions/7139982).
+
 Enable the installation entries in the common policy and the ClusterPolicy entry in the applicable SNO, 3-node, or Standard group policy. Core has equivalent optional baseline and upgrade entries. Apply prerequisites before the operand policy. The examples remain disabled by default.
 
 ## Precompiled driver
