@@ -77,6 +77,10 @@ mirror:
       defaultChannel: stable-5.0
       channels:
       - name: stable-5.0
+    - name: ocs-tls-profiles
+      defaultChannel: stable-5.0
+      channels:
+      - name: stable-5.0
     - name: rook-ceph-operator
       defaultChannel: stable-5.0
       channels:
