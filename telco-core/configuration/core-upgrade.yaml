@@ -74,7 +74,7 @@ policies:
       ran.openshift.io/soak-seconds: "60"
     manifests:
       # Optional: include on clusters with NVIDIA GPU Operator installed.
-      # - path: reference-crs/optional/nvidia-gpu/NvidiaGpuSubscription.yaml
+      # - path: reference-crs/optional/nvidia-gpu-operator/NvidiaGpuSubscription.yaml
       - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
         patches:
         - metadata:

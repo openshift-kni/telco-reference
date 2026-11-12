@@ -12,7 +12,7 @@ NVIDIA GPU Operator container images are not signed, which can cause signature-r
 
 The sample ClusterPolicy selects precompiled open kernel modules, disables Driver Toolkit compilation, and enables CDI. Replace `spec.driver.repository` and `spec.driver.version` with a verified mirrored driver. A mirror of the operator bundle does not include Red Hat-provided precompiled drivers automatically. Verify the exact target kernel, architecture, page size, GPU support, and signing requirements for every node and before each kernel upgrade.
 
-GPU Operator 26.7.2 was validation on OpenShift 5.0.0 ARM64 with staging `nvidia/gpu-driver-rhel10:610.57.04-6.12.0-211.66.1.el10_2.aarch64_64k-rhel10.2`. 
+GPU Operator 26.7.2 was validated on OpenShift 5.0.0 ARM64 with staging `registry.stage.redhat.io/nvidia/gpu-driver-rhel10:595.91.07-6.12.0-211.69.1.el10_2.aarch64_64k-rhcos5.0`.
 
 ## Optional ACPI video dependency workaround
 

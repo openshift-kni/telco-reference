@@ -231,17 +231,17 @@ parts:
     components:
       - name: nvidia-gpu-installation
         allOrNoneOf:
-          - path: optional/nvidia-gpu/NvidiaGpuSubscriptionNS.yaml
-          - path: optional/nvidia-gpu/NvidiaGpuSubscriptionOperGroup.yaml
-          - path: optional/nvidia-gpu/NvidiaGpuSubscription.yaml
+          - path: optional/nvidia-gpu-operator/NvidiaGpuSubscriptionNS.yaml
+          - path: optional/nvidia-gpu-operator/NvidiaGpuSubscriptionOperGroup.yaml
+          - path: optional/nvidia-gpu-operator/NvidiaGpuSubscription.yaml
       - name: nvidia-gpu-configuration
         anyOf:
-          - path: optional/nvidia-gpu/ClusterPolicy.yaml
-          - path: optional/nvidia-gpu/NvidiaVideoModule-master.yaml
-          - path: optional/nvidia-gpu/NvidiaVideoModule-worker.yaml
+          - path: optional/nvidia-gpu-operator/ClusterPolicy.yaml
+          - path: optional/nvidia-gpu-operator/NvidiaVideoModule-master.yaml
+          - path: optional/nvidia-gpu-operator/NvidiaVideoModule-worker.yaml
       - name: optional-certified-catalog
         anyOf:
-          - path: optional/nvidia-gpu/NvidiaGpuCatalogSource.yaml
+          - path: optional/nvidia-gpu-operator/NvidiaGpuCatalogSource.yaml
             config:
               ignore-unspecified-fields: true
 
