@@ -7,7 +7,7 @@ metadata:
 spec:
   # Share this instance between GPU and Network Operators on each cluster.
   operand:
-    # Use the operand image supplied by the installed Red Hat NFD Operator.
+    image: registry.redhat.io/openshift4/ose-node-feature-discovery-rhel9:v5.0
     imagePullPolicy: Always
     servicePort: 12000
   topologyUpdater: false
