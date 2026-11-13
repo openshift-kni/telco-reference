@@ -1,0 +1,14 @@
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: certified-operators-disconnected
+  namespace: openshift-marketplace
+spec:
+  displayName: Certified Operators (disconnected)
+  image: {{ .spec.image }}
+  publisher: Red Hat
+  sourceType: grpc
+status:
+  connectionState:
+    lastObservedState: READY

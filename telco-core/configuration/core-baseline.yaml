@@ -23,6 +23,11 @@ policies:
         patches:
         - spec:
             image: registry.redhat.io/redhat/redhat-operator-index:v5.1
+      # Optional: reuse an existing certified catalog or enable this mirrored one.
+      # - path: reference-crs/optional/nvidia-gpu-operator/NvidiaGpuCatalogSource.yaml
+      # Optional workaround: choose the MachineConfig role matching GPU nodes.
+      # - path: reference-crs/optional/nvidia-gpu-operator/NvidiaVideoModule-master.yaml
+      # - path: reference-crs/optional/nvidia-gpu-operator/NvidiaVideoModule-worker.yaml
       - path: reference-crs/required/scheduling/Scheduler.yaml
 
   # Core cluster OLM operators
@@ -46,6 +51,11 @@ policies:
                   - type: Succeeded
                     status: "True"
                     reason: InstallSucceeded
+
+      # Optional: NVIDIA GPU Operator from the mirrored certified catalog.
+      # - path: reference-crs/optional/nvidia-gpu-operator/NvidiaGpuSubscriptionNS.yaml
+      # - path: reference-crs/optional/nvidia-gpu-operator/NvidiaGpuSubscriptionOperGroup.yaml
+      # - path: reference-crs/optional/nvidia-gpu-operator/NvidiaGpuSubscription.yaml
 
       # Cert-manager operator (optional component)
       # - path: reference-crs/optional/cert-manager/certManagerNS.yaml
@@ -94,6 +104,8 @@ policies:
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "6"
     manifests:
+      # Optional: configure after enabling NVIDIA GPU Operator installation.
+      # - path: reference-crs/optional/nvidia-gpu-operator/ClusterPolicy.yaml
       - path: reference-crs/optional/logging/ClusterLogServiceAccount.yaml
       - path: reference-crs/optional/logging/ClusterLogServiceAccountAuditBinding.yaml
       - path: reference-crs/optional/logging/ClusterLogServiceAccountInfrastructureBinding.yaml

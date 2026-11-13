@@ -228,6 +228,26 @@ parts:
           - path: optional/cert-manager/apiServerCertificate.yaml
           - path: optional/cert-manager/apiServerConfig.yaml
 
+  - name: optional-nvidia-gpu
+    description: |-
+      NVIDIA GPU Operator installation and optional precompiled driver configuration.
+    components:
+      - name: nvidia-gpu-installation
+        allOrNoneOf:
+          - path: optional/nvidia-gpu-operator/NvidiaGpuSubscriptionNS.yaml
+          - path: optional/nvidia-gpu-operator/NvidiaGpuSubscriptionOperGroup.yaml
+          - path: optional/nvidia-gpu-operator/NvidiaGpuSubscription.yaml
+      - name: nvidia-gpu-configuration
+        anyOf:
+          - path: optional/nvidia-gpu-operator/ClusterPolicy.yaml
+          - path: optional/nvidia-gpu-operator/NvidiaVideoModule-master.yaml
+          - path: optional/nvidia-gpu-operator/NvidiaVideoModule-worker.yaml
+      - name: optional-certified-catalog
+        anyOf:
+          - path: optional/nvidia-gpu-operator/NvidiaGpuCatalogSource.yaml
+            config:
+              ignore-unspecified-fields: true
+
 templateFunctionFiles:
   - version_match.tmpl
   - unordered_list.tmpl

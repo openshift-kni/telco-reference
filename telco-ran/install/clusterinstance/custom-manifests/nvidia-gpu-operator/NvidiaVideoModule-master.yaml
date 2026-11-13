@@ -1,0 +1,21 @@
+# Optional workaround for precompiled images whose modules.dep omits the video dependency.
+---
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 50-nvidia-video-master
+  labels:
+    machineconfiguration.openshift.io/role: master
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: '1'
+spec:
+  config:
+    ignition:
+      version: 3.2.0
+    storage:
+      files:
+      - path: /etc/modules-load.d/nvidia-video.conf
+        mode: 420
+        overwrite: true
+        contents:
+          source: data:,video%0A

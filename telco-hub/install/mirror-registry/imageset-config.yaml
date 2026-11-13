@@ -101,6 +101,16 @@ mirror:
       defaultChannel: stable-v1
       channels:
       - name: stable-v1
+  # NVIDIA package is currently published in the production 4.22 certified catalog.
+  - catalog: registry.redhat.io/redhat/certified-operator-index:v4.22
+    targetCatalog: openshift-marketplace/certified-operators-disconnected
+    packages:
+    - name: gpu-operator-certified
+      defaultChannel: v26.7
+      channels:
+      - name: v26.7
+        minVersion: 26.7.2
+        maxVersion: 26.7.2
   additionalImages:
   - name: registry.redhat.io/ubi9/ubi:latest
   - name: registry.redhat.io/openshift5/ztp-site-generate-rhel9:v5.1

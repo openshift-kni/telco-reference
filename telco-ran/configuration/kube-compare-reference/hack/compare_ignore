@@ -89,6 +89,10 @@ validatorCRs/rebootMachineConfigPoolValidator.yaml
 disk-encryption.yaml.tmpl
 image-registry-partition-mc.yaml.tmpl
 
+# Optional install-time manifests; aligned by the same extra-manifest check.
+nvidia-gpu-operator/NvidiaVideoModule-master.yaml
+nvidia-gpu-operator/NvidiaVideoModule-worker.yaml
+
 # Exists in the reference only, to enforce version compatibility
 version-check/ClusterVersionOperator.yaml
 
@@ -101,3 +105,5 @@ machine-config/container-runtime.yaml
 
 # Platform check only, not included in source-crs
 platform/infrastructure.yaml
+
+nvidia-gpu-operator/NvidiaGpuOperatorStatus.yaml

@@ -50,6 +50,19 @@ spec:
     - fileName: storage-lso/StorageOperatorStatus.yaml
       policyName: "subscriptions-policy"
     #
+    # Optional: NVIDIA GPU Operator; configure operands in the group template.
+    # - fileName: nvidia-gpu-operator/NvidiaGpuSubscriptionNS.yaml
+    #   policyName: "subscriptions-policy"
+    # - fileName: nvidia-gpu-operator/NvidiaGpuSubscriptionOperGroup.yaml
+    #   policyName: "subscriptions-policy"
+    # - fileName: nvidia-gpu-operator/NvidiaGpuSubscription.yaml
+    #   policyName: "subscriptions-policy"
+    # - fileName: nvidia-gpu-operator/NvidiaGpuOperatorStatus.yaml
+    #   policyName: "subscriptions-policy"
+    # - fileName: nvidia-gpu-operator/NvidiaGpuCatalogSource.yaml
+    #   policyName: "config-policy"
+    # Optional NVIDIA video workaround: enable it through ClusterInstance custom manifests.
+    #
     # LCA operator is used for orchestrating Image Based Upgrade for SNO
     # - fileName: lca/LcaSubscriptionNS.yaml
     #   policyName: "subscriptions-policy"

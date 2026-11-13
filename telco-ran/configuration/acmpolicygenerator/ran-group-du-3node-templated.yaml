@@ -35,6 +35,8 @@ policies:
   policyAnnotations:
     ran.openshift.io/ztp-deploy-wave: "10"
   manifests:
+    # Optional: enable after GPU Operator installation in ran-common.yaml.
+    # - path: source-crs/nvidia-gpu-operator/ClusterPolicy.yaml
     - path: source-crs/ptp-operator/configuration/PtpConfigSlave.yaml
       patches:
         - metadata:

@@ -39,6 +39,9 @@ policies:
         spec:
           displayName: disconnected-redhat-operators
           image: registry.example.com:5000/disconnected-redhat-operators/disconnected-redhat-operator-index:v5.1
+    # Optional: reuse an existing certified catalog or enable this mirrored one.
+    # - path: source-crs/nvidia-gpu-operator/NvidiaGpuCatalogSource.yaml
+    # Optional NVIDIA video workaround: enable it through ClusterInstance custom manifests.
     - path: source-crs/disconnected-registry/DisconnectedIDMS.yaml
       patches:
       - spec:
@@ -73,6 +76,13 @@ policies:
     - path: source-crs/storage-lso/StorageOperGroup.yaml
     - path: source-crs/storage-lso/StorageSubscription.yaml
     - path: source-crs/storage-lso/StorageOperatorStatus.yaml
+    #
+    # Optional: NVIDIA GPU Operator. Mirror the certified catalog and enable
+    # the ClusterPolicy in the applicable group policy.
+    # - path: source-crs/nvidia-gpu-operator/NvidiaGpuSubscriptionNS.yaml
+    # - path: source-crs/nvidia-gpu-operator/NvidiaGpuSubscriptionOperGroup.yaml
+    # - path: source-crs/nvidia-gpu-operator/NvidiaGpuSubscription.yaml
+    # - path: source-crs/nvidia-gpu-operator/NvidiaGpuOperatorStatus.yaml
     #
     # LCA operator is used for orchestrating Image Based Upgrade for SNO
     # - path: source-crs/lca/LcaSubscriptionNS.yaml
