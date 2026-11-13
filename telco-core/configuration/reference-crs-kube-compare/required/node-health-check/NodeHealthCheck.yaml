@@ -1,0 +1,6 @@
+apiVersion: remediation.medik8s.io/v1alpha1
+kind: NodeHealthCheck
+metadata:
+  name: nhc-worker-self
+spec:
+{{ .spec | default dict | toYaml | indent 2 }}
