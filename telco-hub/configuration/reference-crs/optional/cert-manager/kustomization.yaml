@@ -10,6 +10,8 @@ resources:
   - ingressControllerConfig.yaml
   - apiServerCertificate.yaml
   - apiServerConfig.yaml
+  - certManagerHubCAConfigMap.yaml
+  - certManagerKlusterletConfig.yaml
   - certManagerCertificatePolicy.yaml
   - certManagerCertificatePolicyPlacement.yaml
   - certManagerCertificatePolicyPlacementBinding.yaml
