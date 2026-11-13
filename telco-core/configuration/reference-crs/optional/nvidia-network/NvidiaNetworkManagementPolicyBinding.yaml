@@ -1,6 +1,0 @@
-apiVersion: admissionregistration.k8s.io/v1
-kind: MutatingAdmissionPolicyBinding
-metadata:
-  name: nvidia-network-management-workload
-spec:
-  policyName: nvidia-network-management-workload

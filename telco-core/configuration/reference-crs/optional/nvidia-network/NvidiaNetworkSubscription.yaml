@@ -5,9 +5,6 @@ metadata:
   name: nvidia-network-operator
   namespace: nvidia-network-operator
 spec:
-  config:
-    annotations:
-      target.workload.openshift.io/management: '{"effect": "PreferredDuringScheduling"}'
   channel: v26.7
   name: nvidia-network-operator
   source: certified-operators
