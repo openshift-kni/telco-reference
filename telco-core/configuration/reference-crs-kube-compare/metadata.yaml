@@ -218,10 +218,6 @@ parts:
               ignore-unspecified-fields: true
           - path: optional/nfd/NfdSubscription.yaml
           - path: optional/nfd/NodeFeatureDiscovery.yaml
-      - name: nfd-management-workload
-        allOrNoneOf:
-          - path: optional/nfd/NfdManagementWorkloadPolicy.yaml
-          - path: optional/nfd/NfdManagementWorkloadPolicyBinding.yaml
   - name: optional-cert-manager
     description: |-
       Cert-manager operator for automated certificate management

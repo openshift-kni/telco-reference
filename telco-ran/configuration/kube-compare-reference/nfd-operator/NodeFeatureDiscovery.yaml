@@ -10,7 +10,7 @@ spec:
   # Share this instance between GPU and Network Operators on each cluster.
   operand:
     image: registry.redhat.io/openshift4/ose-node-feature-discovery-rhel9:v5.0
-    imagePullPolicy: Always
+    imagePullPolicy: IfNotPresent
     servicePort: 12000
   topologyUpdater: false
   workerConfig:

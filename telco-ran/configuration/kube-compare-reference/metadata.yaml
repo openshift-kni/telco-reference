@@ -97,10 +97,6 @@ parts:
               fieldsToOmitRefs:
                 - subscriptions
           - path: nfd-operator/NodeFeatureDiscovery.yaml
-      - name: nfd-management-workload
-        allOrNoneOf:
-          - path: nfd-operator/NfdManagementWorkloadPolicy.yaml
-          - path: nfd-operator/NfdManagementWorkloadPolicyBinding.yaml
   - name: optional-nmstate-operator
     description: |-
       The nmstate operator is only used in multinode clusters when required by IPSec:

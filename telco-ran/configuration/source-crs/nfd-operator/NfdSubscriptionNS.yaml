@@ -3,10 +3,6 @@ apiVersion: v1
 kind: Namespace
 metadata:
   annotations:
-    # Permit management partitioning for NFD pods. The optional NFD admission
-    # policy adds the management annotation when pods are created.
-    # This namespace annotation alone does not constrain CPU placement.
-    workload.openshift.io/allowed: management
     ran.openshift.io/ztp-deploy-wave: "2"
   name: openshift-nfd
   labels:
