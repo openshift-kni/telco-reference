@@ -1,0 +1,25 @@
+# This CR verifies the installation/upgrade of the NVIDIA Network Operator.
+---
+apiVersion: operators.coreos.com/v1
+kind: Operator
+metadata:
+  name: nvidia-network-operator.nvidia-network-operator
+status:
+  components:
+    refs:
+    - kind: Subscription
+      namespace: nvidia-network-operator
+      conditions:
+      - type: CatalogSourcesUnhealthy
+        status: "False"
+    - kind: InstallPlan
+      namespace: nvidia-network-operator
+      conditions:
+      - type: Installed
+        status: "True"
+    - kind: ClusterServiceVersion
+      namespace: nvidia-network-operator
+      conditions:
+      - type: Succeeded
+        status: "True"
+        reason: InstallSucceeded
