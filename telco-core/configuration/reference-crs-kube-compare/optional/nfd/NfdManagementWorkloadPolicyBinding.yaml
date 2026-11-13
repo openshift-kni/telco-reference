@@ -1,0 +1,7 @@
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingAdmissionPolicyBinding
+metadata:
+  name: nfd-management-workload
+spec:
+  policyName: nfd-management-workload

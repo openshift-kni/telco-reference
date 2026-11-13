@@ -50,6 +50,11 @@ spec:
     - fileName: storage-lso/StorageOperatorStatus.yaml
       policyName: "subscriptions-policy"
     #
+    # Optional: enable before NFD installation on partitioned clusters.
+    # - fileName: nfd-operator/NfdManagementWorkloadPolicy.yaml
+    #   policyName: "config-policy"
+    # - fileName: nfd-operator/NfdManagementWorkloadPolicyBinding.yaml
+    #   policyName: "config-policy"
     # Optional: shared NFD for NVIDIA GPUs and ConnectX-8 NICs.
     # - fileName: nfd-operator/NfdSubscriptionNS.yaml
     #   policyName: "subscriptions-policy"

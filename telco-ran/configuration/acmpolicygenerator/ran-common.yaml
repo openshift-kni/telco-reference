@@ -30,6 +30,9 @@ policies:
   policyAnnotations:
     ran.openshift.io/ztp-deploy-wave: "1"
   manifests:
+    # Optional: enable before NFD installation on partitioned clusters.
+    # - path: source-crs/nfd-operator/NfdManagementWorkloadPolicy.yaml
+    # - path: source-crs/nfd-operator/NfdManagementWorkloadPolicyBinding.yaml
     - path: source-crs/cluster-tuning/monitoring-configuration/ReduceMonitoringFootprint.yaml
     - path: source-crs/disconnected-registry/DefaultCatsrc.yaml
       patches:
