@@ -21,9 +21,3 @@ The tested precompiled image declares `depends=video,nvidia` in nvidia-modeset.k
 For RAN, enable the commented `nvidia-video-workaround` ConfigMap generator in `install/clusterinstance/kustomization.yaml` and its `extraManifestsRefs` entry in the applicable ClusterInstance example. Set the ConfigMap namespace to the cluster namespace and include only the MachineConfig roles needed by GPU nodes.
 
 For Core, enable the matching optional MachineConfig entries in the baseline policy.
-
-## Optional management CPU placement
-
-On workload-partitioned nodes, enable `NvidiaGpuManagementPolicy.yaml` and `NvidiaGpuManagementPolicyBinding.yaml` together through the baseline/common policy before creating GPU management pods. These resources require `admissionregistration.k8s.io/v1` MutatingAdmissionPolicy support. The namespace permits management workloads; the admission policy adds the management annotation to newly created pods with no RuntimeClass or a NVIDIA RuntimeClass (`nvidia`, `nvidia-cdi`, or `nvidia-legacy`). Application workloads using the high-performance RuntimeClass remain excluded. Place other GPU application workloads in a separate namespace; GPU resource requests and DRA claims are not exclusion criteria.
-
-Existing pods are unchanged. Plan a separate controlled rollout and verify actual container CPU affinity against the PerformanceProfile reserved CPUs before claiming placement is validated. Do not annotate GPU application workloads with this management annotation.
