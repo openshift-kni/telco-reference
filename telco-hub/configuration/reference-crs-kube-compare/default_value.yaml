@@ -472,10 +472,12 @@ optional_cert_manager_apiServerConfig:
 optional_cert_manager_certManagerCertificatePolicy:
 - spec:
     minimumDuration: 720h
+    minimumCADuration: 2160h
     namespaceSelector:
       include:
         - openshift-ingress
         - openshift-config
+        - cert-manager
 
 optional_cert_manager_certManagerSubscription:
 - spec:
