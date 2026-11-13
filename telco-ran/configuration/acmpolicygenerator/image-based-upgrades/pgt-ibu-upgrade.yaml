@@ -27,8 +27,8 @@ spec:
         - name: "oadp-cm"
           namespace: "openshift-adp"
         seedImageRef:
-          version: "4.15.0-rc.5"
-          image: "registry.example.com/lca-seed-cnfdf20:4.15.0-rc.5-latest"
+          version: "5.1.0"
+          image: "registry.example.com/du-sno-seed:5.1.0"
       status:
         conditions:
           - reason: Completed
