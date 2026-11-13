@@ -13,8 +13,8 @@ policyDefaults:
         version: "5.1"
   remediationAction: "inform"
 policies:
-  # unpause baseline configuration
-  - name: custom-mcp-unpause-5-1
+  # unpause baseline configuration at the end of initial installation
+  - name: core-install-mcp-unpause-5-1
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "200"
     placement:
@@ -30,10 +30,14 @@ policies:
               - "5.1"
           - key: ztp-done
             operator: DoesNotExist
-    # The policy unpauses MCPs that were paused during initial creation
-    # and sets 'maxUnavailable' parameter to 100% to speed up the deployment.
-    # This is only required once as part of the deployment optimization
-    # therefore it's not required to re-evaluate it after initial deployment.
+    # Unpauses the MCPs that were paused during initial creation and sets
+    # maxUnavailable to 100% to speed up the deployment. Updating every MCP at
+    # once is safe here only because no workloads are running yet, which is
+    # why the placement above requires ztp-done to not exist -- the policy is
+    # bound during installation and unbound once the cluster is in service.
+    # Upgrades roll through the MCPs one at a time instead, using the
+    # core-upgrade-workers-N policies in core-upgrade-mcps.yaml.
+    # Only required once, so there is no need to re-evaluate it afterwards.
     evaluationInterval:
       compliant: never
     manifests:

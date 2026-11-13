@@ -2,7 +2,7 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: core-upgrade-finish
+  name: core-upgrade-mcps
 policyDefaults:
   namespace: ztp-core-policies
   policySets: []
@@ -68,38 +68,3 @@ policies:
               status: "True"
             - type: Updating
               status: "False"
-  # Optional cleanup policy for pre-caching PinnedImageSets. When enforced,
-  # removes the 4 PinnedImageSet CRs created by core-upgrade-precache policies
-  # after the upgrade completes. Safe to include even when pre-caching was not
-  # used — mustnothave is compliant when the objects do not exist.
-  - name: core-upgrade-precache-cleanup-5-1
-    policyAnnotations:
-      ran.openshift.io/soak-seconds: "30"
-    manifests:
-      - path: reference-crs/optional/other/precache/controlplane-olm-pinned-images.yaml
-        complianceType: mustnothave
-      - path: reference-crs/optional/other/precache/controlplane-releases-pinned-images.yaml
-        complianceType: mustnothave
-      - path: reference-crs/optional/other/precache/worker-olm-pinned-images.yaml
-        complianceType: mustnothave
-      - path: reference-crs/optional/other/precache/worker-releases-pinned-images.yaml
-        complianceType: mustnothave
-
-  # Restore original value for maxUnavailable
-  - name: core-custom-mcp-restore-maxavailable-22
-    policyAnnotations:
-      ran.openshift.io/ztp-deploy-wave: "31"
-    manifests:
-      # This sets the desired maxUnavailable on the customMCPs
-      - path: reference-crs/custom-manifests/mcp-worker-1.yaml
-        patches:
-        - spec:
-            maxUnavailable: 1
-      - path: reference-crs/custom-manifests/mcp-worker-2.yaml
-        patches:
-        - spec:
-            maxUnavailable: 1
-      - path: reference-crs/custom-manifests/mcp-worker-3.yaml
-        patches:
-        - spec:
-            maxUnavailable: 1
