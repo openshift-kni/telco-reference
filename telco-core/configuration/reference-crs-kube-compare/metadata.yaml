@@ -201,6 +201,7 @@ parts:
       - name: other
         anyOf:
           - path: optional/tuning/control-plane-system-reserved.yaml
+          - path: optional/tuning/worker-system-reserved.yaml
       - name: kdump-configuration
         allOf:
           - path: optional/other/kdump-master.yaml

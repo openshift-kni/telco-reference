@@ -1,0 +1,16 @@
+# optional
+# count: 1
+---
+apiVersion: machineconfiguration.openshift.io/v1
+kind: KubeletConfig
+metadata:
+  name: sizing-worker
+spec:
+  autoSizingReserved: false
+  kubeletConfig:
+    # This configuration value should be tailored for each environment.
+    systemReserved:
+      memory: "11Gi"
+  machineConfigPoolSelector:
+    matchLabels:
+      pools.operator.machineconfiguration.openshift.io/worker: ""
