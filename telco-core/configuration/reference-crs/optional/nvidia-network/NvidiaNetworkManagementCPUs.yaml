@@ -1,0 +1,21 @@
+# PolicyGenerator input: select existing operator-managed DaemonSets.
+# Reapply after operator upgrades, which may replace the pod templates.
+object-templates:
+  - complianceType: musthave
+    objectSelector:
+      matchExpressions:
+        - key: nvidia.network-operator.state
+          operator: In
+          values:
+            - state-OFED
+            - state-doca-telemetry-service
+    objectDefinition:
+      apiVersion: apps/v1
+      kind: DaemonSet
+      metadata:
+        namespace: nvidia-network-operator
+      spec:
+        template:
+          metadata:
+            annotations:
+              target.workload.openshift.io/management: '{"effect": "PreferredDuringScheduling"}'

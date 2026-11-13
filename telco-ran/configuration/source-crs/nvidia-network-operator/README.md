@@ -58,3 +58,19 @@ policy remediation. These resources do not define alerts or custom GPU metrics.
 The namespace-scoped Role grants `openshift-monitoring/prometheus-k8s` read-only
 discovery of Services, Endpoints and Pods. The RoleBinding is required for
 Prometheus to discover the exporter target.
+
+## Management CPU placement
+
+The namespace permission alone does not select reserved CPUs. The Subscription
+sets the management workload annotation on the controller pods. Include
+`NvidiaNetworkManagementCPUs.yaml` as PolicyGenerator input alongside the operand
+resources to annotate the existing DOCA driver and telemetry DaemonSet pod
+templates. This is an ACM policy input, not a directly deployable DaemonSet.
+
+Network Operator 26.7 does not expose these operand annotations through
+NicClusterPolicy. An operator upgrade can replace the templates, so remediate
+this policy again after upgrades. Replace existing pods after remediation;
+the driver's OnDelete strategy requires an explicit, coordinated replacement.
+Verify each resulting container's `Cpus_allowed_list` against the target node's
+PerformanceProfile reserved CPUs. Template compliance alone does not verify
+placement. Keep this policy in inform mode and remediate through TALM.

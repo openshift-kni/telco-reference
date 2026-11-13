@@ -7,6 +7,9 @@ metadata:
   annotations:
     ran.openshift.io/ztp-deploy-wave: '2'
 spec:
+  config:
+    annotations:
+      target.workload.openshift.io/management: '{"effect": "PreferredDuringScheduling"}'
   channel: v26.7
   name: nvidia-network-operator
   source: certified-operators
