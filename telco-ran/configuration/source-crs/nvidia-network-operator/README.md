@@ -48,8 +48,13 @@ NIC-to-GPU DMA remains a feasibility item: first inspect the selected precompile
 GPU/DOCA drivers and peer-memory support, then decide whether a functional test
 is possible. Do not claim this capability based only on operator readiness.
 
-Include `DocaTelemetryService.yaml` and `DocaTelemetryServiceMonitor.yaml` alongside
+Include `DocaTelemetryService.yaml`, `DocaTelemetryServiceMonitor.yaml`,
+`DocaTelemetryRole.yaml` and `DocaTelemetryRoleBinding.yaml` alongside
 `NicClusterPolicy.yaml` in the operand policy to collect the existing DOCA
 telemetry metrics on port 9189. The namespace must be enabled for OpenShift
 cluster monitoring. Verify Prometheus target health and collected metrics after
 policy remediation. These resources do not define alerts or custom GPU metrics.
+
+The namespace-scoped Role grants `openshift-monitoring/prometheus-k8s` read-only
+discovery of Services, Endpoints and Pods. The RoleBinding is required for
+Prometheus to discover the exporter target.
