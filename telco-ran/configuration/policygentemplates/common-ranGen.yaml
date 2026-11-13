@@ -61,11 +61,7 @@ spec:
     #   policyName: "subscriptions-policy"
     # - fileName: nvidia-gpu-operator/NvidiaGpuCatalogSource.yaml
     #   policyName: "config-policy"
-    # Optional workaround: select the role matching the GPU nodes.
-    # - fileName: nvidia-gpu-operator/NvidiaVideoModule-master.yaml
-    #   policyName: "config-policy"
-    # - fileName: nvidia-gpu-operator/NvidiaVideoModule-worker.yaml
-    #   policyName: "config-policy"
+    # Optional NVIDIA video workaround: enable it through ClusterInstance custom manifests.
     #
     # LCA operator is used for orchestrating Image Based Upgrade for SNO
     # - fileName: lca/LcaSubscriptionNS.yaml

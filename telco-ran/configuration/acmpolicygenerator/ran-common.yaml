@@ -40,9 +40,7 @@ policies:
           image: registry.example.com:5000/disconnected-redhat-operators/disconnected-redhat-operator-index:v5.1
     # Optional: reuse an existing certified catalog or enable this mirrored one.
     # - path: source-crs/nvidia-gpu-operator/NvidiaGpuCatalogSource.yaml
-    # Optional workaround: choose the MachineConfig role matching GPU nodes.
-    # - path: source-crs/nvidia-gpu-operator/NvidiaVideoModule-master.yaml
-    # - path: source-crs/nvidia-gpu-operator/NvidiaVideoModule-worker.yaml
+    # Optional NVIDIA video workaround: enable it through ClusterInstance custom manifests.
     - path: source-crs/disconnected-registry/DisconnectedIDMS.yaml
       patches:
       - spec:
