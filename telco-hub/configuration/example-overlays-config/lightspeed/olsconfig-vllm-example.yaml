@@ -1,0 +1,28 @@
+---
+apiVersion: ols.openshift.io/v1alpha1
+kind: OLSConfig
+metadata:
+  name: cluster
+  namespace: openshift-lightspeed
+spec:
+  llm:
+    providers:
+      - name: rhoai-vllm
+        type: rhoai_vllm
+        credentialsSecretRef:
+          name: llm-credentials
+        models:
+          - name: granite-3.1-8b-instruct
+        url: https://vllm-serving.example.local:8443/v1
+  ols:
+    defaultModel: granite-3.1-8b-instruct
+    defaultProvider: rhoai-vllm
+    logLevel: INFO
+    conversationCache:
+      type: postgres
+    introspectionEnabled: false
+    userDataCollection:
+      feedbackDisabled: true
+      transcriptsDisabled: true
+    deployment:
+      replicas: 1

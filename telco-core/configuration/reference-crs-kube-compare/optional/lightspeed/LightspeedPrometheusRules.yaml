@@ -1,0 +1,8 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: lightspeed-alerts
+  namespace: openshift-lightspeed
+spec:
+  {{ .spec | toYaml | indent 2 }}
