@@ -47,3 +47,9 @@ Runtime driver compilation and customer-defined GPU alerts/metrics are excluded.
 NIC-to-GPU DMA remains a feasibility item: first inspect the selected precompiled
 GPU/DOCA drivers and peer-memory support, then decide whether a functional test
 is possible. Do not claim this capability based only on operator readiness.
+
+Include `DocaTelemetryService.yaml` and `DocaTelemetryServiceMonitor.yaml` alongside
+`NicClusterPolicy.yaml` in the operand policy to collect the existing DOCA
+telemetry metrics on port 9189. The namespace must be enabled for OpenShift
+cluster monitoring. Verify Prometheus target health and collected metrics after
+policy remediation. These resources do not define alerts or custom GPU metrics.
