@@ -209,6 +209,28 @@ parts:
         allOf:
           - path: optional/other/mount_namespace_config_master.yaml
           - path: optional/other/mount_namespace_config_worker.yaml
+  - name: optional-external-secrets
+    description: |-
+      External Secrets Operator for secure secret management via external stores
+    components:
+      - name: external-secrets-operator
+        allOrNoneOf:
+          - path: optional/external-secrets/esoNS.yaml
+          - path: optional/external-secrets/esoOperatorgroup.yaml
+          - path: optional/external-secrets/esoSubscription.yaml
+          - path: optional/external-secrets/esoExternalSecretsConfig.yaml
+            config:
+              # Check cert-manager opt-in fields; allow other operator settings.
+              ignore-unspecified-fields: true
+          - path: optional/external-secrets/esoNetworkPolicy.yaml
+            config:
+              ignore-unspecified-fields: true
+      - name: external-secrets-store
+        # A Core secret store is site-specific. If present, require conditions.
+        anyOf:
+          - path: optional/external-secrets/esoClusterSecretStore.yaml
+            config:
+              ignore-unspecified-fields: true
   - name: optional-cert-manager
     description: |-
       Cert-manager operator for automated certificate management

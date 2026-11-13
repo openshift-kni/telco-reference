@@ -23,6 +23,10 @@ infrastructure.yaml
 optional/networking/sriov/SriovNetworkPoolConfig.yaml
 required/networking/metallb/service.yaml
 
+# Core store is a user-configured example outside reference-crs; the optional
+# comparison template validates a store only when one is present.
+optional/external-secrets/esoClusterSecretStore.yaml
+
 # These are examples only. Customer will provide their own
 # based on cluster topology and desired MCP partitioning.
 custom-manifests/mcp-worker-1.yaml
