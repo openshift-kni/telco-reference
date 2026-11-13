@@ -1,14 +1,21 @@
-# PolicyGenerator input: select existing operator-managed DaemonSets.
-# Reapply after operator upgrades, which may replace the pod templates.
-object-templates:
+# PolicyGenerator input: annotate existing operator-managed DaemonSets.
+# Reapply after operator upgrades and replace existing pods to change affinity.
+apiVersion: policy.open-cluster-management.io/v1
+kind: ConfigurationPolicy
+metadata:
+  name: nvidia-network-management-cpus
+spec:
+  remediationAction: inform
+  severity: low
+  object-templates:
   - complianceType: musthave
     objectSelector:
       matchExpressions:
-        - key: nvidia.network-operator.state
-          operator: In
-          values:
-            - state-OFED
-            - state-doca-telemetry-service
+      - key: nvidia.network-operator.state
+        operator: In
+        values:
+        - state-OFED
+        - state-doca-telemetry-service
     objectDefinition:
       apiVersion: apps/v1
       kind: DaemonSet
