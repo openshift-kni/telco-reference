@@ -50,6 +50,16 @@ spec:
     - fileName: storage-lso/StorageOperatorStatus.yaml
       policyName: "subscriptions-policy"
     #
+    # Optional: shared NFD for NVIDIA GPUs and ConnectX-8 NICs.
+    # - fileName: nfd-operator/NfdSubscriptionNS.yaml
+    #   policyName: "subscriptions-policy"
+    # - fileName: nfd-operator/NfdSubscriptionOperGroup.yaml
+    #   policyName: "subscriptions-policy"
+    # - fileName: nfd-operator/NfdSubscription.yaml
+    #   policyName: "subscriptions-policy"
+    # - fileName: nfd-operator/NfdOperatorStatus.yaml
+    #   policyName: "subscriptions-policy"
+    #
     # LCA operator is used for orchestrating Image Based Upgrade for SNO
     # - fileName: lca/LcaSubscriptionNS.yaml
     #   policyName: "subscriptions-policy"
