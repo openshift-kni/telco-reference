@@ -47,7 +47,7 @@ spec:
       name: ''
     usePrecompiled: true
     repository: {{ .spec.driver.repository }}
-    image: gpu-driver-rhel10
+    image: {{ .spec.driver.image }}
     version: {{ .spec.driver.version }}
   dcgmExporter:
     enabled: true

@@ -5,11 +5,13 @@ metadata:
   name: gpu-operator-certified
   namespace: nvidia-gpu-operator
 spec:
-  channel: v26.7
+  channel: {{ .spec.channel }}
   name: gpu-operator-certified
-  source: certified-operators-disconnected
+  source: {{ .spec.source }}
   sourceNamespace: openshift-marketplace
   installPlanApproval: Manual
-  startingCSV: gpu-operator-certified.v26.7.2
+  {{- if .spec.startingCSV }}
+  startingCSV: {{ .spec.startingCSV }}
+  {{- end }}
 status:
   state: AtLatestKnown
