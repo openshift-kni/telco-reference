@@ -62,15 +62,20 @@ Prometheus to discover the exporter target.
 ## Management CPU placement
 
 The namespace permission alone does not select reserved CPUs. The Subscription
-sets the management workload annotation on the controller pods. Include
-`NvidiaNetworkManagementCPUs.yaml` as PolicyGenerator input alongside the operand
-resources to annotate the existing DOCA driver and telemetry DaemonSet pod
-templates. This is an ACM policy input, not a directly deployable DaemonSet.
+sets the management annotation on controller pods. Include
+`NvidiaNetworkManagementPolicy.yaml` and
+`NvidiaNetworkManagementPolicyBinding.yaml` in the installation policy before
+creating operator workloads. They require the `admissionregistration.k8s.io/v1`
+MutatingAdmissionPolicy API enabled on the target cluster.
 
-Network Operator 26.7 does not expose these operand annotations through
-NicClusterPolicy. An operator upgrade can replace the templates, so remediate
-this policy again after upgrades. Replace existing pods after remediation;
-the driver's OnDelete strategy requires an explicit, coordinated replacement.
-Verify each resulting container's `Cpus_allowed_list` against the target node's
-PerformanceProfile reserved CPUs. Template compliance alone does not verify
-placement. Keep this policy in inform mode and remediate through TALM.
+Admission adds the management annotation to each new Pod in
+`nvidia-network-operator`, including replacement pods created after operator
+reconciliation or upgrades. It does not patch operator-managed DaemonSets or
+change existing pods. The policy is namespace-scoped by its selector and uses
+`failurePolicy: Fail` and `reinvocationPolicy: IfNeeded`.
+
+Deliver these resources through hub inform policies and TALM CGUs. For existing
+installations, replace pods after enabling admission; coordinate driver pod
+replacement because its DaemonSet uses OnDelete. Verify process and thread
+`Cpus_allowed_list` against the PerformanceProfile reserved CPUs, including
+after pod recreation. Annotation presence alone does not verify placement.

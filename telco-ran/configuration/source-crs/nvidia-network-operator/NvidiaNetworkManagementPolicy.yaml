@@ -1,0 +1,29 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingAdmissionPolicy
+metadata:
+  name: nvidia-network-management-workload
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    matchPolicy: Equivalent
+    namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: nvidia-network-operator
+    objectSelector: {}
+    resourceRules:
+    - apiGroups:
+      - ''
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      resources:
+      - pods
+      scope: Namespaced
+  mutations:
+  - applyConfiguration:
+      expression: "Object{\n  metadata: Object.metadata{\n    annotations: {\n   \
+        \   \"target.workload.openshift.io/management\":\n        '{\"effect\":\"\
+        PreferredDuringScheduling\"}'\n    }\n  }\n}\n"
+    patchType: ApplyConfiguration
+  reinvocationPolicy: IfNeeded
