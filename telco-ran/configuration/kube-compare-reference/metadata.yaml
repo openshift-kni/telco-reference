@@ -471,6 +471,10 @@ parts:
           - path: nvidia-gpu-operator/NvidiaGpuSubscriptionNS.yaml
           - path: nvidia-gpu-operator/NvidiaGpuSubscriptionOperGroup.yaml
           - path: nvidia-gpu-operator/NvidiaGpuSubscription.yaml
+      - name: optional-nvidia-gpu-management-placement
+        allOrNoneOf:
+          - path: nvidia-gpu-operator/NvidiaGpuManagementPolicy.yaml
+          - path: nvidia-gpu-operator/NvidiaGpuManagementPolicyBinding.yaml
       - name: nvidia-gpu-configuration
         anyOf:
           - path: nvidia-gpu-operator/ClusterPolicy.yaml

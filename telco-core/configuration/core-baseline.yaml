@@ -25,6 +25,9 @@ policies:
             image: registry.redhat.io/redhat/redhat-operator-index:v5.1
       # Optional: reuse an existing certified catalog or enable this mirrored one.
       # - path: reference-crs/optional/nvidia-gpu-operator/NvidiaGpuCatalogSource.yaml
+      # Optional management CPU placement; enable both resources before GPU pod creation.
+      # - path: reference-crs/optional/nvidia-gpu-operator/NvidiaGpuManagementPolicy.yaml
+      # - path: reference-crs/optional/nvidia-gpu-operator/NvidiaGpuManagementPolicyBinding.yaml
       # Optional workaround: choose the MachineConfig role matching GPU nodes.
       # - path: reference-crs/optional/nvidia-gpu-operator/NvidiaVideoModule-master.yaml
       # - path: reference-crs/optional/nvidia-gpu-operator/NvidiaVideoModule-worker.yaml
