@@ -28,5 +28,13 @@ configMapGenerator:
   - extra-manifests/99-sync-time-once-worker.yaml
   name: sno-extra-manifest-configmap
   namespace: example-ai-sno
+# Optional NVIDIA video workaround: uncomment this generator and the matching
+# extraManifestsRefs entry. Use the target ClusterInstance namespace and include
+# only the master/worker files needed by GPU nodes.
+# - name: nvidia-video-workaround
+#   namespace: example-ai-sno
+#   files:
+#   - custom-manifests/nvidia-gpu-operator/NvidiaVideoModule-master.yaml
+#   - custom-manifests/nvidia-gpu-operator/NvidiaVideoModule-worker.yaml
 generatorOptions:
   disableNameSuffixHash: true

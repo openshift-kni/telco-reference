@@ -1,7 +1,7 @@
 #! /bin/bash
 
 compare_install_extra_manifests() {
-  local root fail=0 pair inst ref
+  local root fail=0 pair inst ref role
   root="$(git rev-parse --show-toplevel)"
   local install="${root}/telco-ran/install/clusterinstance/extra-manifests"
   local kubecmp="${root}/telco-ran/configuration/kube-compare-reference"
@@ -29,6 +29,14 @@ compare_install_extra_manifests() {
     ref="${pair##*:}"
     if ! diff -u "${install}/${inst}" "${kubecmp}/${ref}"; then
       echo "ERROR: install/clusterinstance/extra-manifests/${inst} differs from kube-compare ${ref}" >&2
+      fail=1
+    fi
+  done
+  for role in master worker; do
+    inst="${root}/telco-ran/install/clusterinstance/custom-manifests/nvidia-gpu-operator/NvidiaVideoModule-${role}.yaml"
+    ref="${kubecmp}/nvidia-gpu-operator/NvidiaVideoModule-${role}.yaml"
+    if ! diff -u "${inst}" "${ref}"; then
+      echo "ERROR: optional NVIDIA video ${role} MachineConfig differs from kube-compare" >&2
       fail=1
     fi
   done

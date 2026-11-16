@@ -1,0 +1,12 @@
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: nvidia-gpu-operator-group
+  namespace: nvidia-gpu-operator
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: '2'
+    operatorframework.io/bundle-unpack-min-retry-interval: 10m
+spec:
+  targetNamespaces:
+  - nvidia-gpu-operator
