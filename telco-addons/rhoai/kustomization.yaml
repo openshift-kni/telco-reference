@@ -1,0 +1,10 @@
+---
+resources:
+  - ns.yaml
+
+generators:
+  # Uncomment the required generator depending on the use case
+  # Inferencing
+  - rhoai-inferencing.yaml
+  # Workbenches/pipelines
+  #- rhoai-workbench-pipelines.yaml

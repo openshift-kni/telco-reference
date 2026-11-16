@@ -1,0 +1,15 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: jobset-operator
+  namespace: openshift-jobset-operator
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"  
+spec:
+  channel: stable-v1.0
+  name: job-set
+  source: redhat-operators-disconnected
+  sourceNamespace: openshift-marketplace
+  startingCSV: jobset-operator.v1.0.1
+  installPlanApproval: Automatic
+  

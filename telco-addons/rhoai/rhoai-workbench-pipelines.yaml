@@ -1,0 +1,48 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: rhoai-baseline-5-1
+policyDefaults:
+  namespace: ztp-rhoai-policies
+  policySets: []
+  placement:
+    labelSelector:
+      matchLabels:
+        rhoai: "enabled"
+        version: "5.1"
+  remediationAction: "enforce"
+  # This parameter ensures that the policies are applied in the order they are specified in this file.
+  orderPolicies: true
+policies:
+- name: rhoai-subscriptions-policy
+  manifests:
+    - path: reference-crs/required/rhoai/RhOdsNS.yaml
+    - path: reference-crs/required/rhoai/RhOdsOperGroup.yaml
+    - path: reference-crs/required/rhoai/RhOdsSubscription.yaml
+    - path: reference-crs/required/rhoai/RhOdsStatus.yaml
+    # JobSet operator deployment
+    - path: reference-crs/required/jobset/JobSetNS.yaml
+    - path: reference-crs/required/jobset/JobSetOperGroup.yaml
+    - path: reference-crs/required/jobset/JobSetSubscription.yaml
+    - path: reference-crs/required/jobset/JobSetStatus.yaml
+    # Kueue operator deployment
+    - path: reference-crs/required/kueue/KueueNS.yaml
+    - path: reference-crs/required/kueue/KueueOperGroup.yaml
+    - path: reference-crs/required/kueue/KueueSubscription.yaml
+    - path: reference-crs/required/kueue/KueueStatus.yaml
+- name: kueue-jobset-config-policy
+  manifests:
+    - path: reference-crs/required/jobset/JobSetOperator.yaml
+    - path: reference-crs/required/kueue/Kueue.yaml
+- name: rhoai-config-policy
+  manifests:
+    # Uncomment only one of the following Dsc-* references, depending on the required use case
+    - path: reference-crs/required/rhoai-config/Dsc-ml-pipelines.yaml
+    # - path: reference-crs/required/rhoai-config/Dsc-dev-workbench.yaml
+- name: rhoai-validator-policy
+  remediationAction: inform
+  manifests:
+    - path: reference-crs/required/rhoai-validator/rhoaiDscState.yaml
+    - path: reference-crs/required/rhoai-validator/KueueState.yaml
+    - path: reference-crs/required/rhoai-validator/JobSetOperatorState.yaml

@@ -1,0 +1,46 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: gpt-oss-20b
+  namespace: model-serving
+  annotations:
+    openshift.io/display-name: gpt-oss-20b
+    serving.kserve.io/deploymentMode: RawDeployment
+    ran.openshift.io/ztp-deploy-wave: "100"
+  labels:
+    networking.kserve.io/visibility: exposed
+    opendatahub.io/dashboard: "true"
+spec:
+  predictor:
+    automountServiceAccountToken: false
+#    imagePullSecrets:
+#    - name: registry-redhat-io
+    maxReplicas: 1
+    minReplicas: 1
+    model:
+      env:
+      - name: HOME
+        value: /tmp
+      modelFormat:
+        name: vLLM
+      name: ""
+      resources:
+        limits:
+          cpu: "4"
+          memory: 8Gi
+          # Make sure the following tag is updated to match the MIG partitioning
+          # If no partitioning is in use, then nvidia.com/gpu: "1"
+          nvidia.com/mig-1g.16gb: "1" 
+        requests:
+          cpu: "4"
+          memory: 8Gi
+          # Make sure the following tag is updated to match the MIG partitioning
+          # If no partitioning is in use, then nvidia.com/gpu: "1"          
+          nvidia.com/mig-1g.16gb: "1" 
+      runtime: vllm-cuda-runtime-model-serving
+      storageUri: oci://registry.redhat.io/rhelai1/modelcar-gpt-oss-20b:1.5
+    tolerations:
+    - effect: NoSchedule
+      # Set to key: nvidia.com/gpu if no MIG partitioning is in use    
+      key: nvidia.com/mig-1g.16gb
+      operator: Exists

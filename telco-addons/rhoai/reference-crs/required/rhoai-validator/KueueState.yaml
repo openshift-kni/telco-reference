@@ -1,0 +1,15 @@
+apiVersion: kueue.openshift.io/v1
+kind: Kueue
+metadata:
+  name: cluster
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+status:
+  conditions:
+    - type: Available
+      status: "True"
+      reason: AllReplicasReady
+    - type: Degraded
+      reason: AsExpected
+      status: "False"
+

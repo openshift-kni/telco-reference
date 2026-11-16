@@ -1,0 +1,26 @@
+# This CR verifies the installation/upgrade of the Kueue Operator
+apiVersion: operators.coreos.com/v1
+kind: Operator
+metadata:
+  name: job-set.openshift-jobset-operator
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"
+status:
+  components:
+    refs:
+    - kind: Subscription
+      namespace: openshift-jobset-operator
+      conditions:
+      - type: CatalogSourcesUnhealthy
+        status: "False"
+    - kind: InstallPlan
+      namespace: openshift-jobset-operator
+      conditions:
+      - type: Installed
+        status: "True"
+    - kind: ClusterServiceVersion
+      namespace: openshift-jobset-operator
+      conditions:
+      - type: Succeeded
+        status: "True"
+        reason: InstallSucceeded

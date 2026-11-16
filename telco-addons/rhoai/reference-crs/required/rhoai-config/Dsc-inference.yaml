@@ -1,0 +1,33 @@
+apiVersion: datasciencecluster.opendatahub.io/v2
+kind: DataScienceCluster
+metadata:
+  name: default-dsc
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  components:
+    # 1. Enable KServe for InferenceServices
+    kserve:
+      managementState: Managed
+      modelsAsService:
+        managementState: Removed
+      nim:
+        airGapped: false
+        managementState: Managed
+      rawDeploymentServiceConfig: Headless
+      wva:
+        managementState: Removed
+    # 2. Recommended: Enable ModelRegistry for tracking models
+    modelregistry:
+      managementState: Managed
+      registriesNamespace: rhoai-model-registries
+    # 3. Optional: Enable dashboard and other components as needed
+    dashboard:
+      managementState: Managed
+    trustyai:
+      managementState: Managed
+      eval:
+        lmeval:
+          permitCodeExecution: deny
+          permitOnline: deny
+      mcpGuardrailsMode: false

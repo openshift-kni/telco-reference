@@ -1,0 +1,8 @@
+apiVersion: operator.openshift.io/v1
+kind: JobSetOperator
+metadata:
+  name: cluster
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"  
+spec:
+  managementState: Managed
