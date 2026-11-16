@@ -34,6 +34,10 @@ mirror:
     - name: topology-aware-lifecycle-manager
       channels:
       - name: stable
+    - name: nfd
+      defaultChannel: stable
+      channels:
+      - name: stable
     - name: local-storage-operator
       channels:
       - name: stable

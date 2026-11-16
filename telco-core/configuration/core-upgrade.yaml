@@ -73,6 +73,8 @@ policies:
       # Ensure that status for OLM created operators has time to propagate
       ran.openshift.io/soak-seconds: "60"
     manifests:
+      # Optional: enable for clusters using NFD from core-baseline.yaml.
+      # - path: reference-crs/optional/nfd/NfdSubscription.yaml
       - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
         patches:
         - metadata:

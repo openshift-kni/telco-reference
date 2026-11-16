@@ -52,6 +52,12 @@ policies:
       # - path: reference-crs/optional/cert-manager/certManagerOperatorgroup.yaml
       # - path: reference-crs/optional/cert-manager/certManagerSubscription.yaml
 
+      # NFD operator (optional component). Mirror nfd/stable in the shared
+      # Red Hat catalog and enable the matching entry in core-upgrade.yaml.
+      # - path: reference-crs/optional/nfd/NfdSubscriptionNS.yaml
+      # - path: reference-crs/optional/nfd/NfdSubscriptionOperGroup.yaml
+      # - path: reference-crs/optional/nfd/NfdSubscription.yaml
+
       - path: reference-crs/required/networking/sriov/SriovSubscriptionNS.yaml
       - path: reference-crs/required/networking/sriov/SriovSubscriptionOperGroup.yaml
       - path: reference-crs/required/networking/sriov/SriovSubscription.yaml
@@ -94,6 +100,8 @@ policies:
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "6"
     manifests:
+      # Optional: enable with the NFD installation resources above.
+      # - path: reference-crs/optional/nfd/NodeFeatureDiscovery.yaml
       - path: reference-crs/optional/logging/ClusterLogServiceAccount.yaml
       - path: reference-crs/optional/logging/ClusterLogServiceAccountAuditBinding.yaml
       - path: reference-crs/optional/logging/ClusterLogServiceAccountInfrastructureBinding.yaml
