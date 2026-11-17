@@ -1,0 +1,16 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: doca-telemetry-prometheus
+  namespace: nvidia-network-operator
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: '10'
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: doca-telemetry-prometheus
+subjects:
+  - kind: ServiceAccount
+    name: prometheus-k8s
+    namespace: openshift-monitoring

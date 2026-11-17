@@ -1,0 +1,16 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: doca-telemetry-metrics
+  namespace: nvidia-network-operator
+spec:
+  namespaceSelector:
+    matchNames:
+      - nvidia-network-operator
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: doca-telemetry-metrics
+  endpoints:
+    - port: metrics
+      path: /metrics

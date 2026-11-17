@@ -101,3 +101,6 @@ machine-config/container-runtime.yaml
 
 # Platform check only, not included in source-crs
 platform/infrastructure.yaml
+
+# Partner-owned sample; operand contents and versions are not reference requirements.
+nvidia-network-operator/NicClusterPolicy.yaml

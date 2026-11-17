@@ -463,6 +463,32 @@ parts:
         anyOf:
           - path: fetch-only/Node.yaml
 
+  - name: optional-nvidia-network
+    components:
+      - name: nvidia-network-operator
+        allOrNoneOf:
+          - path: nvidia-network-operator/NvidiaNetworkSubscriptionNS.yaml
+          - path: nvidia-network-operator/NvidiaNetworkSubscriptionOperGroup.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: nvidia-network-operator/NvidiaNetworkSubscription.yaml
+            config:
+              fieldsToOmitRefs:
+                - allowStatusCheck
+      - name: nvidia-network-telemetry
+        allOrNoneOf:
+          - path: nvidia-network-operator/DocaTelemetryRole.yaml
+          - path: nvidia-network-operator/DocaTelemetryRoleBinding.yaml
+          - path: nvidia-network-operator/DocaTelemetryService.yaml
+          - path: nvidia-network-operator/DocaTelemetryServiceMonitor.yaml
+      - name: nvidia-network-status
+        anyOf:
+          - path: nvidia-network-operator/NvidiaNetworkOperatorStatus.yaml
+            config:
+              ignore-unspecified-fields: true
+              fieldsToOmitRefs:
+                - allowStatusCheck
+
 templateFunctionFiles:
   - functions/validate_node_selector.tmpl
   - functions/unordered_list.tmpl
