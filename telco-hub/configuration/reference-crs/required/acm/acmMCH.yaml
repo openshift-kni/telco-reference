@@ -24,9 +24,6 @@ spec:
       name: cluster-lifecycle
     - configOverrides: {}
       enabled: true
-      name: cluster-permission
-    - configOverrides: {}
-      enabled: true
       name: console
     - configOverrides: {}
       enabled: true
