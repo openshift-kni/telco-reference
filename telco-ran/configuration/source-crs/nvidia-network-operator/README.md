@@ -1,0 +1,89 @@
+# NVIDIA Network Operator
+
+Install package `nvidia-network-operator`, channel `v26.7`, starting CSV
+`nvidia-network-operator.v26.7.0-1`, with Manual install-plan approval.
+The OperatorGroup watches its own namespace, as required by the certified bundle.
+Deliver installation and configuration using hub inform policies and TALM CGUs.
+
+## Sample NicClusterPolicy
+
+[`NicClusterPolicy.yaml`](NicClusterPolicy.yaml) is an illustrative operand
+configuration, not an enforced reference requirement. Customers and partners own
+its contents and select component versions with NVIDIA. It is not included in
+the baseline/group policies or kube-compare validation. Copy and customize it for
+your deployment after installing the operator.
+
+The sample enables the precompiled DOCA driver and DOCA Telemetry Service.
+Reuse the shared Red Hat NFD deployment and OpenShift's
+Multus, CNI plugins and SR-IOV Network Operator. Avoid allocating the same NIC
+through multiple device plugins. Add RDMA shared-device resources only for
+explicitly selected interfaces that are not owned by another resource pool.
+
+The driver digest in this sample is a lab-validated image-content selection:
+`registry.stage.redhat.io/nvidia/doca-driver-rhel10@sha256:02792cf44b818d2f1bb319a3df5907c4510331318e2add0152e723a5013050cf`.
+Its `mlx5_core.ko` vermagic is
+`6.12.0-211.69.1.el10_2.aarch64+64k`; it has an appended module signature.
+Select and mirror a matching image for every target kernel and verify the
+signer's trust before Secure Boot testing. `forcePrecompiled: true` prevents
+fallback to runtime compilation. Image-content inspection alone does not prove
+successful loading or Secure Boot acceptance.
+
+## Functional validation
+
+Record versions, kernel, NIC firmware, image digests, driver module provenance,
+Secure Boot state, policy readiness and logs for each case.
+
+| Check | Evidence required | Current status |
+| --- | --- | --- |
+| OLM | CSV Succeeded; NicClusterPolicy CRD Established | Pending |
+| Precompiled driver | Driver ready; expected modules loaded; no runtime compilation | Image ABI matched; runtime pending |
+| Secure Boot disabled | Firmware state, driver loading and networking pass | Pending |
+| Secure Boot enabled | Trusted module signer, successful load, no signature rejection | Pending |
+| Metrics | Exporter ready; endpoint counters; successful Prometheus scrape | Pending |
+| Platform CPU | Compare idle platform CPU before/after; record requests and actual CPU affinity | Pending |
+| Pod kernel networking | Bidirectional connectivity over pod interfaces | Pending |
+| Machine networking | Host connectivity to a peer over the selected NIC | Pending |
+| SR-IOV kernel networking | VFs allocated; bidirectional pod connectivity using netdevice | Pending |
+| SR-IOV DPDK | Existing DPDK test application forwards packets on allocated VFs | Pending |
+
+Use existing connectivity tools and DPDK test applications. A packet-forwarding
+check establishes functionality; throughput and latency benchmarking are outside
+scope. Secure Boot changes require a coordinated reboot. Machine and SR-IOV
+checks require a reachable peer and known NIC/switch connectivity.
+
+Runtime driver compilation and customer-defined GPU alerts/metrics are excluded.
+NIC-to-GPU DMA remains a feasibility item: first inspect the selected precompiled
+GPU/DOCA drivers and peer-memory support, then decide whether a functional test
+is possible. Do not claim this capability based only on operator readiness.
+
+Include `DocaTelemetryService.yaml`, `DocaTelemetryServiceMonitor.yaml`,
+`DocaTelemetryRole.yaml` and `DocaTelemetryRoleBinding.yaml` alongside
+`NicClusterPolicy.yaml` in the operand policy to collect the existing DOCA
+telemetry metrics on port 9189. The namespace must be enabled for OpenShift
+cluster monitoring. Verify Prometheus target health and collected metrics after
+policy remediation. These resources do not define alerts or custom GPU metrics.
+
+The namespace-scoped Role grants `openshift-monitoring/prometheus-k8s` read-only
+discovery of Services, Endpoints and Pods. The RoleBinding is required for
+Prometheus to discover the exporter target.
+
+## SR-IOV with Secure Boot
+
+For Mellanox NICs, follow Red Hat's [Secure Boot SR-IOV procedure](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/hardware_networks/configuring-sriov-device#configuring-the-sr-iov-network-operator-on-mellanox-cards-when-secure-boot-is-enabled).
+Configure and verify the firmware SR-IOV enablement and maximum VF capacity
+before enabling Secure Boot. Add the following field to the owning policy for
+the existing `SriovOperatorConfig`:
+
+```yaml
+spec:
+  disablePlugins:
+    - mellanox
+```
+
+This skips the SR-IOV operator's Mellanox firmware configuration plugin; it does
+not disable the NIC driver or kernel lockdown. Preserve other existing plugin
+exclusions. Verify `SriovNetworkNodeState` reaches `Succeeded`, requested VFs
+exist and the device plugin is Ready before scheduling SR-IOV workloads.
+Kernel-reported VF capacity alone is not a direct query of persistent firmware
+settings. This prerequisite is conditional on Secure Boot and Mellanox hardware;
+do not apply it universally to other deployment configurations.

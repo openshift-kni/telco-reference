@@ -1,0 +1,15 @@
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: nvidia-network-operator
+  namespace: nvidia-network-operator
+spec:
+  channel: v26.7
+  name: nvidia-network-operator
+  source: certified-operators
+  sourceNamespace: openshift-marketplace
+  installPlanApproval: Manual
+  startingCSV: nvidia-network-operator.v26.7.0-1
+status:
+  state: AtLatestKnown
