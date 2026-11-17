@@ -5,7 +5,5 @@ metadata:
   name: nvidia-gpu-operator
   annotations:
     ran.openshift.io/ztp-deploy-wave: '2'
-    # Operator and operand pods must also set target.workload.openshift.io/management.
-    workload.openshift.io/allowed: management
   labels:
     openshift.io/cluster-monitoring: 'true'
