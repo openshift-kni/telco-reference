@@ -32,6 +32,7 @@ lca/LcaOperatorStatus.yaml
 storage-lvm/LVMOperatorStatus.yaml
 nmstate/NMStateOperatorStatus.yaml
 ptp-operator/PtpOperatorStatus.yaml
+nfd-operator/NfdOperatorStatus.yaml
 sriov-operator/SriovOperatorStatus.yaml
 storage-lso/StorageOperatorStatus.yaml
 

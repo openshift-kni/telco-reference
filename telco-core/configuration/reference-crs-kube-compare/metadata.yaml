@@ -209,6 +209,20 @@ parts:
         allOf:
           - path: optional/other/mount_namespace_config_master.yaml
           - path: optional/other/mount_namespace_config_worker.yaml
+  - name: optional-nfd
+    description: |-
+      Node Feature Discovery detects node hardware features and exposes them as labels.
+      The sample configuration includes NVIDIA GPU and ConnectX-8 NIC discovery.
+      https://kubernetes-sigs.github.io/node-feature-discovery/stable/get-started/introduction.html
+    components:
+      - name: nfd
+        allOrNoneOf:
+          - path: optional/nfd/NfdSubscriptionNS.yaml
+          - path: optional/nfd/NfdSubscriptionOperGroup.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: optional/nfd/NfdSubscription.yaml
+          - path: optional/nfd/NodeFeatureDiscovery.yaml
   - name: optional-cert-manager
     description: |-
       Cert-manager operator for automated certificate management

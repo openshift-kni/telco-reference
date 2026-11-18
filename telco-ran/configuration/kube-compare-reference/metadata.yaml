@@ -83,6 +83,23 @@ parts:
                 - subscriptions
           - path: lca/LcaSubscriptionNS.yaml
           - path: lca/LcaSubscriptionOperGroup.yaml
+  - name: optional-nfd
+    description: |-
+      Node Feature Discovery detects node hardware features and exposes them as labels.
+      The sample configuration includes NVIDIA GPU and ConnectX-8 NIC discovery.
+      https://kubernetes-sigs.github.io/node-feature-discovery/stable/get-started/introduction.html
+    components:
+      - name: nfd
+        allOrNoneOf:
+          - path: nfd-operator/NfdSubscriptionNS.yaml
+          - path: nfd-operator/NfdSubscriptionOperGroup.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: nfd-operator/NfdSubscription.yaml
+            config:
+              fieldsToOmitRefs:
+                - subscriptions
+          - path: nfd-operator/NodeFeatureDiscovery.yaml
   - name: optional-nmstate-operator
     description: |-
       The nmstate operator is only used in multinode clusters when required by IPSec:

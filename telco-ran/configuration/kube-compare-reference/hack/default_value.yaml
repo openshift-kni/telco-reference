@@ -1013,3 +1013,7 @@ global:
           labels:
             kubernetes.io/arch: any
         spec: spec
+nfd_operator_NodeFeatureDiscovery:
+  - spec:
+      operand:
+        image: registry.redhat.io/openshift4/ose-node-feature-discovery-rhel9:v5.1
