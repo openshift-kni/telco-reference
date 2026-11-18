@@ -1,10 +1,8 @@
 # NVIDIA GPU Operator
 
-This set of configuration CRs are intended for setting up the Nvidia GPU operator on a compatible GPU accelerated node
+These configuration CRs install the NVIDIA GPU Operator on a compatible GPU-accelerated node.
 
-The installation uses package `gpu-operator-certified`, channel `v26.7`, starting CSV `gpu-operator-certified.v26.7.2`
-
-Pre-requisites to this setup includes the Red Hat NFD deployment and mirroring the certified catalog using the provided Hub image set configuration.
+Prerequisites include a shared Red Hat NFD deployment and mirroring the required certified catalog content.
 
 NVIDIA GPU Operator container images are not signed, which can cause signature-related failures when mirroring with `oc-mirror` v2. Follow the [Red Hat procedure for disabling signature verification for the affected mirror source](https://access.redhat.com/solutions/7139982).
 

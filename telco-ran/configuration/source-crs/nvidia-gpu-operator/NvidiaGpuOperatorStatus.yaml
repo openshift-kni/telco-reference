@@ -1,4 +1,5 @@
-# This CR verifies the installation/upgrade of the NVIDIA GPU Operator.
+# Policy status check for NVIDIA GPU Operator installation and upgrades.
+# Requires a healthy catalog, an installed InstallPlan, and a successful CSV.
 ---
 apiVersion: operators.coreos.com/v1
 kind: Operator
