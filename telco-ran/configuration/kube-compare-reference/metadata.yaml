@@ -464,17 +464,13 @@ parts:
 
   - name: optional-nvidia-gpu
     description: |-
-      NVIDIA GPU Operator installation and optional video module workaround.
+      NVIDIA GPU Operator installation.
     components:
       - name: nvidia-gpu-installation
         allOrNoneOf:
           - path: nvidia-gpu-operator/NvidiaGpuSubscriptionNS.yaml
           - path: nvidia-gpu-operator/NvidiaGpuSubscriptionOperGroup.yaml
           - path: nvidia-gpu-operator/NvidiaGpuSubscription.yaml
-      - name: optional-nvidia-video-workaround
-        anyOf:
-          - path: nvidia-gpu-operator/NvidiaVideoModule-master.yaml
-          - path: nvidia-gpu-operator/NvidiaVideoModule-worker.yaml
       - name: optional-certified-catalog
         anyOf:
           - path: nvidia-gpu-operator/NvidiaGpuCatalogSource.yaml

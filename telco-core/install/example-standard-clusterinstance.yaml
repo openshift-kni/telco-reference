@@ -26,6 +26,11 @@ spec:
   extraManifestsRefs:
     - name: extra-manifests-configmap
     - name: custom-manifests-configmap
+    # Optional: create a separate ConfigMap from affected GPU nodes' video workaround.
+    # - name: nvidia-video-workaround
+    # Optional: create this ConfigMap from the DMA-BUF PCIe install manifests
+    # only after verifying their hardware/topology prerequisites.
+    # - name: nvidia-dmabuf-pcie
   extraLabels:
     ManagedCluster:
       common: "core"

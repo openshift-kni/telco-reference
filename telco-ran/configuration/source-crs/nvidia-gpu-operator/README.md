@@ -22,4 +22,12 @@ The tested precompiled image declares `depends=video,nvidia` in nvidia-modeset.k
 
 For RAN, enable the commented `nvidia-video-workaround` ConfigMap generator in `install/clusterinstance/kustomization.yaml` and its `extraManifestsRefs` entry in the applicable ClusterInstance example. Set the ConfigMap namespace to the cluster namespace and include only the MachineConfig roles needed by GPU nodes.
 
-For Core, enable the matching optional MachineConfig entries in the baseline policy.
+For Core, create a separate `nvidia-video-workaround` ConfigMap from the matching `50-nvidia-video-master.yaml` or `50-nvidia-video-worker.yaml` files under `install/extra-manifests/optional/nvidia-gpu-operator/`, then enable its commented reference in `install/example-standard-clusterinstance.yaml`. These MachineConfigs are install-only; do not add them to the baseline policy.
+
+## Optional GPUDirect RDMA PCIe configuration
+
+The optional `99-nvidia-dmabuf-pcie-master.yaml` and `99-nvidia-dmabuf-pcie-worker.yaml` MachineConfigs provide the validated IOMMU passthrough and ACS redirect settings for the hardware/topology described in their comments. They are separate from the video-module workaround and disabled by default. Verify the GPU/NIC PCIe path and vendor-recommended ACS configuration before enabling them; the bridge ID matches all devices with that ID and is not a universal ConnectX-8 requirement. Applying these settings to existing nodes triggers a rollout/reboot and changes IOMMU grouping.
+
+For RAN, enable the commented `nvidia-dmabuf-pcie` ConfigMap generator in `install/clusterinstance/kustomization.yaml` and its `extraManifestsRefs` entry in the applicable ClusterInstance example. Use the target cluster namespace and include only the roles hosting the target GPU and NIC devices. For Core, create a separate `nvidia-dmabuf-pcie` ConfigMap from the role-specific files under `install/extra-manifests/optional/nvidia-gpu-operator/` and enable its commented reference in `install/example-standard-clusterinstance.yaml`. These MachineConfigs are install-only; do not add them to the baseline policy.
+
+Validate host-memory and GPU-memory RDMA with payload checking, then check for PCIe/NIC errors. The existing validation covers same-node DMA-BUF RDMA with IOMMU passthrough; translated IOMMU mode, external-fabric traffic, and performance qualification are not established by this example.
