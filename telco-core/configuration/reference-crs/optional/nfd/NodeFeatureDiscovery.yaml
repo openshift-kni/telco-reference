@@ -11,6 +11,7 @@ spec:
     imagePullPolicy: IfNotPresent
     servicePort: 12000
   topologyUpdater: false
+  prunerOnDelete: false
   workerConfig:
     configData: |
       core:
