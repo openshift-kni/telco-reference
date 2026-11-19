@@ -4,7 +4,7 @@ kind: Kustomization
 
 resources:
   # Include all base registry resources
-  - ../../reference-crs/required/registry/
+  - ../../../../reference-crs/required/registry/
 
 patches:
   # Simple patch for catalog source image URL

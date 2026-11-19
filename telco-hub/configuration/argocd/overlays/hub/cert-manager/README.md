@@ -30,10 +30,10 @@ The `api-server-certificate-patch.yaml` customizes:
 
 ```bash
 # Test the overlay
-kubectl kustomize telco-hub/configuration/example-overlays-config/cert-manager/
+kubectl kustomize telco-hub/configuration/argocd/overlays/hub/cert-manager/
 
 # Apply the overlay
-kubectl apply -k telco-hub/configuration/example-overlays-config/cert-manager/
+kubectl apply -k telco-hub/configuration/argocd/overlays/hub/cert-manager/
 ```
 
 ## Key Configuration

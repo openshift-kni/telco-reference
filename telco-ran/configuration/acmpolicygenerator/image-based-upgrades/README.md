@@ -16,7 +16,7 @@ To deploy the IBU examples, you can use the existing [policies-app](https://gith
 Ensure that your Git repository, which will be used with the ArgoCD policies application, contains a directory structured as follows:
 
 ```plaintext
-├── source-crs/
+├── reference-crs/
 │   ├── ibu/
 │   │    ├── ImageBasedUpgrade.yaml
 │   │    ├── PlatformBackupRestore.yaml
@@ -27,7 +27,7 @@ Ensure that your Git repository, which will be used with the ArgoCD policies app
 ├── kustomization.yaml
 ```
 
-Note that [`source-crs/ibu`](https://github.com/openshift-kni/cnf-features-deploy/tree/master/ztp/source-crs/ibu) is provided in the ZTP image, however, it is important to ensure that the `kustomization.yaml` file is located in the same directory structure shown above in order to reference the ibu manifests.
+Note that the `reference-crs/ibu` manifests are [provided in the ZTP image](https://github.com/openshift-kni/cnf-features-deploy/tree/master/ztp/source-crs/ibu), however, it is important to ensure that the `kustomization.yaml` file is located in the same directory structure shown above in order to reference the ibu manifests.
 
 ### Generating the OADP ConfigMap and Policies
 
@@ -37,8 +37,8 @@ As shown in the example below, this will create a Configmap named `oadp-cm` in t
 ```yaml
 configMapGenerator:
   - files:
-      - source-crs/ibu/PlatformBackupRestore.yaml
-    # - source-crs/ibu/PlatformBackupRestoreLvms.yaml
+      - reference-crs/ibu/PlatformBackupRestore.yaml
+    # - reference-crs/ibu/PlatformBackupRestoreLvms.yaml
     # - custom-oadp-workload-crs.yaml
     name: oadp-cm
     namespace: ztp-group
@@ -47,8 +47,8 @@ generatorOptions:
   disableNameSuffixHash: true
 ```
 
-- [PlatformBackupRestore.yaml](../../source-crs/ibu/PlatformBackupRestore.yaml) is provided to backup and restore ACM klusterlet related resources.
-- [PlatformBackupRestoreLvms.yaml](../../source-crs/ibu/PlatformBackupRestoreLvms.yaml)(optional) is provided for use cases when the LVMS is configured in the cluster as the storage solution.
+- [PlatformBackupRestore.yaml](../../reference-crs/ibu/PlatformBackupRestore.yaml) is provided to backup and restore ACM klusterlet related resources.
+- [PlatformBackupRestoreLvms.yaml](../../reference-crs/ibu/PlatformBackupRestoreLvms.yaml)(optional) is provided for use cases when the LVMS is configured in the cluster as the storage solution.
 - `custom-oadp-workload-crs.yaml`(optional) defines the OADP backup and restore CRs for the additional workload running on the target cluster. Ensure that the `custom-oadp-workload-crs.yaml` file includes a one-to-one mapping of OADP backup and restore CRs. It's important to note that these CRs can be stored either in separate YAML manifests or consolidated within a single YAML file (as shown below), with each CR section separated by the `---` directive.
 
 ```yaml
