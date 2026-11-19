@@ -37,6 +37,10 @@ spec:
   # Include references to extraManifest ConfigMaps.
   extraManifestsRefs:
     - name: sno-extra-manifest-configmap
+    # Optional: enable the matching ConfigMap generator for affected GPU nodes.
+    # - name: nvidia-video-workaround
+    # Optional: enable the matching generator after verifying PCIe topology.
+    # - name: nvidia-dmabuf-pcie
   extraLabels:
     ManagedCluster:
       # These example cluster labels correspond to the bindingRules in the PolicyGenerator examples

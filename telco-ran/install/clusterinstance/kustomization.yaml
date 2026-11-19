@@ -28,5 +28,21 @@ configMapGenerator:
   - extra-manifests/99-sync-time-once-worker.yaml
   name: sno-extra-manifest-configmap
   namespace: example-ai-sno
+# Optional NVIDIA video workaround: uncomment this generator and the matching
+# extraManifestsRefs entry. Use the target ClusterInstance namespace and include
+# only the master/worker files needed by GPU nodes.
+# - name: nvidia-video-workaround
+#   namespace: example-ai-sno
+#   files:
+#   - extra-manifests/50-nvidia-video-master.yaml
+#   - extra-manifests/50-nvidia-video-worker.yaml
+# Optional DMA-BUF PCIe configuration: verify the hardware/topology prerequisites
+# in these manifests before enabling. Include only roles hosting the target devices
+# and enable the matching extraManifestsRefs entry in the ClusterInstance.
+# - name: nvidia-dmabuf-pcie
+#   namespace: example-ai-sno
+#   files:
+#   - extra-manifests/99-nvidia-dmabuf-pcie-master.yaml
+#   - extra-manifests/99-nvidia-dmabuf-pcie-worker.yaml
 generatorOptions:
   disableNameSuffixHash: true

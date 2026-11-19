@@ -15,4 +15,3 @@ compare_crs:
 .PHONY: missing_crs
 missing_crs:
 	./compare.sh reference-crs reference-crs-kube-compare reference-crs-kube-compare/compare_ignore
-

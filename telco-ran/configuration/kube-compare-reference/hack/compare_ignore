@@ -89,6 +89,7 @@ validatorCRs/rebootMachineConfigPoolValidator.yaml
 disk-encryption.yaml.tmpl
 image-registry-partition-mc.yaml.tmpl
 
+
 # Exists in the reference only, to enforce version compatibility
 version-check/ClusterVersionOperator.yaml
 
@@ -101,3 +102,8 @@ machine-config/container-runtime.yaml
 
 # Platform check only, not included in source-crs
 platform/infrastructure.yaml
+
+nvidia-gpu-operator/NvidiaGpuOperatorStatus.yaml
+
+# Partner-owned sample; operand contents and versions are not reference requirements.
+nvidia-gpu-operator/ClusterPolicy.yaml

@@ -31,3 +31,13 @@ their own subdirectory.
 
 Github CI 'ci-job' will fail if you don't commit the source changes and the
 rendered yaml in the same PR.
+
+The `99-nvidia-dmabuf-pcie` builder generates optional, hardware-specific GPU RDMA
+MachineConfigs. Generation does not enable them: they are referenced only by the
+commented `nvidia-dmabuf-pcie` ConfigMap generator. Keep their Core install copies aligned when regenerating these files.
+They are not included in configuration policies or kube-compare references.
+
+The `50-nvidia-video` builder generates the optional video-module workaround
+under the same install-only layout. It is enabled separately through the commented
+`nvidia-video-workaround` ConfigMap generator. Keep its Core install copies aligned
+when regenerating these files.
