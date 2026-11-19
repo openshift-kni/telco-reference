@@ -72,6 +72,11 @@ spec:
     #
     - fileName: cluster-tuning/monitoring-configuration/ReduceMonitoringFootprint.yaml
       policyName: "config-policy"
+    - fileName: cluster-tuning/iptables-alerter/IptablesAlerterConfig.yaml
+      policyName: "config-policy"
+      metadata:
+        annotations:
+          ran.openshift.io/ztp-deploy-wave: "1"
     #
     # These CRs are in support of installation from a disconnected registry
     #
