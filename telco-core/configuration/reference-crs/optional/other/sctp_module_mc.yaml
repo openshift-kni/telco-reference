@@ -1,5 +1,7 @@
 # optional
 # count: 1
+# Follows OpenShift Advanced networking: Enabling SCTP.
+# https://github.com/openshift/openshift-docs/blob/main/modules/nw-sctp-enabling.adoc
 ---
 apiVersion: machineconfiguration.openshift.io/v1
 kind: MachineConfig
