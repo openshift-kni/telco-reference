@@ -52,14 +52,10 @@ reasonable `maxUnavailable: <value>` for your use case.
 
 ### Optional GPU installation configuration
 
-`extra-manifests/optional/nvidia-gpu-operator/` contains optional, hardware-specific
-MachineConfigs for GPU/NIC peer-to-peer routing and the video-module dependency
-workaround. Check their prerequisites before using them. Create a separate `nvidia-dmabuf-pcie` ConfigMap in the
-ClusterInstance namespace from only the role-specific files needed by GPU/NIC
-nodes, then enable its commented `extraManifestsRefs` entry. Do not recursively
-include this optional directory in the default extra-manifests ConfigMap.
-
-For the video-module workaround, create a separate `nvidia-video-workaround`
-ConfigMap from the matching `50-nvidia-video-{master,worker}.yaml` files and enable
-its commented ClusterInstance reference. Both optional configurations are
-install-only; they are not included in configuration policies or kube-compare.
+`extra-manifests/optional/nvidia-gpu-operator/` contains the optional video-module
+workaround and GPU/NIC PCIe routing MachineConfigs. Check their prerequisites,
+then enable the corresponding commented `nvidia-video-workaround` or
+`nvidia-dmabuf-pcie` ConfigMap generator in `kustomization.yaml` and its
+`extraManifestsRefs` entry in `example-standard-clusterinstance.yaml`. Set the
+ConfigMap namespace to the cluster namespace and select only the required
+master/worker files.
