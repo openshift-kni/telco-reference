@@ -26,8 +26,6 @@ policies:
             - mirrors:
               - example.com/sample-path
               source: nomatch.io/sample-path
-      - path: reference-crs/optional/other/sctp_module_mc.yaml
-        complianceType: mustonlyhave
       - path: reference-crs/optional/other/worker-load-kernel-modules.yaml
         complianceType: mustonlyhave
       - path: reference-crs/optional/other/control-plane-load-kernel-modules.yaml

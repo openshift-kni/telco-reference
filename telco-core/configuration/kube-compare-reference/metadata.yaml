@@ -172,7 +172,6 @@ parts:
                 - pathToKey: data."config.yaml"
                   inlineDiffFunc: capturegroups
           - path: optional/other/worker-load-kernel-modules.yaml
-          - path: optional/other/sctp_module_mc.yaml
       - name: precache
         anyOf:
           - path: optional/other/precache/controlplane-olm-pinned-images.yaml
