@@ -6,6 +6,7 @@ kind: KubeletConfig
 metadata:
   name: sizing-master
 spec:
+  autoSizingReserved: false
   kubeletConfig:
     # This configuration value should be tailored for each environment.
     systemReserved:
