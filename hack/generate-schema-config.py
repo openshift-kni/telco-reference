@@ -28,7 +28,7 @@ CONFIG_PATH = REPO_ROOT / "hack" / "crd-schema-config.json"
 # Only components that use ACM PolicyGenerator are scanned.
 # telco-hub is excluded because it has no PolicyGenerator CR manifests.
 SUBSCRIPTION_DIRS = {
-    "ran": REPO_ROOT / "telco-ran" / "configuration" / "source-crs",
+    "ran": REPO_ROOT / "telco-ran" / "configuration" / "reference-crs",
     "core": REPO_ROOT / "telco-core" / "configuration" / "reference-crs",
 }
 

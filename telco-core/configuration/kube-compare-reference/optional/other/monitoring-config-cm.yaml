@@ -1,0 +1,45 @@
+# optional
+# count: 1
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-monitoring-config
+  namespace: openshift-monitoring
+  annotations:
+    observability.open-cluster-management.io/unmanaged: "true"
+data:
+  config.yaml: |
+    nodeExporter:
+      collectors:
+        buddyinfo: {}
+        cpufreq: {}
+        ksmd: {}
+        mountstats: {}
+        netclass: {}
+        netdev: {}
+        processes: {}
+        systemd: {}
+        tcpstat: {}
+    prometheusK8s:
+      additionalAlertmanagerConfigs:
+      - apiVersion: v2
+        bearerToken:
+          key: token
+          (?<alertmanager_config>(?s:.*?))
+      externalLabels:
+        managed_cluster: (?<managed_cluster>.*)
+      retention: 15d
+      volumeClaimTemplate:
+        spec:
+          storageClassName: ocs-external-storagecluster-ceph-rbd
+          resources:
+            requests:
+              storage: 100Gi
+    alertmanagerMain:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: ocs-external-storagecluster-ceph-rbd
+          resources:
+            requests:
+              storage: 20Gi

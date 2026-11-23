@@ -171,18 +171,18 @@ Zero Touch Provisioning installation components deployed after the platform is f
 
 **ZTP AppProjects:**
 
-- `required/gitops/ztp-installation/app-project.yaml` - AppProject
-- `required/gitops/ztp-installation/policies-app-project.yaml` - AppProject
+- `reference-crs/required/gitops-apps/app-project.yaml` - AppProject
+- `reference-crs/required/gitops-apps/policies-app-project.yaml` - AppProject
 
 **ZTP Applications:**
 
-- `required/gitops/ztp-installation/clusters-app.yaml` - Application/Namespace
-- `required/gitops/ztp-installation/policies-app.yaml` - Application/Namespace
+- `reference-crs/required/gitops-apps/clusters-app.yaml` - Application/Namespace
+- `reference-crs/required/gitops-apps/policies-app.yaml` - Application/Namespace
 
 **ZTP Roles and Bindings:**
 
-- `required/gitops/ztp-installation/gitops-cluster-clusterrole.yaml` - ClusterRole
-- `required/gitops/ztp-installation/gitops-policy-rolebinding.yaml` - ClusterRoleBinding
+- `reference-crs/required/gitops-apps/gitops-cluster-clusterrole.yaml` - ClusterRole
+- `reference-crs/required/gitops-apps/gitops-policy-rolebinding.yaml` - ClusterRoleBinding
 
 **Rationale:** ZTP components represent the final deployment phase when all platform services are ready.
 

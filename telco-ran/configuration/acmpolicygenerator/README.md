@@ -14,7 +14,7 @@ Create the PolicyGenerator CRs for your site in your local clone of the git repo
    - A set of shared `ran-group-du-*-templated.yaml`, each of which should be common across a set of similar clusters. These use hub-side templating with ConfigMaps in `../template-values/` for hardware-type, zone, and site-specific values.
    > **Note:** Depending on the specific requirements of your clusters, you may need more than just a single group policy per cluster type, especially considering the example group policies each has a single PerformanceProfile which can only be shared across a set of clusters if those clusters consist of identical hardware configurations.
 2. Ensure the labels defined in your PolicyGenerator's `placement.labelSelector` section correspond to the proper labels defined on the ClusterInstance file(s) of the clusters you are managing.
-3. Ensure the content of the overlaid spec files matches your desired end state. As a reference, the `../source-crs/` directory contains the full set of source CRs available to be included and overlaid by your PolicyGenerator templates.
+3. Ensure the content of the overlaid spec files matches your desired end state. As a reference, the `../reference-crs/` directory contains the full set of source CRs available to be included and overlaid by your PolicyGenerator templates.
 4. Define all the policy namespaces in a yaml file much like in [ns.yaml](ns.yaml).
 5. Add all the PolicyGenerator CRs and `ns.yaml` to the `kustomization.yaml` file, much like in [kustomization.yaml](kustomization.yaml).
 6. Commit the PolicyGenerator CRs, `ns.yaml`, and associated `kustomization.yaml` in git.
@@ -60,7 +60,7 @@ By default, ACM PolicyGenerator replaces entire lists when patching. To enable s
 
 ```yaml
 manifests:
-  - path: source-crs/ptp-operator/configuration/PtpConfigSlave.yaml
+  - path: reference-crs/ptp-operator/configuration/PtpConfigSlave.yaml
     patches:
       - spec:
           profile:

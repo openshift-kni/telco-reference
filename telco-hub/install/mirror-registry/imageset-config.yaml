@@ -25,9 +25,9 @@ mirror:
       channels:
       - name: stable-5.1
     - name: openshift-gitops-operator
-      defaultChannel: gitops-1.21
+      defaultChannel: gitops-1.22
       channels:
-      - name: gitops-1.21
+      - name: gitops-1.22
     - name: redhat-oadp-operator
       channels:
       - name: stable
@@ -38,9 +38,9 @@ mirror:
       channels:
       - name: stable
     - name: cluster-logging
-      defaultChannel: stable-6.6
+      defaultChannel: stable-6.7
       channels:
-      - name: stable-6.6
+      - name: stable-6.7
     - name: odf-operator
       defaultChannel: stable-5.0
       channels:
@@ -86,6 +86,10 @@ mirror:
       channels:
       - name: stable-5.0
       - name: stable-4.22
+    - name: ocs-tls-profiles
+      defaultChannel: stable-5.0
+      channels:
+      - name: stable-5.0
     - name: rook-ceph-operator
       defaultChannel: stable-5.0
       channels:
