@@ -228,6 +228,22 @@ parts:
           - path: optional/cert-manager/apiServerCertificate.yaml
           - path: optional/cert-manager/apiServerConfig.yaml
 
+  - name: optional-nvidia-network
+    components:
+      - name: nvidia-network-operator
+        allOrNoneOf:
+          - path: optional/nvidia-network/NvidiaNetworkSubscriptionNS.yaml
+          - path: optional/nvidia-network/NvidiaNetworkSubscriptionOperGroup.yaml
+            config:
+              ignore-unspecified-fields: true
+          - path: optional/nvidia-network/NvidiaNetworkSubscription.yaml
+      - name: nvidia-network-telemetry
+        allOrNoneOf:
+          - path: optional/nvidia-network/DocaTelemetryRole.yaml
+          - path: optional/nvidia-network/DocaTelemetryRoleBinding.yaml
+          - path: optional/nvidia-network/DocaTelemetryService.yaml
+          - path: optional/nvidia-network/DocaTelemetryServiceMonitor.yaml
+
 templateFunctionFiles:
   - version_match.tmpl
   - unordered_list.tmpl

@@ -40,3 +40,9 @@ custom-manifests/precache-validator.yaml
 
 # Control plane PerformanceProfile is merged into the main PerformanceProfile.yaml template
 required/performance/PerformanceProfile-control-plane.yaml
+
+# Partner-owned sample; operand contents and versions are not reference requirements.
+optional/nvidia-network/NicClusterPolicy.yaml
+
+# ACM policy check for NVIDIA Network Operator OLM installation and upgrade status.
+optional/nvidia-network/NvidiaNetworkOperatorStatus.yaml

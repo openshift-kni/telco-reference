@@ -101,3 +101,9 @@ machine-config/container-runtime.yaml
 
 # Platform check only, not included in source-crs
 platform/infrastructure.yaml
+
+# Partner-owned sample; operand contents and versions are not reference requirements.
+nvidia-network-operator/NicClusterPolicy.yaml
+
+# ACM policy check for NVIDIA Network Operator OLM installation and upgrade status.
+nvidia-network-operator/NvidiaNetworkOperatorStatus.yaml
