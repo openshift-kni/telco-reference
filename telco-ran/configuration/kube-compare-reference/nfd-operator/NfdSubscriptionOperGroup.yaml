@@ -1,0 +1,12 @@
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: nfd
+  namespace: openshift-nfd
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"
+    operatorframework.io/bundle-unpack-min-retry-interval: 10m
+spec:
+  targetNamespaces:
+  - openshift-nfd

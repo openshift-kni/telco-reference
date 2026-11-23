@@ -35,6 +35,8 @@ policies:
   policyAnnotations:
     ran.openshift.io/ztp-deploy-wave: "10"
   manifests:
+    # Optional: enable with the NFD installation resources in ran-common.yaml.
+    # - path: reference-crs/nfd-operator/NodeFeatureDiscovery.yaml
     - path: reference-crs/ptp-operator/configuration/PtpConfigSlave.yaml
       patches:
         - metadata:
