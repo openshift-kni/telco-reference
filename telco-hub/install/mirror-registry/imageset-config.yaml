@@ -90,6 +90,7 @@ mirror:
       defaultChannel: stable-5.0
       channels:
       - name: stable-5.0
+      - name: stable-4.22
     - name: rook-ceph-operator
       defaultChannel: stable-5.0
       channels:
