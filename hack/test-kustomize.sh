@@ -16,6 +16,7 @@ EXCLUDED_DIRS=(
     "./telco-ran/install/clusterinstance"
     "./telco-ran/configuration/acmpolicygenerator/image-based-upgrades"
     "./telco-ran/configuration/argocd/example/siteconfig"
+    "./telco-addons/rhoai"
 )
 
 if ! command -v kustomize &> /dev/null; then
