@@ -23,6 +23,8 @@ policies:
         patches:
         - spec:
             image: registry.redhat.io/redhat/redhat-operator-index:v5.1
+      # Optional: reuse an existing certified catalog or enable this mirrored one.
+      # - path: reference-crs/optional/nvidia-gpu-operator/NvidiaGpuCatalogSource.yaml
       - path: reference-crs/required/scheduling/Scheduler.yaml
 
   # Core cluster OLM operators
@@ -60,6 +62,12 @@ policies:
       # - path: reference-crs/optional/nvidia-network/DocaTelemetryRoleBinding.yaml
       # - path: reference-crs/optional/nvidia-network/DocaTelemetryService.yaml
       # - path: reference-crs/optional/nvidia-network/DocaTelemetryServiceMonitor.yaml
+      #
+      # Optional: NVIDIA GPU Operator from the mirrored certified catalog.
+      # - path: reference-crs/optional/nvidia-gpu-operator/NvidiaGpuSubscriptionNS.yaml
+      # - path: reference-crs/optional/nvidia-gpu-operator/NvidiaGpuSubscriptionOperGroup.yaml
+      # - path: reference-crs/optional/nvidia-gpu-operator/NvidiaGpuSubscription.yaml
+      # - path: reference-crs/optional/nvidia-gpu-operator/NvidiaGpuOperatorStatus.yaml
 
       # Cert-manager operator (optional component)
       # - path: reference-crs/optional/cert-manager/certManagerNS.yaml
@@ -140,3 +148,11 @@ policies:
         patches:
         - spec:
             imageSpec: "registry.example.com/openshift4/noderesourcetopology-scheduler-rhel9@sha256:aa00bb11cc22dd33ee44ff55ab66cd77ef88bc1234123bbd5aa789aabb8c1234"
+
+  # Optional: customize both CRs and enable after the operator and CRDs are ready.
+  # - name: core-nvidia-gpu-config-5-1
+  #   policyAnnotations:
+  #     ran.openshift.io/ztp-deploy-wave: "10"
+  #   manifests:
+  #     - path: reference-crs/optional/nvidia-gpu-operator/NvidiaDriver.yaml
+  #     - path: reference-crs/optional/nvidia-gpu-operator/ClusterPolicy.yaml

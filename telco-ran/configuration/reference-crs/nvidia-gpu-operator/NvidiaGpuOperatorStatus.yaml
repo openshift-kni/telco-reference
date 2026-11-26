@@ -1,0 +1,28 @@
+# Policy status check for NVIDIA GPU Operator installation and upgrades.
+# Requires a healthy catalog, an installed InstallPlan, and a successful CSV.
+---
+apiVersion: operators.coreos.com/v1
+kind: Operator
+metadata:
+  name: gpu-operator-certified.nvidia-gpu-operator
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"
+status:
+  components:
+    refs:
+    - kind: Subscription
+      namespace: nvidia-gpu-operator
+      conditions:
+      - type: CatalogSourcesUnhealthy
+        status: "False"
+    - kind: InstallPlan
+      namespace: nvidia-gpu-operator
+      conditions:
+      - type: Installed
+        status: "True"
+    - kind: ClusterServiceVersion
+      namespace: nvidia-gpu-operator
+      conditions:
+      - type: Succeeded
+        status: "True"
+        reason: InstallSucceeded

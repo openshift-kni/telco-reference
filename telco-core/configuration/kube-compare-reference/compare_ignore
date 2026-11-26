@@ -43,6 +43,11 @@ required/performance/PerformanceProfile-control-plane.yaml
 
 # Partner-owned sample; operand contents and versions are not reference requirements.
 optional/nvidia-network/NicClusterPolicy.yaml
+optional/nvidia-gpu-operator/ClusterPolicy.yaml
+optional/nvidia-gpu-operator/NvidiaDriver.yaml
 
 # ACM policy check for NVIDIA Network Operator OLM installation and upgrade status.
 optional/nvidia-network/NvidiaNetworkOperatorStatus.yaml
+
+# ACM policy check for NVIDIA GPU Operator installation and upgrade status in OLM.
+optional/nvidia-gpu-operator/NvidiaGpuOperatorStatus.yaml

@@ -78,6 +78,9 @@ policies:
       #   patches:
       #   - status:
       #       state: AtLatestKnown
+
+      # Optional: include on clusters with NVIDIA GPU Operator installed.
+      # - path: reference-crs/optional/nvidia-gpu-operator/NvidiaGpuSubscription.yaml
       - path: reference-crs/optional/logging/ClusterLogSubscription.yaml
         patches:
         - metadata:

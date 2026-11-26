@@ -39,6 +39,9 @@ policies:
         spec:
           displayName: disconnected-redhat-operators
           image: registry.example.com:5000/disconnected-redhat-operators/disconnected-redhat-operator-index:v5.1
+    # Optional: reuse an existing certified catalog or enable this mirrored one.
+    # - path: reference-crs/nvidia-gpu-operator/NvidiaGpuCatalogSource.yaml
+    # Optional NVIDIA video workaround: enable it through ClusterInstance custom manifests.
     - path: reference-crs/disconnected-registry/DisconnectedIDMS.yaml
       patches:
       - spec:
@@ -93,6 +96,12 @@ policies:
     # - path: reference-crs/nvidia-network-operator/DocaTelemetryService.yaml
     # - path: reference-crs/nvidia-network-operator/DocaTelemetryServiceMonitor.yaml
     #
+    # Optional: NVIDIA GPU Operator installation. Mirror the certified catalog.
+    # - path: reference-crs/nvidia-gpu-operator/NvidiaGpuSubscriptionNS.yaml
+    # - path: reference-crs/nvidia-gpu-operator/NvidiaGpuSubscriptionOperGroup.yaml
+    # - path: reference-crs/nvidia-gpu-operator/NvidiaGpuSubscription.yaml
+    # - path: reference-crs/nvidia-gpu-operator/NvidiaGpuOperatorStatus.yaml
+    #
     # LCA operator is used for orchestrating Image Based Upgrade for SNO
     # - path: reference-crs/lca/LcaSubscriptionNS.yaml
     # - path: reference-crs/lca/LcaSubscriptionOperGroup.yaml
@@ -105,3 +114,11 @@ policies:
     # - path: reference-crs/data-protection/OadpSubscription.yaml
     # - path: reference-crs/data-protection/OadpOperatorStatus.yaml
     #
+
+# Optional: customize both CRs and enable after the operator and CRDs are ready.
+# - name: nvidia-gpu-config-policy
+#   policyAnnotations:
+#     ran.openshift.io/ztp-deploy-wave: "10"
+#   manifests:
+#     - path: reference-crs/nvidia-gpu-operator/NvidiaDriver.yaml
+#     - path: reference-crs/nvidia-gpu-operator/ClusterPolicy.yaml
