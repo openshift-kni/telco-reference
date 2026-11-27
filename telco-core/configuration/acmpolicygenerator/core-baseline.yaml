@@ -47,6 +47,20 @@ policies:
                     status: "True"
                     reason: InstallSucceeded
 
+      # NVIDIA Network Operator (optional; requires a certified catalog on the spoke)
+      # - path: reference-crs/optional/nvidia-network/NvidiaNetworkSubscriptionNS.yaml
+      # - path: reference-crs/optional/nvidia-network/NvidiaNetworkSubscriptionOperGroup.yaml
+      # - path: reference-crs/optional/nvidia-network/NvidiaNetworkSubscription.yaml
+      # - path: reference-crs/optional/nvidia-network/NvidiaNetworkOperatorStatus.yaml
+      #
+      # Optional NVIDIA Network Operator configuration with DOCA telemetry.
+      # Customize NicClusterPolicy for your driver image and mirror before enabling.
+      # - path: reference-crs/optional/nvidia-network/NicClusterPolicy.yaml
+      # - path: reference-crs/optional/nvidia-network/DocaTelemetryRole.yaml
+      # - path: reference-crs/optional/nvidia-network/DocaTelemetryRoleBinding.yaml
+      # - path: reference-crs/optional/nvidia-network/DocaTelemetryService.yaml
+      # - path: reference-crs/optional/nvidia-network/DocaTelemetryServiceMonitor.yaml
+
       # Cert-manager operator (optional component)
       # - path: reference-crs/optional/cert-manager/certManagerNS.yaml
       # - path: reference-crs/optional/cert-manager/certManagerOperatorgroup.yaml

@@ -79,6 +79,20 @@ policies:
     # - path: reference-crs/nfd-operator/NfdSubscription.yaml
     # - path: reference-crs/nfd-operator/NfdOperatorStatus.yaml
     #
+    # NVIDIA Network Operator (optional; requires a certified catalog on the spoke)
+    # - path: reference-crs/nvidia-network-operator/NvidiaNetworkSubscriptionNS.yaml
+    # - path: reference-crs/nvidia-network-operator/NvidiaNetworkSubscriptionOperGroup.yaml
+    # - path: reference-crs/nvidia-network-operator/NvidiaNetworkSubscription.yaml
+    # - path: reference-crs/nvidia-network-operator/NvidiaNetworkOperatorStatus.yaml
+    #
+    # Optional NVIDIA Network Operator configuration with DOCA telemetry.
+    # Customize NicClusterPolicy for your driver image and mirror before enabling.
+    # - path: reference-crs/nvidia-network-operator/NicClusterPolicy.yaml
+    # - path: reference-crs/nvidia-network-operator/DocaTelemetryRole.yaml
+    # - path: reference-crs/nvidia-network-operator/DocaTelemetryRoleBinding.yaml
+    # - path: reference-crs/nvidia-network-operator/DocaTelemetryService.yaml
+    # - path: reference-crs/nvidia-network-operator/DocaTelemetryServiceMonitor.yaml
+    #
     # LCA operator is used for orchestrating Image Based Upgrade for SNO
     # - path: reference-crs/lca/LcaSubscriptionNS.yaml
     # - path: reference-crs/lca/LcaSubscriptionOperGroup.yaml

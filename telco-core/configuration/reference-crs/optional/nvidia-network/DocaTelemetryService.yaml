@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: doca-telemetry-metrics
+  namespace: nvidia-network-operator
+  labels:
+    app.kubernetes.io/name: doca-telemetry-metrics
+spec:
+  selector:
+    app.kubernetes.io/name: doca-telemetry
+  ports:
+    - name: metrics
+      port: 9189
+      targetPort: 9189
+      protocol: TCP
