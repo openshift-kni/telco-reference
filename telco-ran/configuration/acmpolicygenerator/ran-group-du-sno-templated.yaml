@@ -37,6 +37,9 @@ policies:
   policyAnnotations:
     ran.openshift.io/ztp-deploy-wave: "10"
   manifests:
+    # Optional: configure the shared NFD instance after enabling its installation
+    # CRs in ran-common.yaml.
+    # - path: reference-crs/nfd-operator/NodeFeatureDiscovery.yaml
     - path: reference-crs/cluster-tuning/DisableOLMPprof.yaml
       complianceType: mustnothave
     - path: reference-crs/cluster-logging/ClusterLogForwarder.yaml

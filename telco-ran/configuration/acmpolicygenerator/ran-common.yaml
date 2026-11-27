@@ -73,6 +73,11 @@ policies:
     - path: reference-crs/storage-lso/StorageOperGroup.yaml
     - path: reference-crs/storage-lso/StorageSubscription.yaml
     - path: reference-crs/storage-lso/StorageOperatorStatus.yaml
+    # Optional: shared NFD for NVIDIA GPUs and ConnectX-8 NICs.
+    # - path: reference-crs/nfd-operator/NfdSubscriptionNS.yaml
+    # - path: reference-crs/nfd-operator/NfdSubscriptionOperGroup.yaml
+    # - path: reference-crs/nfd-operator/NfdSubscription.yaml
+    # - path: reference-crs/nfd-operator/NfdOperatorStatus.yaml
     #
     # LCA operator is used for orchestrating Image Based Upgrade for SNO
     # - path: reference-crs/lca/LcaSubscriptionNS.yaml

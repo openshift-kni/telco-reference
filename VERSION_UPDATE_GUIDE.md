@@ -26,11 +26,11 @@ Update operator channel versions in subscription files across all three configur
   - Files: `telco-hub/configuration/reference-crs/required/gitops/gitopsSubscription.yaml`
   - Also: `telco-ran/configuration/argocd/deployment/openshift-gitops-operator.yaml`
 
-- **ACM (Advanced Cluster Management)**: Update to latest
-  - ACM version is OCP version minus 5. OCP version `4.22` → ACM version `2.17`
-  - Channel format: `release-X.Y` (e.g., `release-2.17` → `release-2.18`)
-  - Multi Cluster Engine (MCE) is delivered with ACM. The MCE version is ACM minus 5: ACM version `2.17` → MCE version `2.12`
-  - Also update ACM and MCE versions in mirror registry config (see below)
+- **ACM (Advanced Cluster Management) and Multi Cluster Engine (MCE)**:
+  - For the post-5.0 references, use the target release's ACM and MCE channels: for the 5.1 reference, ACM uses `release-5.1` and MCE uses `stable-5.1`.
+  - Do not apply the historical minor-version offsets used by the 4.x references. Verify the supported OpenShift/ACM/MCE combination and available catalog channels for each release.
+  - Update the ACM Subscription and its kube-compare counterpart, and the ACM/MCE package channels in the mirror registry configuration.
+  - Review the MCE Subscription overrides in `acmMCH.yaml` and ACM/MCE component image tags in `addPluginsPolicy.yaml`, including their comparison variants and overlay patches.
 
 - **ODF (OpenShift Data Foundation)**: **Special case!**
   - ODF releases 2-4 weeks **after** OpenShift GA
@@ -48,34 +48,31 @@ Update operator channel versions in subscription files across all three configur
 Policy generators define ACM policies and must be updated with version-specific names and selectors. Each reference has different policy generator files to update.
 
 **What to change**:
-The policy names in each PolicyGenerator have a version suffix which MUST match the OpenShift version. For example with OpenShift version 4.23 the policy name is `example-policy-23`.
+Update versioned policy names, placement selectors, Subscription patches, and image patches. Use the naming convention of the target reference; current Core policy names use hyphenated release suffixes such as `5-1`.
+
 ```yaml
-# PolicyGenerator metadata name
+# PolicyGenerator metadata name: 5.0 -> 5.1
 metadata:
-  name: core-baseline-19  # → core-baseline-23
-  # OR
-  name: core-overlay-22   # → core-overlay-23
+  name: core-baseline-5-1
 
-# Version selector
-placement:
-  clusterSelectors:
-    version: "4.22"  # → "4.23"
+policyDefaults:
+  placement:
+    labelSelector:
+      matchLabels:
+        version: "5.1"
 
-# Policy names (use new version number)
 policies:
-  - name: core-cluster-config-4.19  # → core-cluster-config-4.23
-  - name: core-operator-subs-4.22   # → core-operator-subs-4.23
-
-# Operator index images
-patches:
-  - spec:
-      image: registry.redhat.io/redhat/redhat-operator-index:v4.22  # → v4.23
+  - name: core-cluster-config-5-1
+    manifests:
+      - path: reference-crs/required/other/catalog-source.yaml
+        patches:
+          - spec:
+              image: registry.redhat.io/redhat/redhat-operator-index:v5.1
 ```
 
-- Update PolicyGenerator patches for Subscription `channel: <value>`
-- Update PolicyGenerator patches for pullspec images with versioned tags
-- Update PolicyGenerator placement specifications which use version
-- Policy generator policy names MUST use version numbers which match the OpenShift version number (e.g., `core-cluster-config-4.23`)
+- Update PolicyGenerator patches for Subscription `channel: <value>`.
+- Update every versioned image in source CRs and PolicyGenerator patches, including optional operators. Updating the catalog or Subscription does not update an explicitly configured operand image.
+- NFD uses the rolling `stable` channel and selects its operand image from the installed operator. For optional disconnected deployments, verify that the target catalog and mirror include the operator bundle and its related images. Review any site-specific operand image overrides when upgrading.
 
 ### 3. OpenAPI Schema for PolicyGenerator List Merging
 
@@ -173,8 +170,8 @@ Understanding different operator versioning schemes:
 | ODF | `stable-4.X` | `stable-4.22` | OpenShift version (with delay) |
 | Cluster Logging | `stable-X.Y` | `stable-6.4` | Independent versioning |
 | GitOps | `gitops-X.Y` | `gitops-1.19` | Independent versioning |
-| ACM | `release-X.Y` | `release-2.17` (for OCP 4.22) | Independent versioning |
-| MCE | `stable-X.Y` | `stable-2.12` (for OCP 4.22) | Aligns with ACM version |
+| ACM | `release-X.Y` | `release-5.1` | Target post-5.0 reference release; verify compatibility |
+| MCE | `stable-X.Y` | `stable-5.1` | Supported ACM/MCE pairing for the target release |
 | TALM, MetalLB, SR-IOV | `stable` | `stable` | Rolling channel |
 
 ## Common Pitfalls
@@ -234,17 +231,17 @@ grep -r "^kind: ClusterInstance"
 ## Commit Message Template
 
 ```
-Update all version references for OpenShift 4.23
-- ACM: 2.18
-- MCE: 2.13
-- GitOps Operator: 1.20
-- Cluster Logging Operator: 6.5
-- ODF: 4.22
+Update all version references for OpenShift 5.1
+- ACM: release-5.1
+- MCE: stable-5.1
+- GitOps Operator: 1.21
+- Cluster Logging Operator: 6.7
+- ODF: 5.0
 
 - Update policy generators and configurations
-- Update ClusterInstance examples to openshift-4.23
+- Update ClusterInstance examples to openshift-5.1
 - Update day-2 operator subscriptions and catalog source images
 - Update subscription validator annotation
 - Update mirror registry
-- Update documentation: metadata.yaml URLs from 4.22 to 4.23
+- Update documentation: metadata.yaml URLs for the target release
 ```

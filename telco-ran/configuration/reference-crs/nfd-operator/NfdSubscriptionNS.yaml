@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"
+  name: openshift-nfd
+  labels:
+    openshift.io/cluster-monitoring: "true"
