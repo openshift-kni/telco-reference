@@ -8,6 +8,7 @@ metadata:
   namespace: openshift-gitops
   labels:
     argocd.argoproj.io/secret-type: repository
+    cluster.open-cluster-management.io/backup: ""
 # Configuration examples:
 # For SSH repo access, configure: url, insecure, sshPrivateKey (as shown below)
 # For HTTPS repo access, configure: url, insecure, password, username, forceHttpBasicAuth
