@@ -20,8 +20,6 @@ spec:
     # Enable KServe for InferenceServices
     kserve:
       managementState: Managed
-      modelsAsService:
-        managementState: Removed
       nim:
         airGapped: false
         managementState: Managed
