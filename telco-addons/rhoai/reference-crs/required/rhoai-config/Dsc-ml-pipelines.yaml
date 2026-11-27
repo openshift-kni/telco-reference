@@ -6,25 +6,47 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "10"  
 spec:
   components:
-    # 1. Enable Kueue for workload scheduling
+    aigateway:
+      managementState: Removed    
+    # Enable AI pipelines
+    aipipelines:
+      managementState: Managed
+      argoWorkflowsControllers:
+        managementState: Managed
+    # Optional: Enable dashboard and other components as needed
+    dashboard:
+      managementState: Managed
+    feastoperator:
+      managementState: Removed
+    kserve:
+      managementState: Removed
+    # Enable Kueue for workload scheduling
     kueue:
       autoCreateQueues: true    
       defaultClusterQueueName: default
       defaultLocalQueueName: default
       managementState: Unmanaged
-    # 2. Enable AI pipelines, Trainer v2, and Ray
-    aipipelines:
-      managementState: Managed
-      argoWorkflowsControllers:
-        managementState: Managed    
-    ray:
-      managementState: Managed
-    trainingoperator:
-      managementState: Managed
-    # 3. Recommended: Enable ModelRegistry for tracking models
+    ogx:
+      managementState: Removed
+    mcplifecycleoperator:
+      managementState: Removed
+    mlflowoperator:
+      managementState: Removed
+    #  Recommended: Enable ModelRegistry for tracking models
     modelregistry:
       managementState: Managed
       registriesNamespace: rhoai-model-registries
-    # 4. Optional: Enable dashboard and other components as needed
-    dashboard:
+    # Enable Trainer v2 and Ray
+    ray:
       managementState: Managed
+    sparkoperator:
+      managementState: Removed
+    trainer:
+      managementState: Removed
+    trainingoperator:
+      managementState: Managed
+    trustyai:
+      managementState: Removed
+    workbenches:
+      managementState: Removed
+      workbenchNamespace: rhods-notebooks

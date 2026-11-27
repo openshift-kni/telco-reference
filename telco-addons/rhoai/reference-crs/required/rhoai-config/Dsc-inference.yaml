@@ -6,7 +6,18 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "10"
 spec:
   components:
-    # 1. Enable KServe for InferenceServices
+    aigateway:
+      managementState: Removed  
+    aipipelines:
+      argoWorkflowsControllers:
+        managementState: Removed
+      managementState: Removed
+    # Optional: Enable dashboard
+    dashboard:
+      managementState: Managed
+    feastoperator:
+      managementState: Removed
+    # Enable KServe for InferenceServices
     kserve:
       managementState: Managed
       modelsAsService:
@@ -17,17 +28,26 @@ spec:
       rawDeploymentServiceConfig: Headless
       wva:
         managementState: Removed
-    # 2. Recommended: Enable ModelRegistry for tracking models
+    ogx:
+      managementState: Removed
+    mcplifecycleoperator:
+      managementState: Removed
+    mlflowoperator:
+      managementState: Removed
+    # Recommended: Enable ModelRegistry for tracking models
     modelregistry:
       managementState: Managed
       registriesNamespace: rhoai-model-registries
-    # 3. Optional: Enable dashboard and other components as needed
-    dashboard:
-      managementState: Managed
+    ray:
+      managementState: Removed
+    sparkoperator:
+      managementState: Removed
+    trainer:
+      managementState: Removed
+    trainingoperator:
+      managementState: Removed
     trustyai:
       managementState: Managed
-      eval:
-        lmeval:
-          permitCodeExecution: deny
-          permitOnline: deny
       mcpGuardrailsMode: false
+    workbenches:
+      managementState: Removed
