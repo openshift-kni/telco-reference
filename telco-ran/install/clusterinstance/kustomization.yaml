@@ -26,6 +26,9 @@ configMapGenerator:
   - extra-manifests/10-rename-gnrd-interfaces-worker.yaml
   - extra-manifests/99-sync-time-once-master.yaml
   - extra-manifests/99-sync-time-once-worker.yaml
+  # Optional: load video at boot for roles whose precompiled NVIDIA driver needs it.
+  # - extra-manifests/50-nvidia-video-master.yaml
+  # - extra-manifests/50-nvidia-video-worker.yaml
   name: sno-extra-manifest-configmap
   namespace: example-ai-sno
 generatorOptions:

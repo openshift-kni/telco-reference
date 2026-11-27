@@ -1,0 +1,43 @@
+# Sample only: select the GPU nodes and mirrored driver image for your deployment.
+---
+apiVersion: nvidia.com/v1alpha1
+kind: NVIDIADriver
+metadata:
+  name: gpu-precompiled
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: '10'
+spec:
+  kernelModuleType: open
+  upgradePolicy:
+    autoUpgrade: true
+    drain:
+      deleteEmptyDir: false
+      enable: false
+      force: false
+      timeoutSeconds: 300
+    maxParallelUpgrades: 1
+    maxUnavailable: 25%
+    podDeletion:
+      deleteEmptyDir: false
+      force: false
+      timeoutSeconds: 300
+    waitForCompletion:
+      timeoutSeconds: 0
+  certConfig:
+    name: ''
+  licensingConfig:
+    nlsEnabled: true
+    secretName: ''
+  kernelModuleConfig:
+    name: ''
+  usePrecompiled: true
+  repository: registry.example.com:5000/nvidia
+  image: gpu-driver-rhel10
+  version: 595.91.07
+  driverType: gpu
+  nodeSelector:
+    nvidia.com/gpu.present: 'true'
+  gdrcopy:
+    enabled: false
+  gds:
+    enabled: false

@@ -1017,3 +1017,13 @@ global:
 nvidia_network_operator_NvidiaNetworkSubscription:
 - spec:
     source: certified-operators
+
+nvidia_gpu_operator_NvidiaGpuCatalogSource:
+  - spec:
+      image: registry.example.com:5000/openshift-marketplace/certified-operators-disconnected:v5.1
+
+nvidia_gpu_operator_NvidiaGpuSubscription:
+  - spec:
+      channel: v26.7
+      source: certified-operators-disconnected
+      startingCSV: gpu-operator-certified.v26.7.2

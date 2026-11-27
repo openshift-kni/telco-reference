@@ -15,6 +15,9 @@ configMapGenerator:
   - extra-manifests/mount_namespace_config_worker.yaml
   - extra-manifests/sctp_module_mc.yaml
   - extra-manifests/worker-load-kernel-modules.yaml
+  # Optional: load video at boot for roles whose precompiled NVIDIA driver needs it.
+  # - extra-manifests/optional/nvidia-gpu-operator/50-nvidia-video-master.yaml
+  # - extra-manifests/optional/nvidia-gpu-operator/50-nvidia-video-worker.yaml
   name: extra-manifests-configmap
   namespace: example-standard
 - files:

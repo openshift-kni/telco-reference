@@ -90,6 +90,7 @@ validatorCRs/rebootMachineConfigPoolValidator.yaml
 disk-encryption.yaml.tmpl
 image-registry-partition-mc.yaml.tmpl
 
+
 # Exists in the reference only, to enforce version compatibility
 version-check/ClusterVersionOperator.yaml
 
@@ -108,3 +109,10 @@ nvidia-network-operator/NicClusterPolicy.yaml
 
 # ACM policy check for NVIDIA Network Operator OLM installation and upgrade status.
 nvidia-network-operator/NvidiaNetworkOperatorStatus.yaml
+
+# ACM policy check for NVIDIA GPU Operator installation and upgrade status in OLM.
+nvidia-gpu-operator/NvidiaGpuOperatorStatus.yaml
+
+# Partner-owned sample; operand contents and versions are not reference requirements.
+nvidia-gpu-operator/ClusterPolicy.yaml
+nvidia-gpu-operator/NvidiaDriver.yaml

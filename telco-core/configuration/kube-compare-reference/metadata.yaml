@@ -258,6 +258,21 @@ parts:
           - path: optional/nvidia-network/DocaTelemetryService.yaml
           - path: optional/nvidia-network/DocaTelemetryServiceMonitor.yaml
 
+  - name: optional-nvidia-gpu
+    description: |-
+      NVIDIA GPU Operator installation.
+    components:
+      - name: nvidia-gpu-installation
+        allOrNoneOf:
+          - path: optional/nvidia-gpu-operator/NvidiaGpuSubscriptionNS.yaml
+          - path: optional/nvidia-gpu-operator/NvidiaGpuSubscriptionOperGroup.yaml
+          - path: optional/nvidia-gpu-operator/NvidiaGpuSubscription.yaml
+      - name: optional-certified-catalog
+        anyOf:
+          - path: optional/nvidia-gpu-operator/NvidiaGpuCatalogSource.yaml
+            config:
+              ignore-unspecified-fields: true
+
 templateFunctionFiles:
   - version_match.tmpl
   - unordered_list.tmpl

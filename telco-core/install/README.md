@@ -58,3 +58,8 @@ times by allowing all worker nodes to update simultaneously (before any workload
 is applied). The assumption is that post-installation the Machine Config Pools
 will be set to `paused: false` and when nodes are ready the MCP set to a
 reasonable `maxUnavailable: <value>` for your use case.
+
+### Optional GPU video-module workaround
+
+Uncomment the video MachineConfig entries for affected node roles in the
+extra-manifests ConfigMap generator in `clusterinstance/kustomization.yaml`.
