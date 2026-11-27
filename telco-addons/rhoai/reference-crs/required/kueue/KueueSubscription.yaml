@@ -1,0 +1,14 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: kueue-operator
+  namespace: openshift-kueue-operator
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"
+spec:
+  channel: stable-v1.5
+  name: kueue-operator
+  source: redhat-operators-disconnected
+  sourceNamespace: openshift-marketplace
+  startingCSV: kueue-operator.v1.5.0
+  installPlanApproval: Automatic

@@ -1,0 +1,52 @@
+apiVersion: datasciencecluster.opendatahub.io/v2
+kind: DataScienceCluster
+metadata:
+  name: default-dsc
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"  
+spec:
+  components:
+    aigateway:
+      managementState: Removed    
+    # Enable AI pipelines
+    aipipelines:
+      managementState: Managed
+      argoWorkflowsControllers:
+        managementState: Managed
+    # Optional: Enable dashboard and other components as needed
+    dashboard:
+      managementState: Managed
+    feastoperator:
+      managementState: Removed
+    kserve:
+      managementState: Removed
+    # Enable Kueue for workload scheduling
+    kueue:
+      autoCreateQueues: true    
+      defaultClusterQueueName: default
+      defaultLocalQueueName: default
+      managementState: Unmanaged
+    ogx:
+      managementState: Removed
+    mcplifecycleoperator:
+      managementState: Removed
+    mlflowoperator:
+      managementState: Removed
+    #  Recommended: Enable ModelRegistry for tracking models
+    modelregistry:
+      managementState: Managed
+      registriesNamespace: rhoai-model-registries
+    # Enable Trainer v2 and Ray
+    ray:
+      managementState: Managed
+    sparkoperator:
+      managementState: Removed
+    trainer:
+      managementState: Removed
+    trainingoperator:
+      managementState: Managed
+    trustyai:
+      managementState: Removed
+    workbenches:
+      managementState: Removed
+      workbenchNamespace: rhods-notebooks

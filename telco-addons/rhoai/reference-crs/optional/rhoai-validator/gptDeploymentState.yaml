@@ -1,0 +1,12 @@
+# Read-only readiness checks; include only in an inform policy.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gpt-oss-20b-predictor
+  namespace: model-serving
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10000"
+status:
+  replicas: 1
+  readyReplicas: 1
+  updatedReplicas: 1

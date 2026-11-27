@@ -1,0 +1,36 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: rhoai-baseline-5-1
+policyDefaults:
+  namespace: ztp-rhoai-policies
+  policySets: []
+  placement:
+    labelSelector:
+      matchLabels:
+        rhoai: "enabled"
+        version: "5.1"
+  remediationAction: "enforce"
+  # This parameter ensures that the policies are applied in the order they are specified in this file.
+  orderPolicies: true
+policies:
+- name: rhoai-subscriptions-policy
+  manifests:
+    - path: reference-crs/required/rhoai/RhOdsNS.yaml
+    - path: reference-crs/required/rhoai/RhOdsOperGroup.yaml
+    - path: reference-crs/required/rhoai/RhOdsSubscription.yaml
+    - path: reference-crs/required/rhoai/RhOdsStatus.yaml
+- name: rhoai-config-policy
+  manifests:
+    - path: reference-crs/required/rhoai-config/Dsc-inference.yaml
+    - path: reference-crs/optional/rhoai-config/model-serving-namespace.yaml
+    - path: reference-crs/optional/rhoai-config/serving-runtime-cli.yaml
+    # This is an example InferenceService. Uncomment if needed for tests
+    # - path: reference-crs/optional/rhoai-config/inference-service-gpt-oss-20b.yaml
+- name: rhoai-validator-policy
+  remediationAction: inform
+  manifests:
+    - path: reference-crs/required/rhoai-validator/rhoaiDscState.yaml
+    # Uncomment if the example InferenceService was enabled
+    # - path: reference-crs/optional/rhoai-validator/gptDeploymentState.yaml

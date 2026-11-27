@@ -1,0 +1,18 @@
+apiVersion: kueue.openshift.io/v1
+kind: Kueue
+metadata:
+  name: cluster
+  labels:
+    app.kubernetes.io/name: kueue-operator
+    app.kubernetes.io/managed-by: kustomize
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  managementState: Managed
+  config:
+    integrations:
+      frameworks:
+      - BatchJob
+      - JobSet
+    preemption:
+      preemptionPolicy: Classical
