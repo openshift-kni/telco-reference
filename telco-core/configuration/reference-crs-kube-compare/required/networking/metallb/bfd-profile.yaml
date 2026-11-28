@@ -15,7 +15,9 @@ spec:
   {{- if hasKey .spec "echoMode" }}
   echoMode: {{ .spec.echoMode }}
   {{- end }}
-  passiveMode: true
+  {{- if hasKey .spec "passiveMode" }}
+  passiveMode: {{ .spec.passiveMode }}
+  {{- end }}
   minimumTtl: {{ if .spec.minimumTtl }} {{ .spec.minimumTtl }} {{ else }} "254" {{ end }} # default 254
   #
   ################
